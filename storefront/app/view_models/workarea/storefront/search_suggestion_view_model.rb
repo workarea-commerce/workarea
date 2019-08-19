@@ -35,16 +35,21 @@ module Workarea
 
         image_url = URI.parse(source['cache']['image'])
 
-        if asset_host.present?
-          image_url.scheme = asset_host.scheme
-          image_url.host = asset_host.host
+        if asset_host(source['cache']['image']).present?
+          image_url.scheme = asset_host(source['cache']['image']).scheme
+          image_url.host = asset_host(source['cache']['image']).host
         end
 
         image_url.to_s
       end
 
-      def asset_host
-        URI.parse(Rails.application.config.action_controller.asset_host)
+      def asset_host(source = nil)
+        host = Rails.application.config.action_controller.asset_host
+        if host.respond_to?(:call)
+          URI.parse(Rails.application.config.action_controller.asset_host.call(source))
+        else
+          URI.parse(Rails.application.config.action_controller.asset_host)
+        end
       rescue URI::InvalidURIError
         nil
       end

@@ -37,6 +37,25 @@ module Workarea
           assert_equal('http://cdn.client.com/image.jpg', view_model.image)
         end
       end
+
+      def test_works_when_asset_host_is_a_proc
+        Rails.application.config.action_controller.asset_host = ->(*) { 'http://cdn.client.com' }
+
+        possible_index_urls = %w(
+          /image.jpg
+          https://staging.client.com/image.jpg
+          http://cdn.client.com/image.jpg
+        )
+
+        possible_index_urls.each do |url_from_index|
+          search_suggestion = {
+            '_source' => { 'cache' => { 'image' => url_from_index } }
+          }
+
+          view_model = SearchSuggestionViewModel.new(search_suggestion)
+          assert_equal('http://cdn.client.com/image.jpg', view_model.image)
+        end
+      end
     end
   end
 end
