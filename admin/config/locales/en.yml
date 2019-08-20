@@ -292,6 +292,7 @@ en:
           tags_note: 'Comma separated: just, like, this'
         flash_messages:
           removed: This category has been removed
+          still_referenced: This category is still referenced in %{content}, and could not be removed.
           saved: Your changes have been saved
         index:
           add_new_category: Add New Category

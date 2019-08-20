@@ -17,6 +17,9 @@ module Workarea
     index({ name: 1 })
     index({ contentable_type: 1 })
     index({ 'blocks._id' => 1 })
+    I18n.for_each_locale do |locale|
+      index({ "blocks.data.#{locale}.category" => 1 }, { background: true })
+    end
 
     embeds_many :blocks,
       class_name: 'Workarea::Content::Block',

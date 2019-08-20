@@ -37,8 +37,18 @@ module Workarea
       end
 
       def destroy
-        @category.destroy
-        flash[:success] = t('workarea.admin.catalog_categories.flash_messages.removed')
+        contents = Workarea::Content.where(
+          "blocks.data.#{I18n.locale}.category" => @category.id.to_s
+        )
+
+        if contents.any?
+          names = contents.map(&:name).to_sentence
+          flash[:error] = t('workarea.admin.catalog_categories.flash_messages.still_referenced', content: names)
+        else
+          @category.destroy
+          flash[:success] = t('workarea.admin.catalog_categories.flash_messages.removed')
+        end
+
         redirect_to catalog_categories_path
       end
 
