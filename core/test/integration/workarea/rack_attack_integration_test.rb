@@ -21,26 +21,6 @@ module Workarea
       assert_equal(:safelist, request.env['rack.attack.match_type'])
     end
 
-    def test_safelist_weblinc_office_ips
-      ip = Rack::Attack::WEBLINC_IP_ADDRESSES.first.to_s
-
-      get '/', env: { 'REMOTE_ADDR' => ip }
-
-      assert_response(:success)
-      assert_equal('ignore/weblinc', request.env['rack.attack.matched'])
-      assert_equal(:safelist, request.env['rack.attack.match_type'])
-    end
-
-    def test_safelist_alert_logic_scans
-      ip = Rack::Attack::ALERT_LOGIC_IP_ADDRESSES.first.to_s
-
-      get '/', env: { 'REMOTE_ADDR' => ip }
-
-      assert_response(:success)
-      assert_equal('ignore/alert_logic', request.env['rack.attack.matched'])
-      assert_equal(:safelist, request.env['rack.attack.match_type'])
-    end
-
     def test_throttle_all_requests
       ip = '192.168.1.1'
 
