@@ -1,0 +1,82 @@
+/*------------------------------------*\
+    #FORMS
+\*------------------------------------*/
+
+$forms-color:              $off-black !default;
+$forms-bg-color:           $white !default;
+$forms-disabled-color:     $dark-gray !default;
+$forms-disabled-bg-color:  $gray !default;
+$forms-placeholder-color:  $dark-gray !default;
+
+
+/**
+ * Provide default margins for form field containment elements.
+ */
+fieldset, legend {
+    margin-bottom: $vertical-margin;
+}
+
+
+/**
+ * Set font for basic form controls
+ * For accessibility purposes, all input types are highlighted on focus.
+ */
+select,
+input, textarea {
+    color: $forms-color;
+    font-size: $form-control-font-size;
+    background-color: $forms-bg-color;
+}
+
+label {
+    font-size: $form-control-font-size;
+}
+
+
+/**
+ * Ensure select menus cannot exceed with width of their parents and have
+ * heights appropriate for use with adjacent `.property__name` elements.
+ *
+ * 1. that's `$form-submitting-control` times half of the `$spacing-unit`, plus
+ *    `$form-submitting-control`. Sneaky.
+ */
+select {
+    height: 28px; /* [1] */
+    max-width: 100%;
+    border-radius: 0;
+}
+
+
+/**
+ * Ensure that a sibling label for a text area is properly aligned.
+ */
+textarea {
+    vertical-align: baseline;
+}
+
+
+/**
+ * Show clear indication that a form control is not interactive by changing the
+ * cursor:
+ *
+ * 1. if the element itself is disabled or readonly
+ * 2. if the fieldset wrapping the element is disabled
+ */
+button,
+input, textarea,
+select, optgroup, option {
+    &[disabled], &[readonly] /* [1] */
+    fieldset[disabled] & { /* [2] */
+        color: $forms-disabled-color;
+        background-color: $forms-disabled-bg-color;
+        cursor: not-allowed;
+    }
+}
+
+
+/**
+ * Any form control that supports a placeholder attribute should recieve styling
+ */
+::placeholder {
+    color: $forms-placeholder-color;
+}

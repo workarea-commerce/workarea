@@ -1,0 +1,34 @@
+- @page_title = t('workarea.admin.pricing_discount_code_lists.edit.title', name: @code_list.name)
+
+.view
+  .view__header
+    .grid.grid--middle.grid--right
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to "↑ #{t('workarea.admin.pricing_discount_code_lists.show.index_link')}", pricing_discount_code_lists_path
+          %h1= link_to @code_list.name, pricing_discount_code_list_path(@code_list)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@code_list)
+
+  .view__container.view__container--narrow
+    = render_cards_for(@code_list, :attributes)
+
+    - if @code_list.errors.present?
+      - @code_list.errors.full_messages.each do |message|
+        = render_message 'error', message
+
+    = form_tag pricing_discount_code_list_path(@code_list), method: 'patch', id: 'promo_code_list_form', data: { unsaved_changes: '' } do
+
+      .section
+
+        .property.property--required
+          = label_tag 'code_list[name]', t('workarea.admin.fields.name'), class: 'property__name'
+          = text_field_tag 'code_list[name]', @code_list.name, class: 'text-box', required: true
+
+        .property
+          = label_tag 'code_list[expires_at]', t('workarea.admin.fields.expires_at'), class: 'property__name'
+          = datetime_picker_tag 'code_list[expires_at]', @code_list.expires_at, class: 'text-box text-box--medium', data: { datepicker_field: '' }
+
+      .workflow-bar
+        .grid.grid--auto.grid--right.grid--middle
+          .grid__cell= button_tag t('workarea.admin.pricing_discount_code_lists.edit.update_code_list'), value: 'update_code_list', class: 'workflow-bar__button workflow-bar__button--update'

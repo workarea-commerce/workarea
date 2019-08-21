@@ -1,0 +1,38 @@
+- @page_title = @user.name
+
+.view
+  .view__header
+    .grid.grid--middle.grid--right
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@user)
+          %h1= @user.name
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@user)
+
+  .view__container
+    = render_cards_for(@user)
+
+    .workflow-bar
+      .grid.grid--auto.grid--right.grid--middle.grid--flush
+        - if @user == current_user
+          .grid__cell
+            = link_to t('workarea.admin.users.show.impersonate'), '#impersonate-yourself-info', disabled: 'disabled', data: { tooltip: '' }, class: 'workflow-bar__button workflow-bar__button--update'
+            #impersonate-yourself-info.tooltip-content
+              %p= t('workarea.admin.users.show.cant_impersonate_yourself')
+
+        - elsif @user.admin?
+          .grid__cell
+            = link_to t('workarea.admin.users.show.impersonate'), '#impersonate-other-admins-info', disabled: 'disabled', data: { tooltip: '' }, class: 'workflow-bar__button workflow-bar__button--update'
+            #impersonate-other-admins-info.tooltip-content
+              %p= t('workarea.admin.users.show.cant_impersonate_other_administrators')
+
+        - else
+          - if impersonating?(@user)
+            .grid__cell
+              = link_to t('workarea.admin.users.show.stop_impersonation'), impersonations_path, data: { method: 'delete' }, class: 'workflow-bar__button workflow-bar__button--delete'
+          - else
+            .grid__cell
+              = form_tag impersonations_path, method: 'post' do
+                = hidden_field_tag 'user_id', @user.id
+                = button_tag t('workarea.admin.users.show.impersonate'), class: 'workflow-bar__button workflow-bar__button--update'

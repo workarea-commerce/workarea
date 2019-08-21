@@ -1,0 +1,11 @@
+#video-content-block.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'video_content_block')
+
+  %p A content block that wraps an <code>iframe</code> embed code.
+
+  %p should preserve video ratio as it scales:
+  .style-guide__example-block
+    .video-content-block
+      .video-content-block__responsive-frame{ style: 'padding-bottom: 56.25%; height: 0;' }
+        %iframe{ width: 560, height: 315, frameborder: 0, allowfullscreen: true, src: ('https://www.youtube.com/embed/A21I70ggSQw' unless Rails.env.test?)}

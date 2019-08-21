@@ -1,0 +1,22 @@
+module Workarea
+  module Pricing
+    class Discount
+      # Persists data for discounts related to <%= class_name.titleize %>
+      class <%= class_name %> < Discount
+        # TODO: Set the level at which price changes apply (e.g. 'shipping',
+        # 'item', 'order', 'tax').
+        # self.price_level = 'shipping'
+
+        def self.model_name
+          Discount.model_name
+        end
+
+        def apply(order)
+          # TODO: Implement `#apply` to fulfill the contract for
+          # `Workarea::Pricing::Discount`. This method defines what is to
+          # be added to the order to reflect the user of this discount.
+        end
+      end
+    end
+  end
+end

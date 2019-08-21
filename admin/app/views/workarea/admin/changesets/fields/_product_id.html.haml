@@ -1,0 +1,4 @@
+%p.release-changeset__content
+  %span.release-changeset__field= t('workarea.admin.fields.product_id')
+  %span.release-changeset__old!= product_links(old_value).join(', ')
+  %span.release-changeset__new!= product_links(new_value).join(', ')

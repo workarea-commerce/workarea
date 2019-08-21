@@ -1,0 +1,27 @@
+version: '3'
+services:
+  mongo:
+    image: "mongo:${MONGODB_VERSION}"
+    volumes:
+      - mongo:/data/db
+    ports:
+      - '127.0.0.1:${MONGODB_PORT}:27017'
+
+  redis:
+    image: "redis:${REDIS_VERSION}"
+    volumes:
+      - redis:/data
+    ports:
+      - '127.0.0.1:${REDIS_PORT}:6379'
+
+  elasticsearch:
+    image: "elasticsearch:${ELASTICSEARCH_VERSION}"
+    ports:
+      - '127.0.0.1:${ELASTICSEARCH_PORT}:9200'
+    volumes:
+      - elasticsearch:/usr/share/elasticsearch/data
+
+volumes:
+  mongo:
+  redis:
+  elasticsearch:

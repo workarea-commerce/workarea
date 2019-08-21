@@ -1,0 +1,24 @@
+/*------------------------------------*\
+    #FONTS
+\*------------------------------------*/
+
+/**
+ * If your project requires a custom webfont we recommend loading it into the
+ * asset pipeline directly. This will ensure that Rails handles the caching of
+ * all of the assets used by the application in addition to being more stable
+ * than an asynchronous, 3rd party solution.
+ *
+ * Export your webfont into the following formats and save the files to
+ * `workarea/storefront/app/assets/fonts` before loading them in the following
+ * manner:
+ *
+ * @font-face {
+ *     font-family: 'MyWebfont';
+ *     src: font-url('workarea/storefront/my_webfont.eot'); // IE9 Compat Modes
+ *     src: font-url('workarea/storefront/my_webfont.eot?#iefix') format('embedded-opentype'), // IE6-IE8
+ *          font-url('workarea/storefront/my_webfont.woff2') format('woff2'), // Super Modern Browsers
+ *          font-url('workarea/storefront/my_webfont.woff') format('woff'), // Pretty Modern Browsers
+ *          font-url('workarea/storefront/my_webfont.ttf')  format('truetype'), // Safari, Android, iOS
+ *          font-url('workarea/storefront/my_webfont.svg#svgFontName') format('svg'); // Legacy iOS
+ * }
+ */

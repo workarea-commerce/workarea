@@ -1,0 +1,7 @@
+%table
+  %tr{ data: { cloneable_row: '' } }
+    %td
+      = label_tag 'foo' do
+        = text_field_tag 'foo', '', title: 'Foo', id: nil
+    %td= text_field_tag 'bar', '', title: 'Bar', id: nil
+    %td= text_field_tag 'baz', 10, title: 'Baz', id: nil

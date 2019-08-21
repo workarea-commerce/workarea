@@ -1,0 +1,17 @@
+#visually-hidden.style-guide__subsection
+
+  %h3= link_to_style_guide('trumps', 'visually_hidden')
+
+  %p Visually hides an element off screen, keeping it accessible to assitive technology.
+
+  %p When accessibility isn't a concern, use #{link_to_style_guide('trumps', 'hidden', true)} instead.
+
+  %p without <code>visually-hidden</code>:
+  .style-guide__example-block
+    %p I'm some text
+    %p I'm some text that's about to be visually hidden
+
+  %p with <code>visually-hidden</code>:
+  .style-guide__example-block
+    %p I'm some text
+    %p.visually-hidden I'm some text that should be visually hidden

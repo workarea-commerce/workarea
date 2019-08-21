@@ -1,0 +1,12 @@
+- cache "#{product.cache_key}/summary", expires_in: Workarea.config.cache_expirations.product_summary_fragment_cache do
+  %p.product-summary__media
+    = link_to product_path(product, product.browse_link_options), class: 'product-summary__media-link', style: intrinsic_ratio_product_image_styles(product.primary_image), data: { analytics_product_impression: product_impression_data(product), analytics: product_click_analytics_data(product).to_json } do
+      = image_tag(product_image_url(product.primary_image, :large_thumb), alt: product.name, itemprop: 'image', class: 'product-summary__media-image')
+
+  .product-summary__info
+    %p.product-summary__name{ itemprop: 'name' }= link_to product.name, product_path(product, product.browse_link_options), itemprop: 'url', data: { analytics: product_click_analytics_data(product).to_json }
+
+    .product-prices.product-prices--summary{ itemprop: 'offers', itemscope: true, itemtype: 'http://schema.org/Offer' }
+      = render 'workarea/storefront/products/pricing', product: product
+
+    = append_partials('storefront.product_summary', product: product)

@@ -1,0 +1,24 @@
+/*------------------------------------*\
+    #TEXT-BOX-IMAGE
+\*------------------------------------*/
+
+/// Adds an image to an edge of a text box.
+///
+/// @param {Path} $image - the partial path of the image, relative to
+///     image directory and engine path's root
+/// @param {String} $side [left] - used for positioning the image. `left` or
+///     `right`
+/// @param {Dimension} $size [$spacing-unit * 2] - the height/width of the image
+/// @param {Dimension} $spacing - the even spacing around the image
+///
+/// @example scss - Text box Image mixin
+///     .text-box--valid {
+///         @include text-box-image('icons/valid.svg', right);
+///     }
+@mixin text-box-image($image, $side: left, $size: ($spacing-unit * 2), $spacing: $spacing-unit) {
+    padding-#{$side}: $size + ($spacing * 2);
+    background-size:     $size;
+    background-repeat:   no-repeat;
+    background-image:    image-url("workarea/admin/#{$image}");
+    background-position: $side $spacing top round($spacing * 1.25);
+}

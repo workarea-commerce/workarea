@@ -1,0 +1,1270 @@
+---
+title: Products
+excerpt: A Workarea application presents a retailer’s catalog to consumers and promotes the sale of those items. Products are representations of the goods and services the retailer is presenting for sale. This guide further explains “product” as a concept with
+---
+
+# Products
+
+A Workarea application presents a retailer’s catalog to consumers and promotes the sale of those items. <dfn>Products</dfn> are representations of the goods and services the retailer is presenting for sale. This guide further explains “product” as a concept within the Workarea platform.
+
+A retailer’s catalog is modeled within the Workarea `Catalog` as products and variants (which each have details) and catalog product images. Additional records exist outside the `Catalog` module to represent the inventory, pricing, and shipping details for each item.
+
+Presenting a product requires wrapping the catalog product document in an appropriate view model, which creates a view of the product suitable for either consumers shopping in the Storefront or administrators managing the catalog in the Admin.
+
+Admins manage products, variants, and product images through the Admin web interface and data files. Developers have additional access to command line and programmatic interfaces. Regardless of interface, product management is affected by various application and document states.
+
+Admins also manage the placement of products within the Storefront, optimizing what products consumers see while browsing. The systems that facilitate these optimizations rely on additional product representations of which developers should be aware. Additionally, each presented product is affected by various browsing states.
+
+After narrowing to specific products, consumers view the details of each product, which presents options the consumer can use to reduce the product to a specific item. The display of the options and other product data are determined by the product template and several states related to showing a product.
+
+## Modeling the Retailer’s Catalog
+
+Each retailer maintains a <dfn>catalog</dfn>, a list of items for sale. These items are often _goods_ with physical inventory, but may also include intangible items such as digital downloads and warranties, and _services_, such as units of repair time or tech support. Regardless of type, the retailer maintains records for each item, such as its description and details, pricing, inventory, location within a warehouse, and shipping weight and dimensions. These records are often managed across many systems, such as point of sale, inventory, accounting, warehouse/fulfillment, and mail order catalog. To manage each item across systems, the retailer identifies each item with a <dfn>SKU</dfn>: an id internal to the retailer and unique across all the retailer’s systems.
+
+The Workarea platform is similarly divided into multiple subsystems, many of which keep their own records for the retailer’s merchandise. These records are related by SKU, allowing multiple representations of the same item to be joined when needed.
+
+### Catalog Products & Variants
+
+Within the `Workarea::Catalog` namespace are `Product` and `Variant` [application documents](application-document.html). A <dfn>catalog product</dfn> represents a group of related but varying items for sale. Each catalog product embeds a collection of <dfn>variants</dfn>, each of which represents a distinct item for sale within that product.
+
+Catalogs are generally organized in this fashion: with groups of products sharing some information (such as a name and description) while varying on other details (such as color and size).&nbsp;<sup><a id="note-1-context" href="#notes">[1]</a></sup>
+
+Grouping items facilitates the usual shopping flow: first reduce the catalog to a product of interest (such as a cotton t-shirt), and then further reduce that product to a particular item to be purchased (for example, the _large_, _blue_ cotton t-shirt). The first part of this flow is known as _browsing_, where consumers shop _by product_. The second part is known as _showing_ or _product detail page_, where consumers see _options_, which allow easy comparison of a specific product’s variants.&nbsp;<sup><a id="note-2-context" href="#notes">[2]</a></sup> Grouping into products also benefits the retailer, allowing them to share data across items, attach discounts to groups of similar items, and view analytics by these groupings.
+
+A product names and describes a group of items and stores the data that all the items in the group share. The only required field is `name`. Print a product as a document to get an overview of the catalog product interface.
+
+```ruby
+pp Workarea::Catalog::Product.find_by(name: 'Tropical Drink Mix').as_document
+# {"_id"=>"5A74109BFA",
+# "tags"=>[],
+# "active"=>{"en"=>true},
+# "subscribed_user_ids"=>[],
+# "details"=>{"en"=>{"Ingredients"=>["Pure Cane Sugar", "Natural Flavor"]}},
+# "filters"=>{"en"=>{}},
+# "template"=>"generic",
+# "purchasable"=>true,
+# "name"=>{"en"=>"Tropical Drink Mix"},
+# "digital"=>false,
+# "slug"=>"tropical-drink-mix",
+# "updated_at"=>2018-05-31 15:15:28 UTC,
+# "created_at"=>2018-05-31 15:15:28 UTC,
+# "variants"=>
+# [{"_id"=>BSON::ObjectId('5b101190eefbfe0cb1018da8'),
+# "active"=>{"en"=>true},
+# "details"=>{"en"=>{}},
+# "sku"=>"mango-hurricane-mix",
+# "name"=>{"en"=>"Mango Hurricane"},
+# "position"=>0},
+# {"_id"=>BSON::ObjectId('5b101190eefbfe0cb1018da9'),
+# "active"=>{"en"=>true},
+# "details"=>{"en"=>{}},
+# "sku"=>"coconut-cyclone-mix",
+# "name"=>{"en"=>"Coconut Cyclone"},
+# "position"=>1},
+# {"_id"=>BSON::ObjectId('5b101190eefbfe0cb1018daa'),
+# "active"=>{"en"=>true},
+# "details"=>{"en"=>{}},
+# "sku"=>"pineapple-typhoon-mix",
+# "name"=>{"en"=>"Pineapple Typhoon"},
+# "position"=>2}],
+# "last_indexed_at"=>2018-05-31 15:15:28 UTC}
+```
+
+Notice above that several of the fields are internationalized; their values are keyed by locale.
+
+Also observe the embedded collection of variants. Each variant represents a distinct variation of the product, giving it a name/id (through the `id`, `sku`, and `name` fields), description (through details), and an administrable position relative to its siblings.
+
+You must provide the `sku` value when creating a variant, since this is a retailer-supplied ID that Workarea cannot generate. The variant’s SKU relates the variant to other models representing the same item within Workarea, and to other representations of the same item across other systems managed by the retailer.
+
+Note that product and variant implement some of the same interface. One example of this is `active`, which both models inherit from `Workarea::Releasable`. Another example is the details interface, covered next.
+
+### Details
+
+Product and variant both inherit from `Workarea::Details` and therefore implement the same <dfn>details</dfn> interface. Details are administrable attributes of a product and its variants, which are displayed to consumers within the Storefront.
+
+A product and each of its variants stores a `details` hash, where the keys are typically strings and the values are collections of non-blank, scalar values (again, often strings). These are flexible data structures that serve platform-defined and application-defined purposes.
+
+The items that make up a product share some details and vary on others. Store the shared details on the product. Store on each variant the details that distinguish that variant from its siblings. Many examples of this follow.
+
+Note that a variant’s SKU effectively encodes its details, by providing an ID which maps to a particular “configuration” of the product. This encoding may be observable in the ID itself. For example, the SKU _TSHIRT-BLACK-SMALL_ clearly identifies a particular product (_T-Shirt_) and particular variant details (a color, _black_, and a size, _small_).
+
+Details on the _product_ are used for search text and implementation-specific use cases (perhaps a product template which enumerates the details when showing the product). Details on the _variant_ are used to create the product options which are presented to the consumer when showing the product.&nbsp;<sup><a id="note-3-context" href="#notes">[3]</a></sup>
+
+The following examples demonstrate the process of mapping catalog data to products and variants. Each example provides a possible solution and some commentary.
+
+The first example is presented in Table 1 and Listing 1.
+
+<caption>
+  <p>Table 1</p>
+  <p>A subset of catalog data for keyed padlocks.</p>
+</caption>
+
+| SKU | Weather Resistance | Shackle Locking | Shackle Material | Shackle Length | Shackle Diameter |
+| --- | --- | --- | --- | --- | --- |
+| KEYPAD-S-1-14 | Covered | Dual ball bearing | Steel | 1" | 1/4" |
+| KEYPAD-S-1-12 | Covered | Dual ball bearing | Steel | 1" | 1/2" |
+| KEYPAD-S-2-14 | Covered | Dual ball bearing | Steel | 2" | 1/4" |
+| KEYPAD-S-2-12 | Covered | Dual ball bearing | Steel | 2" | 1/2" |
+| KEYPAD-B-1-14 | Covered | Dual ball bearing | Brass | 1" | 1/4" |
+| KEYPAD-B-1-12 | Covered | Dual ball bearing | Brass | 1" | 1/2" |
+| KEYPAD-B-2-14 | Covered | Dual ball bearing | Brass | 2" | 1/4" |
+| KEYPAD-B-2-12 | Covered | Dual ball bearing | Brass | 2" | 1/2" |
+
+<!-- <figure id="listing-1">
+  <figcaption>
+    <p>Listing 1</p>
+    <p>Creating a “Keyed Padlock” product (with variants) in Workarea from the data in <a href="#table-1">Table 1</a>. This represents one possible solution.</p>
+  </figcaption> -->
+
+Listing 1
+Creating a “Keyed Padlock” product (with variants) in Workarea from the data in <a href="#table-1">Table 1</a>. This represents one possible solution.
+
+```ruby
+  name: 'Keyed Padlock',
+  details: {
+    'Weather Resistance' => ['Covered'],
+    'Shackle Locking' => ['Dual ball bearing']
+  },
+  variants: [
+    {
+      sku: 'KEYPAD-S-1-14',
+      details: {
+        'Shackle Material' => ['Steel'],
+        'Shackle Length' => ['1"'],
+        'Shackle Diameter' => ['1/4"']
+      }
+    },
+    {
+      sku: 'KEYPAD-S-1-12',
+      details: {
+        'Shackle Material' => ['Steel'],
+        'Shackle Length' => ['1"'],
+        'Shackle Diameter' => ['1/2"']
+      }
+    },
+    {
+      sku: 'KEYPAD-S-2-14',
+      details: {
+        'Shackle Material' => ['Steel'],
+        'Shackle Length' => ['2"'],
+        'Shackle Diameter' => ['1/4"']
+      }
+    },
+    {
+      sku: 'KEYPAD-S-2-12',
+      details: {
+        'Shackle Material' => ['Steel'],
+        'Shackle Length' => ['2"'],
+        'Shackle Diameter' => ['1/2"']
+      }
+    },
+    {
+      sku: 'KEYPAD-B-1-14',
+      details: {
+        'Shackle Material' => ['Brass'],
+        'Shackle Length' => ['1"'],
+        'Shackle Diameter' => ['1/4"']
+
+      }
+
+    },
+    {
+      sku: 'KEYPAD-B-1-12',
+      details: {
+        'Shackle Material' => ['Brass'],
+        'Shackle Length' => ['1"'],
+        'Shackle Diameter' => ['1/2"']
+
+      }
+
+    },
+    {
+      sku: 'KEYPAD-B-2-14',
+      details: {
+        'Shackle Material' => ['Brass'],
+        'Shackle Length' => ['2"'],
+        'Shackle Diameter' => ['1/4"']
+      }
+    },
+    {
+      sku: 'KEYPAD-B-2-12',
+      details: {
+        'Shackle Material' => ['Brass'],
+        'Shackle Length' => ['2"'],
+        'Shackle Diameter' => ['1/2"']
+      }
+    }
+  ]
+)
+```
+<!-- </figure> -->
+
+Note the following about the example presented in Table 1 and Listing 1:
+
+- The values for _Weather Resistance_ and _Shackle Locking_ are consistent across all items and are therefore stored on the product.
+- The items vary by _Shackle Material_, _Shackle Length_, and _Shackle Diameter_, so those details are stored on the variants.
+- The data uses English language and measurements. Since the `details` field is internationalized. You could store different values (such as metric units) using a different locale.
+
+Table 2 and Listing 2 provide another example.
+
+<caption>
+  <p>Table 2</p>
+  <p>A subset of catalog data for fitted baseball caps.</p>
+</caption>
+
+| SKU | Fitting Type | Materials | Color | Size |
+| --- | --- | --- | --- | --- |
+| BALLCAP-BLACK-S | Elastic | Cotton/Polyester | Black/White | Small |
+| BALLCAP-BLACK-M | Elastic | Cotton/Polyester | Black/White | Medium |
+| BALLCAP-BLACK-L | Elastic | Cotton/Polyester | Black/White | Large |
+| BALLCAP-BLUE-S | Elastic | Cotton/Polyester | Blue/White | Small |
+| BALLCAP-BLUE-M | Elastic | Cotton/Polyester | Blue/White | Medium |
+| BALLCAP-BLUE-L | Elastic | Cotton/Polyester | Blue/White | Large |
+| BALLCAP-RWB-S | Elastic | Cotton/Polyester | Red/White/Blue | Small |
+| BALLCAP-RWB-M | Elastic | Cotton/Polyester | Red/White/Blue | Medium |
+| BALLCAP-RWB-L | Elastic | Cotton/Polyester | Red/White/Blue | Large |
+
+<!-- <figure id="listing-2">
+  <figcaption>
+    <p>Listing 2</p>
+    <p>Creating a “Fitted Baseball Cap” product (with variants) in Workarea from the data in <a href="#table-2">Table 2</a>. This represents one possible solution.</p>
+  </figcaption> -->
+
+Listing 2
+Creating a “Fitted Baseball Cap” product (with variants) in Workarea from the data in <a href="#table-2">Table 2</a>. This represents one possible solution.
+
+```ruby
+Workarea::Catalog::Product.create(
+  name: 'Fitted Baseball Cap',
+  details: {
+    'Fitting Type' => ['Elastic'],
+    'Materials' => ['Cotton', 'Polyester']
+  },
+  variants: [
+    {
+      sku: 'BALLCAP-BLACK-S',
+      details: {
+        'Color' => ['Black/White'],
+        'Size' => ['Small']
+      }
+    },
+    {
+      sku: 'BALLCAP-BLACK-M',
+      details: {
+        'Color' => ['Black/White'],
+        'Size' => ['Medium']
+      }
+    },
+    {
+      sku: 'BALLCAP-BLACK-L',
+      details: {
+        'Color' => ['Black/White'],
+        'Size' => ['Large']
+      }
+    },
+    {
+      sku: 'BALLCAP-BLUE-S',
+      details: {
+        'Color' => ['Blue/White'],
+        'Size' => ['Small']
+      }
+    },
+    {
+      sku: 'BALLCAP-BLUE-M',
+      details: {
+        'Color' => ['Blue/White'],
+        'Size' => ['Medium']
+      }
+    },
+    {
+      sku: 'BALLCAP-BLUE-L',
+      details: {
+        'Color' => ['Blue/White'],
+        'Size' => ['Large']
+      }
+    },
+    {
+      sku: 'BALLCAP-RWB-S',
+      details: {
+        'Color' => ['Red/White/Blue'],
+        'Size' => ['Small']
+      }
+    },
+    {
+      sku: 'BALLCAP-RWB-M',
+      details: {
+        'Color' => ['Red/White/Blue'],
+        'Size' => ['Medium']
+      }
+    },
+    {
+      sku: 'BALLCAP-RWB-L',
+      details: {
+        'Color' => ['Red/White/Blue'],
+        'Size' => ['Large']
+      }
+    }
+  ]
+)
+```
+<!-- </figure> -->
+
+Note the following regarding the example presented in Table 2 and Listing 2:
+
+- _Materials_ are stored (on the product) as multiple values so they can be enumerated for display or other purposes.
+- _Color_ is stored (on each variant) as a single value because the retailer would like to present each combined color value to consumers as a single product option. This retailer is using <cite>Workarea Swatches</cite> to represent each combined color with a multi-color image.&nbsp;<sup><a id="note-4-context" href="#notes">[4]</a></sup>
+
+Now see Table 3 and Listing 3 for a third example.
+
+<caption>
+  <p>Table 3</p>
+  <p>A subset of catalog data for extended service plans (warranties).</p>
+</caption>
+
+| SKU | Duration |
+| --- | --- |
+| B45678 | 3 years |
+| A57893 | 5 years |
+
+<!--
+<figure id="listing-3">
+  <figcaption>
+    <p>Listing 3</p>
+    <p>Creating an “Extended Service Plan” product (with variants) in Workarea from the data in <a href="#table-3">Table 3</a>. This represents one possible solution.</p>
+  </figcaption>
+-->
+
+Listing 3
+Creating an “Extended Service Plan” product (with variants) in Workarea from the data in <a href="#table-3">Table 3</a>. This represents one possible solution.
+
+```ruby
+Workarea::Catalog::Product.create(
+  name: 'Extended Service Plan',
+  variants: [
+    {
+      sku: 'B45678',
+      details: {
+        'Duration' => ['3 years']
+      }
+    },
+    {
+      sku: 'A57893',
+      details: {
+        'Duration' => ['5 years']
+      }
+    }
+  ]
+)
+```
+<!-- </figure> -->
+
+Notice in the 3rd example the SKUs aren’t as user-friendly as they were in the previous examples. However, SKUs are assigned by the retailer and should not be modified. Despite their cryptic appearance, they effectively encode the details of the variant by providing a unique ID that all relevant parties (retailer, Workarea, fulfillment system, etc) can decode.
+
+Also note the details in the 3rd example have only one value. In such a case, the retailer may prefer to assign a name to the variant and forgo the use of variant details. See Table 4 and Listing 4 for an example that fits this description.
+
+<caption>
+  <p>Table 4</p>
+  <p>A subset of catalog data for tropical drink mixes.</p>
+</caption>
+
+| SKU | Ingredients |
+| --- | --- |
+| mango-hurricane-mix | Pure Cane Sugar, Natural Flavor |
+| coconut-cyclone-mix | Pure Cane Sugar, Natural Flavor |
+| pineapple-typhoon-mix | Pure Cane Sugar, Natural Flavor |
+
+<!--
+<figure id="listing-4">
+  <figcaption>
+    <p>Listing 4</p>
+    <p>Creating a “Tropical Drink Mix” product (with variants) in Workarea from the data in <a href="#table-4">Table 4</a>. This represents one possible solution.</p>
+  </figcaption>
+-->
+
+Listing 4
+Creating a “Tropical Drink Mix” product (with variants) in Workarea from the data in <a href="#table-4">Table 4</a>. This represents one possible solution.
+
+```ruby
+Workarea::Catalog::Product.create(
+  name: 'Tropical Drink Mix',
+  details: {
+    'Ingredients' => ['Pure Cane Sugar', 'Natural Flavor']
+  },
+  variants: [
+    {
+      sku: 'mango-hurricane-mix',
+      name: 'Mango Hurricane'
+    },
+    {
+      sku: 'coconut-cyclone-mix',
+      name: 'Coconut Cyclone'
+    },
+    {
+      sku: 'pineapple-typhoon-mix',
+      name: 'Pineapple Typhoon'
+    }
+  ]
+)
+```
+<!-- </figure> -->
+
+As mentioned above, this final example assigns a name to each variant. These names may display to the consumer when showing the product.
+
+Review all the examples above and observe how some of them store details on _only the product_, _only the variants_, or _both the product and the variants_. Remember! A product and its embedded variants each store their own details hash, so consider which object to write to or query from when operating on details.
+
+```ruby
+catalog_product =
+  Workarea::Catalog::Product.find_by(name: 'Fitted Baseball Cap')
+
+catalog_product.details
+# => {"Fitting Type"=>["Elastic"], "Materials"=>["Cotton", "Polyester"]}
+
+catalog_product.variants.first.details
+# => {"Color"=>["Black/White"], "Size"=>["Small"]}
+
+catalog_product.variants.second.details
+# => {"Color"=>["Black/White"], "Size"=>["Medium"]}
+```
+
+Finally, products and variants implement instance methods for fetching and testing details.
+
+```ruby
+puts Workarea::Details.instance_methods(false).sort
+# fetch_detail
+# has_detail?
+# matches_detail?
+# matches_details?
+# update_details
+```
+
+### Catalog Product Images
+
+In addition to variants, each catalog product embeds a collection of product images. Each product image is a document of type `Catalog::ProductImage` and has an attachment (an image file). Product images are [Dragonfly models](http://markevans.github.io/dragonfly/models) and implement that interface. A product image also has a `position` field for administrating display order, and an `option` field to associate the image with a product option.
+
+The following examples use the “Extended Service Plan” product created in Listing 3 for demonstration. This product represents intangible goods that have no product photography, however, you can still use generated images to improve the shopping experience.
+
+First, generate some image files. Admittedly, these images are not pretty, but they demonstrate the concepts sufficiently.
+
+```bash
+$ convert \
+> -background lightblue \
+> -fill blue \
+> -font Helvetica \
+> -size 400x600 \
+> -pointsize 72 \
+> -gravity center \
+> 'label:3 Years' \
+> 3_years.jpg
+
+$ convert \
+> -background blue \
+> -fill lightblue \
+> -font Helvetica \
+> -size 400x600 \
+> -pointsize 72 \
+> -gravity center \
+> 'label:5 Years' \
+> 5_years.jpg
+$
+```
+
+Next, create some product images within the product from those files, and explore the product image interface.
+
+```ruby
+catalog_product =
+  Workarea::Catalog::Product.find_by(name: 'Extended Service Plan')
+
+catalog_product.images.create(
+  image: File.new('3_years.jpg'),
+  option: '3_years'
+)
+catalog_product.images.create(
+  image: File.new('5_years.jpg'),
+  option: '5_years'
+)
+
+catalog_product.images.count
+# => 2
+
+product_image = catalog_product.images.first
+
+product_image.class
+# => Workarea::Catalog::ProductImage
+
+product_image.name
+# => "3_years.jpg"
+
+product_image.option
+# => "3_years"
+
+product_image.position
+# => 0
+
+product_image.format
+# => "jpeg"
+
+product_image.width
+# => 400
+
+product_image.height
+# => 600
+```
+
+Product images are neither releasable nor are any of their fields internationalized. Therefore, application state does not affect product images.
+
+Notably, product images are stored on the _product_, not the variants. You can associate each image with a product option. Administration of the `position` and `option` fields therefore affects the presentation of a product (also see Primary Image).&nbsp;<sup><a id="note-5-context" href="#notes">[5]</a></sup>
+
+Finally, there is also a `Catalog::ProductPlaceholderImage`, which is used when presenting a product that has no embedded images. A product placeholder image implements the same interface as a product image, but there is only a single instance of the product placeholder image, accessible as `Catalog::ProductPlaceholderImage.cached`.&nbsp;<sup><a id="note-6-context" href="#notes">[6]</a></sup>
+
+### Inventory, Pricing & Shipping SKUs
+
+Beyond the Workarea `Catalog` module, several other Workarea subsystems store records representing the items of the retailer’s catalog. These additional models are outside the scope of this guide, however, the following examples briefly demonstrate the relationships of these models.
+
+- `Workarea::Inventory` stores an `Inventory::Sku` for each item
+- `Workarea::Pricing` stores a `Pricing::Sku` for each item
+- `Workarea::Shipping` stores a `Shipping::Sku` for each item
+- These models are related to each other and to the models of the `Catalog` by the retailer-provided SKU
+
+For example: given a SKU, find the pricing, inventory, shipping, and product that match the SKU:
+
+```ruby
+sku = 'BALLCAP-BLUE-M'
+pricing_sku = Workarea::Pricing::Sku.find(sku)
+inventory_sku = Workarea::Inventory::Sku.find(sku)
+shipping_sku = Workarea::Shipping::Sku.find(sku)
+catalog_product = Workarea::Catalog::Product.find_by_sku(sku)
+```
+
+Notice the different method used to query for the product. This is because the SKU values are stored on the embedded variants, not the product itself.
+
+As another example: given a catalog product ID, find the variants, SKUs, inventory collection, pricing collection, and shipping SKUs that correlate with the product:
+
+```ruby
+catalog_product_id = 'ABC123'
+catalog_product = Workarea::Product.find(catalog_product_id)
+variants = catalog_product.variants
+skus = catalog_product.skus
+inventory_collection = Workarea::Inventory::Collection.new(skus)
+pricing_collection = Workarea::Pricing::Collection.new(skus)
+shipping_skus = Workarea::Shipping::Sku.in(id: skus).to_a
+```
+
+There are also some additional models that represent products for use within the search, recommendations, and analytics subsystems, which are related by product ID. These will be explored further in an update to this guide.
+
+## Presenting a Product
+
+Workarea Storefront presents the retailer’s catalog to consumers using _products_ and does so in a variety of places:
+
+- On dedicated product pages (product detail/show pages)
+- Within search results and categories (product browse pages)
+- As recommendations
+- Within content
+
+<figure id="figure-1">
+  <figcaption>
+    <p>Figure 1</p>
+    <p>A product detail page (show page) in the Storefront</p>
+  </figcaption>
+  <p><%= image_tag "images/storefront-product-show-page.png", alt: "Storefront product show page" %></p>
+</figure>
+
+<figure id="figure-2">
+  <figcaption>
+    <p>Figure 2</p>
+    <p>A category page (browse page) in the Storefront</p>
+  </figcaption>
+  <p><%= image_tag "images/storefront-product-browse-page.png", alt: "Storefront product browse page" %></p>
+</figure>
+
+Underlying each of the presented products is a `Catalog::Product` document.
+
+Admin users with catalog access can additionally view the same catalog product through the Admin. In fact, like the Storefront, the Admin presents products in a variety of places:
+
+- On dedicated product management pages
+- Within search results and index pages
+- Within dashboards
+- Within the “featured products” UI
+
+<figure id="figure-3">
+  <figcaption>
+    <p>Figure 3</p>
+    <p>A product show page in the Admin</p>
+  </figcaption>
+  <p><%= image_tag "images/admin-product-show-page.png", alt: "Admin product show page" %></p>
+</figure>
+
+<figure id="figure-4">
+  <figcaption>
+    <p>Figure 4</p>
+    <p>A products index page in the Admin</p>
+  </figcaption>
+  <p><%= image_tag "images/admin-products-index-page.png", alt: "Admin products index page" %></p>
+</figure>
+
+And like the Storefront, underlying each displayed product is a catalog product document.
+
+However, in figures 1, 2, 3, and 4, you can see the presentations of the products include data from outside the catalog product document. To display a product, a controller wraps a catalog product document in an appropriate [view model](view-models.html) which is responsible for presenting the document within a particular context (e.g.&nbsp;Storefront or Admin). The view model extends the model with additional presentation logic, and joins the model with the other models needed to create the representation of the product the user within that context is expecting to see.
+
+To demonstrate, consider the differing views of a product for consumers and administrators.
+
+### Consumers’ View of the Catalog Product
+
+Throughout the Storefront, each catalog product is wrapped in an instance of `Storefront::ProductViewModel` for presentation.&nbsp;<sup><a id="note-7-context" href="#notes">[7]</a></sup> The Storefront product view model is responsible for creating the view of the product a consumer is expecting to see in the Storefront while shopping. This view includes details beyond the catalog product, such as inventory, pricing, navigation, and recommendations (see Figure 1). The view model extends the existing interface of the catalog product and augments the interface with additional presentation logic and additional data joined from other models.
+
+<!-- <figure id="listing-5">
+  <figcaption>
+    <p>Listing 5</p>
+    <p>The Storefront view model extends the catalog product interface</p>
+  </figcaption>
+-->
+
+Listing 5
+The Storefront view model extends the catalog product interface
+
+```ruby
+changes_to_the_product_interface =
+  Workarea::Storefront::ProductViewModel.instance_methods(false) &amp;
+    Workarea::Catalog::Product.instance_methods
+
+puts changes_to_the_product_interface.sort
+# browser_title
+# cache_key
+# images
+# meta_description
+# purchasable?
+# variants
+
+additions_to_the_product_interface =
+  Workarea::Storefront::ProductViewModel.instance_methods(false) -
+    Workarea::Catalog::Product.instance_methods
+
+puts additions_to_the_product_interface.sort
+# breadcrumbs
+# browse_link_options
+# catalog_id
+# current_sku
+# current_variant
+# default_category
+# has_prices?
+# inventory
+# inventory_purchasable?
+# inventory_status
+# on_sale?
+# one_price?
+# original_max_price
+# original_min_price
+# pricing
+# primary_image
+# recommendations
+# sell_max_price
+# sell_min_price
+# show_original_range?
+# show_sell_range?
+# sku_options</code></pre>
+```
+<!-- </figure> -->
+
+Listing 5 demonstrates how the product interface is modified when presenting a product in the Storefront, such as:
+
+- `purchasable?` is redefined to consider pricing and inventory
+- `variants` is modified to include only those variants that are active and have displayable inventory
+- `browser_title` and `meta_description` are changed to fall back to `name` and `description` when blank
+- `primary_image` encapsulates the logic for determining which image should represent the product when displaying it
+- `breadcrumbs` join the catalog product with its position within the navigation taxonomy
+- `recommendations` join the catalog product with its recommendations
+- Various methods related to inventory and pricing join the catalog product with those subsystems
+
+In all cases, the changes to the interface reflect the context of a consumer shopping the Storefront and present a product which aligns with the consumer’s expectations of the “product” concept.
+
+### Administrators’ View of the Catalog Product
+
+Throughout the Admin, each catalog product is wrapped in an instance of `Admin::ProductViewModel` for presentation. This view model similarly extends and augments the catalog product interface, but for a different context: administrators responsible for managing the catalog and store.
+
+<!-- <figure id="listing-6">
+  <figcaption>
+    <p>Listing 6</p>
+    <p>The Admin view model extends the catalog product interface</p>
+  </figcaption> -->
+
+Listing 6
+The Admin view model extends the catalog product interface
+
+```ruby
+changes_to_the_product_interface =
+  Workarea::Admin::ProductViewModel.instance_methods(false) &amp;
+    Workarea::Catalog::Product.instance_methods
+
+puts changes_to_the_product_interface.sort
+# categories
+
+additions_to_the_product_interface =
+  Workarea::Admin::ProductViewModel.instance_methods(false) -
+    Workarea::Catalog::Product.instance_methods
+
+puts additions_to_the_product_interface.sort
+# analytics
+# available_inventory
+# categorization
+# content
+# customization_options
+# default_category
+# displayable?
+# featured_categories
+# has_prices?
+# ignore_inventory?
+# images_by_option
+# inventory
+# on_sale?
+# one_price?
+# options
+# original_max_price
+# original_min_price
+# pricing
+# pricing?
+# primary_image
+# rules_categories
+# sales
+# sell_max_price
+# sell_min_price
+# show_original_range?
+# show_sell_range?
+# storefront_recommendations
+# storefront_view_model
+# templates
+# timeline
+# variant_sell_price</code></pre>
+```
+<!-- </figure> -->
+
+Listing 6 demonstrates the changes to the product interface that make the product suitable for presentation within the Admin. For instance:
+
+- `analytics` provides analytics data to present insights to the retailer
+- `categories` changes to a more sophisticated query that includes the categories that match the product according to product rules, and additional methods related to product categorization are added
+- Methods such as `customization_options` and `templates` are used to present menus for product administration
+- Remarkably, `storefront_view_model` and `timeline` each return an additional view model wrapping the same catalog product
+
+In all of these examples, the changes reflect the needs of an administrator rather than a consumer.
+
+Admins can toggle between these differing views of the same product using links in the Admin toolbar (in the Storefront) and the “View on Storefront” link (in the Admin).
+
+## Managing Products, Variants & Product Images
+
+The Admin view of the product, introduced above, is the primary means for admins to manage catalog products, variants, and product images within Workarea. Workarea 3.3 also introduces data files, allowing admins to import and export data from JSON and CSV files for integration with another system or software application. Developers have additional access to programmatic interfaces with which they can extend the platform, and a command line interface for executing developer-only tasks, such as running seeds.
+
+### Admin Web Interface
+
+Admin users with catalog access can manage products, variants, and product images through the Admin web interface. At a glance, this interface provides the ability to:
+
+- Search, browse, and show existing products
+- From a product show page:
+  - Edit the product’s fields
+  - Access the product’s embedded collections:
+    - Create, edit, delete, and re-order images
+    - Credit, edit, delete, and re-order variants
+  - Manage the recommendations settings for the product
+  - Manage the product’s categorization
+  - Access a timeline of past and upcoming activity on the product
+  - Access comments about the product from other admins or write your own comments
+  - View insights based on Workarea analytics
+  - Create a new product based on the current product (copy product)
+- From the products index page:
+  - Search, sort, filter, and select to refine results for further action
+  - Edit each selection sequentially, bulk edit, or bulk delete
+  - Import or export
+  - Create a new product
+
+Refer to figures 3, 4, and 5.
+
+<figure id="figure-5">
+  <figcaption>
+    <p>Figure 5</p>
+    <p>Editing product fields in the Admin</p>
+  </figcaption>
+  <p><%= image_tag "images/editing-product-fields-in-the-admin.png", alt: "Editing product fields in the Admin" %></p>
+</figure>
+
+Since products and variants are releasable, edits may publish immediately or in the future (with a release).
+
+Creating new products and copying products use multi-step workflows because both actions affect multiple models: the product, its embedded collections (variants and images), and the product’s categorization and navigation.
+
+Plugins and applications extend this interface, so your application may include additional features not listed above.
+
+### Data Files
+
+Workarea 3.3 introduces importing from and exporting to data files (JSON and CSV). Imports/exports are accessible through the Admin, so administrators can use this feature to integrate Workarea with another software system (for example, importing catalog data exported from a warehouse, inventory, or POS system) or to view/edit Workarea data in another software application (such as a spreadsheet). Improvements to this feature are planned, such as a plugin to allow scheduling of imports and exports. A future guide will cover this feature in detail for developers.
+
+### Command Line & Programmatic Interfaces
+
+Since developers are typically super admins, they can use all the features of the Admin web interface.
+
+However, they can also complete developer-only tasks related to product management through a command line interface. These tasks require shell access to the particular environment and include:
+
+- [Seeding](seeds.html#seeding)
+- Running repetitive actions with Rails _tasks_
+- Running one-off actions non-interactively with Rails _runner_
+- Running one-off actions interactively with Rails _console_
+
+Developers also have access to application and platform source code (through gems and git repositories), allowing platform extensions that facilitate product management. Examples of this are:
+
+- Extending existing or adding new products [seeds](seeds.html) (See `Workarea::ProductsSeeds`)
+- Using existing [test factories](testing.html#factories) within your own [tests](testing.html#writing-new-tests) and [test decorators](testing.html#writing-test-decorators) and extending test factories as needed (See `Workarea::Factories::Catalog`)
+- Extending existing or adding new [workers](workers.html) to manage products according to a schedule or in response to events
+
+Finally, the <cite>Workarea API</cite> plugin provides a JSON over HTTP interface which allows management of products, variants, and product images. This allows for management of these models programmatically over the network. For example, another service can “push” product data to Workarea according to a schedule or events within the other system.
+
+### Product State
+
+Regardless of interface, be aware of application and document states affecting a given product.
+
+The current Rails environment (and current _site_ if using <cite>Workarea Multi Site</cite>) determine the database to which the MongoDB driver is connected. Therefore the entire catalog products collection will vary on these states.
+
+Furthermore, the current release and current locale may affect the field values of each product. All field values may vary by release (except for `slug`, which is explicitly not releasable), and the values of internationalized fields may vary by locale.
+
+It’s also important to understand how administrable fields affect the state of a product when presenting it to consumers in the Storefront. Administration of `active` (products and variants), `purchasable`, `template`, `position` (variants and images), and the administration and availability of inventory and pricing have various effects on products presented in the Storefront (see Product State While Browsing for browsing examples; product showing examples will be included in a future update).
+
+## Merchandising & Browsing the Storefront
+
+Beyond managing the products, administrators need to organize them within the store. Although consumers can navigate to products directly by their slugs (see [Navigable](navigable.html)), this has limited application outside of social media and email marketing. Consumers depend on the store to lead them to the merchandise they are looking for.
+
+Admins leverage this by managing the shopping experience in a way that entices consumers to buy. This process is called <dfn>merchandising</dfn> and involves a combination of automation (search, recommendations, analytics) and administration (navigation, content, pages, categories, search results customizations, recommendations settings, pricing, discounts). Administrators can manage what products are presented to consumers, along with where, when, and how.
+
+### Presenting Results
+
+As a result of merchandising, consumers experience products in a variety of places in the Storefront, such as:
+
+- Full page browsing results like categories and search results
+- Autocomplete results for quick search as you type navigation
+- Content within layouts, navigation menus, content pages, system pages, categories, search results
+- Recommendations within layouts, detail pages, carts, emails, and content
+
+Many of these instances are displaying the products returned as the “results” of one or more API calls to Workarea subsystems, such as analytics, recommendations, and search. API calls of this sort each return an ordered collection of catalog product documents or document IDs (so the documents can be subsequently fetched from MongoDB) for a given query or other criteria. For example, the results could be products:
+
+- matching a consumer's search query, possibly customized by an administrator
+- matching a category, based on product rules and/or featured products
+- recommended based on what's in the consumer's cart
+- identified as top sellers or trending, based on analytics
+
+In each case, the products that make up the results are each wrapped in an appropriate product view model and presented to the consumer, as described above in Presenting a Product.
+
+Similar processes present products to administrators in the Admin within a variety of browsing contexts (search results, jump-to menu, index pages, dashboards).
+
+### Additional Product Representations
+
+To produce the product results described above, some Workarea subsystems maintain their own representations of each catalog product. These additional models and their uses are not covered here in detail but are introduced to provide a complete picture of the “product” concept. Just as each item of the retailer's catalog is modeled across subsystems, so is each catalog product.
+
+#### Analytics Products
+
+Workarea's analytics module stores an <dfn>analytics product</dfn> (see `Analytics::Product`) in MongoDB for each catalog product. Analytics products collectively provide the necessary data for product scores and aggregations, such as top sellers, most popular, and average selling price.
+
+#### Recommendations Settings
+
+The Workarea recommendations subsystem stores <dfn>recommendations settings</dfn> (see `Recommendations::Settings`) in MongoDB for each catalog product. Recommendations settings allow for administration of product recommendations, such as manually assigned recommendations, and the priority of sources used to provide automated recommendations.
+
+#### Search Products
+
+To facilitate real-time [search](searching.html), Workarea stores multiple search documents in Elasticsearch for each catalog product. Unlike analytics products and recommendations settings, search product documents are derived directly from the corresponding catalog product documents. [Search models](searching.html#search-models_9) such as `Search::Admin::CatalogProduct` and `Search::Storefront::Product` transform catalog product documents, joining fields within and across models as necessary, producing representations of the products suitable for real-time, full-text search (including matching, filtering, and sorting).
+
+The various representations of a product are related by catalog product ID. The following example demonstrates these relationships.
+
+```ruby
+catalog_product_id = "02B81A9D07"
+
+catalog_product =
+ Workarea::Catalog::Product.find(catalog_product_id)
+
+analytics_product =
+  Workarea::Analytics::Product.find(catalog_product_id)
+
+recommendations_settings =
+  Workarea::Recommendations::Settings.find(catalog_product_id)
+
+search_products =
+  Workarea.elasticsearch.search(
+    index: '',
+    body: {
+      query: {
+        match: {
+          '_id' => "product-#{product_id}"
+        }
+      }
+    })['hits']['hits']
+```
+
+In the example above, `search_products` returns a collection because there are multiple search products for each catalog product (one for each Elasticsearch index; the exact number depends on several factors, such as the number of configured locales and which plugins are installed). Also note the search product IDs are prepended with `"product-"`. Each Elasticsearch index contains documents derived from various Mongoid document types, so the prefix is necessary to ensure uniqueness.
+
+Remember, the product representations described in this section are used to determine _which_ products to show to consumers, but they aren't used to _display_ the products. That responsibility belongs to the catalog product documents (and view models).
+
+### Product State While Browsing
+
+As consumers browse the Storefront, the display of products is affected by various application and document states. The current Rails environment, the current locale, and the current site (if multi site) affect which Mongo database and Elasticsearch indexes are queried for products. Furthermore, the state of each Mongo document is affected by current locale and current release (release is applicable only when previewing the Storefront as an admin).
+
+#### Product Inclusion
+
+Each of the merchandising subsystems introduced above has its own logic to determine which products are returned for a given query or criteria. In all cases, _inactive products are excluded from results_; that is, they aren't displayed to consumers in the Storefront. A product's activeness is administrable; the product and each of its variants has an `active` field. The value of this field varies by release and locale, so each combination of those application states may produce a different value for `active`. Furthermore, a product is considered active only if one or more of its embedded variants are also active.
+
+```ruby
+product =
+ Workarea::Catalog::Product.create(name: 'Keyed Padlock')
+
+variant =
+  product.variants.create(sku: 'KEYPAD-S-1-14')
+
+variant.active?
+# => true
+
+product.active?
+# => true
+
+variant.update_attributes(active: false)
+
+variant.active?
+# => false
+
+product.active?
+# => false
+```
+
+#### Field Inclusion & Values
+
+For each product that _is_ displayed, a view model and several partials and UI components are responsible for presenting the product. For example, the following ingredients may go into displaying a product in a browsing context within the Storefront:
+
+- `Workarea::Storefront::ProductViewModel`
+- _workarea/storefront/products/\_summary.html.haml_
+- _workarea/storefront/products/\_pricing.html.haml_
+- _workarea/storefront/products/\_price.html.haml_
+- `.product-summary`
+- `.product-prices`
+
+Each of these is involved in determining which fields are included/excluded and how they are arranged.
+
+Furthermore, the value of each field is subject to the current locale and current release (if present). The locale affects all internationalized fields, while the release affects nearly all fields.
+
+#### Primary Image
+
+Lastly, the image used to represent the product while browsing—the product's primary image—is determined by logic in the view model used to present the product. The behavior may be affected by plugins and extensions, but the default logic is to use the _first_ image, according to the administrable `position` of each image.
+
+The following example re-uses the product and images created in Catalog Product Images.
+
+```ruby
+# the product has 2 images
+catalog_product.images.map(&:name)
+# => ["3_years.jpg", "5_years.jpg"]
+
+# the "3_years" image is positioned first
+catalog_product.images.map(&:position)
+# => [0, 1]
+
+# initialize a Storefront view model
+storefront_product =
+  Workarea::Storefront::ProductViewModel.wrap(catalog_product)
+
+# the "3_years" image is the primary image
+storefront_product.primary_image.name
+# => "3_years.jpg"
+```
+
+![](images/3-years-primary-image.png)
+
+```ruby
+# swap the image positions
+catalog_product.images.first.update_attributes(position: 1)
+catalog_product.images.second.update_attributes(position: 0)
+catalog_product.images.map(&:position)
+# => [1, 0]
+
+# re-initialize the view model to simulate a new request
+# (primary_image is cached for the duration of each request)
+storefront_product =
+  Workarea::Storefront::ProductViewModel.wrap(catalog_product)
+
+# now "5_years" is the primary image
+storefront_product.primary_image.name
+# => "5_years.jpg"
+```
+
+![](images/5-years-primary-image.png)
+
+If the product has no images, the placeholder image is used.
+
+```ruby
+new_storefront_product =
+  Workarea::Storefront::ProductViewModel
+    .wrap(Workarea::Catalog::Product.new)
+
+new_storefront_product.primary_image.name
+# => "product_placeholder.jpg"
+```
+
+## Showing Products
+
+After browsing to narrow the catalog to a specific product, the _show_, or _detail_, page presents the product to the consumer with additional details: more images, larger images, a full description, recommendations, etc. Refer to Figure 1 for an example. The product show view presents the product's options, allowing the consumer to reduce the product to a specific item for purchase.
+
+### Product Options
+
+Conceptually, <dfn>product options</dfn> are the distinct values from which a consumer may choose to reduce a product (a group of items) to a specific item (identified by its SKU) for purchase. The options are derived from the collective details of the product's variants, after flattening each member's values. Concretely, in code and UI, the term "options" may refer to several different data structures and UI abstractions, but in each instance, the usage is generally aligned with the concept of product options just described.
+
+Options (for example: Blue, Red, Large, Small) are typically grouped by name or key (for example: Color, Size) and presented as a multi-dimensional matrix, where the intersections represent the uniquely identifiable items that make up the product. To make this concrete, review the Keyed Padlock product introduced above. That product's variants collectively have 6 unique values, organized into 3 groupings.
+
+```ruby
+option_groupings =
+  keyed_padlock.variants.map(&:details).map(&:keys).flatten.uniq.sort
+options =
+  keyed_padlock.variants.map(&:details).map(&:values).flatten.uniq.sort
+
+option_groupings.count
+# => 3
+
+puts option_groupings
+# Shackle Diameter
+# Shackle Length
+# Shackle Material
+
+options.count
+# => 6
+
+puts options
+# 1"
+# 1/2"
+# 1/4"
+# 2"
+# Brass
+# Steel
+```
+
+How these options are presented to consumers varies by template (templates are covered next). The following image shows the product displayed using the option selects template.
+
+![](images/option-selects-template.png)
+
+Since the data is well designed and managed to this point, selecting a value from each of the 3 selects matches exactly 1 variant within the product. The SKU of that variant is used to identify the item to be purchased if the consumer adds to cart.
+
+### Product Templates
+
+Each product has an administrable template which is managed by admins and controls the presentation of the product in the Storefront. Specifically, each template is a combination of a view model and partial used to display the product in the Storefront.
+
+Workarea (since v3.3) includes 3 templates: Generic, Option Selects, and Option Thumbnails. However, your application may include more templates, since plugins and applications can add their own templates (see [Add, Remove, or Change a Product Template](add-remove-or-change-a-product-template.html)).
+
+The following snippets provide some examples of how to find which plugins are available to your application and how to find the relevant code for the templates. These examples are for an application with several plugins installed and its own custom "Pre Owned" template.
+
+List the templates offered for each product within the Admin:
+
+```ruby
+puts Workarea.config.product_templates.sort
+# gift_card
+# option_selects
+# option_thumbnails
+# pre_owned
+# swatches
+# test_product
+```
+
+From the shell, list all product template view model and partial source code files that exist within your application and the specific version of the platform and plugins you are running. You can also do this search from your editor if that is preferrable.
+
+```bash
+$ find . $(bundle show --paths) -type f -path '*app*view*workarea*storefront*product*templates*' | grep -o -e 'workarea-.*$' -e '^\..*$' | sort
+./app/view_models/workarea/storefront/product_templates/pre_owned_view_model.rb
+./app/views/workarea/storefront/products/templates/_pre_owned.html.haml
+workarea-gift_cards-3.4.0/app/view_models/workarea/storefront/product_templates/gift_card_view_model.rb
+workarea-gift_cards-3.4.0/app/views/workarea/storefront/products/templates/_gift_card.html.haml
+workarea-storefront-3.3.2/app/view_models/workarea/storefront/product_templates/option_selects_view_model.rb
+workarea-storefront-3.3.2/app/view_models/workarea/storefront/product_templates/option_thumbnails_view_model.rb
+workarea-storefront-3.3.2/app/view_models/workarea/storefront/product_templates/test_product_view_model.rb
+workarea-storefront-3.3.2/app/views/workarea/storefront/products/templates/_generic.html.haml
+workarea-storefront-3.3.2/app/views/workarea/storefront/products/templates/_option_selects.html.haml
+workarea-storefront-3.3.2/app/views/workarea/storefront/products/templates/_option_thumbnails.html.haml
+workarea-storefront-3.3.2/app/views/workarea/storefront/products/templates/_test.html.haml
+workarea-swatches-1.0.1/app/view_models/workarea/storefront/product_templates/swatches_view_model.rb
+workarea-swatches-1.0.1/app/views/workarea/storefront/products/templates/_swatches.html.haml
+```
+
+The Generic template uses the default Storefront view model, while other templates use a more specialized view model that inherits from the default Storefront product view model (for example, Option Selects uses `Storefront::ProductTemplates::OptionSelectsViewModel`).
+
+### Product State While Showing
+
+Within the Storefront, several states affect the display of a product when showing.
+
+#### Product Display
+
+Whether a product displays at all is affected by its activeness. Consumers cannot view inactive products. Navigating to an inactive product (e.g. from an email or bookmarked URL) results in `InvalidDisplay` (404 response).
+
+![](images/invalid-display.png)
+
+Admins can view inactive products in the Storefront.
+
+For a product to be considered active, it's `active` field must be `true` and it must have at least one active variant. Remember that the active field's value varies by locale (since Workarea 3.3).
+
+#### Field Inclusion & Values
+
+When showing a product in the Storefront, the product's template affects which fields are included/excluded, their current values, and how they are presented (the overall layout/design for the product).
+
+For each product that _is_ displayed, a view model and several partials and UI components are responsible for presenting the product. For example, the following ingredients may go into displaying a product in a product detail context within the Storefront:
+
+- `Workarea::Storefront::ProductViewModel`
+- _workarea/storefront/products/show.html.haml_
+- _workarea/storefront/products/templates/\_generic.html.haml_
+- _workarea/storefront/products/\_pricing.html.haml_
+- _workarea/storefront/products/\_price.html.haml_
+- `.product-detail-container`
+- `.product-details`
+- `.product-prices`
+
+Each of these is involved in determining which fields are included/excluded and how they are arranged.
+
+Furthermore, the value of each field is subject to the current locale and current release (if present). The locale affects all internationalized fields, while the release affects nearly all fields.
+
+#### Inclusion of Options
+
+Since a product's options are derived from its variants' details, _which options_ are included is determined in part by _which variants_ are included. The Storefront product view model redefines the catalog product's `variants` collection to include only those variants that are active and have displayable inventory (the concept of displayable inventory is outside the scope of this guide). Therefore, variants that are inactive or whose inventory is not displayable are not considered when creating the options for the product.
+
+The following examples demonstrates how the product's variants collection and options are modified when presented for display in the Storefront.
+
+```ruby
+# find the 'Tropical Drink Mix' product'
+model = Workarea::Catalog::Product.find_by(name: 'Tropical Drink Mix')
+# wrap it in a Storefront view model
+view_model = Workarea::Storefront::ProductViewModel.wrap(model)
+
+# The variants count is the same at this point
+model.variants.count
+# => 3
+view_model.variants.count
+# => 3
+```
+
+The product therefore has 3 variants and 3 options:
+
+![](images/3-variants-3-options.png)
+
+```ruby
+# set one of the variants to inactive
+model.variants.second.update_attributes!(active: false)
+# the model still has 3 variants
+model.variants.count
+# => 3
+
+# re-create the view model (to bust cache)
+view_model = Workarea::Storefront::ProductViewModel.wrap(model)
+# the Storefront view of the product has only 2 variants
+view_model.variants.count
+# => 2
+
+# choose another variant and make the corresponding
+# inventory undisplayable
+model.variants.last.tap do |variant|
+  Workarea::Inventory::Sku
+    .find(variant.sku)
+      .update_attributes!(policy: 'standard', available: '0')
+end
+model.variants.count
+# => 3
+
+# now the Storefront view of the product contains only a single variant
+view_model = Workarea::Storefront::ProductViewModel.wrap(model)
+view_model.variants.count
+# => 1
+```
+
+Now the product has 3 variants, but only 1 option, so the option select menu is removed in the Storefront:
+
+![](images/3-variants-1-option.png)
+
+#### Presentation of Options
+
+You saw above an image of the Keyed Padlock product displayed using the Option Selects template, where the options (for example Steel, Brass, 1", 2") are grouped by key (Shackle Material, Shackle Length). In contrast to this, the Generic template groups options by variant, essentially converting the matrix of options into a flat list of items.
+
+```ruby
+# change the 'Keyed Padlock' product to the generic template
+keyed_padlock =
+  Workarea::Catalog::Product.find_by(name: 'Keyed Padlock')
+keyed_padlock
+  .update_attributes!(template: 'generic')
+```
+
+The Keyed Padlock displayed with the Generic template:
+
+![](images/generic-template.png)
+
+The Option Thumbnails template groups options by details key, like the Option Selects template. But it uses a different UI to present the options, which includes a thumbnail image representing the option, when available.
+
+```ruby
+# change the 'Extended Service Plan' product
+# to the option thumbnails template
+extended_service_plan =
+  Workarea::Catalog::Product.find_by(name: 'Extended Service Plan')
+extended_service_plan
+  .update_attributes!(template: 'option_thumbnails')
+```
+
+An example of Option Thumbnails:
+
+![](images/option-thumbnails-template.png)
+
+#### Tracking Option State
+
+As a consumer selects options in the Storefront, the UI updates asynchronously. The state of the option selections is stored as params in the URL.
+
+The generic template prefers the `sku` param (e.g. `sku=KEYPAD-S-1-12`, while the other templates prefer params that match specific options (e.g. `Color=Blue,Size=Large`). However, either type of param is respected by all templates. Requesting a product with these URL params will attempt to restore the indicated option state.
+
+#### Presentation of Product Images, Pricing & Inventory
+
+Which images are shown and which image is selected depends on the product template and which options are selected. Remember that each image may be associated with a product option.
+
+The generic template always displays all the product images. The following examples use the Extended Service Plan product from above, shown below using the generic template.
+
+![](images/generic-product-template-images-no-options-selected.png)
+
+When options are selected, the generic template will try to find images matching those options and will select the first such image. In the following screenshot, the "5 years" option is selected, so the image corresponding to that option is selected.
+
+![](images/generic-product-template-images-options-selected.png)
+
+Product templates other than generic will show _only_ the images which match the selected options. The screenshot below changes the template to Option Selects. The image matching the selected "5 years" option is selected, and is the only image displayed. The other image does not match this option and is hidden.
+
+![](images/option-selects-product-template-images-options-selected.png)
+
+When no options are selected in this type of template, only the images that match the options of the product's primary image will be displayed (since Workarea 3.3.2).
+
+The selection of options also affects the display of pricing and inventory. The specifics of pricing and inventory are out of scope for this guide, but notice in the following examples how the selection of options affects the display of pricing and inventory. Once enough options are selected to identify a specific item, the item's SKU is used to look up specific pricing and inventory information. Without a specific SKU, the information is generalized (price ranges) or omitted (inventory).
+
+ once the options match a specific sku, we know the exact price for the given sku and quantity
+
+The following example contains price ranges and no inventory status because a specific item has not been selected:
+
+![](images/price-display-no-options.png)
+
+In the next example a specific item is selected, so distinct pricing and inventory information is shown:
+
+![](images/price-display-options-selected.png)
+
+#### Product Purchasability
+
+For a product to be purchasable, it must have at least 1 active variant, the inventory related to that variant's SKU must be purchasable, and the pricing related to the variant's SKU must have an active price. When these conditions are not met, the product is displayed, but consumers cannot purchase any of its items:
+
+![](images/unpurchasable-product.png)
+
+## Summary
+
+- Workarea groups related buy varying items into catalog products, where the shared details are stored on the product, and the details on which the items vary are stored on embedded variants
+- Each variant stores a SKU, a retailer-provided ID which encodes the variant’s distinct details and identifies the item throughout the Workarea system and across other systems
+- Products also embed images, each of which may be associated with a particular product option (for example, the color _indigo_)
+- Workarea’s inventory, pricing, and shipping subsystems store additional records for each item; records are related by SKU
+- View models “wrap” catalog products, extending the product interface for presentation within a particular context (such as Admin or Storefront); this involves joining the catalog product with related models
+- Administrators manage products and related models through the Admin web interface and data files, which allow import from and export to other software systems or applications
+- Developers can additionally manage the catalog through a command line interface, through extension of the Ruby interface, and using the JSON/HTTP interface provided by the Workarea API plugin
+- Merchandising is a combination of automation and administration which determines the placement of products within the Storefront and entices consumers to buy
+- A variety of application and document states affect the presentation of products to consumers in the Storefront
+- A Storefront product show page presents the product details and options to consumers, so they can narrow the product to a specific item for purchase
+
+## Notes
+
+[1]&nbsp;If you’re working with a catalog that isn’t organized this way, storing exactly one variant per product may be preferable.
+
+[2]&nbsp;Upcoming additions to this guide will explicitly define and explain the concept of options, and further explore product browsing and showing.
+
+[3]&nbsp;Templates and options will be covered in a future update to this guide.
+
+[4]&nbsp;However, you may want to store the colors as separate values for the product’s filters. Filters will be covered in a forthcoming guide on searching products.
+
+[5]&nbsp;Upcoming additions to this guide will provide additional examples of this in the context of showing products in the Storefront.
+
+[6]&nbsp;You can change the image file used for the product placeholder image. A forthcoming guide on extending product images will provide step-by-step instructions.
+
+[7]&nbsp;A future section on templates will cover additional product view models in the Storefront.

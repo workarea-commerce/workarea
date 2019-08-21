@@ -1,0 +1,21 @@
+/*------------------------------------*\
+    #CART
+\*------------------------------------*/
+
+.cart {}
+
+    .cart__continue-shopping {}
+
+    .cart__checkout-action-group {
+        @include respond-to($medium-breakpoint) {
+            text-align: right;
+        }
+    }
+
+        .cart__checkout-action {
+            margin-bottom: $vertical-margin;
+        }
+
+    .cart__promo-code {
+        margin-bottom: $vertical-margin;
+    }

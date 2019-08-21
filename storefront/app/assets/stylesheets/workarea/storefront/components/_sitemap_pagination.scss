@@ -1,0 +1,26 @@
+/*------------------------------------*\
+    #SITEMAP-PAGINATION
+\*------------------------------------*/
+
+$sitemap-pagination-navigation-disabled-color:  $gray !default;
+
+
+.sitemap-pagination {
+    @extend %inline-list;
+    margin: $vertical-margin 0;
+    text-align: center;
+}
+
+    .sitemap-pagination__node {
+        margin: 0 $spacing-unit;
+    }
+
+        .sitemap-pagination__link {}
+
+        .sitemap-pagination__navigation {
+            font-weight: bold;
+        }
+
+        .sitemap-pagination__navigation--disabled {
+            color: $sitemap-pagination-navigation-disabled-color;
+        }

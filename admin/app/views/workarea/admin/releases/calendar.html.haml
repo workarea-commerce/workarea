@@ -1,0 +1,54 @@
+- @page_title = t('workarea.admin.releases.calendar.title')
+
+.view
+  .view__header
+    .grid.grid--middle.grid--center
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to "↑ #{t('workarea.admin.releases.show.index_link')}", releases_path
+          %h1.heading--no-margin= t('workarea.admin.releases.calendar.title')
+
+  .view__container
+    .calendar
+
+      = link_to inline_svg('workarea/admin/icons/arrow_up.svg', title: t('workarea.admin.releases.calendar.previous_week'), class: 'calendar__control-icon'), calendar_releases_path(start_date: @calendar.prev_week), class: 'calendar__control calendar__control--prev'
+
+      .calendar__today-button
+        = button_tag t('workarea.admin.releases.calendar.today'), type: 'button', class: 'button button--small', data: { calendar_today_button: '' }
+
+      %table.calendar__table
+        %thead
+          %tr
+            - @calendar.weekdays.each do |weekday|
+              %th.calendar__weekday
+                %span.calendar__weekday-name= weekday
+
+        %tbody
+          - @calendar.days.each_slice(7).with_index do |week, i|
+            %tr
+              - week.each do |day|
+                %td.calendar__header= month_name_needed?(day.first, @calendar.days) ?  month_and_year_from_date(day.first.to_date) : '&nbsp;'.html_safe
+            %tr
+              - week.each do |day, releases|
+                %td{ class: calendar_day_classes(day) }
+                  .calendar__day-header
+                    %span.calendar__day-number= calendar_day_number(day)
+
+                  - releases.each do |release|
+                    = link_to release_path(release), class: calendar_release_classes(day, release), title: release.name, data: { calendar_release_id: release.id }, style: calendar_release_styles(release) do
+                      %span.calendar__release-text
+                        %span.calendar__release-time= local_time(release.published_at || release.publish_at, '%l:%M%P')
+                        %span.calendar__release-name= release.name
+
+                  - if current_user.can_publish_now?
+                    - if Date.parse(day).today?
+                      = link_to create_releases_path(release: { publish_at: Time.current.end_of_day - 4.minutes }), class: 'calendar__new-release' do
+                        %span.calendar__new-release-text= t('workarea.admin.releases.calendar.add_new_release')
+                        = inline_svg('workarea/admin/icons/add.svg', title: t('workarea.admin.releases.calendar.add_new_release'), class: 'calendar__new-release-icon')
+
+                    - elsif Time.parse(day).future?
+                      = link_to create_releases_path(release: { publish_at: Time.parse(day) }), class: 'calendar__new-release' do
+                        %span.calendar__new-release-text= t('workarea.admin.releases.calendar.add_new_release')
+                        = inline_svg('workarea/admin/icons/add.svg', title: t('workarea.admin.releases.calendar.add_new_release'), class: 'calendar__new-release-icon')
+
+      = link_to inline_svg('workarea/admin/icons/arrow_down.svg', title: t('workarea.admin.releases.calendar.next_week'), class: 'calendar__control-icon'), calendar_releases_path(start_date: @calendar.next_week), class: 'calendar__control calendar__control--next'

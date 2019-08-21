@@ -1,0 +1,47 @@
+- @page_title = t('workarea.admin.email_signups.index.page_title')
+
+.view
+  .view__header
+    .grid.grid--middle.grid--center
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to "↑ #{t('workarea.admin.email_signups.index.dashboard_link')}", marketing_dashboards_path, class: 'view__dashboard-button'
+          %h1= t('workarea.admin.email_signups.index.heading')
+
+  .view__container
+    .browsing-controls.browsing-controls--with-divider
+      %p.browsing-controls__count{ data: { browsing_controls_count: @email_signups.total_count } }
+        = t('workarea.admin.email_signups.index.signup_pluralize', count: @email_signups.total_count)
+
+    - if @email_signups.any?
+      %table.index-table
+        %thead
+          %tr
+            %th.index-table__control-cell
+              .checkbox
+                = check_box_tag 'select_all', nil, false, id: 'select_all', class: 'checkbox__input', data: { bulk_action_select_all: '' }
+                = label_tag 'select_all', t('workarea.admin.bulk_actions.select_all'), class: 'checkbox__label'
+            %th= t('workarea.admin.fields.email')
+            %th= t('workarea.admin.fields.created_at')
+            %th
+        %tbody
+          - @email_signups.each do |signup|
+            %tr.index-table__row
+              %td.index-table__control-cell
+                .checkbox
+                  = check_box_tag 'global_id', signup.to_gid_param, false, class: 'checkbox__input', id: dom_id(signup), data: { bulk_action_item: '' }
+                  = label_tag dom_id(signup), '', class: 'checkbox__label', title: t('workarea.admin.bulk_actions.add_summary_button')
+              %td
+                = signup.email
+              %td= local_time_ago(signup.created_at)
+              %td
+                = link_to email_signup_path(signup), class: 'text-button text-button--destroy', data: { method: 'delete', confirm: t('workarea.admin.actions.delete_confirmation') } do
+                  = t('workarea.admin.actions.delete')
+                  = inline_svg('workarea/admin/icons/delete.svg', class: 'text-button__icon', title: t('workarea.admin.actions.delete'))
+      - if @email_signups.total_pages > 1
+        = render 'workarea/admin/shared/pagination', collection: @email_signups
+
+  .workflow-bar
+    .grid
+      .grid__cell.grid__cell--50
+        = render 'workarea/admin/shared/bulk_actions', klass: Workarea::Email::Signup

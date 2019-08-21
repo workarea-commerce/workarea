@@ -1,0 +1,25 @@
+<div class='direct-upload__heading'>
+    <div class='loading'></div>
+</div>
+<div class='direct-upload__info'>
+    <%= I18n.t('workarea.admin.direct_uploads.processing_html', {
+        count: 0,
+        total: total
+    }) %>
+</div>
+<div class='direct-upload__table'>
+    <table>
+        <thead>
+            <tr class='direct-upload__table-row'>
+                <th class='direct-upload__table-cell'>
+                    <%= I18n.t('workarea.admin.direct_uploads.file_name') %>
+                </th>
+                <th class='direct-upload__table-cell direct-upload__table-cell--file-status'>
+                    <%= I18n.t('workarea.admin.direct_uploads.file_status') %>
+                </th>
+            </tr>
+        </thead>
+        <tbody data-direct-upload-table-body=''>
+        </tbody>
+    </table>
+</div>

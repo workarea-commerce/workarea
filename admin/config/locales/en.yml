@@ -1,0 +1,3609 @@
+en:
+  workarea:
+    admin:
+      actions:
+        cancel: Cancel
+        delete: Delete
+        delete_confirmation: Are you sure you want to delete?
+        drag: Drag
+        edit: Edit
+        remove: Remove
+        save: Save
+        update: Update
+        view: View
+        view_on_storefront: View on Storefront
+        expand: Expand
+      activities:
+        a_content_block: a content block
+        a_product: a product
+        a_release: a release
+        a_tax_category: a tax category
+        a_tax_rate: a tax rate
+        a_variant: a variant
+        a_category: a category
+        bulk_action_order_export_create_html: exported orders
+        bulk_action_pricing_discount_code_list_export_create_html: exported promo codes
+        bulk_action_user_export_create_html: exported people
+        catalog_category_create_html: created the %{name} category
+        catalog_category_destroy_html: removed the %{name} category
+        catalog_category_update_html: updated %{fields} on the %{name} category
+        catalog_category_product_rule_create: created rule on %{category} to include products whose %{name} does %{operator} '%{value}'
+        catalog_category_product_rule_update: updated value for %{name} rule on %{category} to %{operator} '%{value}'
+        catalog_category_product_rule_destroy: removed rule on %{category} for products when %{name} %{operator} '%{value}'
+        catalog_product_create_html: created the %{name} product
+        catalog_product_destroy_html: removed the %{name} product
+        catalog_product_image_create_html: added an image to %{name}
+        catalog_product_image_destroy_html: removed an image from %{name}
+        catalog_product_update_html: updated %{fields} on the %{name} product
+        catalog_product_variant_create_html: added %{name} to %{product_name}
+        catalog_product_variant_destroy_html: removed a variant from %{product_name}
+        catalog_product_variant_update_html: updated %{fields} on the %{name} variant on %{product_name}
+        change:
+          one: change
+          other: "%{count} fields"
+        comment_create_html: posted a comment
+        comment_destroy_html: removed a comment
+        comment_update_html: updated a comment
+        content_asset_create_html: created the %{name} asset
+        content_asset_destroy_html: removed the %{name} asset
+        content_asset_update_html: updated %{fields} on the %{name} asset
+        content_block_create_html: added a %{type} content block to %{name}
+        content_block_destroy_html: removed a %{type} content block from %{name}
+        content_block_update_html: updated %{fields} on the %{name} content block on %{content_name}
+        content_email_update_html: updated %{fields} on %{name} transactional email content
+        content_page_create_html: created the %{name} content page
+        content_page_destroy_html: removed the %{name} content page
+        content_page_update_html: updated %{fields} on the %{name} content page
+        content_update_html: updated %{fields} on the %{name} content
+        filters:
+          all_types: all types of
+          everyone: everyone
+        help_article_create_html: created the %{name} help article
+        help_article_destroy_html: removed the %{name} help article
+        help_article_update_html: updated %{fields} on the %{name} help article
+        help_asset: help asset
+        help_asset_create_html: created a %{link}
+        help_asset_destroy_html: removed a %{link}
+        import_catalog_create: created a catalog import
+        import_redirect_create: created a navigation redirect import
+        import_tax_create: created a tax import
+        inventory_sku_create_html: created the %{name} inventory SKU
+        inventory_sku_destroy_html: removed the %{name} inventory SKU
+        inventory_sku_update_html: updated %{fields} on the %{name} inventory SKU
+        main_dashboard: Main Dashboard
+        modifiers:
+          no_longer_exists: "(no longer exists)"
+          unknown: Unknown
+        navigation_menu_create_html: created the %{name} primary navigation
+        navigation_menu_destroy_html: removed the %{name} primary navigation
+        navigation_menu_update_html: updated %{fields} on the %{name} primary navigation
+        navigation_redirect_create_html: created a redirect from %{from} to %{to}
+        navigation_redirect_destroy_html: removed a redirect from %{from} to %{to}
+        navigation_taxon_create_html: created the %{name} taxonomy
+        navigation_taxon_destroy_html: removed the %{name} taxonomy
+        navigation_taxon_update_html: updated %{fields} on the %{name} taxonomy
+        pricing_discount_code_list_create_html: created the %{name} promo code list
+        pricing_discount_code_list_destroy_html: removed the %{name} promo code list
+        pricing_discount_code_list_update_html: updated %{fields} on the %{name} promo code list
+        pricing_discount_create_html: created the %{name} discount
+        pricing_discount_destroy_html: removed the %{name} discount
+        pricing_discount_update_html: updated %{fields} on the %{name} discount
+        pricing_sku_create_html: created the %{name} pricing SKU
+        pricing_sku_update_html: updated %{fields} on the %{name} pricing SKU
+        release_create_html: created the %{name} release
+        release_destroy_html: removed the %{name} release
+        release_info_html: publishes with %{name}
+        release_published_html: published %{change} for %{name} release
+        release_update_html: updated %{fields} on the %{name} release
+        restore: Restore
+        search_customization_create_html: created search customizations for %{name}
+        search_customization_destroy_html: removed search customizations for %{name}
+        search_customization_update_html: updated %{fields} on the %{name} search customizations
+        search_settings: search settings
+        search_settings_update_html: updated %{fields} on %{link}
+        shipping_service_create_html: created the %{name} shipping service
+        shipping_service_destroy_html: removed the %{name} shipping service
+        shipping_service_update_html: updated %{fields} on the %{name} shipping service
+        show:
+          activity_by: activity by
+          admin_activity: Admin Activity
+          main_dashboard: Main dashboard
+          no_activity: No activity to show
+          show: Show
+          view_all_admin_activity: View all admin activity
+        some_content: some content
+        tax_category_create_html: created the %{name} tax category
+        tax_category_destroy_html: removed the %{name} tax category
+        tax_category_update_html: updated %{fields} on the %{name} tax category
+        tax_rate_create_html: created a tax rate for %{name}
+        tax_rate_destroy_html: removed a tax rate
+        tax_rate_update_html: updated %{fields} on a tax rate on %{name}
+        user_update_html: updated %{fields} on %{name}
+      application_helper:
+        not_applicable: N/A
+        today: Today
+        yesterday: Yesterday
+      date_selector:
+        date_range: "%{starts_at} to %{ends_at}"
+        or_choose: Or choose
+        a_range: a range
+        and: and
+        today: Today
+        yesterday: Yesterday
+        last_week: Last Week
+        last_month: Last Month
+        week_to_date: Week to Date
+        month_to_date: Month to Date
+        quarter_to_date: Quarter to Date
+        year_to_date: Year to Date
+      bookmarks:
+        flash_messages:
+          created: This page has been bookmarked
+          destroyed: This page has been bookmarked
+      bulk_action_deletions:
+        button: Delete
+        confirmation: Are you sure you want to delete %{count} item(s)?
+        edit:
+          title: Delete %{type}
+          selected: '%{count} Selected'
+          view_link: View All Selected %{type}
+          confirm: Confirm and delete
+          confirmation: Are you sure you want to delete %{count}, including the ones below?
+        flash_messages:
+          created: Your deletion request is being processed and will complete shortly.
+        generic_name: Item
+      bulk_action_product_edits:
+        details:
+          add: Add New Attributes
+          names: Attribute Names
+          remove: Remove Existing Details
+        edit:
+          review_changes: Review Changes
+          title: Edit Your Products
+        filters:
+          add: Add New Filters
+          names: Filter Names
+          remove: Remove Existing Filters
+        flash_messages:
+          error: Error
+          publish: Your product edits are being processed. Refresh the page to see changes applied.
+          success: Success
+        inventory:
+          prompt: Select One
+          title: Inventory
+          update: Update SKU Inventory
+          warning: Inventory Warning
+          warning_message: Inventory cannot be updated with Site Planner. Any changes to inventory will apply immediately.
+        label: Products
+        pricing:
+          prices: Update Sku Pricing
+          settings: SKU Pricing Settings
+          title: Pricing
+          info: Prices Info
+          info_message: For products with existing prices, regular and sale prices will be applied to all prices with a minimum quantity of 1.
+        review:
+          no_change: No change
+          save_and_finish: Save and Finish
+          title: Review and Publish Your Edits
+          activate: activate
+          active: Active
+          cancel: Cancel
+          now: Now
+          or_skip_this: or skip this
+          page_title: Publish %{product_name}
+          release_name: Release name
+          save_and_finish: Save and Finish
+          when_does_it_go_live: When does it go live?
+          when_does_it_publish: When does it publish?
+          with_a_new_release: With a new release
+          with_release: With %{release_name}
+          which_release_placeholder: Mother's Day %{year}
+        settings:
+          title: Settings
+        tags:
+          add: Add New Tags
+          remove: Remove Existing Tags
+          tags_note: 'Comma separated: just, like, this'
+        title: Bulk edit products
+        worflow:
+          edit_step: Edit Products
+          publish_step: Publish
+          selected: "%{label} Selected"
+          view_products_link: View Products
+      bulk_action_sequential_product_edits:
+        flash_messages:
+          saved: That product was saved succesfully
+          done: Your changes have been saved, all done.
+        product:
+          attributes: Attributes
+          content: Content
+          images: Images
+          variants: Variants
+          title: "Editing %{product}"
+          previous: Previous
+          description: Make your edits and save them. Your changes will be saved, and we'll send you to the next one.
+          next: Next
+          save_and_continue: Save and Continue
+          save_and_finish: Save and Finish
+        publishing:
+          title: When do these changes go live?
+          make_changes: Make Your Changes
+        label: Products
+        workflow_bar:
+          publishing: Publishing
+          editing: Editing
+          editing_with_count: "Editing %{current} of %{total}"
+          selected: "%{label} Selected"
+          view_products_link: View Products
+      bulk_actions:
+        empty_selection: No selections made for bulk action.
+        add_summary_button: Add to Bulk Action
+        bulk_actions: Bulk Actions...
+        cancel: Cancel
+        deselect_all: Deselect all?
+        go: Go
+        items_selected_to: items selected to
+        select_all: Select all?
+        selected:
+          back_link: Back
+          heading: Selected
+          title: Bulk action
+      cards:
+        attributes:
+          button: Edit Attributes
+          created: 'Created:'
+          modified: 'Modified:'
+          no_value: "(none)"
+          title: Attributes
+        more: "+ %{amount} more"
+      catalog:
+        dashboard_link: Catalog dashboard
+        label: Catalog
+      catalog_categories:
+        cards:
+          attributes:
+            defaults: "(defaults)"
+          featured_products:
+            button: Manage Products
+            description: Featured products appear at the top of the category listing. They can be whatever products you'd like, and don't have to match the category product rules.
+            empty: No featured products.
+            empty_button: Add Products
+            title: Featured Products
+            sparkline_title: Based on units sold over the last three months
+          insights:
+            button: View Details
+            old_label: Past month,
+            orders: orders
+            page_title: Insights on %{category}
+            revenue: revenue
+            title: Insights
+            units_sold: units sold
+            young_label: This week,
+            past_three_months: Past 3 Months
+            views: views
+        edit:
+          client_id_note: Identifies the category for product import
+          filters_note_html: 'Comma separated: just, like, this. If these fields are blank, the global values will be used from %{search_settings_link}.'
+          page_title: Attributes for %{category}
+          search_settings: search settings
+          show_navigation_false: Do not show Navigation
+          show_navigation_true: Show Navigation
+          slug_placeholder: your-slug-here
+          tags_note: 'Comma separated: just, like, this'
+        flash_messages:
+          removed: This category has been removed
+          saved: Your changes have been saved
+        index:
+          add_new_category: Add New Category
+          heading: Categories
+          page_title: Categories
+          no_taxonomy: Not in taxonomy
+          sparkline_title: Based on orders over the last three months
+          category_pluralize:
+            one: "%{count} Category"
+            other: "%{count} Categories"
+        insights:
+          chart_label: Revenue
+          orders: Orders
+          revenue: Revenue
+          views: Views
+          units_sold: Units Sold
+          from_previous: "%{percentage} from previous"
+          skus: SKUs
+          date_range: "%{starts_at} to %{ends_at}"
+          insights_featuring_this_category: Insights Featuring this Category
+        show:
+          delete: Delete
+          delete_confirmation: Are you sure you want to delete?
+        summary:
+          inactive: Inactive
+          no_taxonomy: Not in taxonomy
+          type: Category
+      catalog_product_images:
+        edit:
+          edit_image: Edit Image
+          edit_image_for: Edit Image For
+          image: Image
+          without_options: Images without Options
+        flash_messages:
+          created: Your image has been created
+          removed: Your image has been removed
+          updated: Your image has been updated
+        index:
+          add_new_image: Add New Image
+          create_image: Create Image
+          create_image_disabled_text: Creating Image...
+          delete_confirmation: Are you sure you want to delete this image?
+          delete_image: Delete Image
+          edit_image: Edit Image
+          image: Image
+          images: Images
+          images_for: Images For
+          no_product_images: This product has no images.
+          product_images: Product Images
+          without_options: Images without Options
+      catalog_products:
+        cards:
+          categories:
+            add_categories: Add Categories
+            featured: Featured
+            manage_categories: Manage Categories
+            no_categories: No categories.
+            rules: Rules
+            title: Categories
+            default: "(default)"
+          content:
+            manage_content: Manage Content
+            title: Content
+          images:
+            add_images: Add Images
+            description: Add images to show on the detail page and match them by option.
+            manage_images: Manage Images
+            title: Images
+          insights:
+            average_price: average price
+            button: View Details
+            old_label: Past month,
+            orders: orders
+            revenue: revenue
+            title: Insights
+            units_sold: units sold
+            views: views
+            young_label: This week,
+            past_three_months: Past 3 Months
+          recommendations:
+            add_recommendations: Add Recommendations
+            manage_recommendations: Manage Recommendations
+            no_recommendations: No recommended products
+            title: Recommendations
+          variants:
+            add_variants: Add Variants
+            manage_variants: Manage Variants
+            no_variants: No variants.
+            title: Variants
+        content:
+          page_title: Content for %{product}
+          seo_content: SEO Content
+        customizations:
+          none: None
+        edit:
+          active_title: Active
+          active_info_title: Active Product Info
+          active_info: In addition to this field, a product must have active variants to be considered active.
+          customization_label: Customization
+          details:
+            label: Details
+            learn_more: Learn More
+            name: Name
+            new_attribute_name: New Attribute Name
+            new_attribute_name_note: 'Example: Material'
+            new_attribute_name_placeholder: New Attribute Name
+            new_attribute_value: New Attribute Value
+            new_attribute_value_csv: 'Comma separated: just, like, this'
+            new_attribute_value_note: 'Example: Cotton'
+            new_attribute_value_placeholder: New Attribute Value
+            values: Value(s)
+          filters:
+            label: Filters
+            learn_more: Learn More
+            name: Name
+            new_filter_name: New Filter Name
+            new_filter_name_note: 'Example: Color (cannot be "Type")'
+            new_filter_value: New Filter Value
+            new_filter_value_csv: 'Comma separated: just, like, this'
+            new_fiter_value_note: 'Example: Red'
+            values: Value(s)
+          id_label: ID
+          learn_more: Learn More
+          name_label: Name
+          not_purchasable: Not Purchasable
+          page_title: Attributes for %{product}
+          purchasable: Purchasable
+          purchasable_label: Purchasable
+          slug_label: Product URL
+          slug_note: The URL is auto-generated using the page's name
+          slug_placeholder: your-slug-here
+          tags_label: Tags
+          tags_note: 'Comma separated: just, like, this'
+          template_label: Product Template
+        flash_messages:
+          deleted: Product has been deleted
+          saved: Your changes have been saved
+        index:
+          add_new_product: Add New Product
+          edit: Bulk Edit
+          edit_each: Edit Each
+          heading: Products
+          page_title: Products
+          ignore_inventory: Ignored for %{variants}
+          inventory:
+            zero: None
+            one: 1 unit for %{variants}
+            other: "%{count} units for %{variants}"
+          variant: variant
+          sparkline_title: Based on units sold over the last three months
+          product_pluralize:
+            one: "%{count} Product"
+            other: "%{count} Products"
+          upload_images: Bulk Upload Images
+        insights:
+          average_price: average price
+          chart_label: Revenue
+          orders: Orders
+          page_title: Insights on %{product}
+          revenue: Revenue
+          units_sold: Units Sold
+          views: Views
+          from_previous: "%{percentage} from previous"
+          skus: SKUs
+          date_range: "%{starts_at} to %{ends_at}"
+          insights_featuring_this_product: Insights Featuring this Product
+        show:
+          copy_product: Copy Product
+        summary:
+          add_to_bulk_edit: Add to Bulk Edit
+          inactive: Inactive
+          sold_available: "%{sold} Sold, %{available} Available"
+          type: Product
+        templates:
+          generic: Generic
+      catalog_variants:
+        edit:
+          active_label: Active
+          active_title: Active
+          display_name: Display Name
+          edit: Edit
+          inactive_title: Inactive
+          options:
+            label: Options
+            learn_more: Learn More
+            name: Name
+            new_attribute_name: New Attribute Name
+            new_attribute_name_note: 'Example: Material'
+            new_attribute_name_placeholder: New Attribute Name
+            new_attribute_value: New Attribute Value
+            new_attribute_value_csv: 'Comma separated: just, like, this'
+            new_attribute_value_note: 'Example: Cotton'
+            new_attribute_value_placeholder: New Attribute Value
+            remove: Remove
+            remove_title: Remove %{name} = %{value}
+            values: Value(s)
+          page_title: "%{variant} on %{product}"
+          sku: SKU
+        flash_messages:
+          changes_error: There was a problem saving your changes.
+          removed: This variant has been removed
+          saved: Your changes have been saved
+          sorting_saved: Sorting saved
+        index:
+          active: Active
+          add_new: Add New
+          display_name: Display Name
+          heading: Manage Variants
+          inactive: Inactive
+          inventory: Inventory
+          page_title: Variants for %{product}
+          pricing: Pricing
+          sku: SKU
+          drag_to_rearrange: Drag to rearrange
+          variant_pluralize:
+            one: "%{count} Variant"
+            other: "%{count} Variants"
+        new:
+          display_name: Display Name
+          heading: New Variant
+          options:
+            create_variant: Create Variant
+            label: Options
+            learn_more: Learn More
+            name: Name
+            new_attribute_name: New Attribute Name
+            new_attribute_name_note: 'Example: Material'
+            new_attribute_name_placeholder: New Attribute Name
+            new_attribute_value: New Attribute Value
+            new_attribute_value_csv: 'Comma separated: just, like, this'
+            new_attribute_value_note: 'Example: Cotton'
+            new_attribute_value_placeholder: New Attribute Value
+            remove: Remove
+            remove_title: Remove %{name} = %{value}
+            values: Value(s)
+          page_title: New variant on %{product}
+          sku: SKU
+      categorizations:
+        flash_messages:
+          added: Categorization has been saved
+          removed: Categorization has been removed
+        index:
+          by_being_featured: By being featured
+          by_matching_category_rules: By matching category rules
+          doesnt_match_any_categorys_rules: Doesn't match any category's rules
+          featured_help: This product appears in these categories because it has been manually featured in these categories. There's a shortcut to add below, or visit a category and click the "Featured Products" card to manage featured products.
+          featured_placeholder: Feature in categories...
+          not_featured_in_any_categories: Not featured in any categories
+          page_title: Categories for %{name}
+          rules_help: This product appears in these categories because it matches the product rules setup for them.
+          default_category_info: If active, the default category will be used to generate breadcrumbs for the storefront when this product is navigated to directly. The oldest active category will be used otherwise specified. Note that when changing category rules, it may take up to 24 hours for this default category to be re-calculated. To advance this, you can define the default category using the form below.
+          update_default_category: Select another category
+          no_default_category: No Default Category
+      changesets:
+        all_releases: All Releases
+        delete_confirmation: Are you sure you want to delete these changes?
+        fields:
+          cant_show: Can't show this here!
+          categories: Categories
+          category: Category
+          incompatible_discounts: Incompatible Discounts
+          product: Product
+          products: Products
+          shipping_service: Shipping Service
+        flash_messages:
+          removed: These changes have been removed
+        no_activity: No activity to show
+        planned_changes_for: Planned Changes For
+        published_on: Published On
+        publishes_on: Publishes On
+        releases: Releases
+        unscheduled: Unscheduled
+      catalog_product_copies:
+        new:
+          title: Copy an existing product
+          description: Select a product to copy, then set a unique ID for the new product.
+          preselected_title: Copy %{product}
+          preselected_description: Set a unique ID for the new product.
+          button: Copy and Continue
+          fields:
+            source_product_id: Select a product to copy
+          copy_original: Copy original?
+          randomize: Randomize?
+        flash_messages:
+          created: Product has been copied. You can now continue editing the copied product.
+          error: There was a problem copying this product. Try again.
+      comment_mailer:
+        notify:
+          by: by
+          discussion_history: 'Discussion History:'
+          post_a_comment: Post a comment
+          posted_a_comment_about: posted a comment about
+          posted_at: Posted at
+          reply_here: 'Reply here:'
+          reply_to_this_comment: Reply to this comment
+          subject: 'Re: %{commentable} Discussion'
+          unsubscribe_from_notifications: 'Unsubscribe from notifications on %{commentable_name}'
+      comments:
+        card:
+          blank_button: Add Comment
+          button: View & Add Comments
+          description_1: Leave a comment to make a note on a change, ask someone to take a look, or take down some info.
+          description_2: You can add a list of people to be notified with an email.
+          label: Comment
+          title: Comments
+        edit:
+          all: All comments for %{name}
+          body: Comment Body
+          heading: Edit Comment
+          save: Save Comment
+        flash_messages:
+          added: Your comment has been added
+          added_error: There was a problem adding your comment
+          comment_edit_error: You cannot edit someone else's comment
+          comment_unsubscribed: You have been unsubscribed from notifications for %{commentable} string
+          removed: Your comment has been removed
+          saved: Your comment has been saved
+          saved_error: There was a problem saving your comment
+        index:
+          body: Comment Body
+          create: Create Comment
+          email_authentication: Each admin will receive an email notification about this comment
+          heading: Comments on %{name}
+          new: New Comment
+          notify: Notify Admins
+          title: Comments on %{name}
+        icon:
+          viewed: Comments
+          unviewed: Unread Comments
+      content:
+        advanced:
+          automate: Automate
+          automate_metadata: Automate Metadata
+          automation_help_content: The system will automatically generate browser title and meta description. These fields will be updated monthly.
+          browser_title: Browser Title
+          browser_title_note: The title appears in the top bar of a web browser and is shown in search engine results.
+          browser_title_placeholder: "(defaults to content name)"
+          clear_asset: Clear asset
+          css: CSS
+          css_note: The CSS block is output just before the end of the head. The content of this block is automatically is wrapped in a style tags.
+          do_not_automate: Do not Automate
+          javascript: JavaScript
+          javascript_note: The JavaScript is output before the end of the body. The content of this block is automatically wrapped in script tags.
+          learn_more: Learn More
+          metadata_description: Metadata Description
+          metadata_description_note: Provides a summary that is displayed on search engine result pages.
+          og_image: OpenGraph Image
+          og_image_note: This is the image that will be displayed when shared to a social network
+          og_image_missing: (none)
+          return: Content Editing
+          save_content: Save Content
+          select_an_asset: Select an asset
+        all_system_pages: All system pages
+        card:
+          blank_button: Add content blocks
+          button: Manage Content
+          description: Add associated content blocks to be displayed with this in the storefront.
+          title: Content
+        edit:
+          add: Add a Block
+          add_block_above: Add Block Above
+          add_block_below: Add Block Below
+          advanced: Advanced
+          aside_title: Content Blocks
+          create_preset: Create Preset
+          empty_content: This content is empty
+          loading: Loading...
+          preview: Preview
+          title: Content for %{content}
+        form:
+          all_blocks: All blocks
+          cancel: Cancel
+          devices: Devices
+          display: Display
+          hide_for: Hide for
+        index:
+          dashboard_link: Store dashboard
+          help_link: Create your own pages
+          help_text: Put content in areas shown automatically by the system.
+          title: System Pages
+          page_pluralize:
+            one: "%{count} Page"
+            other: "%{count} Pages"
+        messages:
+          delete: Are you sure you want to delete %{block_type} content?
+          delete_from_release: Are you sure you want to delete this %{block_type} content when %{release} publishes?
+        preview:
+          help_text: This is an approximation of how your site will appear on different devices.
+        summary:
+          inactive: Inactive
+          system_page: System Page
+      content_assets:
+        cards:
+          attributes:
+            created: 'Created:'
+            file_name: 'File Name:'
+            modified: 'Modified:'
+            tags: 'Tags:'
+            type: 'Type:'
+          original:
+            button: View Original
+            title: Original
+        edit:
+          file_label: Choose File
+          name_label: Name
+          page_title: Attributes for %{asset}
+          preview_alt_text: "%{name} preview"
+          save_asset: Save Asset
+          tags_label: Tags
+          tags_note: 'Comma separated: just, like, this'
+          type_label: Type
+        flash_messages:
+          created: Asset has been created.
+          removed: Asset has been removed.
+          saved: Your changes have been saved
+        index:
+          add_asset: Add Asset
+          asset_pluralize:
+            one: "%{count} Asset"
+            other: "%{count} Assets"
+          dashboard_link: Store dashboard
+          description: Files used throughout the content of your site
+          page_title: Assets
+          title: Assets
+          favicon: This asset is used for the site's Favicon
+        insert:
+          page_title: Choose an Asset
+          title: Select Asset
+        new:
+          create_asset: Create Asset
+          create_asset_disabled_text: Creating Asset...
+          file_label: Choose File
+          name_label: Name
+          page_title: New Asset
+          tags_label: Tags
+          tags_note: 'Comma separated: just, like, this'
+          title: New Asset
+        summary:
+          inactive: Inactive
+          type: Asset
+      content_blocks:
+        asset:
+          clear_asset: Clear asset
+          name_missing: "(none)"
+          select_an_asset: Select an asset
+        category:
+          select_placeholder: Choose a category...
+        flash_messages:
+          added: Your content has been added
+          moved: Content has been moved
+          removed: Content has been removed
+          saved: Your content has been saved
+        index:
+          title: Choose Your Content Type
+          title_preset: Choose A Preset
+        products:
+          select_placeholder: Product A, Product B
+        tooltips:
+          more_info: More Information
+      content_emails:
+        content: Content
+        email_content: Email Content
+        flash_messages:
+          updated: "%{type} has been updated"
+        marketing: Marketing
+        marketing_dashboard: Marketing dashboard
+        save_content: Save Content
+        transactional_email_content: Transactional Email Content
+        transactional_email:
+          one: "%{count} Transactional Email"
+          other: "%{count} Transactional Emails"
+        type: Type
+        updated_at: Updated
+      content_pages:
+        aux_navigation:
+          view_on_storefront: View on Storefront
+        cards:
+          attributes:
+            active: 'Active:'
+            created: 'Created:'
+            modified: 'Modified:'
+            show_left_nav: 'Show Left Navigation:'
+            tags: Tags
+            template: Template
+        edit:
+          display_h1_label: Display Page Heading?
+          name_label: Name
+          page_title: Attributes for %{page}
+          show_navigation_false: Do not show Navigation
+          show_navigation_label: Show Left Navigation?
+          show_navigation_true: Show Navigation
+          slug_label: Page URL
+          tags_label: Tags
+          tags_note: 'Comma separated: just, like, this'
+          template_label: Page Template
+        flash_messages:
+          removed: Page has been removed.
+          saved: Page has been saved.
+        index:
+          add_new_page: Add a New Page
+          dashboard_link: Store dashboard
+          description: Build landing pages, category summary pages, look books, etc.
+          page_title: Pages
+          title: Content Pages
+        pluralize:
+          one: "%{count} Page"
+          other: "%{count} Pages"
+        summary:
+          inactive: Inactive
+          name: "%{name} Page"
+          type: Content Page
+        templates:
+          generic: Generic
+      content_presets:
+        flash_messages:
+          preset_error: Preset could not be saved.
+          saved: Preset has been saved.
+        new:
+          name_label: Name the preset
+          save: Save
+      create_catalog_categories:
+        content:
+          continue_to_taxonomy: Continue to Taxonomy
+          page_title: Content for %{category_name}
+          title: "%{category_name}: Add Content"
+        featured_products:
+          continue_to_content: Continue to Content
+          instruction: Click on products to add them to the category.
+          no_matching_products: No matching products found
+          page_title: Products for %{category_name}
+          start_over: Start over
+          title: "%{category_name}: Add Products"
+        flash_messages:
+          created: Your category has been created
+          saved: Your changes have been saved
+        navigation:
+          instruction: You put this category in the top level of the taxonomy. Do you want this to show in the primary navigation?
+          page_title: Navigation for %{category_name}
+          save_and_continue: Save and Continue
+          title: "%{category_name}: Primary Navigation"
+        products:
+          continue_to_content: Continue to Content
+          create_rules: Create rules for products
+          featured_description: Handpick products to show in this category. You'll be able to sort these as you'd like later.
+          instructions: 'There are two ways to add products to a category:'
+          or: or
+          page_title: Products for %{category_name}
+          pick_products: Manually pick products
+          rules_description: 'Specify rules to determine which products will show up in the category. Examples include:'
+          rules_example_1: Price is greater than $40
+          rules_example_2: Products that match "Shirts"
+          rules_example_3: All products that are on sale
+          title: "%{category_name}: Add Products"
+        publish:
+          active: Active
+          new_release_label: With a new release
+          now_label: Now
+          page_title: Publish %{category_name}
+          release_publish_at_label: When does it publish?
+          save_and_finish: Save and Finish
+          title: "%{category_name}: When does it go live?"
+          which_release_label: Release name
+          which_release_placeholder: Mother's Day %{year}
+          with_release_label: With %{release}
+        rules:
+          continue_to_content: Continue to Content
+          instruction: The preview will update as you add product rules.
+          page_title: Product rules for %{category_name}
+          table:
+            field_header: Field
+            operator_field_title: New rule operator
+            operator_header: Operator
+            remove_header: Remove
+            rule_field_title: New rule field
+            value_field_title: New rule value
+            value_header: Value
+          title: "%{category_name}: Add products"
+        setup:
+          category_name_label: Category Name
+          category_slug_label: URL
+          category_slug_placeholder: your-slug-here
+          category_tags_note: 'Comma separated: just, like, this'
+          category_tags_placeholder: Tags
+          page_title: Setup a new category
+          save_and_add_products: Save and Add Products
+          title: Setup Category
+        taxonomy:
+          page_title: Taxonomy for %{category_name}
+          title: "%{category_name}: Add to Taxonomy"
+        workflow:
+          cancel_message: Are you sure? All work on this category will be lost.
+          skip_this: or skip this
+          steps:
+            content: Content
+            products: Products
+            publish: Publish
+            setup: Setup
+            taxonomy: Taxonomy
+      create_catalog_products:
+        are_you_sure_all_work_on_this_product_will_be_lost: Are you sure? All work on this product will be lost.
+        cancel: Cancel
+        categorization:
+          by_being_featured: By being featured
+          by_matching_category_rules: By matching category rules
+          cancel: Cancel
+          categorize: "%{product_name}: Categorize"
+          continue_to_publish: Continue to Publish
+          doesnt_match_any_categorys_rules: Doesn't match any category's rules
+          flash_messages:
+            added: This product has been added to your categories
+            removed: These changes have been removed
+          not_featured_in_any_categories_yet: Not featured in any categories yet
+          or_skip_this: or skip this
+          page_title: Categorization for %{product_name}
+          save: Save
+        content:
+          add_content: "%{product_name}: Add Content"
+          appears_in_the_browser_and_is_shown_in_search_engine_results: Appears in the browser and is shown in search engine results.
+          browser_title: Browser Title
+          cancel: Cancel
+          defaults_to_a_truncated_description: "(defaults to a truncated description)"
+          description: Description
+          meta_description: Meta Description
+          or_skip_this: or skip this
+          page_title: Content for %{product_name}
+          provides_a_summary_that_is_displayed_on_search_engine_result_pages: Provides a summary that is displayed on search engine result pages.
+          save_and_categorize: Save and Categorize
+          seo: SEO
+        details:
+          add_details: "%{product_name}: Add Details"
+          cancel: Cancel
+          comma_separated_red_green: 'Comma-separated: Red, Green'
+          details: Details
+          example_color: 'Example: Color (cannot be "Type")'
+          example_manufactured: 'Example: Manufactured'
+          example_usa: 'Example: USA'
+          filters: Filters
+          or_skip_this: or skip this
+          page_title: Details for %{product_name}
+          save_details_and_continue: Save Details and Continue
+        flash_messages:
+          details_saved: Details have been saved
+          images_saved: Images have been saved
+          product_created: Your product has been created
+          removed: Categorization has been removed
+          saved: Categorization has been saved
+          variants_saved: Variants have been saved
+        images:
+          add_images: "%{product_name}: Add Images"
+          cancel: Cancel
+          image: Image
+          option: Option
+          or_skip_this: or skip this
+          page_title: Images for %{product_name}
+          save_images_and_continue: Save Images and Continue
+        publish:
+          activate: activate
+          cancel: Cancel
+          now: Now
+          or_skip_this: or skip this
+          page_title: Publish %{product_name}
+          release_name: Release name
+          save_and_finish: Save and Finish
+          when_does_it_go_live: "%{product_name}: When does it go live?"
+          when_does_it_publish: When does it publish?
+          with_a_new_release: With a new release
+          with_release: With %{release_name}
+        setup:
+          cancel: Cancel
+          tags_note: 'Comma separated: just, like, this'
+          customization: Customization
+          going_to_create_several_products_at_once: Going to create several products at once?
+          page_title: Setup a new product
+          product_name: Product Name
+          save_and_add_variants: Save and Add Variants
+          setup: Setup Product
+          tags: Tags
+          template: Template
+          try_the_csv_import: Try the CSV import
+          url: URL
+          copy_a_product: Looking to copy an existing product?
+          copy_button: Select a product to copy
+        steps:
+          categorization: Categorization
+          content: Content
+          details: Details
+          images: Images
+          publish: Publish
+          setup: Setup
+          variants: Variants
+        variants:
+          add_variants: "%{product_name}: Add Variants"
+          cancel: Cancel
+          inventory: Inventory
+          option_1: Option 1
+          option_2: Option 2
+          option_3: Option 3
+          page_title: Variants for %{product_name}
+          price: Price
+          save_variants_and_continue: Save Variants and Continue
+          sku: SKU
+          tax_code: Tax Code
+      create_content_pages:
+        content:
+          add_content: "%{page_name}: Add Content"
+          content_for: Content for %{title}
+          continue_to_taxonomy: Continue to Taxonomy
+        flash_messages:
+          created: Your page has been created
+          navigation_saved: Your changes have been saved
+          saved: Your changes have been saved
+          taxonomy_saved: Your changes have been saved
+        navigation:
+          navigation_for: Navigation for %{title}
+          primary_navigation: "%{page_name}: Primary Navigation"
+          save_and_continue: Save and Continue
+          top_level_message: You put this page in the top level of the taxonomy. Do you want this to show in the primary navigation?
+        publish:
+          now: Now
+          publish_title: Publish %{title}
+          release_name: Release Name
+          save_and_finish: Save and Finish
+          when_does_it_publish: When does it publish?
+          when_live: "%{page_name}: When does it go live?"
+          when_publish: When does it publish?
+          which_release_placeholder: Mother's Day %{year}
+          with_new_release: With a new release
+          with_release_label: With %{release}
+        setup:
+          name: Name
+          page_template: Page Template
+          page_url: Page URL
+          save_and_add_content: Save and Add Content
+          setup: Setup Page
+          setup_a_new_page: Setup a new page
+          tags: Tags
+          tags_note: 'Comma separated: just, like, this'
+        taxonomy:
+          add_to_taxonomy: "%{page_name}: Add to Taxonomy"
+          save_and_continue: Save and Continue
+          taxonomy: Taxonomy
+          taxonomy_for: Taxonomy for %{title}
+        workflow:
+          content: Content
+          delete_confirmation: Are you sure? All work on this page will be lost.
+          or_skip_this: or skip this
+          publish: Publish
+          publishing: Publishing
+          setup: Setup
+          taxonomy: Taxonomy
+      create_pricing_discounts:
+        details:
+          details: "%{discount_type}: Discount Details"
+          name: Name
+          name_note: Displayed to qualifying customers
+          tags: Tags
+          tags_note: 'Comma separated: just, like, this'
+          title: Setup for new discount
+        flash_messages:
+          created: Your discount has been created.
+          saved: Your changes have been saved
+        publish:
+          active: Active
+          mothers_day: Mother's Day %{year}
+          now: Now
+          release_name: Release name
+          title: Publish %{discount}
+          when_does_it_go_live: "%{discount_name}: When does it go live?"
+          when_does_it_publish: When does it publish?
+          with: With
+          with_a_release: With a new release
+        rules:
+          apply_to_sale_times: Apply to sale items
+          compatible_discounts: Compatible Discounts
+          compatible_discounts_note: Discounts that can be applied with this one
+          description: Description
+          ignore_sale_items: Ignore sale items
+          redeem_once_per_email: Redeem once per email address
+          redeem_unlimited_times: Redeem an unlimited number of times for anyone
+          sale_items: Sale Items
+          single_use: Single Use
+          title: Setup for new discount
+          what_does_it_discount: "%{discount_name}: What does it discount?"
+        setup:
+          buy_some_get_some: Buy Some Get Some
+          buy_some_get_some_example: Buy 2, get 1 free
+          category: Category
+          category_example: "$5 off all products in Women's Shirts"
+          example: Example
+          free_gift: Free Gift
+          free_gift_example: Get a free hand bag for all orders over $50
+          order_total: Order Total
+          order_total_example: 10% off your order with promo code
+          persisted_warning: Discount type cannot be changed after adding rules. You may continue creating a %{type} discount or you can start over
+          product: Product
+          product_attribute: Product Attribute
+          product_attribute_example: Take 15% off any product where attribute Brand is Apple
+          product_example: Take 10% off these products
+          quantity_fixed_price: Quantity Fixed Price
+          quantity_fixed_price_example: Any 2 products in the Shirts category for $29
+          setup: Setup Discount
+          shipping: Shipping
+          shipping_example: Free shipping on orders over $100
+          start_over: Start Over
+          start_over_confirmation: Are you sure you want to start over?
+          title: Select discount type for %{discount}
+          type: Type
+        workflow:
+          cancel: Cancel
+          cancel_confirmation: Are you sure? All work on this discount will be lost.
+          or_skip_this: or skip this
+          save_and_continue: Save and Continue
+          save_and_finish: Save and Finish
+          steps:
+            details: Details
+            publish: Publish
+            rules: Rules
+            setup: Setup
+      create_releases:
+        flash_messages:
+          created: Your release has been created.
+        plan:
+          creatable:
+            add_category: Add Category
+            add_discount: Add Discount
+            add_page: Add page
+            add_product: Add Product
+          create_instruction: Create something new in your release
+          instruction: Find something to release, like changing the home page or adding category header content.
+          page_title: Plan changes for %{name}
+          title: "%{release_name}: Plan Changes"
+        setup:
+          page_title: Setup a new release
+          publish_at_label: Publish at
+          release_name_label: Release Name
+          release_name_placeholder: Mother's Day %{year}
+          tags_label: Tags
+          tags_note: 'Comma separated: just, like, this'
+          title: Setup Release
+          undo_at_label: Undo at
+        workflow:
+          delete_confirmation: Are you sure? All work on this release will be lost.
+          or_skip_this: or skip this
+          pick_day: Pick Day
+          plan_changes: Plan changes
+          save_and_plan_changes: Save and Plan Changes
+          setup: Setup
+          skip_and_finish: Skip and Finish
+      create_users:
+        admin:
+          page_title: Create an Account
+          title: Setup an Administrator
+          create_admin: Create Administrator
+        automatic_password_note: If you do not enter a password, one will be randomly generated.
+        customer:
+          page_title: Create an Account
+          title: Setup a Customer
+          create_customer: Create Customer
+        flash_messages:
+          created: This account has been created.
+        index:
+          page_title: Create an Account
+          title: What kind of account?
+          create_a_customer: Create a Customer
+          create_an_administrator: Create an Administrator
+          continue: Continue
+        workflow_bar:
+          select_type: Select Type
+          setup: Setup
+      dashboards:
+        activity:
+          no_activity_as_of: No activity as of %{time}.
+          title: Latest Activity
+          view_all: View All
+        catalog:
+          catalog: Catalog
+          catalog_dashboards: Catalog dashboards
+          categories: Categories
+          imports: Create Import
+          inventory: Inventory
+          pricing: Pricing
+          products: Products
+        customer_acquisition:
+          based_on_accounts_created_a_new_signup_is_not_necessarily_a_new_customer: Based on accounts created. A new signup is not necessarily a new customer.
+          based_on_orders_placed_by_unique_email_addresses: Based on orders placed by unique email addresses.
+          check_back_here_for_a_graph_of_new_customers: Check back here for a graph of new customers in a few weeks.
+          check_back_here_for_a_graph_of_signups: Check back here for a graph of signups in a few weeks.
+          new_customers: New Customers
+          new_customers_info: New Customers Info
+          signups: Signups
+          title: Customer Acquisition
+        discount_redemption_graph:
+          amount: Amount
+          check_back_for_graph_of_discounts: Check back here for a graph of discount redemption amounts in a few weeks.
+          title: Redemption Amount
+          total_amount_of_discount: Total amount of discount given, for the past 12 full weeks in the default currency (%{discount}).
+        filter_popularity:
+          click: click
+          least_popular: Least Popular
+          least_popular_info: Least Popular Info
+          most_popular: Most Popular
+          most_popular_filters_sorted_by_least: Most popular filters sorted by least popular seasonal scoring.
+          most_popular_filters_sorted_by_most: 'Most popular filters sorted by most popular seasonal scoring. Suggestion: consider making categories out of these filters using rules.'
+          most_popular_info: Most Popular Info
+          no_data_for_less_popular_filters: No data for less popular filters right now, check back in a week.
+          no_data_for_popular_filters: No data for popular filters right now, check back in a week.
+          title: Filter Popularity
+        from_previous: "%{percentage} from previous"
+        important_categories:
+          improved: improved
+          improving_weeks: improving weeks
+          no_data_for_top_categories: No data for top categories right now, check back in a week.
+          no_data_for_trending_categories: No data for trending categories right now, check back in a week.
+          of_total_rev: of total rev
+          title: Important Categories
+          tooltip:
+            add_a_summary: Add a summary of this category to your home page
+            feature_best_sellers: Feature best sellers from these categories in search results or recommendations
+            send_marketing_email: Send marketing email to customers who have recently engaged with this category
+            setup_search_redirects: Setup search redirects to these categories from related terms
+            sorting_suggestions: 'Categories sorted by the most improving weeks (over last four weeks) then sorted by percentage revenue improvement over that period of time. Suggestions:'
+            suggestions: 'Categories sorted by highest revenue for the last four weeks. Suggestions:'
+          top_sellers: Top Sellers
+          top_sellers_categories_info: Top Sellers Categories Info
+          trending: Trending
+          trending_categories_info: Trending Categories Info
+        important_customers:
+          best_customers: Best Customers
+          best_customers_info: Best Customers Info
+          check_back_at_risk: Check back here for a list of customers at risk in a few weeks.
+          check_back_best: Check back here for a list of your best customers in a few weeks.
+          customers_at_risk: Customers at Risk
+          customers_at_risk_info: Customers at Risk Info
+          last_purchase: Last Purchase
+          order: order
+          title: Important Customers
+          tooltip:
+            free_shipping: Setup custom discounts for free shipping
+            give_early_access: Give them early access to discounts or new products
+            new_products: Show them new products or categories
+            send_targeted_emails: Send them targeted marketing emails
+            setup_a_loyalty_discount: Setup a loyalty discount
+            suggestions_best: 'Your top 10% spenders, sorted by most frequent ordering then total spent. Suggestions for these customers:'
+            suggestions_risk: 'Your top 10% spenders, sorted by those who haven''t purchased recently. Suggestions for these customers:'
+            win_back: Send them targeted emails to win them back
+          total_spent: total spent
+        index:
+          admin: Admin
+          catalog: Catalog
+          marketing: Marketing
+          orders: Orders
+          people: People
+          reports: Reports
+          search: Search
+          settings: Settings
+          site_planner: Site Planner
+          store: Store
+          storefront: Storefront
+          revenue: Revenue
+          customers: Customers
+          insights: Insights
+          from_previous: "%{percentage} from previous"
+          insights_feed: Insights Feed
+          today: Today
+          yesterday: Yesterday
+          units_sold: Units Sold
+          past_week: Past Week
+          latest: Latest
+          activity: Activity
+          no_activity_as_of: No activity as of %{time}.
+          latest_changes: The latest changes made in the admin
+          view_all_insights: View All Insights
+          view_all_activity: View All Activity
+        main_dashboard: Main Dashboard
+        marketing:
+          discounts: Discounts
+          email_signups: Email signups
+          marketing: Marketing
+          marketing_dashboards: Marketing dashboard
+          promo_codes: Promo codes
+          transactional_emails: Transactional emails
+          days:
+            one: "%{count} Day"
+            other: "%{count} Days"
+          referrers_by_revenue: Referrers by Revenue
+          from_previous: "%{percentage} from previous"
+          all_marketing_insights: All Marketing Insights
+        navigation:
+          check_back: Check back here for a bar graph of orders by primary navigation in a week.
+          last_weeks_orders: Last Weeks Orders
+          no_data: No data for navigation trends right now, check back in a week.
+          title: Navigation
+          tooltip:
+            suggestion: 'The table on the left shows percentage improvement of orders for each navigation, comparing the last two full weeks. The graph on the right breaks down sales by navigation from the last week. Suggestion: sort your primary navigation by most orders.'
+          trends: Trends
+          trends_help: Trends Help
+        orders:
+          all_orders: All orders
+          orders: Orders
+          orders_dashboard: Orders dashboard
+          payment_transactions: Payment transactions
+          todays_orders: Today's orders
+          yesterdays_orders: Yesterday's orders
+          revenue: Revenue
+          aov: AOV
+          units_sold: Units Sold
+          from_previous: "%{percentage} from previous"
+        orders_graph:
+          check_back: Check back here for a graph of orders in a few weeks.
+          duration: For the past 12 full weeks
+          orders: Orders
+          title: Orders
+        orders_summary:
+          aov: AOV
+          dates:
+            last_week: Last Week
+            past_month: Past Month
+            past_six_months: Past Six Months
+            past_three_months: Past Three Months
+            today: Today
+            yesterday: Yesterday
+          orders_discounted: Orders Discounted
+          revenue: Revenue
+          title: Orders Summary
+          total_orders: Total Orders
+          units_sold: Units Sold
+        people:
+          administrators: Administrators
+          all_people: All people
+          customers: Customers
+          people: People
+          people_dashboard: People dashboard
+          todays_signups: Today's signups
+          returning_orders: Returning Orders
+          from_previous: "%{percentage} from previous"
+          insights: Insights
+          new_vs_returning: New vs Returning
+          new: New
+          returning: Returning
+          last_seven_days: Last 7 Days
+        percent_orders_discounted:
+          percent_orders_discounted: Percent Orders Discounted
+          percent_orders_discounted_blank_message: Check back here for a graph of discount percentage in a few weeks.
+          percent_orders_discounted_info: Percent Orders Discounted Info
+          percent_orders_discounted_tooltip_content: For the past 12 full weeks, the percentage of orders that had some amount of discount in that week.
+        recent_searches:
+          recent_searches: Recent Searches
+          recent_searches_blank_message: No data for recent searches right now, check back later.
+          recent_searches_info: Recent Searches Info
+          recent_searches_tooltip_content: These are the most recent searches performed on the site as of this page load.
+        reports:
+          average_order_value: Average Order Value
+          title: Reports
+          sales_over_time: Sales over Time
+          sales_by_category: Sales by Category
+          sales_by_country: Sales by Country
+          sales_by_traffic_referrer: Sales by Traffic Referrer
+          sales_by_product: Sales by Product
+          sales_by_sku: Sales by SKU
+          sales_by_discount: Sales by Discount
+          searches: Searches
+          customers: Customers
+          first_time_vs_returning_sales: First-time vs Returning Sales
+          view_full_report: View Full Report
+          latest_insights: Latest Insights
+        revenue:
+          revenue_blank_message: No data for top %{revenue_name} right now, check back in a week.
+          revenue_tooltip_html: The percentage of revenue your top selling %{revenue_name} have contributed over the last four weeks.
+          top_revenue_html: Top %{revenue_name} By Revenue
+          total_percent: Total %
+          trending_info_html: Trending %{revenue_name} Info
+        revenue_graph:
+          revenue: Revenue
+          revenue_blank_message: Check back here for a graph of revenue in a few weeks.
+          revenue_info: Revenue Info
+          revenue_info_tooltip_content_html: For the past 12 full weeks, in the default currency (%{currency})
+        search:
+          search: Search
+          search_dashboard: Search dashboard
+          view_all_customizations: View all customizations
+          searches: Searches
+          insights: Insights
+          from_previous: "%{percentage} from previous"
+          searches_without_results: Searches Without Results
+        search_abandonment:
+          abandonment: Abandonment
+          abandonment_info: Abandonment Info
+          abandonment_info_tooltip_content: An abandoned search is one where the customer performs a search but leaves the page without clicking on any products.
+          abandonment_rate_blank_message: Check back here for a graph of your search abandonment rate in a few weeks.
+          abandonment_rate_for_the_last_three_months: Abandonment Rate for the Last Three Months
+          searches_to_improve: Searches to Improve
+          searches_to_improve_blank_message: Check back here for a list of searches you should improve in a few weeks.
+          searches_to_improve_info: Searches to Improve Info
+          searches_to_improve_info_tooltip_html: "<p>Your top 3% most searched over the last four weeks, sorted by worst abandonment rate. Suggestions for improvement:</p><ul><li>Select and sort featured products to improve results<li>Rewrite the query string to match customer expectations</li><li>Redirect to a curated category or page</li></ul>"
+        settings:
+          current_configuration: Current Configuration
+          redirects: Redirects
+          search: Search
+          settings_dashboard: Settings dashboard
+          shipping_services: Shipping services
+          tax_categories: Tax categories
+          time_zone: Time Zone
+          times_in_seconds: assume all time values are in seconds
+          title: Settings
+          trash: Trash
+        store:
+          assets: Assets
+          content_pages: Content pages
+          home_page: Home page
+          primary_navigation: Primary navigation
+          store_dashboard: Store dashboard
+          system_pages: System pages
+          taxonomy: Taxonomy
+          title: Store
+        top_discounts:
+          most_discount_given: Most Discount Given
+          most_discount_given_info: Most Discount Given Info
+          most_discount_given_info_tooltip_content: The discounts with the most total redeemed amount in the last four weeks.
+          most_discounted_blank_message: Check back here for a list of your discounts with most redemption in a few weeks.
+          most_redemptions: Most Redemptions
+          most_redemptions_blank_message: Check back here for a list of your most redeemed discounts in a few weeks.
+          most_redemptions_info: Most Redemptions Info
+          most_redemptions_info_tooltip_content: The discounts sorted by most number of times redeemed in the last four weeks.
+          top_discounts: Top Discounts
+        top_products:
+          no_data_for_top_products: No data for top products right now, check back in a week.
+          top_products: Top Products
+          top_products_info: Top Products Info
+          top_products_tooltip_html: "<p>Products sorted by highest revenue for the last four weeks. Suggestions:</p><ul><li>Add these products to home page using the Product Insights content block</li><li>Feature these products at the top of their respective categories or search</li><li>Display these products in marketing emails or social media campaigns</li>"
+        trending_products:
+          no_data_for_trending_products: No data for trending products right now, check back in a week.
+          trending_products: Trending Products
+          trending_products_info: Trending Products Info
+          trending_products_tooltip_html: "<p>Products sorted by the most improving weeks (over last four weeks) then sorted by percentage revenue improvement over that period of time. Suggestions:</p><ul><li>Add these products to home page using the Product Insights content block</li><li>Feature these products at the top of their respective categories or search</li><li>Display these products in marketing emails or social media campaigns</li></ul>"
+        trends:
+          down_from_last_period: Down %{amount}% from last period
+          up_from_last_period: Up %{amount}% from last period
+        upcoming_store_changes:
+          create_one_now: Create one now
+          no_changes_for_this_release: No changes for this release!
+          no_upcoming_releases: There are no upcoming releases publishing on your site.
+          upcoming_changes: Upcoming Changes
+          upcoming_changes_info: Upcoming Changes Info
+          upcoming_changes_tooltip_html: "<p>These are the next releases that will publish. Suggestions:</p><ul><li>Double check to make sure the changes are good</li><li>Add more changes for broader impact</li><li>Setup marketing campaigns to launch with these releases</li></ul>"
+          view_changes: View Changes
+      direct_uploads:
+        processing_html: Processing image <span data-direct-upload-count='%{count}'>%{count}</span> of %{total}
+        processing_warning: Processing in progress. Please try again after it completes.
+        something_went_wrong: Something Went Wrong
+        upload_failed: Review the list to find files that have failed and refresh before trying again.
+        everything_went_great: Everything went great!
+        upload_succeeded: Refreshing in a few seconds...
+        drop_files_here: Drop files here to upload
+        info: Open up your file manager, select the files you want, and drag them over this area
+        file_name: Name
+        file_status: Status
+        pending_status: Pending...
+        success_status: Success!
+        failure_status: Failed!
+        threshold_error: You must upload %{count} files or fewer that do not exceed a total file size of %{size}MB. Please adjust your selection and try again.
+        product_match_error: No product matches %{id}
+        formatting_error: File name format is invalid
+        product_images:
+          back: All Products
+          heading: Product Image Bulk Upload
+          instructions_html: >
+            <p>Upload as many product images here as you like. The files must be named in the following way: <code>product-id.position.option.extension</code>. The <code>product-id</code> should match the product, <code>position</code> controls the ordering of the images on the product, and <code>option</code> should match the corresponding variation of the product this image represents (this part is optional). The extension will depend on the type of file. Some examples:</p>
+            <ul>
+              <li><code>001.0.jpg</code></li>
+              <li><code>2134234.1.green.jpg</code></li>
+              <li><code>00-abc.3.red.jpeg</code></li>
+            </ul>
+      facets:
+        applied:
+          clear_all: Clear All
+          remove_filter: Remove filter
+        price_inputs:
+          from: From
+          price_ranges_label: Price Ranges
+          to: To
+      'false': 'No'
+      featured_products:
+        edit:
+          browse_link: Browse products to add
+          drag_instructions: Drag to sort products
+          empty: You haven't featured any products yet.
+          title: Featured products for %{featurable}
+        flash_messages:
+          added: "%{name} has been added"
+          removed: "%{name} has been removed"
+        select:
+          details_html: You'll be able to sort these next. %{link}
+          empty_html: No matching products found %{link}
+          empty_link: Start Over
+          instruction: Click products to add or remove them as featured
+          sort_link: I'm done, go sort
+          sort_now_link: Go sort now
+          title: Select products for %{featurable}
+        release_preview_warning: Changes to featured products for a release will not be reflected in release previewing. Changes will still apply at the time of publishing.
+      fields:
+        action: Action
+        active: Active
+        admin: Administrator
+        allow_discounting: Allow Discounting
+        allow_sale_items: Allow Sale Items
+        allow_sale_items: Allow Sale Items
+        amount: Amount
+        automate_metadata: Automate Metadata
+        available: Available Units
+        avatar: Avatar
+        average_order_value: Average Order Value
+        backordered: Backordered Units
+        backordered_units: Backordered Units
+        backordered_until: Backordered Until
+        body: Body
+        breadcrumbs: Breadcrumbs
+        browser_title: Browser Title
+        category: Category
+        category_id: Category
+        category_ids: Categories
+        changes: Changes
+        client_id: Client ID
+        code: Code
+        compatible_discount_ids: Compatible Discounts
+        compatible_discounts: Compatible Discounts
+        completed_at: Completed
+        content: Content
+        content_blocks: Content Blocks
+        copied_from_id: Copied From
+        count: Count
+        country: Country
+        created_at: Created
+        created_by: Created By
+        css: CSS
+        customers: Customers
+        customizations: Customizations
+        data_file: Data File
+        days_since_first_purchase: Days since First Purchase
+        default_category: Default Category
+        default_sort: Default Sort
+        description: Description
+        destination: Destination
+        details: Details
+        digital: Digital
+        dimensions: Dimensions
+        discountable: Allow Discounting
+        discount: Discount
+        discounts: Discounts
+        display_name: Display Name
+        email: Email
+        ends_at: Ends At
+        errors: Errors
+        excluded_category_ids: Excluded Categories
+        excluded_product_ids: Excluded Products
+        expires_at: Expires
+        featured: Featured
+        featured_products: Featured Products
+        file: File
+        file_name: File Name
+        filters: Filters
+        first_name: First Name
+        first_order_at: First Order At
+        first_time_orders: First-time Orders
+        from: From
+        fulfillment_status: Fulfillment Status
+        merchandise: Merchandise
+        hidden_breakpoints: Hidden Breakpoints
+        id: ID
+        image: Image
+        impersonate_after_create: Impersonate Now
+        imports: Imports
+        insights: Insights
+        inventory: Inventory
+        javascript: JavaScript
+        last_impersonated_at: Last Impersonated At
+        last_impersonated_by: Last Impersonated By
+        last_name: Last Name
+        last_order_at: Last Order At
+        last_published: Last Published
+        last_purchase: Last Purchase
+        list: List
+        matching_url: Matching URL
+        medium: Medium
+        meta_description: Meta Description
+        min_quantity: Minimum Quantity
+        msrp: MSRP
+        name: Name
+        new_customers: New Customers
+        revenue: Net Sales
+        no_taxonomy: No taxonomy
+        on_sale: On Sale
+        one: 1 field
+        operator: Operator
+        option: Option
+        options: Options
+        order: Order
+        orders: Orders
+        original_id: Original ID
+        other: "%{count} fields"
+        packaged_product_ids: Packaged Products
+        pass: Pass
+        password: Password
+        path: Path
+        payment_status: Payment Status
+        payment_type: Payment Type
+        percent: Percent
+        percent_returning: Percent Returning
+        percent_purchased_again: Purchased Again %
+        period: Period
+        permissions_manager: Permissions Manager
+        placed_at: Placed
+        policy: Tracking Policy
+        prefix: Prefix
+        price: Price
+        pricing: Pricing
+        product: Product
+        product_id: Product
+        product_ids: Products
+        products_file: Products File
+        publish_at: Publish At
+        published_at: Published At
+        publishes: Publishes
+        purchasable: Purchasable
+        purchased: Units Sold
+        purchased_again: Purchased Again
+        rate_count: Rate Count
+        rates: Rates
+        rates_file: Rates File
+        redemptions: Redemptions
+        redirect: Redirect
+        region: Region
+        regions: Regions
+        regular: Regular Price
+        related_product: Related Product
+        reserve: Reserved Units
+        reset_by: Reset by
+        results: Results
+        returning_orders: Returning Orders
+        revenue: Revenue
+        rewrite: Rewrite
+        rules: Rules
+        sale: Sale Price
+        sale_price: Sale Price
+        score: Score
+        search: Search
+        search_id: Search ID
+        search_terms: Search Terms
+        searches: Searches
+        send_account_creation_email: Notify Them by Email
+        service: Service
+        services_file: Services File
+        shipping: Shipping
+        shipping_service_id: Shipping Service
+        show_left_navigation: Show Left Navigation
+        show_navigation: Show Navigation
+        single_use: Single Use
+        sku: SKU
+        skus_file: SKUs File
+        slug: URL
+        sold: Units Sold
+        source: Source
+        spell_corrections: Spell Corrections
+        spent: Spent
+        started_at: Started
+        starts_at: Starts At
+        status: Status
+        status_email_recipient: Status Email Recipient
+        store_credit: Store Credit
+        subscribed_user_ids: Notified Admins
+        summary: Summary
+        tags: Tags
+        tax: Tax
+        tax_category: Tax Category
+        tax_code: Tax Code
+        taxon_id: Taxonomy
+        template: Template
+        terms: Terms
+        terms_facets_list: Filters
+        thumbnail: Thumbnail
+        tiered: Tiered
+        to: To
+        token: Token
+        top_selling_product: Top Selling Product
+        total: Total
+        total_available: Total Available
+        total_orders: Total Orders
+        total_price: Total Price
+        total_results: Total Results
+        tracking_policy: Tracking Policy
+        type: Type
+        undo_at: Undo At
+        units_sold: Units Sold
+        updated_at: Updated
+        url: URL
+        user_tags: User Tags
+        variants: Variants
+      form:
+        cancel: Cancel
+        csv_field_note: 'Comma separated: just, like, this'
+        save_changes: Save Changes
+        unsaved_changed_message: You have unsaved changes, do you want to continue?
+      fulfillments:
+        show:
+          by_carrier: by %{carrier}
+          cancellations: Cancellations
+          no_items_marked_cancelled: There are no items marked as cancelled.
+          no_items_marked_shipped: There are no items marked as shipped.
+          on_time_created_html: on %{time}
+          status: Status
+          packages: Packages
+          page_title: Fulfillment for %{name}
+          pending_items: Pending Items
+          product: Product
+          quantity: Quantity
+          shipped: Shipped
+          with_no_tracking_number: with no tracking number
+          with_tracking_number_html: with tracking number %{tracking_number_link}
+      guest_browsing:
+        flash_messages:
+          started: You are now browsing as a guest.
+          stopped: You have stopped browsing as a guest.
+      help:
+        edit:
+          body_label: Body
+          body_note_html: Use %{markdown_link} for formatting.
+          category_label: Category
+          find_and_manage_help_assets: Find and manage help assets.
+          index_link: All help
+          manage_help_assets: Manage Help Assets
+          matching_url_label: Matching Admin URL
+          matching_url_note: Used to lookup suggested articles for a given page
+          name_label: Name
+          page_title: Edit %{name}
+          save_help_article: Save Help Article
+          summary_label: Summary
+          thumbnail_label: Change Thumbnail
+          thumbnail_note: Should be a square
+        flash_messages:
+          created: Your help article has been created
+          removed: Your help article has been removed
+          save_error: There was a problem saving your help article
+          updated: Your help article has been updated
+        index:
+          add_new_article: Add New Article
+          article:
+            one: "%{count} Article"
+            other: "%{count} Articles"
+          community_forum_info_html: We've launched our community forum! You can get help from anyone in the Workarea community, from other retailers to the product team. <a href="https://community.workarea.com">Visit the community forum and get an answer today.</a>
+          dashboard_link: Main dashboard
+          edit: Edit
+          edit_name: Edit %{name}
+          manage_help_assets: Manage Help Assets
+          page_title: Help
+          search_placeholder: Find help articles by keywords
+          title: Help
+        new:
+          body_label: Body
+          body_note_html: Use %{markdown_link} for formatting.
+          category_label: Category
+          create_help_article: Create Help Article
+          find_and_manage_help_assets: Find and manage help assets.
+          index_link: All help
+          manage_help_assets: Manage Help Assets
+          matching_url_label: Matching Admin URL
+          matching_url_note: Used to lookup suggested articles for a given page
+          name_label: Name
+          page_title: New Help
+          summary_label: Summary
+          thumbnail_label: Thumbnail
+          thumbnail_note: Should be a square
+          title: New Help Article
+        show:
+          dashboard_link: Help dashboard
+          edit: Edit
+          edit_name: Edit %{name}
+          index_link: All help
+        takeover:
+          didnt_find_what_you_are_looking_for: Didn't find what you're looking for?
+          edit: Edit
+          edit_name: Edit %{name}
+          related_articles_for_this_page: Related Articles for this Page
+          search_placeholder: Find help articles by keywords
+          title: Help
+          view_all_help: View All Help
+      help_assets:
+        flash_messages:
+          created: Your help asset has been created
+          removed: Your help asset has been removed
+        index:
+          add_an_asset: Add an Asset
+          all_help: All help
+          assets:
+            one: "%{count} Asset"
+            other: "%{count} Assets"
+          file: File
+          link_copy_and_paste: Link (Copy and Paste into Markdown)
+          not_applicable: N/A
+          preview: Preview
+          title: Help Assets
+      data_file_mailer:
+        export:
+          download_html: "%{link} your %{name} %{type} export."
+          download_link: Download
+          subject: Here's your Workarea %{name} export
+        import_error:
+          subject: Your Workarea %{type} import of %{file} was a failure!
+          message: Your import of %{name} could not complete.
+          errors: 'Error info:'
+          unknown: Unknown
+          link_text: View %{name}
+        import_failure:
+          subject: Your Workarea %{type} import of %{file} completed with errors!
+          message: Your import of %{name} could not complete.
+          failed: '%{failed} of %{count} failed to import.'
+          errors: 'The following errors occurred:'
+          unknown: Unknown
+          id: ID
+          link_text: View %{name}
+        import:
+          subject: Your Workarea %{type} import of %{file} has completed successfully
+          message: Your import of %{name} has completed!
+          success: '%{count} imported successfully.'
+          link_text: View %{name}
+      data_file_tax_imports:
+        flash_messages:
+          processing: Your tax rates import is being processed. You will receive an email when the import completes.
+        new:
+          index_link: Tax Category
+          title: New Tax Rate Import
+          example_link: tax rates
+          avalara_info: Avalara has rates in a compatible format available for free download.
+          warning: This will replace all current tax rates for the selected tax category.
+      data_file_exports:
+        new:
+          title: Export %{name}
+          back: Back
+          start_export: Start Export
+          what_will_the_file_look_like: What will the file look like?
+          formats: Formats
+          where_will_the_file_go: Where will the file go?
+          no_samples: No samples available. Try adding one manually and coming back.
+          enter_your_email: Enter the email addresses to send the export to
+          emails_note: 'Comma separated: developer@example.com, manager@example.com'
+        flash_messages:
+          processing: Your export is processing. We'll send you an email to let you know when it's done.
+      data_file_imports:
+        csv_notes_html:
+          <h2 class="align-center">Additional Notes on CSV</h2>
+          <ul>
+            <li>The first line <em>must</em> include headers</li>
+            <li>If you wish to ignore certain columns, omit the whole column</li>
+            <li>Leave the <code>_id</code> field blank if you want to create a new item with an auto-generated id</li>
+            <li>Blank cells will be ignored</li>
+            <li>Multiple values (like tags or filters) are separated by a comma (<code>just, like, this</code>)</li>
+            <li>For parents with children (e.g. products with variants), each child should be on its own line.</li>
+            <li>You must define <code>_id</code> for new parent items if children items are included on other lines.</li>
+            <li>Ensure you're using a UTF-8 encoding</li>
+          </ul>
+        new:
+          title: Import %{name}
+          back: Back
+          start_import: Start Import
+          note: File type is automatically detected. You'll get an email with results when it's done.
+          what_should_the_file_look_like: What should the file look like?
+          download_sample: Download a Sample
+          formats: Formats
+          what_are_the_rules_for_the_data: What are the rules for the data?
+          no_samples: No samples available. Try adding one manually and coming back.
+        create_import: Create Import
+        example_file_link: See an example file
+        flash_messages:
+          processing: Your import is processing. We'll send you an email with the results when it's done.
+        more_info_link: More info on Imports
+        more_info_tooltip: Import using a CSV file. A CSV (comma-separated values) stores tabular data in plain text
+        usage:
+          download_step_html: Download our %{link} CSV template
+          edit_step: Add your data to the rows below each column's header field. Columns must remain in the order provided, otherwise the data will not be saved to the expected location.
+          export_step: Export your data to CSV. If using spreadsheet program use 'Export As' function and select CSV file format.
+          more_link: Learn More
+          open_step: 'Open the downloaded file in an application that supports CSVs. Note: this file can be opened in either a text editor or a spreadsheet program like Excel.'
+          title: Using the CSV Importer
+          upload_step: Upload the files and you're done.
+      data_files:
+        errors:
+          error: Error
+          page_title: Errors for %{name} %{type}
+          dashboard_link: All Imports & Exports
+          title: Errors for %{name} %{type}
+          unknown_type: Unknown
+          table:
+            id_or_line: ID or Line Number
+            field: Field
+            message: Message
+        index:
+          dashboard_link: Settings dashboard
+          export: Export
+          import: Import
+          info: Review details of imports and exports from the last %{duration}
+          page_title: Imports & Exports
+          showing: Showing %{count},
+          title: Imports & Exports
+          view_exports: view exports
+          view_imports: view imports
+      imports_helper:
+        field_validation_html: Requires %{type} of %{field}
+      insights:
+        icons:
+          top_selling: Top Selling
+          trending: Trending
+        revenue:
+          other_label: Other %{name}
+          top_label: Top %{name}
+        time_frames:
+          last_week: Last Week
+          past_month: Past Month
+          past_six_months: Past Six Months
+          past_three_months: Past Three Months
+          past_year: Past Year
+          this_week: This Week
+        trend:
+          down: "%{amount} down"
+          no_change: "(no change)"
+          positive: "+ %{amount}"
+          time_range_html: "%{start} to %{stop}"
+          up: "%{amount} up"
+
+        # new ones
+        insights_feed: Insights Feed
+        week_ending: Week ending %{date}
+        best_customers:
+          title: Best Customers
+          info: Best customers in terms of spend, orders and recency.
+        best_full_price_customers:
+          title: Best Full-Price Customers
+          info: Best full-price customers in terms of spend, orders and recency.
+        cold_products:
+          title: Cold Products
+          info: These products had the largest revenue drop from the week prior.
+          growth: growth
+          weeks_revenue: week's revenue
+        cold_searches:
+          title: Cold Searches
+          info: These searches had the largest revenue drop from the week prior.
+          growth: Growth
+          term: Term
+          weeks_revenue: Week's Revenue
+        customer_acquisition:
+          title: Customer Acquisition
+          total_new_customers: total new customers
+        customers_at_risk:
+          title: Customers at Risk
+          info: These high-value customers haven't purchased in a while.
+        hot_products:
+          title: Hot Products
+          info: These products had the most revenue growth from the week prior.
+          growth: growth
+          weeks_revenue: week's revenue
+        hot_searches:
+          title: Hot Searches
+          info: These searches had the most revenue growth from the week prior.
+          growth: Growth
+          term: Term
+          weeks_revenue: Week's Revenue
+        low_aov_customers:
+          title: Low AOV Customers
+          info: These customers purchase often, but have low order sizes.
+        most_discount_given:
+          title: Most Discount Given
+          info: Your top discounts by the total amount of discount given.
+          orders:
+            one: "%{count} order"
+            other: "%{count} orders"
+          of_total_discounting: of total discounting
+        most_discounted_products:
+          title: Most Discounted Products
+          info: See the performance of your most discounted products.
+          average_discount: average discount
+          discount_rate: sold at discount
+          units_sold: units sold
+          conversion_rate: conversion rate
+        new_products:
+          title: New Products
+          info: Your new products created yesterday.
+        non_sellers:
+          title: Non-Sellers
+          info: Products with views but no orders.
+          views: views
+        popular_searches:
+          title: Popular Searches
+          info: These searches were the most searched for this month.
+          term: Term
+          searches: Searches
+          total_results: Total Results
+        popular_searches_without_results:
+          title: Popular Searches Without Results
+          info: These are your most popular searches that aren't showing results.
+          term: Term
+          searches: Searches
+        products_purchased_together:
+          title: Products Purchased Together
+          info: Top selling products last week with the product they are most commonly sold with.
+        products_to_improve:
+          title: Products to Improve
+          info: Your top 10% most viewed products, sorted by conversion rate from worst to best.
+          conversion_rate: conversion rate
+          views: views
+        promising_products:
+          title: Promising Products
+          info: Products with low views and high conversion rates.
+          conversion_rate: conversion rate
+          views: views
+        release_reminder:
+          title: Release Reminder!
+          info:
+            one: This release is scheduled to publish tomorrow.
+            other: These releases are scheduled to publish tomorrow.
+        repeat_purchase_rate:
+          title: Repeat Purchase Rate
+          info: How often new customers purchase again at 30, 60, and 90 days.
+        sales_by_navigation:
+          title: Sales By Navigation
+          info: Your navigation menus by revenue.
+          menu: Menu
+          revenue: Revenue
+          of_revenue: "% of Revenue"
+        searches_to_improve:
+          title: Searches to Improve
+          info: Your top 10% most searched terms, sorted by conversion rate from worst to best
+          term: Term
+          conversation_rate: Conversion Rate
+          searches: Searches
+        star_products:
+          title: Star Products
+          info: Your top 10% most viewed products, sorted by conversion rate from best to worst.
+          conversion_rate: conversion rate
+          views: views
+        star_searches:
+          title: Star Searches
+          info: Your top 10% most searched terms, sorted by conversion rate from best to worst.
+          term: Term
+          conversation_rate: Conversion Rate
+          searches: Searches
+        top_categories:
+          title: Top Categories
+          info: Your top categories by revenue.
+          category: Category
+          revenue: Revenue
+          of_revenue: "% of Revenue"
+        top_discounts:
+          title: Top Discounts
+          info: Your top discounts by revenue of the discounted orders.
+          discount: Discount
+          orders: Orders
+          of_redemptions: "% of Redemptions"
+          revenue: Revenue
+        top_products:
+          title: Top Products
+          info: Your top products by revenue.
+          of_total_revenue: of total revenue
+        trending_products:
+          title: Trending Products
+          info: Your products with the most revenue-improving weeks and highest number of orders.
+          improving_weeks:
+            one: "%{count} improving week"
+            other: "%{count} improving weeks"
+          orders:
+            one: "%{count} order"
+            other: "%{count} orders"
+        trending_searches:
+          title: Trending Searches
+          info: Your searches with the most revenue-improving weeks and highest number of orders.
+          term: Term
+          improving_weeks: Improving Weeks
+          orders: Orders
+        upcoming_releases:
+          title: Upcoming Releases
+          info: These are your next releases scheduled to be published.
+      inventory_skus:
+        aux_navigation:
+          view_pricing: View Pricing
+          view_product: View Product
+        cards:
+          available: 'Available:'
+          backordered: 'Backordered:'
+          policy: 'Policy:'
+          purchased: 'Purchased:'
+          reserve: 'Reserve:'
+        edit:
+          available_quantity: Available Quantity
+          backordered_quantity: Backordered Quantity
+          backordered_ship_date: Backordered Ship Date
+          page_title: Attributes for inventory %{sku}
+          reserved_quantity: Reserved Quantity
+          save_sku: Save SKU
+          sku: SKU
+          tracking_policy: Tracking Policy
+          tracking_policy_info_html: "<p><strong>Ignore:</strong> Always allow this SKU to be ordered.</p> <p><strong>Standard:</strong> Decrement the inventory in the available quantity field when this SKU is ordered.</p><p><strong>Allow Backorder:</strong> Decrement the inventory in the backorder quantity field when this SKU is ordered.</p><p><strong>Displayable When Out Of Stock:</strong> Always show this SKU on the storefront, even when it is out of stock.</p>"
+        flash_messages:
+          created: "%{id} has been created."
+          removed: This inventory SKU has been removed
+          saved: "%{id} has been saved."
+        index:
+          add_new_inventory_sku: Add New Inventory SKU
+          heading: Inventory
+          page_title: Inventory
+          sku_pluralize:
+            one: "%{count} SKU"
+            other: "%{count} SKUs"
+        new:
+          available_quantity: Available Quantity
+          backordered_quantiy: Backordered Quantity
+          backordered_ship_date: Backordered Ship Date
+          create_sku: Create SKU
+          heading: New Inventory
+          page_title: New inventory
+          reserved_quantity: Reserved Quantity
+          sku: SKU
+          sku_placeholder: SKU123
+          tracking_policy: Tracking Policy
+        show:
+          page_title: Inventory %{sku}
+        summary:
+          available_sold: "%{available} Available, %{sold} Sold"
+          type: Inventory SKU
+      js:
+        autocomplete_fields:
+          placeholder: Type to Search
+        datetime_picker:
+          date: Date
+          time: Time
+        dropzone_message:
+          add_assets: Quick Add
+          instruction: Drop files here to upload them
+          limitations_html: You can upload <strong>%{max_files} files</strong> at a time. Each file should be smaller than <strong>%{max_filesize}MB</strong>
+        dropzone_preview:
+          error: Error
+          success: Success
+        dropzones:
+          count_uploaded:
+            one: "%{count} Asset has been uploaded"
+            other: "%{count} Assets have been uploaded"
+          error: There is an issue with your upload. Please see below.
+          file_too_big: This file exceeds the maximum upload size (%{filesize}MB). Please resize your file and try your upload again.
+          navigate_away_confirmation: You are currently uploading Assets to the system. Are you sure that you want to navigate away from this page?
+          refresh_this_page_html: "<a href='%{url}'> Refresh this page.</a>"
+          refreshing_now_html: "<a href='%{url}'> Refreshing now...</a>"
+          too_many_files: You can only upload %{filecount} files at a time. Refresh this page to upload more.
+        inactive_blocks:
+          button: Inactive Blocks
+        message_dismiss_action:
+          dismiss: Dismiss
+        product_images_sortables:
+          error_message: There was a problem saving your changes.
+          success_message: Your changes have been saved.
+        publish_with_release_menus:
+          a_new_release: a new release
+          loading: Loading...
+        release_calendar_placeholder:
+          error_message: There was a problem loading the calendar
+        takeover:
+          allow_one_takeover: 'WORKAREA.takeover.allowOneTakeover: you may only have one takeover open at a time.'
+        toggle_filters:
+          hide_filters: Hide Filters
+          show_filters: Show Filters
+        wysiwyg:
+          bold: Bold
+          bulleted_list: Bulleted List
+          cancel: Cancel
+          heading: Heading
+          html: html
+          insert: Insert
+          insert_link: Insert Link
+          italic: Italic
+          link: Link
+          numbered_list: Numbered List
+          open_in_new_tab: Open in New Tab
+          plain_text: Plain Text
+          style: Style
+          sub_heading: Sub Heading
+          underline: Underline
+      layout:
+        account: Account
+        alert:
+          alert_title: Alert
+          category: category
+          description: description
+          empty_category: empty category
+          missing_categories: "%{product} missing categories"
+          missing_description: "%{product} missing %{description}"
+          missing_images: "%{product} missing images"
+          missing_prices: "%{product} missing prices"
+          missing_variants: "%{product} missing variants"
+          low_inventory: "%{product} with low inventory"
+          variants_missing_details: "%{product} with variants missing details"
+          inconsistent_variant_details: "%{product} with inconsistent variant details"
+          product: product
+          publishes_on_and_has_no_changes: "%{release_name} publishes on %{release_publish_date} and has no changes"
+          variant: variant
+        avatar_title: Avatar for %{name}
+        close_primary_menu: Close Primary Menu
+        current_page: Current Page
+        help: Help
+        locale: Locale
+        locale_help_text: When you see this icon, that means the field can have different information depending on the locale that the user is browsing in.
+        log_out: Log Out
+        most_visited: Most Visited
+        most_visited_note: We'll track what pages you visit the most so you can quickly find them here later.
+        open_primary_menu: Open Primary Menu
+        remove_bookmark: Remove Bookmark
+        saved_shortcuts: Saved Shortcuts
+        search_placeholder: Find products, assets, categories, orders, etc...
+        shortcuts: Shortcuts
+        skip_to_main_content: Skip to Main Content
+        skip_to_primary_menu: Skip to Primary Menu
+        top_of_page: Top of Page
+        mailer:
+          title: "A message from %{host}"
+          homepage_link: 'Go to Home Page'
+        handy_links: Handy Links
+        visit_storefront: Visit the Storefront
+        your_account_on_the_storefront: Your Account on the Storefront
+        edit_the_home_page: Edit the Home Page
+        articles: Articles
+        community_forum: Community Forum
+      navigation_menus:
+        edit:
+          index_link: All Navigation
+          name_label: Name
+          name_placeholder: "(defaults to the name of the taxonomy you pick)"
+          page_title: Attributes for %{menu}
+          taxonomy_label: Taxonomy
+          title: Edit %{name} Navigation
+        flash_messages:
+          created: Your menu has been created
+          created_error: There was a problem creating your menu
+          moved: Navigation has been moved
+          removed: Your menu has been removed
+          sorted: Menus have been sorted
+          updated: Your menu has been updated
+          updated_error: There was a problem updating your menu
+        index:
+          add_a_menu: Add a menu
+          add_new: Add New
+          dashboard_link: Store dashboard
+          drag_to_rearrange: Drag to rearrange
+          empty: No navigation!
+          order_by:
+            instruction_1: Build navigation content, sort manually or
+            instruction_2_html: Base it on your %{taxonomy_link}.
+            more_info: More Info on Why Navigation Should be Sorted By Orders
+            preview:
+              button: Looks good, update the order
+              description: 'Sorting by orders will update your primary navigation to:'
+            sort_by_orders: sort by orders
+            tooltip:
+              research_shows: Research shows navigation items higher in the list will get more clicks. So sorting your navigation items by orders will ensure navigation has the highest possible conversion rate.
+              we_recommend: We recommend sorting your navigation items by their selling strength.
+          page_title: Primary Navigation
+          title: Primary Navigation
+        new:
+          create_a_category: Create a category
+          create_a_page: create a page
+          creation_prompt_html: "%{category_link} or %{page_link} to add it to the primary navigation. We'll guide you through setting it up."
+          heading: Looking to add a new category or page?
+          index_link: All Navigation
+          instruction: Otherwise use this form to link up top level taxonomy into the primary navigation.
+          link_up_taxonomy: Link up taxonomy
+          name_label: Name
+          name_placeholder: "(defaults to the name of the taxonomy you pick)"
+          page_title: New Primary Navigation
+          taxonomy_label: Taxonomy
+          title: New Primary Navigation
+        summary:
+          content_block:
+            one: "%{count} content block"
+            other: "%{count} content blocks"
+          inactive: Inactive
+          type: Primary Navigation
+      navigation_redirects:
+        flash_messages:
+          created: Redirect has been created.
+          removed: Redirect has been removed.
+        index:
+          add: Add
+          add_new: Add New
+          created: Created
+          dashboard_link: Settings dashboard
+          destination_label: Redirect To
+          destination_note: Can be any URL
+          destination_placeholder: "/new/path.html"
+          from: From
+          import: Import Redirects
+          modified: Modified
+          page_title: Redirects
+          path_label: Starting URL
+          path_placeholder: "/old/path.html"
+          redirects:
+            one: "%{count} redirect"
+            other: "%{count} redirects"
+          search: Search
+          search_placeholder: Search starting with (e.g. /foo)
+          title: Redirects
+          to: To
+        summary:
+          type: Navigation Redirect
+      navigation_taxons:
+        children:
+          add_new_item: Add New Item
+          drag_items_here: Drag items here!
+          edit_name_navigation: Edit %{name} Navigation
+          navigation: Primary Navigation
+        edit:
+          id_label: Name
+          index_link: All taxonomy
+          links_to: Links to...
+          name_label: Name
+          navigable_type_label: An Existing
+          page_title: Attributes for %{name}
+          properties: Properties
+          title: Edit Taxonomy
+          url_label: Or A Custom URL
+        flash_messages:
+          changes_error: There was a problem saving your changes.
+          created: Your new taxonomy has been created
+          created_error: There was a problem creating your taxonomy
+          removed: This taxonomy has been removed
+          updated: This taxonomy has been updated
+        index:
+          add_new_item: Add New Item
+          dashboard_link: Store dashboard
+          description_html: Organize the stuff in your site. You should probably base your %{primary_nav_link} content on this.
+          drag_items_here: Drag items here!
+          edit_name_navigation: Edit %{name} Navigation
+          home: Home
+          navigation: Navigation
+          page_title: Taxonomy
+          title: Manage Taxonomy
+        insert:
+          heading_step_1: Pick breadcrumbs
+          heading_step_2: Drag and drop to sort, click to add as child.
+          home: Home
+        new:
+          and_link_it_to: And link it to...
+          id_label: Name
+          index_link: All taxonomy
+          name_label: Name
+          name_placeholder: "(defaults to name of what you link it to)"
+          navigable_type_label: An Existing
+          page_title: New taxonomy
+          save_taxonomy: Save Taxonomy
+          title: Add Taxonomy
+          url_label: Or A Custom URL
+        select:
+          none_selected: Selected taxon no longer exists. Reset to continue.
+          reset_button: Reset
+        taxon:
+          add_new_item: Add New Item
+          delete_taxon_confirmation: Remove %{name} from taxonomy?
+          drag_to_rearrange: Drag to rearrange
+          edit_name: Edit %{name}
+          edit_name_title: Edit
+          navigation_menu_info: Check out what this links to
+          url: URL
+        types:
+          category: Category
+          page: Page
+          product: Product
+      orders:
+        attributes:
+          checkout:
+            title: Checkout
+            customer: 'Customer:'
+            ip_address: 'IP Address:'
+            none: "(none)"
+            placed: 'Placed:'
+            placed_by: 'Placed By:'
+            promo_codes: 'Promo Codes:'
+            source: 'Source:'
+            status: 'Status:'
+            traffic_referrer: 'Traffic Referrer:'
+            traffic_referrer_url: 'Referrer URL:'
+          items:
+            pricing: Pricing
+            product: Product
+            quantity: Quantity
+            title: Items
+          payment:
+            address: Address
+            empty: There are no tenders on this order.
+            payment_tenders: Payment Tenders
+            title: Payment
+          shipping:
+            address: Address
+            empty: No shipping info for this order
+            none: None
+            shipping_service: Shipping Service
+            title: Shipping
+          title: "%{name} Details"
+          totals:
+            shipping: Shipping
+            subtotal: Subtotal
+            tax: Tax
+            title: Totals
+            total_price: Total Price
+            total_value: Total Value
+        cards:
+          attributes:
+            button: View Attributes
+            total_price: 'Total Price:'
+            total_value: 'Total Value:'
+          fulfillment:
+            button: View Fulfillment
+            cancellations: 'Cancellations:'
+            packages: 'Packages:'
+            pending: 'Pending:'
+            status: 'Status:'
+            title: Fulfillment
+            tracking_numbers: 'Tracking Numbers:'
+            not_available: Fulfillment is not yet available for this order.
+          payment:
+            status: Status
+            button: View Payment
+          shipping:
+            button: View Shipping
+        index:
+          dashboard_link: Orders Dashboard
+          filters:
+            order_placed: Order Placed
+            placed_date: Filter by Order Placed Date
+            price_range: Price Range
+          summary:
+            average: Average
+            largest: Largest
+            results: Results
+            smallest: Smallest
+            total: Total
+          title: Orders
+          total_price: Total Price
+          payment_status: Payment Status
+          fulfillment_status: Fulfillment Status
+          placed: Placed
+        summary:
+          order: Order
+        tenders:
+          amount: Amount
+          credit_card:
+            issuer: Issuer
+            number: Number
+            title: Credit Card
+          missing_tender: Missing Tender
+          store_credit:
+            title: Store Credit
+          type: Type
+        timeline:
+          title: Timeline for %{name}
+          authorize:
+            success: Authorization on %{type} for %{amount}
+            failure: Failed authorization for %{amount}
+          canceled_fulfillment:
+            one: Canceled fulfillment for 1 item
+            other: Canceled fulfillment for %{count} items
+          canceled: The order was marked canceled
+          capture:
+            success: Capture on %{type} for %{amount}
+            failure: Failed capture for %{amount}
+          checkout: Checkout started
+          comment: Added a comment
+          copied_html: Copied the order to %{link}
+          created: The first item was added to the cart
+          placed: The order was placed
+          price_overridden: Added pricing overrides
+          refund:
+            success: Refund on %{type} for %{amount}
+            failure: Failed refund for %{amount}
+          shipped:
+            one: Shipped 1 item
+            other: Shipped %{count} items
+        view_user: View %{user}
+      payment:
+        show:
+          addresses:
+            billing_address: Billing Address
+            blank: No Address
+          tenders:
+            blank: There are no tenders in this order
+            heading: Tenders
+          title: Payment for %{order_name}
+          transactions:
+            action: Action
+            amount: Amount
+            blank: This order doesn't have any transactions
+            creation: Creation
+            details: Details
+            heading: Transactions
+            status: Status
+            tender: Tender
+      payment_transactions:
+        aux_navigation:
+          view_order_link: View Order %{id}
+        index:
+          dashboard_link: Orders Dashboard
+          title: Payment Transactions
+          order_link: Order %{id}
+          transaction_pluralize:
+            one: "%{count} Transaction"
+            other: "%{count} Transactions"
+        show:
+          capture:
+            captured_amount: Captured Amount
+            none: None
+            title: Capture
+            transactions: Transactions
+          heading: "%{type} Transaction"
+          tender:
+            title: Tender
+          title: "%{type} Transaction on Order %{order_id}"
+          transaction:
+            action: Action
+            amount: Amount
+            canceled: Canceled
+            canceled_at: Canceled At
+            created_at: Created At
+            message: Message
+            more_link: Learn More
+            response_parameters: Response Parameters
+            response_tooltip: This is the raw data we've received from the gateway.
+            status: Status
+            title: Transaction
+        status:
+          canceled: canceled
+          failure: failure
+          success: success
+        summary:
+          order_info: Order %{order_id}, %{amount}
+          title: Transaction
+          payment_type: Payment Type
+        tender:
+          missing: missing
+          title: Missing Tender
+      prices:
+        active: Active
+        inactive: Inactive
+        flash_messages:
+          deleted: "%{sku} price has been deleted."
+          error: There was a problem saving your SKU.
+          saved: Your SKU has been saved.
+        index:
+          button: Add New Price
+        label: Prices
+        minimum_quantity: Minimum Quantity
+        minimum_quantity_placeholder: '0'
+        new:
+          create_price: Create Price
+        placeholder: '0.00'
+        regular_price: Regular Price
+        sale_price: Sale Price
+        sale_price_default: "(defaults to regular)"
+        title: Prices for %{sku}
+      pricing:
+        show:
+          page_title: Pricing for %{name}
+          pricing: Pricing
+          product: Product
+          promo_codes: Promo Codes
+          quantity: Quantity
+          shipping: Shipping
+          shipping_charges: Shipping Charges
+          subtotal: Subtotal
+          tax: Tax
+          total: Total
+          total_price: Total Price
+          totals: Totals
+      pricing_discount_code_lists:
+        cards:
+          promo_codes:
+            button: View Promo Codes
+            generating: promo codes are being generated.
+            last_used_at_html: Last used %{date}
+            title: Promo Codes
+            total: Total
+            used: Used
+        edit:
+          title: '%{name} Promo Code List'
+          update_code_list: Update Code List
+        export_button: Create Export
+        fields:
+          count: Count
+          count_note: Number of codes to generate
+          expires_at: Expires At
+          name: Name
+          prefix: Code Prefix
+          prefix_note: e.g. a prefix of "10GOLD" will generate unique codes like "10GOLD107d35"
+        flash_messages:
+          generated: Your promo codes are being generated.
+          removed: The code list and its promo codes have been removed.
+          saved_error: There was a problem saving your promo code list
+          updated: The code list has been updated.
+        index:
+          button: Add New Code List
+          dashboard_link: Marketing Dashboard
+          description_html: Create lists of promo codes to use in %{link}
+          description_link: discounts
+          table:
+            count: Count
+            delete: Delete?
+            expiration: Expiration
+            list: List
+            prefix: Prefix
+          title: Promo Codes
+          list_pluralize:
+            one: "%{count} List"
+            other: "%{count} Lists"
+        name: Promo Code
+        new:
+          create_code_list: Create Code List
+          title: New Promo Code List
+        promo_code:
+          one: '%{count} promo code'
+          other: '%{count} promo codes'
+        promo_codes:
+          title: Promo Codes
+          table:
+            code: Code
+            expires: Expires
+            used: Used
+          never: Never
+          unused: Unused
+        show:
+          index_link: All Code Lists
+          generating_codes: We're still generating codes for this list! You won't be able to delete, edit, or export promo codes until this is done.
+          disabled_info: You can do this once we have finished generating the codes.
+        summary:
+          type: Promo Code List
+          expires_at: Expires
+      pricing_discounts:
+        aux_navigation:
+          view_orders: View Orders
+        cards:
+          attributes:
+            deactivates: Autodeactivates
+            edit: Edit
+            header: Attributes
+          rules:
+            edit: Edit Rules
+            header: Rules
+            none: None
+          insights:
+            button: View Details
+            old_label: Past month,
+            orders: orders
+            page_title: Insights on %{discount}
+            revenue: revenue
+            title: Insights
+            units_sold: units sold
+            young_label: This week,
+            past_three_months: Past 3 Months
+            discounts: discounts
+        conditions:
+          promo_code:
+            list_help: You can allow more than one promo code for this discount by separating them with commas, e.g. SAVE20, SAVETWENTY. Or, select "is from" in the menu on the left to pick a list of generated promo codes.
+          user_tag:
+            list_help: You can allow more than one user tag for this discount by separating them with commas, e.g. vip, employee.
+        edit:
+          page_title: Attributes for %{name}
+        flash_messages:
+          removed: These changes have been removed
+          saved: Your changes have been saved
+        index:
+          add_new: Add New Discount
+          dashboard_link: Marketing dashboard
+          discount:
+            one: 1 discount
+            other: "%{count} discounts"
+          page_title: Discounts
+          sparkline_title: Based on orders over the last three months
+        options:
+          application_automatically: automatically
+          application_promo_code: when promo code
+          code_list_select: select a promo code list
+          for_everyone: for everyone
+          promo_code_is: is
+          promo_code_is_from: is from
+          unlimited_applications: unlimited
+          when_item_quantity: when item quantity
+          when_order_total: when order total
+          when_user_is_tagged: when user is tagged
+        rules:
+          compatible_note: Discounts that can be applied with this one
+          excluded_categories_note: Exclude products in a category from qualification and value calculations
+          excluded_products_note: Exclude products from qualification and value calculations
+          description: Description
+          page_title: Rules for %{name}
+          redeem_once: Redeem once per email address
+          redeem_unlimited: Redeem an unlimited number of times for anyone
+          sale_items_notes:
+            active:
+              item: The order qualifies regardless of whether sale items are in the order.
+              order: The order qualifies regardless of whether sale items are in the order.
+              shipping: The order qualifies regardless of whether sale items are in the order.
+            inactive:
+              item: Sale items won't receive a discount.
+              order: Deduction is based on the sum of regular priced items only.
+              shipping: Orders made of only sale items don't qualify.
+        show:
+          deactivated_html: This discount was automatically deactivated on %{time} because it had not been redeemed in %{timespan}.
+          disable_auto_deactivation: Turn off auto deactivation for this discount
+          reactivate: Reactivate for now
+        summary:
+          redemption:
+            one: 1 redemption
+            other: "%{count} redemptions"
+          type: Discount
+        insights:
+          chart_label: Revenue
+          orders: Orders
+          revenue: Revenue
+          units_sold: units sold
+          from_previous: "%{percentage} from previous"
+          date_range: "%{starts_at} to %{ends_at}"
+          insights_featuring_this_discount: Insights Featuring this Discount
+          discounts: Discounts
+      pricing_overrides:
+        adjusted_unit_price: Adjusted Unit Price
+        adjustment: Adjustment
+        button: Return to Cart
+        comment_placeholder: Leave a note about why you're adjusting the price of this order, additional info, etc.
+        description: Here you can apply adjustments at a line item-level or to the entire order.
+        disabled_item_field_info: You cannot adjust both subtotal and item pricing at the same time. Remove subtotal adjustment to edit item amounts.
+        disabled_subtotal_field_info: You cannot adjust both subtotal and item pricing at the same time. Remove item adjustments to edit subtotal.
+        flash_messages:
+          error: There was a problem adjusting order pricing.
+          success: Order pricing has been adjusted successfully.
+        item_total: Item Total
+        leave_a_comment: Leave a comment on the order
+        product: Product
+        proposed_pricing: Proposed Pricing
+        quantity: Quantity
+        title: Adjust pricing for %{name}
+        unit_price: Unit Price
+      pricing_skus:
+        allow_discounting: Allow Discounting
+        cards:
+          prices:
+            button: Manage Prices
+            summary: for at least %{quantity}
+        disallow_discounting: Disallow Discounting
+        edit:
+          title: Attributes for %{name}
+        index:
+          button: Add New Pricing SKU
+          title: Pricing
+          sku_pluralize:
+            one: "%{count} SKU"
+            other: "%{count} SKUs"
+        msrp: MSRP
+        msrp_placeholder: '0'
+        new:
+          create_sku: Create SKU
+          title: New Pricing SKU
+        not_on_sale: Not On Sale
+        on_sale: On Sale
+        saved: "%{sku} has been saved."
+        show:
+          view_inventory: View Inventory
+          view_product: View Product
+        sku: SKU
+        sku_placeholder: SKU123
+        summary:
+          inactive: Inactive
+          pricing_sku: Pricing SKU
+        tax_code: Tax Code
+        tax_code_placeholder: '123'
+      product_rules:
+        card:
+          button: Edit Product Rules
+          description: 'Specify rules to determine which products will show here. Examples include:'
+          empty_button: Add Product Rules
+          example_1: Price is greater than $40
+          example_2: Only products that match "shirts"
+          example_3: Products that are on sale
+          header: Product Rules
+        invalid_lucene_syntax: Search query contains invalid Lucene syntax.
+        flash_messages:
+          destroyed: That product rule has been removed
+          error: There was a problem saving this rule. %{errors}
+          saved: Your rule has been saved
+        index:
+          add_rule: Add a rule based on
+          base_query_rule: Search query is "%{query}"
+          no_rules: No rules setup
+          page_title: Product Rules on %{name}
+        preview:
+          matching_product:
+            one: 1 matching product
+            other: "%{count} matching products"
+          no_results: No products match these rules
+          show_undisplayable: Show undisplayable products
+          hide_undisplayable: Hide undisplayable products
+          show_undisplayable_info: Products will display on the storefront if they are active, with active variants, and have available inventory. Undisplayable products matching these rules will be included if they become displayable at any point.
+          show_undisplayable_info_link: Show all undisplayable products info
+        fields:
+          category:
+            name: Category that does
+            placeholder: Category A, Category B
+      publish_authorization:
+        unauthorized: You are not authorized to publish changes now. You may add these changes to a release.
+      recommendations:
+        edit:
+          custom: 'Custom:'
+          drag_to_reorder_priority: Drag to reorder priority
+          page_title: Recommendations for %{product}
+          save_recommendations: Save Recommendations
+        flash_messages:
+          changes_error: There was a problem saving your changes.
+          saved: Recommendations have been saved.
+        sources:
+          custom: Custom Administrated
+          purchased: Users Also Purchased
+          similar: Most Similar Products
+      releasables:
+        creatable:
+          add_category: Add Category
+          add_discount: Add Discount
+          add_page: Add page
+          add_product: Add Product
+        or_find_something_to_release: or find something to release ↓
+        plan_changes_for: Plan changes for %{release_name}
+      releases:
+        calendar:
+          title: Release Calendar
+          add_new_release: Add New Release
+          next_week: Next Week
+          previous_week: Previous Week
+          today: Today
+        cards:
+          attributes:
+            button: Edit Attributes
+            created: 'Created:'
+            last_published: 'Last Published:'
+            last_undone: 'Last Undone:'
+            modified: 'Modified:'
+            never: "(never)"
+            none: "(none)"
+            publishes: 'Publishes:'
+            tags: 'Tags:'
+            title: Attributes
+            undo_at: 'Undo at:'
+            unscheduled: "(unscheduled)"
+          plan_changes:
+            button: Plan changes
+            release_not_published_1: Releases allow you to make storefront changes that publish later.
+            release_not_published_2: You can schedule publishing or publish manually.
+            release_published_html: This release has been published. You can schedule republishing in %{attributes_link}
+            title: Plan Changes
+          planned_changes:
+            button: View Changes
+            changes: Changes
+            empty_note: You can view and manage changes for this release once they are planned.
+            planned: Planned
+        edit:
+          index_link: All releases
+          last_published_at: Last Published at
+          last_undone_at: Last Undone At
+          name: Name
+          none: "(none)"
+          page_title: Attributes for %{name}
+          publish_at: Publish at
+          save_changes: Save Changes
+          tags: Tags
+          tags_note: 'Comma separated: just, like, this'
+          undo_at: Undo at
+        flash_messages:
+          published: Your release has been published.
+          removed: This release has been removed
+          reverted: Your release has been reverted.
+          saved: Your release has been saved.
+          saved_error: There was a problem saving your release.
+        index:
+          add_new_release: Add New Release
+          dashboard_link: Main dashboard
+          instruction: Use releases to plan upcoming changes for your site. Click on a day to begin planning. Releases are managed and published in the %{time_zone} time zone.
+          never: "(never)"
+          page_title: Releases
+          title: Releases
+          unscheduled_releases: Unscheduled releases
+          unscheduled: Unscheduled
+          view_calendar: View Calendar
+          add_to_calendar:
+            link_text: Add to Calendar
+            tooltip:
+              apple_calendar: Apple Calendar
+              outlook: Outlook
+              google_calendar: Google Calendar
+              google_calendar_instructions_html: >
+                <p>Your Google Calendar feed URL is</p>
+                <p><input class='text-box' type='text' id='calendar_feed_url_field' value='%{calendar_feed_url}'></p>
+                <p>
+                  Import this feed into your calendar by following these steps:
+                  <ol>
+                    <li>Copy the above URL</li>
+                    <li>Log into Google Calendar</li>
+                    <li>Navigate to <strong>Settings > Add Calendar > From URL</strong></li>
+                    <li>Paste your calendar feed URL into the text box</li>
+                    <li>Click the <strong>Add Calendar</strong> button</li>
+                  </ol>
+                </p>
+        new:
+          add: Add
+          name: Name
+          name_of_new_release: Name of New Release
+        select:
+          live_site: the live site
+          publish_with: Publish with %{release}
+          publishing_now: Publishing now
+          reminder_html: Still working on this?<br>%{yes_link} or %{no_link}
+          view: View
+          view_release: View Release
+        show:
+          index_link: All releases
+          plan_changes_to_preview: Plan some changes to preview this release
+          publish_now: Publish Now
+          republish_now: Republish Now
+          start_preview_in_storefront: Start preview in storefront
+          undo: Undo
+          visit_storefront_to_preview: Visit storefront to preview
+          no_changes_to_preview: There are no changes to preview. Click on the Plan Changes card to start!
+          no_changes_to_publish: There are no changes to publish for this release. Click on the Plan Changes card to start!
+          no_changes_to_undo: There are no changes to undo for this release. Click on the Plan Changes card to start!
+          user_cannot_publish_info: You do not have permission to publish a release.
+          cannot_undo_info: You cannot undo a release that's not published or already undone.
+          user_cannot_undo_info: You do not have permission to undo a release.
+        summary:
+          change:
+            one: "%{count} Change"
+            other: "%{count} Changes"
+          release: Release
+        publish:
+          title: Publish %{name}
+          subtitle: When does it go live?
+          activate: activate
+          active: Active
+          inactive: Inactive
+          never: I'll decide later
+          now: Now
+          release_name: Release name
+          when_does_it_publish: When does it publish?
+          with_a_new_release: With a new release
+          with_release: With %{release_name}
+          which_release_placeholder: Mother's Day %{year}
+        feed:
+          name: "%{site_name} Site Releases"
+          view_release: "View Release: %{url}"
+          starts_on: Starts on %{date}
+          ends_on: Ends on %{date}
+          no_undo_date: There is no undo date set for this release.
+      reports:
+        all_reports: View All Reports
+        average_order_value:
+          title: Average Order Value
+          date_range: "%{starts_at} to %{ends_at}"
+          by: by
+          export_results: Export All Results
+        back: Back
+        full_results_html: "Showing all %{count} results. %{export_link}"
+        group_by_time:
+          uneven_day_distribution: Some days may show more or less than others, since your date range isn't an even number of weeks.
+        partial_results_html: "Showing first %{count} results. To see all, %{export_link}"
+        export_results: Export results
+        unknown: Unknown
+        export:
+          where_will_the_file_go: Where will the file go?
+          enter_email: Enter email
+          start_export: Start Export
+          emails_note: 'Comma separated: developer@example.com, manager@example.com'
+        first_time_vs_returning_sales:
+          title: First-time vs Returning Sales
+          date_range: "%{starts_at} to %{ends_at}"
+          by: by
+          export_results: Export All Results
+        flash_messages:
+          success: Your export is being generated, and will be emailed as soon as it's done.
+        insights:
+          title: Insights
+          all_insights: All Insights
+        low_inventory:
+          title: Low Inventory
+        reference:
+          title: Reports Reference
+          intro: This page serves as a reference for terms and ideas used throughout the reporting area.
+          terms: Terms
+          units_sold: Units Sold
+          units_sold_description: The number of individual quantity of order items, summed
+          orders: Orders
+          orders_description: The total number of placed orders
+          merchandise: Merchandise
+          merchandise_description: The total cost of items (including customization fees), before discounting, shipping, or taxes
+          discounts: Discounts
+          discounts_description: The total of all discounts, including item discounts, shipping discounts, and order level discounts
+          shipping: Shipping
+          shipping_description: The total shipping charges, before shipping discounts have been applied.
+          tax: Tax
+          tax_description: The total tax collected.
+          revenue: Revenue
+          revenue_description: Total money collected - on orders, this includes merchandise, discounts, shipping and taxes. For item level reports, this is the merchandise and tax.
+          average_order_value: Average Order Value
+          average_order_value_description: The revenue dividing by the number of orders
+          first_time_orders: First-time Orders
+          first_time_orders_description: Orders placed with an email address matching no previous orders
+          returning_orders: Returning Orders
+          returning_orders_description: Orders placed with an email address that also has at least one previous order
+          searches: Searches
+          searches_description: The number of times these terms have been searched
+          search_id: Search ID
+          search_id_description: The unique ID of a set of search terms. The terms are stemmed to remove endings. This ensures different search terms with slight language variations (e.g. different tense, plurals) are counted the same.
+          discrepancies: Discrepancies
+          discrepancies_description: Often times, retailers will contact their implementer wondering why Workarea reports and insights may not exactly match a third-party analytics system like Google Analytics, Omniture, Coremetrics, etc. Some of the major causes of this below.
+          definitions: Definitions
+          definitions_description: Differences in the way terms are defined, like "sessions" and "uniques".
+          browser_configuration: Browser Configuration
+          browser_configuration_description: Users can disable JavaScript and cookies, both of which are used by most major analytics software (Workarea uses both for tracking too).
+          time_delay: Time Delay
+          time_delay_description_html: Report data display is refreshed no more than once per hour in Workarea. Other platforms (looking at you, Google Analytics) may have a longer or shorter time delay when displaying data.
+          time_zones: Time Zones
+          time_zones_description_html: All Workarea reports and insights are tracked in the time zone configured by the implementer. The current time zone configured for this admin is <code>%{time_zone}</code>.
+          insights: Insights
+          insights_description: Insights are generated on a daily, weekly, and monthly basis (depending on the insight). You can tell how often an insight is generated by the green time pill in the top right. A month name indicates monthly, "week ending" indicates weekly, and a date indicates daily. Each insight represents data from a snapshot in time.
+        reference_link_html: Questions? See our <a href="%{path}">reports reference</a>.
+        customers:
+          title: Customers
+          export_results: Export All Results
+          results_filter: Results Filter
+          filters:
+            all: All Customers
+            returning: Returning Customers
+            one_time: One-Time Customers
+        sales_by_category:
+          title: Sales by Category
+          date_range: "%{starts_at} to %{ends_at}"
+          export_results: Export All Results
+        sales_by_country:
+          title: Sales by Country
+          date_range: "%{starts_at} to %{ends_at}"
+          export_results: Export All Results
+        sales_by_discount:
+          title: Sales by Discount
+          date_range: "%{starts_at} to %{ends_at}"
+          export_results: Export All Results
+        sales_by_product:
+          title: Sales by Product
+          date_range: "%{starts_at} to %{ends_at}"
+          export_results: Export All Results
+        sales_by_sku:
+          title: Sales by SKU
+          date_range: "%{starts_at} to %{ends_at}"
+          export_results: Export All Results
+        sales_by_traffic_referrer:
+          title: Sales by Traffic Referrer
+          date_range: "%{starts_at} to %{ends_at}"
+          export_results: Export All Results
+        sales_over_time:
+          title: Sales over Time
+          date_range: "%{starts_at} to %{ends_at}"
+          by: by
+          export_results: Export All Results
+        searches:
+          title: Searches
+          date_range: "%{starts_at} to %{ends_at}"
+          export_results: Export All Results
+          results_filter: Results Filter
+          filters:
+            all: All Searches
+            with_results: Searches with results
+            without_results: Searches without results
+      reports_mailer:
+        export:
+          subject: Here's your %{name} export
+          download_link: Download your %{name} export.
+      search:
+        creation_date: Creation Date
+        creation_date_filter: Filter by Creation Date
+        end_date: End Date
+        go: Go
+        keywords: Keywords
+        reset_filters: Reset Filters
+        show_filters: Show Filters
+        sort_by: Sort By
+        start_date: Start Date
+        submit: Submit
+      search_customizations:
+        analyze:
+          title: Search Analysis
+          description: This is intended to help more advanced or technical people understand what's going on behind the scenes for a given search.
+          tokens: Tokens
+          token_help: When performing a search, Elasticsearch breaks down the terms into pieces or "tokens". This list will show you the break down, including terms-splitting, stemming, and synonyms.
+          rendering: Rendering
+          rendering_help: This list is the "middleware" that Workarea uses to render searches. Each step of this chain can pass (do nothing), alter the search response, or declare "this search is done". In the right column, a down arrow indicates this step did nothing, it passed down to the next step. A checkbox indicates this step was the final one, and declared "I know how to respond". An X indicates this step didn't run, because a previous one decided it was final.
+          ranking: Ranking
+          ranking_help_html: This will illustrate how Workarea ranked the results. If there's a check in the Featured column, this result is here due to the Featured Products functionality available in the card above. The score comes from Elasticsearch's interal ranking system and Workarea's customization to that. It's based in an algorithm called TD/IDF. You can read more about that <a href="https://en.wikipedia.org/wiki/Tf–idf" target="_blank">here</a>.
+          no_results: There are no results to rank.
+        cards:
+          analyze:
+            title: Analyze
+            description: See what Workarea does to generate the results for this search.
+          attribtes:
+            active: 'Active:'
+            redirect: 'Redirect:'
+            rewrite: 'Rewrite:'
+            search_id: 'Search ID:'
+            search_terms: 'Search Term(s):'
+          featured_products:
+            add_featured_products: Add Featured Products
+            featured_products_description: Featured products appear at the top of the search results. They can be whatever products you'd like.
+            manage_featured_product: Manage Featured Products
+            no_featured_products: No featured products.
+            title: Featured Products
+          insights:
+            abandonments: abandonments
+            past_month: Past month,
+            searches: searches
+            this_week: This week,
+            title: Insights
+            total_results: total results
+            view_details: View Details
+            past_three_months: Past 3 Months
+            orders: orders
+            revenue: revenue
+            units_sold: units sold
+        edit:
+          miscellaneous: Miscellaneous
+          official_lucene_documentation: the official Lucene documentation
+          page_title: Attributes for %{customization}
+          query_rewrite: Query Rewrite
+          query_rewrite_info: 'Example: Results for "scarves" are including poncho products because both are in a category called "Scarves & Ponchos". Rewrite the query "scarves" to "scarves -poncho" to exclude poncho products. Full documentation on query syntax available at'
+          redirect: Redirect
+          redirect_info: Send users to a specific URL for this search. If present, this is the only result customization that will have any effect.
+          redirect_url: Redirect URL
+          redirect_url_placeholder: http://%{host}/products/widget
+          rewritten_query: Rewritten Query
+          search_id: Search ID
+          search_terms: Search Term(s)
+        flash_messages:
+          created: Created a customization for '%{query}'
+          removed: Customizations for '%{query}' has been removed.
+          saved: Your results customization has been saved.
+          saved_error: There was a problem saving your results customization.
+        index:
+          add_new_customization: Add New Customization
+          featured_products: Featured Products
+          page_title: Search Customizations
+          popular_searches: Popular searches
+          redirect: Redirect?
+          rewrite: Rewrite?
+          search_customizations: Search Customizations
+          search_dashboard: Search dashboard
+          search_id: Search ID
+          search_terms: Search Term(s)
+          sparkline_title: Based on number of searches over the last three months
+          term_to_customize: Term to customize
+        insights:
+          abandonments: abandonments
+          abandonments_label: Abandonments
+          page_title: Insights on %{customization}
+          searches: Searches
+          searches_label: Searches
+          from_previous: "%{percentage} from previous"
+          date_range: "%{starts_at} to %{ends_at}"
+          orders: Orders
+          revenue: Revenue
+          units_sold: Units Sold
+          insights_featuring_this_search: Insights Featuring this Search
+        show:
+          index_link: All search customizations
+      search_settings:
+        flash_messages:
+          saved: Search settings have been saved.
+        show:
+          boosts:
+            field_weight: Field Weight
+            field_weight_description: Define which fields are most important when calculating sort. Values are multipliers, and only need to be relative to one another. A zero will remove that field from being matched.
+            product_popularity: Product Popularity
+            product_popularity_description: Tune the effect of product popularity on search result sorting. A factor greater than 1 increases the effect, and a factor less than 1 decreases the effect.
+            title: Boosts
+          button: Save Search Settings
+          dashboard_link: Settings Dashboard
+          filters:
+            description: Define what filters should be shown on search results and categories.
+            title: Filters
+          synonyms:
+            description: Define groups of search terms that should return the same result.
+            phrase_example: united states,u s a,united states of america => usa
+            phrase_example_description: 'You can create synonym functionality out of a phrase like so:'
+            simple_example: "tshirt, t-shirt, tee-shirt \nskirt, skort"
+            simple_example_description: 'Enter one synonym group per line, for example:'
+            title: Synonyms
+          title: Search Settings
+      searches:
+        show:
+          all_searches: Everything
+          dashboard_link: Main dashboard
+          go: Go
+          less_specific: Try a less specific search.
+          no_results: No results!
+          results_for: Showing results for %{params}
+          show_filters: Show Filters
+          sort_by: Sort by
+          title: Search results
+      shared:
+        activate_select:
+          when_does_this_activate: When does this activate
+        bulk_actions:
+          import: Import
+          export: Export
+          selected: selected
+        csv_formatting_tooltip:
+          escaping_commas_example: 'Escaping commas:  "Red, White, and Blue"'
+          escaping_double_quote_example: 'Escaping a double quote character: "6"""'
+          example: Example
+          tooltip_content_html: 'Quotes ["] and commas [,] will not be recognized unless you <strong>escape</strong> the value with double quotes ""'
+        release_slug:
+          learn_more: Learn More
+          tooltip_content_html: 'You are currently making changes in a release. Slugs for releasable items cannot be changed within a release. To change the slug for this item, select "live site" in the release dropdown.'
+        pagination:
+          next: Next
+          prev: Previous
+        primary_nav:
+          administrators: Administrators
+          all_orders: All Orders
+          all_people: All People
+          assets: Assets
+          average_order_value: Average Order Value
+          back_filtered_link: Filtered %{resource}
+          back_link: All %{resource}
+          catalog: Catalog
+          categories: Categories
+          content_pages: Content Pages
+          create_one: Create One
+          customers: Customers
+          customizations: All Customizations
+          data_files: Imports & Exports
+          discounts: Discounts
+          email_signups: Email Signups
+          home_page: Home Page
+          imports: Create Import
+          inventory: Inventory
+          insights: Insights
+          main_dashboard: Main dashboard
+          marketing: Marketing
+          no_upcoming_releases: No upcoming releases
+          not_scheduled: not scheduled
+          orders: Orders
+          payment_transactions: Payment transactions
+          people: People
+          pricing: Pricing
+          primary_navigation: Primary Navigation
+          products: Products
+          promo_codes: Promo Codes
+          redirects: Redirects
+          releases: Releases
+          reports: Reports
+          sales_by_discount: Sales by Discount
+          sales_by_product: Sales by Product
+          sales_by_traffic_referrer: Sales by Traffic Referrer
+          sales_over_time: Sales over Time
+          search: Search
+          search_placeholder: Find products, assets, categories, orders, etc...
+          searches: Searches
+          settings: Settings
+          shipping_services: Shipping Services
+          site_planner: Site Planner
+          store: Store
+          system_pages: System Pages
+          tax_categories: Tax Categories
+          taxonomy: Taxonomy
+          todays_orders: Today's Orders
+          todays_signups: Today's Signups
+          transactional_emails: Transactional Emails
+          trash: Trash
+          yesterdays_orders: Yesterday's Orders
+        publishing_select:
+          when_do_these_changes_publish: When do these changes publish
+          warning_message: You do not have permission to publish to the live site. Select or create a release before continuing.
+      shipping_services:
+        edit:
+          button: Save Shipping Service
+          title: Attributes for %{service}
+        flash_messages:
+          created: The shipping service has been created
+          removed: The shipping service has been removed
+          saved: Your changes have been saved
+        index:
+          button: Add New Shipping Service
+          dashboard_link: Settings Dashboard
+          import: Import Services
+          label: shipping service
+          table:
+            country: Country
+            rate_count: Rate Count
+            regions: Regions
+            shipping_service: Shipping Service
+            tiered: Tiered
+          title: Shipping Services
+          service_pluralize:
+            one: "%{count} Service"
+            other: "%{count} Services"
+        new:
+          create_shipping_service: Create Shipping Service
+          title: New Shipping Service
+        options:
+          not_specified: Not Specified
+        regions_note: "Comma separated: PA, NJ, NY"
+        shipping_rates:
+          max_value: Max Value
+          min_value: Min Value
+          price: Price
+          title: Shipping Rates
+      shippings:
+        index:
+          address: Address
+          carrier: Carrier
+          details: Details
+          charges: Charges
+          items: Items
+          name: Name
+          no_shipping_address: No shipping address
+          no_shipping_service: No shipping service
+          page_title: Shipping for %{order}
+          service: Service
+          service_code: Service Code
+          instructions: Delivery Instructions
+          tax_code: Tax Code
+          not_applicable: N/A
+          items: Items
+        show:
+          address: Address
+          carrier: Carrier
+          charges_due_to_shipping: Charges Due to Shipping
+          name: Name
+          no_shipping_address: No shipping address
+          no_shipping_service: No shipping service
+          page_title: Shipping for %{order}
+          service: Service
+          service_code: Service Code
+          tax_code: Tax Code
+      status_report_mailer:
+        alerts:
+          empty_categories: Empty categories
+          products_without_categories: Products without categories
+          products_without_descriptions: Products without descriptions
+          products_without_images: Products without images
+          products_without_prices: Products without prices
+          products_without_variants: Products without variants
+          products_with_low_inventory: Products with low inventory
+          products_with_variants_missing_details: Products with variants missing details
+          products_with_inconsistent_variant_details: Products with inconsistent variant details
+          title: Alerts
+          upcoming_empty_releases: Upcoming empty releases
+        orders:
+          average_order_value: 'AOV:'
+          orders_discounted: 'Orders Discounted:'
+          revenue: 'Revenue:'
+          title: Orders
+          total_orders: 'Total Orders:'
+          units_sold: 'Units Sold:'
+          discounts: 'Discounts:'
+          customers: 'Customers:'
+        title: Daily Status Report
+      summary:
+        last_updated: 'Last updated %{timestamp} ago'
+      tax_categories:
+        cards:
+          attributes:
+            code: 'Code:'
+          rates:
+            button: Manage Rates
+            empty: No rates to show.
+            empty_button: Add Rates
+            from_minimum: from %{rate}
+            title: Rates
+            to_maximum: to %{rate}
+        edit:
+          button: Save Tax Category
+          title: Attributes for %{category}
+        fields:
+          name: Name
+          tax_code: Tax Code
+        flash_messages:
+          created: The tax category has been created
+          removed: The tax category has been removed
+          saved: Your changes to the tax category have been saved
+        index:
+          dashboard_link: Settings dashboard
+          description_html: Setup how to charge tax. Linked to %{pricing_link} and %{shipping_link} by tax codes.
+          empty_button: Create one
+          empty_html: No tax categories found. %{button}.
+          import_link: Import Rates
+          new_button: Add new tax category
+          pricing_link: Pricing
+          shipping_link: Shipping Services
+          table:
+            code: Code
+            created: Created
+            imports: Imports
+            modified: Modified
+            rates: Rates
+            tax_category: Tax Category
+          title: Tax categories
+          category_pluralize:
+            one: "%{count} Category"
+            other: "%{count} Categories"
+        new:
+          create_tax_category: Create Tax Category
+          title: New Tax Category
+          usage:
+            help_link: How to Import Tax Rates
+            info: Tax Categories allow merchants to specify different tax rules for different classes of goods. For example, grocery items and clothing items may be subject to different tax rules based on your store's jurisdiction.
+            instruction_html: Before getting started, please refer to the %{help_link} help article for more information on managing tax categories.
+            title: Using Tax Categories
+      tax_rates:
+        index:
+          button: Import and replace
+          empty_button: Import tax rates
+          not_applicable: N/A
+          table:
+            charge_on_shipping: Charge on Shipping
+            country: Country
+            max_value: Max Value
+            max_value_link: More Info on Max Value
+            max_value_tooltip: Maximum value represents the highest order total on which a tax rate can be charged.
+            min_value: Min Value
+            min_value_link: More Info on Min Value
+            min_value_tooltip: Minimum value represents the lowest order total on which a tax rate can be charged.
+            percentage: Percentage
+            postal_code: Postal Code
+            region: Region
+          title: Rates for %{category}
+      timeline:
+        card:
+          button: View Timeline
+          description: When some changes have occurred or are scheduled, they will be displayed here.
+          title: Timeline
+        delete_confirmation: Are you sure you want to delete these changes?
+        edit: Edit
+        no_activity: No activity to show
+        timeline_for: Timeline For
+        today: Today
+        upcoming_changes: Upcoming Changes
+      toolbar:
+        adjust_order_pricing: Adjust Order Pricing
+        admin_model_view: View %{model} admin
+        close_primary_menu: Close Primary Menu
+        edit_content: Edit Content
+        inactive_message: '%{model} is not active'
+        managing_changes_for: Managing changes for
+        open_primary_menu: Open Primary Menu
+        search: search
+        search_placeholder: search the admin for products, assets, categories, orders, etc
+        search_title: find products, assets, categories, orders, etc...
+        stop_guest_browsing: Stop Guest Browsing
+        stop_impersonation: Stop Impersonation
+        view: view
+      trash:
+        flash_messages:
+          success: This has been restored
+          error: There was a problem restoring this!
+          unauthorized: You do not have permission to restore this!
+        index:
+          main_dashboard: Main dashboard
+          title: Trash
+          description: Here you can see things that have been deleted that can be restored. Items will stay in the trash for three months.
+          empty: There's currently no trash to show. Go delete something!
+      'true': 'Yes'
+      users:
+        addresses:
+          empty: No saved addresses.
+          title: Addresses for %{user}
+        cards:
+          insights:
+            average_order_value: AOV
+            button: View Details
+            empty: No data yet.
+            order: order
+            spent: Spent
+            title: Insights
+            past_three_months: Past 3 months
+            revenue: revenue
+            first_order: first order
+            last_order: last order
+          not_applicable: N/A
+          orders:
+            button: View Orders
+            empty: No orders
+            title: Orders
+          permissions:
+            button: Manage Permissions
+            title: Permissions
+          saved_addresses:
+            button: View Addresses
+            empty: No saved addresses.
+            title: Saved Addresses
+        edit:
+          button: Save User
+          title: Attributes for %{user}
+          avatar_tooltip: Avatar Info
+          avatar_tooltip_content: Images should be at least 80 x 80 pixels. Files not matching these dimensions will be resized and cropped.
+          avatar_delete: Delete Avatar?
+          email_signup: Email Signup?
+        flash_messages:
+          changes_saved: Your changes have been saved
+          saved: Your changes have been saved
+          started: You are now browsing as %{email}
+          stopped: Impersonation for this user has been stopped.
+          created: This account has been created
+          error: There was an error saving this account
+        index:
+          add_new: Add New Account
+          browse_as_guest: Browse As Guest
+          dashboard_link: People Dashboard
+          export: export
+          stop_guest_browsing: Stop Guest Browsing
+          title: People
+          user_pluralize:
+            one: "%{count} User"
+            other: "%{count} Users"
+        insights:
+          average_order_value: Average Order Value
+          day: Day
+          empty: No order data on this person yet.
+          frequency: Frequency
+          month: Month
+          recently_viewed:
+            categories: Categories
+            none: "(none)"
+            products: Products
+            searches: Searches
+            title: Recently Viewed
+          title: Insights on %{user}
+          total_orders_placed: Total Orders Placed
+          total_spent: Total Spent
+          value: Value
+          week: Week
+          year: Year
+          discounts: Discounts
+          total_orders: Total Orders
+          first_order_at: First Order
+          last_order_at: Last Order
+          ranking: Ranking
+          orders: Orders
+          revenue: Revenue
+          aov: AOV
+          insights_for_this_customer: Insights for this Customer
+          percentile: percentile
+        login:
+          never: Never logged in
+          time_ago: "%{period} ago"
+        name_types:
+          email: email
+          name: name
+        orders:
+          order: Order
+          title: Orders for %{user}
+          order_pluralize:
+            one: "%{count} Order"
+            other: "%{count} Orders"
+        permissions:
+          access_to_administration: Access to administration
+          admin: Admin
+          admin_access: Admin Access
+          admin_areas: Admin Areas
+          button: Save Permissions
+          can_grant_or_revoke_permissions: Can grant or revoke permissions
+          can_publish_now: Can publish to the live site
+          can_publish_now_info: Publish now permission information
+          can_publish_now_message: Admin users with this permission can make changes to the live site. Users without the permission are required to assign changes to a release, if possible, and cannot publish or schedule releases.
+          can_restore_deleted_items: Can restore deleted items from trash
+          cannot_be_changed: "This person is a super admin, so you can't change their permissions here. You'll need a developer to revoke this permission from the Rails console."
+          catalog: Catalog
+          help: Help
+          marketing: Marketing
+          orders: Orders
+          people: People
+          releases: Releases
+          reports: Reports
+          search: Search
+          settings: Settings
+          status_email: Receive daily updates about store activity
+          store: Store
+          title: Permissions for %{user}
+        roles:
+          admin: admin
+          customer: customer
+        show:
+          cant_impersonate_other_administrators: You can't impersonate other administrators.
+          cant_impersonate_yourself: You can't impersonate yourself.
+          impersonate_customer: Impersonate This Customer
+          impersonation_link: Impersonation Info
+          impersonation_tooltip: Impersonating another administrator would allow you to steal their permissions
+          stop_impersonation: Stop Impersonation
+          impersonate: Impersonate
+        summary:
+          admin_user: Admin User
+          order: Order
+          user: User
+      email_signups:
+        flash_messages:
+          destroyed: Email Signup has been removed
+        index:
+          page_title: Email Signups
+          heading: Email Signups
+          dashboard_link: Marketing dashboard
+          export_button: Create Export
+          signup_pluralize:
+            one: "%{count} Signup"
+            other: "%{count} Signups"
+        summary:
+          type: Email Signup

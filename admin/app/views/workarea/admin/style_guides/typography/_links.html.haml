@@ -1,0 +1,47 @@
+#link.style-guide__subsection
+
+  %h3= link_to_style_guide('typography', 'link')
+
+  %p Provides default styling for links via:
+  %ul
+    %li an element selector: <code>a</code>
+    %li a placeholder selector: <code>%link</code>
+    %li a class selector: <code>.link</code>
+
+  %p should style <code>a</code> tags:
+  .style-guide__example-block
+    = link_to 'Anchor Element', '#'
+
+  %p should style elements with <code>.link</code> class:
+  .style-guide__example-block
+    %span.link Span Element
+
+
+#link--secondary.style-guide__subsection
+
+  %h3= link_to_style_guide('typography', 'link__secondary')
+
+  %p should provide alternate syling <code>.link--secondary</code> class:
+  .style-guide__example-block
+    = link_to 'Anchor Element', '#', class: 'link link--secondary'
+  .style-guide__example-block
+    %span.link.link--secondary Span Element
+
+
+#link--no-underline.style-guide__subsection
+
+  %h3= link_to_style_guide('typography', 'link__no_underline')
+
+  %p Removes the links underline, on hover.
+
+  %p should work with <code>.link</code> class:
+  .style-guide__example-block
+    = link_to 'Anchor Element', '#', class: 'link link--no-underline'
+  .style-guide__example-block
+    %span.link.link--no-underline Span Element
+
+  %p should work with <code>.link--secondary</code> class:
+  .style-guide__example-block
+    = link_to 'Anchor Element', '#', class: 'link link--secondary link--no-underline'
+  .style-guide__example-block
+    %span.link.link--secondary.link--no-underline Span Element

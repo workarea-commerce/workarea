@@ -1,0 +1,39 @@
+/*------------------------------------*\
+    #CONTENT-BLOCK
+\*------------------------------------*/
+
+.content-block {}
+
+.content-block--hidden-for-small {
+    display: none;
+
+    @include respond-to($medium-breakpoint) {
+        display: block;
+    }
+}
+
+.content-block--hidden-for-medium {
+    @include respond-to($medium-breakpoint) {
+        display: none;
+    }
+
+    @include respond-to($wide-breakpoint) {
+        display: block;
+    }
+}
+
+.content-block--hidden-for-wide {
+    @include respond-to($wide-breakpoint) {
+        display: none;
+    }
+
+    @include respond-to($x-wide-breakpoint) {
+        display: block;
+    }
+}
+
+.content-block--hidden-for-x-wide {
+    @include respond-to($x-wide-breakpoint) {
+        display: none;
+    }
+}

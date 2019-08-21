@@ -1,0 +1,8 @@
+/*------------------------------------*\
+    #LISTS
+\*------------------------------------*/
+
+dl, ul, ol {
+    margin:  0 0 $vertical-margin $horizontal-margin;
+    padding: 0 0 0 ($spacing-unit * 2);
+}

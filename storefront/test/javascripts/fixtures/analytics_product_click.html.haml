@@ -1,0 +1,7 @@
+%ul#product-list{ data: { analytics: { event: 'productList', name: 'Foo List', page: 2, per_page: 3 }.to_json } }
+  %li.product-summary
+    %p{ data: { analytics: { event: 'productClick', domEvent: 'click', payload: { foo: 'foo' } }.to_json, analytics_product_impression: { id: 'foo' }.to_json } }
+  %li.product-summary
+    %p{ data: { analytics: { event: 'productClick', domEvent: 'click', payload: { foo: 'bar' } }.to_json, analytics_product_impression: { id: 'bar' }.to_json } }
+  %li.product-summary
+    %p{ data: { analytics: { event: 'productClick', domEvent: 'click', payload: { foo: 'baz' } }.to_json, analytics_product_impression: { id: 'baz' }.to_json } }

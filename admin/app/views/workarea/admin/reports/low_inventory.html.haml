@@ -1,0 +1,35 @@
+- @page_title = t('workarea.admin.reports.low_inventory.title')
+
+.view
+  .view__header
+    .view__heading
+      = link_to "↑ #{t('workarea.admin.reports.all_reports')}", reports_dashboards_path
+      %h1.heading.heading--no-margin= t('workarea.admin.reports.low_inventory.title')
+      %p= t('workarea.admin.reports.reference_link_html', path: reference_report_path)
+
+  .view__container
+    .browsing-controls.browsing-controls--with-divider.browsing-controls--center.browsing-controls--filters-displayed
+      .browsing-controls__count
+        = render_reports_results_message(@report)
+        = render 'workarea/admin/reports/export', report: @report
+
+    %table.index-table
+      %thead
+        %tr
+          %th= t('workarea.admin.fields.sku')
+          %th.align-center= link_to_reports_sorting t('workarea.admin.fields.available'), report: @report, sort_by: 'available'
+          %th.align-center= link_to_reports_sorting t('workarea.admin.fields.sold'), report: @report, sort_by: 'purchased'
+          %th.align-center= link_to_reports_sorting t('workarea.admin.fields.backordered_units'), report: @report, sort_by: 'backordered'
+          %th= link_to_reports_sorting t('workarea.admin.fields.backordered_until'), report: @report, sort_by: 'backordered_until'
+          %th= link_to_reports_sorting t('workarea.admin.fields.tracking_policy'), report: @report, sort_by: 'policy'
+          %th= link_to_reports_sorting t('workarea.admin.fields.updated_at'), report: @report, sort_by: 'updated_at'
+      %tbody
+        -  @report.results.each do |result|
+          %tr.index-table__row
+            %td= link_to result._id, inventory_sku_path(result.sku)
+            %td.align-center= result.available
+            %td.align-center= result.purchased
+            %td.align-center= result.backordered
+            %td= result.backordered_until.try(:to_s, :date_only) || '-'
+            %td= result.policy.humanize
+            %td= local_time_ago(result.updated_at)

@@ -1,0 +1,82 @@
+/*------------------------------------*\
+    #TOP-HELP-ARTICLES
+\*------------------------------------*/
+
+$top-help-articles-category-bg-color:      $white !default;
+$top-help-articles-category-border-color:  $border-color !default;
+$top-help-articles-category-name-color:    $blue !default;
+$top-help-articles-item-name-color:        $gray !default;
+$top-help-articles-icon-color:             $gray !default;
+
+
+.top-help-articles {
+    display: table;
+    margin: 0 0 ($spacing-unit * 4);
+    width: 100%;
+    border-spacing: 8px 0;
+    border-collapse: separate;
+    table-layout: fixed;
+}
+
+    .top-help-articles__category {
+        display: table-cell;
+        padding: ($spacing-unit * 2);
+        background: $top-help-articles-category-bg-color;
+        border: 1px solid $top-help-articles-category-border-color;
+        vertical-align: top;
+    }
+
+        .top-help-articles__category-name {
+            display: block;
+            margin:  0 0 ($spacing-unit * 2);
+            padding: 0 0 $spacing-unit;
+            color: $top-help-articles-category-name-color;
+            font-size: $font-size + 8px;
+            font-weight: bold;
+            text-align: center;
+            border-bottom: 1px solid $top-help-articles-category-border-color;
+
+            &:hover {
+                color: $top-help-articles-category-name-color;
+            }
+        }
+
+        .top-help-articles__list {
+            margin:  0;
+            padding: 0;
+            list-style: none;
+        }
+
+            .top-help-articles__item {
+                display: table;
+                margin: $spacing-unit 0 0;
+                width: 100%;
+            }
+
+                .top-help-articles__item-name {
+                    display: table-cell;
+                    width: 100%;
+                    color: $top-help-articles-item-name-color;
+                    font-size: $font-size + 2px;
+                    vertical-align: top;
+                }
+
+                .top-help-articles__item-actions {
+                    white-space: nowrap;
+                    vertical-align: top;
+                }
+
+                    .top-help-articles__item-action {
+                        display: inline-block;
+
+                        & + & {
+                            margin: 0 0 0 ($spacing-unit / 2);
+                        }
+
+                        /**
+                         * Extend `.icon` in components/_icons.scss
+                         */
+                        .icon {
+                            color: $top-help-articles-icon-color;
+                        }
+                    }

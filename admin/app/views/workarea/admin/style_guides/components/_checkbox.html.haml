@@ -1,0 +1,21 @@
+#checkbox.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'checkbox')
+
+  %p Provide an alternative UI to standalone checkboxes.
+
+  .style-guide__example-block
+    .checkbox
+      = check_box_tag 'checkbox_1', 'value_1', false, class: 'checkbox__input'
+      = label_tag 'checkbox_1', '', class: 'checkbox__label', title: 'Select Row'
+
+#checkbox--indeterminate.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'checkbox__indeterminate')
+
+  %p shows an alternative indeterminate checkbox UI
+
+  .style-guide__example-block
+    .checkbox.checkbox--indeterminate
+      = check_box_tag 'checkbox_2', 'value_2', false, class: 'checkbox__input'
+      = label_tag 'checkbox_2', '', class: 'checkbox__label', title: 'Select Row'

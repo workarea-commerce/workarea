@@ -1,0 +1,168 @@
+# Sample localization file for English. Add more files in this directory for other locales.
+# See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
+
+en:
+  name: English
+  mongoid:
+    attributes:
+      workarea/payment/saved_credit_card:
+        cvv: Security Code
+      workarea/payment/tender/credit_card:
+        cvv: Security Code
+      workarea/release:
+        undo_at: Undo Date
+    errors:
+      messages:
+        password_weak_requirements: must be at least %{min} characters in length
+        password_medium_requirements: must be at least %{min} characters in length, and include a combination of upper and lowercase letters or letters and numbers
+        password_strong_requirements: must be at least %{min} characters in length, and include a combination of both upper and lowercase letters and numbers
+  time:
+    formats:
+      long: "%b %e, %Y %l:%M %p"
+      short_date_at_time: "%m/%d/%Y at %I:%M %p"
+  workarea:
+    add_multiple_cart_items:
+      errors:
+        missing_product: 'Product could not be found'
+    alerts:
+      issues:
+        no_categories: No Categories
+        no_description: No Description
+        no_displayable_products: No Displayable Products
+        not_in_taxonomy: Not in taxonomy
+        no_images: No Images
+        no_variants: No Variants
+        sku_missing_price: SKU missing price
+        low_inventory: Low Inventory
+        variants_missing_details: Variants Missing Details
+        inconsistent_variant_details: Inconsistent Variant Details
+    authentication:
+      login: Please log in to continue.
+      logout: Please log out to continue.
+      password_expired: Your password has expired and must be changed.
+    breadcrumbs:
+      search_results: Search Results for "%{query}"
+    carts:
+      product_unavailable: 'Item #%{product_id} is unavailable for purchase, it has been removed from your cart'
+      sku_unavailable: 'SKU %{sku} is unavailable for purchase, it has been removed from your cart'
+    data_file:
+      json:
+        unit: instance
+      csv:
+        unit: row
+    errors:
+      messages:
+        contains_type: cannot contain 'type'
+        not_a_date: must be a date
+        invalid_credit_card_number: is not a valid credit card number
+        expired_date: is an expired date
+        incomplete: is incomplete
+        must_be_future: must be in the future
+        po_box: may not be a PO box
+        exceeds_non_tiered_rate_limit: cannot have more than one non-tiered rate
+        linkable_not_unique: "This %{linkable_text} already has a link in this menu"
+        quantity_one_first_price: Minimum quantity must be one for the first price.
+        sku_unavailable: "Sorry, %{sku} is unavailable, it has been removed."
+        sku_limited_quantity: "Only %{quantity} of %{sku} is available, your quantity has been adjusted"
+        must_be_updated: must be updated
+        nothing_to_act_on: must have some selections to act on
+        must_be_unique: must be unique
+        not_star_query: "cannot be '*'"
+        undo_unpublished_release: cannot be set when Publish Date is blank
+    facets:
+      price_range:
+        over: 'Over %{price}'
+        under: 'Under %{price}'
+    inventory_sku:
+      name: "Inventory %{id}"
+    order:
+      name: "Order %{id}"
+      traffic_referrer:
+        direct: direct
+        email: email
+        refferal: referral
+        search: search
+        social: social
+        unknown: unknown
+    messages:
+      info: Info
+      error: Error
+      success: Success
+      generic_error_text: Sorry, there was an error processing your request.
+      loading: Loading...
+    payment:
+      insufficient_payment: "Your payment is insufficient. The remaining balance is %{balance}."
+      transaction_failure: "There was a problem processing your payment. %{message}"
+      transaction_error: An error occurred while processing your payment.
+      store_credit_debit: "%{amount} deducted from store credit for %{email}"
+      store_credit_credit: "%{amount} refunded to store credit for %{email}"
+      store_credit_insufficient_funds: This account does not have enough store credit.
+      store_credit_capture: Store credit is captured on authorization
+      exceeds_authed_amount: exceeds the authorized amount.
+      exceeds_captured_amount: exceeds the captured amount.
+      store_credit_card_failure: There was a problem storing your credit card.
+    pricing_overrides:
+      description: Price Override
+    pricing_sku:
+      name: "Pricing %{id}"
+    sorts:
+      available: Available
+      average_order_value: Average Order Total
+      destination: Destination
+      end: End Date
+      last_updated: Recently Updated
+      modified: Last Updated
+      most_orders: Most Orders
+      most_spent: Most Total Spent
+      name_asc: Name
+      name_desc: Name, Z to A
+      newest: Newest
+      oldest: Oldest
+      path: Path
+      pending: Pending
+      popularity: Most Popular
+      price_asc: Price, Low to High
+      price_desc: Price, High to Low
+      published_date: Published Date
+      purchased: Purchased
+      query: Search Terms
+      rating: Highest Rated
+      redemptions: Most Redeemed
+      relevance: Relevance
+      sales: Sales
+      sku: SKU
+      start: Start Date
+      title: Title
+      top_sellers: Top Sellers
+      total: Highest Total
+      type: Type
+      undo_date: Undo Date
+    user:
+      password_not_recent: cannot be one of your last %{length} passwords
+    metadata:
+      shop: Shop
+      shop_selection: Shop %{name} for a great selection including
+    reveal_password:
+      show: Show Password
+      hide: Hide Password
+  validate:
+    required: This field is required.
+    remote: Please fix this field.
+    email: Please enter a valid email address.
+    url: Please enter a valid URL.
+    date: Please enter a valid date.
+    dateISO: Please enter a valid date (ISO).
+    number: Please enter a valid number.
+    digits: Please enter only digits.
+    creditcard: Please enter a valid credit card number.
+    equalTo: Please enter the same value again.
+    maxlength: Please enter no more than {0} characters.
+    minlength: Please enter at least {0} characters.
+    rangelength: Please enter a value between {0} and {1} characters long.
+    range: Please enter a value between {0} and {1}.
+    max: Please enter a value less than or equal to {0}.
+    min: Please enter a value greater than or equal to {0}.
+    cvv: Please enter a valid security code.
+    extendedCreditCard: Please enter a valid credit card number.
+    noTypeFilter: Filters cannot contain 'type'. Please choose another keyword.
+    validDate: Please enter a valid date using the format YYYY-MM-DD

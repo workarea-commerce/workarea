@@ -1,0 +1,3 @@
+%tr
+  %td
+    %p= t('workarea.admin.data_file_mailer.export.download_html', link: link_to(t('workarea.admin.data_file_mailer.export.download_link'), url_for(@export)), name: @export.name.downcase, type: @export.file_type.upcase)

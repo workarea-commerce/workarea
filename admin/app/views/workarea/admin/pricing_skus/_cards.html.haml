@@ -1,0 +1,67 @@
+.grid.grid--auto.grid--flush.grid--center
+  .grid__cell
+    .card{ class: card_classes(:attributes, local_assigns[:active]) }
+      = link_to edit_pricing_sku_path(model), class: 'card__header' do
+        %span.card__header-text= t('workarea.admin.cards.attributes.title')
+        = inline_svg 'workarea/admin/icons/attributes.svg', class: 'card__icon'
+
+      - if local_assigns[:active].blank?
+        .card__body
+          %ul.list-reset
+            %li
+              %strong #{t('workarea.admin.fields.active')}?
+              = check_box_tag 'sku', 'active', model.active, disabled: true
+            %li
+              %strong #{t('workarea.admin.fields.tax_code')}:
+              = model.tax_code.presence || '(none)'
+            %li
+              %strong #{t('workarea.admin.fields.msrp')}:
+              - if model.msrp.blank?
+                = t('workarea.admin.cards.attributes.no_value')
+              - else
+                = number_to_currency model.msrp
+            %li
+              %strong #{t('workarea.admin.fields.on_sale')}:
+              = model.on_sale?.to_s.titleize
+            %li
+              %strong #{t('workarea.admin.fields.discountable')}:
+              = model.discountable?.to_s.titleize
+            %li
+              %strong= t('workarea.admin.fields.updated_at')
+              #{local_time_ago(model.updated_at)}
+            %li
+              %strong= t('workarea.admin.fields.created_at')
+              #{local_time_ago(model.created_at)}
+            = append_partials('admin.pricing_sku_attributes_card', pricing_sku: model)
+
+          = link_to edit_pricing_sku_path(model), class: 'card__button' do
+            %span.button.button--small= t('workarea.admin.cards.attributes.button')
+
+  .grid__cell
+    .card{ class: card_classes(:prices, local_assigns[:active]) }
+      = link_to pricing_sku_prices_path(model), class: 'card__header' do
+        %span.card__header-text= t('workarea.admin.prices.label')
+        = inline_svg 'workarea/admin/icons/prices.svg', class: 'card__icon'
+
+      - if local_assigns[:active].blank?
+        .card__body
+          %ul.list-reset
+            - model.prices.take(10).each do |price|
+              %li
+                %strong= t('workarea.admin.prices.regular_price')
+                = number_to_currency price.regular
+                - if price.min_quantity > 1
+                  = t('workarea.admin.pricing_skus.cards.prices.summary', quantity: price.min_quantity)
+              - if price.sale?
+                %li
+                  %strong= t('workarea.admin.prices.sale_price')
+                  = number_to_currency price.sale
+
+              %hr.card__hr
+            - if model.prices.size > 10
+              %li= t('workarea.admin.cards.more', amount: model.prices.size - 10)
+          = link_to pricing_sku_prices_path(model), class: 'card__button' do
+            %span.button.button--small= t('workarea.admin.pricing_skus.cards.prices.button')
+
+  .grid__cell
+    = render 'workarea/admin/timeline/card', timeline: model.timeline, active: local_assigns[:active]

@@ -1,0 +1,6 @@
+- if entry.release.present?
+  = surround '(', ')' do
+    = t('workarea.admin.activities.release_info_html', name: link_to(entry.release.name, release_path(entry.release)))
+- elsif entry.release_id.present?
+  = surround '(', ')' do
+    = t('workarea.admin.activities.release_info_html', name: t('workarea.admin.activities.a_release'))

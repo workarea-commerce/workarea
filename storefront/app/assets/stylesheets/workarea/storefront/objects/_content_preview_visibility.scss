@@ -1,0 +1,93 @@
+/*------------------------------------*\
+    #CONTENT-PREVIEW-VISIBILITY
+\*------------------------------------*/
+
+/**
+ * This object is irregular, in the sense that it assists the Admin during
+ * content previewing. It's intention is to show a visably disabled state for
+ * hidden blocks in the Admin.
+ */
+
+$content-preview-visibility-hidden-text-color:  $red !default;
+$content-preview-visibility-hidden-bg-color:    rgba($white, 0.75) !default;
+
+
+/**
+ * 1. important used in order to ensure the block is always visible in the admin
+ */
+@mixin content-preview-visibility-state($toggle: on) {
+    display: block !important; /* [1] */
+
+    @if ($toggle == 'on') {
+        position: relative;
+
+        &::before {
+            display: block;
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 1;
+            background: $content-preview-visibility-hidden-bg-color;
+            content: '';
+        }
+
+        &::after {
+            @include center;
+            display: block;
+            z-index: 2;
+            color: $content-preview-visibility-hidden-text-color;
+            font-weight: bold;
+            content: attr(data-hidden-block-css-content);
+        }
+    } @else {
+        position: initial;
+
+        &::before, &::after {
+            display: none;
+        }
+    }
+}
+
+
+/**
+ * Content blocks are technically hidden, by default.
+ */
+.content-preview-visibility {
+
+    .content-block--hidden-for-small {
+        @include content-preview-visibility-state(on);
+
+        @include respond-to($medium-breakpoint) {
+            @include content-preview-visibility-state(off);
+        }
+    }
+
+    .content-block--hidden-for-medium {
+        @include respond-to($medium-breakpoint) {
+            @include content-preview-visibility-state(on);
+        }
+
+        @include respond-to($wide-breakpoint) {
+            @include content-preview-visibility-state(off);
+        }
+    }
+
+    .content-block--hidden-for-wide {
+        @include respond-to($wide-breakpoint) {
+            @include content-preview-visibility-state(on);
+        }
+
+        @include respond-to($x-wide-breakpoint) {
+            @include content-preview-visibility-state(off);
+        }
+    }
+
+    .content-block--hidden-for-x-wide {
+        @include respond-to($x-wide-breakpoint) {
+            @include content-preview-visibility-state(on);
+        }
+    }
+
+}

@@ -1,0 +1,34 @@
+= append_partials('storefront.fulfillment_cancelled_mailer.top')
+
+- content_for :preheader_text do
+  = t('workarea.storefront.email.order_cancellation.heading', order_id: @order.id)
+
+%tr
+  %td
+    %h1= t('workarea.storefront.email.order_cancellation.heading', order_id: @order.id)
+    %p= t('workarea.storefront.email.order_cancellation.info_html')
+
+    %h2= t('workarea.storefront.orders.items')
+    %table.product-grid
+      - @canceled_items.each_slice(4) do |item_row|
+        %tr
+          - item_row.each do |item|
+            %td.stack-column-center
+              %table.product-grid__product{ role: 'presentation', width: '100%' }
+                %tr
+                  %td.product-grid__image
+                    = link_to product_url(item.product, sku: item.sku), class: 'product-grid__link' do
+                      = image_tag(product_image_url(item.product.primary_image, :medium_thumb), alt: item.product_name)
+                %tr
+                  %td.product-grid__info
+                    = link_to product_url(item.product, sku: item.sku), class: 'product-grid__link' do
+                      .product-grid__name= item.product_name
+                    = item.sku
+                %tr
+                  %td.product-grid__info
+                    %strong= t('workarea.storefront.orders.quantity')
+                    = item.quantity
+
+= render 'workarea/storefront/mailers/recommendations', recommendations: @recommendations
+
+= append_partials('storefront.fulfillment_cancelled_mailer.bottom')

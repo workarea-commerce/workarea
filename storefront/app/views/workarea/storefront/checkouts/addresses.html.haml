@@ -1,0 +1,56 @@
+- @title = t('workarea.storefront.checkouts.addresses_title')
+- @checkout_step = 'addresses'
+
+- content_for :page_aside do
+  %h1.visually-hidden= t('workarea.storefront.checkouts.addresses_title')
+  = render 'summary', cart: @cart, summary: @summary
+
+.checkout-addresses.view{ data: { analytics: checkout_addresses_view_analytics_data(@cart).to_json } }
+  - unless request.get?
+    - if @step.order.errors.any?
+      - @step.order.errors.full_messages.each do |message|
+        = render_message 'error', message, data: { analytics: validation_error_analytics_data('order').to_json }
+    - if @step.billing_address.errors.any?
+      - @step.billing_address.errors.full_messages.each do |message|
+        = render_message 'error', data: { analytics: validation_error_analytics_data('billing_address').to_json } do
+          #{t('workarea.storefront.checkouts.billing_address')}: #{message}
+    - if @step.shipping_address.errors.any?
+      - @step.shipping_address.errors.full_messages.each do |message|
+        = render_message 'error', data: { analytics: validation_error_analytics_data('shipping_address').to_json } do
+          #{t('workarea.storefront.checkouts.shipping_address')}: #{message}
+
+  = append_partials('storefront.checkout_addresses_top', step: @step)
+
+  = form_tag checkout_addresses_path, method: :patch, id: 'checkout_form', data: { checkout_addresses_form: { defaultShippingAddressId: @step.default_shipping_address_id, defaultBillingAddressId: @step.default_billing_address_id, savedAddresses: @step.saved_addresses }.to_json } do
+
+    - if @step.show_email_field?
+      .checkout-addresses__section.checkout-addresses__section--email
+        %h2.checkout-addresses__heading= t('workarea.storefront.checkouts.email')
+        .property
+          = label_tag 'email', nil, class: 'property__name' do
+            %span.property__requirement.property__requirement--required= t('workarea.storefront.forms.required')
+            %span.property__text= t('workarea.storefront.checkouts.email')
+          .value
+            = email_field_tag 'email', @step.email, class: 'text-box', required: true, autocapitalize: 'off', autocomplete: 'email', placeholder: t('workarea.storefront.forms.email_placeholder')
+            - if @step.order.errors[:email].present?
+              %span.value__error= @step.order.errors[:email].first
+        %p
+          = t('workarea.storefront.checkouts.login_prompt')
+          = link_to t('workarea.storefront.checkouts.login_title'), login_path(return_to: checkout_path), data: { analytics: checkout_login_analytics_data.to_json }
+
+    - if @step.show_shipping_address?
+      .checkout-addresses__section.checkout-addresses__section--shipping
+        %h2.checkout-addresses__heading= t('workarea.storefront.checkouts.shipping_address')
+        = append_partials('storefront.checkout_shipping_address_top', step: @step)
+        .checkout-addresses__fields= render 'workarea/storefront/shared/address_fields', label: 'shipping_address', address: @step.shipping_address
+
+    .checkout-addresses__section.checkout-addresses__section--billing
+      %h2.checkout-addresses__heading= t('workarea.storefront.checkouts.billing_address')
+      .checkout-addresses__fields.hidden-if-js-enabled= render 'workarea/storefront/shared/address_fields', label: 'billing_address', address: @step.billing_address
+
+    = append_partials('storefront.checkout_addresses_form', step: @step)
+
+    - if @step.show_shipping_address?
+      %p= button_tag t('workarea.storefront.checkouts.continue_to_shipping'), value: 'continue', class: 'button button--large', data: { disable_with: loading_indicator(t('workarea.storefront.checkouts.continue_to_shipping_disabled_text')) }
+    - else
+      %p= button_tag t('workarea.storefront.checkouts.continue_to_payment'), value: 'continue', class: 'button button--large', data: { disable_with: loading_indicator(t('workarea.storefront.checkouts.continue_to_payment_disabled_text')) }

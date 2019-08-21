@@ -1,0 +1,93 @@
+#property.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'property')
+
+  %p Handles the layout of a form control. Provides styling a #{link_to_style_guide('components', 'value', true)} component, which wraps the form control, and a name, which is typically a <code>label</code> element.
+
+  .style-guide__example-block
+    .property
+      = label_tag 'wl_property_text_field_1', nil, class: 'property__name' do
+        %span.property__text Label One
+      .value
+        = text_field_tag 'wl_property_text_field_1', nil, class: 'text-box'
+    .property
+      = label_tag 'wl_property_text_field_2', nil, class: 'property__name' do
+        %span.property__text Label Two
+        %span.property__requirement (required)
+      .value
+        = text_field_tag 'wl_property_text_field_2', nil, class: 'value__error text-box'
+        %label.value__error Error message text
+    .property
+      = label_tag 'wl_property_select_field_1', nil, class: 'property__name' do
+        %span.property__text Label Three
+        %span.property__requirement.property__requirement--optional (optional)
+      .value
+        = select_tag 'wl_property_select_field_1', options_for_select(%w(One Two Three))
+    .property
+      = label_tag 'wl_property_select_field_2', nil, class: 'property__name' do
+        %span.property__text Label Four
+        %span.property__requirement (required)
+      .value
+        = select_tag 'wl_property_select_field_2', options_for_select(%w(One Two Three)), class: 'value__error'
+        %label.value__error Error message text
+    .property
+      = label_tag 'wl_property_textarea_1', nil, class: 'property__name' do
+        %span.property__text Label Five
+        %span.property__requirement (required)
+      .value
+        = text_area_tag 'wl_property_textarea_1', nil, class: 'text-box text-box--multi-line text-box--wide'
+    .property
+      = label_tag 'wl_property_textarea_2', nil, class: 'property__name' do
+        %span.property__text Label Six
+        %span.property__requirement (required)
+      .value
+        = text_area_tag 'wl_property_textarea_2', nil, class: 'value__error text-box text-box--multi-line text-box--wide'
+        %label.value__error Error message text
+
+#property--responsive.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'property__responsive')
+
+  %p Allows #{link_to_style_guide('components', 'property', true)} to be displayed as a row at the medium breakpoint.
+
+  .style-guide__example-block
+    .property.property--responsive
+      = label_tag 'wl_property_responsive_text_field_1', nil, class: 'property__name' do
+        %span.property__text Label One
+      .value
+        = text_field_tag 'wl_property_responsive_text_field_1', nil, class: 'text-box'
+    .property.property--responsive
+      = label_tag 'wl_property_responsive_text_field_2', nil, class: 'property__name' do
+        %span.property__text Label Two
+        %span.property__requirement (required)
+      .value
+        = text_field_tag 'wl_property_responsive_text_field_2', nil, class: 'value__error text-box'
+        %label.value__error Error message text
+    .property.property--responsive
+      = label_tag 'wl_property_responsive_select_field_1', nil, class: 'property__name' do
+        %span.property__text Label Three
+        %span.property__requirement.property__requirement--optional (optional)
+      .value
+        = select_tag 'wl_property_responsive_select_field_1', options_for_select(%w(One Two Three))
+    .property.property--responsive
+      = label_tag 'wl_property_responsive_select_field_2', nil, class: 'property__name' do
+        %span.property__text Label Four
+        %span.property__requirement (required)
+      .value
+        = select_tag 'wl_property_responsive_select_field_2', options_for_select(%w(One Two Three)), class: 'value__error'
+        %label.value__error Error message text
+    .property.property--responsive
+      = label_tag 'wl_property_responsive_textarea_1', nil, class: 'property__name' do
+        %span.property__text Label Five
+        %span.property__requirement (required)
+      .value
+        = text_area_tag 'wl_property_responsive_textarea_1', nil, class: 'text-box text-box--multi-line text-box--wide'
+    .property.property--responsive
+      = label_tag 'wl_property_responsive_textarea_2', nil, class: 'property__name' do
+        %span.property__text Label Six
+        %span.property__requirement (required)
+      .value
+        = text_area_tag 'wl_property_responsive_textarea_2', nil, class: 'value__error text-box text-box--multi-line text-box--wide'
+        %label.value__error Error message text
+
+= append_partials('storefront.style_guide_components.property')

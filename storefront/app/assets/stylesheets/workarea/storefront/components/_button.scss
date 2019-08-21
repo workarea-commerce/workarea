@@ -1,0 +1,47 @@
+/*------------------------------------*\
+    #BUTTON
+\*------------------------------------*/
+
+$button-color:            $white !default;
+$button-bg-color:         $link-color !default;
+
+$button-padding:          7px 12px !default;
+$button-small-padding:    6px 10px !default;
+$button-large-padding:    14px 18px !default;
+
+$button-font-size:        $font-size !default;
+$button-small-font-size:  $font-size - 2px !default;
+$button-large-font-size:  $font-size + 8px !default;
+
+
+/**
+ * 1. ensure button text won't receive an underline on hover
+ */
+.button {
+    @extend %button-reset;
+    display: inline-block;
+    padding: $button-padding;
+    color: $button-color;
+    font-size: $button-font-size;
+    background: $button-bg-color;
+    cursor: pointer;
+
+    &:hover {
+        text-decoration: none; /* [1] */
+    }
+}
+
+.button--small {
+    padding: $button-small-padding;
+    font-size: $button-small-font-size;
+}
+
+.button--large {
+    padding: $button-large-padding;
+    font-size: $button-large-font-size;
+}
+
+.button--full {
+    width: 100%;
+    text-align: center;
+}

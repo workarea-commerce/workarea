@@ -1,0 +1,17 @@
+#button-reset-object.style-guide__subsection
+
+  %h3= link_to_style_guide('objects', 'button_reset')
+
+  %p Resets browser-default button styling.
+
+  %p should work with a <code>button</code> element
+  .style-guide__example-block
+    = button_tag 'Button'
+  .style-guide__example-block
+    = button_tag 'Reset Button', class: 'button-reset'
+
+  %p should work with an <code>input</code> element
+  .style-guide__example-block
+    = submit_tag 'Button'
+  .style-guide__example-block
+    = submit_tag 'Reset Button', class: 'button-reset'

@@ -1,0 +1,70 @@
+#value.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'value')
+
+  %p Manages the layout of a form field, note, or error displayed for the field.
+
+  .style-guide__example-block
+    .value
+      = text_field_tag 'wl_value_text_field', nil, class: 'value__error text-box'
+      %span.value__error Error Message Text
+      = link_to 'What\'s This?', '#', class: 'value__note'
+
+  .style-guide__unit-test
+
+    %h4 Unit Test
+
+    %p should work with a <code>div</code> (block-level) element, containing only a form field
+    .style-guide__example-block
+      .value
+        = text_field_tag 'wl_value_text_field_div', nil, class: 'text-box'
+
+    %p should work with a <code>span</code> (inline) element, containing only a form field
+    .style-guide__example-block
+      %span.value
+        = text_field_tag 'wl_value_text_field_span', nil, class: 'text-box'
+
+    %p should work with a <code>p</code> (block-level) element, containing only a form field
+    .style-guide__example-block
+      %p.value
+        = text_field_tag 'wl_value_text_field_p', nil, class: 'text-box'
+
+    %p should work with a <code>div</code> (block-level) element, containing a form field and a note
+    .style-guide__example-block
+      .value
+        = text_field_tag 'wl_value_text_field_div_note', nil, class: 'text-box'
+        %span.value__note This is a note
+
+    %p should work with a <code>span</code> (inline) element, containing a form field and a note
+    .style-guide__example-block
+      %span.value
+        = text_field_tag 'wl_value_text_field_span_note', nil, class: 'text-box'
+        %span.value__note This is a note
+
+    %p should work with a <code>p</code> (block-level) element, containing a form field and a note
+    .style-guide__example-block
+      %p.value
+        = text_field_tag 'wl_value_text_field_p_note', nil, class: 'text-box'
+        %span.value__note This is a note
+
+    %p should work with a <code>div</code> (block-level) element, containing a form field, error message, and a note with a link:
+    .style-guide__example-block
+      .value
+        = text_field_tag 'wl_value_text_field_div_error', nil, class: 'value__error text-box'
+        %span.value__error Error Message Text
+        = link_to 'What\'s This?', '#', class: 'value__note'
+
+    %p should work with a <code>span</code> (inline) element, containing a form field, error message, and a note with a link:
+    .style-guide__example-block
+      %span.value
+        = text_field_tag 'wl_value_text_field_span_error', nil, class: 'value__error text-box'
+        %span.value__error Error Message Text
+        = link_to 'What\'s This?', '#', class: 'value__note'
+
+    %p should work with a <code>p</code> (block-level) element, containing a form field, error message, and a note with a link:
+    .style-guide__example-block
+      %p.value
+        = text_field_tag 'wl_value_text_field_p_error', nil, class: 'value__error text-box'
+        %span.value__error Error Message Text
+        = link_to 'What\'s This?', '#', class: 'value__note'
+

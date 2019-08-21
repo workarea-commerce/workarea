@@ -1,0 +1,12 @@
+/*------------------------------------*\
+    #UI-ACCORDION-CONTENT
+\*------------------------------------*/
+
+$ui-accordion-content-bg-color:  $white !default;
+$ui-accordion-content-padding:   16px !default;
+
+.ui-accordion-content {
+    margin: 0;
+    padding: $ui-accordion-content-padding;
+    background: $ui-accordion-content-bg-color;
+}

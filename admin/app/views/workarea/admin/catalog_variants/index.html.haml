@@ -1,0 +1,58 @@
+- @page_title= t('workarea.admin.catalog_variants.index.page_title', product: @product.name)
+
+.view
+  .view__header
+    .grid
+      .grid__cell.grid__cell--25
+        = render 'workarea/admin/releases/select'
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@product)
+          %h1= link_to @product.name, url_for(@product)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@product)
+
+  .view__container
+    = render_cards_for(@product, :variants)
+
+    .section
+      %h2.view__heading= t('workarea.admin.catalog_variants.index.heading')
+
+  .view__container
+    .browsing-controls.browsing-controls--with-divider
+      %p.browsing-controls__count
+        = t('workarea.admin.catalog_variants.index.variant_pluralize', count: @variants.count)
+
+    - if @variants.any?
+      %table.index-table
+        %thead
+          %tr
+            %th
+            %th= t('workarea.admin.fields.sku')
+            %th= t('workarea.admin.fields.display_name')
+            %th= t('workarea.admin.fields.options')
+            %th.align-center= t('workarea.admin.fields.inventory')
+            %th.align-right= t('workarea.admin.fields.pricing')
+            %th
+        %tbody{ data: { sort_variant: '', product_id: @product.to_param } }
+          - @variants.each do |variant|
+            %tr.index-table__row{ class: ('index-table__row--inactive' unless variant.active), data: { sort_variant_id: variant.id } }
+              %td= inline_svg('workarea/admin/icons/grip.svg', title: t('workarea.admin.catalog_variants.index.drag_to_rearrange'), class: 'svg-icon svg-icon--small svg-icon--gray')
+              %td= link_to variant.sku, edit_catalog_product_variant_path(@product, variant)
+              %td= variant.name
+              %td= format_variant_options(variant.details)
+              %td.align-center
+                = link_to inventory_sku_path(variant.sku) do
+                  = variant.available_inventory
+              %td.align-right
+                = link_to pricing_sku_path(variant.sku) do
+                  = number_to_currency variant.pricing.sell_price
+              %td
+                = form_tag catalog_product_variant_path(@product, variant), method: 'delete', class: 'text-button text-button--destroy' do
+                  = button_tag value: 'remove_catalog_variant', class: 'text-button text-button--destroy' do
+                    = t('workarea.admin.actions.delete')
+                    = inline_svg('workarea/admin/icons/delete.svg', class: 'text-button__icon', title: t('workarea.admin.actions.delete'))
+    .workflow-bar
+      .grid.grid--auto.grid--right.grid--middle
+        .grid__cell
+          = link_to t('workarea.admin.catalog_variants.index.add_new'), new_catalog_product_variant_path(@product), class: 'workflow-bar__button workflow-bar__button--create'

@@ -1,0 +1,58 @@
+- @title = t('workarea.storefront.users.add_credit_card')
+- params[:credit_card] ||= {}
+
+- content_for :breadcrumbs do
+  %p.breadcrumbs__node-group
+    %span.breadcrumbs__node{ itemprop: 'breadcrumb' }
+      = link_to t('workarea.storefront.layouts.home'), root_path, rel: 'home', class: 'breadcrumbs__link'
+    %span.breadcrumbs__node{ itemprop: 'breadcrumb' }
+      = link_to t('workarea.storefront.users.account'), users_account_path, class: 'breadcrumbs__link'
+    %span.breadcrumbs__node{ itemprop: 'breadcrumb' }
+      %span.breadcrumbs__text= t('workarea.storefront.users.add_credit_card')
+
+.view
+
+  %h1= t('workarea.storefront.users.add_credit_card')
+
+  - if @credit_card && @credit_card.errors.any?
+    - @credit_card.errors.full_messages.each do |message|
+      = render_message 'error', message, data: { analytics: validation_error_analytics_data('users').to_json }
+
+  = form_tag users_credit_cards_path, method: 'post', id: 'credit_card_form', data: { single_submit_form: '' } do
+
+    .property.property--responsive
+      = label_tag 'credit_card[number]', nil, class: 'property__name' do
+        %span.property__text= t('workarea.storefront.credit_cards.card_number')
+      .value= text_field_tag 'credit_card[number]', nil, class: 'text-box', inputmode: 'numeric', pattern: '[0-9]*', required: true, autocomplete: 'cc-number'
+
+    .property.property--responsive
+      = label_tag 'credit_card[first_name]', nil, class: 'property__name' do
+        %span.property__text= t('workarea.storefront.users.first_name')
+      .value= text_field_tag 'credit_card[first_name]', params[:credit_card][:first_name], class: 'text-box', autocomplete: 'given-name', required: true
+
+    .property.property--responsive
+      = label_tag 'credit_card[last_name]', nil, class: 'property__name' do
+        %span.property__text= t('workarea.storefront.users.last_name')
+      .value= text_field_tag 'credit_card[last_name]', params[:credit_card][:last_name], class: 'text-box', autocomplete: 'family-name', required: true
+
+    .property.property--responsive
+      %span.property__name= t('workarea.storefront.credit_cards.expiration_date')
+      .value
+        = select_tag 'credit_card[month]', options_for_select(1..12, params[:credit_card][:month]), title: t('workarea.storefront.credit_cards.expiration_month'), aria: { label: t('workarea.storefront.credit_cards.expiration_month') }
+        = select_tag 'credit_card[year]', options_for_select(Time.current.year..Time.current.year + 10, params[:credit_card][:year]), title: t('workarea.storefront.credit_cards.expiration_year'), aria: { label: t('workarea.storefront.credit_cards.expiration_year') }
+
+    .property.property--responsive
+      = label_tag 'credit_card[cvv]', nil, class: 'property__name' do
+        %span.property__text= t('workarea.storefront.credit_cards.security_code')
+      .value
+        = text_field_tag 'credit_card[cvv]', nil, class: 'text-box text-box--small', inputmode: 'numeric', pattern: '[0-9]*', autocomplete: 'cc-csc', required: true
+        %span.value__note=link_to t('workarea.storefront.credit_cards.whats_this'), page_path('credit-card-security-code'), data: { dialog_button: '' }
+
+    .button-property
+      .value= check_box_tag 'credit_card[default]', true, @user.credit_cards.empty?
+      = label_tag 'credit_card[default]', nil, class: 'button-property__name' do
+        %span.button-property__text= t('workarea.storefront.users.set_as_default_card')
+
+    .grid.grid--auto
+      %p.grid__cell= button_tag t('workarea.storefront.forms.save'), value: 'save_credit_card', class: 'button'
+      %p.grid__cell= link_to t('workarea.storefront.forms.cancel'), users_account_path, class: "text-button", data: { dialog_close_button: '' }

@@ -1,0 +1,21 @@
+.insight
+  .insight__date
+    %span.insight__period= insight.reporting_on.strftime('%B %Y')
+  .insight__heading= t('workarea.admin.insights.popular_searches.title')
+  .insight__body
+    %p.insight__note= t('workarea.admin.insights.popular_searches.info')
+    %table
+      %thead
+        %tr
+          %th.align-center= t('workarea.admin.insights.popular_searches.term')
+          %th.align-center= t('workarea.admin.insights.popular_searches.searches')
+          %th.align-center= t('workarea.admin.insights.popular_searches.total_results')
+      %tbody
+        - insight.results.each do |result|
+          %tr
+            %td.align-center
+              = form_tag search_customizations_path, method: 'post' do
+                = hidden_field_tag 'q', result.query_string, id: nil
+                = button_tag result.query_string, class: 'button button--small'
+            %td.align-center= number_with_delimiter result.searches
+            %td.align-center= number_with_delimiter result.total_results

@@ -1,0 +1,10 @@
+/*------------------------------------*\
+    #UI-STATE-FOCUS
+\*------------------------------------*/
+
+$ui-state-focus-selected-color:  $highlight-color !default;
+
+
+.ui-state-focus {
+    background: $ui-state-focus-selected-color;
+}

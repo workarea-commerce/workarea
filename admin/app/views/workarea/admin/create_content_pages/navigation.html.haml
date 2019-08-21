@@ -1,0 +1,45 @@
+- @page_title = "#{t('workarea.admin.create_content_pages.navigation.navigation_for', title: @page.name)}"
+
+.view
+  .view__header
+    .grid.grid--right
+      .grid__cell.grid__cell--50
+        .view__heading
+          %h1.heading.heading--no-margin= t('workarea.admin.create_content_pages.navigation.primary_navigation', page_name: @page.name)
+          %p= link_to t('workarea.admin.create_content_pages.workflow.or_skip_this'), publish_create_content_page_path(@page)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@page, html_options: { target: @page.id })
+
+  = form_tag save_navigation_create_content_page_path(@page), method: 'post' do
+    .section
+      .grid
+        .grid__cell.grid__cell--33
+        .grid__cell.grid__cell--33
+          .section.align-center
+            %h4.align-center= t('workarea.admin.create_content_pages.navigation.top_level_message')
+            .property
+              = radio_button_tag 'create_menu', true, true, title: t('workarea.admin.true')
+              = label_tag 'create_menu_true',t('workarea.admin.true'), class: 'heading--3'
+
+            .property
+              = radio_button_tag 'create_menu', false, false, title: t('workarea.admin.false')
+              = label_tag 'create_menu_false', t('workarea.admin.false'), class: 'heading--3'
+
+        .grid__cell.grid__cell--33
+
+    .workflow-bar
+      .grid.grid--middle
+        .grid__cell.grid__cell--20
+          = link_to t('workarea.admin.form.cancel'), content_page_path(@page), class: 'workflow-bar__button workflow-bar__button--delete', data: { method: 'delete', confirm: t('workarea.admin.create_content_pages.workflow.delete_confirmation') }
+
+        .grid__cell.grid__cell--60
+          %ol.workflow-bar__steps
+            %li.workflow-bar__step 1) #{link_to t('workarea.admin.create_content_pages.workflow.setup'), edit_create_content_page_path(@page)}
+            %li.workflow-bar__step 2) #{link_to t('workarea.admin.create_content_pages.workflow.content'), content_create_content_page_path(@page)}
+            %li.workflow-bar__step
+              %strong 3) #{t('workarea.admin.create_content_pages.workflow.taxonomy')}
+            %li.workflow-bar__step 4) #{t('workarea.admin.create_content_pages.workflow.publish')}
+
+        .grid__cell.grid__cell--20
+          .grid.grid--auto.grid--right.grid--middle
+            .grid__cell= button_tag t('workarea.admin.create_content_pages.navigation.save_and_continue'), value: 'save_navigation', class: 'workflow-bar__button workflow-bar__button--create'

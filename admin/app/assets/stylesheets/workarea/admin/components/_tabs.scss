@@ -1,0 +1,22 @@
+/*------------------------------------*\
+    #TABS
+\*------------------------------------*/
+
+.tabs {}
+
+    /**
+     * 1. injected via JavaScript
+     */
+    .tabs__menu {}
+
+        .tabs__menu-item {}
+
+            .tabs__menu-link {}
+
+    .tabs__panel {
+        display: none;
+    }
+
+        .tabs__heading {
+            display: none;
+        }

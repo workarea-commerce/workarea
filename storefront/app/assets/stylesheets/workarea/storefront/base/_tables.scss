@@ -1,0 +1,15 @@
+/*------------------------------------*\
+    #TABLES
+\*------------------------------------*/
+
+table {
+    margin-bottom: $vertical-margin;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+    th, td {
+        font-weight: normal;
+        text-align: left;
+        vertical-align: baseline;
+    }

@@ -1,0 +1,71 @@
+- @page_title = t('workarea.admin.catalog_categories.cards.insights.page_title', category: @category.name)
+
+.view
+  .view__header
+    .grid.grid--middle.grid--right
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@category)
+          %h1= link_to @category.name, url_for(@category)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@category)
+
+  .view__container
+    = render_cards_for(@category, :insights)
+
+    .section
+      .browsing-controls.browsing-controls--center.browsing-controls--filters-displayed
+        = form_tag request.path, method: 'get' do
+          = render 'workarea/admin/shared/date_selector', starts_at: @category.insights.starts_at, ends_at: @category.insights.ends_at
+
+      .grid.grid--auto.grid--center
+        .grid__cell
+          .card
+            .card__body.align-center
+              %h6.heading.heading--no-margin= t('workarea.admin.catalog_categories.insights.views')
+              %span.heading.heading--1.heading--no-margin= number_with_delimiter @category.insights.views
+              %p
+                - if @category.insights.views_percent_change.present?
+                  = insights_trend_icon(@category.insights.views_percent_change)
+                  = t('workarea.admin.catalog_categories.insights.from_previous', percentage: insights_number_to_percentage(@category.insights.views_percent_change))
+              = area_chart @category.insights.views_graph_data, Workarea.config.default_chartkick_options
+
+        .grid__cell
+          .card
+            .card__body.align-center
+              %h6.heading.heading--no-margin= t('workarea.admin.catalog_categories.insights.orders')
+              %span.heading.heading--1.heading--no-margin= number_with_delimiter @category.insights.orders
+              %p
+                - if @category.insights.orders_percent_change.present?
+                  = insights_trend_icon(@category.insights.orders_percent_change)
+                  = t('workarea.admin.catalog_categories.insights.from_previous', percentage: insights_number_to_percentage(@category.insights.orders_percent_change))
+              = area_chart @category.insights.orders_graph_data, Workarea.config.default_chartkick_options
+
+        .grid__cell
+          .card
+            .card__body.align-center
+              %h6.heading.heading--no-margin= t('workarea.admin.catalog_categories.insights.revenue')
+              %span.heading.heading--1.heading--no-margin= number_to_currency @category.insights.revenue
+              %p
+                - if @category.insights.revenue_percent_change.present?
+                  = insights_trend_icon(@category.insights.revenue_percent_change)
+                  = t('workarea.admin.catalog_categories.insights.from_previous', percentage: insights_number_to_percentage(@category.insights.revenue_percent_change))
+              = area_chart @category.insights.revenue_graph_data, Workarea.config.default_chartkick_options.merge(prefix: Money.default_currency.symbol)
+
+        .grid__cell
+          .card
+            .card__body.align-center
+              %h6.heading.heading--no-margin= t('workarea.admin.catalog_categories.insights.units_sold')
+              %span.heading.heading--1.heading--no-margin= number_with_delimiter @category.insights.units_sold
+              %p
+                - if @category.insights.units_sold_percent_change.present?
+                  = insights_trend_icon(@category.insights.units_sold_percent_change)
+                  = t('workarea.admin.catalog_categories.insights.from_previous', percentage: insights_number_to_percentage(@category.insights.units_sold_percent_change))
+              = area_chart @category.insights.units_sold_graph_data, Workarea.config.default_chartkick_options
+
+  - if @category.insights.feed.any?
+    .view__container.view__container--narrow
+      .section
+        %h2.align-center= t('workarea.admin.catalog_categories.insights.insights_featuring_this_category')
+        - @category.insights.feed.each do |insight|
+          = render "workarea/admin/insights/#{insight.slug}", insight: insight

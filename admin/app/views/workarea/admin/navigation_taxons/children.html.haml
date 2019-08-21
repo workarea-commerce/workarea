@@ -1,0 +1,19 @@
+.menu-editor__menu{ class: 'menu-editor__menu--animate', data: { menu_editor_parent_id: @taxon.id } }
+
+  .menu-editor__head
+    = taxon_icon(@taxon, class: 'menu-editor__icon menu-editor__icon--head')
+    %span.menu-editor__head-label{ class: ('menu-editor__head-label--truncated' if @taxon.in_menu?) }= @taxon.name
+    .menu-editor__head-actions
+      - if @taxon.in_menu?
+        = link_to t('workarea.admin.navigation_taxons.children.navigation'), navigation_menus_path(menu_id: @taxon.menu.id), title: t('workarea.admin.navigation_taxons.children.edit_name_navigation', name: @taxon.name), class: 'menu-editor__head-link'
+
+  %ul.menu-editor__menu-list
+    - @taxon.children.each_with_index do |taxon, index|
+      = render 'workarea/admin/navigation_taxons/taxon', taxon: taxon, position: index
+
+    %li.menu-editor__list-item.menu-editor__list-item--placeholder{ class: ('hidden' if @taxon.has_children?) }
+      .menu-editor__list-item-cell= t('workarea.admin.navigation_taxons.children.drag_items_here')
+
+  = link_to new_navigation_taxon_path(parent_id: @taxon.id), title: t('workarea.admin.navigation_taxons.children.add_new_item'), class: 'menu-editor__add-item-button menu-editor__add-item-button--last-position' do
+    = inline_svg 'workarea/admin/icons/add_circle.svg', class: 'menu-editor__icon menu-editor__icon--add'
+    %span.menu-editor__add-item-button-text= t('workarea.admin.navigation_taxons.children.add_new_item')

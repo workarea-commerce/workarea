@@ -1,0 +1,29 @@
+/*------------------------------------*\
+    #SVG
+\*------------------------------------*/
+
+/// Adds supportive styles for incluing an SVG via CSS.
+///
+/// @param {Path} $image - the partial path of the image, relative to
+///     image directory and engine path's root
+/// @param {Dimension} $width - the width of the UI
+/// @param {Dimension} $height [nil] - the height of the UI, if `nil` `$height`
+///     will default to `$width`
+/// @param {Color} $bg-color [$tranparent]- the background color of the UI
+///
+/// @example scss - SVG mixin
+///     .block {
+///         @include svg(image.svg, 24px);
+///     }
+@mixin svg($image, $width, $height: nil, $bg-color: $transparent) {
+    @if ($height == nil) { $height: $width; }
+    display: block;
+    text-indent: 200%;
+    width: $width;
+    height: $height;
+    background: $bg-color;
+    white-space: nowrap;
+    background-image: image-url("workarea/storefront/#{$image}");
+    background-size: $width $height;
+    overflow: hidden;
+}

@@ -1,0 +1,45 @@
+/*------------------------------------*\
+    #COLORS
+\*------------------------------------*/
+
+/**
+ * Color Variables
+ *
+ * These variables should always be aliased as Functional Variables, either at
+ * the bottom of this file, or at the top of the Component SCSS that they
+ * belong to. This method helps aid the quick reskinning of Components.
+ */
+
+$blue:                              #3366cc !default;
+$yellow:                            #fdcc5d !default;
+$red:                               #b50010 !default;
+$green:                             #19c06a !default;
+
+$white:                             #ffffff !default;
+$gray:                              #666666 !default;
+$light-gray:                        #dddddd !default;
+$black:                             #000000 !default;
+
+$black-alpha-15:                    rgba($black, 0.15) !default;
+$black-alpha-50:                    rgba($black, 0.50) !default;
+
+$white-alpha-50:                    rgba($white, 0.50) !default;
+
+$transparent:                       transparent !default;
+
+
+
+
+
+/**
+ * Global Functional Color Variables
+ */
+
+$font-color:        $black !default;
+$background-color:  $white !default;
+$highlight-color:   $yellow !default;
+$link-color:        $blue !default;
+
+$overlay-shadow-color:  $black-alpha-15 !default;
+
+$focus-ring-color:  $blue !default;

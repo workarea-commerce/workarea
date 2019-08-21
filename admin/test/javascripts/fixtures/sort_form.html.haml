@@ -1,0 +1,3 @@
+%form{ class: 'sort-form', action: '', method: 'get' }
+  = select_tag 'sort', options_for_select([['Relevance', 'relevance'], ['Name', 'name']], selected: 'name')
+  = text_field_tag 'q'

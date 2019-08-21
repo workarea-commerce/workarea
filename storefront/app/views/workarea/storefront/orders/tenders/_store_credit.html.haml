@@ -1,0 +1,6 @@
+.data-card
+  .data-card__cell
+    %p.data-card__line
+      = t('workarea.storefront.orders.store_credit')
+    %p.data-card__line
+      = number_to_currency(tender.amount)

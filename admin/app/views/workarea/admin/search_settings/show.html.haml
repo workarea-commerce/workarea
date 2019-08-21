@@ -1,0 +1,55 @@
+- @page_title = t('workarea.admin.search_settings.show.title')
+
+.view
+  .view__header
+    .view__heading
+      = link_to "↑ #{t('workarea.admin.search_settings.show.dashboard_link')}", settings_dashboards_path
+      %h1= t('workarea.admin.search_settings.show.title')
+
+  .view__container
+    = form_tag search_settings_path, method: :patch, data: { unsaved_changes: '' } do
+      .tabs
+        .tabs__panel
+          %h2.tabs__heading= t('workarea.admin.search_settings.show.synonyms.title')
+          %p= t('workarea.admin.search_settings.show.synonyms.description')
+          %p= t('workarea.admin.search_settings.show.synonyms.simple_example_description')
+          %pre
+            :preserve
+              #{t('workarea.admin.search_settings.show.synonyms.simple_example')}
+          %p= t('workarea.admin.search_settings.show.synonyms.phrase_example_description')
+          %pre
+            :preserve
+              #{t('workarea.admin.search_settings.show.synonyms.phrase_example')}
+
+          %p= text_area_tag 'synonyms', @settings.synonyms, class: 'text-box text-box--multi-line text-box--wide', title: 'Synonyms'
+
+        .tabs__panel
+          %h2.tabs__heading= t('workarea.admin.search_settings.show.filters.title')
+          %p= t('workarea.admin.search_settings.show.filters.description')
+
+          .property
+            = label_tag 'terms_facets_list', t('workarea.admin.search_settings.show.filters.title'), class: 'property__name'
+            = text_field_tag 'terms_facets_list', @settings.terms_facets_list, class: 'text-box'
+            %span.property__note= t('workarea.admin.form.csv_field_note')
+
+          = render 'workarea/admin/facets/price_inputs', facet: @price_facets
+
+        .tabs__panel
+          %h2.tabs__heading= t('workarea.admin.search_settings.show.boosts.title')
+          .grid
+            .grid__cell.grid__cell--50
+              %h3= t('workarea.admin.search_settings.show.boosts.product_popularity')
+              %p= t('workarea.admin.search_settings.show.boosts.product_popularity_description')
+              = text_field_tag 'views_factor', @settings.views_factor, class: 'text-box text-box--small'
+
+            .grid__cell.grid__cell--50
+              %h3= t('workarea.admin.search_settings.show.boosts.field_weight')
+              %p= t('workarea.admin.search_settings.show.boosts.field_weight_description')
+              - @settings.boosts.each do |field, value|
+                .property
+                  = label_tag "boosts[#{field}]", field.to_s.titleize, class: 'property__name'
+                  = text_field_tag "boosts[#{field}]", value, class: 'text-box text-box--small'
+
+      .workflow-bar
+        .grid.grid--auto.grid--right.grid--middle
+          .grid__cell= button_tag t('workarea.admin.search_settings.show.button'), value: 'save_settings', class: 'workflow-bar__button workflow-bar__button--update'

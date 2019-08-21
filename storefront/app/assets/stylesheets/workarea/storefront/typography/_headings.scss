@@ -1,0 +1,62 @@
+/*------------------------------------*\
+    #HEADING
+\*------------------------------------*/
+
+$heading-1-font-size:  26px !default;
+$heading-2-font-size:  24px !default;
+$heading-3-font-size:  22px !default;
+$heading-4-font-size:  20px !default;
+$heading-5-font-size:  18px !default;
+$heading-6-font-size:  16px !default;
+
+
+/**
+ * Defines common heading element styles.
+ */
+h1, h2, h3, h4, h5, h6,
+%heading,
+.heading {
+    display: block;
+    margin-bottom: $vertical-margin;
+    font-weight: normal;
+}
+
+
+/**
+ * Define specific font styles for each heading.
+ */
+h1,
+%heading--1,
+.heading--1 {
+    font-size: $heading-1-font-size;
+}
+
+h2,
+%heading--2,
+.heading--2 {
+    font-size: $heading-2-font-size;
+}
+
+h3,
+%heading--3,
+.heading--3 {
+    font-size: $heading-3-font-size;
+}
+
+h4,
+%heading--4,
+.heading--4 {
+    font-size: $heading-4-font-size;
+}
+
+h5,
+%heading--5,
+.heading--5 {
+    font-size: $heading-5-font-size;
+}
+
+h6,
+%heading--6,
+.heading--6 {
+    font-size: $heading-6-font-size;
+}

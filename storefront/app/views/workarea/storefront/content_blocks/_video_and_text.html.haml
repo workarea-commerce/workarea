@@ -1,0 +1,4 @@
+.video-and-text-content-block
+  .video-and-text-content-block__video-container{ class: "video-and-text-content-block__video-container--#{video_position.downcase}" }
+    .video-and-text-content-block__video!= embed unless Rails.env.test?
+  .video-and-text-content-block__text{ style: "text-align: #{text_alignment.downcase}" }!= text

@@ -1,0 +1,71 @@
+.view
+  - if @item.blank?
+    = render_message 'error', data: { message_show_dismiss: 'false' } do
+      = t('workarea.storefront.flash_messages.cart_item_error')
+
+  - else
+    = render_message 'success', data: { message_show_dismiss: 'false' } do
+      = t('workarea.storefront.flash_messages.cart_item_added')
+
+    .product-list__item{ data: { cart_count: current_order.quantity, analytics: add_to_cart_confirmation_analytics_data(@item).to_json } }
+      .product-list__item-cell
+        .product-list__summary
+          %p.product-list__media= link_to image_tag(product_image_url(@item.image, :small_thumb), alt: @item.product_name, class: 'product-list__media-image'), product_url(@item.product, sku: @item.sku), class: 'product-list__media-link'
+          .product-list__info
+            %p.product-list__name= link_to @item.product_name, product_path(@item.product, sku: @item.sku)
+            %p.product-list__id= @item.sku_name
+            - if @item.has_options?
+              .product-list__option-group
+                - @item.details.each do |name, value|
+                  %p.product-list__option #{name.titleize}: #{value}
+            - @item.customizations.each do |name, value|
+              %p.product-list__customization #{name.titleize}: #{value}
+            = append_partials('storefront.cart_item_details', item: @item, index: 0)
+      .product-list__item-cell
+        %table.table
+          %thead
+            %tr
+              %th.table__prices= t('workarea.storefront.orders.price')
+              %th#aria_cart_item_quantity.table__quantity= t('workarea.storefront.orders.quantity')
+              %th.table__prices= t('workarea.storefront.orders.total')
+          %tbody
+            %tr
+              %td.table__prices
+                = render 'workarea/storefront/carts/pricing', item: @item, css_block: 'table'
+              %td.table__quantity
+                = form_tag cart_item_path(@item), method: :patch, class: 'inline-form', data: { analytics: update_cart_item_analytics_data(@item).to_json } do
+                  .inline-form__cell
+                    .value= number_field_tag :quantity, @item.quantity, min: 1, required: true, class: 'text-box text-box--x-small', data: { form_submitting_control: '' }, title: t('workarea.storefront.orders.quantity'), id: dom_id(@item, 'cart_item'), aria: { labelledby: 'aria_cart_item_quantity' }
+                  %p.inline-form__cell.hidden-if-js-enabled= button_tag t('workarea.storefront.carts.update'), value: 'change_quantity', class: 'button'
+              %td.table__prices
+                - @item.total_adjustments.each do |adjustment|
+                  %p.table__price
+                    - if @item.total_adjustments.many?
+                      %span.table__price-label= adjustment.description
+
+                    - if adjustment.discount?
+                      %strong.table__price-discount= number_to_currency(adjustment.amount)
+                    - else
+                      %span= number_to_currency(adjustment.amount)
+
+                - if @item.total_adjustments.many?
+                  %p.table__price
+                    %span.table__price-label= t('workarea.storefront.orders.item_total')
+                    %span= number_to_currency(@item.total_price)
+
+  .grid.grid--auto.grid--center
+    .grid__cell= link_to t('workarea.storefront.carts.continue_shopping'), root_path, class: 'button button--large', data: { dialog_close_button: true }
+    .grid__cell= link_to t('workarea.storefront.carts.view_cart'), cart_path, class: 'button button--large'
+    .grid__cell= link_to t('workarea.storefront.carts.checkout'), checkout_path, class: 'button button--large'
+
+  - if @cart.recommendations.any?
+    .hidden.hidden--for-small-only
+      .recommendations
+        %h2.recommendations__heading= t('workarea.storefront.recommendations.you_may_also_like')
+
+        .recommendations__products
+          .grid
+            - @cart.recommendations.each do |product|
+              .grid__cell.grid__cell--50.grid__cell--33-at-medium.grid__cell--16-at-wide
+                .product-summary.product-summary--small{ itemscope: true, itemtype: 'http://schema.org/Product' }
+                  = render 'workarea/storefront/products/summary', product: product

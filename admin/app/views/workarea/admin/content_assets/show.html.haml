@@ -1,0 +1,21 @@
+- @page_title = @asset.name
+
+.view
+  .view__header
+    .grid.grid--middle.grid--right
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@asset)
+          %h1= @asset.name
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@asset)
+
+  .view__container
+    = render_cards_for(@asset)
+
+    .workflow-bar
+      .grid
+        .grid__cell.grid__cell--50
+          = link_to t('workarea.admin.actions.delete'), content_asset_path(@asset), class: 'workflow-bar__button workflow-bar__button--delete', data: { method: 'delete', confirm: t('workarea.admin.actions.delete_confirmation') }
+        .grid__cell.grid__cell--50.grid--right
+          = append_partials('admin.asset_show_workflow_bar', model: @asset)

@@ -1,0 +1,64 @@
+- @page_title = t('workarea.admin.comments.index.title', name: @commentable.name )
+
+.comments.view
+  .view__header
+    .grid.grid--middle.grid--right
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@commentable)
+          %h1= link_to @commentable.name, url_for(@commentable)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@commentable)
+
+  .view__container
+    = render_cards_for(@commentable, :comments)
+
+  .view__container.view__container--narrow
+    .section
+      %ul.comments__comment-group
+        - @comments.each do |comment|
+          %li.comments__comment
+            .comments__comment-header
+              .comments__comment-avatar
+                = link_to user_path(comment.author) do
+                  = avatar_for comment.author, additional_css_class: 'avatar'
+              %h3.comments__comment-author= link_to comment.author_name, user_path(comment.author)
+              %p.comments__comment-time #{time_ago_in_words(comment.created_at)} ago
+              .comments__comment-actions
+                - if comment.author == current_user
+                  .grid.grid--auto
+                    %p.grid__cell
+                      = link_to edit_commentable_comment_path(@commentable.to_global_id, comment), class: 'text-button' do
+                        = t('workarea.admin.actions.edit')
+                        = inline_svg('workarea/admin/icons/edit.svg', class: 'text-button__icon')
+
+                    = form_tag commentable_comment_path(@commentable.to_global_id, comment), method: 'delete', class: 'grid__cell' do
+                      %p
+                        = button_tag t('workarea.admin.actions.delete'), value: 'delete_comment', class: 'text-button text-button--destroy' do
+                          = t('workarea.admin.actions.delete')
+                          = inline_svg('workarea/admin/icons/delete.svg', class: 'text-button__icon')
+            .comments__comment-body
+              %p= comment.body
+
+      .section
+        .comments__new-comment
+          %h2= t('workarea.admin.comments.index.new')
+
+          - if @comment.errors.present?
+            - @comment.errors.full_messages.each do |message|
+              = render_message 'error', message
+
+          = form_tag commentable_comments_path(@commentable.to_global_id), method: 'post', id: 'comment_form', data: { unsaved_changes: '' } do
+
+            .property.property--required
+              = label_tag 'comment[body]', t('workarea.admin.fields.body'), class: 'property__name'
+              = text_area_tag 'comment[body]', @comment.body, class: 'text-box text-box--multi-line', required: true
+
+            .property
+              = label_tag 'subscribed_user_ids', t('workarea.admin.fields.subscribed_user_ids'), class: 'property__name'
+              = select_tag 'subscribed_user_ids', nil, multiple: true,  data: { remote_select: { source: users_path(exclude_current_user: true, format: :json) } }
+              %span.property__note= t('workarea.admin.comments.index.email_authentication')
+
+            .workflow-bar
+              .grid.grid--auto.grid--right.grid--middle
+                .grid__cell= button_tag t('workarea.admin.comments.index.create'), value: 'create_comment', class: 'workflow-bar__button workflow-bar__button--create'

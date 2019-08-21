@@ -1,0 +1,8 @@
+Description:
+    Generates a new Workarea JavaScript module at the following location:
+
+    app/assets/javascripts/workarea/ENGINE/modules/name_of_module.js
+
+Example:
+    rails g workarea:js_module nameOfModule
+    rails g workarea:js_module nameOfModule --engine=admin

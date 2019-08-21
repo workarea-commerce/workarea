@@ -1,0 +1,53 @@
+/*------------------------------------*\
+    #RELEASE-CREATABLE
+\*------------------------------------*/
+
+$release-creatable-border-color:    $border-color !default;
+
+$release-creatable-type-icon-size:  32px !default;
+
+$release-creatable--add-icon-offset:  calc(-50% - #{$release-creatable-type-icon-size / 2}) !default;
+
+
+.release-creatable {
+    display: inline-block;
+    margin: $vertical-margin 0;
+    padding: $spacing-unit;
+    width: 50%;
+    text-align: center;
+
+    @include respond-to($medium-breakpoint) {
+        padding: $spacing-unit * 2;
+        width: 25%;
+    }
+
+    & + & {
+        border-left: 1px solid $release-creatable-border-color;
+    }
+
+    &:nth-child(even) {
+        border-left-width: 0;
+
+        @include respond-to($medium-breakpoint) {
+            border-left-width: 1px;
+        }
+    }
+}
+
+    /**
+     * 1. positioning context for icons
+     */
+    .release-creatable__icon-set {
+        display: block;
+        position: relative; /* [1] */
+        margin-bottom: $vertical-margin;
+    }
+
+        .release-creatable__type-icon {}
+
+        .release-creatable__add-icon {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX($release-creatable--add-icon-offset);
+        }

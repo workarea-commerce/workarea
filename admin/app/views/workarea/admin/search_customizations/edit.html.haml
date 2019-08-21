@@ -1,0 +1,74 @@
+- @page_title = t('workarea.admin.search_customizations.edit.page_title', customization: @customization.name)
+
+.view
+  .view__header
+    .grid.grid--right
+      .grid__cell.grid__cell--25
+        = render 'workarea/admin/releases/select'
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@customization)
+          %h1= link_to @customization.name, url_for(@customization)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@customization)
+
+  .view__container
+    = render_cards_for(@customization, :attributes)
+
+  .view__container.view__container--narrow
+    = form_tag search_customization_path(@customization), method: 'patch', data: { unsaved_changes: '' } do
+      = hidden_field_tag 'customization[product_ids_list]', @customization.product_ids_list
+
+      .property
+        %span.property__name
+          = t('workarea.admin.fields.active')
+          = inline_svg('workarea/admin/i18n.svg', class: 'svg-icon svg-icon--small') if locale_options.many? && Workarea.config.localized_active_fields
+        = toggle_button_for 'customization[active]', @customization.active?
+
+      .section
+        %h2= t('workarea.admin.search_customizations.edit.query_rewrite')
+
+        = render_message 'info' do
+          = t('workarea.admin.search_customizations.edit.query_rewrite_info')
+          #{link_to t('workarea.admin.search_customizations.edit.official_lucene_documentation'), 'http://lucene.apache.org/core/2_9_4/queryparsersyntax.html', target: '_blank', rel: 'noopener' }.
+
+        .property
+          = label_tag 'customization_rewrite', t('workarea.admin.fields.rewrite'), class: 'property__name'
+          = text_field_tag 'customization[rewrite]', @customization.rewrite, class: 'text-box'
+
+      .section
+        %h2= t('workarea.admin.search_customizations.edit.redirect')
+
+        = render_message 'info' do
+          = t('workarea.admin.search_customizations.edit.redirect_info')
+
+        .property
+          = label_tag 'customization_redirect', t('workarea.admin.fields.redirect'), class: 'property__name'
+          = text_field_tag 'customization[redirect]', @customization.redirect, class: 'text-box', placeholder: t('workarea.admin.search_customizations.edit.redirect_url_placeholder', host: Workarea.config.host)
+
+      .section
+        %h2= t('workarea.admin.search_customizations.edit.miscellaneous')
+
+        .grid
+          .grid__cell.grid__cell--50.grid__cell--25-at-medium
+            .property
+              = label_tag 'customization_id', t('workarea.admin.search_customizations.edit.search_id'), class: 'property__name'
+              = @customization.id
+          .grid__cell.grid__cell--50.grid__cell--25-at-medium
+            .property
+              = label_tag 'customization_query', t('workarea.admin.search_customizations.edit.search_terms'), class: 'property__name'
+              = @customization.query
+
+        .grid
+          .grid__cell.grid__cell--50.grid__cell--25-at-medium
+            .property
+              = label_tag 'customization_updated_at', t('workarea.admin.fields.updated_at'), class: 'property__name'
+              = local_time(@customization.updated_at)
+          .grid__cell.grid__cell--50.grid__cell--25-at-medium
+            .property
+              = label_tag 'customization_created_at', t('workarea.admin.fields.created_at'), class: 'property__name'
+              = local_time(@customization.created_at)
+
+      .workflow-bar
+        .grid.grid--auto.grid--right.grid--middle
+          .grid__cell= button_tag t('workarea.admin.form.save_changes'), value: 'save_customization', class: 'workflow-bar__button workflow-bar__button--update'

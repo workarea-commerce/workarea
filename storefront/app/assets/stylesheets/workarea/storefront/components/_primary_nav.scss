@@ -1,0 +1,54 @@
+/*------------------------------------*\
+    #PRIMARY-NAV
+\*------------------------------------*/
+
+$primary-nav-content-bg-color:  $white !default;
+
+/**
+ * 1. provides positioning context for `.primary-nav__content`
+ */
+.primary-nav {
+    display: none;
+
+    @include respond-to($medium-breakpoint) {
+        display: block;
+        position: relative; /* [1] */
+        text-align: center;
+    }
+}
+
+
+    .primary-nav__menu {
+        @extend %inline-list;
+    }
+
+
+        .primary-nav__item {
+            margin: 0 $spacing-unit;
+        }
+
+        .primary-nav__item--hover {}
+
+            .primary-nav__link {}
+
+            .primary-nav__link--selected {
+                font-weight: bold;
+            }
+
+
+            /**
+             * 1. injected via JavaScript
+             */
+            .primary-nav__content { /* [1] */
+                display: none;
+
+                .primary-nav__item--hover &,
+                .primary-nav__item:hover & {
+                    display: block;
+                    position: absolute;
+                    top: 100%;
+                    right: 0;
+                    left: 0;
+                    background: $primary-nav-content-bg-color;
+                }
+            }

@@ -1,0 +1,39 @@
+- @page_title = @discount.name
+
+.view
+  .view__header
+    .grid
+      .grid__cell.grid__cell--25
+        = render 'workarea/admin/releases/select'
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@discount)
+          %h1= @discount.name
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@discount)
+
+  .view__container
+    - if @discount.auto_deactivated?
+      = render_message 'warning' do
+        = t('workarea.admin.pricing_discounts.show.deactivated_html', time: @discount.auto_deactivated_at.to_date.to_s(:long), timespan: distance_of_time_in_words(Workarea.config.discount_staleness_ttl))
+
+      .section
+        .grid.grid--auto.grid--center
+          .grid__cell
+            = form_tag pricing_discount_path(@discount), method: :patch do
+              = hidden_field_tag 'discount[active]', true
+              = button_tag t('workarea.admin.pricing_discounts.show.reactivate'), class: 'button button--create'
+          .grid__cell
+            = form_tag pricing_discount_path(@discount), method: :patch do
+              = hidden_field_tag 'discount[active]', true
+              = hidden_field_tag 'discount[auto_deactivate]', false
+              = button_tag t('workarea.admin.pricing_discounts.show.disable_auto_deactivation'), class: 'button button--destroy'
+
+    = render_cards_for(@discount)
+
+    .workflow-bar
+      .grid
+        .grid__cell.grid__cell--50
+          = link_to t('workarea.admin.actions.delete'), pricing_discount_path(@discount), class: 'workflow-bar__button workflow-bar__button--delete', data: { method: 'delete', confirm: t('workarea.admin.actions.delete_confirmation') }
+        .grid__cell.grid__cell--50.grid--right
+          = append_partials('admin.discount_show_workflow_bar', model: @discount)

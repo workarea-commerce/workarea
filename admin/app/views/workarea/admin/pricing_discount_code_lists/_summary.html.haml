@@ -1,0 +1,6 @@
+.summary
+  %span.summary__name= model.name
+  .summary__info-container.summary__info-container--multi-line
+    .summary__info
+      %p #{t('workarea.admin.pricing_discount_code_lists.summary.expires_at')} #{local_time_ago(model.expires_at)}
+  %span.summary__type= t('workarea.admin.pricing_discount_code_lists.summary.type')

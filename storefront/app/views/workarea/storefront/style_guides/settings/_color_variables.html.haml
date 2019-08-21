@@ -1,0 +1,21 @@
+#color-variables.style-guide__subsection
+
+  %h3= link_to_style_guide('settings', 'color_variables')
+
+  %p The color palette for the storefront.
+
+  .grid.grid--auto
+    - colors = %w(blue yellow red green white gray light-gray black black-alpha-50 black-alpha-15 white-alpha-50)
+    - colors.each do |color|
+      .grid__cell
+        .style-guide__color
+          .style-guide__color-swatch{ class: "style-guide__color-swatch--#{color}" }
+        $#{color}
+
+  .grid.grid--auto
+    - colors = %w(transparent background-color highlight-color link-color overlay-shadow-color focus-ring-color)
+    - colors.each do |color|
+      .grid__cell
+        .style-guide__color
+          .style-guide__color-swatch{ class: "style-guide__color-swatch--#{color}" }
+        $#{color}

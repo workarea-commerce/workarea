@@ -1,0 +1,117 @@
+/*------------------------------------*\
+    #CONTENT-PREVIEW
+\*------------------------------------*/
+
+$content-preview-button-color:              $gray !default;
+$content-preview-button-color-active:       $blue !default;
+
+$content-preview-device-color:              $light-gray !default;
+$content-preview-device-border-radius:      33px !default;
+$content-preview-device-speaker-height:     8px !default;
+$content-preview-device-speaker-width:      95px !default;
+$content-preview-device-circle-size:        57px !default;
+$content-preview-device-small-padding:      43px 14px 75px !default;
+$content-preview-device-medium-padding:     51px 36px 102px !default;
+
+$content-preview-iframe-initial-width:  $wide-breakpoint !default;
+$content-preview-iframe-initial-height: $wide-breakpoint / (9 / 16) !default;
+
+
+.content-preview {
+    text-align: center;
+}
+
+    .content-preview__header {}
+
+        .content-preview__breakpoint-selector {
+            @extend %inline-list;
+            margin-bottom: $vertical-margin;
+        }
+
+            .content-preview__breakpoint-option {
+                margin: 0 $spacing-unit * 2;
+            }
+
+                .content-preview__breakpoint-button {
+                    @extend %button-reset;
+                    color: $content-preview-button-color;
+                }
+
+                .content-preview__breakpoint-button--active {
+                    color: $content-preview-button-color-active;
+                }
+
+                    .content-preview__breakpoint-button-icon {
+                        margin: 0 auto;
+
+                        .content-preview__breakpoint-button--active & {
+                            fill: $content-preview-button-color-active;
+                        }
+                    }
+
+    .content-preview__preview-container {
+        position: relative;
+        margin: 0 auto;
+        overflow: hidden;
+    }
+
+    /**
+     * Styles for fake device chrome
+     *
+     * 1. change box sizing to ignroe padding and allow iframe width to be accurate
+     */
+    .content-preview__preview-container--device {
+        display: inline-block;
+        border: 4px solid $content-preview-device-color;
+        border-radius: $content-preview-device-border-radius;
+        box-sizing: content-box; /* [1] */
+
+        &:before {
+            @include center($to: horizontal);
+            display: block;
+            top: $spacing-unit * 2;
+            width: $content-preview-device-speaker-width;
+            height: $content-preview-device-speaker-height;
+            background-color: $content-preview-device-color;
+            border-radius: $global-border-radius;
+            content: '';
+        }
+
+        &:after {
+            @include center($to: horizontal);
+            display: block;
+            bottom: $spacing-unit;
+            width: $content-preview-device-circle-size;
+            height: $content-preview-device-circle-size;
+            background-color: $content-preview-device-color;
+            border-radius: 50%;
+            content: '';
+        }
+    }
+
+    .content-preview__preview-container--small {
+        padding: $content-preview-device-small-padding;
+    }
+
+    .content-preview__preview-container--medium {
+        padding: $content-preview-device-medium-padding;
+
+        &:before {
+            top: $spacing-unit * 3;
+        }
+
+        &:after {
+            bottom: $spacing-unit * 3;
+        }
+    }
+
+        .content-preview__iframe {
+            display: inline-block;
+            width: $content-preview-iframe-initial-width;
+            height: $content-preview-iframe-initial-height;
+            border: 0;
+
+            .content-preview__preview-container--device & {
+                border: 2px solid $content-preview-device-color;
+            }
+        }

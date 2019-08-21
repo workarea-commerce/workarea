@@ -1,0 +1,22 @@
+- @page_title = "#{@email.type.titleize} #{t('workarea.admin.content_emails.email_content')}"
+
+.content-email.view
+  .view__header
+    .grid.grid--middle.grid--center
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to "↑ #{t('workarea.admin.content_emails.transactional_email_content')}", content_emails_path
+          %h1 #{@email.type.titleize} #{t('workarea.admin.content_emails.email_content')}
+
+  .view__container.view__container--narrow
+
+    = form_tag content_email_path(@email), method: 'patch', id: 'content-email_form', data: { unsaved_changes: '' } do
+
+      .section
+        .property
+          = label_tag 'email[content]', t('workarea.admin.fields.content'), class: 'property__name'
+          .wysiwyg{ data: { wysiwyg: '' } }= text_area_tag 'email[content]', @email.content, class: 'text-box text-box--multi-line text-box--i18n'
+
+      .workflow-bar
+        .grid.grid--auto.grid--right.grid--middle
+          .grid__cell= button_tag t('workarea.admin.content_emails.save_content'), value: 'save_content_email', class: 'workflow-bar__button workflow-bar__button--update'

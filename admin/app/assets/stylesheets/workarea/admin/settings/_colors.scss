@@ -1,0 +1,32 @@
+/*------------------------------------*\
+    #COLORS
+\*------------------------------------*/
+
+/**
+ * Brand Colors
+ */
+$black:         #000000 !default;
+$off-black:     #303541 !default;
+$blue:          #0060ff !default;
+$bright-blue:   #011eff !default;
+$green:         #00b144 !default;
+$bright-green:  #19c281 !default;
+$red:           #ff4070 !default;
+$bright-red:    #ff0000 !default;
+$dark-gray:     #666666 !default;
+$gray:          #999999 !default;
+$light-gray:    #e5e5e5 !default;
+$off-white:     #f6f6f6 !default;
+$white:         #ffffff !default;
+$orange:        #ff8100 !default;
+
+/**
+ * Global Functional Color Variables
+ */
+$transparent:       transparent !default;
+$font-color:        $off-black !default;
+$background-color:  $white !default;
+$border-color:      $light-gray !default;
+$focus-ring-color:  $blue !default;
+$shadow-color:      rgba($black, 0.2) !default;
+$link-color:        $bright-blue !default;

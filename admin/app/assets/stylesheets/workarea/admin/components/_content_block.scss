@@ -1,0 +1,136 @@
+/*------------------------------------*\
+    #CONTENT-BLOCK
+\*------------------------------------*/
+
+$content-block-active-indicator-size:   16px !default;
+$content-block-active-indicator-color:  $light-gray !default;
+
+$content-block-add-button-size:   $spacing-unit * 6 !default;
+$content-block-add-button-color:  $green !default;
+
+$content-block-action-button-bg-color:         $off-black !default;
+$content-block-action-button-create-bg-color:  $green !default;
+
+$content-block-inactive-overlay-bg-color:  rgba($off-black, 0.75) !default;
+
+
+/**
+ * 1. provides positioning context for `.content-block__overlay`.
+ */
+.content-block {
+    position: relative; /* [1] */
+}
+
+.content-block--active {
+    &::after {
+        @include center(vertical);
+        display: block;
+        right: 0;
+        width: 0;
+        height: 0;
+        border-top: $content-block-active-indicator-size solid $transparent;
+        border-right: $content-block-active-indicator-size solid $content-block-active-indicator-color;
+        border-bottom: $content-block-active-indicator-size solid $transparent;
+        content: '';
+    }
+}
+
+.content-block--inactive {}
+
+    /**
+     * 1. when the block is inactive, we definitely don't want to see the add
+     *    buttons
+     */
+    .content-block__add-button {
+        display: none;
+
+        .content-block:hover & {
+            display: block;
+            position: absolute;
+            left: 50%;
+            z-index: index($content-block, add-button);
+        }
+
+        .content-block--inactive:hover & {
+            display: none; /* [1] */
+        }
+    }
+
+    .content-block__add-button--top {
+        transform: translate(-50%, -50%);
+    }
+
+    .content-block__add-button--bottom {
+        top: 100%;
+        transform: translate(-50%, -50%);
+    }
+
+        .content-block__add-icon {}
+
+
+    .content-block__iframe-placeholder {}
+
+    /**
+     * 1. injected via JavaScript.
+     * 2. required to fill the width of `.content-block`.
+     */
+    .content-block__iframe { /* [1] */
+        position: relative;
+        width: 100%; /* [2] */
+        border: 0;
+    }
+
+    /**
+     * 1. indicates to the user that they may click to edit.
+     */
+    .content-block__overlay {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        cursor: pointer; /* [1] */
+
+        .content-block--inactive & {
+            background: $content-block-inactive-overlay-bg-color;
+        }
+    }
+
+    /**
+     * 1. do not display in edit mode unless the block is active
+     */
+    .content-block__floating-actions {
+        position: absolute;
+        top: 0;
+        right: 0;
+        opacity: 0;
+        transition: opacity $global-transition-speed ease-in-out;
+
+        .content-block:hover & {
+            opacity: 1;
+        }
+
+        .content-block--inactive:hover & {
+            opacity: 0; /* [1] */
+        }
+    }
+
+        .content-block__action {
+            display: inline-block;
+        }
+
+            .content-block__action-button {
+                display: block;
+                padding: $spacing-unit;
+                text-align: center;
+                background-color: $content-block-action-button-bg-color;
+            }
+
+            .content-block__action-button--create {
+                background-color: $content-block-action-button-create-bg-color;
+            }
+
+                .content-editor__action-icon {
+                    display: inline-block;
+                    fill: $white;
+                }

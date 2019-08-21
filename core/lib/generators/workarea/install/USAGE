@@ -1,0 +1,19 @@
+Description:
+    Modifies your existing Rails application with setup required to run Workarea.
+
+Example:
+    rails generate workarea:install
+
+    This will create:
+        config/initializers/workarea.rb
+        config/puma.rb
+        db/seeds.rb
+
+    This will modify:
+        config/application.rb
+        config/routes.rb
+        config/environments/development.rb
+        test/test_helper.rb
+
+    This will delete:
+        public/favicon.ico

@@ -1,0 +1,121 @@
+/*------------------------------------*\
+    #MENU
+\*------------------------------------*/
+
+$menu-bg-color:                 $white !default;
+$menu-item-border-color:        $light-gray !default;
+$menu-link-active-color:        $blue !default;
+$menu-link-active-bg-color:     $light-gray !default;
+$menu-link-bg-color:            $white !default;
+$menu-link-hover-bg-color:      $border-color !default;
+$menu-heading-action-color:     $green !default;
+$menu-heading-action-font-size: $font-size - 2px !default;
+$menu-delete-icon-size:         $font-size + 2 !default;
+$menu-delete-icon-color:        $dark-gray !default;
+$menu-width:                    256px !default;
+
+
+/**
+ * 1. nested menus get a left margin.
+ */
+.menu {
+    @extend %list-reset;
+    width: $menu-width;
+    background: $menu-bg-color;
+
+    .menu { /* [1] */
+        margin-left: $horizontal-margin;
+    }
+}
+
+
+    /**
+     * 1. positioning context for `.menu__delete-link` & `.menu__heading-action`
+     */
+    .menu__item {
+        position: relative; /* [1] */
+        border-bottom: 1px solid $menu-item-border-color;
+
+        &:last-of-type {
+            border-bottom: 0;
+        }
+    }
+
+    .menu__item--heading {
+        border: 0;
+    }
+
+
+        .menu__heading {
+            @extend %heading;
+            @extend %heading--5;
+            @extend %heading--no-margin;
+            padding: $spacing-unit;
+        }
+
+        .menu__heading-action {
+            @include center($to: vertical);
+            position: absolute;
+            right: $spacing-unit;
+            color: $menu-heading-action-color;
+            font-size: $menu-heading-action-font-size;
+
+            &:hover {
+                text-decoration: none;
+            }
+        }
+
+            .menu__heading-action-icon {
+                width: $menu-heading-action-font-size;
+                vertical-align: middle;
+                fill: $menu-heading-action-color;
+            }
+
+            .menu__heading-action-text {
+                vertical-align: middle;
+            }
+
+
+        .menu__link {
+            @extend %link;
+            @extend %link--secondary;
+            display: block;
+            padding: $spacing-unit;
+            background: $menu-link-bg-color;
+            cursor: pointer; /* [1] */
+            transition: background-color $global-transition-speed ease-out;
+
+            .menu__item:hover & {
+                text-decoration: none;
+                background-color: $menu-link-hover-bg-color;
+            }
+        }
+
+        .menu__link--active,
+        .menu__link--active:hover {
+            color: $menu-link-active-color;
+            background-color: $menu-link-active-bg-color;
+        }
+
+        .menu-link--small {
+            @extend %text;
+            @extend %text--small;
+        }
+
+
+        .menu__delete-link {
+            display: none;
+
+            .menu__item:hover & {
+                @include center($to: vertical);
+                display: block;
+                position: absolute;
+                right: $spacing-unit;
+            }
+        }
+
+            .menu__delete-link-icon {
+                width: $menu-delete-icon-size;
+                height: $menu-delete-icon-size;
+                fill: $menu-delete-icon-color;
+            }

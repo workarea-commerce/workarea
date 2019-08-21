@@ -1,0 +1,215 @@
+#data-card.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'data_card')
+
+  %p Displays account data in a "card" UI that reflows to fit the context.
+
+  %p The default component stacks these child cells in a single column.
+
+  %p Credit card data:
+  .style-guide__example-block
+
+    .data-card
+      .data-card__cell
+        %p.data-card__line.data-card__credit-card.data-card__credit-card--default
+          = credit_card_issuer_icon('Visa')
+          %span.data-card__credit-card-number ending in 4682
+        %p.data-card__line
+          %strong Expires:
+          %span
+            04/2020
+        %p.data-card__line
+          %strong Name on Card:
+          %span Bobby Clams
+      .data-card__cell
+        .grid.grid--auto
+          %p.grid__cell= link_to 'Edit', '#', class: 'button button--small'
+          = form_tag nil, class: 'grid__cell' do
+            %p= button_tag 'Delete', class: 'button button--small'
+
+    .data-card
+      .data-card__cell
+        %p.data-card__line.data-card__credit-card
+          = credit_card_issuer_icon('MasterCard')
+          %span.data-card__credit-card-number ending in 4682
+        %p.data-card__line
+          %strong Expires:
+          %span
+            04/2012
+            %strong (Expired)
+        %p.data-card__line
+          %strong Name on Card:
+          %span Bobby Clams
+      .data-card__cell
+        .grid.grid--auto
+          %p.grid__cell= link_to 'Edit', '#', class: 'button button--small'
+          = form_tag nil, class: 'grid__cell' do
+            %p= button_tag 'Delete', class: 'button button--small'
+
+    .data-card
+      .data-card__cell
+        %p.data-card__line.data-card__credit-card
+          = credit_card_issuer_icon('Discover')
+          %span.data-card__credit-card-number ending in 4682
+        %p.data-card__line
+          %strong Expires:
+          %span
+            04/2020
+        %p.data-card__line
+          %strong Name on Card:
+          %span Bobby Clams
+      .data-card__cell
+        .grid.grid--auto
+          %p.grid__cell= link_to 'Edit', '#', class: 'button button--small'
+          = form_tag nil, class: 'grid__cell' do
+            %p= button_tag 'Delete', class: 'button button--small'
+
+    .data-card
+      .data-card__cell
+        %p.data-card__line.data-card__credit-card
+          = credit_card_issuer_icon('American Express')
+          %span.data-card__credit-card-number ending in 4682
+        %p.data-card__line
+          %strong Expires:
+          %span
+            04/2020
+        %p.data-card__line
+          %strong Name on Card:
+          %span Bobby Clams
+      .data-card__cell
+        .grid.grid--auto
+          %p.grid__cell= link_to 'Edit', '#', class: 'button button--small'
+          = form_tag nil, class: 'grid__cell' do
+            %p= button_tag 'Delete', class: 'button button--small'
+
+    .data-card
+      .data-card__cell
+        %p.data-card__line.data-card__credit-card
+          = credit_card_issuer_icon('Diner\'s Club')
+          %span.data-card__credit-card-number ending in 4682
+        %p.data-card__line
+          %strong Expires:
+          %span
+            04/2020
+        %p.data-card__line
+          %strong Name on Card:
+          %span Bobby Clams
+      .data-card__cell
+        .grid.grid--auto
+          %p.grid__cell= link_to 'Edit', '#', class: 'button button--small'
+          = form_tag nil, class: 'grid__cell' do
+            %p= button_tag 'Delete', class: 'button button--small'
+
+  %p Address data:
+  .style-guide__example-block
+    .data-card
+      .data-card__cell
+        %p.data-card__line
+          Bobby Clams
+          %br
+          Workarea, LLC
+          %br
+          22 S 3rd St
+          %br
+          2nd Floor
+          %br
+          Philadelphia PA 19106
+          %br
+          = number_to_phone 2159251800
+      .data-card__cell
+        .grid.grid--auto
+          %p.grid__cell= link_to 'Edit', '#', class: 'button button--small'
+          = form_tag nil, class: 'grid__cell' do
+            %p= button_tag 'Delete', class: 'button button--small'
+
+  %p Order data:
+  .style-guide__example-block
+    .data-card
+      .data-card__cell
+        %p.data-card__line
+          %strong Order Date:
+          %span February 19, 2014
+        %p.data-card__line
+          %strong Order #:
+          %span 123456789
+        %p.data-card__line
+          %strong Order Status:
+          %span Shipped
+        %p.data-card__line
+          %strong Items:
+          %span 2 - $88.98
+      .data-card__cell
+        .grid.grid--auto
+          %p.grid__cell= link_to 'View', '#', class: 'button button--small'
+          %p.grid__cell= link_to 'Track Shipment', '#'
+          %p.grid__cell= link_to 'Track Shipment 2', '#'
+
+#data-card--row.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'data_card__row')
+
+  %p Presents the #{link_to_style_guide('components', 'data_card', true)} as stacked, rather than inline.
+
+  %p Credit card data:
+  .style-guide__example-block
+    .data-card.data-card--row
+      .data-card__cell
+        %p.data-card__line.data-card__credit-card.data-card__credit-card--default
+          = credit_card_issuer_icon('Visa')
+          %span.data-card__credit-card-number ending in 4682
+        %p.data-card__line
+          %strong Expires:
+          %span
+            04/2020
+        %p.data-card__line
+          %strong Name on Card:
+          %span Bobby Clams
+      .data-card__cell
+        .grid.grid--auto
+          %p.grid__cell= link_to 'Edit', '#', class: 'button button--small'
+          = form_tag nil, class: 'grid__cell' do
+            %p= button_tag 'Delete', class: 'button button--small'
+
+  %p Address data:
+  .style-guide__example-block
+    .data-card.data-card--row
+      .data-card__cell
+        %p.data-card__line
+          Bobby Clams
+          %br
+          Workarea, LLC
+          %br
+          22 S 3rd St
+          %br
+          2nd Floor
+          %br
+          Philadelphia PA 19106
+          %br
+          = number_to_phone 2159251800
+      .data-card__cell
+        .grid.grid--auto
+          %p.grid__cell= link_to 'Edit', '#', class: 'button button--small'
+          = form_tag nil, class: 'grid__cell' do
+            %p= button_tag 'Delete', class: 'button button--small'
+
+  %p Order data:
+  .style-guide__example-block
+    .data-card.data-card--row
+      .data-card__cell
+        %p.data-card__line
+          %strong Order Date:
+          %span February 19, 2014
+        %p.data-card__line
+          %strong Order #:
+          %span 123456789
+        %p.data-card__line
+          %strong Order Status:
+          %span Shipped
+        %p.data-card__line
+          %strong Items:
+          %span 2 - $88.98
+      .data-card__cell
+        .grid.grid--auto
+          %p.grid__cell= link_to 'View', '#', class: 'button button--small'
+          %p.grid__cell= link_to 'Track Shipment', '#'
+          %p.grid__cell= link_to 'Track Shipment 2', '#'

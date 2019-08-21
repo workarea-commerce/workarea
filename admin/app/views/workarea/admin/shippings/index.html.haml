@@ -1,0 +1,92 @@
+- @page_title = t('workarea.admin.shippings.index.page_title', order: @order.name)
+
+.view
+  .view__header
+    .grid.grid--middle.grid--right
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@order)
+          %h1= link_to @order.name, url_for(@order)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@order)
+
+  .view__container
+    = render_cards_for(@order, :shipping)
+
+  .view__container
+    - @shippings.each do |shipping|
+      .grid.grid--center.grid--huge
+        .grid__cell.grid__cell--25-at-medium
+          %h2= t('workarea.admin.shippings.index.address')
+          .section
+            - if shipping.address.blank?
+              %p= t('workarea.admin.shippings.index.no_shipping_address')
+            - else
+              %p= formatted_address(shipping.address)
+          - if shipping.instructions.present?
+            .section
+              %p
+                %strong= t('workarea.admin.shippings.index.instructions')
+                %br
+                = shipping.instructions
+
+        - if shipping.partial?
+          .grid__cell.grid__cell--25-at-medium
+            %h2= t('workarea.admin.shippings.index.items')
+
+            %table
+              %thead
+                %tr
+                  %th= t('workarea.admin.orders.attributes.items.product')
+                  %th.align-center= t('workarea.admin.orders.attributes.items.quantity')
+              %tbody
+                - shipping.items.each do |item|
+                  %tr
+                    %td
+                      .grid.grid--auto
+                        .grid__cell
+                          = link_to image_tag(product_image_url(item.image, :small), alt: item.product.name), catalog_product_url(item.product, sku: item.sku)
+                        .grid__cell
+                          %p= link_to item.product.name, catalog_product_path(item.product, sku: item.sku)
+                          %p= item.sku
+                          - if item.customizations.any?
+                            - item.customizations.each do |name, value|
+                              %p #{name.titleize}: #{value}
+                    %td.align-center= item.quantity
+
+        .grid__cell.grid__cell--25-at-medium
+          %h2= t('workarea.admin.shippings.index.service')
+          .section
+            - if shipping.shipping_service.blank?
+              %p= t('workarea.admin.shippings.index.no_shipping_service')
+            - else
+              %h4= t('workarea.admin.shippings.index.details')
+              %table.data-pairs
+                %tbody
+                  %tr
+                    %th
+                      %span.data-pairs__name= t('workarea.admin.shippings.index.carrier')
+                    %td= shipping.shipping_service.carrier.presence || t('workarea.admin.shippings.index.not_applicable')
+                  %tr
+                    %th
+                      %span.data-pairs__name= t('workarea.admin.shippings.index.name')
+                    %td= shipping.shipping_service.name.presence || t('workarea.admin.shippings.index.not_applicable')
+                  %tr
+                    %th
+                      %span.data-pairs__name= t('workarea.admin.shippings.index.service_code')
+                    %td= shipping.shipping_service.service_code.presence || t('workarea.admin.shippings.index.not_applicable')
+                  %tr
+                    %th
+                      %span.data-pairs__name= t('workarea.admin.shippings.index.tax_code')
+                    %td= shipping.shipping_service.tax_code.presence || t('workarea.admin.shippings.index.not_applicable')
+
+              %h4= t('workarea.admin.shippings.index.charges')
+              %table.data-pairs
+                %tbody
+                  - shipping.price_adjustments.group_by(&:description).each do |description, adjustments|
+                    %tr
+                      %th
+                        %span.data-pairs__name= description
+                      %td= number_to_currency(adjustments.sum(&:amount))
+
+        = append_partials('admin.shipping_details', shipping: shipping)

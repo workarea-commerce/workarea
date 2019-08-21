@@ -1,0 +1,8 @@
+= favicon_link_tag favicons_path('180x180'), rel: 'apple-touch-icon', sizes: '180x180'
+= favicon_link_tag favicons_path('32x32'), rel: 'icon', sizes: '32x32', type: 'image/png'
+= favicon_link_tag favicons_path('16x16'), rel: 'icon', sizes: '16x16', type: 'image/png'
+%meta{ name: 'msapplication-TileColor', content: Workarea.config.web_manifest.tile_color }
+%meta{ name: 'msapplication-config', content: browser_config_path }
+%meta{ name: 'theme-color', content: Workarea.config.web_manifest.theme_color }
+%meta{ name: 'msapplication-navbar-color', content: Workarea.config.web_manifest.theme_color }
+%meta{ name: 'apple-mobile-web-app-status-bar-style', content: Workarea.config.web_manifest.theme_color }

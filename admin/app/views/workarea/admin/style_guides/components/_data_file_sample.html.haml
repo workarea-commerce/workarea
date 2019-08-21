@@ -1,0 +1,28 @@
+#data-file-sample.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'data_file_sample')
+
+  %p Display a block of text preformatted as an example of file contents from some output.
+
+  %p <strong>Note:</strong> intended to be applied in combination with <code>pre</code> elements.
+
+  .style-guide__example-block
+    .data-file-sample
+      %pre.data-file-sample__output
+        :preserve
+          [
+            {
+              "_id": "12345",
+              "name": "Example Product",
+              "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi neque odio, faucibus id pellentesque sed, dapibus et purus. Praesent sem urna, bibendum sed vehicula at, placerat malesuada odio. Proin in fringilla lectus, eleifend pellentesque magna. Proin suscipit urna et ex congue finibus."
+              "variants": [
+                {
+                  "sku": "12345-001",
+                  "details": {
+                    "color": "Blue",
+                    "size": "Medium"
+                  }
+                }
+              ]
+            }
+          ]

@@ -1,0 +1,27 @@
+- @page_title = @content.name
+
+.view
+  .view__header
+    .grid
+      .grid__cell.grid__cell--25
+        = render 'workarea/admin/releases/select'
+      .grid__cell.grid__cell--50
+        .view__heading
+          - if @content.system?
+            = link_to "↑ #{t('workarea.admin.content.all_system_pages')}", content_index_path
+          - else
+            = link_to_index_for(@content.contentable)
+
+          %h1= @content.name
+
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@content)
+
+  .view__container
+    = render_cards_for(@content)
+
+  - if partials_to_append?('admin.content_show_workflow_bar')
+    .workflow-bar
+      .grid
+        .grid__cell.grid__cell--50.grid--right
+          = append_partials('admin.content_show_workflow_bar', model: @content)

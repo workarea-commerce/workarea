@@ -1,0 +1,12 @@
+#asset-picker-field.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'asset_picker_field')
+
+  %p Intended to be used on field paired with a button. The button opens a takeover to select an asset. The path to the selected asset is inserted into the field.
+
+  .style-guide__example-block
+    .asset-picker-field
+      .asset-picker-field__cell
+        = text_field_tag 'asset_picker_field', nil, class: 'text-box'
+      .asset-picker-field__cell
+        = link_to 'View Assets', insert_content_assets_url, class: 'text-button'

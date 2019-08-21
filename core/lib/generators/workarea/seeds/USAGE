@@ -1,0 +1,11 @@
+Description:
+    Generate seeds, a script for manipulating the initial
+    application state so that all members of a development team
+    can work with the same data set in their own separate
+    environments.
+
+Example:
+    rails generate workarea:seeds FeaturedProducts
+
+    This will create:
+        app/seeds/workarea/featured_products_seeds.rb

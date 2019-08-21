@@ -1,0 +1,39 @@
+/*------------------------------------*\
+    #LINKS
+\*------------------------------------*/
+
+$link-color:  $bright-blue !default;
+
+$link-secondary-color:        $dark-gray !default;
+$link-secondary-hover-color:  $off-black !default;
+
+a,
+%link,
+.link {
+    color: $link-color;
+    text-decoration: none;
+    cursor: pointer;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+
+%link--secondary,
+.link--secondary {
+    color: $link-secondary-color;
+
+    &:hover {
+        color: $link-secondary-hover-color;
+        text-decoration: none;
+    }
+}
+
+
+%link--no-underline,
+.link--no-underline {
+    &:hover {
+        text-decoration: none;
+    }
+}

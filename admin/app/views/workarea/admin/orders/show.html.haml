@@ -1,0 +1,24 @@
+- @page_title = @order.name
+
+.view
+  .view__header
+    .grid.grid--middle.grid--right
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@order)
+          %h1= @order.name
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@order)
+
+  .view__container
+    = render_cards_for(@order)
+
+  - if partials_to_append?('admin.order_show_workflow_bar_left') || partials_to_append?('admin.order_show_workflow_bar_right')
+    .workflow-bar
+      .grid
+        .grid__cell.grid__cell--50
+          .grid.grid--auto.grid--middle
+            = append_partials('admin.order_show_workflow_bar_left', order: @order)
+        .grid__cell.grid__cell--50
+          .grid.grid--auto.grid--right.grid--middle
+            = append_partials('admin.order_show_workflow_bar_right', order: @order)

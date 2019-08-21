@@ -1,0 +1,12 @@
+%form{ class: 'product-details__add-to-cart-form', data: { analytics: { event: 'addToCart', domEvent: 'submit', payload: { foo: 'baz' } }.to_json } }
+
+  = hidden_field_tag :product_id, 'PRODUCT1'
+  = hidden_field_tag :sku, 'foo'
+
+  .product-details__quantity
+    .property
+      = label_tag :quantity, nil, class: 'property__name', for: "quantity_PRODUCT1" do
+        %span.property__text Quantity
+      .value= number_field_tag :quantity, 1, class: 'text-box text-box--x-small', required: true, min: 1, id: "quantity_PRODUCT1"
+
+  %p.product-details__add-to-cart-action= button_tag 'Add to Cart', value: 'add_to_cart', class: 'button button--large'

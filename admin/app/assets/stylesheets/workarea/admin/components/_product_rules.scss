@@ -1,0 +1,33 @@
+/*------------------------------------*\
+    #PRODUCT-RULES
+\*------------------------------------*/
+
+$product-rules-row-border-color: $gray !default;
+
+.product-rules {
+    border: 1px solid $product-rules-row-border-color;
+    border-radius: $global-border-radius;
+}
+
+    .product-rules__base-query {
+        font-weight: bold;
+    }
+
+    .product-rules__row {
+        @extend %clearfix;
+        padding: $spacing-unit ($spacing-unit * 2);
+        border-bottom: 1px solid $product-rules-row-border-color;
+
+        &:last-of-type {
+            border: 0;
+        }
+    }
+
+        .product-rules__actions {
+            float: right;
+        }
+
+
+        .product-rules__new {
+            text-align: center;
+        }

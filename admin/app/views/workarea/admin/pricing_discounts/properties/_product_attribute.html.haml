@@ -1,0 +1,32 @@
+.discount__node-line
+  %p.discount__node-group
+    %span.discount__node Take
+    %span.discount__node= select_tag 'discount[amount_type]', options_for_select(@discount.amount_type_options, @discount.amount_type), title: 'Type of Amount'
+    %span.discount__node
+      %span.property.property--inline
+        = text_field_tag 'discount[amount]', @discount.amount, class: 'text-box text-box--small', title: 'Amount of Discount', placeholder: '10', required: true
+    %span.discount__node off products
+
+.discount__node-line
+  %p.discount__node-group
+    %span.discount__node where
+    %span.discount__node
+      %span.property.property--inline
+        = text_field_tag 'discount[attribute_name]', @discount.attribute_name, class: 'text-box text-box--medium', title: 'Product Attribute', placeholder: 'Color', required: true
+    %span.discount__node is
+    %span.discount__node
+      %span.property.property--inline
+        = text_field_tag 'discount[attribute_value]', @discount.attribute_value, class: 'text-box text-box--medium', title: 'Product Attribute Value', placeholder: 'Black', required: true
+
+.discount__node-line
+  %p.discount__node-group
+    %span.discount__node= select_tag 'condition_options', options_for_select(@discount.condition_options, @discount.selected_condition_option), title: 'When to Apply Discount', data: { discount_options_menu: { type: 'condition' }.to_json }
+  = render 'workarea/admin/pricing_discounts/conditions/order_total', discount: @discount
+  = render 'workarea/admin/pricing_discounts/conditions/item_quantity', discount: @discount
+  = render 'workarea/admin/pricing_discounts/conditions/user_tags', discount: @discount
+  = append_partials('admin.discount_conditions', discount: @discount)
+
+  %p.discount__node-group
+    %span.discount__node applied
+    %span.discount__node= select_tag 'application_options', options_for_select(@discount.application_options, @discount.selected_application_option), title: 'When to Apply Discount', data: { discount_options_menu: { type: 'application' }.to_json }
+  = render 'workarea/admin/pricing_discounts/conditions/promo_code', discount: @discount

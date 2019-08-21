@@ -1,0 +1,75 @@
+- content_for :head do
+  %meta{ name: 'turbolinks-cache-control', content: 'no-cache' }
+
+#content-editor.content-editor{ class: ('content-editor--in-workflow' if local_assigns[:workflow]) }
+  - if content.show_areas? || content.show_advanced?
+    .content-editor__controls{ class: ('content-editor__controls--full' unless content.current_blocks.any? || content.new_block?) }
+      .grid.grid--middle
+        .grid__cell.grid__cell--50
+          - if content.show_areas?
+            %span= content.name
+            = inline_svg('workarea/admin/icons/navigate_next.svg', class: 'svg-icon svg-icon--small svg-icon--white')
+            = form_tag request.path, method: 'get', class: 'content-editor__area-select-form' do
+              = select_tag 'area_id', options_for_select(content.area_options, content.current_area), data: { form_submitting_control: '' }
+        .grid__cell.grid__cell--50
+          .grid.grid--right.grid--auto
+            .grid__cell
+              = link_to advanced_content_path(content, return_to: params.to_h), class: 'content-editor__controls-action content-editor__controls-action--advanced' do
+                = inline_svg('workarea/admin/icons/settings.svg', class: 'content-editor__controls-action-icon svg-icon')
+                %span= t('workarea.admin.content.edit.advanced')
+            - if content.current_blocks.any?
+              .grid__cell
+                = link_to preview_content_path(content, area_id: content.current_area), class: 'content-editor__controls-action content-editor__controls-action--preview', data: { content_preview: 'open' } do
+                  = inline_svg('workarea/admin/icons/view.svg', class: 'content-editor__controls-action-icon svg-icon')
+                  %span= t('workarea.admin.content.edit.preview')
+
+  - unless content.current_blocks.any? || content.new_block?
+    .content-editor__no-content{ class: ('content-editor__no-content--border-top' unless content.show_areas? || content.show_advanced?) }
+      %span.heading.heading--2= t('workarea.admin.content.edit.empty_content')
+      = link_to t('workarea.admin.content.edit.add'), content_area_blocks_path(content, content.current_area, position: 0, return_to: params.to_h), class: 'button button--large button--create', data: { add_content_block_button: '' }, id: 'add_new_block'
+
+  - else
+    .content-editor__area
+      - if content.new_block? && content.new_block.position == 0
+        .content-block{ id: dom_id(content.new_block), data: { content_block: storefront.draft_content_block_path(content.new_block_draft) }, class: ('content-block--active' if content.new_block?), style: "order: #{content.new_block.position}" }
+          .content-block__iframe-placeholder
+        = form_tag content_area_blocks_path(content, content.current_area), method: :post, class: 'content-editor__form', data: { content_editor_form: { previewId: "##{dom_id(content.new_block)}", params: { 'block[content_id]': content.id, 'block[type_id]': content.new_block.type_id, 'block[area]': content.current_area } }.to_json, unsaved_changes: '' } do
+          = render 'workarea/admin/content/form', content: content, block: content.new_block
+
+      - content.current_blocks.each do |block|
+        .content-block{ id: dom_id(block), data: { content_block: storefront.content_block_path(block) }, class: ('content-block--inactive' if content.new_block?), style: "order: #{block.position}" }
+          = link_to inline_svg('workarea/admin/icons/add_circle.svg', class: 'content-block__add-icon svg-icon svg-icon--extra-large svg-icon--green', title: t('workarea.admin.content.edit.add_block_above')), content_area_blocks_path(content, content.current_area, position: block.position, return_to: params.to_h), class: 'content-block__add-button content-block__add-button--top', data: { add_content_block_button: '' }
+          .content-block__iframe-placeholder
+          = link_to inline_svg('workarea/admin/icons/add_circle.svg', class: 'content-block__add-icon svg-icon svg-icon--extra-large svg-icon--green', title: t('workarea.admin.content.edit.add_block_below')), content_area_blocks_path(content, content.current_area, position: block.position + 1, return_to: params.to_h), class: 'content-block__add-button content-block__add-button--bottom', data: { add_content_block_button: '' }
+          .content-block__floating-actions
+            - unless block.new_record?
+              .content-block__action
+                = link_to content_presets_path, title: t('workarea.admin.content.edit.create_preset'), class: 'content-block__action-button content-block__action-button--create', data: { tooltip: { content_url: new_content_preset_path(content_id: content.id, block_id: block.id), interactive: true, contentAsHTML: true, content: t('workarea.admin.content.edit.loading'), trigger: 'custom', contentPreset: true }.to_json, content_preset_button: '' } do
+                  = inline_svg("workarea/admin/icons/create_preset.svg", title: t('workarea.admin.content.edit.create_preset'), class: 'content-editor__action-icon svg-icon svg-icon--large')
+            .content-block__action
+              = link_to content_area_block_path(content, content.current_area, block, return_to: params.to_h), data: { method: 'delete', confirm: "Are you sure you want to delete this #{block.name} block?" }, id: dom_id(block, :delete), class: 'content-block__action-button' do
+                = inline_svg("workarea/admin/icons/delete.svg", title: t('workarea.admin.actions.delete'), class: 'content-editor__action-icon svg-icon svg-icon--large')
+
+        = form_tag content_area_block_path(content, content.current_area, block), method: :patch, class: 'content-editor__form', data: { content_editor_form: { previewId: "##{dom_id(block)}", params: { 'block[content_id]': content.id, 'block[type_id]': block.type_id, 'block[area]': content.current_area } }.to_json, unsaved_changes: '' } do
+          = render 'workarea/admin/content/form', content: content, block: block
+
+        - if content.new_block? && content.new_block.position == block.position + 1
+          .content-block{ id: dom_id(content.new_block), data: { content_block: storefront.draft_content_block_path(content.new_block_draft) }, class: ('content-block--active' if content.new_block?), style: "order: #{content.new_block.position}" }
+            .content-block__iframe-placeholder
+          = form_tag content_area_blocks_path(content, content.current_area), method: :post, class: 'content-editor__form', data: { content_editor_form: { previewId: "##{dom_id(content.new_block)}", params: { 'block[content_id]': content.id, 'block[type_id]': content.new_block.type_id, 'block[area]': content.current_area } }.to_json, unsaved_changes: '' } do
+            = render 'workarea/admin/content/form', content: content, block: content.new_block
+
+    .content-editor__aside
+      - if @content.current_blocks.any?
+
+        .align-center
+          %span.heading.heading--3= t('workarea.admin.content.edit.aside_title')
+
+        = form_tag move_content_area_blocks_path(@content, @content.current_area), method: 'patch' do
+          %ol.content-block-list
+            - @content.current_blocks.each do |block|
+              %li.content-block-list__item{ data: { block_id: "##{dom_id(block)}" } }
+                = hidden_field_tag "block[#{block.id}]", block.position, id: nil
+                = inline_svg("workarea/admin/icons/grip.svg", title: t('workarea.admin.actions.drag'), class: 'content-block-list__icon content-block-list__icon--move')
+                = content_block_icon(block.icon, title: block.name, class: 'content-block-list__icon')
+                %span.content-block-list__name= block.name

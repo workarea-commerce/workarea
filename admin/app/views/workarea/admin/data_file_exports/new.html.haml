@@ -1,0 +1,47 @@
+- @page_title = t('workarea.admin.data_file_exports.new.title', name: @export.name.pluralize)
+
+.view
+  .view__header
+    .grid.grid--middle.grid--center
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to "← #{t('workarea.admin.data_file_exports.new.back')}", return_to
+          %h1= t('workarea.admin.data_file_exports.new.title', name: @export.name.pluralize)
+
+  .view__container
+    = form_tag data_file_exports_path, method: 'post', data: { unsaved_changes: '' } do
+      = hidden_field_tag :return_to, return_to
+      = hidden_field_tag 'export[model_type]', @export.model_type
+      = hidden_field_tag 'export[query_id]', @export.query_id
+      = hidden_field_tag 'export[file_type]', @export.file_type
+      - @export.ids.each do |id|
+        = hidden_field_tag 'export[ids][]', id, id: nil
+
+      .section
+        .grid.grid--center
+          .grid__cell.grid__cell--50
+            - @export.errors.full_messages.each do |message|
+              = render_message 'error', message
+
+      .section
+        .grid.grid--huge
+          .grid__cell.grid__cell--50
+            %h2.align-center.heading.heading--no-margin= t('workarea.admin.data_file_exports.new.what_will_the_file_look_like')
+            %p.align-center
+              #{t('workarea.admin.data_file_exports.new.formats')}:
+              - Workarea.config.data_file_formats.each do |file_type|
+                = link_to_unless @export.file_type.to_s == file_type.to_s, file_type.upcase, url_for(@export.attributes.merge('file_type' => file_type).merge(return_to: return_to)), data: { turbolinks: false }
+
+            - if @export.samples.blank?
+              %p.align-center= t('workarea.admin.data_file_exports.new.no_samples')
+            - else
+              .data-file-sample
+                %pre.data-file-sample__output= @export.sample_file_content
+
+          .grid__cell.grid__cell--50
+            %h2.align-center= t('workarea.admin.data_file_exports.new.where_will_the_file_go')
+            .property.align-center
+              = email_field_tag 'export[emails_list]', @export.emails_list.presence || current_user.email, class: 'text-box text-box--wide', required: true, placeholder: t('workarea.admin.data_file_exports.new.enter_your_email'), multiple: true
+              = button_tag t('workarea.admin.data_file_exports.new.start_export'), value: 'create_export', class: 'button button--inline'
+              %span.property__note
+                = t('workarea.admin.data_file_exports.new.emails_note')

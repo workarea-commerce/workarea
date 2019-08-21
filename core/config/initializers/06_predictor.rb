@@ -1,0 +1,1 @@
+Predictor.redis = Workarea.redis

@@ -1,0 +1,27 @@
+= append_partials('storefront.inquiry_mailer.top')
+
+- content_for :preheader_text do
+  = t('workarea.storefront.email.inquiry.heading', subject: @inquiry.full_subject)
+
+%tr
+  %td
+    %h1= t('workarea.storefront.email.inquiry.heading', subject: @inquiry.full_subject)
+    .align-left
+      %p
+        %strong= "#{t('workarea.storefront.email.inquiry.name')}:"
+        = @inquiry.name
+      %p
+        %strong= "#{t('workarea.storefront.email.inquiry.email')}:"
+        = @inquiry.email
+      - if @inquiry.order_id.present?
+        %p
+          %strong= "#{t('workarea.storefront.email.inquiry.order_id')}:"
+          = @inquiry.order_id
+      %p
+        %strong= "#{t('workarea.storefront.email.inquiry.subject')}:"
+        = @inquiry.full_subject
+      %p
+        %strong= "#{t('workarea.storefront.email.inquiry.message')}:"
+        = @inquiry.message
+
+= append_partials('storefront.inquiry_mailer.bottom')

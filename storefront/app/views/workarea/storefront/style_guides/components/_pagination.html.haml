@@ -1,0 +1,24 @@
+#pagination.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'pagination')
+
+  %p Wraps a list of results intended to be paginated.
+
+  %p should center the pagination button:
+  .style-guide__example-block
+    .pagination
+      .grid
+        .grid__cell.grid__cell--25
+          .align-center
+            %span.heading.heading--1 Item 1
+        .grid__cell.grid__cell--25
+          .align-center
+            %span.heading.heading--1 Item 2
+        .grid__cell.grid__cell--25
+          .align-center
+            %span.heading.heading--1 Item 3
+        .grid__cell.grid__cell--25
+          .align-center
+            %span.heading.heading--1 Item 4
+      .pagination__button
+        = link_to 'Load More', '#', class: 'button'

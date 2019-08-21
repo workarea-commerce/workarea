@@ -1,0 +1,17 @@
+.property{ class: ('property--required' if field.required?), data: field.options[:html_data_attributes] }
+  = label_tag dom_id(block, field.slug), class: 'property__name' do
+    = field.name
+    - if field.tooltip.present?
+      = link_to "##{dom_id(block, field.slug)}_tooltip", data: { tooltip: '' } do
+        = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.content_blocks.tooltips.more_info'))
+
+  - if field.note.present?
+    %span.property__note= field.note
+  - Workarea.config.storefront_break_points.each_key do |breakpoint|
+    = check_box_tag "block[data][#{field.slug}][]", breakpoint[:name], Array(block.data[field.slug]).include?(breakpoint[:name]), id: dom_id(block, "#{field.slug}_#{breakpoint[:name]}")
+    = label_tag dom_id(block, "#{field.slug}_#{breakpoint[:name]}"), nil, class: 'property__name' do
+      = breakpoint[:name].titleize
+
+- if field.tooltip.present?
+  .tooltip-content{ id: "#{dom_id(block, field.slug)}_tooltip" }
+    %p= field.tooltip

@@ -1,0 +1,34 @@
+---
+title: Search
+body_class: body--flat
+---
+
+<div class='section [ white-text align-center ]'>
+  <div class='hide-if-noscript'>
+    <h1 class='heading heading--4 no-bottom-margin'>Search</h1>
+    <p class='no-top-margin'>Keep typing and we'll keep searching!</p>
+
+    <% form_tag '/search.html', class: 'search', method: 'get' do %>
+      <input type='search' name='q' placeholder='Search the Workarea Commerce Docs' class='search__input' autocomplete='off' id='lunr-search'>
+      <input type='submit' class='search__button' value='⟶'>
+    <% end %>
+  </div>
+
+  <noscript>
+    <span class='heading heading--4'>Dear Hardcore Conspiracy Theorist</span>
+    <p>We use JavaScript to power our search results.</p>
+    <p>Though we ourselves are not out to get you, personally, you'll have to re-enable JavaScript in order to search this site.</p>
+    <p>On behalf of Workarea, I apologize.</p>
+    <p>
+      Sincerely yours,<br>
+      <strong>Workarea Documentation, Esq.</strong>
+    </p>
+  </noscript>
+</div>
+
+<div class='hide-if-noscript'>
+  <div class='search-results'>
+    <p class='search-results__count'>No results to show</p>
+    <ul class='search-results__list'></ul>
+  </div>
+</div>

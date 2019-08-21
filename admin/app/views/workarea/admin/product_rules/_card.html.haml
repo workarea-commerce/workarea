@@ -1,0 +1,23 @@
+.card{ class: card_classes(:product_rules, local_assigns[:active]) }
+  = link_to product_list_product_rules_path(product_list.to_global_id), class: 'card__header' do
+    %span.card__header-text= t('workarea.admin.product_rules.card.header')
+    = inline_svg 'workarea/admin/icons/rules.svg', class: 'card__icon'
+
+  - if local_assigns[:active].blank?
+    .card__body
+      - if product_list.product_rules.empty?
+        %p.card__empty-note= t('workarea.admin.product_rules.card.description')
+        %ul
+          %li= t('workarea.admin.product_rules.card.example_1')
+          %li= t('workarea.admin.product_rules.card.example_2')
+          %li= t('workarea.admin.product_rules.card.example_3')
+
+        = link_to product_list_product_rules_path(product_list.to_global_id), class: 'card__button' do
+          %span.button.button--small= t('workarea.admin.product_rules.card.empty_button')
+
+      - else
+        %ul.list-reset
+          - product_list.product_rules.each do |rule|
+            %li= render_product_rule_summary_for(rule)
+        = link_to product_list_product_rules_path(product_list.to_global_id), class: 'card__button' do
+          %span.button.button--small= t('workarea.admin.product_rules.card.button')

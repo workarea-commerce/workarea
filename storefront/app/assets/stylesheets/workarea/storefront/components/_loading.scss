@@ -1,0 +1,92 @@
+/*------------------------------------*\
+    #LOADING
+\*------------------------------------*/
+
+$loading-color:                 $black-alpha-50 !default;
+$loading-bg-color:              $transparent !default;
+$loading-light-color:           $white-alpha-50 !default;
+
+$loading-indicator-size:        24px !default;
+$loading-border-width:          4px !default;
+
+$loading-inline-indicator-size: 1em !default;
+$loading-inline-border-width:   0.15em !default;
+
+$loading-animation-speed:       0.8s !default;
+
+
+.loading {
+    display: block;
+    position: relative;
+    margin: $vertical-margin 0;
+    min-height: $loading-indicator-size + $loading-border-width * 2;
+    text-indent: 200%;
+    white-space: nowrap;
+    background-color: $loading-bg-color;
+    overflow: hidden;
+
+    &:before {
+        display: block;
+        position: absolute;
+        top:  50%;
+        left: 50%;
+        margin-top:  ($loading-indicator-size / 2) * -1;
+        margin-right:  0;
+        margin-bottom: 0;
+        margin-left: ($loading-indicator-size / 2) * -1;
+        width:  $loading-indicator-size - $loading-border-width;
+        height: $loading-indicator-size - $loading-border-width;
+        background: none;
+        border-color: $loading-color $loading-bg-color $loading-color $loading-color;
+        border-style: solid;
+        border-width: $loading-border-width;
+        border-radius: 50%;
+        animation: rotate $loading-animation-speed infinite linear;
+        content: '';
+    }
+}
+
+
+.loading--fill-parent {
+    position: absolute;
+    top:    0;
+    right:  0;
+    bottom: 0;
+    left:   0;
+}
+
+
+.loading--inline {
+    margin: 0;
+    min-height: 0;
+    text-indent: 0;
+    background-color: $loading-bg-color;
+
+    &:before {
+        display: inline-block;
+        position: relative;
+        top: 0;
+        left: 0;
+        margin-top: 0;
+        margin-right: calc((#{$loading-inline-indicator-size} - #{$loading-inline-border-width}) / 2 );
+        margin-left: calc((#{$loading-inline-indicator-size} - #{$loading-inline-border-width}) / 2 );
+        width:  calc(#{$loading-inline-indicator-size} - #{$loading-inline-border-width});
+        height: calc(#{$loading-inline-indicator-size} - #{$loading-inline-border-width});
+        border-right-color: transparent;
+        border-width: $loading-inline-border-width;
+        vertical-align: middle;
+    }
+}
+
+
+.loading--light {
+    &:before {
+        border-color: $loading-light-color $loading-bg-color $loading-light-color $loading-light-color;
+    }
+}
+
+
+@keyframes rotate {
+    0%    { transform: rotate(0deg);   }
+    100%  { transform: rotate(360deg); }
+}

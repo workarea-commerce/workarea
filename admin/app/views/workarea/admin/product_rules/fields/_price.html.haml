@@ -1,0 +1,5 @@
+= hidden_field_tag 'product_rule[name]', 'price', id: nil
+Price is
+= select_tag 'product_rule[operator]', options_for_select(product_rule_operators, rule.operator)
+= currency_symbol
+= number_field_tag 'product_rule[value]', rule.value, class: 'text-box text-box--i18n text-box--small'

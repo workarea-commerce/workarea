@@ -1,0 +1,125 @@
+/*------------------------------------*\
+    #WORKFLOW-BAR
+\*------------------------------------*/
+
+$workflow-bar-bg-color:  $white !default;
+
+$workflow-bar-button-color:                 $blue !default;
+$workflow-bar-button-bg-color:              $white !default;
+$workflow-bar-button-disabled-opacity:       0.5 !default;
+$workflow-bar-button-border-color:           $shadow-color !default;
+
+$workflow-bar-button-create-color:           $white !default;
+$workflow-bar-button-create-bg-color:        $green !default;
+$workflow-bar-button-create-hover-bg-color:  $bright-green !default;
+
+$workflow-bar-button-update-color:           $white !default;
+$workflow-bar-button-update-bg-color:        $blue !default;
+$workflow-bar-button-update-hover-bg-color:  $bright-blue !default;
+
+$workflow-bar-button-delete-color:           $red !default;
+$workflow-bar-button-delete-hover-color:     $white !default;
+$workflow-bar-button-delete-bg-color:        $white !default;
+$workflow-bar-button-delete-hover-bg-color:  $red !default;
+
+$workflow-bar-button-confirm-delete-color:           $white !default;
+$workflow-bar-button-confirm-delete-bg-color:        $red !default;
+$workflow-bar-button-confirm-delete-hover-bg-color:  $bright-red !default;
+
+
+/**
+ * 1. ensure that the height never exceeds this value, since it's used to
+ *    pad the bottom of `.page-content`.
+ * 2. prefer overlapping elements to disappearing elements
+ */
+.workflow-bar {
+    @include global-box-shadow;
+    position: fixed;
+    right:  0;
+    bottom: 0;
+    left:   0;
+    z-index: index($components, workflow-bar);
+    height: $global-workflow-bar-height; /* [1] */
+    white-space: nowrap; /* [2] */
+    background: $workflow-bar-bg-color;
+    overflow: hidden; /* [1] */
+}
+
+
+    .workflow-bar__steps {
+        @extend %inline-list;
+        text-align: center;
+
+        @include respond-to($x-wide-breakpoint) {
+            font-size: 1.2em;
+        }
+    }
+
+        .workflow-bar__step {
+            margin: 0 ($spacing-unit / 2);
+        }
+
+    .workflow-bar__button {
+        @extend %button-reset;
+        display: inline-block;
+        padding: ($spacing-unit * 3) ($spacing-unit * 2);
+        color: $workflow-bar-button-color;
+        font-size:   1.17rem;
+        font-weight: bold;
+        line-height: 1.15;
+        background: $workflow-bar-button-bg-color;
+        cursor: pointer;
+        transition: background-color $global-transition-speed ease-out;
+
+        &:hover {
+            text-decoration: none;
+        }
+
+        &[disabled] {
+            opacity: $workflow-bar-button-disabled-opacity;
+            cursor: not-allowed;
+        }
+    }
+
+    .workflow-bar__button--left-divide {
+        border-left: 1px solid $workflow-bar-button-border-color;
+    }
+
+    .workflow-bar__button--create {
+        color: $workflow-bar-button-create-color;
+        background-color: $workflow-bar-button-create-bg-color;
+
+        &:hover {
+            background-color: $workflow-bar-button-create-hover-bg-color;
+        }
+    }
+
+    .workflow-bar__button--update {
+        color: $workflow-bar-button-update-color;
+        background-color: $workflow-bar-button-update-bg-color;
+
+        &:hover {
+            background-color: $workflow-bar-button-update-hover-bg-color;
+        }
+    }
+
+    .workflow-bar__button--delete {
+        color: $workflow-bar-button-delete-color;
+        background-color: $workflow-bar-button-delete-bg-color;
+        transition: background-color $global-transition-speed ease-out,
+                    color $global-transition-speed ease-out;
+
+        &:hover {
+            color: $workflow-bar-button-delete-hover-color;
+            background-color: $workflow-bar-button-delete-hover-bg-color;
+        }
+    }
+
+    .workflow-bar__button--confirm-delete {
+        color: $workflow-bar-button-confirm-delete-color;
+        background-color: $workflow-bar-button-confirm-delete-bg-color;
+
+        &:hover {
+            background-color: $workflow-bar-button-confirm-delete-hover-bg-color;
+        }
+    }

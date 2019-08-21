@@ -1,0 +1,13 @@
+- @title = t('workarea.storefront.users.reset_password')
+
+.view
+  %h1= t('workarea.storefront.users.reset_password')
+
+  = form_tag reset_password_path(params[:token]), id: 'reset_password_form', method: :patch do
+
+    .property
+      = label_tag :password, nil, class: 'property__name' do
+        %span.property__text= t('workarea.storefront.users.password')
+      .value= password_field_tag :password, nil, class: 'text-box', minlength: 7, required: true, autocomplete: 'off'
+
+    %p= button_tag t('workarea.storefront.users.reset_password'), value: 'reset_password', class: 'button'

@@ -1,0 +1,27 @@
+/*------------------------------------*\
+    #ACTIVITY-GROUP
+\*------------------------------------*/
+
+$activity-group-border: 1px solid $border-color !default;
+
+$activity-group-header-color:      $off-black !default;
+$activity-group-header-bg-color:   $light-gray !default;
+$activity-group-header-border:     1px solid $border-color !default;
+
+.activity-group {
+    padding: $spacing-unit 0;
+}
+
+.activity-group--bordered {
+    border-bottom: $activity-group-border;
+}
+
+    .activity-group__header {
+        padding: $spacing-unit * 2;
+        color: $activity-group-header-color;
+        font-size: $font-size + 6px;
+        background: $activity-group-header-bg-color;
+        border-bottom: $activity-group-header-border;
+    }
+
+    .activity-group__activities {}

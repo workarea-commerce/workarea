@@ -1,0 +1,302 @@
+#product-list.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'product_list')
+
+  %p Displays a list of product line-items. Uses include cart, checkout payment, checkout shipping, order summary, public wish list, and private wish list.
+
+  %p Cart items:
+  .style-guide__example-block
+    .product-list
+      .product-list__item
+        .product-list__item-cell
+          .product-list__summary
+            %p.product-list__media= link_to(image_tag('workarea/storefront/style_guide_product.jpg', alt: 'Product Name', class: 'product-list__media-image'), '#', class: 'product-list__media-link')
+            .product-list__info
+              %p.product-list__name= link_to('Product Name', '#')
+              %p.product-list__id 1234
+              .product-list__option-group
+                %p.product-list__option Color: Blue
+                %p.product-list__option Size: Small
+              %p.product-list__customization Custom 1: Value of Custom 1
+          .grid.grid--auto
+            = form_tag nil, class: 'grid__cell' do
+              %p= button_tag 'Remove', class: 'text-button'
+        .product-list__item-cell
+          %table.table
+            %thead
+              %tr
+                %th.table__prices Price
+                %th.table__quantity Qty
+                %th.table__prices Total
+            %tbody
+              %tr
+                %td.table__prices
+                  %p.table__price
+                    %span.table__price-label Now:
+                    %strong.table__price-discount= number_to_currency(90.00)
+                  %p.table__price
+                    %span.table__price-label Was:
+                    %s= number_to_currency(100.00)
+                  %p.table__price
+                    %span.table__price-label Customizations:
+                    %span= number_to_currency(10.00)
+                %td.table__quantity
+                  = form_tag nil, class: 'inline-form' do
+                    .inline-form__cell
+                      .value= number_field_tag 'wl_table_cart_item_quantity_1', 1, min: 1, required: true, class: 'text-box text-box--x-small', data: { form_submitting_control: '' }, title: 'Quantity'
+                    %p.inline-form__cell.hidden-if-js-enabled= button_tag 'Update', value: 'change_quantity', class: 'button'
+                %td.table__prices
+                  %p.table__price
+                    %span.table__price-label Subtotal:
+                    %span= number_to_currency(100.00)
+                  %p.table__price
+                    %span.table__price-label Item Level Discount:
+                    %strong.table__price-discount= number_to_currency(-5.00)
+                  %p.table__price
+                    %span.table__price-label An Item Level Discount With a Longer Name Than the Last:
+                    %strong.table__price-discount= number_to_currency(-5.00)
+                  %p.table__price
+                    %span.table__price-label Total:
+                    %span= number_to_currency(100.00)
+      .product-list__item
+        .product-list__item-cell
+          .product-list__summary
+            %p.product-list__media= link_to(image_tag('workarea/storefront/style_guide_product.jpg', alt: 'Product Name', class: 'product-list__media-image'), '#', class: 'product-list__media-link')
+            .product-list__info
+              %p.product-list__name= link_to('Product Name', '#')
+        .product-list__item-cell
+          %table.table
+            %thead
+              %tr
+                %th.table__prices Price
+                %th.table__quantity Qty
+                %th.table__prices Total
+            %tbody
+              %tr
+                %td.table__prices
+                  %p.table__price
+                    %span Free Gift!
+                %td.table__quantity
+                  %p 1
+                %td.table__prices
+                  %p.table__price
+                    %span Free Gift!
+
+  %p Checkout payment:
+  .style-guide__example-block
+    .product-list
+      .product-list__item
+        .product-list__item-cell
+          .product-list__summary
+            %p.product-list__media= link_to(image_tag('workarea/storefront/style_guide_product.jpg', alt: 'Product Name', class: 'product-list__media-image'), '#', class: 'product-list__media-link')
+            .product-list__info
+              %p.product-list__name= link_to('Product Name', '#')
+              %p.product-list__id 1234
+              .product-list__option-group
+                %p.product-list__option Color: Blue
+                %p.product-list__option Size: Small
+        .product-list__item-cell
+          %table.table
+            %thead
+              %tr
+                %th.table__prices Price
+                %th.table__quantity Qty
+                %th.table__prices Total
+            %tbody
+              %tr
+                %td.table__prices
+                  %p.table__price
+                    %span.table__price-label Now:
+                    %strong.table__price-discount= number_to_currency(90.00)
+                  %p.table__price
+                    %span.table__price-label Was:
+                    %s= number_to_currency(100.00)
+                  %p.table__price
+                    %span.table__price-label Customizations:
+                    %span= number_to_currency(10.00)
+                %td.table__quantity
+                  %p 1
+                %td.table__prices
+                  %p.table__price
+                    %span.table__price-label Subtotal:
+                    %span= number_to_currency(100.00)
+                  %p.table__price
+                    %span.table__price-label Item Level Discount:
+                    %strong.table__price-discount= number_to_currency(-5.00)
+                  %p.table__price
+                    %span.table__price-label An Item Level Discount With a Longer Name Than the Last:
+                    %strong.table__price-discount= number_to_currency(-5.00)
+                  %p.table__price
+                    %span.table__price-label Total:
+                    %span= number_to_currency(100.00)
+      .product-list__item
+        .product-list__item-cell
+          .product-list__summary
+            %p.product-list__media= link_to(image_tag('workarea/storefront/style_guide_product.jpg', alt: 'Product Name', class: 'product-list__media-image'), '#', class: 'product-list__media-link')
+            .product-list__info
+              %p.product-list__name= link_to('Product Name', '#')
+        .product-list__item-cell
+          %table.table
+            %thead
+              %tr
+                %th.table__prices Price
+                %th.table__quantity Qty
+                %th.table__prices Total
+            %tbody
+              %tr
+                %td.table__prices
+                  %p.table__price
+                    %span Free Gift!
+                %td.table__quantity
+                  %p 1
+                %td.table__prices
+                  %p.table__price
+                    %span Free Gift!
+
+  %p Order shipments:
+  .style-guide__example-block
+    .product-list
+      - 2.times do
+        .product-list__item
+          .product-list__item-cell
+            .product-list__summary
+              %p.product-list__media= link_to(image_tag('workarea/storefront/style_guide_product.jpg', alt: 'Product Name', class: 'product-list__media-image'), '#', class: 'product-list__media-link')
+              .product-list__info
+                %p.product-list__name= link_to('Product Name', '#')
+                %p.product-list__id 1234
+                .product-list__option-group
+                  %p.product-list__option Color: Blue
+                  %p.product-list__option Size: Small
+          .product-list__item-cell
+            %table.table
+              %thead
+                %tr
+                  %th.table__quantity Qty
+                  %th.tracking Tracking
+              %tbody
+                %tr
+                  %td.table__quantity
+                    %p 1
+                  %td.tracking
+                    %p UPS #123456789 #{link_to 'Track Shipment', '#', target: '_blank', rel: 'noopener', class: 'button button--small'}
+                %tr
+                  %td.table__quantity
+                    %p 3
+                  %td.tracking
+                    %p UPS #987654321 #{link_to 'Track Shipment', '#', target: '_blank', rel: 'noopener', class: 'button button--small'}
+
+  %p Order pending/canceled items:
+  .style-guide__example-block
+    .product-list
+      - 2.times do
+        .product-list__item
+          .product-list__item-cell
+            .product-list__summary
+              %p.product-list__media= link_to(image_tag('workarea/storefront/style_guide_product.jpg', alt: 'Product Name', class: 'product-list__media-image'), '#', class: 'product-list__media-link')
+              .product-list__info
+                %p.product-list__name= link_to('Product Name', '#')
+                %p.product-list__id 1234
+                .product-list__option-group
+                  %p.product-list__option Color: Blue
+                  %p.product-list__option Size: Small
+                %p.product-list__quantity Qty: 3
+
+  %p Checkout shipping:
+  .style-guide__example-block
+    .product-list
+      - 2.times do
+        .product-list__item
+          .product-list__item-cell
+            .product-list__summary
+              %p.product-list__media= link_to(image_tag('workarea/storefront/style_guide_product.jpg', alt: 'Product Name', class: 'product-list__media-image'), '#', class: 'product-list__media-link')
+              .product-list__info
+                %p.product-list__name= link_to('Product Name', '#')
+                %p.product-list__id 1234
+                .product-list__option-group
+                  %p.product-list__option Color: Blue
+                  %p.product-list__option Size: Small
+
+  = append_partials('storefront.style_guide_product_list')
+
+#product-list--narrow.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'product_list__narrow')
+
+  %p For when #{link_to_style_guide('components', 'product_list', true)} appears in narrow contexts such as an off canvas menu or dialog.
+
+  .style-guide__example-block
+    .product-list.product-list--narrow
+      .product-list__item
+        .product-list__item-cell
+          .product-list__summary
+            %p.product-list__media= link_to(image_tag('workarea/storefront/style_guide_product.jpg', alt: 'Product Name', class: 'product-list__media-image'), '#', class: 'product-list__media-link')
+            .product-list__info
+              %p.product-list__name= link_to('Product Name', '#')
+              %p.product-list__id 1234
+              .product-list__option-group
+                %p.product-list__option Color: Blue
+                %p.product-list__option Size: Small
+              %p.product-list__customization Custom 1: Value of Custom 1
+          .grid.grid--auto
+            = form_tag nil, class: 'grid__cell' do
+              %p= button_tag 'Remove', class: 'text-button'
+        .product-list__item-cell
+          %table.table
+            %thead
+              %tr
+                %th.table__prices Price
+                %th.table__quantity Qty
+                %th.table__prices Total
+            %tbody
+              %tr
+                %td.table__prices
+                  %p.table__price
+                    %span.table__price-label Now:
+                    %strong.table__price-discount= number_to_currency(90.00)
+                  %p.table__price
+                    %span.table__price-label Was:
+                    %s= number_to_currency(100.00)
+                  %p.table__price
+                    %span.table__price-label Customizations:
+                    %span= number_to_currency(10.00)
+                %td.table__quantity
+                  = form_tag nil, class: 'inline-form' do
+                    .inline-form__cell
+                      .value= number_field_tag 'wl_table_cart_item_quantity_2', 1, min: 1, required: true, class: 'text-box text-box--x-small', data: { form_submitting_control: '' }, title: 'Quantity'
+                    %p.inline-form__cell.hidden-if-js-enabled= button_tag 'Update', value: 'change_quantity', class: 'button'
+                %td.table__prices
+                  %p.table__price
+                    %span.table__price-label Subtotal:
+                    %span= number_to_currency(100.00)
+                  %p.table__price
+                    %span.table__price-label Item Level Discount:
+                    %strong.table__price-discount= number_to_currency(-5.00)
+                  %p.table__price
+                    %span.table__price-label An Item Level Discount With a Longer Name Than the Last:
+                    %strong.table__price-discount= number_to_currency(-5.00)
+                  %p.table__price
+                    %span.table__price-label Total:
+                    %span= number_to_currency(100.00)
+      .product-list__item
+        .product-list__item-cell
+          .product-list__summary
+            %p.product-list__media= link_to(image_tag('workarea/storefront/style_guide_product.jpg', alt: 'Product Name', class: 'product-list__media-image'), '#', class: 'product-list__media-link')
+            .product-list__info
+              %p.product-list__name= link_to('Product Name', '#')
+        .product-list__item-cell
+          %table.table
+            %thead
+              %tr
+                %th.table__prices Price
+                %th.table__quantity Qty
+                %th.table__prices Total
+            %tbody
+              %tr
+                %td.table__prices
+                  %p.table__price
+                    %span Free Gift!
+                %td.table__quantity
+                  %p 1
+                %td.table__prices
+                  %p.table__price
+                    %span Free Gift!

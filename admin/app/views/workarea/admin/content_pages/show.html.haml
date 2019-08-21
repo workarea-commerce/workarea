@@ -1,0 +1,23 @@
+- @page_title = @page.name
+
+.view
+  .view__header
+    .grid
+      .grid__cell.grid__cell--25
+        = render 'workarea/admin/releases/select'
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@page)
+          %h1= @page.name
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@page)
+
+  .view__container
+    = render_cards_for(@page)
+
+    .workflow-bar
+      .grid
+        .grid__cell.grid__cell--50
+          = link_to t('workarea.admin.actions.delete'), content_page_path(@page), class: 'workflow-bar__button workflow-bar__button--delete', data: { method: 'delete', confirm: t('workarea.admin.actions.delete_confirmation') }
+        .grid__cell.grid__cell--50.grid--right
+          = append_partials('admin.page_show_workflow_bar', model: @page)

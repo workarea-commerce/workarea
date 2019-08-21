@@ -1,0 +1,3 @@
+.grid.grid--auto.grid--right.grid--middle
+  - if model.redemptions.present?
+    .grid__cell= link_to t('workarea.admin.pricing_discounts.aux_navigation.view_orders'), orders_path(q: model.id), local_assigns[:html_options]

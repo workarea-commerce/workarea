@@ -1,0 +1,108 @@
+/*------------------------------------*\
+    #MESSAGE
+\*------------------------------------*/
+
+$message-color:             $white !default;
+$message-error-bg-color:    $red !default;
+$message-info-bg-color:     $blue !default;
+$message-warning-bg-color:  $orange !default;
+$message-success-bg-color:  $green !default;
+$message-link-color:        $white !default;
+$message-link-hover-color:  rgba($white, 0.65) !default;
+
+$message-icon-size:  64px !default;
+
+$message-transition-speed:  0.75s !default;
+
+
+/**
+ * 1. when the server generated the message, displayed at the top of the page.
+ * 2. no selector provided for convenience when using the `message.js`
+ *    module.
+ */
+
+.message {
+    position: relative;
+    margin:  0 0 16px;
+    padding: 14px 16px;
+    color: $message-color;
+    background: $message-info-bg-color;
+    border-radius: $global-border-radius;
+    overflow: hidden;
+    opacity: 1;
+    transition: opacity $message-transition-speed ease-out;
+
+    .page-messages & { /* [1] */
+        @include global-box-shadow;
+    }
+}
+
+.message--warning { background: $message-warning-bg-color; }
+.message--success { background: $message-success-bg-color; }
+.message--error   { background: $message-error-bg-color;   }
+
+.message--removing {
+    opacity: 0;
+}
+
+    .message__type {
+        position: absolute;
+        top:  50%;
+        left: 8px;
+        margin: 0;
+        transform: translateY(-50%);
+    }
+
+        .message__icon {
+            @include svg('message_info.svg', $message-icon-size);
+            opacity: 0.3;
+
+            .message--warning & { @include svg('message_warning.svg', $message-icon-size); }
+            .message--success & { @include svg('message_success.svg', $message-icon-size); }
+            .message--error &   { @include svg('message_error.svg', $message-icon-size); }
+        }
+
+    .message__text {
+        margin: 0 24px 0 $message-icon-size;
+        font-weight: bold;
+        line-height: 20px;
+
+        a { /* [2] */
+            color: $message-link-color;
+            text-decoration: underline;
+
+            &:hover {
+                color: $message-link-hover-color;
+                text-decoration: none;
+            }
+        }
+    }
+
+    .message__dismiss-action {
+        display: none;
+
+        .page-messages & { /* [1] */
+            display: block;
+            position: absolute;
+            top:   8px;
+            right: 8px;
+            margin: 0;
+            line-height: 1;
+        }
+    }
+
+        .message__dismiss-button {
+            padding: 0;
+            background: none;
+            border: 0;
+        }
+
+            .message__dismiss-icon {
+                font-size: 0;
+
+                &::after {
+                    color: $message-color;
+                    font-size: 1rem;
+                    content: '✖';
+                }
+            }

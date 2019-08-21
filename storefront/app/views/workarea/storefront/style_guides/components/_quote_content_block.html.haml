@@ -1,0 +1,18 @@
+#quote-content-block.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'quote_content_block')
+
+  %p Styles a block of text like a quote.
+
+  %p should add a quote icon to the left of the text:
+  .style-guide__example-block
+    %blockquote.quote-content-block
+      .quote-content-block__text
+        %p= Workarea.config.placeholder_text
+
+  %p should support author subtext:
+  .style-guide__example-block
+    %blockquote.quote-content-block
+      .quote-content-block__text
+        %p= Workarea.config.placeholder_text
+      %span.quote-content-block__author Bob Clams

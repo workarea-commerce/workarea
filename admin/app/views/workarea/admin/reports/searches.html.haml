@@ -1,0 +1,45 @@
+- @page_title = t('workarea.admin.reports.searches.title')
+
+.view
+  .view__header
+    .view__heading
+      = link_to "↑ #{t('workarea.admin.reports.all_reports')}", reports_dashboards_path
+      %h1.heading.heading--no-margin= t('workarea.admin.reports.searches.title')
+      %p= t('workarea.admin.reports.reference_link_html', path: reference_report_path)
+
+  .view__container
+    .browsing-controls.browsing-controls--with-divider.browsing-controls--center.browsing-controls--filters-displayed
+      = form_tag searches_report_path, method: 'get', class: 'browsing-controls__form' do
+        = render 'workarea/admin/shared/date_selector', starts_at: @report.starts_at, ends_at: @report.ends_at
+
+        .browsing-controls__filter
+          .property.property--inline
+            = label_tag 'results_filter', t('workarea.admin.reports.searches.results_filter'), class: 'property__name'
+            = select_tag 'results_filter', options_for_select(searches_report_filter_options, params[:results_filter]), data: { form_submitting_control: '' }
+
+      .browsing-controls__count
+        = render_reports_results_message(@report)
+        = render 'workarea/admin/reports/export', report: @report
+
+    %table
+      %thead
+        %tr
+          %th= t('workarea.admin.fields.search_id')
+          %th= link_to_reports_sorting t('workarea.admin.fields.search_terms'), report: @report, sort_by: 'query_string'
+          %th.align-center= link_to_reports_sorting t('workarea.admin.fields.total_results'), report: @report, sort_by: 'total_results'
+          %th.align-center= link_to_reports_sorting t('workarea.admin.fields.searches'), report: @report, sort_by: 'searches'
+          %th.align-center= link_to_reports_sorting t('workarea.admin.fields.units_sold'), report: @report, sort_by: 'units_sold'
+          %th.align-center= link_to_reports_sorting t('workarea.admin.fields.orders'), report: @report, sort_by: 'orders'
+          %th.align-right= link_to_reports_sorting t('workarea.admin.fields.discounts'), report: @report, sort_by: 'discounts'
+          %th.align-right= link_to_reports_sorting t('workarea.admin.fields.revenue'), report: @report, sort_by: 'revenue'
+      %tbody
+        - @report.results.each do |result|
+          %tr
+            %td= result._id
+            %td= result.query_string
+            %td.align-center= number_with_delimiter result.total_results
+            %td.align-center= number_with_delimiter result.searches
+            %td.align-center= number_with_delimiter result.units_sold
+            %td.align-center= number_with_delimiter result.orders
+            %td.align-right= number_to_currency(result.discounts)
+            %td.align-right= number_to_currency(result.revenue)

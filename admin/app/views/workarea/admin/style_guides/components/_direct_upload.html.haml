@@ -1,0 +1,96 @@
+#direct-upload.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'direct_upload')
+
+  %p Displays a drop zone for direct image uploading
+
+  %p should display the pre-interaction UI:
+  .style-guide__example-block
+    .direct-upload{ data: { direct_upload: { type: 'product_image' }.to_json } }
+      .direct-upload__content
+        .direct-upload__heading= t('workarea.admin.direct_uploads.drop_files_here')
+        .direct-upload__info= t('workarea.admin.direct_uploads.info')
+
+#direct-upload--active.style-guide__subsection
+
+  %p should display the drag-over UI:
+  .style-guide__example-block
+    .direct-upload.direct-upload--active{ data: { direct_upload: { type: 'product_image' }.to_json } }
+      .direct-upload__content
+        .direct-upload__heading= t('workarea.admin.direct_uploads.drop_files_here')
+        .direct-upload__info= t('workarea.admin.direct_uploads.info')
+
+#direct-upload--processing.style-guide__subsection
+
+  %p should display the processing UI:
+  .style-guide__example-block
+    .direct-upload.direct-upload--processing{ data: { direct_upload: { type: 'product_image' }.to_json } }
+      .direct-upload__content
+        .loading
+        .direct-upload__info
+          = t('workarea.admin.direct_uploads.processing_html', count: 4, total: 20)
+        .direct-upload__table
+          %table
+            %thead
+              %tr.direct-upload__table-row
+                %th.direct-upload__table-cell.direct-upload__table-cell--file-name= t('workarea.admin.direct_uploads.file_name')
+                %th.direct-upload__table-cell.direct-upload__table-cell--file-status= t('workarea.admin.direct_uploads.file_status')
+            %tbody
+              - 6.times do |count|
+                - status = count.even? ? 'success' : 'failure'
+                - status = count >= 4 ? 'pending' : status
+                %tr.direct-upload__table-row{ class: "direct-upload__table-row--#{status}" }
+                  %td.direct-upload__table-cell.direct-upload__table-cell--file-name
+                    = "file_#{count}.jpg"
+                  %td.direct-upload__table-cell.direct-upload__table-cell--file-status
+                    = t("workarea.admin.direct_uploads.#{status}_status")
+
+#direct-upload--fail.style-guide__subsection
+
+  %p should display the failure UI:
+  .style-guide__example-block
+    .direct-upload.direct-upload--fail{ data: { direct_upload: { type: 'product_image' }.to_json } }
+      .direct-upload__content
+        .direct-upload__heading
+          = t('workarea.admin.direct_uploads.something_went_wrong')
+        .direct-upload__info
+          = t('workarea.admin.direct_uploads.upload_failed')
+        .direct-upload__table
+          %table
+            %thead
+              %tr.direct-upload__table-row
+                %th.direct-upload__table-cell.direct-upload__table-cell--file-name= t('workarea.admin.direct_uploads.file_name')
+                %th.direct-upload__table-cell.direct-upload__table-cell--file-status= t('workarea.admin.direct_uploads.file_status')
+            %tbody
+              - 6.times do |count|
+                - status = count.even? ? 'success' : 'failure'
+                %tr.direct-upload__table-row{ class: "direct-upload__table-row--#{status}" }
+                  %td.direct-upload__table-cell.direct-upload__table-cell--file-name
+                    = "file_#{count}.jpg"
+                  %td.direct-upload__table-cell.direct-upload__table-cell--file-status
+                    = t("workarea.admin.direct_uploads.#{status}_status")
+
+#direct-upload--success.style-guide__subsection
+
+  %p should display the success UI:
+  .style-guide__example-block
+    .direct-upload.direct-upload--success{ data: { direct_upload: { type: 'product_image' }.to_json } }
+      .direct-upload__content
+        .direct-upload__heading
+          = t('workarea.admin.direct_uploads.everything_went_great')
+        .direct-upload__info
+          = t('workarea.admin.direct_uploads.upload_succeeded')
+        .direct-upload__table
+          %table
+            %thead
+              %tr.direct-upload__table-row
+                %th.direct-upload__table-cell.direct-upload__table-cell--file-name= t('workarea.admin.direct_uploads.file_name')
+                %th.direct-upload__table-cell.direct-upload__table-cell--file-status= t('workarea.admin.direct_uploads.file_status')
+            %tbody
+              - 6.times do |count|
+                - status = 'success'
+                %tr.direct-upload__table-row{ class: "direct-upload__table-row--#{status}" }
+                  %td.direct-upload__table-cell.direct-upload__table-cell--file-name
+                    = "file_#{count}.jpg"
+                  %td.direct-upload__table-cell.direct-upload__table-cell--file-status
+                    = t("workarea.admin.direct_uploads.#{status}_status")

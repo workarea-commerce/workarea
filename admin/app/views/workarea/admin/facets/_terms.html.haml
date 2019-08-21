@@ -1,0 +1,17 @@
+.browsing-controls__filter
+  %button.browsing-controls__filter-button{ type: 'button', data: { filter_dropdown: "#filters-dropdown-#{facet.name.downcase.parameterize}" } }
+    #{facet.display_name}
+    = inline_svg('workarea/admin/icons/navigate_next.svg', class: 'browsing-controls__filter-button-icon svg-icon svg-icon--small')
+
+  .browsing-controls__filter-dropdown{ id: "filters-dropdown-#{facet.name.downcase.parameterize}" }
+    %ul.list-reset.browsing-controls__filter-list
+      - facet.results.each do |value_name, count|
+        %li.browsing-controls__filter-item
+          - if facet.selected?(value_name)
+            %strong
+              = link_to facet_path(facet, value_name), rel: 'nofollow', class: 'browsing-controls__link' do
+                %span= facet_value_display_name(facet, value_name)
+                = inline_svg('workarea/admin/icons/close.svg', class: 'svg-icon svg-icon--small svg-icon--black', title: t('workarea.admin.actions.remove'))
+
+          - else
+            = link_to "#{facet_value_display_name(facet, value_name)} (#{count})", facet_path(facet, value_name), rel: 'nofollow', class: 'browsing-controls__link'

@@ -1,0 +1,31 @@
+- select_new_release = (params[:activate] == 'new_release') || (release_options.blank? && !current_user.can_publish_now?)
+
+.publish-create-release{ data: { publish_create_release: '' } }
+  .align-center
+    - if current_user.can_publish_now?
+      .property
+        = radio_button_tag t('workarea.admin.releases.publish.activate'), 'now', current_release.blank?, title: t('workarea.admin.releases.publish.active')
+        = label_tag 'activate_now', t('workarea.admin.releases.publish.now'), class: 'text text--bold'
+
+    .property
+      = radio_button_tag t('workarea.admin.releases.publish.activate'), 'never', false, title: t('workarea.admin.releases.publish.inactive')
+      = label_tag 'activate_never', t('workarea.admin.releases.publish.never'), class: 'text text--bold'
+
+    - release_options.each_with_index do |release, index|
+      - select_release = (release == current_release) || (current_release.blank? && !current_user.can_publish_now? && index == 0)
+      .property
+        = radio_button_tag t('workarea.admin.releases.publish.activate'), release.id, select_release, title: t('workarea.admin.releases.publish.active')
+        = label_tag "activate_#{release.id}", t('workarea.admin.releases.publish.with_release', release_name: release.name), class: 'text text--bold'
+
+    .property
+      = radio_button_tag t('workarea.admin.releases.publish.activate'), 'new_release', select_new_release, title: t('workarea.admin.releases.publish.active')
+      = label_tag 'activate_new_release', t('workarea.admin.releases.publish.with_a_new_release'), class: 'text text--bold'
+
+    .publish-create-release__fields{ class: ("hidden" unless select_new_release) }
+      .property
+        = label_tag 'release[name]', t('workarea.admin.releases.publish.release_name'), class: 'property__name'
+        = text_field_tag 'release[name]', nil, class: 'text-box text-box--wide', placeholder: t('workarea.admin.releases.publish.which_release_placeholder', year: Time.now.year), required: select_new_release
+      - if current_user.can_publish_now?
+        .property
+          = label_tag 'release[publish_at]', t('workarea.admin.releases.publish.when_does_it_publish'), class: 'property__name'
+          = hidden_field_tag 'release[publish_at]', nil, placeholder: t('workarea.admin.releases.publish.when_does_it_publish'), data: { datetimepicker_field: { inline: true } }

@@ -1,0 +1,36 @@
+/*------------------------------------*\
+    #PAGE-MESSAGES
+\*------------------------------------*/
+
+$page-messages-small-top-offset:    ($spacing-unit * 2) !default;
+$page-messages-small-right-offset:  ($spacing-unit * 2) !default;
+$page-messages-small-left-offset:   ($spacing-unit * 2) !default;
+
+$page-messages-medium-top-offset:   $spacing-unit !default;
+$page-messages-medium-right-offset: 20% !default;
+$page-messages-medium-left-offset:  20% !default;
+
+$page-messages-message-box-shadow:  0 0 16px $overlay-shadow-color !default;
+
+
+.page-messages {
+    position: fixed;
+    top:   $page-messages-small-top-offset;
+    right: $page-messages-small-right-offset;
+    left:  $page-messages-small-left-offset;
+    z-index: index($components, page-messages);
+
+    @include respond-to($medium-breakpoint) {
+        top:   $page-messages-medium-top-offset;
+        right: $page-messages-medium-right-offset;
+        left:  $page-messages-medium-left-offset;
+    }
+
+    /**
+     * Extend `.message {}` in components/_message.scss.
+     */
+
+    .message {
+        box-shadow: $page-messages-message-box-shadow;
+    }
+}

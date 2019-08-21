@@ -1,0 +1,24 @@
+.insight
+  .insight__date
+    %span.insight__period= insight.reporting_on.strftime('%B %Y')
+  .insight__heading= t('workarea.admin.insights.top_discounts.title')
+  .insight__body
+    %p.insight__note= t('workarea.admin.insights.top_discounts.info')
+    %table
+      %thead
+        %tr
+          %th= t('workarea.admin.insights.top_discounts.discount')
+          %th.align-center= t('workarea.admin.insights.top_discounts.of_redemptions')
+          %th.align-center= t('workarea.admin.insights.top_discounts.orders')
+          %th.align-right= t('workarea.admin.insights.top_discounts.revenue')
+      %tbody
+        - insight.results.each_with_index do |result, i|
+          %tr
+            %td
+              - if result.discount.blank?
+                \-
+              - else
+                = link_to result.discount.name, pricing_discount_path(result.discount)
+            %td.align-center= insights_number_to_percentage result.percent_of_total
+            %td.align-center= number_with_delimiter result.orders
+            %td.align-right= number_to_currency result.revenue

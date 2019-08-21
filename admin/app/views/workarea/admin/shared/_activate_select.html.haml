@@ -1,0 +1,6 @@
+= inline_svg 'workarea/admin/icons/calendar.svg', title: t('workarea.admin.shared.activate_select.when_does_this_activate'), class: 'release-select__icon'
+= select_tag name, publishing_options_for_select, class: 'release-select__input', data: { unsaved_changes_ignore: '', publish_with_release_menu: 'async' }, id: nil
+%span →
+
+.tooltip-content{ data: { disable_publish_now_warning: '' } }
+  %p= t('workarea.admin.shared.publishing_select.warning_message')

@@ -1,0 +1,34 @@
+/*------------------------------------*\
+    #ADMIN-TOOLBAR
+\*------------------------------------*/
+
+$admin-toolbar-bg-color:  $white !default;
+
+
+/**
+ * This component is dynamically injected via JavaScript when a user is logged
+ * in as an administrator.
+ *
+ * 1. only display for devices that are wide enough to accommodate the design.
+ * 2. saves us from overcomplicated JavaScript, but must always match the height
+ *    of the header in the admin.
+ */
+.admin-toolbar {
+    display: none;
+
+    @include respond-to($medium-breakpoint) { /* [1] */
+        display: block;
+        position: fixed;
+        top: 0;
+        z-index: index($components, admin-toolbar);
+        width: 100%;
+        height: $global-admin-toolbar-height; /* [2] */
+        background: $admin-toolbar-bg-color;
+        border: 0;
+        box-shadow: 0 0 5px 0 $overlay-shadow-color;
+    }
+}
+
+.admin-toolbar--expanded {
+    height: 100%;
+}

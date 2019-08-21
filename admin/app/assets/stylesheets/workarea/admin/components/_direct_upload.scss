@@ -1,0 +1,105 @@
+/*------------------------------------*\
+    #DIRECT-UPLOAD
+\*------------------------------------*/
+
+$direct-upload-color: $font-color !default;
+$direct-upload-bg-color: $off-white !default;
+$direct-upload-border-color: $blue !default;
+
+$direct-upload-active-color: $white !default;
+$direct-upload-active-bg-color: $blue !default;
+
+$direct-upload-processing-color: $white !default;
+$direct-upload-processing-bg-color: $bright-blue !default;
+$direct-upload-processing-border-color: $bright-blue !default;
+
+$direct-upload-fail-color: $white !default;
+$direct-upload-fail-bg-color: $bright-red !default;
+$direct-upload-fail-border-color: $bright-red !default;
+
+$direct-upload-success-color: $white !default;
+$direct-upload-success-bg-color: $bright-green !default;
+$direct-upload-success-border-color: $bright-green !default;
+
+$direct-upload-table-bg-color: $white !default;
+$direct-upload-table-row-success-color: $green !default;
+$direct-upload-table-row-failure-color: $red !default;
+
+
+.direct-upload {
+    position: relative;
+    background: $direct-upload-bg-color;
+    border: 2px solid $direct-upload-border-color;
+    padding: $spacing-unit * 4;
+    margin: 0 auto $spacing-unit * 4;
+    color: $direct-upload-color;
+    text-align: center;
+    border-radius: $global-border-radius;
+    transition: background $global-transition-speed ease-out,
+                color $global-transition-speed ease-out,
+                border-color $global-transition-speed ease-out,
+}
+
+.direct-upload--active {
+    color: $direct-upload-active-color;
+    background-color: $direct-upload-active-bg-color;
+}
+
+.direct-upload--processing {
+    color: $direct-upload-processing-color;
+    background-color: $direct-upload-processing-bg-color;
+    border-color: $direct-upload-processing-border-color;
+}
+
+.direct-upload--fail {
+    color: $direct-upload-fail-color;
+    background-color: $direct-upload-fail-bg-color;
+    border-color: $direct-upload-fail-border-color;
+}
+
+.direct-upload--success {
+    color: $direct-upload-success-color;
+    background-color: $direct-upload-success-bg-color;
+    border-color: $direct-upload-success-border-color;
+}
+
+
+    .direct-upload__content {}
+
+        .direct-upload__heading {
+            @extend %heading;
+            @extend %heading--2;
+        }
+
+        .direct-upload__info {}
+
+
+        .direct-upload__table {
+            width: 75%;
+            margin: ($spacing-unit * 2) auto 0;
+            padding: $spacing-unit ($spacing-unit * 3);
+            background: $direct-upload-table-bg-color;
+            border-radius: $global-border-radius;
+        }
+
+            .direct-upload__table-row {}
+
+            .direct-upload__table-row--success {}
+            .direct-upload__table-row--failure {}
+            .direct-upload__table-row--pending {}
+
+                .direct-upload__table-cell {
+                    .direct-upload__table-row--success & {
+                        color: $direct-upload-table-row-success-color;
+                    }
+
+                    .direct-upload__table-row--failure & {
+                        color: $direct-upload-table-row-failure-color;
+                    }
+                }
+
+                .direct-upload__table-cell--file-name {}
+
+                .direct-upload__table-cell--file-status {
+                    text-align: right;
+                }

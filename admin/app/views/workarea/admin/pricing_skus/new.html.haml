@@ -1,0 +1,78 @@
+- @page_title = t('workarea.admin.pricing_skus.new.title')
+
+.view
+  .view__header
+    .grid.grid--middle.grid--center
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@sku)
+          %h1= t('workarea.admin.pricing_skus.new.title')
+
+  .view__container
+    - if @sku.errors.present?
+      - @sku.errors.full_messages.each do |message|
+        = render_message 'error', message
+
+    = form_tag pricing_skus_path, method: 'post', id: 'pricing_sku_form', data: { unsaved_changes: '' } do
+      = hidden_field_tag 'return_to', request.referrer
+
+      .section
+
+        .property.property--required
+          = label_tag 'sku_sku', t('workarea.admin.fields.sku'), class: 'property__name'
+          = text_field_tag 'sku[id]', @sku.id, class: 'text-box', required: true, placeholder: t('workarea.admin.pricing_skus.sku_placeholder')
+
+        .property
+          = label_tag 'sku[tax_code]', t('workarea.admin.fields.tax_code'), class: 'property__name'
+          = text_field_tag 'sku[tax_code]', @sku.tax_code, class: 'text-box', placeholder: t('workarea.admin.pricing_skus.tax_code_placeholder')
+
+        .property
+          %span.property__name= t('workarea.admin.fields.on_sale')
+          = toggle_button_for 'sku[on_sale]', @sku.on_sale?, title_true: t('workarea.admin.pricing_skus.on_sale'), title_false: t('workarea.admin.pricing_skus.not_on_sale')
+
+        .property
+          %span.property__name= t('workarea.admin.fields.discountable')
+          = toggle_button_for 'sku[discountable]', @sku.discountable?, title_true: t('workarea.admin.pricing_skus.allow_discounting'), title_false: t('workarea.admin.pricing_skus.disallow_discounting')
+
+        .property
+          = label_tag 'sku_msrp', t('workarea.admin.fields.msrp'), class: 'property__name'
+          = currency_symbol
+          = text_field_tag 'sku[msrp]', @sku.msrp, class: 'text-box text-box--small', placeholder: t('workarea.admin.pricing_skus.msrp_placeholder')
+
+        = append_partials('admin.pricing_sku_fields', sku: @sku)
+
+      .section
+
+        %h2= t('workarea.admin.prices.label')
+
+        %table
+          %thead
+            %tr
+              %th= t('workarea.admin.prices.regular_price')
+              %th #{t('workarea.admin.prices.sale_price')} #{t('workarea.admin.prices.sale_price_default')}
+              %th= t('workarea.admin.prices.minimum_quantity')
+          %tbody
+            - @sku.prices.each do |price|
+              %tr
+                %td
+                  = currency_symbol
+                  = text_field_tag 'prices[][regular]', price.regular, class: 'text-box text-box--small', title: t('workarea.admin.fields.regular'), placeholder: t('workarea.admin.prices.placeholder')
+                %td
+                  = currency_symbol
+                  = text_field_tag 'prices[][sale]', price.sale, class: 'text-box text-box--small', title: t('workarea.admin.fields.sale'), placeholder: t('workarea.admin.prices.placeholder')
+                %td
+                  = text_field_tag 'prices[][min_quantity]', price.min_quantity, class: 'text-box text-box--small', title: t('workarea.admin.fields.min_quantity'), placeholder: t('workarea.admin.prices.minimum_quantity_placeholder')
+
+            %tr{ data: { cloneable_row: '' } }
+              %td
+                = currency_symbol
+                = text_field_tag 'prices[][regular]', '', class: 'text-box text-box--small', title: t('workarea.admin.fields.regular'), placeholder: t('workarea.admin.prices.placeholder')
+              %td
+                = currency_symbol
+                = text_field_tag 'prices[][sale]', '', class: 'text-box text-box--small', title: t('workarea.admin.fields.sale'), placeholder: t('workarea.admin.prices.placeholder')
+              %td
+                = text_field_tag 'prices[][min_quantity]', 1, class: 'text-box text-box--small', title: t('workarea.admin.fields.min_quantity'), placeholder: t('workarea.admin.prices.minimum_quantity_placeholder')
+
+      .workflow-bar
+        .grid.grid--auto.grid--right.grid--middle
+          .grid__cell= button_tag t('workarea.admin.pricing_skus.new.create_sku'), value: 'create_sku', class: 'workflow-bar__button workflow-bar__button--create'

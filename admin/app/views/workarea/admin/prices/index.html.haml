@@ -1,0 +1,51 @@
+- @page_title = t('workarea.admin.prices.title', sku: @sku.name)
+
+.view
+  .view__header
+    .grid
+      .grid__cell.grid__cell--25
+        = render 'workarea/admin/releases/select'
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@sku)
+          %h1= link_to @sku.name, url_for(@sku)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@sku)
+
+  .view__container
+    = render_cards_for(@sku, :prices)
+
+  .view__container.view__container--narrow
+    %table
+      %thead
+        %tr
+          %th= t('workarea.admin.prices.regular_price')
+          %th #{t('workarea.admin.prices.sale_price')} #{t('workarea.admin.prices.sale_price_default')}
+          %th= t('workarea.admin.prices.minimum_quantity')
+          %th= t('workarea.admin.fields.active')
+          %th= t('workarea.admin.fields.on_sale')
+          = append_partials('admin.price_table_columns', sku: @sku)
+          %th
+      %tbody
+        - @sku.prices.each do |price, index|
+          %tr
+            %td= number_to_currency(price.regular)
+            %td= number_to_currency(price.sale)
+            %td= price.min_quantity
+            %td
+              - if price.active?
+                = t('workarea.admin.prices.active')
+              - else
+                = t('workarea.admin.prices.inactive')
+            %td= price.on_sale? ? t("workarea.admin.pricing_skus.on_sale") : t("workarea.admin.pricing_skus.not_on_sale")
+            = append_partials('admin.price_table_values', price: price)
+            %td
+              .align-right
+                = link_to edit_pricing_sku_price_path(@sku, price), id: dom_id(price, 'edit_action') do
+                  = inline_svg('workarea/admin/icons/edit.svg', class: 'svg-icon svg-icon--small', title: t('workarea.admin.actions.edit'))
+                = link_to pricing_sku_price_path(@sku, price), id: dom_id(price, 'delete_action'), data: { method: 'delete', confirm: t('workarea.admin.actions.delete_confirmation') } do
+                  = inline_svg('workarea/admin/icons/delete.svg', class: 'svg-icon svg-icon--small svg-icon--red', title: t('workarea.admin.actions.delete'))
+
+    .workflow-bar
+      .grid.grid--auto.grid--right.grid--middle
+        .grid__cell= link_to t('workarea.admin.prices.index.button'), new_pricing_sku_price_path(@sku), id: 'add_pricing_sku_price', class: 'workflow-bar__button workflow-bar__button--create'

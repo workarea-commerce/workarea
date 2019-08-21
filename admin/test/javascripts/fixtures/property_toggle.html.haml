@@ -1,0 +1,16 @@
+%form{ class: 'property-toggle-form', action: '', method: 'get' }
+  .property-toggle
+    .property-toggle__checkbox
+      = check_box_tag 'toggle_test_option_1', nil, nil, class: 'property-toggle__checkbox-input', id: 'checkbox1'
+    .property-toggle__property
+      .property
+        = label_tag 'foo', 'Test Option 1', class: 'property__name'
+        = select_tag 'foo', options_for_select([["None", nil], ["Size", "Size"], ["Color", "Color"]]), class: 'text-box', id: 'select1'
+  .property-toggle
+    .property-toggle__checkbox
+      = check_box_tag 'toggle_test_option_2', nil, nil, class: 'property-toggle__checkbox-input', id: 'checkbox2'
+    .property-toggle__property
+      .property
+        = label_tag 'bar', 'Test Option 2', class: 'property__name'
+        = select_tag 'bar', options_for_select([["None", nil], ["Size", "Size"], ["Color", "Color"]]), class: 'text-box', id: 'select2', data: { property_toggle_allow_blank: true }
+  %button{ type: 'submit', id: 'submitbutton' }

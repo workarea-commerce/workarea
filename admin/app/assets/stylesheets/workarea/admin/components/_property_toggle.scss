@@ -1,0 +1,35 @@
+/*------------------------------------*\
+    #PROPERTY-TOGGLE
+\*------------------------------------*/
+
+$property-toggle-disabled-opacity:  0.5 !default;
+
+$property-toggle-name-width:   120px;
+
+
+.property-toggle {
+    @extend %clearfix;
+    margin-bottom: ($spacing-unit * 2);
+}
+
+
+    .property-toggle__checkbox {
+        position: relative;
+        top: ($spacing-unit / 2);
+        z-index: index($property-toggle, checkbox);
+        margin-right: $spacing-unit;
+        float: left;
+    }
+
+        .property-toggle__checkbox-input {}
+
+
+    .property-toggle__property {
+        position: relative;
+        z-index: index($property-toggle, property);
+        opacity: $property-toggle-disabled-opacity;
+    }
+
+    .property-toggle__property--active {
+        opacity: 1;
+    }

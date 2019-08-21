@@ -1,0 +1,115 @@
+- @page_title = t('workarea.admin.pricing_overrides.title', name: @order.id)
+
+.view
+  .view__header
+    .grid.grid--center
+      .grid__cell.grid__cell--50
+        .view__heading
+          %h1= t('workarea.admin.pricing_overrides.title', name: @order.id)
+          %p= t('workarea.admin.pricing_overrides.description')
+
+  .view__container.view__container--narrow{ data: { pricing_overrides: '' } }
+    = form_tag pricing_override_path(@override), method: 'put', id: 'pricing_override_form', class: 'pricing-overrides' do
+      #disabled-subtotal-field-info.tooltip-content
+        %p= t('workarea.admin.pricing_overrides.disabled_subtotal_field_info')
+      #disabled-item-field-info.tooltip-content
+        %p= t('workarea.admin.pricing_overrides.disabled_item_field_info')
+
+      .grid.grid--flush
+        .grid__cell
+          %table.pricing-overrides__items
+            %thead
+              %tr
+                %th= t('workarea.admin.pricing_overrides.product')
+                %th.align-center= t('workarea.admin.pricing_overrides.unit_price')
+                %th.align-center= t('workarea.admin.pricing_overrides.adjusted_unit_price')
+                %th.align-center= t('workarea.admin.pricing_overrides.quantity')
+                %th.align-right= t('workarea.admin.pricing_overrides.proposed_pricing')
+            %tbody
+              - @order.items.each do |item|
+                %tr.pricing_overrides__item
+                  %td
+                    .grid.grid--auto
+                      .grid__cell
+                        = link_to image_tag(product_image_url(item.image, :small), alt: item.product.name), catalog_product_url(item.product, sku: item.sku)
+                      .grid__cell
+                        %p= link_to item.product.name, catalog_product_path(item.product, sku: item.sku)
+                        %p= item.sku
+                        - if item.customizations.any?
+                          - item.customizations.each do |name, value|
+                            %p #{name.titleize}: #{value}
+                  %td.align-center= number_to_currency item.original_unit_price
+                  %td.align-center
+                    - if @override.adjusts_subtotal?
+                      %span{ data: { tooltip: { content_id: '#disabled-item-field-info', contentCloning: true }.to_json } } N/A
+                    - else
+                      %p
+                        .property
+                          = Money.default_currency.symbol
+                          = number_field_tag "override[item_prices][#{item.id}]", @override.item_price_for_id(item.id), step: 0.01, min: 0.0, class: 'text-box text-box--small pricing-overrides__field'
+                  %td.align-center= item.quantity
+                  %td.align-right
+                    - item.price_adjustments.adjusting('item').each do |adjustment|
+                      %p
+                        %span= price_adjustment_description_for(adjustment)
+                        %span= number_to_currency(adjustment.amount)
+                    %p
+                      %strong= t('workarea.admin.pricing_overrides.item_total')
+                      %span= number_to_currency(item.total_price)
+                  %td.align-right
+          .section
+            .grid
+              .grid__cell.grid__cell--40-at-medium
+                .property
+                  = label_tag 'comment', t('workarea.admin.pricing_overrides.leave_a_comment'), class: 'property__name'
+                  = text_area_tag 'comment', params[:comment], class: 'text-box text-box--multi-line', placeholder: t('workarea.admin.pricing_overrides.comment_placeholder')
+
+              .grid__cell.grid__cell--20-at-medium
+              .grid__cell.grid__cell--40-at-medium
+                %h3= t('workarea.admin.orders.attributes.totals.title')
+
+                %table.data-pairs.pricing-overrides__totals
+                  %tbody
+                    %tr
+                      %th
+                        %span.data-pairs__name= t('workarea.admin.orders.attributes.totals.subtotal')
+                      %td= number_to_currency @order.subtotal_price
+                    %tr
+                      %th
+                        %span.data-pairs__name= t('workarea.admin.pricing_overrides.adjustment')
+                      %td
+                        - if @override.adjusts_items?
+                          %span{ data: { tooltip: { content_id: '#disabled-subtotal-field-info' }.to_json } } N/A
+                        - else
+                          .property
+                            = label_tag 'override[subtotal_adjustment]', class: 'property__name property__name--inline' do
+                              \-
+                              = Money.default_currency.symbol
+                            = number_field_tag 'override[subtotal_adjustment]', @override.subtotal_adjustment * -1, step: 0.01, max: @order.subtotal_price, class: 'text-box text-box--small pricing-overrides__field'
+                    %tr
+                      %th
+                        %span.data-pairs__name= t('workarea.admin.orders.attributes.totals.shipping')
+                      %td= number_to_currency @order.shipping_subtotal
+                    %tr
+                      %th
+                        %span.data-pairs__name= t('workarea.admin.pricing_overrides.adjustment')
+                      %td
+                        .property
+                          = label_tag 'override[shipping_adjustment]', class: 'property__name property__name--inline' do
+                            \-
+                            = Money.default_currency.symbol
+                          = number_field_tag 'override[shipping_adjustment]', @override.shipping_adjustment * -1, step: 0.01, max: @order.shipping_subtotal, class: 'text-box text-box--small pricing-overrides__field'
+                    %tr
+                      %th
+                        %span.data-pairs__name= t('workarea.admin.orders.attributes.totals.tax')
+                      %td= number_to_currency @order.tax_total
+                    %tr
+                      %th
+                        %span.data-pairs__name= t('workarea.admin.orders.attributes.totals.total_price')
+                      %td
+                        %strong= number_to_currency @order.total_price
+
+      .workflow-bar
+        .grid.grid--auto.grid--right.grid--middle
+          .grid__cell
+            = button_tag "#{t('workarea.admin.pricing_overrides.button')} →", value: 'adjust_order_pricing', class: 'workflow-bar__button'

@@ -1,0 +1,31 @@
+= hidden_field_tag 'product_rule[name]', 'search', id: nil
+= hidden_field_tag 'product_rule[operator]', 'equals'
+Products must match
+= text_field_tag 'product_rule[value]', rule.value.presence || '*', class: 'text-box text-box--i18n text-box--medium'
+= inline_svg 'workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', data: { tooltip: { content_id: '#search-info', interactive: true }.to_json }
+#search-info.tooltip-content
+  %h4 Simple
+  %p Enter keywords to match product names, options, filters, categories, etc.
+
+  %h4 Advanced
+  %p You can use #{link_to 'the Lucene query language', 'https://lucene.apache.org/core/2_9_4/queryparsersyntax.html', target: '_blank', rel: 'noopener'} to achieve more complex rules here. Some examples:
+  %ul
+    %li <code>jeans OR denim</code> - products matching either "jeans" or "denim"
+    %li <code>created_at:[now-30d TO now]</code> - products created in the past thirty days
+    %li <code>numeric.variant_count:[3 TO *]</code> - products with more than three variants
+    %li <code>content.name:"Heavy Duty"</code> - products with "Heavy Duty" in the name
+
+  %p Here is a partial list of fields out of the box (check with your implementer for a list specific to your build):
+  %ul
+    %li <code>slug</code> - slug
+    %li <code>created_at</code> - when the product was created
+    %li <code>updated_at</code> - when the product was last modified
+    %li <code>numeric.price</code> - product prices
+    %li <code>numeric.inventory</code> - available inventory
+    %li <code>numeric.variant_count</code> - number of variants
+    %li <code>keywords.catalog_id</code> - product ID
+    %li <code>keywords.sku</code> - SKUs on the product
+    %li <code>content.name</code> - product name
+    %li <code>content.category_names</code> - category names the product is in
+    %li <code>content.details</code> - product details
+    %li <code>content.facets</code> - product filters

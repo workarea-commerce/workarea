@@ -1,0 +1,76 @@
+- @page_title = t('workarea.admin.catalog_variants.edit.page_title', variant: @variant.name, product: @product.name)
+
+.view
+  .view__header
+    .grid
+      .grid__cell.grid__cell--25
+        = render 'workarea/admin/releases/select'
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@product)
+          %h1= link_to @product.name, url_for(@product)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@product)
+
+  .view__container
+    = render_cards_for(@product, :variants)
+
+    - @variant.errors.full_messages.each do |message|
+      = render_message 'error', message
+
+    = form_tag catalog_product_variant_path(@product, @variant), method: :patch, id: 'variant_form', data: { unsaved_changes: '' } do
+      .section
+        %h2.view__heading #{t('workarea.admin.catalog_variants.edit.edit')} #{@variant.name}
+
+        .property.property--required
+          = label_tag 'variant[sku]', t('workarea.admin.fields.sku'), class: 'property__name'
+          = text_field_tag 'variant[sku]', @variant.sku, class: 'text-box', required: true
+
+        .property
+          = label_tag 'variant[name]', t('workarea.admin.fields.display_name'), class: 'property__name'
+          = text_field_tag 'variant[name]', @variant.name, class: 'text-box text-box--i18n'
+
+        .property
+          %span.property__name
+            = t('workarea.admin.fields.active')
+            = inline_svg('workarea/admin/i18n.svg', class: 'svg-icon svg-icon--small') if locale_options.many? && Workarea.config.localized_active_fields
+          = toggle_button_for 'variant[active]', @variant.active?
+
+        = append_partials('admin.variant_fields', variant: @variant)
+
+      .section
+        %h2= t('workarea.admin.catalog_variants.edit.options.label')
+        %table
+          %thead
+            %tr
+              %th= t('workarea.admin.catalog_variants.edit.options.name')
+              %th= t('workarea.admin.catalog_variants.edit.options.values')
+              %th.align-center= t('workarea.admin.catalog_variants.edit.options.remove')
+          %tbody
+            - @variant.details.each do |name, value|
+              %tr
+                %td= name
+                %td
+                  = hidden_field_tag 'details[]', name, id: nil
+                  = text_field_tag 'details[]', hash_editing_value(value), id: nil, class: 'text-box text-box--i18n'
+                %td.align-center= check_box_tag 'details_to_remove[]', name, false, id: "remove_attribute_#{name}_#{value}", title: t('workarea.admin.catalog_variants.edit.options.remove_title', name: name, value: value)
+            %tr{ data: { cloneable_row: '' } }
+              %td
+                .property
+                  = text_field_tag 'new_details[]', nil, id: nil, class: 'text-box text-box--i18n', title: t('workarea.admin.catalog_variants.edit.options.new_attribute_name'), placeholder: t('workarea.admin.catalog_variants.edit.options.new_attribute_name_placeholder')
+                  %span.property__note= t('workarea.admin.catalog_variants.edit.options.new_attribute_name_note')
+              %td
+                .property
+                  = text_field_tag 'new_details[]', nil, id: nil, class: 'text-box text-box--i18n', title: t('workarea.admin.catalog_variants.edit.options.new_attribute_value'), placeholder: t('workarea.admin.catalog_variants.edit.options.new_attribute_value_placeholder')
+                  %span.property__note= t('workarea.admin.catalog_variants.edit.options.new_attribute_value_note')
+                  %span.property__note
+                    = t('workarea.admin.catalog_variants.edit.options.new_attribute_value_csv')
+                    = link_to '#csv-help', data: { tooltip: '' } do
+                      = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.catalog_variants.edit.options.learn_more'))
+                  = render 'workarea/admin/shared/csv_formatting_tooltip'
+              %td.align-center -
+
+      .workflow-bar
+        .grid.grid--auto.grid--right.grid--middle
+          .grid__cell= render 'workarea/admin/shared/publishing_select'
+          .grid__cell= button_tag t('workarea.admin.form.save_changes'), value: 'save_variant', class: 'workflow-bar__button workflow-bar__button--update'

@@ -1,0 +1,65 @@
+- @page_title = t('workarea.admin.content.edit.title', content: @content.name)
+
+.view
+  .view__header
+    .grid
+      .grid__cell.grid__cell--25
+        = render 'workarea/admin/releases/select'
+      .grid__cell.grid__cell--50
+        .view__heading
+          - if return_to.present?
+            = link_to "← #{t('workarea.admin.content.advanced.return')}", return_to
+          - else
+            = link_to "← #{t('workarea.admin.content.advanced.return')}", edit_polymorphic_path(@content)
+
+          %h1= @content.name
+
+  .view__container
+    = form_tag content_path(@content), method: 'patch', data: { unsaved_changes: '' } do
+      = hidden_field_tag :return_to, return_to
+
+      .property
+        %span.property__name= t('workarea.admin.fields.automate_metadata')
+        = toggle_button_for 'content[automate_metadata]', @content.automate_metadata?, title_true: t('workarea.admin.content.advanced.automate'), title_false: t('workarea.admin.content.advanced.do_not_automate') do
+          = link_to '#automation-help', data: { tooltip: '' } do
+            = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.content.advanced.learn_more'))
+        %span#automation-help.tooltip-content= t('workarea.admin.content.advanced.automation_help_content')
+
+      .property
+        = label_tag 'content_browser_title', t('workarea.admin.fields.browser_title'), class: 'property__name'
+        = text_field_tag 'content[browser_title]', @content.browser_title, class: 'text-box text-box--i18n', placeholder: t('workarea.admin.content.advanced.browser_title_placeholder')
+        %span.property__note= t('workarea.admin.content.advanced.browser_title_note')
+
+      .property
+        = label_tag 'content_meta_description', t('workarea.admin.fields.meta_description'), class: 'property__name'
+        = text_field_tag 'content[meta_description]', @content.meta_description, class: 'text-box text-box--i18n'
+        %span.property__note= t('workarea.admin.content.advanced.metadata_description_note')
+
+      .property
+        = label_tag 'content_css', t('workarea.admin.fields.css'), class: 'property__name'
+        = text_area_tag 'content[css]', @content.css, class: 'text-box text-box--code text-box--multi-line'
+        %span.property__note= t('workarea.admin.content.advanced.css_note')
+
+      .property
+        = label_tag 'content_javascript', t('workarea.admin.fields.javascript'), class: 'property__name'
+        = text_area_tag 'content[javascript]', @content.javascript, class: 'text-box text-box--code text-box--multi-line'
+        %span.property__note= t('workarea.admin.content.advanced.javascript_note')
+
+      .property
+        = label_tag 'content_open_graph_asset_id', t('workarea.admin.content.advanced.og_image'), class: 'property__name'
+        .asset-picker-field{ data: { asset_picker_field: '' } }
+          = hidden_field_tag "content[open_graph_asset_id]", @content.open_graph_asset_id, id: nil, class: 'text-box'
+          .asset-picker-field__cell
+            %span{ data: { asset_name: true } }
+              - if @content.open_graph_asset.open_graph_placeholder?
+                = t('workarea.admin.content.advanced.og_image_missing')
+              - else
+                = @content.open_graph_asset.name
+          .asset-picker-field__cell= link_to t('workarea.admin.content.advanced.select_an_asset'), insert_content_assets_path, class: 'text-button', data: { asset_picker_field_open: '', turbolinks: false }
+          .asset-picker-field__cell= button_tag t('workarea.admin.content.advanced.clear_asset'), type: 'button', value: 'clear_asset', id: nil, class: 'text-button text-button--destroy', data: { asset_picker_field_clear: '' }
+        %span.property__note= t('workarea.admin.content.advanced.og_image_note')
+
+      .workflow-bar
+        .grid.grid--auto.grid--right.grid--middle
+          .grid__cell= render 'workarea/admin/shared/publishing_select'
+          .grid__cell= button_tag t('workarea.admin.content.advanced.save_content'), value: 'save_content', class: 'workflow-bar__button workflow-bar__button--update'

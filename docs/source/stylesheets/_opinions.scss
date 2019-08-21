@@ -1,0 +1,42 @@
+/**
+ * Alignment
+ */
+.align-left { text-align: left }
+.align-right { text-align: right; }
+.align-center { text-align: center; }
+
+
+
+/**
+ * Text
+ */
+.white-text { color: $white; }
+.bold-text { font-weight: 800; }
+
+
+
+/**
+ * Margins
+ */
+.no-top-margin { margin-top: 0 }
+.no-bottom-margin { margin-bottom: 0 }
+
+
+
+/**
+ * Hiding elements, if
+ * 1. javascript is disabled
+ * 2. matches an avalanche media-query condition
+ * 3. I just want to
+ */
+.no-js .hide-if-noscript { display: none; } // 1
+
+@each $name, $query in $av-breakpoints { // 2
+  .hide-for-#{$name} {
+    @include av-mq($name) {
+      display: none;
+    }
+  }
+}
+
+.hide { display: none; } // 3

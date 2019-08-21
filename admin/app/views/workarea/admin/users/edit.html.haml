@@ -1,0 +1,88 @@
+- @page_title = t('workarea.admin.users.edit.title', user: @user.name)
+
+.view
+  .view__header
+    .grid.grid--middle.grid--right
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@user)
+          %h1= link_to @user.name, url_for(@user)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@user)
+
+  .view__container
+    = render_cards_for(@user, :attributes)
+
+  .view__container.view__container--narrow
+    - @user.errors.full_messages.each do |message|
+      = render_message 'error', message
+
+    = form_tag user_path(@user), method: :patch, multipart: true, id: 'user_form', data: { unsaved_changes: '' } do
+      .grid.grid--huge
+        .grid__cell.grid__cell--50
+          .property
+            = label_tag 'user[first_name]', t('workarea.admin.fields.first_name'), class: 'property__name'
+            = text_field_tag 'user[first_name]', @user.first_name, class: 'text-box', autocomplete: 'off'
+        .grid__cell.grid__cell--50
+          .property
+            = label_tag 'user[last_name]', t('workarea.admin.fields.last_name'), class: 'property__name'
+            = text_field_tag 'user[last_name]', @user.last_name, class: 'text-box', autocomplete: 'off'
+      .property.property--required
+        = label_tag 'user[email]', t('workarea.admin.fields.email'), class: 'property__name'
+        = email_field_tag 'user[email]', @user.email, class: 'text-box', required: true, autocomplete: 'off'
+      .property
+        = label_tag 'user[password]', t('workarea.admin.fields.password'), class: 'property__name'
+        = password_field_tag 'user[password]', nil, class: 'text-box', autocomplete: 'off'
+      .property
+        = label_tag 'user[avatar]', class: 'property__name' do
+          = t('workarea.admin.fields.avatar')
+          = link_to '#user-avatar-info', data: { tooltip: '' } do
+            = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.users.edit.avatar_tooltip'))
+
+        = avatar_for @user
+        = file_field_tag 'user[avatar]'
+
+        - if @user.avatar.present?
+          = check_box_tag 'remove_avatar', 1, nil
+          = label_tag 'remove_avatar', t('workarea.admin.users.edit.avatar_delete')
+
+        #user-avatar-info.tooltip-content
+          %p= t('workarea.admin.users.edit.avatar_tooltip_content')
+
+      .property
+        = label_tag 'user[tag_list]', t('workarea.admin.fields.tags'), class: 'property__name'
+        = text_field_tag 'user[tag_list]', @user.tag_list, class: 'text-box'
+        %span.property__note= t('workarea.admin.form.csv_field_note')
+
+      .grid.grid--huge
+        .grid__cell.grid__cell--50.grid__cell--25-at-medium
+          .property
+            = label_tag 'payment[store_credit]', t('workarea.admin.fields.store_credit'), class: 'property__name'
+            = currency_symbol
+            = number_field_tag 'payment[store_credit]', @user.payment_profile.store_credit, class: 'text-box text-box--small', step: 0.01, min: 0
+        .grid__cell.grid__cell--50.grid__cell--25-at-medium
+          .property
+            %span.property__name
+              = t('workarea.admin.users.edit.email_signup')
+            = toggle_button_for 'email_signup', @user.email_signup?
+
+      = append_partials('admin.user_properties', user: @user)
+
+      .grid.grid--huge
+        .grid__cell.grid__cell--50.grid__cell--25-at-medium
+          .property
+            = label_tag 'user_updated_at', t('workarea.admin.fields.updated_at'), class: 'property__name'
+            = local_time(@user.updated_at)
+        .grid__cell.grid__cell--50.grid__cell--25-at-medium
+          .property
+            = label_tag 'user_created_at', t('workarea.admin.fields.created_at'), class: 'property__name'
+            = local_time(@user.created_at)
+        - if @user.created_by.present?
+          .grid__cell.grid__cell--50.grid__cell--25-at-medium
+            .property
+              = label_tag 'user_created_by', t('workarea.admin.fields.created_by'), class: 'property__name'
+              = link_to @user.created_by.name, user_path(@user.created_by)
+
+      .workflow-bar
+        .grid.grid--auto.grid--right.grid--middle
+          .grid__cell= button_tag t('workarea.admin.users.edit.button'), value: 'save_user', class: 'workflow-bar__button workflow-bar__button--update'

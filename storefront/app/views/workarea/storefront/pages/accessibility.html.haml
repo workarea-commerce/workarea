@@ -1,0 +1,53 @@
+- content_for :head do
+  %meta{ name: 'robots', content: 'noindex' }
+
+.view
+  %h1 Accessibility Information
+  %p
+    This web site has been developed using web standards and accessibility to allow for people of all abilities and disabilities to browse its content. Below are instructions on how to navigate and manipulate the content of this site.
+  %h2 Navigating with Headings
+  %p Most assistive technologies and some browsers facilitate navigation by headings.
+  %ul
+    %li
+      Common screen readers provide functionality to jump to the next heading, for example:
+      %ul
+        %li H moves to the next heading
+        %li 1 goes to the next level 1 heading
+        %li 2 goes to the next level 2 heading
+        %li INSERT+F6 provides a list of headings, which can be sorted in tab order or in alphabetical order
+    %li
+      In the latest version of the voicing browser Home Page Reader:
+      %ul
+        %li H moves to the next heading
+        %li Alt+1 sets Headings Reading Mode, then the down arrow key moves to the next heading and the up arrow key moves to the previous heading
+    %li
+      In the browser Opera:
+      %ul
+        %li S moves to the next heading
+        %li W move to the previous heading
+  %h2 Navigating with Page Landmarks
+  %p Most assistive technologies and some browsers facilitate navigation by page landmarks, such as the page header, footer, and navigation blocks.
+  %ul
+    %li Move to next landmark: semicolon
+    %li Move to previous landmark: shift + semicolon
+    %li Select a landmark: insert + ctrl + semicolon
+  %h2 Navigating with Access Keys
+  %p
+    Access Keys are a means for people to jump immediately to a specific part of an HTML page by pressing ALT+SHIFT (PC) or CTRL (Mac), followed by the appropriate key on the keyboard, as defined by you via an accesskey parameter. Below is a list of access keys that are available for this web site.
+  %ul
+    %li Accessibility Help Page: Access Key (0)
+    %li Skip to Main Content: Access key (S)
+    %li Skip to Main Navigation: Access key (M)
+    %li Skip to Secondary Navigation: Access key (N)
+    %li Skip to Top of Page: Access key (T)
+    %li Home Page Link: Access Key (1)
+    %li Top Navigation Links: Access keys (2-9)
+    %li Shopping Cart: Access key (Y)
+    %li Checkout: Access key (Z)
+    %li My Account: Access key (A)
+  %h2 Page Zoom
+  %p Most web browsers allow you to scale images and text up and down to meet your needs.
+  %ul
+    %li To increase the zoom level, use the keyboard shortcut <strong>CTRL +</strong> (plus key) or <strong>COMMAND +</strong> (plus key).
+    %li To decrease the zoom level, use the keyboard shortcut <strong>CTRL -</strong> (minus key) or <strong>COMMAND -</strong> (minus key).
+    %li To reset to 100%, use the keyboard shortcut <strong>CTRL 0</strong> (zero) or <strong>COMMAND 0</strong> (zero).

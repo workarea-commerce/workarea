@@ -1,0 +1,25 @@
+.insight
+  .insight__date
+    %span.insight__period= t('workarea.admin.insights.week_ending', date: insight.reporting_on.end_of_week.to_date.to_s(:long))
+  .insight__heading= t('workarea.admin.insights.searches_to_improve.title')
+  .insight__body
+    %p.insight__note= t('workarea.admin.insights.searches_to_improve.info')
+    %table
+      %thead
+        %tr
+          %th.align-center= t('workarea.admin.insights.searches_to_improve.term')
+          %th.align-center= t('workarea.admin.insights.searches_to_improve.conversation_rate')
+          %th.align-center= t('workarea.admin.insights.searches_to_improve.searches')
+      %tbody
+        - insight.results.each do |result|
+          %tr
+            %td.align-center
+              = form_tag search_customizations_path, method: 'post' do
+                = hidden_field_tag 'q', result.query_id, id: nil
+                = button_tag result.query_id, class: 'button button--small'
+            %td.align-center= insights_number_to_percentage(result.conversion_rate)
+            %td.align-center
+              - if result.searches.blank?
+                \-
+              - else
+                = number_with_delimiter(result.searches)

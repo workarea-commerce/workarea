@@ -1,0 +1,8 @@
+{
+  "extends": "stylelint-config-recommended-scss",
+  "rules": {
+    "block-no-empty": null,
+    "no-descending-specificity": null,
+    "property-no-unknown": [true, { "ignoreProperties": ["mso-hide"] }]
+  }
+}

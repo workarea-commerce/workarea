@@ -1,0 +1,154 @@
+/*------------------------------------*\
+    #CHART
+    TODO remove in v4, not used >= 3.4
+\*------------------------------------*/
+
+$chart-heading-color:                   $off-black !default;
+$chart-heading-border-color:            $border-color !default;
+$chart-summary-group-bg-color:          $light-gray !default;
+$chart-summary-group-border-color:      $border-color !default;
+$chart-summary-item-color:              $dark-gray !default;
+$chart-summary-item-emphasize-color:    $blue !default;
+$chart-summary-item-increase-color:     $green !default;
+$chart-summary-item-decrease-color:     $red !default;
+$chart-data-item-border-color:          $border-color !default;
+$chart-data-item-count-color:           $dark-gray !default;
+$chart-data-item-key-color:             $blue !default;
+$chart-data-item-value-color:           $dark-gray !default;
+$chart-data-item-value-increase-color:  $green !default;
+
+$chart-heading-font-size:                   $font-size !default;
+$chart-summary-item-font-size:              $font-size !default;
+$chart-summary-item-emphasize-font-size:    $font-size + 8px !default;
+$chart-summary-item-deemphasize-font-size:  $font-size !default;
+
+
+/**
+ * Chart container
+ */
+
+.chart {
+    & + & {
+        margin: 24px 0 0;
+    }
+}
+
+    .chart__head {
+        display: block;
+        margin: 0 0 $vertical-margin;
+    }
+
+        .chart__heading {
+            display: inline-block;
+            color: $chart-heading-color;
+            font-size: $chart-heading-font-size;
+        }
+
+
+    /**
+     * Chart.js Instance
+     */
+
+    .chart__canvas {
+        display: block;
+        max-width: 100%;
+    }
+
+    .chart__canvas--doughnut {
+        margin: 0 auto;
+        max-width:  400px;
+        max-height: 400px;
+    }
+
+
+    /**
+     * Chart Summary UI
+     *
+     * 1. contains and augments the layout of `.chart__summaries` to display
+     *    multiple elements horizontally.
+     */
+
+    .chart__summary-group { /* [1] */
+        display: table;
+        width: 100%;
+        background: $chart-summary-group-bg-color;
+        border: 1px solid $chart-summary-group-border-color;
+    }
+
+    .chart__summary {
+        margin: 0 0 $vertical-margin;
+        width: 25%;
+        line-height: 1;
+
+        .chart__summary-group & {
+            display: table-cell;
+            padding: $spacing-unit 0;
+            text-align: center;
+        }
+    }
+
+        .chart__summary-item {
+            display: inline-block;
+            color: $chart-summary-item-color;
+            font-size: $chart-summary-item-font-size;
+            vertical-align: middle;
+
+            & + & {
+                margin: 0 0 0 $spacing-unit;
+            }
+        }
+
+        .chart__summary-item--emphasize {
+            color: $chart-summary-item-emphasize-color;
+            font-size: $chart-summary-item-emphasize-font-size;
+        }
+
+        .chart__summary-item--deemphasize {
+            font-size: $chart-summary-item-deemphasize-font-size;
+            text-transform: uppercase;
+        }
+
+
+    /**
+     * Chart Data UI
+     */
+
+    .chart__data {
+        display: table;
+        margin: 0 0 $vertical-margin;
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .chart__data-row {
+            display: table-row;
+            border-bottom: 1px solid $chart-data-item-border-color;
+        }
+
+            .chart__data-cell {
+                display: table-cell;
+                padding: $spacing-unit;
+                line-height: 1;
+                vertical-align: middle;
+            }
+
+            .chart__data-cell--count {
+                color: $chart-data-item-count-color;
+                font-size: $font-size + 4px;
+            }
+
+            .chart__data-cell--key {
+                width: 100%;
+                color: $chart-data-item-key-color;
+            }
+
+            .chart__data-cell--value {
+                color: $chart-data-item-value-color;
+                text-align: right;
+                white-space: nowrap;
+            }
+
+                .chart__data-value-increase::after {
+                    color: $chart-data-item-value-increase-color;
+                    content: '▲';
+                }

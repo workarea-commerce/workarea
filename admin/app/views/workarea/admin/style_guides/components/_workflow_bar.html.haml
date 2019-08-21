@@ -1,0 +1,118 @@
+#workflow-bar.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'workflow_bar')
+
+  %p A bar UI, stuck to the bottom of the page, that is capable of displaying resource history, workflow, and CRUD-based form actions.
+
+  %p In the following examples the bar appears within the example block area, and is not pinned to the bottom of the page.
+
+  %p Delete Actions are always on the left, Create or Update actions are on the Right.
+
+  %p should support a create workflow:
+  .style-guide__example-block
+    .workflow-bar{ style: 'position: initial;' }
+      .grid.grid--middle
+        .grid__cell.grid__cell--20
+          = button_tag 'Delete Action', value: 'create_action', class: 'workflow-bar__button workflow-bar__button--delete'
+        .grid__cell.grid__cell--60
+          %ol.workflow-bar__steps
+            %li.workflow-bar__step 1) #{link_to 'Previous Step', '#'}
+            %li.workflow-bar__step
+              %strong 2) Current Step
+            %li.workflow-bar__step 3) #{link_to 'Next Step', '#'}
+        .grid__cell.grid__cell--20
+          .grid.grid--auto.grid--right.grid--middle
+            .grid__cell= button_tag 'Create Action', value: 'create_action', class: 'workflow-bar__button workflow-bar__button--create'
+
+  %p should support an update workflow:
+  .style-guide__example-block
+    .workflow-bar{ style: 'position: initial;' }
+      .grid.grid--middle
+        .grid__cell.grid__cell--20
+          = button_tag 'Delete Action', value: 'create_action', class: 'workflow-bar__button workflow-bar__button--delete'
+        .grid__cell.grid__cell--60
+          %ol.workflow-bar__steps
+            %li.workflow-bar__step 1) #{link_to 'Previous Step', '#'}
+            %li.workflow-bar__step
+              %strong 2) Current Step
+            %li.workflow-bar__step 3) #{link_to 'Next Step', '#'}
+        .grid__cell.grid__cell--20
+          .grid.grid--auto.grid--right.grid--middle
+            .grid__cell= button_tag 'Update Action', value: 'create_action', class: 'workflow-bar__button workflow-bar__button--update'
+
+  %p workflow bar steps are optional:
+  .style-guide__example-block
+    .workflow-bar{ style: 'position: initial;' }
+      .grid.grid--middle
+        .grid__cell.grid__cell--20
+          = button_tag 'Delete Action', value: 'create_action', class: 'workflow-bar__button workflow-bar__button--delete'
+        .grid__cell.grid__cell--60
+        .grid__cell.grid__cell--20
+          .grid.grid--auto.grid--right.grid--middle
+            .grid__cell= button_tag 'Update Action', value: 'create_action', class: 'workflow-bar__button workflow-bar__button--update'
+
+  %p should allow create/update action to be disabled:
+  .style-guide__example-block
+    .workflow-bar{ style: 'position: initial;' }
+      .grid.grid--middle
+        .grid__cell.grid__cell--20
+          = button_tag 'Delete Action', value: 'create_action', class: 'workflow-bar__button workflow-bar__button--delete'
+        .grid__cell.grid__cell--60
+        .grid__cell.grid__cell--20
+          .grid.grid--auto.grid--right.grid--middle
+            .grid__cell= button_tag 'Action Disabled', value: 'create_action', class: 'workflow-bar__button', disabled: true
+
+  %p should support a large number of steps in the workflow:
+  .style-guide__example-block
+    .workflow-bar{ style: 'position: initial;' }
+      .grid.grid--middle
+        .grid__cell.grid__cell--20
+          = button_tag 'Delete Action', value: 'create_action', class: 'workflow-bar__button workflow-bar__button--delete'
+        .grid__cell.grid__cell--60
+          %ol.workflow-bar__steps
+            %li.workflow-bar__step 1) #{link_to 'Step 1', '#'}
+            %li.workflow-bar__step 2) #{link_to 'Step 2', '#'}
+            %li.workflow-bar__step 3) #{link_to 'Step 3', '#'}
+            %li.workflow-bar__step 4) #{link_to 'Step 4', '#'}
+            %li.workflow-bar__step
+              %strong 5) Step 5
+            %li.workflow-bar__step 6) #{link_to 'Step 6', '#'}
+            %li.workflow-bar__step 7) #{link_to 'Step 7', '#'}
+        .grid__cell.grid__cell--20
+          .grid.grid--auto.grid--right.grid--middle
+            .grid__cell= button_tag 'Update Action', value: 'create_action', class: 'workflow-bar__button workflow-bar__button--update'
+
+  %p should support clickable tooltips:
+  .style-guide__example-block
+    .workflow-bar{ style: 'position: initial;' }
+      .grid.grid--middle
+        .grid__cell.grid__cell--20
+          = button_tag 'Delete Action', value: 'create_action', class: 'workflow-bar__button workflow-bar__button--delete'
+        .grid__cell.grid__cell--60
+        .grid__cell.grid__cell--20
+          .grid.grid--auto.grid--right.grid--middle
+            .grid__cell= link_to 'Create Action', '#', class: 'workflow-bar__button workflow-bar__button--create', data: { tooltip: { content_id: '#example-tooltip', interactive: true, multiple: false, trigger: 'click' }.as_json }
+      #example-tooltip.tooltip-content.tooltip-content--no-padding
+        %p This is a tooltip.
+
+  %p should support two buttons on the create/update side:
+  .style-guide__example-block
+    .workflow-bar{ style: 'position: initial;' }
+      .grid.grid--middle
+        .grid__cell.grid__cell--20
+          = button_tag 'Delete Action', value: 'create_action', class: 'workflow-bar__button workflow-bar__button--delete'
+        .grid__cell.grid__cell--80
+          .grid.grid--auto.grid--right.grid--middle
+            .grid__cell= button_tag 'Update Action', class: 'workflow-bar__button'
+            .grid__cell= link_to 'Create Action', '#', class: 'workflow-bar__button workflow-bar__button--create'
+
+  %p should support buttons with arrows:
+  .style-guide__example-block
+    .workflow-bar{ style: 'position: initial;' }
+      .grid.grid--middle
+        .grid__cell.grid__cell--20
+          = button_tag 'Delete Action', value: 'create_action', class: 'workflow-bar__button workflow-bar__button--delete'
+        .grid__cell.grid__cell--60
+        .grid__cell.grid__cell--20
+          .grid.grid--auto.grid--right.grid--middle
+            .grid__cell= button_tag 'Update Action →', value: 'create_action', class: 'workflow-bar__button workflow-bar__button--update'

@@ -1,0 +1,235 @@
+// Feature.js
+<% require_asset 'featurejs_rails/feature' %>
+window.feature.testAll();
+
+<%
+  # Library Dependencies
+  %w(
+    webcomponentsjs-rails/MutationObserver
+    i18n
+    i18n/translations
+    strftime-rails/strftime
+    local_time
+    lodash
+    jquery3
+    jquery_ujs
+    jquery_ujs/replace
+    jquery-ui/core
+    jquery-ui/widget
+    jquery-ui/position
+    jquery-ui/widgets/mouse
+    jquery-ui/widgets/draggable
+    jquery-ui/widgets/droppable
+    jquery-ui/widgets/resizable
+    jquery-ui/widgets/sortable
+    jquery-ui/widgets/autocomplete
+    jquery-ui/widgets/button
+    jquery-ui/widgets/datepicker
+    jquery-ui/widgets/menu
+    jquery-ui/widgets/tabs
+    jquery-ui/widgets/accordion
+    tooltipster.bundle
+    waypoints/noframework.waypoints
+    waypoints/shortcuts/sticky
+    select2
+    wysihtml/
+    wysihtml/toolbar
+    wysihtml/all_commands
+    jquery-unique-clone
+    turbolinks
+    spectrum
+    Chart.bundle
+    chartkick
+  ).each do |asset|
+    require_asset asset
+  end
+
+  # Plugin Library Dependencies
+  append_javascripts('admin.dependencies')
+
+  # Test Helper
+  require_asset 'workarea/core/feature_test_helper' if Rails.env.test?
+
+  # JST Templates
+  %w(
+    workarea/core/templates/lorem_ipsum_view
+    workarea/core/templates/hidden_input
+    workarea/core/templates/reveal_password_button
+    workarea/admin/templates/ui_menu_heading
+    workarea/admin/templates/ui_menu_item
+    workarea/admin/templates/loading
+    workarea/admin/templates/message
+    workarea/admin/templates/message_dismiss_action
+    workarea/admin/templates/checkbox_with_label
+    workarea/admin/templates/tabs_menu
+    workarea/admin/templates/wysiwyg_toolbar
+    workarea/admin/templates/content_block_iframe
+    workarea/admin/templates/new_release_option
+    workarea/admin/templates/remote_select
+    workarea/admin/templates/help_helper
+    workarea/admin/templates/help_helper_text
+    workarea/admin/templates/takeover
+    workarea/admin/templates/release_select_form
+    workarea/admin/templates/bookmark_form
+    workarea/admin/templates/inline_datepicker
+    workarea/admin/templates/datetime_picker
+    workarea/admin/templates/remote_select_sparkline
+    workarea/admin/templates/remote_select_insight
+    workarea/admin/templates/bulk_action_items_count
+    workarea/admin/templates/direct_upload_processing
+    workarea/admin/templates/direct_upload_table_row
+    workarea/admin/templates/expandable_button
+  ).each do |asset|
+    require_asset asset
+  end
+
+  # Plugin JST Templates
+  append_javascripts('admin.templates')
+
+  # Library Extensions
+  %w(
+    jquery_ui/admin/categorized_autocomplete
+  ).each do |asset|
+    require_asset asset
+  end
+
+  # Workarea Module Controller
+  require_asset 'workarea/core/workarea'
+
+  # Configuration
+  %w(
+    workarea/core/config
+    workarea/admin/config
+  ).each do |asset|
+    require_asset asset
+  end
+
+  # Plugin Configuration
+  append_javascripts('admin.config')
+
+  # Routing
+  %w(
+    workarea/core/routes
+    workarea/admin/routes
+  ).each do |asset|
+    require_asset asset
+  end
+
+  # Modules
+  %w(
+    workarea/core/modules/transition_events
+    workarea/core/modules/environment
+    workarea/core/modules/cookie
+    workarea/core/modules/string
+    workarea/core/modules/url
+    workarea/core/modules/image
+    workarea/core/modules/deletion_forms
+    workarea/core/modules/form_submitting_controls
+    workarea/core/modules/jquery
+    workarea/core/modules/style_guide_empty_links
+    workarea/core/modules/style_guide_autocomplete_fields
+    workarea/core/modules/style_guide_accordions
+    workarea/core/modules/reveal_password
+    workarea/core/modules/local_time
+    workarea/admin/modules/categorized_autocomplete_fields
+    workarea/core/modules/date
+    workarea/admin/modules/messages
+    workarea/admin/modules/takeover
+    workarea/admin/modules/autocomplete_fields
+    workarea/admin/modules/new_navigation_taxons
+    workarea/admin/modules/cloneable_rows
+    workarea/admin/modules/datetimepicker_fields
+    workarea/admin/modules/datepicker_fields
+    workarea/admin/modules/tabs
+    workarea/admin/modules/wysiwygs
+    workarea/admin/modules/discount_options_menus
+    workarea/admin/modules/asset_pickers
+    workarea/admin/modules/product_images_sortables
+    workarea/admin/modules/menu_editor_links
+    workarea/admin/modules/menu_editor_menu_list_sortables
+    workarea/admin/modules/menu_editor_sort_by_menus
+    workarea/admin/modules/recommendations_sortables
+    workarea/admin/modules/publish_with_release_menus
+    workarea/admin/modules/releasable_model_search_forms
+    workarea/admin/modules/toggle_buttons
+    workarea/admin/modules/remote_selects
+    workarea/admin/modules/release_calendar_placeholders
+    workarea/admin/modules/calendars
+    workarea/admin/modules/bulk_action_items
+    workarea/admin/modules/bulk_action_deletion
+    workarea/admin/modules/property_toggles
+    workarea/admin/modules/help_helper
+    workarea/admin/modules/primary_nav
+    workarea/admin/modules/taxon_select
+    workarea/admin/modules/dom_remove
+    workarea/admin/modules/featured_products_sort
+    workarea/admin/modules/taxon_insert
+    workarea/admin/modules/add_content_block_buttons
+    workarea/admin/modules/content_editor
+    workarea/admin/modules/content_blocks
+    workarea/admin/modules/content_editor_forms
+    workarea/admin/modules/content_editor_form_cancel
+    workarea/admin/modules/content_block_list
+    workarea/admin/modules/content_preview
+    workarea/admin/modules/content_preset_form
+    workarea/admin/modules/bookmarks
+    workarea/admin/modules/sort_navigation_menus
+    workarea/admin/modules/asset_picker_fields
+    workarea/admin/modules/filter_dropdowns
+    workarea/admin/modules/toggle_filters
+    workarea/admin/modules/release_reminder
+    workarea/admin/modules/relevance_sort
+    workarea/admin/modules/tooltips
+    workarea/admin/modules/publish_create_release
+    workarea/admin/modules/product_rules_preview
+    workarea/admin/modules/sort_variants
+    workarea/admin/modules/product_copy_ids
+    workarea/admin/modules/disable_publish_now
+    workarea/admin/modules/unsaved_changes
+    workarea/admin/modules/add_to_calendar_buttons
+    workarea/admin/modules/range_fields
+    workarea/admin/modules/direct_uploads
+    workarea/admin/modules/pricing_overrides
+    workarea/admin/modules/expandables
+  ).each do |asset|
+    require_asset asset
+  end
+
+  # Google Analytics
+  require_asset 'workarea/admin/google_analytics'
+
+  # Development Utilities
+  if Rails.env.test? || Rails.env.development?
+    require_asset 'workarea/core/modules/duplicate_id'
+  end
+
+  # Plugin Modules
+  append_javascripts('admin.modules')
+%>
+
+$(document).on('turbolinks:load', function () {
+    WORKAREA.initModules($('body')); // Initialize all modules
+});
+
+$(document).on('turbolinks:click', function (event) {
+  var goingElsewhere = !_.includes(
+      event.originalEvent.data.url,
+      WORKAREA.routes.admin.rootPath()
+  );
+
+  if (goingElsewhere) {
+    event.preventDefault();
+  }
+});
+
+$(document).on('turbolinks:request-end', function(event) {
+    var redirectElsewhere = !_.includes(
+        event.originalEvent.data.xhr.responseURL,
+        WORKAREA.routes.admin.rootPath()
+    );
+
+    if (redirectElsewhere) {
+        event.preventDefault();
+        window.location = event.originalEvent.data.url;
+    }
+});

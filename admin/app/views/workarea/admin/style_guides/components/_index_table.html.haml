@@ -1,0 +1,51 @@
+#index-table.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'index_table')
+
+  %p Tables responsible for listing objects on admin index pages.
+
+  %ul
+    %li This class is intended to be applied to <code>table</code> elements.
+    %li You can control the alignment of <code>th</code> or <code>td</code> elements by applying alignment classes, eg. <code>align-center</code>.
+    %li The first column (<code>index-table__control-cell</code>) is reserved for bulk action checkboxes, which are visible below.
+    %li The last column is always aligned to the right.
+    %li You may use the <code>index-table__row--inactive</code> modifier class on rows to show a deactivated state
+
+  .style-guide__example-block
+    %table.index-table
+      %thead
+        %tr
+          %th.index-table__control-cell
+            .checkbox.checkbox--indeterminate
+              = check_box_tag 'global_id', nil, false, class: 'checkbox__input', id: "index_table_row_header"
+              = label_tag "index_table_row_header", '', class: 'checkbox__label'
+          %th Name
+          %th Breadcrumbs
+          %th.align-center Featured Products
+          %th.align-center Rules
+          %th.align-center Insights
+          %th Updated At
+      %tbody
+        - prng = Random.new
+        - 10.times do |index|
+          %tr.index-table__row{ class: ('index-table__row--inactive' if (index + 1) % 3 == 0) }
+            %td.index-table__control-cell
+              .checkbox
+                = check_box_tag 'global_id', nil, index % 3 == 0, class: 'checkbox__input', id: "index_table_row_#{index}"
+                = label_tag "index_table_row_#{index}", '', class: 'checkbox__label'
+            %td
+              Product Number #{index + 1}
+              - if index % 4 == 0
+                = link_to '#', class: 'link link--no-underline' do
+                  = inline_svg('workarea/admin/icons/timeline.svg', class: 'svg-icon svg-icon--small svg-icon--link-color')
+              - if index % 3 == 0
+                = link_to '#', class: 'link link--no-underline' do
+                  = inline_svg('workarea/admin/icons/comments.svg', class: 'svg-icon svg-icon--small svg-icon--link-color')
+            %td Foo > Bar > Baz
+            %td.align-center= prng.rand(50)
+            %td.align-center= prng.rand(50)
+            %td.align-center
+              = link_to '#', class: 'link link--no-underline' do
+                %span.spark
+                  {#{12.times.map{ prng.rand(10) }.join(',')}}
+            %td #{index + 10} minutes ago

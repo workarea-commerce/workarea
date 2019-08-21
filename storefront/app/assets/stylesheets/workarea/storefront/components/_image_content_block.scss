@@ -1,0 +1,16 @@
+/*------------------------------------*\
+    #IMAGE-CONTENT-BLOCK
+\*------------------------------------*/
+
+.image-content-block {}
+
+.image-content-block--left { text-align: left; }
+.image-content-block--center { text-align: center; }
+.image-content-block--right { text-align: right; }
+
+
+    .image-content-block__image-link {}
+
+        .image-content-block__image {
+            display: inline-block;
+        }

@@ -1,0 +1,400 @@
+/*------------------------------------*\
+    #MENU-EDITOR
+\*------------------------------------*/
+
+$menu-editor-width:             325px !default;
+$menu-editor-menu-gutter:       $spacing-unit * 4 !default;
+$menu-editor-border-color:      $border-color !default;
+$menu-editor-bg-color:          $white !default;
+
+$menu-editor-child-indicator-color:             $off-black !default;
+$menu-editor-child-indicator-triangle-size:     6px 0 6px 4px !default;
+$menu-editor-child-indicator-vertical-offset:   18px !default;
+$menu-editor-child-indicator-horizontal-offset: -18px !default;
+
+$menu-editor-head-label-color:  $dark-gray !default;
+$menu-editor-list-bg-color:     $light-gray !default;
+
+$menu-editor-link-color:        $blue !default;
+$menu-editor-link-active-color: $white !default;
+
+$menu-editor-list-item-heading-color:       $gray !default;
+$menu-editor-list-item-bg-color:            $white !default;
+$menu-editor-list-item-border-color:        $transparent !default;
+$menu-editor-list-item-added-color:         $white !default;
+$menu-editor-list-item-added-bg-color:      $green !default;
+$menu-editor-active-list-item-color:        $white !default;
+$menu-editor-active-list-item-bg-color:     $off-black !default;
+$menu-editor-hover-list-item-border-color:  $off-black !default;
+
+$menu-editor-link-text-max-length:  140px !default;
+
+$menu-editor-icon-color:        $gray !default;
+$menu-editor-icon-color-add:    $green !default;
+$menu-editor-icon-color-active: $off-black !default;
+$menu-editor-icon-size:         16px !default;
+$menu-editor-icon-size-parent:  24px !default;
+$menu-editor-icon-size-add:     32px !default;
+
+
+/**
+ * Animations
+ */
+
+@keyframes slidein {
+    from {
+        transform: translateX($menu-editor-menu-gutter * -1);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+
+.menu-editor {
+    padding-bottom: $spacing-unit * 3;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.menu-editor--full-width {}
+
+    .menu-editor__breadcrumb-builder {
+        margin-bottom: $spacing-unit * 3;
+    }
+
+    /**
+     * 1. Context for absolutely positioned CSS triangle child indicator
+     * 2. CSS triangle child indicator
+     * 3. remove gutter when UI is used within `.content-editor`
+     */
+    .menu-editor__menu {
+        display: inline-block;
+        position: relative; /* [1] */
+        width: $menu-editor-width;
+        text-align: left;
+        background: $menu-editor-bg-color;
+        border: 1px solid $menu-editor-border-color;
+        border-radius: $global-border-radius;
+        vertical-align: top;
+
+        & + & {
+            margin-left: $menu-editor-menu-gutter;
+        }
+
+        & + &:before { /* [2] */
+            position: absolute;
+            top: $menu-editor-child-indicator-vertical-offset;
+            left: $menu-editor-child-indicator-horizontal-offset;
+            width: 0;
+            height: 0;
+            border-color: transparent transparent transparent $menu-editor-child-indicator-color;
+            border-style: solid;
+            border-width: $menu-editor-child-indicator-triangle-size;
+            content: '';
+        }
+
+        .menu-editor--full-width & {
+            width: 100%;
+        }
+
+        .content-editor & {
+            margin-right: 0; /* [3] */
+        }
+    }
+
+    .menu-editor__menu--wide {
+        margin: 0;
+        width: 100%;
+    }
+
+    .menu-editor__menu--animate {
+        animation-duration: 0.15s;
+        animation-name: slidein;
+    }
+
+    /**
+     * Menu Editor Header Area
+     */
+
+    .menu-editor__head {
+        position: relative;
+        padding: $spacing-unit;
+    }
+
+        .menu-editor__heading {
+            text-align: center;
+        }
+
+        .menu-editor__sort-by-menu {
+            text-align: right;
+        }
+
+        .menu-editor__head-label {
+            color: $menu-editor-head-label-color;
+            font-size: $font-size + 4px;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+        .menu-editor__head-label--truncated {
+            @extend %truncate;
+            max-width: $menu-editor-link-text-max-length;
+            top: $spacing-unit;
+        }
+
+        .menu-editor__head-actions {
+            @include center($to: vertical);
+            right: $horizontal-margin;
+        }
+
+            .menu-editor__head-link {}
+            .menu-editor__head-link-text {}
+
+    /**
+     * List of Menu Items
+     */
+
+    .menu-editor__menu-list {
+        margin:  0;
+        padding: $spacing-unit 0;
+        width: 100%;
+        white-space: nowrap;
+        background-color: $menu-editor-list-bg-color;
+        border-collapse: collapse;
+        border-radius: 0 0 $global-border-radius $global-border-radius;
+        list-style: none;
+    }
+
+        .menu-editor__list-item {
+            position: relative;
+            margin: $spacing-unit * 2;
+            background-color: $menu-editor-list-item-bg-color;
+            border: 1px solid $menu-editor-list-item-border-color;
+            border-radius: $global-border-radius;
+
+            &:hover {
+                border-color: $menu-editor-hover-list-item-border-color;
+            }
+        }
+
+        .menu-editor__list-item--active {
+            background-color: $menu-editor-active-list-item-bg-color;
+        }
+
+        .menu-editor__list-item--added {
+            background-color: $menu-editor-list-item-added-bg-color;
+            cursor: move;
+        }
+
+            .menu-editor__menu-link {
+                @extend %break-word;
+                display: block;
+                padding: $spacing-unit;
+                padding-right: $spacing-unit * 2;
+                color: $menu-editor-link-color;
+                font-weight: bold;
+                text-transform: none;
+                white-space: normal;
+
+                &:hover {
+                    text-decoration: none;
+                }
+
+                .menu-editor__list-item--active & {
+                    color: $menu-editor-link-active-color;
+                }
+
+                .menu-editor__list-item--added & {
+                    color: $menu-editor-list-item-added-color;
+                }
+            }
+
+            .menu-editor__menu-link--draggable {
+                position: relative;
+            }
+
+
+                .menu-editor__link-grip {
+                    @include center($to: vertical);
+                }
+
+                .menu-editor__menu-link-text {
+                    @extend %truncate;
+                    display: inline-block;
+                    max-width: $menu-editor-link-text-max-length;
+                    vertical-align: middle;
+                }
+
+            .menu-editor__control {
+                @include center($to: vertical);
+                right: $menu-editor-icon-size-parent;
+                margin: 0;
+                list-style: none;
+                opacity: 0;
+                transition: opacity $global-transition-speed ease-in-out;
+
+                .menu-editor__list-item:hover & ,
+                .menu-editor__list-item--active & {
+                    opacity: 1;
+                }
+            }
+
+                .menu-editor__control-item {
+                    display: inline-block;
+                    line-height: 1;
+                    vertical-align: middle;
+
+                    & + & {
+                        margin-left: $spacing-unit;
+                    }
+                }
+
+                    .menu-editor__control-link {
+                        cursor: pointer;
+                    }
+
+        .menu-editor__list-item--placeholder {
+            padding: $spacing-unit;
+            text-align: center;
+
+            .menu-editor__list-item + & {
+                display: none;
+            }
+        }
+
+        /**
+         * 1. Creates a dotted line behind the button
+         * 2. -25% transform aligns button on the dotted line
+         */
+        .menu-editor__add-item {
+            position: absolute;
+            top: $vertical-margin * -1;
+            left: 0;
+            width: 100%;
+            height: $spacing-unit * 2;
+            text-align: center;
+
+            &:before { /* [1] */
+                display: block;
+                position: relative;
+                top: 50%;
+                margin: 0 auto;
+                width: 80%;
+                border-top: 2px dotted $white;
+                opacity: 0;
+                content: '';
+                transition: opacity $global-transition-speed ease-in-out;
+            }
+
+            &:hover:before {
+                opacity: 1;
+            }
+        }
+
+            .menu-editor__add-item-button {
+                position: absolute;
+                left: 50%;
+                border-radius: 50%;
+                opacity: 0;
+                transform: translate(-50%, -25%); /* [2] */
+                transition: opacity $global-transition-speed ease-in-out;
+
+                .menu-editor__add-item:hover & {
+                    opacity: 1;
+                }
+            }
+
+            .menu-editor__add-item-button--last-position {
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+
+                .menu-editor__add-item-button-text {
+                    @extend %visually-hidden;
+                }
+
+    /**
+     * Menu Editor Breadcrumbs - Used in workflows
+     */
+
+    .menu-editor__breadcrumbs {
+        @extend %truncate;
+        margin: 0;
+        padding: $spacing-unit ($spacing-unit * 2) 0;
+        list-style: none;
+    }
+
+        .menu-editor__breadcrumbs-node {
+            display: inline;
+            margin-bottom: $spacing-unit;
+            font-size: $font-size + 2px;
+        }
+
+        .menu-editor__breadcrumbs-home-button {
+            @extend %button-reset;
+        }
+
+    /**
+     * Menu editor icons
+     */
+
+    .menu-editor__icon {
+        width: $menu-editor-icon-size;
+        height: $menu-editor-icon-size;
+        fill: $menu-editor-icon-color;
+        vertical-align: middle;
+    }
+
+    .menu-editor__icon--head {
+        display: inline-block;
+        margin: $spacing-unit $spacing-unit * 2;
+        margin-right: $spacing-unit;
+        vertical-align: middle;
+    }
+
+    .menu-editor__icon--link {
+        vertical-align: middle;
+
+        .menu-editor__list-item--added & ,
+        .menu-editor__list-item--active & {
+            fill: $menu-editor-link-active-color;
+        }
+
+        .menu-editor__menu-link--draggable & {
+            margin-left: $spacing-unit * 2;
+        }
+
+        .menu-editor__control & {
+            vertical-align: top;
+        }
+    }
+
+    .menu-editor__icon--parent {
+        @include center($to: vertical);
+        right: $spacing-unit;
+        padding-right: $spacing-unit;
+        width: $menu-editor-icon-size-parent;
+        height: $menu-editor-icon-size-parent;
+        opacity: 1;
+        transition: transform $global-transition-speed ease-in-out;
+        pointer-events: none;
+
+        .menu-editor__list-item:hover & {
+            transform: translate($horizontal-margin, -50%) scale(1.5);
+        }
+
+        .menu-editor__list-item--active & ,
+        .menu-editor__list-item--active:hover & {
+            fill: $menu-editor-icon-color-active;
+        }
+    }
+
+    .menu-editor__icon--add {
+        width: $menu-editor-icon-size-add;
+        height: $menu-editor-icon-size-add;
+        fill: $menu-editor-icon-color-add;
+    }

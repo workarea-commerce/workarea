@@ -1,0 +1,31 @@
+language: ruby
+script: bundle exec rake test
+sudo: false
+
+rvm:
+- "2.2.2"
+- "2.3.1"
+- "2.4.1"
+
+gemfile:
+- gemfiles/activesupport42.gemfile
+- gemfiles/activesupport50.gemfile
+- gemfiles/activesupport51.gemfile
+- gemfiles/activesupport52.gemfile
+
+matrix:
+  include:
+    - rvm: "2.4.1"
+      gemfile: gemfiles/activesupport_master.gemfile
+  exclude:
+    - rvm: "2.4.1"
+      gemfile: gemfiles/activesupport42.gemfile
+
+env:
+  global:
+  - ACTIVESHIPPING_NEW_ZEALAND_POST_KEY=4d9dc0f0-dda0-012e-066f-000c29b44ac0
+  - ACTIVESHIPPING_CANADA_POST_LOGIN=CPC_DEMO_XML
+  - ACTIVESHIPPING_CANADA_POST_PWS_CUSTOMER_NUMBER=2004381
+  - ACTIVESHIPPING_CANADA_POST_PWS_API_KEY=6e93d53968881714
+  - ACTIVESHIPPING_CANADA_POST_PWS_SECRET=0bfa9fcb9853d1f51ee57a
+  - ACTIVESHIPPING_USPS_LOGIN=677JADED7283

@@ -1,0 +1,69 @@
+/*------------------------------------*\
+    #HELPERS
+\*------------------------------------*/
+
+/**
+ * Text alignment
+ */
+.align-left { text-align: left; }
+.align-center { text-align: center; }
+.align-right { text-align: right; }
+
+
+/**
+ * Responsive helpers
+ *
+ * Due to the way Premailer parses external CSS into inline CSS, we must be very
+ * forceful with our helpers. Because of this we must take a "mobile-last"
+ * approach, or else we'll get into an !important war.
+ *
+ * These class names are taken directly from the Cerberus template.
+ */
+@media screen and (max-width: $email-max-width) {
+    .email-container {
+        width: 100% !important;
+        margin: auto !important;
+    }
+
+    /* Forces elements to resize to the full width of their container. Useful
+    for resizing images beyond their max-width. */
+    .fluid {
+        max-width: 100% !important;
+        height: auto !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+
+    /* Forces table cells into full-width rows. */
+    .stack-column,
+    .stack-column-center {
+        display: block !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        direction: ltr !important;
+    }
+
+    /* And center justify these ones. */
+    .stack-column-center {
+        text-align: center !important;
+    }
+
+    /* Generic utility class for centering. Useful for images, buttons, and
+    nested tables. */
+    .center-on-narrow {
+        text-align: center !important;
+        display: block !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        float: none !important;
+    }
+
+    table.center-on-narrow {
+        display: inline-block !important;
+    }
+
+    /* Adjust typography on small screens to improve readability */
+    .email-container p {
+        font-size: $font-size + 2px !important;
+    }
+}

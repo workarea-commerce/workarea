@@ -1,0 +1,31 @@
+.grid.grid--large.grid--center
+  .grid__cell.grid__cell--50
+    .view__heading
+      %span.heading.heading--1= t('workarea.admin.content_blocks.index.title')
+
+.grid.grid--auto.grid--huge.grid--top.grid--center
+  - @system_block_types.each do |block_type|
+    .grid__cell
+      = link_to url_for(@return.merge(new_block: { type_id: block_type.id, position: params[:position] }, return_to: @return)), class: 'new-block-button', data: { turbolinks: false } do
+        = content_block_icon(block_type.icon, title: block_type.name, class: 'new-block-button__icon')
+        %span.new-block-button__name= block_type.name
+        %span.new-block-button__help
+          = inline_svg 'workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', data: { tooltip: { content_id: "##{block_type.id}-description" }.to_json }
+      .tooltip-content{ id: "#{block_type.id}-description" }= block_type.description
+
+- if @content_presets.any?
+  .grid.grid--large.grid--center
+    .grid__cell.grid__cell--50
+      .view__heading
+        %span.heading.heading--1= t('workarea.admin.content_blocks.index.title_preset')
+
+  .grid.grid--auto.grid--huge.grid--top.grid--center
+    - @content_presets.each do |preset|
+      .grid__cell.grid__cell--25
+        = link_to url_for(@return.merge(new_block: { type_id: preset.type_id, position: params[:position] }, preset_id: preset.id, return_to: @return)), class: 'new-block-button', data: { turbolinks: false } do
+          = content_block_icon(preset.type.icon, title: preset.name, class: 'new-block-button__icon')
+          %span.new-block-button__name= preset.name
+          %span.new-block-button__help
+            = inline_svg 'workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', data: { tooltip: { content_id: "##{preset.id}-description" }.to_json }
+        .align-center= link_to t('workarea.admin.actions.delete'), content_preset_path(preset), data: { method: 'delete', confirm: t('workarea.admin.actions.delete_confirmation'), dom_remove: '.grid__cell' }
+        .tooltip-content{ id: "#{preset.id}-description" }= preset.type.description

@@ -1,0 +1,17 @@
+#hidden-if-js-enabled.style-guide__subsection
+
+  %h3= link_to_style_guide('trumps', 'hidden_if_js_enabled')
+
+  %p Relies on FeatureJS to hide an element if JavaScript is enabled.
+
+  %p In this example the second line of text become hidden only if JavaScript is enabled:
+
+  %p without <code>hidden-with-js-enabled</code>:
+  .style-guide__example-block
+    %p I'm some text
+    %p I'm some text that's about to be hidden
+
+  %p with <code>hidden-with-js-enabled</code>:
+  .style-guide__example-block
+    %p I'm some text
+    %p.hidden-if-js-enabled I'm some text that's about to be hidden

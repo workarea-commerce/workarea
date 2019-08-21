@@ -1,0 +1,53 @@
+- @page_title = t('workarea.admin.help.edit.page_title', name: @help_article.name)
+
+.view
+  .view__header
+    .grid.grid--middle.grid--right
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to "↑ #{t('workarea.admin.help.edit.index_link')}", help_index_path
+          %h1= link_to @help_article.name, help_path(@help_article)
+      .grid__cell.grid__cell--25
+        .grid.grid--auto.grid--right
+          .grid__cell= link_to t('workarea.admin.help.edit.manage_help_assets'), help_assets_path
+
+  - if @help_article.errors.present?
+    - @help_article.errors.full_messages.each do |message|
+      = render_message 'error', message
+
+  .view__container
+    = form_tag help_path(@help_article), method: 'patch', multipart: true, data: { unsaved_changes: '' } do
+      .section
+        .property.property--required
+          = label_tag 'help_article[name]', t('workarea.admin.fields.name'), class: 'property__name'
+          = text_field_tag 'help_article[name]', @help_article.name, class: 'text-box', required: true
+
+        .property
+          = label_tag 'help_article[thumbnail]', t('workarea.admin.fields.thumbnail'), class: 'property__name'
+          = file_field_tag 'help_article[thumbnail]'
+          %span.property__note= t('workarea.admin.help.edit.thumbnail_note')
+
+        .property.property--required
+          = label_tag 'help_article[category]', t('workarea.admin.fields.category'), class: 'property__name'
+          = text_field_tag 'help_article[category]', @help_article.category, class: 'text-box', required: true
+
+        .property
+          = label_tag 'help_article[matching_url]', t('workarea.admin.fields.matching_url'), class: 'property__name'
+          = text_field_tag 'help_article[matching_url]', @help_article.matching_url, class: 'text-box'
+          %span.property__note= t('workarea.admin.help.edit.matching_url_note')
+
+        .property
+          = label_tag 'help_article[summary]', t('workarea.admin.fields.summary'), class: 'property__name'
+          = text_field_tag 'help_article[summary]', @help_article.summary, class: 'text-box'
+
+        .property
+          = label_tag 'help_article[body]', t('workarea.admin.fields.body'), class: 'property__name'
+          %span.property__note
+            = t('workarea.admin.help.edit.body_note_html', markdown_link: link_to('markdown', 'https://daringfireball.net/projects/markdown/syntax', target: '_blank', rel: 'noopener'))
+            = link_to help_assets_path, target: '_blank', rel: 'noopener' do
+              %strong= t('workarea.admin.help.edit.find_and_manage_help_assets')
+          = text_area_tag 'help_article[body]', @help_article.body, class: 'text-box text-box--multi-line'
+
+      .workflow-bar
+        .grid.grid--auto.grid--right.grid--middle
+          .grid__cell= button_tag t('workarea.admin.help.edit.save_help_article'), value: 'save_help_article', class: 'workflow-bar__button workflow-bar__button--update'

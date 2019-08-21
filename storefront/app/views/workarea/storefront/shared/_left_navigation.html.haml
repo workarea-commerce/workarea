@@ -1,0 +1,24 @@
+- cache taxon_cache_key(taxon, :left_navigation, selected: selected_child_taxon), expires_in: Workarea.config.cache_expirations.left_navigation_fragment_cache do
+  %h2= taxon.name
+  %ul.secondary-nav{ role: 'navigation' }
+    - taxon.children.each do |taxon|
+      - if taxon.active?
+        %li.secondary-nav__item{ class: ('secondary-nav__item--has-children' if taxon.has_children?) }
+          - if taxon.placeholder?
+            = taxon.name
+          - elsif link_selected?(taxon)
+            %span.secondary-nav__link.secondary-nav__link--selected= taxon.name
+          - else
+            = link_to taxon.name, storefront_path_for(taxon), class: (link_selected?(taxon) ? 'secondary-nav__link secondary-nav__link--selected' : 'secondary-nav__link')
+
+          - if taxon.has_children? && link_selected?(taxon)
+            %ul.secondary-nav__children
+              - taxon.children.each do |taxon|
+                - if taxon.active?
+                  %li.secondary-nav__item{ class: ('secondary-nav__item--has-children' if taxon.has_children?) }
+                    - if taxon.placeholder?
+                      = taxon.name
+                    - elsif link_selected?(taxon)
+                      %span.secondary-nav__link.secondary-nav__link--selected= taxon.name
+                    - else
+                      = link_to taxon.name, storefront_path_for(taxon), class: (link_selected?(taxon) ? 'secondary-nav__link secondary-nav__link--selected' : 'secondary-nav__link')

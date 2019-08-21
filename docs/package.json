@@ -1,0 +1,15 @@
+{
+  "name": "workarea",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "ssh://git@stash.tools.weblinc.com:7999/wl/workarea.git",
+  "author": "Curt Howard <choward@workarea.com>",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "eslint": "4.19.1",
+    "stylelint": "9.2.1",
+    "stylelint-config-recommended-scss": "3.2.0",
+    "stylelint-scss": "3.1.0"
+  }
+}

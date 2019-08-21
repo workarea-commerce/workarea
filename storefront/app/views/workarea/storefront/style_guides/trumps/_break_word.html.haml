@@ -1,0 +1,15 @@
+#break-word.style-guide__subsection
+
+  %h3= link_to_style_guide('trumps', 'break_word')
+
+  %p Applies a CSS word-break technique which allows words to break more elegantly when wider than their container.
+
+  %p In the following examples we have a <code>p</code> tag that is 125 pixels wide (shown by the dashed outline) containing a very long word:
+
+  %p without <code>break-word</code>:
+  .style-guide__example-block
+    %p{ style: 'width: 125px; outline: 1px dashed;'} Pneumonoultramicroscopicsilicovolcanoconiosis
+
+  %p with <code>break-word</code>:
+  .style-guide__example-block
+    %p.break-word{ style: 'width: 125px; outline: 1px dashed;'} Pneumonoultramicroscopicsilicovolcanoconiosis

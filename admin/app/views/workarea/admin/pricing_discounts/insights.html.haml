@@ -1,0 +1,60 @@
+- @page_title = t('workarea.admin.pricing_discounts.cards.insights.page_title', discount: @discount.name)
+
+.view
+  .view__header
+    .grid.grid--middle.grid--right
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@discount)
+          %h1= link_to @discount.name, url_for(@discount)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@discount)
+
+  .view__container
+    = render_cards_for(@discount, :insights)
+
+    .section
+      .browsing-controls.browsing-controls--center.browsing-controls--filters-displayed
+        = form_tag request.path, method: 'get' do
+          = render 'workarea/admin/shared/date_selector', starts_at: @discount.insights.starts_at, ends_at: @discount.insights.ends_at
+
+      .grid.grid--auto.grid--center
+        .grid__cell
+          .card
+            .card__body.align-center
+              %h6.heading.heading--no-margin= t('workarea.admin.pricing_discounts.insights.discounts')
+              %span.heading.heading--1.heading--no-margin= number_to_currency @discount.insights.discounts
+              %p
+                - if @discount.insights.discounts_percent_change.present?
+                  = insights_trend_icon(@discount.insights.discounts_percent_change)
+                  = t('workarea.admin.pricing_discounts.insights.from_previous', percentage: insights_number_to_percentage(@discount.insights.discounts_percent_change))
+              = area_chart @discount.insights.discounts_graph_data, Workarea.config.default_chartkick_options.merge(prefix: Money.default_currency.symbol)
+
+        .grid__cell
+          .card
+            .card__body.align-center
+              %h6.heading.heading--no-margin= t('workarea.admin.pricing_discounts.insights.orders')
+              %span.heading.heading--1.heading--no-margin= number_with_delimiter @discount.insights.orders
+              %p
+                - if @discount.insights.orders_percent_change.present?
+                  = insights_trend_icon(@discount.insights.orders_percent_change)
+                  = t('workarea.admin.pricing_discounts.insights.from_previous', percentage: insights_number_to_percentage(@discount.insights.orders_percent_change))
+              = area_chart @discount.insights.orders_graph_data, Workarea.config.default_chartkick_options
+
+        .grid__cell
+          .card
+            .card__body.align-center
+              %h6.heading.heading--no-margin= t('workarea.admin.pricing_discounts.insights.revenue')
+              %span.heading.heading--1.heading--no-margin= number_to_currency @discount.insights.revenue
+              %p
+                - if @discount.insights.revenue_percent_change.present?
+                  = insights_trend_icon(@discount.insights.revenue_percent_change)
+                  = t('workarea.admin.pricing_discounts.insights.from_previous', percentage: insights_number_to_percentage(@discount.insights.revenue_percent_change))
+              = area_chart @discount.insights.revenue_graph_data, Workarea.config.default_chartkick_options.merge(prefix: Money.default_currency.symbol)
+
+  - if @discount.insights.feed.any?
+    .view__container.view__container--narrow
+      .section
+        %h2.align-center= t('workarea.admin.pricing_discounts.insights.insights_featuring_this_discount')
+        - @discount.insights.feed.each do |insight|
+          = render "workarea/admin/insights/#{insight.slug}", insight: insight

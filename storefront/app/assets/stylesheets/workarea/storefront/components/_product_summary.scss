@@ -1,0 +1,53 @@
+/*------------------------------------*\
+    #PRODUCT-SUMMARY
+\*------------------------------------*/
+
+$product-summary-width:                 220px !default;
+$product-summary-small-width:           200px !default;
+
+$product-summary-media-ratio:           2 / 3 !default;
+
+
+/**
+ * 1. sets positioning context for any absolutely positioned product summary
+ *    child elements
+ */
+
+.product-summary {
+    position: relative; /* [1] */
+    margin-bottom: $vertical-margin;
+}
+
+.product-summary--small {}
+
+    .product-summary__media {
+        margin: 0 auto $spacing-unit;
+        max-width: $product-summary-width;
+
+        .product-summary--small & {
+            max-width: $product-summary-small-width;
+        }
+    }
+
+        .product-summary__media-link {
+            display: block;
+            padding: 0 0 ((1 / $product-summary-media-ratio) * 100%);
+            height: 0;
+        }
+
+            .product-summary__media-image {}
+
+    .product-summary__info {
+        margin: 0 auto;
+        max-width: $product-summary-width;
+        text-align: center;
+
+        .product-summary--small & {
+            max-width: $product-summary-small-width;
+        }
+    }
+
+        .product-summary__name {
+            @extend %break-word;
+            margin: 0 0 $spacing-unit;
+        }

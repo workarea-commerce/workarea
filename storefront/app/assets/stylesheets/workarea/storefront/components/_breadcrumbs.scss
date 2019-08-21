@@ -1,0 +1,27 @@
+/*------------------------------------*\
+    #BREADCRUMBS
+\*------------------------------------*/
+
+$breadcrumb-node-separator:  '/' !default;
+
+
+/**
+ * 1. adds visual separator for adjacent `.breadcrumbs_node`
+ */
+
+.breadcrumbs {
+    margin-bottom: $vertical-margin;
+}
+
+    .breadcrumbs__node-group {}
+
+        .breadcrumbs__node {
+            & + &:before { /* [1] */
+                margin: 0 ($spacing-unit / 2);
+                content: $breadcrumb-node-separator;
+            }
+        }
+
+            .breadcrumbs__link {}
+
+            .breadcrumbs__text {}

@@ -1,0 +1,32 @@
+#spark.style-guide__subsection
+
+  %h3= link_to_style_guide('typography', 'spark')
+
+  %p Changes the font family to a sparkline font.
+
+  - dotline_values = (0..9).to_a.shuffle
+  - dotline_points = dotline_values[1..dotline_values.count-2].join(',')
+  - dotline_sample = "#{dotline_values.first}{#{dotline_points}}#{dotline_values.last}"
+
+  %p should display a medium-weight dot-line graph:
+  .style-guide__example-block
+    monofilament corporation gang
+    %span.spark= dotline_sample
+    skyscraper vehicle
+
+#spark--large.style-guide__subsection
+
+  %h3= link_to_style_guide('typography', 'spark__large')
+
+  %p Changes the font family to a sparkline font.
+
+  - dotline_values = (0..9).to_a.shuffle
+  - dotline_points = dotline_values[1..dotline_values.count-2].join(',')
+  - dotline_sample = "#{dotline_values.first}{#{dotline_points}}#{dotline_values.last}"
+
+  %p should display a medium-weight dot-line graph:
+  .style-guide__example-block
+    monofilament corporation gang
+    %span.spark.spark--large= dotline_sample
+    skyscraper vehicle
+

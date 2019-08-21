@@ -1,0 +1,33 @@
+- @page_title = t('workarea.admin.orders.timeline.title', name: @order.name)
+
+.view
+  .view__header
+    .grid.grid--middle.grid--right
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@order)
+          %h1= link_to @order.name, url_for(@order)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@order)
+
+  .view__container
+    = render_cards_for(@order, :timeline)
+
+  .view__container.view__container--narrow
+    - if @order.timeline.empty?
+      %p.heading--2.align-center= t('workarea.admin.timeline.no_activity')
+    - else
+      .grid.grid--center
+        .grid__cell.grid__cell--80-at-medium
+          .grid
+            - @order.timeline.by_day.each do |day, entries|
+              .activity-group.activity-group--bordered
+                .grid__cell.grid__cell--20
+                  .date-marker
+                    -  if day == Date.today
+                      .date-marker__annotation= t('workarea.admin.timeline.today')
+                    .date-marker__month= local_time(day, format: '%b')
+                    .date-marker__day= local_time(day, format: '%e')
+                .grid__cell.grid__cell--80
+                  - entries.each do |entry|
+                    = render_order_timeline_entry(entry)

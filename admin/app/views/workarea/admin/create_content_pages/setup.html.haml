@@ -1,0 +1,53 @@
+- @page_title = t('workarea.admin.create_content_pages.setup.setup_a_new_page')
+
+.view
+  .view__header
+    .view__heading
+      %h1.heading.heading--no-margin= t('workarea.admin.create_content_pages.setup.setup')
+
+  .view__container.view__container--narrow
+    - @page.errors.full_messages.each do |message|
+      = render_message 'error', message
+
+    = form_tag create_content_pages_path, method: 'post' do
+      = hidden_field_tag :id, @page.slug unless @page.new_record?
+      = hidden_field_tag 'page[active]', false
+
+      .section
+        .property.property--required
+          = label_tag 'page_name', t('workarea.admin.fields.name'), class: 'property__name'
+          = text_field_tag 'page[name]', @page.name, class: 'text-box text-box--i18n', required: true
+
+        .property
+          = label_tag 'page[tag_list]', t('workarea.admin.fields.tags'), class: 'property__name'
+          = text_field_tag 'page[tag_list]', @page.tag_list, class: 'text-box'
+          %span.property__note= t('workarea.admin.create_content_pages.setup.tags_note')
+
+        .property
+          = label_tag 'page_template', t('workarea.admin.fields.template'), class: 'property__name'
+          = select_tag 'page[template]', options_for_select(page_templates, @page.template)
+
+      .workflow-bar
+        .grid.grid--middle
+          .grid__cell.grid__cell--20
+            - if @page.new_record?
+              = link_to t('workarea.admin.form.cancel'), content_pages_path, class: 'workflow-bar__button workflow-bar__button--delete'
+            - else
+              = link_to t('workarea.admin.form.cancel'), content_page_path(@page), class: 'workflow-bar__button workflow-bar__button--delete', data: { method: 'delete', confirm: t('workarea.admin.create_content_pages.workflow.delete_confirmation') }
+
+          .grid__cell.grid__cell--60
+            %ol.workflow-bar__steps
+              %li.workflow-bar__step
+                %strong 1) #{t('workarea.admin.create_content_pages.workflow.setup')}
+              - if @page.new_record?
+                %li.workflow-bar__step 2) #{t('workarea.admin.create_content_pages.workflow.content')}
+                %li.workflow-bar__step 3) #{t('workarea.admin.create_content_pages.workflow.taxonomy')}
+                %li.workflow-bar__step 4) #{t('workarea.admin.create_content_pages.workflow.publish')}
+              - else
+                %li.workflow-bar__step 2) #{link_to t('workarea.admin.create_content_pages.workflow.content'), content_create_content_page_path(@page)}
+                %li.workflow-bar__step 2) #{link_to t('workarea.admin.create_content_pages.workflow.taxonomy'), taxonomy_create_content_page_path(@page)}
+                %li.workflow-bar__step 3) #{link_to t('workarea.admin.create_content_pages.workflow.publish'), publish_create_content_page_path(@page)}
+
+          .grid__cell.grid__cell--20
+            .grid.grid--auto.grid--right.grid--middle
+              .grid__cell= button_tag t('workarea.admin.create_content_pages.setup.save_and_add_content'), value: 'save_setup', class: 'workflow-bar__button workflow-bar__button--create'

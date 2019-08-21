@@ -1,0 +1,38 @@
+!!!
+%html{ lang: 'en', class: locale_options.many? ? 'i18n' : nil }
+  %head
+    %meta{ charset: 'utf-8' }
+    %title= page_title
+    = csrf_meta_tags
+    %meta{ property: 'locale', content: I18n.locale }
+    %meta{ property: 'environment', content: Rails.env }
+    %meta{ property: 'turbolinks-root', content: root_path }
+    = stylesheet_link_tag 'workarea/admin/application', media: 'all'
+    - if !Rails.env.test? && !Rails.env.development?
+      :javascript
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-69425367-1', 'workarea.com');
+
+      :javascript
+        window.heap=window.heap||[],heap.load=function(e,t){window.heap.appid=e,window.heap.config=t=t||{};var n=t.forceSSL||"https:"===document.location.protocol,a=document.createElement("script");a.type="text/javascript",a.async=!0,a.src=(n?"https:":"http:")+"//cdn.heapanalytics.com/js/heap-"+e+".js";var o=document.getElementsByTagName("script")[0];o.parentNode.insertBefore(a,o);for(var r=function(e){return function(){heap.push([e].concat(Array.prototype.slice.call(arguments,0)))}},p=["clearEventProperties","identify","setEventProperties","track","unsetEventProperty"],c=0;c<p.length;c++)heap[p[c]]=r(p[c])};
+
+        heap.load("203501109");
+        heap.identify({ handle: "#{current_user.id}", email: "#{current_user.email}" });
+        heap.setEventProperties({
+            "Application": "#{Rails.application.class.parent_name.titleize}",
+            "Environment": "#{Rails.env}",
+            "Major Version": "#{Workarea::VERSION::MAJOR}",
+            "Minor Version": "#{Workarea::VERSION::MINOR}",
+            "Patch Version": "#{Workarea::VERSION::PATCH}"
+        });
+
+    = favicon_link_tag 'workarea/admin/favicon.ico', rel: 'icon', type: 'image/x-icon'
+    = javascript_include_tag 'workarea/admin/application'
+    = yield :head
+
+  %body{ data: { turbolinks: Rails.env.test? ? 'false' : nil } }
+    = yield
+    = yield :javascript

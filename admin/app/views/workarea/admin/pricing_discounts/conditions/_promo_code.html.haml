@@ -1,0 +1,17 @@
+%fieldset.discount__rules-fields
+  %legend.discount__rules-legend
+    %span.discount__rules-heading Promo Code
+  %p.discount__optional-node-group{ data: { discount_options_menu_application_group: { type: 'promo_code' }.to_json } }
+    %span.discount__node= select_tag 'promo_code_option', options_for_select(discount.promo_code_options, discount.selected_promo_code_option), title: 'Promo Code is', data: { discount_options_menu: { type: 'promo' }.to_json }
+    %span.discount__optional-node-group{ data: { discount_options_menu_promo_code_group: { type: 'promo_codes_list' }.to_json } }
+      %span.discount__node
+        %span.property.property--inline
+          = text_field_tag 'discount[promo_codes_list]', discount.promo_codes_list, class: 'text-box text-box--medium', title: 'Promo Code', placeholder: 'SAVE20'
+          = link_to '#promo-code-help', data: { tooltip: '' } do
+            = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue')
+
+    %span.discount__optional-node-group{ data: { discount_options_menu_promo_code_group: { type: 'generated_codes_id' }.to_json } }
+      %span.discount__node= select_tag 'discount[generated_codes_id]', options_for_select(discount.code_list_options, discount.generated_codes_id), title: 'Promo Code List'
+
+#promo-code-help.tooltip-content
+  %p= t('workarea.admin.pricing_discounts.conditions.promo_code.list_help')

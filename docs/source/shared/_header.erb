@@ -1,0 +1,61 @@
+<div id='header' class='header'>
+  <div class='grid grid--flush'>
+    <div class='grid__cell 2/6--lap-and-up 2/5--widescreen'>
+      <div class='header__logo'>
+        <div class='grid grid--middle'>
+          <div class='grid__cell 1/6 1/4--lap-and-up'>
+            <% link_to '/', class: 'header__icon-button' do %>
+              <%= image_tag('logo.svg', alt: 'Workarea Commerce', class: 'header__icon') %>
+            <% end %>
+          </div>
+          <div class='grid__cell 4/6 3/4--lap-and-up'>
+            <%= link_to 'Workarea Documentation', '/', class: 'header__logo-text' %>
+          </div>
+          <div class='grid__cell 1/6'>
+            <div class='align-right'>
+              <a href='#' class='header__icon-button header__icon-button--menu'>
+                <%= image_tag('menu.svg', alt: 'Workarea Commerce', class: 'header__icon') %>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class='grid__cell 4/6--lap-and-up 3/5--widescreen'>
+      <div class='header__nav'>
+        <nav class='grid grid--auto grid--right grid--middle grid--flush'>
+          <span class='grid__cell'>
+            <%= link_to 'Release Notes', '/release-notes.html', class: 'header__nav-item' %>
+          </span>
+          <span class='grid__cell 1/6--lap-and-up'>
+            <%= link_to 'CLI', '/cli.html', class: 'header__nav-item' %>
+          </span>
+          <span class='grid__cell 1/6--lap-and-up'>
+            <a href='https://demo.workarea.com/api/docs' target='_blank' class='header__nav-item'>
+              <span>API</span>
+              <%= partial 'shared/svgs', locals: { svg: 'external' } %>
+            </a>
+          </span>
+          <span class='grid__cell 1/6--lap-and-up'>
+            <a href='https://workarea-community.slack.com' target='_blank' class='header__nav-item'>
+              <span>Slack</span>
+              <%= partial 'shared/svgs', locals: { svg: 'external' } %>
+            </a>
+          </span>
+          <span class='grid__cell 1/6--lap-and-up'>
+            <a href='https://support.workarea.com' target='_blank' class='header__nav-item'>
+              <span>Support</span>
+              <%= partial 'shared/svgs', locals: { svg: 'external' } %>
+            </a>
+          </span>
+          <span class='grid__cell 1/6--lap-and-up'>
+            <a href='https://www.workarea.com' target='_blank' class='header__nav-item header__nav-item--alt'>
+              <%= partial 'shared/svgs', locals: { svg: 'workarea' } %>
+            </a>
+          </span>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,100 @@
+#insight.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'insight')
+
+  %p Provides styling each dashboard insight section.
+
+  %p should provide basic encapsulating styles:
+  .style-guide__example-block
+    .insight
+      .insight__date
+        %span.insight__period Foouary
+      .insight__heading Insight Heading
+      .insight__body
+        %p.insight__note Shibuya apophenia stimulate sign.
+        %p carbon 3D-printed into denim rain sub-orbital uplink human sign gang tanto shoes augmented reality. singularity ablative bridge nodal point shoes bicycle pistol city office soul-delay fetishism BASE jump render-farm. refrigerator apophenia meta- alcohol smart- military-grade carbon computer courier papier-mache convenience store rain cyber-. rain uplink pre- augmented reality tube sensory papier-mache order-flow saturation point boy alcohol saturation point tower. fetishism grenade city industrial grade papier-mache grenade fetishism range-rover vehicle Shibuya apophenia stimulate sign. assassin cyber- systema concrete wristwatch disposable cartel narrative vehicle rifle papier-mache neon sprawl. monofilament youtube market hacker construct DIY tattoo cartel table range-rover cartel media bomb. long-chain hydrocarbons vinyl urban systema cardboard paranoid Chiba -ware carbon math- -space towards into. modem augmented reality physical papier-mache denim dolphin digital pre- physical rifle computer youtube city.
+
+  %p should provide adequate gutters between adjascent insights:
+  .style-guide__example-block
+    .insight
+      .insight__date
+        %span.insight__period Barbruary
+      .insight__heading Goof Tube
+      .insight__body
+        %p Party Palace
+    .insight
+      .insight__date
+        %span.insight__period Barch
+      .insight__heading Food Doof
+      .insight__body
+        %p Pickle Panda
+
+  %p should support products:
+  .style-guide__example-block
+    .insight
+      .insight__date
+        %span.insight__period Bazpril
+      .insight__heading Top Party Products
+      .insight__body
+        %p.insight__note You know, parties!
+        .grid
+          - 4.times do |index|
+            .grid__cell.grid__cell--50.grid__cell--25-at-wide
+              .insight__product
+                = link_to image_tag('workarea/core/placeholder.png', size: '64x88', class: 'insight__product-image'), '#'
+                .insight__product-name= link_to "Product Title #{index + 1}", '#'
+                .insight__product-info
+                  %strong $1234.56
+                .insight__product-info
+                  %strong 16%
+                  of total party
+
+  %p should support <code>table</code> elements:
+  .style-guide__example-block
+    .insight
+      .insight__date
+        %span.insight__period Bary
+      .insight__heading Tabular Party Puppies
+      .insight__body
+        %p.insight__note Carbon 3D-printed into denim rain sub-orbital uplink human sign gang tanto shoes augmented reality.
+        %table
+          %thead
+            %tr
+              - 5.times do |index|
+                %th.align-center Heading #{index + 1}
+          %tbody
+            - 4.times do |row|
+              %tr
+                - 5.times do |column|
+                  %td.align-center Data #{(row + 1) * (column + 1)}
+
+  %p should support charts:
+  .style-guide__example-block
+    .insight
+      .insight__date
+        %span.insight__period Quune
+      .insight__heading Party-Loving Customers
+      .insight__body
+        - insight = Workarea::Insights::CustomerAcquisition.current
+        %p.insight__note
+          %strong 3
+          New Customers
+        = area_chart insight.results.reduce({}) { |m, r| m.merge(r['date'] => r['new_customers']) }, Workarea.config.default_chartkick_options.merge(width: '80%', height: '250px')
+
+  %p should visually separate when stacking sections:
+  .style-guide__example-block
+    .insight
+      .insight__date
+        %span.insight__period Corge
+      .insight__heading I Like to Move It
+      .insight__body
+        .insight__section
+          sunglasses digital media sunglasses rifle sentient faded numinous. voodoo god A.I. j-pop motion shanty town nano- vehicle sprawl. wristwatch pen geodesic network bomb long-chain hydrocarbons wonton soup advert. sign otaku drone savant car fetishism office man. BASE jump Kowloon tiger-team Legba numinous neural long-chain hydrocarbons post-. monofilament convenience store lights construct decay realism bicycle rebar.
+        .insight__section
+          geodesic tanto free-market tank-traps Kowloon San Francisco bridge neural. cartel fetishism systemic paranoid concrete marketing office sub-orbital. engine rain construct augmented reality neon kanji wonton soup rain. plastic narrative alcohol order-flow monofilament garage order-flow neural. long-chain hydrocarbons industrial grade cyber- singularity tattoo franchise cyber- singularity. man hotdog warehouse fetishism alcohol futurity cardboard cyber-.
+
+        .insight__section
+          Kowloon voodoo god franchise 3D-printed carbon pistol weathered youtube. human faded denim garage assault Kowloon tanto corporation. spook fluidity camera Kowloon bomb boat face forwards hacker. savant shoes boat artisanal j-pop Shibuya Tokyo shanty town. singularity urban digital RAF free-market sub-orbital bomb franchise. towards chrome office denim BASE jump silent Shibuya sunglasses.
+
+        .insight__section
+          refrigerator footage fetishism neural papier-mache assault bridge -space. range-rover sprawl claymore mine systemic digital rain San Francisco katana. saturation point rain wonton soup drugs cardboard monofilament silent free-market. assault rifle garage rebar convenience store apophenia advert systema. youtube carbon free-market refrigerator saturation point towards j-pop camera. long-chain hydrocarbons vehicle alcohol tattoo geodesic table jeans construct.

@@ -1,0 +1,43 @@
+- @page_title = t('workarea.admin.navigation_taxons.new.page_title')
+
+.new-navigation-taxon.view
+  .view__header
+    .grid.grid--middle.grid--center
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to "↑ #{t('workarea.admin.navigation_taxons.new.index_link')}", navigation_taxons_path(taxon_ids: @parent.parent_ids + [@parent.id])
+          %h1= t('workarea.admin.navigation_taxons.new.title')
+
+  - @taxon.errors.full_messages.each do |message|
+    = render_message 'error', message
+
+  .view__container.view__container--narrow
+    = form_tag navigation_taxons_path, method: 'post', id: 'link_form', data: { unsaved_changes: '' } do
+      = hidden_field_tag 'parent_id', @parent.id
+      = hidden_field_tag 'position', params[:position]
+
+      .new-navigation-link__section
+        .property
+          = label_tag 'taxon[name]', t('workarea.admin.fields.name'), class: 'property__name'
+          = text_field_tag 'taxon[name]', nil, class: 'text-box', placeholder: t('workarea.admin.navigation_taxons.new.name_placeholder')
+
+      %span.heading.heading--3= t('workarea.admin.navigation_taxons.new.and_link_it_to')
+
+      .new-navigation-link__section{ data: { new_navigation_taxon: '' } }
+        .new-navigation-link__field
+          .property
+            = label_tag 'navigable_type', t('workarea.admin.navigation_taxons.new.navigable_type_label'), class: 'property__name'
+            = select_tag 'navigable_type', options_for_select(navigable_types)
+        .new-navigation-link__field
+          .property
+            = label_tag 'navigable_id', t('workarea.admin.navigation_taxons.new.id_label'), class: 'property__name'
+            = select_tag 'navigable_id', nil, include_blank: true
+
+      .new-navigation-link__section
+        .property
+          = label_tag 'taxon[url]', t('workarea.admin.fields.url'), class: 'property__name'
+          = text_field_tag 'taxon[url]', @taxon.url, class: 'text-box'
+
+      .workflow-bar
+        .grid.grid--auto.grid--right.grid--middle
+          .grid__cell= button_tag t('workarea.admin.navigation_taxons.new.save_taxonomy'), value: 'create_taxon', class: 'workflow-bar__button workflow-bar__button--create'

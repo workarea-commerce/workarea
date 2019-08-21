@@ -1,0 +1,95 @@
+- @page_title = t('workarea.admin.content_assets.index.page_title')
+
+.view
+  .view__header
+    .grid.grid--middle.grid--center
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to "↑ #{t('workarea.admin.content_assets.index.dashboard_link')}", store_dashboards_path, class: 'view__dashboard-button'
+          %h1.heading--no-margin= t('workarea.admin.content_assets.index.title')
+          %p= t('workarea.admin.content_assets.index.description')
+
+  .view__container
+
+    - if Workarea::Configuration::S3.configured?
+      .direct-upload{ data: { direct_upload: { type: 'asset' }.to_json, unsaved_changes: '' } }
+        .direct-upload__content
+          .direct-upload__heading= t('workarea.admin.direct_uploads.drop_files_here')
+          .direct-upload__info= t('workarea.admin.direct_uploads.info')
+
+    .browsing-controls.browsing-controls--with-divider.browsing-controls--center{ class: ('browsing-controls--filters-displayed' unless @search.toggle_facets?) }
+      = form_tag content_assets_path, method: 'get', id: 'search_form', class: 'browsing-controls__form' do
+        = facet_hidden_inputs(@search.facets)
+        .browsing-controls__sort
+          .property.property--inline
+            = label_tag 'sort', t('workarea.admin.search.sort_by'), class: 'property__name'
+            = select_tag :sort, options_for_select(@search.sorts, selected: @search.sort), data: { form_submitting_control: '' }
+
+        .browsing-controls__search
+          .search-form
+            = text_field_tag :q, params[:q], class: 'search-form__input', id: 'search_assets', title:  t('workarea.admin.search.keywords'), placeholder: t('workarea.admin.search.keywords')
+            = submit_tag 'search_assets', class: 'search-form__button'
+
+        = render 'workarea/admin/shared/creation_date', search: @search, form_path: content_assets_path
+
+        - if @search.facets.present?
+          - @search.facets.each do |facet|
+            = render "workarea/admin/facets/#{facet.type}", facet: facet
+
+        - if @search.toggle_facets?
+          .browsing-controls__toggle-filters
+            %button.text-button{ type: 'button', data: { toggle_filters: '' } }= t('workarea.admin.search.show_filters')
+
+      = render 'workarea/admin/facets/applied', search: @search, reset_path: content_assets_path
+
+      %p.browsing-controls__count{ data: { browsing_controls_count: @search.total } }
+        = t('workarea.admin.content_assets.index.asset_pluralize', count: @search.total)
+
+    - if @search.results.any?
+      %table.index-table
+        %thead
+          %tr
+            %th.index-table__control-cell
+              .checkbox
+                = check_box_tag 'select_all', nil, false, id: 'select_all', class: 'checkbox__input', data: { bulk_action_select_all: '' }
+                = label_tag 'select_all', t('workarea.admin.bulk_actions.select_all'), class: 'checkbox__label'
+            %th= t('workarea.admin.fields.image')
+            %th= t('workarea.admin.fields.name')
+            %th= t('workarea.admin.fields.file_name')
+            %th= t('workarea.admin.fields.type')
+            %th.align-center= t('workarea.admin.fields.dimensions')
+            %th= t('workarea.admin.fields.updated_at')
+        %tbody
+          - @search.results.each do |result|
+            %tr.index-table__row
+              %td.index-table__control-cell
+                .checkbox
+                  = check_box_tag 'global_id', result.to_gid_param, false, class: 'checkbox__input', id: dom_id(result), data: { bulk_action_item: '' }
+                  = label_tag dom_id(result), '', class: 'checkbox__label', title: t('workarea.admin.bulk_actions.add_summary_button')
+              %td.index-table__image-cell
+                = link_to content_asset_path(result), class: 'index-table__image-link' do
+                  - if result.image?
+                    = image_tag result.large_thumb.url, class: 'index-table__image'
+                  - else
+                    = inline_svg 'workarea/admin/icons/asset.svg', class: 'index-table__image svg-icon svg-icon--gray svg-icon--large'
+              %td
+                = link_to result.name, content_asset_path(result)
+                = upcoming_changesets_icon_for(result)
+                = comments_icon_for(result)
+                = favicon_icon_for(result)
+              %td= result.file_name
+              %td= result.type
+              %td.align-center
+                - if result.image?
+                  #{result.file_width} X #{result.file_height}
+              %td= local_time_ago(result.updated_at)
+
+      - if @search.results.total_pages > 1
+        = render 'workarea/admin/shared/pagination', collection: @search.results
+
+  .workflow-bar
+    .grid
+      .grid__cell.grid__cell--50
+        = render 'workarea/admin/shared/bulk_actions', klass: Workarea::Content::Asset, search: @search
+      .grid__cell.grid__cell--50.align-right
+        = link_to t('workarea.admin.content_assets.index.add_asset'), new_content_asset_path, id: 'add_asset', class: 'workflow-bar__button workflow-bar__button--create'

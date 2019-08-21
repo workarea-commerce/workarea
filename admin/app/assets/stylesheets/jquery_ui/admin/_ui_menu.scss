@@ -1,0 +1,44 @@
+/*------------------------------------*\
+    #UI-MENU
+\*------------------------------------*/
+
+$menu-bg-color:  $white !default;
+
+$menu-item-border-color:    $border-color !default;
+$menu-item-hover-bg-color:  $off-white !default;
+
+
+.ui-menu {
+    @extend %list-reset;
+    background: $menu-bg-color;
+}
+
+    .ui-menu-heading {
+        @extend %heading;
+        @extend %heading--5;
+        @extend %heading--no-margin;
+        padding: $spacing-unit;
+    }
+
+    .ui-menu-item { /* [1] */
+        @extend %link;
+        @extend %link--secondary;
+        padding: $spacing-unit;
+        background: $menu-bg-color;
+        border-bottom: 1px solid $menu-item-border-color;
+        cursor: pointer;
+        transition: background-color $global-transition-speed ease-out;
+
+        &:last-of-type {
+            border-bottom: 0;
+        }
+
+        &:hover,
+        &.ui-state-focus {
+            background-color: $menu-item-hover-bg-color;
+        }
+    }
+
+        .ui-menu-item-wrapper {
+            display: block;
+        }

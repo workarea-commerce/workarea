@@ -1,0 +1,30 @@
+/*------------------------------------*\
+    #IMAGE-AND-TEXT-CONTENT-BLOCK
+\*------------------------------------*/
+
+.image-and-text-content-block {
+    @extend %clearfix;
+}
+
+
+    .image-and-text-content-block__image-container {
+        display: block;
+        margin: 0 $spacing-unit $spacing-unit;
+    }
+
+    .image-and-text-content-block__image-container--left {
+        margin-left: 0;
+        float: left;
+    }
+
+    .image-and-text-content-block__image-container--right {
+        margin-right: 0;
+        float: right;
+    }
+
+        .image-and-text-content-block__image-link {}
+
+            .image-and-text-content-block__image {}
+
+
+    .image-and-text-content-block__text {}

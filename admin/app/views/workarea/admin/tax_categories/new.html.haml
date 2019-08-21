@@ -1,0 +1,39 @@
+- @page_title = t('workarea.admin.tax_categories.new.title')
+
+.view
+  .view__header
+    .grid.grid--middle.grid--center
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@category)
+          %h1= t('workarea.admin.tax_categories.new.title')
+
+  .view__container
+    = form_tag tax_categories_path(@category), method: :post, id: 'tax_category_form', data: { unsaved_changes: '' } do
+      .grid
+        .grid__cell
+          - @category.errors.full_messages.each do |message|
+            = render_message 'error', message
+
+          .section
+            .property.property--required
+              = label_tag 'category_name', t('workarea.admin.fields.name'), class: 'property__name'
+              = text_field_tag 'category[name]', @category.name, class: 'text-box text-box--i18n', required: true
+
+            .property.property--required
+              = label_tag 'category_code', t('workarea.admin.fields.code'), class: 'property__name'
+              = text_field_tag 'category[code]', @category.code, class: 'text-box text-box--i18n', required: true
+
+            = append_partials('admin.tax_category_fields', category: @category)
+
+        .grid__cell
+
+          .box
+            .box__header= t('workarea.admin.tax_categories.new.usage.title')
+            .box__body
+              %p= t('workarea.admin.tax_categories.new.usage.info')
+              %p= t('workarea.admin.tax_categories.new.usage.instruction_html', help_link: link_to(t('workarea.admin.tax_categories.new.usage.help_link'), help_path('import-tax-rates')))
+
+      .workflow-bar
+        .grid.grid--auto.grid--right.grid--middle
+          .grid__cell= button_tag t('workarea.admin.tax_categories.new.create_tax_category'), value: 'create_tax_category', class: 'workflow-bar__button workflow-bar__button--create'

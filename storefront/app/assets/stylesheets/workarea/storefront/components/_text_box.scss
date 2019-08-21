@@ -1,0 +1,36 @@
+/*------------------------------------*\
+    #TEXT-BOX
+\*------------------------------------*/
+
+$text-box-border-color:          $black !default;
+$text-box-invalid-border-color:  $red !default;
+$text-box-border:                1px solid $text-box-border-color !default;
+
+$text-box-width:              200px !default;
+$text-box-x-small-width:       62px !default;
+$text-box-small-width:         96px !default;
+$text-box-wide-width:         256px !default;
+
+$text-box-multi-line-height:  168px !default;
+
+
+.text-box {
+    padding: ($spacing-unit / 4);
+    width: $text-box-width;
+    border: $text-box-border;
+    border-radius: 0;
+
+    &:focus {
+        @include focus-ring;
+    }
+
+    .property--invalid & {
+        border-color: $text-box-invalid-border-color;
+    }
+}
+
+.text-box--x-small    { width:  $text-box-x-small-width;     }
+.text-box--small      { width:  $text-box-small-width;       }
+.text-box--wide       { width:  $text-box-wide-width;        }
+.text-box--full       { width:  100%;                        }
+.text-box--multi-line { height: $text-box-multi-line-height; }

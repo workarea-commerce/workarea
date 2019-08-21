@@ -1,0 +1,71 @@
+/*------------------------------------*\
+    #HIDDEN
+\*------------------------------------*/
+
+/**
+ * Hide a block-level element.
+ */
+.hidden,
+%hidden {
+    display: none !important;
+}
+
+
+/**
+ * Hide a block-level element for greater-than or equal-to the breakpoint.
+ */
+.hidden--for-medium,
+%hidden--for-medium {
+    display: block !important;
+
+    @include respond-to($medium-breakpoint) {
+        display: none !important;
+    }
+}
+
+.hidden--for-wide,
+%hidden--for-wide {
+    display: block !important;
+
+    @include respond-to($wide-breakpoint) {
+        display: none !important;
+    }
+}
+
+
+/**
+ * Hide a block-level element for the breakpoint.
+ */
+.hidden--for-small-only,
+%hidden--for-small-only {
+    @include respond-to($medium-breakpoint) {
+        display: block !important;
+    }
+}
+
+.hidden--for-medium-only,
+%hidden--for-medium-only {
+    display: block !important;
+
+    @include respond-to($medium-breakpoint) {
+        display: none !important;
+    }
+
+    @include respond-to($wide-breakpoint) {
+        display: block !important;
+    }
+}
+
+.hidden--for-wide-only,
+%hidden--for-wide-only {
+    display: block !important;
+
+    @include respond-to($wide-breakpoint) {
+        display: none !important;
+    }
+
+    @include respond-to($x-wide-breakpoint) {
+        display: block !important;
+    }
+}
+

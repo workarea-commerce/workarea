@@ -1,0 +1,16 @@
+Description:
+    Creates a new custom pricing discount that can be applied to order
+    totals, shipping totals, products, and other price paths.
+
+Example:
+    rails generate workarea:discount FreeShipping
+
+    creates:
+        app/models/workarea/pricing/discount/free_shipping.rb
+        app/view_models/workarea/admin/discounts/free_shipping_view_model.rb
+        app/views/workarea/admin/pricing_discounts/properties/_free_shipping.html.haml
+        app/views/workarea/admin/create_pricing_discounts/_free_shipping.html.haml
+        test/models/workarea/pricing/discount/free_shipping_test.rb
+        test/view_models/workarea/admin/discounts/free_shipping_view_model_test.rb
+    modifies:
+      config/initializers/workarea.rb

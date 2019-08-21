@@ -1,0 +1,106 @@
+#loading.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'loading')
+
+  %p Displays a general purpose loading/busy indicator.
+
+  %p Falls back to an animated gif if CSS animations is not supported by the browser.
+
+  .style-guide__example-block
+    .loading
+      = I18n.t('workarea.messages.loading')
+
+  .style-guide__unit-test
+
+    %h4 Unit Test
+
+    %p should work with <code>div</code> (block-level) elements
+    .style-guide__example-block
+      .loading
+        = I18n.t('workarea.messages.loading')
+
+    %p should work with <code>p</code> (block-level) elements
+    .style-guide__example-block
+      %p.loading
+        = I18n.t('workarea.messages.loading')
+
+    %p should work with <code>span</code> (inline) elements
+    .style-guide__example-block
+      %span.loading
+        = I18n.t('workarea.messages.loading')
+
+#loading--fill-parent.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'loading__fill_parent')
+
+  %p Displays a general purpose #{link_to_style_guide('components', 'loading', true)}/busy indicator that fills a relatively-positioned container.
+
+  - relative_styles = 'position: relative; height: 200px;'
+
+  %p The example containers below have the following styles applied: <code>#{relative_styles}</code>
+
+  .style-guide__example-block{ style: relative_styles }
+    .loading.loading--fill-parent
+
+  .style-guide__unit-test
+
+    %h4 Unit Test
+
+    %p should work with <code>div</code> (block-level) elements
+    .style-guide__example-block{ style: relative_styles }
+      .loading.loading--fill-parent
+
+    %p should work with <code>p</code> (block-level) elements
+    .style-guide__example-block{ style: relative_styles }
+      %p.loading.loading--fill-parent
+
+    %p should work with <code>span</code> (inline) elements
+    .style-guide__example-block{ style: relative_styles }
+      %span.loading.loading--fill-parent
+
+#loading--inline.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'loading__inline')
+
+  %p Displays an inline loading/busy indicator.
+
+  .style-guide__example-block
+    %span{class: 'loading loading--inline'}= I18n.t('workarea.messages.loading')
+
+  .style-guide__unit-test
+
+    %h4 Unit Test
+
+    %p should work with <code>button</code> elements and the loading--light modifier
+    .style-guide__example-block
+      = button_tag class: 'button' do
+        %span{class: 'loading loading--inline loading--light'}= I18n.t('workarea.messages.loading')
+
+    %p should work with <code>div</code> (block-level) elements
+    .style-guide__example-block
+      %div.loading.loading--inline= I18n.t('workarea.messages.loading')
+
+    %p should work with <code>p</code> (block-level) elements
+    .style-guide__example-block
+      %p{class: 'loading loading--inline'}= I18n.t('workarea.messages.loading')
+
+    %p should work with <code>span</code> (inline) elements
+    .style-guide__example-block
+      %span{class: 'loading loading--inline'}= I18n.t('workarea.messages.loading')
+
+    %p should work with <code>h1</code> (inline) elements
+    .style-guide__example-block
+      %h1{class: 'loading loading--inline'}= I18n.t('workarea.messages.loading')
+
+#loading--light.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'loading__light')
+
+  %p should change the indicator to a light option:
+
+  .style-guide__example-block{ style: 'background: black; color: white;' }
+    .loading.loading--light
+      = I18n.t('workarea.messages.loading')
+
+  .style-guide__example-block{ style: 'background: black; color: white;' }
+    %span{class: 'loading loading--inline loading--light'}= I18n.t('workarea.messages.loading')

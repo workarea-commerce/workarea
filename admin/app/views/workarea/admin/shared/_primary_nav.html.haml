@@ -1,0 +1,113 @@
+#primary_nav{ class: ('hidden' unless local_assigns[:visible].presence) }
+
+  .primary-nav{ role: 'navigation' }
+
+    .grid.grid--auto.grid--center
+      .grid__cell= link_to "↑ #{t('workarea.admin.shared.primary_nav.main_dashboard')}", root_path, class: "primary-nav__home-link #{('primary-nav__home-link--hidden' if request.path == root_path)}"
+
+    .search-form.search-form--major
+      = form_tag search_path, method: 'get', role: 'search', target: '_parent' do
+        = search_field_tag :q, nil, placeholder: t('workarea.admin.shared.primary_nav.search_placeholder'), title: t('workarea.admin.shared.primary_nav.search_placeholder'), tabindex: '0', class: 'search-form__input', data: { categorized_autocomplete_field: '' }, id: 'primary_nav_admin_search', aria: { label: t('workarea.admin.shared.primary_nav.search_placeholder') }
+        = submit_tag t('workarea.admin.shared.primary_nav.search'), class: 'search-form__button'
+
+    .primary-nav__menu
+      .primary-nav__section
+        .primary-nav__heading= link_to t('workarea.admin.shared.primary_nav.site_planner'), releases_path, tabindex: 0, class: 'primary-nav__heading-link'
+        %ul.primary-nav__children
+          - if release_options.empty?
+            %li{ class: "primary-nav__item" }
+              %span= t('workarea.admin.shared.primary_nav.no_upcoming_releases')
+            %li{ class: "primary-nav__item" }= link_to t('workarea.admin.shared.primary_nav.create_one'), create_releases_path, class: navigation_link_classes(create_releases_path)
+
+          - else
+            - release_options.take(5).each do |release|
+              %li{ class: "primary-nav__item" }
+                = link_to url_for(release), class: navigation_link_classes(release_path(release)) do
+                  = truncate(release.name, length: 20)
+                  = surround '(', ')' do
+                    - if release.publish_at.present?
+                      = local_time(release.publish_at, :date_only)
+                    - else
+                      = t('workarea.admin.shared.primary_nav.not_scheduled')
+
+          = append_partials('admin.releases_menu')
+
+      .primary-nav__section
+        .primary-nav__heading= link_to t('workarea.admin.shared.primary_nav.store'), store_dashboards_path, tabindex: 0, class: 'primary-nav__heading-link'
+        %ul.primary-nav__children
+          %li{ class: "primary-nav__item" }= link_to t('workarea.admin.shared.primary_nav.home_page'), current_system_page_content_for(:home_page), class: navigation_link_classes(url_for(current_system_page_content_for(:home_page)))
+          %li{ class: "primary-nav__item" }= link_to t('workarea.admin.shared.primary_nav.content_pages'), content_pages_path, class: navigation_link_classes(content_pages_path)
+          %li{ class: "primary-nav__item" }= link_to t('workarea.admin.shared.primary_nav.assets'), content_assets_path, class: navigation_link_classes(content_assets_path)
+          %li{ class: "primary-nav__item" }= link_to t('workarea.admin.shared.primary_nav.primary_navigation'), navigation_menus_path, class: navigation_link_classes(navigation_menus_path)
+          %li{ class: "primary-nav__item" }= link_to t('workarea.admin.shared.primary_nav.taxonomy'), navigation_taxons_path, class: navigation_link_classes(navigation_taxons_path)
+          %li{ class: "primary-nav__item" }= link_to t('workarea.admin.shared.primary_nav.system_pages'), content_index_path, class: navigation_link_classes(content_index_path)
+          = append_partials('admin.store_menu')
+
+      .primary-nav__section
+        .primary-nav__heading= link_to t('workarea.admin.shared.primary_nav.catalog'), catalog_dashboards_path, tabindex: 0, class: 'primary-nav__heading-link'
+        %ul.primary-nav__children
+          %li{ class: "primary-nav__item" }= link_to t('workarea.admin.shared.primary_nav.products'), catalog_products_path, class: navigation_link_classes(catalog_products_path)
+          %li{ class: "primary-nav__item" }= link_to t('workarea.admin.shared.primary_nav.categories'), catalog_categories_path, class: navigation_link_classes(catalog_categories_path)
+          %li{ class: "primary-nav__item" }= link_to t('workarea.admin.shared.primary_nav.pricing'), pricing_skus_path, class: navigation_link_classes(pricing_skus_path)
+          %li{ class: "primary-nav__item" }= link_to t('workarea.admin.shared.primary_nav.inventory'), inventory_skus_path, class: navigation_link_classes(inventory_skus_path)
+          = append_partials('admin.catalog_menu')
+
+      .primary-nav__section
+        .primary-nav__heading= link_to t('workarea.admin.shared.primary_nav.orders'), orders_dashboards_path, tabindex: 0, class: 'primary-nav__heading-link'
+        %ul.primary-nav__children
+          %li{ class: "primary-nav__item" }= link_to t('workarea.admin.shared.primary_nav.all_orders'), orders_path, class: navigation_link_classes(orders_path)
+          %li{ class: "primary-nav__item" }= link_to t('workarea.admin.shared.primary_nav.todays_orders'), todays_orders_path, class: navigation_link_classes(todays_orders_path)
+          %li{ class: "primary-nav__item" }= link_to t('workarea.admin.shared.primary_nav.yesterdays_orders'), yesterdays_orders_path, class: navigation_link_classes(yesterdays_orders_path)
+          %li{ class: "primary-nav__item" }= link_to t('workarea.admin.shared.primary_nav.payment_transactions'), payment_transactions_path, class: navigation_link_classes(payment_transactions_path)
+          = append_partials('admin.orders_menu')
+
+      .primary-nav__section
+        .primary-nav__heading= link_to t('workarea.admin.shared.primary_nav.people'), people_dashboards_path, tabindex: 0, class: 'primary-nav__heading-link'
+        %ul.primary-nav__children
+          %li{ class: "primary-nav__item" }= link_to t('workarea.admin.shared.primary_nav.all_people'), users_path, class: navigation_link_classes(users_path)
+          %li{ class: "primary-nav__item" }= link_to t('workarea.admin.shared.primary_nav.customers'), customers_path, class: navigation_link_classes(customers_path)
+          %li{ class: "primary-nav__item" }= link_to t('workarea.admin.shared.primary_nav.administrators'), administrators_path, class: navigation_link_classes(administrators_path)
+          %li{ class: "primary-nav__item" }= link_to t('workarea.admin.shared.primary_nav.todays_signups'), todays_signups_path, class: navigation_link_classes(todays_signups_path)
+          = append_partials('admin.people_menu')
+
+      .primary-nav__section
+        .primary-nav__heading= link_to t('workarea.admin.shared.primary_nav.search'), search_dashboards_path, tabindex: 0, class: 'primary-nav__heading-link'
+        %ul.primary-nav__children
+          - current_popular_searches.each do |result|
+            %li{ class: "primary-nav__item" }= link_to result['query_string'], search_customizations_path(q: result['query_string']), data: { method: 'post' }, class: navigation_link_classes(search_customization_path(result['query_string']))
+          %li{ class: "primary-nav__item" }= link_to t('workarea.admin.shared.primary_nav.customizations'), search_customizations_path, class: navigation_link_classes(search_customizations_path)
+          = append_partials('admin.search_menu')
+
+      .primary-nav__section
+        .primary-nav__heading= link_to t('workarea.admin.shared.primary_nav.marketing'), marketing_dashboards_path, tabindex: 0, class: 'primary-nav__heading-link'
+        %ul.primary-nav__children
+          %li{ class: "primary-nav__item" }= link_to t('workarea.admin.shared.primary_nav.discounts'), pricing_discounts_path, class: navigation_link_classes(pricing_discounts_path)
+          %li{ class: "primary-nav__item" }= link_to t('workarea.admin.shared.primary_nav.transactional_emails'), content_emails_path, class: navigation_link_classes(content_emails_path)
+          %li{ class: "primary-nav__item" }= link_to t('workarea.admin.shared.primary_nav.promo_codes'), pricing_discount_code_lists_path, class: navigation_link_classes(pricing_discount_code_lists_path)
+          %li{ class: "primary-nav__item" }= link_to t('workarea.admin.shared.primary_nav.email_signups'), email_signups_path, class: navigation_link_classes(email_signups_path)
+          = append_partials('admin.marketing_menu')
+
+      = append_partials('admin.primary_nav')
+
+      .primary-nav__section
+        .primary-nav__heading= link_to t('workarea.admin.shared.primary_nav.reports'), reports_dashboards_path, tabindex: 0, class: 'primary-nav__heading-link'
+        %ul.primary-nav__children
+          %li{ class: "primary-nav__item" }= link_to t('workarea.admin.shared.primary_nav.insights'), insights_report_path, class: navigation_link_classes(insights_report_path)
+          %li{ class: "primary-nav__item" }= link_to t('workarea.admin.shared.primary_nav.sales_over_time'), sales_over_time_report_path, class: navigation_link_classes(sales_over_time_report_path)
+          %li{ class: "primary-nav__item" }= link_to t('workarea.admin.shared.primary_nav.average_order_value'), average_order_value_report_path, class: navigation_link_classes(average_order_value_report_path)
+          %li{ class: "primary-nav__item" }= link_to t('workarea.admin.shared.primary_nav.sales_by_product'), sales_by_product_report_path, class: navigation_link_classes(sales_by_product_report_path)
+          %li{ class: "primary-nav__item" }= link_to t('workarea.admin.shared.primary_nav.sales_by_traffic_referrer'), sales_by_traffic_referrer_report_path, class: navigation_link_classes(sales_by_traffic_referrer_report_path)
+          %li{ class: "primary-nav__item" }= link_to t('workarea.admin.shared.primary_nav.customers'), customers_report_path, class: navigation_link_classes(customers_report_path)
+          %li{ class: "primary-nav__item" }= link_to t('workarea.admin.shared.primary_nav.searches'), searches_report_path, class: navigation_link_classes(searches_report_path)
+          = append_partials('admin.reports_menu')
+
+      .primary-nav__section
+        .primary-nav__heading= link_to t('workarea.admin.shared.primary_nav.settings'), settings_dashboards_path, tabindex: 0, class: 'primary-nav__heading-link'
+        %ul.primary-nav__children
+          %li{ class: "primary-nav__item" }= link_to t('workarea.admin.shared.primary_nav.search'), search_settings_path, class: navigation_link_classes(search_settings_path)
+          %li{ class: "primary-nav__item" }= link_to t('workarea.admin.shared.primary_nav.tax_categories'), tax_categories_path, class: navigation_link_classes(tax_categories_path)
+          %li{ class: "primary-nav__item" }= link_to t('workarea.admin.shared.primary_nav.shipping_services'), shipping_services_path, class: navigation_link_classes(shipping_services_path)
+          %li{ class: "primary-nav__item" }= link_to t('workarea.admin.shared.primary_nav.redirects'), navigation_redirects_path, class: navigation_link_classes(navigation_redirects_path)
+          %li{ class: "primary-nav__item" }= link_to t('workarea.admin.shared.primary_nav.data_files'), data_files_path, class: navigation_link_classes(data_files_path)
+          = append_partials('admin.settings_menu')
+          %li{ class: "primary-nav__item" }= link_to t('workarea.admin.shared.primary_nav.trash'), trash_index_path, class: navigation_link_classes(trash_index_path)

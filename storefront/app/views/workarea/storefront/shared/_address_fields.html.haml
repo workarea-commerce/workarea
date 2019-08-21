@@ -1,0 +1,105 @@
+- title_label = label.gsub(/_/, ' ').capitalize
+
+.address-fields
+  .grid
+    .grid__cell.grid__cell--50-at-medium
+      .property
+        = label_tag "#{label}[first_name]", nil, class: 'property__name' do
+          %span.property__requirement.property__requirement--required= t('workarea.storefront.forms.required')
+          %span.property__text= t('workarea.storefront.addresses.first_name')
+        .value
+          = text_field_tag "#{label}[first_name]", address.first_name, class: 'text-box text-box--full', required: true, title: "#{title_label} #{t('workarea.storefront.addresses.first_name')}", autocomplete: 'given-name'
+          - if address.errors[:first_name].present?
+            %span.value__error= address.errors[:first_name].first
+    .grid__cell.grid__cell--50-at-medium
+      .property
+        = label_tag "#{label}[last_name]", nil, class: 'property__name' do
+          %span.property__requirement.property__requirement--required= t('workarea.storefront.forms.required')
+          %span.property__text= t('workarea.storefront.addresses.last_name')
+        .value
+          = text_field_tag "#{label}[last_name]", address.last_name, class: 'text-box text-box--full', required: true, autocomplete: 'family-name', title: "#{title_label} #{t('workarea.storefront.addresses.last_name')}"
+          - if address.errors[:last_name].present?
+            %span.value__error= address.errors[:last_name].first
+
+  = optional_field(t('workarea.storefront.addresses.company_prompt'), address.company) do
+    .property
+      = label_tag "#{label}[company]", nil, class: 'property__name' do
+        %span.property__text= t('workarea.storefront.addresses.company')
+        %span.property__requirement.property__requirement--optional= t('workarea.storefront.forms.optional')
+      .value= text_field_tag "#{label}[company]", address.company, class: 'text-box text-box--wide', title: "#{title_label} #{t('workarea.storefront.addresses.company')}", autocomplete: 'organization'
+
+  .property
+    = label_tag "#{label}[street]", nil, class: 'property__name' do
+      %span.property__requirement.property__requirement--required= t('workarea.storefront.forms.required')
+      %span.property__text= t('workarea.storefront.addresses.street')
+    .value
+      = text_field_tag "#{label}[street]", address.street, class: 'text-box text-box--full', required: true, autocomplete: 'address-line1', title: "#{title_label} #{t('workarea.storefront.addresses.street')}"
+      - if address.errors[:street].present?
+        %span.value__error= address.errors[:street].first
+      - unless address.allow_po_box?
+        %span.value__note= t('workarea.storefront.addresses.no_po_boxes')
+
+  .property
+    = label_tag "#{label}[street_2]", nil, class: 'property__name' do
+      %span.property__text= t('workarea.storefront.addresses.street_2')
+      %span.property__requirement.property__requirement--optional= t('workarea.storefront.forms.optional')
+    .value
+      = text_field_tag "#{label}[street_2]", address.street_2, class: 'text-box text-box--wide', autocomplete: 'address-line2', title: "#{title_label} #{t('workarea.storefront.addresses.street_2')}", placeholder: t('workarea.storefront.addresses.street_2_placeholder')
+      - if address.errors[:street_2].present?
+        %span.value__error= address.errors[:street_2].first
+
+  .property
+    = label_tag "#{label}[city]", nil, class: 'property__name' do
+      %span.property__requirement.property__requirement--required= t('workarea.storefront.forms.required')
+      %span.property__text= t('workarea.storefront.addresses.city')
+    .value
+      = text_field_tag "#{label}[city]", address.city, class: 'text-box', required: true, autocomplete: 'address-level2', title: "#{title_label} #{t('workarea.storefront.addresses.city')}"
+      - if address.errors[:city].present?
+        %span.value__error= address.errors[:city].first
+      - if address.errors[:city].present?
+        %span.value__error= address.errors[:city].first
+
+  .property{ data: { address_region_fields: 'country' } }
+    = label_tag "#{label}[country]", nil, class: 'property__name' do
+      %span.property__requirement.property__requirement--required= t('workarea.storefront.forms.required')
+      %span.property__text= t('workarea.storefront.addresses.country')
+    .value
+      - options = options_for_select(country_options, address.country.try(:alpha2))
+      = select_tag "#{label}[country]", options, title: "#{title_label} #{t('workarea.storefront.addresses.country')}"
+      - if address.errors[:country].present?
+        %span.value__error= address.errors[:country].first
+
+  .property{ data: { address_region_fields: 'region' } }
+    = label_tag "#{label}[region]", nil, class: 'property__name' do
+      %span.property__requirement.property__requirement--required= t('workarea.storefront.forms.required')
+      %span.property__text= t('workarea.storefront.addresses.region')
+    .value
+      - options = grouped_options_for_select(region_options, address.region)
+      = select_tag "#{label}_region_select", options, required: true, title: "#{title_label} #{t('workarea.storefront.addresses.region')}", class: 'hidden', prompt: t('workarea.storefront.addresses.select_state'), aria: { label: "#{title_label} #{t('workarea.storefront.addresses.region')}"}
+      = text_field_tag "#{label}[region]", address.region, class: 'text-box', title: "#{title_label} #{t('workarea.storefront.addresses.region')}", autocomplete: 'address-level1'
+      - if address.errors[:region].present?
+        %span.value__error= address.errors[:region].first
+
+  .property
+    = label_tag "#{label}[postal_code]", nil, class: 'property__name' do
+      %span.property__requirement.property__requirement--required= t('workarea.storefront.forms.required')
+      %span.property__text= t('workarea.storefront.addresses.postal_code')
+    .value
+      = text_field_tag "#{label}[postal_code]", address.postal_code, class: 'text-box text-box--small', required: true, autocomplete: 'postal-code', title: "#{title_label} #{t('workarea.storefront.addresses.postal_code')}"
+      - if address.errors[:postal_code].present?
+        %span.value__error= address.errors[:postal_code].first
+
+  .grid.grid--auto.grid--bottom
+    .grid__cell
+      .property
+        = label_tag "#{label}[phone_number]", nil, class: 'property__name' do
+          %span.property__text= t('workarea.storefront.addresses.phone_number')
+          %span.property__requirement.property__requirement--optional= t('workarea.storefront.forms.optional')
+        .value= telephone_field_tag "#{label}[phone_number]", number_to_phone(address.phone_number), autocomplete: 'tel', class: 'text-box', placeholder: '555-555-5555', title: "#{title_label} #{t('workarea.storefront.addresses.phone_number')}", pattern: '[0-9-]+'
+    .grid__cell
+      .property
+        .grid.grid--auto.grid--middle
+          .grid__cell
+            = label_tag "#{label}[phone_extension]", nil, class: 'property__name' do
+              %span.property__text= t('workarea.storefront.addresses.phone_extension')
+            .value= telephone_field_tag "#{label}[phone_extension]", address.phone_extension, autocomplete: 'tel-extension', class: 'text-box text-box--x-small', title: "#{title_label} #{t('workarea.storefront.addresses.phone_extension')}", pattern: '\d+'

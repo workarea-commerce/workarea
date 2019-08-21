@@ -1,0 +1,25 @@
+language: ruby
+rvm:
+  - 2.6
+
+env:
+  global:
+    - CI=true RAILS_ENV=test WORKAREA_CAPYBARA_MAX_WAIT_TIME=15
+  matrix:
+    - GEM_NAME=admin TEST_COMMAND="bin/rails test test/**/*_test.rb -b"
+    - GEM_NAME=core TEST_COMMAND="bin/rails test test/**/*_test.rb -b"
+    - GEM_NAME=storefront TEST_COMMAND="bin/rails test test/**/*_test.rb -b"
+    - TEST_COMMAND="script/static_analysis"
+
+services:
+  - docker
+
+addons:
+  chrome: stable
+
+bundler_args: --jobs 3 --retry 3
+
+cache: bundler
+
+script: 'script/travis'
+

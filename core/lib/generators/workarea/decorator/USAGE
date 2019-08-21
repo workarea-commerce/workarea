@@ -1,0 +1,15 @@
+Description:
+    Generates a new decorator for a given PATH in a Workarea platform
+    component (or plugin), and a decorator for its unit test from the existing
+    codebase in your host app.
+
+Example:
+    rails generate workarea:decorator app/models/workarea/search/storefront/product.rb
+
+    This will create:
+        app/models/workarea/search/storefront/product.decorator
+        test/models/workarea/search/storefront/product_test.decorator (if a test exists)
+
+    If no tests exist, it will also show a huge warning message stating the class you're
+    about to decorate has NO tests, so anything you change must be also
+    verified in the unit tests.

@@ -1,0 +1,31 @@
+/**
+ * On PWA installation, pre-cache the assets & offline page
+ */
+self.addEventListener('install', function (event) {
+    event.waitUntil(
+        caches.open('pwa_cache').then(function (cache) {
+          return cache.addAll([
+            '<%= image_path("workarea/storefront/logo.png") %>',
+            '<%= stylesheet_path("workarea/storefront/application.css") %>',
+            '<%= javascript_path("workarea/storefront/head.js") %>',
+            '<%= javascript_path("workarea/storefront/application.js") %>',
+            '/offline'
+          ]);
+        })
+    );
+});
+
+/**
+ * On PWA fetch, serve the offline system content page if the connection fails
+ */
+self.addEventListener('fetch', function (event) {
+    if (event.request.mode !== 'navigate') { return; }
+    if (event.request.method !== 'GET') { return; }
+    if ( ! event.request.headers.get('accept').includes('text/html')) { return; }
+
+    event.respondWith(
+        fetch(event.request).catch(function () {
+            return caches.match('/offline');
+        })
+    );
+});

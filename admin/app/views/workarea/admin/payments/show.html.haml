@@ -1,0 +1,72 @@
+- @page_title= t('workarea.admin.payment.show.title', order_name: @order.name)
+
+.view
+  .view__header
+    .grid.grid--middle.grid--right
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@order)
+          %h1= link_to @order.name, url_for(@order)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@order)
+
+  .view__container
+    = render_cards_for(@order, :payment)
+
+  .view__container.view__container--narrow
+    .grid.grid--huge
+      .grid__cell.grid__cell--50-at-medium
+        %h2= t('workarea.admin.payment.show.addresses.billing_address')
+        .section
+          - if @payment.address.blank?
+            %p= t('workarea.admin.payment.show.addresses.blank')
+          - else
+            %p= formatted_address(@payment.address)
+
+      .grid__cell.grid__cell--50-at-medium
+        %h2= t('workarea.admin.payment.show.tenders.heading')
+
+        %p
+          %span.state{ class: state_indicator_class(@payment.status) }
+            = @payment.status.to_s.titleize
+
+        .section
+          - if @payment.tenders.blank?
+            %p= t('workarea.admin.payment.show.tenders.blank')
+          - else
+            %ul.list-reset
+              - @payment.tenders.each do |tender|
+                = render "workarea/admin/orders/tenders/#{tender.slug}", tender: tender
+
+      .grid__cell
+        %h2= t('workarea.admin.payment.show.transactions.heading')
+        .section
+          - if @payment.transactions.blank?
+            %p= t('workarea.admin.payment.show.transactions.blank')
+          - else
+            %table
+              %thead
+                %tr
+                  %th= t('workarea.admin.payment.show.transactions.tender')
+                  %th= t('workarea.admin.payment.show.transactions.action')
+                  %th= t('workarea.admin.payment.show.transactions.status')
+                  %th= t('workarea.admin.payment.show.transactions.amount')
+                  %th= t('workarea.admin.payment.show.transactions.creation')
+                  %th
+              %tbody
+                - @payment.transactions.each do |transaction|
+                  %tr
+                    %td= transaction.payment_type.titleize
+                    %td= transaction.action.titleize
+                    %td= transaction.status.titleize
+                    %td= number_to_currency(transaction.amount)
+                    %td= local_time(transaction.created_at, :long)
+                    %td= link_to t('workarea.admin.payment.show.transactions.details'), payment_transaction_path(transaction)
+
+
+  - if partials_to_append?('admin.payment_show_workflow_bar')
+    .workflow-bar
+      .grid
+        .grid__cell.grid__cell--50
+        .grid__cell.grid__cell--50.align-right
+          = append_partials('admin.payment_show_workflow_bar', order: @order, payment: @payment)

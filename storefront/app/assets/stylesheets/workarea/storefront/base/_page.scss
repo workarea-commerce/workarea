@@ -1,0 +1,27 @@
+/*------------------------------------*\
+    #PAGE
+\*------------------------------------*/
+
+/**
+ * 1. ensure the page is always at least the height of the viewport
+ * 2. ensure OSX fonts will look more consistent with other OSes that do not
+ *    utilize sub-pixel anti-aliasing.
+ * 3. changing this value will potentially break inline-block based layout
+ * 4. ensure browsers will not automatically zoom fonts.
+ * 5. ensure all pages, regardless of the height of thier content, have a right-
+ *    hand scrollbar to prevent visual jittering between pages.
+ */
+
+html {
+    min-height: 100%; /* [1] */
+    color: $font-color;
+    font-size:   $font-size;
+    font-family: $font-family;
+    -moz-osx-font-smoothing: grayscale; /* [2] */
+    -webkit-font-smoothing:  antialiased; /* [2] */
+    line-height: $line-height;
+    letter-spacing: normal; /* [3] */
+    text-size-adjust: 100%; /* [4] */
+    background-color: $background-color;
+    overflow-y: scroll; /* [5] */
+}

@@ -1,0 +1,19 @@
+/*------------------------------------*\
+    #PAGE-CONTENT
+\*------------------------------------*/
+
+$page-content-bottom-padding:  $global-workflow-bar-height !default;
+
+
+/**
+ * 1. provides positioning context for `.view-loading`
+ */
+.page-content {
+    position: relative; /* [1] */
+    padding-top: $global-header-height;
+    padding-bottom: $page-content-bottom-padding;
+}
+
+    .page-content__main {
+        padding: ($spacing-unit * 2);
+    }

@@ -1,0 +1,28 @@
+#!/bin/bash
+
+rm -f admin/spec/dummy/log/test.log
+rm -f core/spec/dummy/log/test.log
+rm -f storefront/spec/dummy/log/test.log
+
+rm -rf admin/spec/dummy/tmp/cache
+rm -rf core/spec/dummy/tmp/cache
+rm -rf storefront/spec/dummy/tmp/cache
+
+rm -rf admin/spec/dummy/tmp/capybara
+rm -rf core/spec/dummy/tmp/capybara
+rm -rf storefront/spec/dummy/tmp/capybara
+
+rm -f admin/test/dummy/log/test.log
+rm -f core/test/dummy/log/test.log
+rm -f storefront/test/dummy/log/test.log
+
+rm -rf admin/test/dummy/tmp/cache
+rm -rf core/test/dummy/tmp/cache
+rm -rf storefront/test/dummy/tmp/cache
+
+rm -rf admin/test/dummy/tmp/capybara
+rm -rf core/test/dummy/tmp/capybara
+rm -rf storefront/test/dummy/tmp/capybara
+
+rm -rf docs/admin/build
+rm -rf docs/guides/build

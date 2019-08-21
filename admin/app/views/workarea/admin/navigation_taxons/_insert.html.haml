@@ -1,0 +1,53 @@
+%div{ data: { taxon_selection: taxon.to_json } }
+  = hidden_field_tag 'parent_id', parent.id
+  = hidden_field_tag 'position', nil
+
+  .menu-editor
+    .menu-editor__breadcrumb-builder
+      %h3.menu-editor__heading 1) #{t('workarea.admin.navigation_taxons.insert.heading_step_1')}
+      %ul.menu-editor__breadcrumbs
+        - parent.ancestors_and_self.each do |ancestor|
+          %li.menu-editor__breadcrumbs-node
+            - if ancestor.root?
+
+              %button.menu-editor__breadcrumbs-home-button{ type: 'button', data: {root_taxon_id: ancestor.id} }
+                = inline_svg('workarea/admin/icons/home.svg', class: 'menu-editor__icon')
+                %span.menu-editor__head-label= ancestor.name
+            - else
+              = select_tag nil, options_for_select(ancestor.siblings_and_self.map { |c| [c.name, c.id] }, ancestor.id)
+
+            = inline_svg('workarea/admin/icons/navigate_next.svg', class: 'menu-editor__icon')
+          - if ancestor == parent.ancestors_and_self.last && ancestor.has_children?
+            %li.menu-editor__breadcrumbs-node
+              = select_tag nil, options_for_select([[taxon.name, nil]] + ancestor.children.map { |c| [c.name, c.id] })
+
+          - elsif ancestor.leaf?
+            %li.menu-editor__breadcrumbs-node
+              = taxon.name
+    %h3.menu-editor__heading 2) #{t('workarea.admin.navigation_taxons.insert.heading_step_2')}
+
+    .menu-editor__menu
+      .menu-editor__head
+        - if parent.root?
+          %span= inline_svg 'workarea/admin/icons/home.svg', class: 'menu-editor__icon menu-editor__icon--head'
+          %span.menu-editor__head-label= t('workarea.admin.navigation_taxons.insert.home')
+        - else
+          = taxon_icon(parent, class: 'menu-editor__icon menu-editor__icon--head')
+          %span.menu-editor__head-label= parent.name
+
+      %ul.menu-editor__menu-list
+        - parent.children.each do |child|
+          %li.menu-editor__list-item{ class: ('handle' if taxon == child) }
+            .menu-editor__menu-link
+              = taxon_icon(child, class: 'menu-editor__icon menu-editor__icon--link')
+              - if taxon == child
+                %strong.menu-editor__menu-link-text= child.name
+              - else
+                %span.menu-editor__menu-link-text= child.name
+
+        - unless parent.children.include?(taxon)
+          %li.menu-editor__list-item.menu-editor__list-item--added.handle
+            .menu-editor__menu-link.menu-editor__menu-link--draggable
+              = inline_svg("workarea/admin/icons/grip.svg", title: 'Drag to rearrange', class: 'menu-editor__link-grip svg-icon svg-icon--small svg-icon--white')
+              = taxon_icon(taxon, class: 'menu-editor__icon menu-editor__icon--link')
+              %strong.menu-editor__menu-link-text= taxon.name

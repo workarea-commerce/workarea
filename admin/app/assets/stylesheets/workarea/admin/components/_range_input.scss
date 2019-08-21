@@ -1,0 +1,32 @@
+/*------------------------------------*\
+    #RANGE-INPUT
+\*------------------------------------*/
+
+$range-field-input-color:       $off-black !default;
+$range-field-input-height:      2px !default;
+
+$range-field-input-thumb-size:  16px !default;
+$range-field-input-thumb-color: $white !default;
+
+.range-field {}
+
+    .range-field__input {
+        height: $range-field-input-height;
+        background: $range-field-input-color;
+        vertical-align: middle;
+
+        &:focus {
+            box-shadow: none;
+            outline: none;
+        }
+
+        &::-webkit-slider-thumb {
+            width: $range-field-input-thumb-size;
+            height: $range-field-input-thumb-size;
+            background-color: $range-field-input-thumb-color;
+            border: 2px solid $range-field-input-color;
+            border-radius: 50%;
+            cursor: pointer;
+            appearance: none;
+        }
+    }

@@ -1,0 +1,31 @@
+/*------------------------------------*\
+    #RESPOND-TO
+\*------------------------------------*/
+
+/// A media query helper mixin which allows contextual control a block of CSS at
+/// a given breakpoint. Available breakpoints are defined in the application's
+/// configuration and are loaded via `settings/_breakpoints.scss.erb`.
+///
+/// @param {Width} $breakpoint - the breakpoint at which the content should
+///     respond
+///
+/// @example scss - Respond To mixin
+///     $medium-breakpoint:  760px;
+///     $wide-breakpoint:    960px;
+///
+///     .block {
+///         width: 100px;
+///
+///         @include respond-to($medium-breakpoint) {
+///             width: 200px;
+///         }
+///
+///         @include respond-to($wide-breakpoint) {
+///             width: 300px;
+///         }
+///     }
+@mixin respond-to($breakpoint) {
+    @media screen and (min-width: $breakpoint), print {
+        @content;
+    }
+}

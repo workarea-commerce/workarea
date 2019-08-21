@@ -1,0 +1,25 @@
+/*------------------------------------*\
+    #GLOBAL
+\*------------------------------------*/
+
+/**
+ * Default global spacing units
+ */
+$spacing-unit:  8px !default;
+
+$vertical-margin:    $spacing-unit * 2 !default;
+$horizontal-margin:  $spacing-unit * 2 !default;
+
+
+/**
+ * These dialog dimensions allow for certain components to know their maximum
+ * possible width when being displayed within a dialog.
+ */
+$dialog-content-min-width:  300px !default;
+$dialog-content-max-width:  700px !default;
+
+
+/**
+ * Heights
+ */
+$global-admin-toolbar-height: 64px !default;

@@ -1,0 +1,158 @@
+/*------------------------------------*\
+    #UI-DIALOG
+\*------------------------------------*/
+
+$ui-dialog-bg-color:           $background-color !default;
+$ui-dialog-titlebar-bg-color:  $white !default;
+
+$ui-dialog-shadow:             0 0 0 8px $overlay-shadow-color !default;
+$ui-dialog-content-height:     90vh !default;
+
+
+.ui-dialog {
+    position: absolute;
+    z-index: index($components, ui-dialog);
+    background: $ui-dialog-bg-color;
+    box-shadow: $ui-dialog-shadow;
+    outline: 0;
+    max-height: 100vh;
+
+    &:focus {
+        outline: none;
+    }
+
+    .ui-draggable-handle {
+        cursor: move;
+        touch-action: none;
+    }
+
+    .ui-resizable-handle {
+        display: block;
+        position: absolute;
+        font-size: 0.1px;
+        touch-action: none;
+    }
+
+    .ui-resizable-n {
+        top: -5px;
+        left: 0;
+        width: 100%;
+        height: 7px;
+        cursor: n-resize;
+    }
+
+    .ui-resizable-s {
+        bottom: -5px;
+        left:    0;
+        width: 100%;
+        height: 7px;
+        cursor: s-resize;
+    }
+
+    .ui-resizable-e {
+        top:    0;
+        right: -5px;
+        width: 7px;
+        height: 100%;
+        cursor: e-resize;
+    }
+
+    .ui-resizable-w {
+        top:   0;
+        left: -5px;
+        width: 7px;
+        height: 100%;
+        cursor: w-resize;
+    }
+
+    .ui-resizable-se {
+        right:  -5px;
+        bottom: -5px;
+        width:  12px;
+        height: 12px;
+        cursor: se-resize;
+    }
+
+    .ui-resizable-sw {
+        bottom: -5px;
+        left:   -5px;
+        width:  9px;
+        height: 9px;
+        cursor: sw-resize;
+    }
+
+    .ui-resizable-nw {
+        top:  -5px;
+        left: -5px;
+        width:  9px;
+        height: 9px;
+        cursor: nw-resize;
+    }
+
+    .ui-resizable-ne {
+        top:   -5px;
+        right: -5px;
+        width:  9px;
+        height: 9px;
+        cursor: ne-resize;
+    }
+}
+
+    .ui-dialog-titlebar {
+        line-height: 1;
+        text-align: right;
+        background: $ui-dialog-titlebar-bg-color;
+
+        .ui-dialog-image & {
+            position: absolute;
+            top:   0;
+            right: 0;
+        }
+
+        .ui-dialog-loading & {
+            display: none;
+        }
+    }
+
+        .ui-dialog-title {
+            display: none;
+        }
+
+        .ui-dialog-titlebar-close {
+            padding: 0;
+            font-size: 0;
+            line-height: 1;
+            background: none;
+            border: 0;
+            cursor: pointer;
+
+            .ui-button-icon {
+                @include svg('dialog_close.svg', 32px);
+                padding: $spacing-unit;
+            }
+        }
+
+    .ui-dialog-content {
+        padding: 0 ($spacing-unit * 4) ($spacing-unit * 4);
+        overflow: auto;
+
+        // NOTE: Because jQuery UI generates the .ui-dialog-content HTML with
+        // an inline style that sets `max-height: none`, we need the
+        // `!important` designation here to properly override.
+        max-height: $ui-dialog-content-height !important;
+
+        .ui-dialog-image & {
+            padding: 0;
+        }
+
+        .ui-dialog-loading & {
+            padding: 50px 0;
+        }
+    }
+
+
+.ui-dialog-image img {
+    display: block;
+}
+
+.ui-dialog-loading {}

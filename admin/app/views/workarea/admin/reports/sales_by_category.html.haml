@@ -1,0 +1,42 @@
+- @page_title = t('workarea.admin.reports.sales_by_category.title')
+
+.view
+  .view__header
+    .view__heading
+      = link_to "↑ #{t('workarea.admin.reports.all_reports')}", reports_dashboards_path
+      %h1.heading.heading--no-margin= t('workarea.admin.reports.sales_by_category.title')
+      %p= t('workarea.admin.reports.reference_link_html', path: reference_report_path)
+
+  .view__container
+    .browsing-controls.browsing-controls--with-divider.browsing-controls--center.browsing-controls--filters-displayed
+      = form_tag sales_by_category_report_path, method: 'get', class: 'browsing-controls__form' do
+        = render 'workarea/admin/shared/date_selector', starts_at: @report.starts_at, ends_at: @report.ends_at
+
+      .browsing-controls__count
+        = render_reports_results_message(@report)
+        = render 'workarea/admin/reports/export', report: @report
+
+    %table
+      %thead
+        %tr
+          %th= t('workarea.admin.fields.category')
+          %th.align-center= link_to_reports_sorting t('workarea.admin.fields.units_sold'), report: @report, sort_by: 'units_sold'
+          %th.align-center= link_to_reports_sorting t('workarea.admin.fields.orders'), report: @report, sort_by: 'orders'
+          %th.align-right= link_to_reports_sorting t('workarea.admin.fields.merchandise'), report: @report, sort_by: 'merchandise'
+          %th.align-right= link_to_reports_sorting t('workarea.admin.fields.discounts'), report: @report, sort_by: 'discounts'
+          %th.align-right= link_to_reports_sorting t('workarea.admin.fields.tax'), report: @report, sort_by: 'tax'
+          %th.align-right= link_to_reports_sorting t('workarea.admin.fields.revenue'), report: @report, sort_by: 'revenue'
+      %tbody
+        - @report.results.each do |result|
+          %tr
+            %td
+              - if result.category.present?
+                = link_to result.category.name, catalog_category_path(result.category)
+              - else
+                = t('workarea.admin.reports.unknown')
+            %td.align-center= number_with_delimiter result.units_sold
+            %td.align-center= number_with_delimiter result.orders
+            %td.align-right= number_to_currency(result.merchandise)
+            %td.align-right= number_to_currency(result.discounts)
+            %td.align-right= number_to_currency(result.tax)
+            %td.align-right= number_to_currency(result.revenue)

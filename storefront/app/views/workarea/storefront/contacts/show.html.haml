@@ -1,0 +1,41 @@
+- @title = @inquiry.title
+
+- content_for :head do
+  %link{ href: contact_url, rel: 'canonical' }
+  %meta{ name: :description, content: @inquiry.meta_description }
+
+- content_for :breadcrumbs do
+  %p.breadcrumbs__node-group
+    %span.breadcrumbs__node{ itemprop: 'breadcrumb' }
+      = link_to t('workarea.storefront.layouts.home'), root_path, rel: 'home', class: 'breadcrumbs__link'
+    %span.breadcrumbs__node{ itemprop: 'breadcrumb' }
+      %span.breadcrumbs__text= @inquiry.title
+
+.view
+
+  %h1= @inquiry.title
+
+  = render_content_blocks(@inquiry.content_blocks)
+
+  = form_tag contact_path, method: 'post', id: 'customer_service_form' do
+    .property
+      = label_tag :name, nil, class: 'property__name' do
+        %span.property__text= t('workarea.storefront.contacts.name')
+      .value= text_field_tag :name, params[:name], class: 'text-box', autocomplete: 'name'
+    .property
+      = label_tag :email, nil, class: 'property__name' do
+        %span.property__text= t('workarea.storefront.contacts.email')
+      .value= email_field_tag :email, params[:email], class: 'text-box', required: true, placeholder: t('workarea.storefront.forms.email_placeholder'), autocapitalize: 'off', autocomplete: 'email'
+    .property
+      = label_tag :order_id, nil, class: 'property__name' do
+        %span.property__text= t('workarea.storefront.contacts.order_id')
+      .value= text_field_tag :order_id, params[:order_id], class: 'text-box'
+    .property
+      = label_tag :subject, nil, class: 'property__name' do
+        %span.property__text= t('workarea.storefront.contacts.subject')
+      .value= select_tag :subject, options_for_select(@inquiry.subjects, params[:subject]), required: true
+    .property
+      = label_tag :message, nil, class: 'property__name' do
+        %span.property__text= t('workarea.storefront.contacts.message')
+      .value= text_area_tag :message, params[:message], class: 'text-box text-box--multi-line text-box--wide', required: true
+    = button_tag t('workarea.storefront.forms.send'), value: 'submit', class: 'button'

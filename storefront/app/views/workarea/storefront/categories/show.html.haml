@@ -1,0 +1,103 @@
+- @title = @category.browser_title
+- @breadcrumbs = @category.breadcrumbs
+
+- add_css(@category.css)
+- add_javascript(@category.javascript)
+
+- content_for :head do
+  - cache "#{@category.cache_key}/head", expires_in: Workarea.config.cache_expirations.categories_fragment_cache do
+    %meta{ property: 'recent-view', content: recent_view_content(category_id: @category.id) }
+    %meta{ property: 'global-id', content: @category.to_global_id.to_param }
+
+    - if @category.first_page? && !@category.has_filters?
+      %meta{ name: 'robots', content: 'index, follow' }
+    - else
+      %meta{ name: 'robots', content: 'noindex, follow' }
+
+    - if @category.first_page?
+      %link{ href: category_url(@category), rel: 'canonical' }
+    - else
+      %link{ href: category_url(@category, page: @category.page), rel: 'canonical' }
+
+    - if @category.second_page?
+      %link{ href: category_url(@category), rel: 'prev' }
+    - elsif !@category.first_page?
+      %link{ href: url_for(page: @category.prev_page, only_path: false), rel: 'prev' }
+
+    - unless @category.last_page?
+      %link{ href: url_for(page: @category.next_page, only_path: false), rel: 'next' }
+
+    %meta{ name: :description, content: @category.meta_description }
+
+    %meta{ property: 'og:url', content: url_for(only_path: false) }
+    %meta{ property: 'og:title', content: page_title }
+    %meta{ property: 'og:type', content: 'website' }
+    %meta{ property: 'og:image', content: @category.open_graph_asset.url }
+    %meta{ property: 'og:image:secure_url', content: @category.open_graph_asset.url }
+
+    = append_partials('storefront.category_head', category: @category)
+
+- content_for :page_aside do
+  - cache "#{@category.cache_key}/aside", expires_in: Workarea.config.cache_expirations.categories_fragment_cache do
+    = left_navigation if @category.show_navigation?
+
+    - if @category.facets.any?
+      .result-filters
+        - @category.facets.each do |facet|
+          = render "workarea/storefront/facets/#{facet.type}", facet: facet
+
+- cache @category.cache_key, expires_in: Workarea.config.cache_expirations.categories_fragment_cache do
+  .view{ data: { analytics: category_view_analytics_data(@category).to_json } }
+
+    %h1= @category.name
+
+    - if @category.content_blocks_for(:above_results).present?
+      = render_content_blocks(@category.content_blocks_for(:above_results))
+
+    - unless @category.products.any?
+      %p
+        = t('workarea.storefront.products.none_found')
+        - if @category.has_filters?
+          = link_to t('workarea.storefront.products.reset_filters'), category_path(@category)
+    - else
+
+      .grid.grid--auto.grid--middle
+        .grid__cell
+          = form_tag request.path, method: :get do
+            = facet_hidden_inputs(@category.facets)
+
+            .property.property--responsive
+              = label_tag 'sort_top', nil, class: 'property__name' do
+                %span.property__text= t('workarea.storefront.searches.sort_by')
+              %span.value= select_tag :sort, options_for_select(@category.sorts, selected: @category.sort), id: 'sort_top', data: { form_submitting_control: '' }
+            .hidden-if-js-enabled
+              = button_tag t('workarea.storefront.searches.sort'), value: 'sort_products_top', class: 'button'
+
+      = append_partials('storefront.category_browse_controls', category: @category)
+
+      - if @category.facets.any?
+        .visible.visible--for-small-only
+          .mobile-filters
+            = check_box_tag 'toggle_mobile_filters', nil, false, class: 'mobile-filters__control'
+            .mobile-filters__trigger
+              = label_tag 'toggle_mobile_filters', t('workarea.storefront.products.filter_results'), class: 'button button--large', data: { mobile_filter_button: '' }
+            .mobile-filters__content
+              .result-filters
+                - @category.facets.each do |facet|
+                  = render "workarea/storefront/facets/#{facet.type}", facet: facet
+
+      .pagination{ data: { analytics: product_list_analytics_data(@category.name).to_json, pagination: pagination_data(@category.products), back_to_top_button: '' } }
+        .grid
+          - @category.products.each_with_index do |product, position|
+            = append_partials('storefront.category_browse_grid_item', product: product, position: position)
+
+            .grid__cell.grid__cell--50.grid__cell--25-at-medium.grid__cell--20-at-wide{ data: { pagination_item: '' } }
+              .product-summary{ itemscope: true, itemtype: 'http://schema.org/Product' }
+                = render 'workarea/storefront/products/summary', product: product
+        - if show_pagination?(@category.products)
+          .pagination__button
+            = link_to t('workarea.storefront.pagination.next_page'), pagination_path_for(page: @category.next_page), class: 'button', data: { pagination_button: '' }
+
+
+    - if @category.content_blocks_for(:below_results).present?
+      = render_content_blocks(@category.content_blocks_for(:below_results))

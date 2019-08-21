@@ -1,0 +1,51 @@
+- @page_title = t('workarea.admin.create_catalog_categories.setup.page_title')
+
+.view
+  .view__header
+    .view__heading
+      %h1.heading.heading--no-margin= t('workarea.admin.create_catalog_categories.setup.title')
+
+  .view__container.view__container--narrow
+    - @category.errors.full_messages.each do |message|
+      = render_message 'error', message
+
+    = form_tag create_catalog_categories_path, method: 'post' do
+      = hidden_field_tag :id, @category.slug unless @category.new_record?
+      = hidden_field_tag 'category[active]', false
+
+      .section
+        .property.property--required
+          = label_tag 'category_name', t('workarea.admin.create_catalog_categories.setup.category_name_label'), class: 'property__name'
+          = text_field_tag 'category[name]', @category.name, class: 'text-box text-box--i18n', required: true
+
+        .property
+          = label_tag 'category[tag_list]', t('workarea.admin.fields.tags'), class: 'property__name'
+          = text_field_tag 'category[tag_list]', @category.tag_list, class: 'text-box'
+          %span.property__note= t('workarea.admin.create_catalog_categories.setup.category_tags_note')
+
+      .workflow-bar
+        .grid.grid--middle
+          .grid__cell.grid__cell--20
+            - if @category.new_record?
+              = link_to t('workarea.admin.form.cancel'), catalog_categories_path, class: 'workflow-bar__button workflow-bar__button--delete'
+            - else
+              = link_to t('workarea.admin.form.cancel'), catalog_category_path(@category), class: 'workflow-bar__button workflow-bar__button--delete', data: { method: 'delete', confirm: t('workarea.admin.create_catalog_categories.workflow.cancel_message') }
+
+          .grid__cell.grid__cell--60
+            %ol.workflow-bar__steps
+              %li.workflow-bar__step
+                %strong 1) #{t('workarea.admin.create_catalog_categories.workflow.steps.setup')}
+              - if @category.new_record?
+                %li.workflow-bar__step 2) #{t('workarea.admin.create_catalog_categories.workflow.steps.products')}
+                %li.workflow-bar__step 3) #{t('workarea.admin.create_catalog_categories.workflow.steps.content')}
+                %li.workflow-bar__step 4) #{t('workarea.admin.create_catalog_categories.workflow.steps.taxonomy')}
+                %li.workflow-bar__step 5) #{t('workarea.admin.create_catalog_categories.workflow.steps.publish')}
+              - else
+                %li.workflow-bar__step 2) #{link_to t('workarea.admin.create_catalog_categories.workflow.steps.products'), products_create_catalog_category_path(@category)}
+                %li.workflow-bar__step 3) #{link_to t('workarea.admin.create_catalog_categories.workflow.steps.content'), content_create_catalog_category_path(@category)}
+                %li.workflow-bar__step 4) #{link_to t('workarea.admin.create_catalog_categories.workflow.steps.taxonomy'), taxonomy_create_catalog_category_path(@category)}
+                %li.workflow-bar__step 5) #{link_to t('workarea.admin.create_catalog_categories.workflow.steps.publish'), publish_create_catalog_category_path(@category)}
+
+          .grid__cell.grid__cell--20
+            .grid.grid--auto.grid--right.grid--middle
+              .grid__cell= button_tag t('workarea.admin.create_catalog_categories.setup.save_and_add_products'), value: 'save_setup', class: 'workflow-bar__button workflow-bar__button--create'

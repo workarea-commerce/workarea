@@ -1,0 +1,18 @@
+/*------------------------------------*\
+    #CONTENT-WRAPPER
+\*------------------------------------*/
+
+/**
+ * Wraps a portion of a page's content to center the content at a given width.
+ * This is useful for full-bleed sites where some internal content should be
+ * full width unless the viewport is very wide.
+ */
+
+$content-wrapper-padding:  0 $spacing-unit !default;
+
+.content-wrapper,
+%content-wrapper {
+    margin:  0 auto;
+    padding: $content-wrapper-padding;
+    max-width: $x-wide-breakpoint;
+}

@@ -1,0 +1,37 @@
+- @title = @content.title
+
+.view{ data: { analytics: checkout_order_placed_analytics_data(@order).to_json } }
+
+  %h1= @content.title
+
+  - if @content.content_blocks_for('confirmation').present?
+    = render_content_blocks(@content.content_blocks_for('confirmation'))
+
+  %p= t('workarea.storefront.checkouts.confirmation_text', email: @order.email)
+
+  - if @order.user.present?
+
+    %p= link_to t('workarea.storefront.checkouts.go_to_account'), users_account_path, class: 'button'
+
+  - elsif @order.render_signup_form?
+
+    - if @content.content_blocks_for('confirmation_signup').present?
+      = render_content_blocks(@content.content_blocks_for('confirmation_signup'))
+
+    = form_tag users_account_path, id: 'signup_form', method: :post, data: { analytics: checkout_signup_analytics_data.to_json } do
+      = hidden_field_tag :email, @order.email
+      = hidden_field_tag :first_name, @order.billing_address.first_name
+      = hidden_field_tag :last_name, @order.billing_address.last_name
+      .property
+        = label_tag :password, nil, class: 'property__name' do
+          %span.property__requirement.property__requirement--required= t('workarea.storefront.forms.required')
+          %span.property__text= t('workarea.storefront.users.password')
+        .value= password_field_tag :password, nil, class: 'text-box', required: true, minlength: minimum_password_length, autocomplete: 'off'
+      .button-property
+        .value= check_box_tag :email_signup, true, params[:email_signup]
+        = label_tag :email_signup, nil, class: 'button-property__name' do
+          %span.button-property__text= t('workarea.storefront.users.sign_up_for_email')
+      %p= button_tag t('workarea.storefront.users.create_account'), value: 'sign_up', class: 'button', data: { disable_with: loading_indicator(t('workarea.storefront.users.create_account_disabled_text')) }
+
+  = render 'workarea/storefront/orders/summary', order: @order, recommendations: @order.recommendations, show_fulfillment: false
+  = append_partials('storefront.checkout_confirmation')

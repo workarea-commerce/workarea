@@ -1,0 +1,39 @@
+- @title = t('workarea.storefront.checkouts.shipping_title')
+- @checkout_step = 'shipping'
+
+- content_for :page_aside do
+  %h1.visually-hidden= t('workarea.storefront.checkouts.shipping_title')
+  = render 'summary', cart: @cart, summary: @summary
+
+.checkout-shipping.view{ data: { analytics: checkout_shipping_view_analytics_data(@cart).to_json } }
+
+  - unless request.get?
+    - if @step.order.errors.any?
+      - @step.order.errors.full_messages.each do |message|
+        = render_message 'error', message, data: { analytics: validation_error_analytics_data('order').to_json }
+
+  = form_tag checkout_shipping_path, method: :patch, id: 'checkout_form' do
+
+    .checkout-shipping__section
+      %h2#aria_shipping_radiogroup.checkout-shipping__heading= t('workarea.storefront.checkouts.shipping_service')
+
+      %div{ role: 'radiogroup', aria: { labelledby: 'aria_shipping_radiogroup' } }
+        - @cart.shipping_options.each do |option|
+          .button-property{ data: { checkout_shipping_service: '' } }
+            .value= radio_button_tag :shipping_service, option.name, @cart.shipping_service == option.name, data: { analytics: checkout_shipping_service_selected_analytics_data(option).to_json }
+            = label_tag "shipping_service_#{option.name}", nil, class: 'button-property__name' do
+              %span.button-property__text #{option.name} #{number_to_currency(option.price)}
+
+    .checkout-shipping__section
+      = optional_field(t('workarea.storefront.checkouts.shipping_instructions_prompt'), @cart.shipping_instructions) do
+        .property
+          = label_tag :shipping_instructions, nil, class: 'property__name' do
+            %span.property__text= t('workarea.storefront.checkouts.shipping_instructions')
+          .value
+            = text_field_tag :shipping_instructions, @cart.shipping_instructions, class: 'text-box text-box--wide', title: t('workarea.storefront.checkouts.shipping_instructions_title'), placeholder: t('workarea.storefront.checkouts.shipping_instructions_placeholder')
+
+    = append_partials('storefront.checkout_shipping_fields', step: @step, cart: @cart)
+
+    = append_partials('storefront.checkout_shipping_step_form', step: @step, cart: @cart)
+
+    %p= button_tag t('workarea.storefront.checkouts.continue_to_payment'), value: 'continue', class: 'button button--large', data: { disable_with: loading_indicator(t('workarea.storefront.checkouts.continue_to_payment_disabled_text')) }

@@ -1,0 +1,68 @@
+- @page_title = t('workarea.admin.create_catalog_categories.rules.page_title', category_name: @category.name)
+
+.view
+  .view__header
+    .grid.grid--right
+      .grid__cell.grid__cell--50
+        .view__heading
+          %h1.heading.heading--no-margin= t('workarea.admin.create_catalog_categories.rules.title', category_name: @category.name)
+          %p= link_to t('workarea.admin.create_catalog_categories.workflow.skip_this'), content_create_catalog_category_path(@category)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@category, html_options: { target: @category.id })
+
+  .view__container
+    .section
+      .grid.grid--center
+        .grid__cell.grid__cell--50
+          %table
+            - @product_rules.each do |rule|
+              %tr
+                %td
+                  - if rule == @product_rule
+                    = render 'workarea/admin/product_rules/form', product_list: @category, rule: rule, return_to: rules_create_catalog_category_path(@category)
+                  - else
+                    = render_product_rule_summary_for(rule)
+                %td
+                  - if rule == @product_rule
+                    = link_to t('workarea.admin.actions.cancel'), rules_create_catalog_category_path(@category)
+                  - else
+                    = link_to inline_svg('workarea/admin/icons/edit.svg', class: 'svg-icon svg-icon--small', title: t('workarea.admin.actions.edit')), edit_rule_create_catalog_category_path(@category, rule)
+                    = link_to inline_svg('workarea/admin/icons/delete.svg', class: 'svg-icon svg-icon--small', title: t('workarea.admin.actions.remove')), product_list_product_rule_path(@category.to_global_id, rule, return_to: rules_create_catalog_category_path(@category)), data: { method: 'delete' }
+
+            %tr
+              - if params[:action] == 'new_rule'
+                %td= render 'workarea/admin/product_rules/form', product_list: @category, rule: @product_rule, return_to: rules_create_catalog_category_path(@category)
+                %td= link_to t('workarea.admin.actions.cancel'), rules_create_catalog_category_path(@category)
+
+              - else
+                %td
+                  = form_tag new_rule_create_catalog_category_path(@category), method: 'get' do
+                    = hidden_field_tag 'show_all', params[:show_all], id: nil
+                    %span= t('workarea.admin.product_rules.index.add_rule')
+                    = select_tag 'product_rule[name]', options_for_select(product_rule_types_options)
+                    = button_tag inline_svg('workarea/admin/icons/add_circle.svg', class: 'svg-icon svg-icon--medium svg-icon--green', title: t('workarea.admin.product_rules.index.add_rule')), value: 'add_rule', class: 'text-button'
+                %td
+
+    - if @product_rules.present? || params[:action] == 'new_rule'
+      .section
+        .product-rules-preview
+          #product-rules-preview.product-rules-preview__body
+            = render 'workarea/admin/product_rules/preview', preview: @preview
+
+    .workflow-bar
+      .grid.grid--middle
+        .grid__cell.grid__cell--20
+          = link_to t('workarea.admin.form.cancel'), catalog_category_path(@category), class: 'workflow-bar__button workflow-bar__button--delete', data: { method: 'delete', confirm: t('workarea.admin.create_catalog_categories.workflow.cancel_message') }
+
+        .grid__cell.grid__cell--60
+          %ol.workflow-bar__steps
+            %li.workflow-bar__step 1) #{link_to t('workarea.admin.create_catalog_categories.workflow.steps.setup'), edit_create_catalog_category_path(@category)}
+            %li.workflow-bar__step
+              %strong 2) #{t('workarea.admin.create_catalog_categories.workflow.steps.products')}
+            %li.workflow-bar__step 3) #{link_to t('workarea.admin.create_catalog_categories.workflow.steps.content'), content_create_catalog_category_path(@category)}
+            %li.workflow-bar__step 4) #{link_to t('workarea.admin.create_catalog_categories.workflow.steps.taxonomy'), taxonomy_create_catalog_category_path(@category)}
+            %li.workflow-bar__step 5) #{link_to t('workarea.admin.create_catalog_categories.workflow.steps.publish'), publish_create_catalog_category_path(@category)}
+
+        .grid__cell.grid__cell--20
+          .grid.grid--auto.grid--right.grid--middle
+            .grid__cell= link_to "#{t('workarea.admin.create_catalog_categories.rules.continue_to_content')} →", content_create_catalog_category_path(@category), class: 'workflow-bar__button'

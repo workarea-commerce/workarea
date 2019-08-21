@@ -1,0 +1,26 @@
+/*------------------------------------*\
+    #PAGE-CONTAINER
+\*------------------------------------*/
+
+$page-container-max-width:  100% !default;
+$page-container-min-width:  320px !default;
+
+/**
+ * 1. in case `$page-container-max-width` isn't set to 100%.
+ * 2. the admin-toolbar only appears for medium+ devices.
+ */
+.page-container {
+    position: relative;
+    right: 0;
+    left:  0;
+    z-index: index($components, page-container);
+    margin:  0 auto; /* [1] */
+    max-width: $page-container-max-width;
+    min-width: $page-container-min-width;
+
+    .admin-toolbar ~ & {
+        @include respond-to($medium-breakpoint) { /* [2] */
+            top: $global-admin-toolbar-height;
+        }
+    }
+}

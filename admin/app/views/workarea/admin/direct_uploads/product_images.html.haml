@@ -1,0 +1,19 @@
+- @page_title = t('workarea.admin.direct_uploads.product_images.heading')
+
+.view
+  .view__header
+    .grid.grid--middle.grid--center
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to "← #{t('workarea.admin.direct_uploads.product_images.back')}", catalog_products_path, class: 'view__dashboard-button'
+          %h1.heading.heading--no-margin= t('workarea.admin.direct_uploads.product_images.heading')
+
+  .view__container
+    .grid.grid--middle.grid--center
+      .grid__cell.grid__cell--50
+        = t('workarea.admin.direct_uploads.product_images.instructions_html')
+        .direct-upload{ data: { direct_upload: { type: 'product_image' }.to_json, unsaved_changes: '' } }
+          .direct-upload__content
+            .direct-upload__heading= t('workarea.admin.direct_uploads.drop_files_here')
+            .direct-upload__info= t('workarea.admin.direct_uploads.info')
+

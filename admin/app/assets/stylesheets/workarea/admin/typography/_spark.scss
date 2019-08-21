@@ -1,0 +1,26 @@
+/*------------------------------------*\
+    #SPARK
+\*------------------------------------*/
+
+/**
+ * 1. Enables display of contextual alternates for proper sparkline rendering
+ *    in Microsoft Edge browsers.
+ */
+.spark {
+    font-family: $spark-dot-line-family;
+    font-weight: 400;
+    font-variant-ligatures: contextual; /* [1] */
+    font-feature-settings: 'calt'; /* [1] */
+
+    &:hover {
+        text-decoration: none;
+    }
+}
+
+.spark--large {
+    font-size: $font-size * 2;
+}
+
+.spark--larger {
+    font-size: $font-size * 3;
+}

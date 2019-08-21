@@ -1,0 +1,170 @@
+- @page_title = t('workarea.admin.catalog_products.edit.page_title', product: @product.name)
+
+.view
+  .view__header
+    .grid
+      .grid__cell.grid__cell--25
+        = render 'workarea/admin/releases/select'
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@product)
+          %h1= link_to @product.name, url_for(@product)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@product)
+
+  .view__container
+    = render_cards_for(@product, :attributes)
+
+  .view__container.view__container--narrow
+    = form_tag catalog_product_path(@product), method: :patch, id: 'product_form', data: { unsaved_changes: '' } do
+      .section
+        .property
+          = label_tag "product_name", t('workarea.admin.catalog_products.edit.name_label'), class: 'property__name'
+          = text_field_tag 'product[name]', @product.name, class: 'text-box text-box--i18n', id: "product_name", required: true
+
+        .grid
+          .grid__cell.grid__cell--75-at-medium
+            .property
+              = label_tag 'product[slug]', t('workarea.admin.catalog_products.edit.slug_label'), class: 'property__name'
+              %span= storefront.product_url('')
+              = text_field_tag 'product[slug]', @product.slug, class: 'text-box text-box--medium', placeholder: @product.slug || t('workarea.admin.catalog_products.edit.slug_placeholder'), disabled: current_release.present?
+              %span.property__note= t('workarea.admin.catalog_products.edit.slug_note')
+              = render 'workarea/admin/shared/release_slug_tooltip'
+          .grid__cell.grid__cell--25-at-medium
+            .property
+              = label_tag 'product_id', t('workarea.admin.catalog_products.edit.id_label'), class: 'property__name'
+              = @product.id
+
+        .property
+          = label_tag 'product_tag_list', t('workarea.admin.catalog_products.edit.tags_label'), class: 'property__name'
+          = text_field_tag 'product[tag_list]', @product.tag_list, class: 'text-box'
+          %span.property__note
+            = t('workarea.admin.catalog_products.edit.tags_note')
+            = link_to '#csv-help', data: { tooltip: '' } do
+              = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.catalog_products.edit.learn_more'))
+
+        .grid
+          .grid__cell.grid__cell--25
+            .property
+              %span.property__name
+                = t('workarea.admin.catalog_products.edit.active_title')
+                = inline_svg('workarea/admin/i18n.svg', class: 'svg-icon svg-icon--small') if locale_options.many? && Workarea.config.localized_active_fields
+                = link_to '#product-active-info', data: { tooltip: '' } do
+                  = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.catalog_products.edit.active_info_title'))
+              = toggle_button_for 'product[active]', @product.active
+              #product-active-info.tooltip-content
+                %p= t('workarea.admin.catalog_products.edit.active_info')
+
+          .grid__cell.grid__cell--25
+            .property
+              %span.property__name= t('workarea.admin.catalog_products.edit.purchasable_label')
+              =  toggle_button_for 'product[purchasable]', @product.purchasable, title_true: t('workarea.admin.catalog_products.edit.purchasable'), title_false: t('workarea.admin.catalog_products.edit.not_purchasable')
+
+          .grid__cell.grid__cell--25
+            .property
+              = label_tag "product_template", t('workarea.admin.catalog_products.edit.template_label'), class: 'property__name'
+              = select_tag 'product[template]', options_for_select(@product.templates, @product.template), id: "product_template"
+
+          .grid__cell.grid__cell--25
+            .property
+              = label_tag "product_customizations", t('workarea.admin.catalog_products.edit.customization_label'), class: 'property__name'
+              = select_tag 'product[customizations]', options_for_select(@product.customization_options, @product.customizations), id: "product_customizations"
+
+        = append_partials('admin.product_fields', product: @product)
+
+      .section
+
+        %h2= t('workarea.admin.catalog_products.edit.details.label')
+
+        %table
+          %thead
+            %tr
+              %th= t('workarea.admin.catalog_products.edit.details.name')
+              %th= t('workarea.admin.catalog_products.edit.details.values')
+              %th.align-center= t('workarea.admin.actions.delete')
+          %tbody
+            - @product.details.each do |name, value|
+              %tr
+                %td
+                  .property
+                    = label_tag "details_#{name}" do
+                      #{name}
+                %td
+                  .property
+                    = hidden_field_tag 'details[]', name, id: nil
+                    = text_field_tag 'details[]', hash_editing_value(value), class: 'text-box text-box--i18n', id: nil
+                %td.align-center= check_box_tag 'details_to_remove[]', name, false, id: nil, title: "#{t('workarea.admin.actions.delete')}: #{name} #{value}"
+            %tr{ data: { cloneable_row: '' } }
+              %td
+                .property
+                  = text_field_tag 'new_details[]', nil, id: nil, class: 'text-box text-box--i18n', title: t('workarea.admin.catalog_products.edit.details.new_attribute_name'), placeholder: t('workarea.admin.catalog_products.edit.details.new_attribute_name_placeholder')
+                  %span.property__note= t('workarea.admin.catalog_products.edit.details.new_attribute_name_note')
+              %td
+                .property
+                  = text_field_tag 'new_details[]', nil, id: nil, class: 'text-box text-box--i18n', title: t('workarea.admin.catalog_products.edit.details.new_attribute_value'), placeholder: t('workarea.admin.catalog_products.edit.details.new_attribute_value_placeholder')
+                  %span.property__note= t('workarea.admin.catalog_products.edit.details.new_attribute_value_note')
+                  %span.property__note
+                    = t('workarea.admin.catalog_products.edit.details.new_attribute_value_csv')
+                    = link_to '#csv-help', data: { tooltip: '' } do
+                      = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.catalog_products.edit.details.learn_more'))
+              %td.align-center -
+
+      .section
+
+        %h2= t('workarea.admin.catalog_products.edit.filters.label')
+
+        %table
+          %thead
+            %tr
+              %th= t('workarea.admin.catalog_products.edit.filters.name')
+              %th= t('workarea.admin.catalog_products.edit.filters.values')
+              %th.align-center= t('workarea.admin.actions.delete')
+          %tbody
+            - @product.filters.each do |name, value|
+              %tr
+                %td
+                  .property
+                    = label_tag "filter_#{name}" do
+                      #{name}
+                %td
+                  .property
+                    = hidden_field_tag 'filters[]', name, id: nil
+                    = text_field_tag 'filters[]', hash_editing_value(value), class: 'text-box text-box--i18n', placeholder: t('workarea.admin.catalog_products.edit.filters.new_filter_value'), id: "filter_#{name}"
+                %td.align-center= check_box_tag 'filters_to_remove[]', name, false, id: nil, title: "#{t('workarea.admin.actions.delete')}: #{name} #{value}"
+            %tr{ data: { cloneable_row: '' } }
+              %td
+                .property
+                  = text_field_tag 'new_filters[]', nil, id: nil, class: 'text-box text-box--i18n', title: t('workarea.admin.catalog_products.edit.filters.new_filter_name'), placeholder: t('workarea.admin.catalog_products.edit.filters.new_filter_name'), pattern: Workarea.config.product_filter_input_validation_pattern
+                  %span.property__note= t('workarea.admin.catalog_products.edit.filters.new_filter_name_note')
+              %td
+                .property
+                  = text_field_tag 'new_filters[]', nil, id: nil, class: 'text-box text-box--i18n', title: t('workarea.admin.catalog_products.edit.filters.new_filter_value'), placeholder: t('workarea.admin.catalog_products.edit.filters.new_filter_value')
+                  %span.property__note= t('workarea.admin.catalog_products.edit.filters.new_fiter_value_note')
+                  %span.property__note
+                    = t('workarea.admin.catalog_products.edit.filters.new_filter_value_csv')
+                    = link_to '#csv-help', data: { tooltip: '' } do
+                      = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.catalog_products.edit.filters.learn_more'))
+              %td.align-center -
+
+        .grid.grid--huge
+          .grid__cell.grid__cell--50.grid__cell--25-at-medium
+            .property
+              = label_tag 'product_updated_at', t('workarea.admin.fields.updated_at'), class: 'property__name'
+              = local_time(@product.updated_at)
+          .grid__cell.grid__cell--50.grid__cell--25-at-medium
+            .property
+              = label_tag 'product_created_at', t('workarea.admin.fields.created_at'), class: 'property__name'
+              = local_time(@product.created_at)
+          - if @product.copied_from.present?
+            .grid__cell.grid__cell--50.grid__cell--25-at-medium
+              .property
+                = label_tag 'product_copied_from', t('workarea.admin.fields.copied_from_id'), class: 'property__name'
+                = link_to @product.copied_from.name, catalog_product_path(@product.copied_from)
+
+
+      .workflow-bar
+        .grid.grid--auto.grid--right.grid--middle
+          .grid__cell= render 'workarea/admin/shared/publishing_select'
+          .grid__cell= button_tag t('workarea.admin.form.save_changes'), value: 'save_product', class: 'workflow-bar__button workflow-bar__button--update'
+
+    = render 'workarea/admin/shared/csv_formatting_tooltip'

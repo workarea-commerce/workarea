@@ -1,0 +1,40 @@
+#divider-content-block.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'divider_content_block')
+
+  %p A content block that shows a horizontal rule. Intended to visually divide other content blocks.
+
+  %p should support a user-set border style and width:
+  .style-guide__example-block
+    .divider-content-block.divider-content-block--small
+      .divider-content-block__line{ style: "border-bottom-style: solid; border-bottom-width: 3px" }
+
+  %p should support spacing without visual border:
+  .style-guide__example-block
+    .divider-content-block.divider-content-block--small
+      .divider-content-block__line.hidden{ style: "border-bottom-style: solid; border-bottom-width: 3px" }
+
+  %p should support various heights:
+  .style-guide__example-block
+    .divider-content-block.divider-content-block--small
+      .divider-content-block__line{ style: "border-bottom-style: dashed; border-bottom-width: 3px" }
+
+  .style-guide__example-block
+    .divider-content-block.divider-content-block--small
+      .divider-content-block__line.hidden{ style: "border-bottom-style: dashed; border-bottom-width: 3px" }
+
+  .style-guide__example-block
+    .divider-content-block.divider-content-block--medium
+      .divider-content-block__line{ style: "border-bottom-style: double; border-bottom-width: 3px" }
+
+  .style-guide__example-block
+    .divider-content-block.divider-content-block--medium
+      .divider-content-block__line.hidden{ style: "border-bottom-style: double; border-bottom-width: 3px" }
+
+  .style-guide__example-block
+    .divider-content-block.divider-content-block--large
+      .divider-content-block__line{ style: "border-bottom-style: solid; border-bottom-width: 3px" }
+
+  .style-guide__example-block
+    .divider-content-block.divider-content-block--large
+      .divider-content-block__line.hidden{ style: "border-bottom-style: solid; border-bottom-width: 3px" }

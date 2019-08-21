@@ -1,0 +1,34 @@
+%li.menu-editor__list-item
+  .menu-editor__add-item
+    = link_to new_navigation_taxon_path(parent_id: taxon.parent_ids.last, position: position), title: t('workarea.admin.navigation_taxons.taxon.add_new_item'), class: 'menu-editor__add-item-button' do
+      = inline_svg 'workarea/admin/icons/add_circle.svg', class: 'menu-editor__icon menu-editor__icon--add'
+      %span.menu-editor__add-item-button-text= t('workarea.admin.navigation_taxons.taxon.add_new_item')
+
+  = link_to children_navigation_taxon_path(taxon), data: { menu_editor_link: { id: taxon.id, moveUrl: move_navigation_taxon_path(taxon) }.to_json }, class: 'menu-editor__menu-link menu-editor__menu-link--draggable' do
+    = inline_svg("workarea/admin/icons/grip.svg", title: t('workarea.admin.navigation_taxons.taxon.drag_to_rearrange'), class: 'menu-editor__link-grip svg-icon svg-icon--small svg-icon--gray')
+
+    = taxon_icon(taxon, class: 'menu-editor__icon menu-editor__icon--link')
+    %span.menu-editor__menu-link-text= taxon.name
+
+  %ul.menu-editor__control
+    - if taxon.navigable.present?
+      %li.menu-editor__control-item
+        = link_to polymorphic_path(taxon.navigable), class: 'menu-editor__control-link' do
+          = inline_svg 'workarea/admin/icons/view.svg', class: 'menu-editor__icon menu-editor__icon--link', title: t('workarea.admin.navigation_taxons.taxon.navigation_menu_info')
+    - elsif taxon.url.present?
+      %li.menu-editor__control-item
+        = link_to taxon.url, class: 'menu-editor__control-link' do
+          = inline_svg 'workarea/admin/icons/view.svg', class: 'menu-editor__icon menu-editor__icon--link', title: t('workarea.admin.navigation_taxons.taxon.url')
+
+    %li.menu-editor__control-item
+      = link_to edit_navigation_taxon_path(taxon), title: t('workarea.admin.navigation_taxons.taxon.edit_name', name: taxon.name), class: 'menu-editor__control-link' do
+        = inline_svg 'workarea/admin/icons/edit.svg', class: 'menu-editor__icon menu-editor__icon--link', title: t('workarea.admin.navigation_taxons.taxon.edit_name_title')
+
+    - unless taxon.in_menu?
+      %li.menu-editor__control-item
+        = form_tag navigation_taxon_path(taxon), method: 'delete', data: { deletion_form: { message: t('workarea.admin.navigation_taxons.taxon.delete_taxon_confirmation', name: taxon.name) } } do
+          = button_tag t('workarea.admin.actions.remove'), value: 'remove_taxon', title: t('workarea.admin.navigation_taxons.taxon.delete_taxon_confirmation', name: taxon.name), class: 'menu-editor__control-link text-button' do
+            = inline_svg 'workarea/admin/icons/delete.svg', class: 'menu-editor__icon menu-editor__icon--link', title: t('workarea.admin.actions.remove')
+
+  - if taxon.has_children?
+    = inline_svg 'workarea/admin/icons/navigate_next.svg', class: 'menu-editor__icon menu-editor__icon--link menu-editor__icon menu-editor__icon--parent'

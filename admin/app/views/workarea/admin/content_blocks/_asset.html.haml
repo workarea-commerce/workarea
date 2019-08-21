@@ -1,0 +1,24 @@
+.property{ class: ('property--required' if field.required?), data: field.options[:html_data_attributes] }
+  = label_tag dom_id(block, field.slug), class: 'property__name' do
+    = field.name
+    - if field.tooltip.present?
+      = link_to "##{dom_id(block, field.slug)}_tooltip", data: { tooltip: '' } do
+        = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.content_blocks.tooltips.more_info'))
+
+  - if field.note.present?
+    %span.property__note= field.note
+  .asset-picker-field{ data: { asset_picker_field: '' } }
+    .asset-picker-field__cell
+      = hidden_field_tag "block[data][#{field.slug}]", block.data[field.slug], id: nil, class: 'text-box text-box--i18n', required: field.required?
+
+      %span{ data: { asset_name: true } }
+        - asset = Workarea::Content::Asset.find_or_initialize_by(id: block.data[field.slug])
+        = asset.name.presence || t('workarea.admin.content_blocks.asset.name_missing')
+
+    .asset-picker-field__cell= link_to t('workarea.admin.content_blocks.asset.select_an_asset'), insert_content_assets_path(file_type: field.file_types), class: 'text-button', data: { asset_picker_field_open: '', turbolinks: false }
+    - if asset.name.present?
+      .asset-picker-field__cell= button_tag t('workarea.admin.content_blocks.asset.clear_asset'), type: 'button', value: 'clear_asset', id: nil, class: 'text-button text-button--destroy', data: { asset_picker_field_clear: '' }
+
+- if field.tooltip.present?
+  .tooltip-content{ id: "#{dom_id(block, field.slug)}_tooltip" }
+    %p= field.tooltip

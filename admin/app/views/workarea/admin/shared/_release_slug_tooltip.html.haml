@@ -1,0 +1,7 @@
+- if current_release.present?
+  %span.property__note
+    = link_to '#release-slug-help', data: { tooltip: '' } do
+      = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.shared.release_slug.learn_more'))
+  .tooltip-content#release-slug-help
+    %p
+      = t('workarea.admin.shared.release_slug.tooltip_content_html')

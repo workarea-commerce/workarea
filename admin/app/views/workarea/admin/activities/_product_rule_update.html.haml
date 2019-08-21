@@ -1,0 +1,13 @@
+.activity
+  .activity__header
+    .activity__avatar
+      = link_to_modifier(entry) do
+        = avatar_for entry.modifier
+    %h3.activity__name= link_to_modifier(entry)
+    %p.activity__time= activity_time(entry.created_at)
+  .activity__message
+    - name = content_tag :strong, entry.model_attributes['name'][I18n.locale.to_s]
+    - operator = entry.model_attributes['operator'].singularize
+    - value = render_activity_category_value(entry.model_attributes)
+    - category = entry.root.present? ? link_to(entry.root.name, entry.root) : t('workarea.admin.activities.a_category')
+    = t('workarea.admin.activities.catalog_category_product_rule_update', name: name, operator: operator, value: value, category: category).html_safe

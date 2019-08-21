@@ -1,0 +1,11 @@
+Description:
+  Boilerplate set up for a custom product template.
+
+Example:
+    rails generate workarea:product_template TemplateName
+
+    modifies:
+      config/initializers/workarea.rb
+    creates:
+      app/views/workarea/storefront/products/templates/template_name.html.haml
+      app/view_models/workarea/storefront/product_templates/template_name_view_model.rb

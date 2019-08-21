@@ -1,0 +1,70 @@
+/*------------------------------------*\
+    #VISIBLE
+\*------------------------------------*/
+
+/**
+ * Reveal a block-level element.
+ */
+.visible,
+%visible {
+    display: block;
+}
+
+
+/**
+ * Reveal a block-level element for greater-than or equal-to the breakpoint.
+ */
+.visible--for-medium,
+%visible--for-medium {
+    display: none;
+
+    @include respond-to($medium-breakpoint) {
+        display: block;
+    }
+}
+
+.visible--for-wide,
+%visible--for-wide {
+    display: none;
+
+    @include respond-to($wide-breakpoint) {
+        display: block;
+    }
+}
+
+
+/**
+ * Reveal a block-level element for the breakpoint.
+ */
+.visible--for-small-only,
+%visible--for-small-only {
+    @include respond-to($medium-breakpoint) {
+        display: none;
+    }
+}
+
+.visible--for-medium-only,
+%visible--for-medium-only {
+    display: none;
+
+    @include respond-to($medium-breakpoint) {
+        display: block;
+    }
+
+    @include respond-to($wide-breakpoint) {
+        display: none;
+    }
+}
+
+.visible--for-wide-only,
+%visible--for-wide-only {
+    display: none;
+
+    @include respond-to($wide-breakpoint) {
+        display: block;
+    }
+
+    @include respond-to($x-wide-breakpoint) {
+        display: none;
+    }
+}

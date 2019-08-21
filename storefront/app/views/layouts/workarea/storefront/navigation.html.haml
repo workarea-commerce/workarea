@@ -1,0 +1,48 @@
+- add_css(layout_content.css)
+- add_javascript(layout_content.javascript)
+
+!!!
+/
+  Platform: Workarea Ecommerce
+  Web:      http://workarea.com
+  Email:    sales@workarea.com
+  Phone:    215-925-1800
+
+%html{ lang: 'en' }
+  %head
+    %meta{ charset: 'utf-8' }
+    %title= page_title
+    %meta{ name: 'robots', content: 'noodp' }
+    = csrf_meta_tags
+    %meta{ name: 'viewport', content: 'width=device-width, initial-scale=1.0' }
+    %meta{ property: 'locale', content: I18n.locale }
+    %meta{ property: 'environment', content: Rails.env }
+    = alternate_locales_tags
+    = render 'workarea/storefront/favicons/tags'
+    %link{ rel: 'manifest', href: web_manifest_path }
+    %meta{ name: 'theme-color', content: Workarea.config.web_manifest.theme_color }
+
+    :css
+      @-ms-viewport { width: device-width; }
+      @viewport { width: device-width; }
+    = yield :head
+    = stylesheet_link_tag Workarea.config.asset_manifests.storefront_stylesheet, media: 'all'
+    = yield :css
+
+    = append_partials('storefront.document_head')
+    = javascript_include_tag Workarea.config.asset_manifests.storefront_javascript_head
+
+  %body{ itemscope: true, itemtype: 'http://schema.org/WebPage' }
+
+    %ul.accessibility-nav.visually-hidden
+      %li= link_to t('workarea.storefront.layouts.accessibility_info'), accessibility_path
+      %li= link_to t('workarea.storefront.layouts.primary_navigation'), '#navigation', accesskey: 'M'
+
+    .page-messages
+      = flash_messages if flash.present?
+
+    #navigation= yield
+
+    = javascript_include_tag Workarea.config.asset_manifests.storefront_javascript
+    = yield :javascript
+    = append_partials('storefront.javascript')

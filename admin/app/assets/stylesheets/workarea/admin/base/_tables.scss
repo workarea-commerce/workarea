@@ -1,0 +1,54 @@
+/*------------------------------------*\
+    #TABLES
+\*------------------------------------*/
+
+$table-border-color:        $border-color !default;
+
+$table-header-color:        $dark-gray !default;
+$table-cell-color:          $font-color !default;
+
+$table-row-hover-bg-color:  $light-gray !default;
+
+
+/**
+ * 1. various types of content will be found wrapped in paragraph tags within
+ *    tables
+ */
+table {
+    margin-bottom: $vertical-margin;
+    width: 100%;
+    border-collapse: collapse;
+
+    p { /* [1] */
+        margin: 0;
+    }
+
+    p + p { /* [1] */
+        margin-top: $spacing-unit;
+    }
+}
+
+    thead {}
+
+    tbody {}
+
+        tr {
+            tbody &:hover {
+                background: $table-row-hover-bg-color;
+            }
+        }
+
+            th, td {
+                padding: $spacing-unit;
+                text-align: left;
+                border-bottom: 1px solid $table-border-color;
+                vertical-align: baseline;
+            }
+
+            th {
+                color: $table-header-color;
+            }
+
+            td {
+                color: $table-cell-color;
+            }

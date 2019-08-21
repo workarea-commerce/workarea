@@ -1,0 +1,16 @@
+.card{ class: card_classes(:timeline, local_assigns[:active]) }
+  = link_to timeline_path(timeline.to_global_id), class: 'card__header' do
+    %span.card__header-text= t('workarea.admin.timeline.card.title')
+    = inline_svg 'workarea/admin/icons/timeline.svg', class: 'card__icon'
+
+  - if local_assigns[:active].blank?
+    .card__body
+      - if timeline.empty?
+        %p.card__empty-note= t('workarea.admin.timeline.card.description')
+        = link_to timeline_path(timeline.to_global_id), class: 'card__button' do
+          %span.button.button--small= t('workarea.admin.timeline.card.button')
+      - else
+        - timeline.activity.entries.take(3).each do |entry|
+          = render_activity_entry(entry)
+        = link_to timeline_path(timeline.to_global_id), class: 'card__button' do
+          %span.button.button--small= t('workarea.admin.timeline.card.button')

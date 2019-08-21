@@ -1,0 +1,20 @@
+.insight
+  .insight__date
+    %span.insight__period= insight.reporting_on.strftime('%B %Y')
+  .insight__heading= t('workarea.admin.insights.low_aov_customers.title')
+  .insight__body
+    %p.insight__note= t('workarea.admin.insights.low_aov_customers.info')
+    %table
+      %thead
+        %tr
+          %th= t('workarea.admin.fields.email')
+          %th.align-center= t('workarea.admin.fields.last_purchase')
+          %th.align-center= t('workarea.admin.fields.total_orders')
+          %th.align-right= t('workarea.admin.fields.average_order_value')
+      %tbody
+        - insight.results.each do |result|
+          %tr
+            %td= result._id
+            %td.align-center= local_time_ago(result.last_order_at)
+            %td.align-center= number_with_delimiter result.orders
+            %td.align-right= number_to_currency(result.average_order_value)

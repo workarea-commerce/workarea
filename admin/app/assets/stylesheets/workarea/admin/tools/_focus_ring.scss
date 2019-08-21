@@ -1,0 +1,23 @@
+/*------------------------------------*\
+    #FOCUS-RING
+\*------------------------------------*/
+
+/// Provides a border and box-shadow for a focusable element. Useful when
+/// creating custom, non-standard form control UIs.
+///
+/// @param {Color} $color [$focus-ring-color] - the color of the applied border
+///
+/// @example scss - Focus Ring mixin
+///     $block-focus-border-color:  $blue;
+///
+///     .block {
+///         &:focus {
+///             @include focus-ring($block-focus-border-color);
+///         }
+///     }
+@mixin focus-ring($color: $focus-ring-color) {
+    border-color: $color;
+    box-shadow: 0 0 0 2px $color;
+    outline: none;
+    transition: border 0.1s, box-shadow 0.1s;
+}

@@ -1,0 +1,21 @@
+- @page_title = t('workarea.admin.trash.index.title')
+
+.view
+  .view__header
+    .view__heading
+      = link_to "↑ #{t('workarea.admin.trash.index.main_dashboard')}", root_path
+      %h1= t('workarea.admin.trash.index.title')
+
+      - if @entries.blank?
+        %p.heading.heading--2= t('workarea.admin.trash.index.empty')
+      - else
+        %p= t('workarea.admin.trash.index.description')
+
+  .view__container.view__container--narrow
+    .activity-group.activity-group--bordered
+      .activity-group__activities
+        - @entries.each do |entry|
+          = render_activity_entry(entry)
+
+    - if @entries.total_pages > 1
+      = render 'workarea/admin/shared/pagination', collection: @entries

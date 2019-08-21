@@ -1,0 +1,70 @@
+/*------------------------------------*\
+    #RELEASE-SELECT
+\*------------------------------------*/
+
+$release-select-icon-size: 24px !default;
+
+$release-select-icon-active-color:       $red !default;
+$release-select-emphasize-bg-color:      $red !default;
+$release-select-emphasize-color:         $white !default;
+$release-select-emphasize-border-color:  $red !default;
+
+$release-select-input-max-width:  160px !default;
+
+
+.release-select {
+    position: relative;
+}
+
+.release-select--active {}
+
+    .release-select__container {
+        display: table;
+
+        .release-select--emphasize & {
+            background: $release-select-emphasize-bg-color;
+            border: 1px solid $release-select-emphasize-border-color;
+            border-radius: 5px;
+        }
+    }
+
+        .release-select__container-cell {
+            display: table-cell;
+            padding: $spacing-unit;
+
+            + .release-select__container-cell {
+                padding-right: ($spacing-unit * 2);
+            }
+        }
+
+            .release-select__icon {
+                width: $release-select-icon-size;
+                height: $release-select-icon-size;
+                vertical-align: middle;
+
+                .release-select--active & {
+                    fill: $release-select-icon-active-color;
+                }
+
+                .release-select--emphasize & {
+                    fill: $release-select-emphasize-color;
+                }
+            }
+
+            .release-select__label {}
+
+            .release-select__input {
+                max-width: $release-select-input-max-width;
+                font-size: $font-size;
+                line-height: 1;
+            }
+
+            .release-select__link {
+                margin-left: $spacing-unit;
+
+                .release-select--active & {}
+
+                .release-select--emphasize & {
+                    color: $release-select-emphasize-color;
+                }
+            }

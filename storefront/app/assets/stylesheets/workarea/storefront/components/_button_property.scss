@@ -1,0 +1,40 @@
+/*------------------------------------*\
+    #BUTTON-PROPERTY
+\*------------------------------------*/
+
+.button-property {
+    margin-bottom: $vertical-margin;
+}
+
+
+/**
+ * 1. ensures consistent layout with other `.property--responsive` blocks
+ */
+
+.button-property--responsive {
+    display: table-row;
+    margin: 0;
+
+    &:before { /* [1] */
+        display: table-cell;
+        content: '';
+    }
+
+    /**
+     * Extend `.value {}` in components/_value.scss.
+     */
+
+    .value {
+        display: inline-block;
+        margin:  0;
+        padding: $spacing-unit;
+        line-height: 1.43;
+        vertical-align: middle;
+    }
+}
+
+    .button-property__name {
+        display: inline-block;
+    }
+
+        .button-property__text {}

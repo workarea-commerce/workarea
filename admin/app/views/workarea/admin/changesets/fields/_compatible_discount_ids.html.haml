@@ -1,0 +1,4 @@
+%p.release-changeset__content
+  %span.release-changeset__field= t('workarea.admin.fields.compatible_discount_ids')
+  %span.release-changeset__old!= discount_links(old_value).join(', ')
+  %span.release-changeset__new!= discount_links(new_value).join(', ')

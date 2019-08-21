@@ -1,0 +1,8 @@
+<span class="select2-results__option-content"<% if (title) { %> title="<%= title %>" <% } %>>
+    <span class="select2-results__option-graph">
+        <span class='spark'>
+          {<%= sparkline_data.join(',') %>}
+        </span>
+    </span>
+    <%= text %>
+</span>

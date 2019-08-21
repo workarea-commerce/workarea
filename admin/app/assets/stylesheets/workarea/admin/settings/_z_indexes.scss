@@ -1,0 +1,37 @@
+/*------------------------------------*\
+#Z-INDEXES
+\*------------------------------------*/
+
+/**
+ * z-index values ordered pertaining to their container.
+ *
+ * $components is the base level. Other containers require a position
+ * other than 'static'
+ *
+ * Based upon this article in Smashing Magazine
+ * https://www.smashingmagazine.com/2014/06/sassy-z-index-management-for-complex-layouts/
+ */
+
+$components: (
+    ui-dialog,
+    workflow-bar,
+    browsing-controls,
+    browsing-controls-dropdown,
+    tooltipster,
+    help-helper,
+    takeover,
+    header,
+    ui-datepicker,
+    ui-autocomplete,
+    page-messages,
+    turbolinks-progress-bar
+) !default;
+
+    $content-block: (
+        add-button,
+    ) !default;
+
+    $property-toggle: (
+        property,
+        checkbox
+    ) !default;

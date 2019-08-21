@@ -1,0 +1,28 @@
+#data-pairs.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'data_pairs')
+
+  %p Displays a 2-column, auto-width table, where the cells in the left column are headers for the cells in the right column. Used to display data pairs (key/value pairs).
+
+  %p <strong>Note:</strong> intended to only be applied to <code>table</code> elements.
+
+  .style-guide__example-block
+    %table.data-pairs
+      %tbody
+        %tr
+          %th
+            %span.data-pairs__name Custom Browser Title
+          %td (Empty)
+        %tr
+          %th
+            %span.data-pairs__name Meta Keywords
+          %td (Empty)
+        %tr
+          %th
+            %span.data-pairs__name Meta Description
+          %td This is a brief description of the product.
+        %tr
+          %th
+            %span.data-pairs__name Body 1
+          %td
+            &lt;p&gt;This is the content of Body 1.&lt;p&gt;

@@ -1,0 +1,70 @@
+- @page_title = t('workarea.admin.dashboards.people.people_dashboard')
+
+.view
+  .view__header
+    .view__heading
+      = link_to "↑ #{t('workarea.admin.dashboards.main_dashboard')}", root_path
+      %h1= t('workarea.admin.dashboards.people.people')
+
+  .view__container
+    %ul.secondary-nav
+      %li= link_to t('workarea.admin.dashboards.people.all_people'), users_path
+      %li= link_to t('workarea.admin.dashboards.people.customers'), users_path(role: %w(Customer))
+      %li= link_to t('workarea.admin.dashboards.people.administrators'), users_path(role: %w(Administrator))
+      %li= link_to t('workarea.admin.dashboards.people.todays_signups'), todays_signups_path
+      = append_partials('admin.people_dashboard_navigation')
+
+  .view__container
+    .dashboard-graphs
+      .browsing-controls.browsing-controls--center.browsing-controls--filters-displayed
+        = form_tag request.path, method: 'get', class: 'browsing-controls__form' do
+          = render 'workarea/admin/shared/date_selector', starts_at: @dashboard.starts_at, ends_at: @dashboard.ends_at
+
+      .grid.grid--huge
+        .grid__cell.grid__cell--33
+          .dashboard-graphs__box
+            .dashboard-graphs__info
+              %h6.heading.heading--no-margin= t('workarea.admin.dashboards.people.customers')
+              = link_to sales_over_time_report_path(starts_at: @dashboard.starts_at.to_s(:date_only), ends_at: @dashboard.ends_at.to_s(:date_only), group_by: 'day'), class: 'heading heading--1 heading--no-margin' do
+                = number_with_delimiter @dashboard.customers
+
+              - if @dashboard.customers_percent_change.present?
+                %p
+                  = insights_trend_icon(@dashboard.customers_percent_change)
+                  = t('workarea.admin.dashboards.people.from_previous', percentage: insights_number_to_percentage(@dashboard.customers_percent_change))
+
+            .dashboard-graphs__chart= area_chart @dashboard.customers_graph_data, Workarea.config.default_chartkick_options
+
+        .grid__cell.grid__cell--33
+          .dashboard-graphs__box
+            .dashboard-graphs__info
+              %h6.heading.heading--no-margin= t('workarea.admin.dashboards.people.last_seven_days')
+              = link_to t('workarea.admin.dashboards.people.new'), first_time_vs_returning_sales_report_path(starts_at: @dashboard.starts_at.to_s(:date_only), ends_at: @dashboard.ends_at.to_s(:date_only), group_by: 'day')
+
+              - if @dashboard.first_time_orders_percent_change.blank?
+                \-
+              - else
+                = insights_trend_icon(@dashboard.first_time_orders_percent_change)
+                = insights_number_to_percentage(@dashboard.first_time_orders_percent_change)
+              %br
+              = link_to t('workarea.admin.dashboards.people.returning'), customers_report_path(starts_at: @dashboard.starts_at.to_s(:date_only), ends_at: @dashboard.ends_at.to_s(:date_only), results_filter: 'returning')
+
+              - if @dashboard.returning_orders_percent_change.blank?
+                \-
+              - else
+                = insights_trend_icon(@dashboard.returning_orders_percent_change)
+                = insights_number_to_percentage(@dashboard.returning_orders_percent_change)
+
+            .dashboard-graphs__chart= pie_chart @dashboard.new_vs_returning_pie_graph_data, Workarea.config.default_chartkick_options
+
+        .grid__cell.grid__cell--33
+          .dashboard-graphs__box
+            .dashboard-graphs__info
+              %h6.heading.heading--no-margin= t('workarea.admin.dashboards.people.new_vs_returning')
+
+            .dashboard-graphs__chart= line_chart @dashboard.new_vs_returning_line_graph_data, Workarea.config.default_chartkick_options
+
+  .view__container.view__container--narrow
+    .section
+      - @dashboard.insights.each do |insight|
+        = render "workarea/admin/insights/#{insight.slug}", insight: insight

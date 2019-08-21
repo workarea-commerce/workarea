@@ -1,0 +1,112 @@
+#table.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'table')
+
+  %p Styles a <code>table</code> table element.
+
+  %p <code>p</code> and #{link_to_style_guide('components', 'inline_form', true)} components are styled differently than in the global context.
+
+  %p Apply a class value of <code>table__prices</code> or <code>table__quantity</code> to control alignment within the cell. Header cells may be column headers or row headers.
+
+  %p Used within #{link_to_style_guide('components', 'product_list', true)}. Refer to that component for additional examples.
+
+  %p Account dashboard:
+  .style-guide__example-block
+    %table.table
+      %tbody
+        %tr
+          %th
+            %span Email
+          %td bclams@workarea.com
+        %tr
+          %th
+            %span Name
+          %td Bobby Clams
+        %tr
+          %th
+            %span Password
+          %td ********
+
+#table--totals.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'table__totals')
+
+  %p Displays a formatted #{link_to_style_guide('components', 'table', true)} responsible for showcasing total order price calculations.
+
+  %p Cart:
+  .style-guide__example-block
+    %table.table.table--totals
+      %tbody
+        %tr
+          %th
+            %span Subtotal
+          %td= number_to_currency(100.00)
+        %tr
+          %th
+            %span Order Level Discount
+          %td
+            %strong.table__price-discount= number_to_currency(-10.00)
+        %tr
+          %th
+            %span An Order Level Discount With a Longer Name Than the Last
+          %td
+            %strong.table__price-discount= number_to_currency(-10.00)
+        %tr
+          %th
+            %span Shipping
+          %td
+            = form_tag do
+              .inline-form
+                .inline-form__cell
+                  .value= text_field_tag 'wl_table_cart_totals_zip', nil, class: 'text-box text-box--small', minlength: 5, maxlength: 5, required: true, placeholder: 'ZIP Code', title: 'ZIP Code'
+                %p.inline-form__cell= button_tag 'Estimate', value: 'estimate_shipping', class: 'button'
+              %p= select_tag 'wl_table_cart_totals_shipping_service', options_for_select(['USPS First Class', 'UPS Ground', 'UPS 2 Day Air']), title: 'Shipping Services', data: { form_submitting_control: '' }
+        %tr
+          %th
+            %span Tax
+          %td Calculated at Checkout
+        %tr.table__total
+          %th
+            %span Total
+          %td= number_to_currency(80.00)
+
+  %p Order / checkout aside:
+  .style-guide__example-block
+    %table.table.table--totals
+      %tbody
+        %tr
+          %th
+            %span Subtotal
+          %td= number_to_currency(100.00)
+        %tr
+          %th
+            %span Order Level Discount
+          %td
+            %strong.table__price-discount= number_to_currency(-10.00)
+        %tr
+          %th
+            %span An Order Level Discount With a Longer Name Than the Last
+          %td
+            %strong.table__price-discount= number_to_currency(-10.00)
+        %tr
+          %th
+            %span Store Credit
+          %td
+            %strong.table__price-discount −#{number_to_currency(10.00)}
+        %tr
+          %th
+            %span Gift Card
+          %td
+            %strong.table__price-discount −#{number_to_currency(10.00)}
+        %tr
+          %th
+            %span Shipping
+          %td TBD
+        %tr
+          %th
+            %span Tax
+          %td TBD
+        %tr.table__total
+          %th
+            %span Total
+          %td= number_to_currency(60.00)

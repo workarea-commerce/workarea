@@ -1,0 +1,75 @@
+- @page_title = "#{t('workarea.admin.catalog_product_images.index.images_for')} #{@product.name}"
+
+.product-images.view
+  .view__header
+    .grid
+      .grid__cell.grid__cell--25
+        = render 'workarea/admin/releases/select'
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@product)
+          %h1= link_to @product.name, url_for(@product)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@product)
+
+  .view__container
+    = render_cards_for(@product, :images)
+
+  .view__container.view__container--narrow
+    .section{ data: { product_images_sortable_group: { url: positions_catalog_product_images_path(@product) }.to_json } }
+      %h2= t('workarea.admin.catalog_product_images.index.product_images')
+
+      - if @images.by_option.blank?
+        %p= t('workarea.admin.catalog_product_images.index.no_product_images')
+
+      - else
+        %ul.product-images__option-group{ data: { product_images_sortable: '' } }
+          - @images.by_option.each do |option, images|
+            %li.product-images__option
+              .product-images__option-header
+                .product-images__option-title= option.present? ? "#{option.titleize} #{t('workarea.admin.catalog_product_images.index.images')}" : t('workarea.admin.catalog_product_images.index.without_options')
+
+              %ul.product-images__image-group{ data: { product_images_sortable: '' } }
+                - images.each_with_index do |image, index|
+                  %li.product-images__image{ data: { 'image_id' => image.id } }
+                    .product-images__image-summary
+                      .product-images__image-summary-container= image_tag product_image_url(image, :small), alt: "#{index.ordinalize} #{option} #{t('workarea.admin.catalog_product_images.index.image')}", id: "#{option.parameterize}_#{index}", class: 'product-images__image-summary-image', data: { tooltip: { content_id: "##{dom_id(image, 'action_group')}", interactive: true }}
+                      .tooltip-content{ id: dom_id(image, 'action_group') }
+                        .grid.grid--middle
+                          .grid__cell.grid__cell--50
+                            = link_to inline_svg('workarea/admin/icons/edit.svg', class: 'svg-icon svg-icon--small svg-icon--dark-gray svg-icon--block', title: t('workarea.admin.catalog_product_images.index.edit_image')), edit_catalog_product_image_path(@product, image), id: dom_id(image, 'edit_image')
+                          .grid__cell.grid__cell--50
+                            = link_to catalog_product_image_path(@product, image), data: { method: 'delete', confirm: t('workarea.admin.catalog_product_images.index.delete_confirmation') }, id: dom_id(image, 'delete_image') do
+                              = inline_svg('workarea/admin/icons/delete.svg', class: 'svg-icon svg-icon--small svg-icon--red', title: t('workarea.admin.catalog_product_images.index.delete_image'))
+                    = form_tag catalog_product_image_path(@product, image), method: :patch, class: 'hidden', data: { product_images_sortable_position_form: '' } do
+                      %p= number_field_tag 'image[position]', image.position, class: 'text-box text-box--small', id: dom_id(image, 'image_position')
+                      %p= button_tag t('workarea.admin.actions.update'), value: 'update_position', class: 'button button--small'
+
+    .section
+      %h2= t('workarea.admin.catalog_product_images.index.add_new_image')
+
+      - if @image.present? && @image.errors.present?
+        - @image.errors.full_messages.each do |message|
+          = render_message 'error', message
+
+      = form_tag catalog_product_images_path(@product), method: 'post', multipart: true, data: { unsaved_changes: '' } do
+        .property
+          = label_tag 'image_image', t('workarea.admin.fields.image'), class: 'property__name'
+          = file_field_tag 'image[image]', required: true
+
+        .property
+          = label_tag 'image_option', t('workarea.admin.fields.option'), class: 'property__name'
+          = text_field_tag 'image[option]', nil, class: 'text-box text-box--medium', data: { autocomplete_field: options_catalog_product_images_path(@product, format: :json) }
+
+        = append_partials('admin.product_image_fields')
+
+        = append_partials('admin.product_images', product: @product)
+
+        .workflow-bar
+          .grid.grid--right.grid--middle
+            .grid__cell.grid__cell--20
+              = link_to t('workarea.admin.form.cancel'), url_for(@product), class: 'workflow-bar__button workflow-bar__button--delete'
+
+            .grid__cell.grid__cell--80
+              .grid.grid--auto.grid--right.grid--middle
+                .grid__cell= button_tag t('workarea.admin.catalog_product_images.index.create_image'), value: 'create_image', class: 'workflow-bar__button workflow-bar__button--create', data: { disable_with: t('workarea.admin.catalog_product_images.index.create_image_disabled_text') }

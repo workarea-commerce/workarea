@@ -1,0 +1,12 @@
+#breadcrumbs.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'breadcrumbs')
+
+  %p Styles a set of breadcrumbs.
+
+  .style-guide__example-block
+    .breadcrumbs
+      %p.breadcrumbs__node-group
+        %span.breadcrumbs__node= link_to 'Foo', '#', class: 'breadcrumbs__link'
+        %span.breadcrumbs__node= link_to 'Bar', '#', class: 'breadcrumbs__link'
+        %span.breadcrumbs__node= link_to 'Baz', '#', class: 'breadcrumbs__link'

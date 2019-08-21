@@ -1,0 +1,13 @@
+= append_partials('storefront.payment_refund.top')
+
+- content_for :preheader_text do
+  = t('workarea.storefront.email.order_refund.heading', order_id: @order.id)
+
+%tr
+  %td
+    %h1= t('workarea.storefront.email.order_refund.heading', order_id: @order.id)
+    %p= t('workarea.storefront.email.order_refund.info_html', amount: number_to_currency(@refund.total))
+
+= render 'workarea/storefront/mailers/recommendations', recommendations: @recommendations
+
+= append_partials('storefront.payment_refund.bottom')

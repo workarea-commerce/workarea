@@ -1,0 +1,20 @@
+- @title = @page.browser_title
+
+- add_css(@page.css)
+- add_javascript(@page.javascript)
+
+- content_for :head do
+  %meta{ property: 'global-id', content: @page.to_global_id.to_param }
+
+  %link{ href: root_url, rel: 'canonical' }
+  %meta{ name: :description, content: @page.meta_description }
+
+  %meta{ property: 'og:url', content: url_for(only_path: false) }
+  %meta{ property: 'og:title', content: page_title }
+  %meta{ property: 'og:type', content: 'website' }
+  %meta{ property: 'og:image', content: @page.open_graph_asset.url }
+  %meta{ property: 'og:image:secure_url', content: @page.open_graph_asset.url }
+
+.view
+  %h1.visually-hidden= Workarea.config.site_name.titleize
+  = render_content_blocks(@page.content_blocks) if @page.content_blocks.present?

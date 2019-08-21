@@ -1,0 +1,8 @@
+/*------------------------------------*\
+    #BREAKPOINTS
+\*------------------------------------*/
+
+// Breakpoints are configured in core/lib/workarea/configuration.rb
+<% Workarea.config.admin_break_points.each do |name, size| %>
+    <%= "$#{name.to_s.dasherize}-breakpoint: #{size}px !default;" %>
+<% end %>

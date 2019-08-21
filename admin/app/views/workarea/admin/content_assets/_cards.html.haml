@@ -1,0 +1,49 @@
+.grid.grid--auto.grid--flush.grid--center
+  .grid__cell
+    .card{ class: card_classes(:attributes, local_assigns[:active]) }
+      = link_to edit_content_asset_path(model), class: 'card__header' do
+        %span.card__header-text= t('workarea.admin.cards.attributes.title')
+        = inline_svg 'workarea/admin/icons/attributes.svg', class: 'card__icon'
+
+      - if local_assigns[:active].blank?
+        .card__body
+          %ul.list-reset
+            %li
+              %strong= t('workarea.admin.fields.file_name')
+              = link_to model.file_name, model.url, target: '_blank', rel: 'noopener'
+            %li
+              %strong= t('workarea.admin.fields.type')
+              = model.type.titleize
+            %li
+              %strong= t('workarea.admin.fields.tags')
+              = model.tags.join(', ').presence || '(none)'
+            %li
+              %strong= t('workarea.admin.fields.updated_at')
+              #{local_time_ago(model.updated_at)}
+            %li
+              %strong= t('workarea.admin.fields.created_at')
+              #{local_time_ago(model.created_at)}
+
+          = link_to edit_content_asset_path(model), class: 'card__button' do
+            %span.button.button--small= t('workarea.admin.cards.attributes.button')
+
+  .grid__cell
+    .card{ class: card_classes(:original, local_assigns[:active]) }
+      = link_to url_to_asset(model.url), class: 'card__header' do
+        %span.card__header-text= t('workarea.admin.content_assets.cards.original.title')
+        = inline_svg 'workarea/admin/icons/original.svg', class: 'card__icon'
+
+      - if local_assigns[:active].blank?
+        .card__body
+          - if model.image?
+            = image_tag model.large_thumb.url, alt: model.name, class: 'card__photo'
+          - else
+            = inline_svg 'workarea/admin/icons/asset.svg', title: model.name, class: 'card__photo'
+          = link_to url_to_asset(model.url), class: 'card__button' do
+            %span.button.button--small= t('workarea.admin.content_assets.cards.original.button')
+
+  .grid__cell
+    = render 'workarea/admin/timeline/card', timeline: model.timeline, active: local_assigns[:active]
+
+  .grid__cell
+    = render 'workarea/admin/comments/card', commentable: model, active: local_assigns[:active]

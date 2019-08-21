@@ -1,0 +1,28 @@
+- if preview.results.empty?
+  %p.product-rules-preview__no-results= t('workarea.admin.product_rules.preview.no_results')
+- else
+  %h3.align-center= t('workarea.admin.product_rules.preview.matching_product', count: preview.results.total)
+
+  .align-center
+    - if preview.show_all?
+      = link_to t('workarea.admin.product_rules.preview.hide_undisplayable'), product_rules_show_all_query_string(show_all: false)
+    - else
+      = link_to t('workarea.admin.product_rules.preview.show_undisplayable'), product_rules_show_all_query_string
+    = link_to '#show-all-info', data: { tooltip: '' } do
+      = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.product_rules.preview.show_undisplayable_info_link'))
+
+    #show-all-info.tooltip-content
+      %p= t('workarea.admin.product_rules.preview.show_undisplayable_info')
+
+  .product-rules-preview__products
+    .grid.grid--auto.grid--flush.grid--center
+      - preview.results.each do |result|
+        .grid__cell
+          .product-summary{ class: ('product-summary--muted' unless result.displayable?) }
+            .product-summary__media
+              .product-summary__image-wrapper
+                = image_tag(product_image_url(result.primary_image, :small), alt: result.name, class: 'product-summary__image')
+            %span.product-summary__name{ title: result.name }= result.name
+            %span.product-summary__graph
+              %span.spark{ title: t('workarea.admin.catalog_categories.cards.featured_products.sparkline_title') }
+                {#{sparkline_analytics_data_for(result.insights.orders_sparkline).join(',')}}

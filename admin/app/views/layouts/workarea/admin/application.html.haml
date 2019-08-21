@@ -1,0 +1,181 @@
+!!!
+%html{ lang: 'en', class: locale_options.many? ? 'i18n' : nil }
+  %head
+    %meta{ charset: 'utf-8' }
+    %title= page_title
+    = csrf_meta_tags
+    %meta{ property: 'locale', content: I18n.locale }
+    %meta{ property: 'environment', content: Rails.env }
+    %meta{ property: 'turbolinks-root', content: root_path }
+    = stylesheet_link_tag 'workarea/admin/application', media: 'all'
+    - if !Rails.env.test? && !Rails.env.development?
+      :javascript
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-69425367-1', 'workarea.com');
+
+      :javascript
+        window.heap=window.heap||[],heap.load=function(e,t){window.heap.appid=e,window.heap.config=t=t||{};var n=t.forceSSL||"https:"===document.location.protocol,a=document.createElement("script");a.type="text/javascript",a.async=!0,a.src=(n?"https:":"http:")+"//cdn.heapanalytics.com/js/heap-"+e+".js";var o=document.getElementsByTagName("script")[0];o.parentNode.insertBefore(a,o);for(var r=function(e){return function(){heap.push([e].concat(Array.prototype.slice.call(arguments,0)))}},p=["clearEventProperties","identify","setEventProperties","track","unsetEventProperty"],c=0;c<p.length;c++)heap[p[c]]=r(p[c])};
+
+        heap.load("203501109");
+        heap.identify({ handle: "#{current_user.id}", email: "#{current_user.email}" });
+        heap.setEventProperties({
+            "Application": "#{Rails.application.class.parent_name.titleize}",
+            "Environment": "#{Rails.env}",
+            "Major Version": "#{Workarea::VERSION::MAJOR}",
+            "Minor Version": "#{Workarea::VERSION::MINOR}",
+            "Patch Version": "#{Workarea::VERSION::PATCH}"
+        });
+
+    = favicon_link_tag 'workarea/admin/favicon.ico', rel: 'icon', type: 'image/x-icon'
+
+    = append_partials('admin.document_head')
+    = javascript_include_tag 'workarea/admin/application'
+    = yield :head
+
+  %body{ data: { turbolinks: Rails.env.test? ? 'false' : nil } }
+
+    %ul.accessibility-nav.visually-hidden
+      %li= link_to t('workarea.admin.layout.skip_to_main_content'), '#main', accesskey: 'S'
+      %li= link_to t('workarea.admin.layout.skip_to_primary_menu'), '#primary_nav', accesskey: 'M'
+
+    .page-messages= flash_messages if flash.present?
+
+    #top.page-container
+
+      #header.header
+        = inline_svg('workarea/admin/logo.svg', class: 'header__logo', title: 'Workarea')
+
+        = link_to inline_svg('workarea/admin/icons/menu.svg', class: 'header__menu-icon', title: t('workarea.admin.layout.open_primary_menu')), '#primary_nav', class: 'header__menu-button header__menu-button--open', data: { turbolinks: false, primary_nav: '' }, id: 'open_primary_nav'
+        = button_tag inline_svg('workarea/admin/icons/close.svg', class: 'header__menu-icon', title: t('workarea.admin.layout.close_primary_menu')), class: 'header__menu-button header__menu-button--close', type: 'button', id: 'takeover_close_button'
+
+        = render 'workarea/admin/shared/primary_nav'
+
+        .header__contents
+
+          = form_tag search_path, method: 'get', class: 'header__search-form', role: 'search' do
+            .search-form.search-form--major
+              = search_field_tag :q, nil, placeholder: t('workarea.admin.layout.search_placeholder'), title: t('workarea.admin.layout.search_placeholder'), tabindex: '1', class: 'search-form__input', data: { categorized_autocomplete_field: '' }, id: 'admin_search'
+              = submit_tag 'search', class: 'search-form__button', value: 'search_admin'
+
+          = append_partials('admin.page_header')
+          .header__action
+            %button#shortcuts_menu{ type: 'button', class: 'header__action-link', data: { tooltip: { menu: true, content_id: '#shortcuts', interactive: true, arrow: false, distance: 0, multiple: false, trigger: 'hover' }.to_json, turbolinks: false } }
+              = inline_svg('workarea/admin/icons/link.svg', class: 'svg-icon svg-icon--green')
+              %span.header__action-link-text= t('workarea.admin.layout.shortcuts')
+            #shortcuts.tooltip-content.tooltip-content--no-padding
+              %ul.menu
+                %li.menu__item.menu__item--heading
+                  %span.menu__heading= t('workarea.admin.layout.handy_links')
+                %li.menu__item= link_to t('workarea.admin.layout.visit_storefront'), storefront.root_path, class: 'menu__link'
+                %li.menu__item= link_to t('workarea.admin.layout.your_account_on_the_storefront'), storefront.users_account_path, class: 'menu__link'
+                %li.menu__item= link_to t('workarea.admin.layout.edit_the_home_page'), edit_content_path(current_system_page_content_for(:home_page)), class: 'menu__link'
+                %li.menu__item.menu__item--heading
+                  %span.menu__heading= t('workarea.admin.layout.most_visited')
+                - if most_visited.blank?
+                  %li.menu__item
+                    %p= t('workarea.admin.layout.most_visited_note')
+                - else
+                  - most_visited.each do |visit|
+                    %li.menu__item= link_to visit[:name], visit[:path], class: 'menu__link menu__link--small'
+
+                %li.menu__item.menu__item--heading
+                  %span.menu__heading= t('workarea.admin.layout.saved_shortcuts')
+                  - unless bookmarked?
+                    = link_to '#', data: { bookmark: true }, class: 'menu__heading-action' do
+                      = inline_svg('workarea/admin/icons/add.svg', class: 'menu__heading-action-icon')
+                      %span.menu__heading-action-text= t('workarea.admin.layout.current_page')
+
+                - bookmarks.each do |bookmark|
+                  %li.menu__item
+                    = link_to bookmark.name, bookmark.path, class: 'menu__link menu__link--small'
+                    = link_to inline_svg('workarea/admin/icons/delete.svg', class: 'menu__delete-link-icon', title: t('workarea.admin.layout.remove_bookmark')), bookmark_path(bookmark), class: 'menu__delete-link', data: { remote: true, method: 'delete', dom_remove: '.menu__item' }
+
+          .header__action
+            %button{ type: 'button', class: 'header__action-link', data: { tooltip: { menu: true, content_id: '#alert_menu', interactive: true, arrow: false, distance: 0, multiple: false, trigger: 'hover' }.to_json, turbolinks: false } }
+              = inline_svg('workarea/admin/icons/alert.svg', class: 'svg-icon svg-icon--red')
+              %span.header__action-link-text= pluralize(@alerts.size, t('workarea.admin.layout.alert.alert_title'))
+            #alert_menu.tooltip-content.tooltip-content--no-padding
+              %ul.menu
+                - if @alerts.show_products_missing_prices?
+                  %li.menu__item= link_to t('workarea.admin.layout.alert.missing_prices', product: "#{pluralize(@alerts.products_missing_prices, t('workarea.admin.layout.alert.product'))}"), catalog_products_path(status: ['active'], issues: [t('workarea.alerts.issues.sku_missing_price')]), class: 'menu__link'
+                - if @alerts.show_empty_categories?
+                  %li.menu__item= link_to "#{pluralize(@alerts.empty_categories, t('workarea.admin.layout.alert.empty_category'))}", catalog_categories_path(issues: [t('workarea.alerts.issues.no_displayable_products')]), class: 'menu__link'
+                - if @alerts.show_products_missing_images?
+                  %li.menu__item= link_to t('workarea.admin.layout.alert.missing_images', product: "#{pluralize(@alerts.products_missing_images, t('workarea.admin.layout.alert.product'))}"), catalog_products_path(status: ['active'], issues: [t('workarea.alerts.issues.no_images')]), class: 'menu__link'
+                - if @alerts.show_products_missing_descriptions?
+                  %li.menu__item= link_to t('workarea.admin.layout.alert.missing_description', product: "#{pluralize(@alerts.products_missing_descriptions, t('workarea.admin.layout.alert.product'))}", description: "#{t('workarea.admin.layout.alert.description').pluralize(@alerts.products_missing_descriptions)}"), catalog_products_path(status: ['active'], issues: [t('workarea.alerts.issues.no_description')]), class: 'menu__link'
+                - if @alerts.show_products_missing_variants?
+                  %li.menu__item= link_to t('workarea.admin.layout.alert.missing_variants', product: "#{pluralize(@alerts.products_missing_variants, t('workarea.admin.layout.alert.product'))}", variant: "#{t('workarea.admin.layout.alert.variant').pluralize(@alerts.products_missing_variants)}"), catalog_products_path(issues: [t('workarea.alerts.issues.no_variants')]), class: 'menu__link'
+                - if @alerts.show_products_missing_categories?
+                  %li.menu__item= link_to t('workarea.admin.layout.alert.missing_categories', product: "#{pluralize(@alerts.products_missing_categories, t('workarea.admin.layout.alert.product'))}", category: "#{t('workarea.admin.layout.alert.category').pluralize(@alerts.products_missing_categories)}"), catalog_products_path(status: ['active'], issues: [t('workarea.alerts.issues.no_categories')]), class: 'menu__link'
+                - if @alerts.show_products_low_inventory?
+                  %li.menu__item= link_to t('workarea.admin.layout.alert.low_inventory', product: "#{pluralize(@alerts.products_low_inventory, t('workarea.admin.layout.alert.product'))}", category: "#{t('workarea.admin.layout.alert.category').pluralize(@alerts.products_missing_descriptions)}"), catalog_products_path(status: ['active'], issues: [t('workarea.alerts.issues.low_inventory')]), class: 'menu__link'
+                - if @alerts.show_products_variants_missing_details?
+                  %li.menu__item= link_to t('workarea.admin.layout.alert.variants_missing_details', product: "#{pluralize(@alerts.products_variants_missing_details, t('workarea.admin.layout.alert.product'))}"), catalog_products_path(issues: [t('workarea.alerts.issues.variants_missing_details')]), class: 'menu__link'
+                - if @alerts.show_products_inconsistent_variant_details?
+                  %li.menu__item= link_to t('workarea.admin.layout.alert.inconsistent_variant_details', product: "#{pluralize(@alerts.products_inconsistent_variant_details, t('workarea.admin.layout.alert.product'))}"), catalog_products_path(issues: [t('workarea.alerts.issues.inconsistent_variant_details')]), class: 'menu__link'
+                - @alerts.empty_upcoming_releases.each do |release|
+                  %li.menu__item= link_to t('workarea.admin.layout.alert.publishes_on_and_has_no_changes', release_name: release.name, release_publish_date: release.publish_at.to_date.to_s(:long)), release_path(release) , class: 'menu__link'
+
+          .header__action
+            %button#help_menu{ type: 'button', class: 'header__action-link', data: { tooltip: { menu: true, content_id: '#help', interactive: true, arrow: false, distance: 0, multiple: false, trigger: 'hover' }.to_json, turbolinks: false } }
+              = inline_svg('workarea/admin/icons/help.svg', class: 'header__action-icon svg-icon svg-icon--off-black')
+              %span.header__action-link-text= t('workarea.admin.layout.help')
+            #help.tooltip-content.tooltip-content--no-padding
+              %ul.menu
+                %li.menu__item= link_to t('workarea.admin.layout.articles'), help_index_path, class: 'menu__link'
+                %li.menu__item= link_to t('workarea.admin.layout.community_forum'), 'https://community.workarea.com', class: 'menu__link'
+
+          - if admin_browsing_as_guest?
+            .header__action
+              .header__user-menu
+                .header__user-menu-cell
+                  = form_tag guest_browsing_path, method: 'delete', data: { disable_delete_confirmation: '' } do
+                    = button_tag t('workarea.admin.toolbar.stop_guest_browsing'), class: 'text-button text-button--destroy'
+          - elsif impersonating?
+            .header__action
+              .header__user-menu
+                .header__user-menu-cell=(avatar_for current_impersonation, 'avatar--large')
+                .header__user-menu-cell
+                  %strong
+                    = link_to current_impersonation.email, user_path(current_impersonation)
+                  %br
+                  = form_tag impersonations_path, method: 'delete', data: { disable_delete_confirmation: '' } do
+                    = button_tag t('workarea.admin.toolbar.stop_impersonation'), class: 'text-button text-button--destroy'
+          - else
+            .header__action
+              %button{ type: 'button', class: 'button-reset', data: { tooltip: { menu: true, content_id: '#user_menu', interactive: true, arrow: false, distance: 0, multiple: false, trigger: 'hover', allow_click: true }.to_json, turbolinks: false } }
+                .header__user-menu
+                  .header__user-menu-cell
+                    = link_to edit_user_path(current_user) do
+                      = avatar_for current_user, 'avatar--large'
+                  .header__user-menu-cell
+                    %span.heading.heading--5.heading--no-margin= Workarea.config.host
+                    %span.text.text--small= I18n.t(:name, I18n.locale)
+              #user_menu.tooltip-content.tooltip-content--no-padding
+                %ul.menu
+                  = append_partials('admin.user_menu')
+
+                  - if locale_options.many?
+                    %li.menu__item
+                      = form_tag url_for(locale: nil), method: 'get' do
+                        .grid.grid--middle
+                          .grid__cell.grid__cell--50
+                            = label_tag 'locale', class: 'menu__link' do
+                              = inline_svg('workarea/admin/i18n.svg', class: 'svg-icon', title: t('workarea.admin.layout.locale_help_text'))
+                              = t('workarea.admin.layout.locale')
+                          .grid__cell.grid__cell--50
+                            = switch_locale_fields
+                            = select_tag 'locale', options_for_select(locale_options, I18n.locale), data: { form_submitting_control: '' }, class: 'page-header__select-locale-menu'
+
+                  %li.menu__item= link_to t('workarea.admin.layout.account'), edit_user_path(current_user), class: 'menu__link'
+                  %li.menu__item= link_to t('workarea.admin.layout.log_out'), storefront.logout_path, data: { method: 'delete' }, class: 'menu__link'
+
+      .page-content
+        #main.page-content__main{ role: 'main' }= yield
+
+    %p.visually-hidden= link_to t('workarea.admin.layout.top_of_page'), '#top'
+    = yield :javascript

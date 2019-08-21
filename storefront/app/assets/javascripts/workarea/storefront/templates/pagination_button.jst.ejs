@@ -1,0 +1,11 @@
+<div class="pagination__button">
+    <% if (loading) { %>
+        <button class="button" data-pagination-button="" disabled="disabled">
+            <%= I18n.t('workarea.storefront.pagination.loading_more') %>
+        </button>
+    <% } else { %>
+        <a href="<%= nextPageUrl %>" class="button" data-pagination-button="">
+            <%= I18n.t('workarea.storefront.pagination.load_more') %>
+        </a>
+    <% } %>
+</div>

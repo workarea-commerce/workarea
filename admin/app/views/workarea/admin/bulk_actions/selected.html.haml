@@ -1,0 +1,16 @@
+- @page_title = t('workarea.admin.bulk_actions.selected.title')
+
+.view
+  .view__header
+    .grid.grid--middle.grid--center
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to "← #{t('workarea.admin.bulk_actions.selected.back_link')}", :back
+          %h1.view__heading= t('workarea.admin.bulk_actions.selected.heading')
+
+  .view__container
+    .grid.grid--auto.grid--flush.grid--center
+      - @results.each do |model|
+        .grid__cell= render_summary_for(model)
+
+    = render 'workarea/admin/shared/pagination', collection: @search.results

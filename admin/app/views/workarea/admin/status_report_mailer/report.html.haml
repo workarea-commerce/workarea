@@ -1,0 +1,94 @@
+%tr
+  %td
+    %h1
+      = Workarea.config.site_name
+      = t('workarea.admin.status_report_mailer.title')
+    %p= @date.to_s(:long)
+
+    %h2= t('workarea.admin.status_report_mailer.orders.title')
+
+    %p
+      = t('workarea.admin.status_report_mailer.orders.total_orders')
+      = link_to sales_over_time_report_url(starts_at: 1.day.ago.to_s(:date_only), ends_at: 1.day.ago.to_s(:date_only), group_by: 'day'), class: 'heading heading--3 heading--no-margin' do
+        = number_with_delimiter @dashboard.yesterday.orders
+    %p
+      = t('workarea.admin.status_report_mailer.orders.units_sold')
+      = link_to sales_over_time_report_url(starts_at: 1.day.ago.to_s(:date_only), ends_at: 1.day.ago.to_s(:date_only), group_by: 'day'), class: 'heading heading--3 heading--no-margin' do
+        = number_with_delimiter @dashboard.yesterday.units_sold
+    %p
+      = t('workarea.admin.status_report_mailer.orders.revenue')
+      = link_to sales_over_time_report_url(starts_at: 1.day.ago.to_s(:date_only), ends_at: 1.day.ago.to_s(:date_only), group_by: 'day'), class: 'heading heading--3 heading--no-margin' do
+        = number_to_currency @dashboard.yesterday.revenue
+    %p
+      = t('workarea.admin.status_report_mailer.orders.discounts')
+      = link_to sales_over_time_report_url(starts_at: 1.day.ago.to_s(:date_only), ends_at: 1.day.ago.to_s(:date_only), group_by: 'day'), class: 'heading heading--3 heading--no-margin' do
+        = number_to_currency @dashboard.yesterday.discounts
+    %p
+      = t('workarea.admin.status_report_mailer.orders.customers')
+      = link_to sales_over_time_report_url(starts_at: 1.day.ago.to_s(:date_only), ends_at: 1.day.ago.to_s(:date_only), group_by: 'day'), class: 'heading heading--3 heading--no-margin' do
+        = number_with_delimiter @dashboard.yesterday.customers
+
+    %h2= t('workarea.admin.status_report_mailer.alerts.title')
+
+    - if @alerts.show_products_missing_prices?
+      %p
+        = link_to catalog_products_url(status: ['active'], issues: [t('workarea.alerts.issues.sku_missing_price')]) do
+          %strong
+            = @alerts.products_missing_prices
+            = t('workarea.admin.status_report_mailer.alerts.products_without_prices')
+    - if @alerts.show_empty_categories?
+      %p
+        = link_to catalog_categories_url(issues: [t('workarea.alerts.issues.no_displayable_products')]) do
+          %strong
+            = @alerts.empty_categories
+            = t('workarea.admin.status_report_mailer.alerts.empty_categories')
+    - if @alerts.show_products_missing_images?
+      %p
+        = link_to catalog_products_url(status: ['active'], issues: [t('workarea.alerts.issues.no_images')]) do
+          %strong
+            = @alerts.products_missing_images
+            = t('workarea.admin.status_report_mailer.alerts.products_without_images')
+    - if @alerts.show_products_missing_descriptions?
+      %p
+        = link_to catalog_products_url(status: ['active'], issues: [t('workarea.alerts.issues.no_description')]) do
+          %strong
+            = @alerts.products_missing_descriptions
+            = t('workarea.admin.status_report_mailer.alerts.products_without_descriptions')
+    - if @alerts.show_products_missing_variants?
+      %p
+        = link_to catalog_products_url(issues: [t('workarea.alerts.issues.no_variants')]) do
+          %strong
+            = @alerts.products_missing_variants
+            = t('workarea.admin.status_report_mailer.alerts.products_without_variants')
+    - if @alerts.show_products_missing_categories?
+      %p
+        = link_to catalog_products_url(status: ['active'], issues: [t('workarea.alerts.issues.no_categories')]) do
+          %strong
+            = @alerts.products_missing_categories
+            = t('workarea.admin.status_report_mailer.alerts.products_without_categories')
+    - if @alerts.show_products_low_inventory?
+      %p
+        = link_to catalog_products_url(status: ['active'], issues: [t('workarea.alerts.issues.low_inventory')]) do
+          %strong
+            = @alerts.products_low_inventory
+            = t('workarea.admin.status_report_mailer.alerts.products_with_low_inventory')
+    - if @alerts.show_products_variants_missing_details?
+      %p
+        = link_to catalog_products_url(issues: [t('workarea.alerts.issues.variants_missing_details')]) do
+          %strong
+            = @alerts.products_variants_missing_details
+            = t('workarea.admin.status_report_mailer.alerts.products_with_variants_missing_details')
+    - if @alerts.show_products_inconsistent_variant_details?
+      %p
+        = link_to catalog_products_url(issues: [t('workarea.alerts.issues.inconsistent_variant_details')]) do
+          %strong
+            = @alerts.products_inconsistent_variant_details
+            = t('workarea.admin.status_report_mailer.alerts.products_with_inconsistent_variant_details')
+    - if @alerts.empty_upcoming_releases.any?
+      %p
+        = link_to releases_url do
+          %strong
+            = @alerts.empty_upcoming_releases.length
+            = t('workarea.admin.status_report_mailer.alerts.upcoming_empty_releases')
+
+= append_partials('admin.status_report_mailer')

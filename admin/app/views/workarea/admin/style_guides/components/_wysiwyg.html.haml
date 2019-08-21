@@ -1,0 +1,10 @@
+#wysiwyg.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'wysiwyg')
+
+  %p Provides styling for an instance of the WYSIWYG editor.
+
+  %p Progressively enhanced by the <code>WORKAREA.wysiwygs</code> module.
+
+  .style-guide__example-block
+    .wysiwyg{ data: { wysiwyg: '' } }=text_area_tag 'wysiwyg', nil, id: nil, class: 'text-box text-box--multi-line'

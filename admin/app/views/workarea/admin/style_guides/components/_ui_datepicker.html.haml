@@ -1,0 +1,22 @@
+#ui-datepicker.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'ui_datepicker')
+
+  %p An example of the default jQuery UI datepicker widget instance.
+
+  %p Focus the field below for an example.
+
+  .style-guide__example-block
+    = datetime_picker_tag nil, nil, id: nil, class: 'text-box', placeholder: 'Click me!', style: 'width: 400px;', data: { datepicker_field: {} }
+
+
+  %p Inline Date Picker
+
+  .style-guide__example-block
+    = datetime_picker_tag nil, nil, id: nil, class: 'text-box', placeholder: 'Click me!', style: 'width: 400px;', data: { datepicker_field: { inline: true } }
+
+
+  %p Inline Date Time Picker
+
+  .style-guide__example-block
+    = hidden_field_tag nil, nil, id: nil, style: 'width: 400px;', data: { datetimepicker_field: { inline: true } }

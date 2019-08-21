@@ -1,0 +1,147 @@
+#property.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'property')
+
+  %p Handles the presentation form control.
+
+  %p should not visually separate singular properties:
+  .style-guide__example-block
+    .property
+      = label_tag 'property_1', 'Label One', class: 'property__name'
+      = text_field_tag 'property_1', 'Input', class: 'text-box'
+
+  %p should visually separate adjacent properties, margin between and after:
+  .style-guide__example-block
+    .property
+      = label_tag 'property_2', 'Label One', class: 'property__name'
+      = text_field_tag 'property_2', 'Input', class: 'text-box'
+    .property
+      = label_tag 'property_3', 'Label Two', class: 'property__name'
+      = text_field_tag 'property_3', 'Input', class: 'text-box'
+
+  %p should properly style the name (<code>label</code>) of form control:
+  .style-guide__example-block
+    .property
+      = label_tag 'property_4', 'Label One', class: 'property__name'
+      = text_field_tag 'property_4', 'Input', class: 'text-box'
+  .style-guide__example-block
+    .property
+      = label_tag 'property_5', 'Label Three', class: 'property__name'
+      = select_tag 'property_5', options_for_select(['Select Option', 'Select Option', 'Select Option'])
+  .style-guide__example-block
+    .property
+      = check_box_tag 'property_6'
+      = label_tag 'property_6', 'Checkbox', class: 'property__name'
+  .style-guide__example-block
+    .property
+      = radio_button_tag 'property_7', '1', false
+      = label_tag 'property_7_1', 'Radio Button', class: 'property__name'
+
+  %p should support notes:
+  .style-guide__example-block
+    .property
+      = label_tag 'property_8', 'Label One', class: 'property__name'
+      = text_field_tag 'property_8', 'Input', class: 'text-box'
+      %span.property__note Property Note
+      %span.property__note.property__note--error Property Error Note
+  .style-guide__example-block
+    .property
+      = check_box_tag 'property_9'
+      = label_tag 'property_9', 'Checkbox', class: 'property__name'
+      %span.property__note Property Note
+      %span.property__note.property__note--error Property Error Note
+
+
+#property--required.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'property__required')
+
+  %p Visually indicates a form control is required.
+
+  %p should add a required indicator to the <code>property__name</code>:
+  .style-guide__example-block
+    .property.property--required
+      = label_tag 'property_required_1', 'Label One', class: 'property__name'
+      = text_field_tag 'property_required_1', 'Input', class: 'text-box'
+  .style-guide__example-block
+    .property.property--required
+      = check_box_tag 'property_required_2'
+      = label_tag 'property_required_2', 'Checkbox', class: 'property__name'
+
+
+#property--invalid.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'property__invalid')
+
+  %p Visually indicates when a property is invalid
+
+  %p should change the property name's color:
+  .style-guide__example-block
+    .property.property--invalid
+      %span.property__name Property Name
+
+  %p should change and persist the focus ring color around form elements:
+  .style-guide__example-block
+    .property.property--invalid
+      %input{ value: 'Text Box Input', type: 'text', class: 'text-box' }
+  .style-guide__example-block
+    .property.property--invalid
+      %input{ value: 'Input', type: 'text' }
+  .style-guide__example-block
+    .property.property--invalid
+      %textarea Textarea
+  .style-guide__example-block
+    .property.property--invalid
+      %select
+        %option Select Option
+
+
+#property--inline.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'property__inline')
+
+  %p Intended to be used within a sentence UI. <code>property__name</code> elements should be omitted in favor of <code>title</code> attributes on the field. When used within a <code>p</code> tag, the classes should be applied to a <code>span</code> tag.
+
+  %p should display inline within a paragraph:
+  .style-guide__example-block
+    %p
+      Hacker knife shoes physical shanty town rifle artisanal
+      %span.property.property--inline
+        = text_field_tag 'property_inline', 'Input', class: 'text-box', title: 'Property Name'
+      semiotics jeans Kowloon boy sprawl pre-towards voodoo god realism.
+
+  %p should work with <code>property--invalid</code>:
+  .style-guide__example-block
+    %p
+      Hacker knife shoes physical shanty town rifle artisanal
+      %span.property.property--inline.property--invalid
+        = text_field_tag 'property_inline_invalid_1', 'Input', class: 'text-box text-box--invalid', title: 'Property Name'
+      semiotics jeans Kowloon boy sprawl pre-towards voodoo god realism.
+
+  %p should not allow <code>property__note</code> or <code>property__name</code> elements, which break layout:
+  .style-guide__example-block
+    %p
+      Hacker knife shoes physical shanty town rifle artisanal
+      %span.property.property--inline
+        = label_tag 'property_inline_invalid_2', 'Label One', class: 'property__name'
+        = text_field_tag 'property_inline_invalid_2', 'Input', class: 'text-box'
+        %span.property__note Property Note
+        %span.property__note.property__note--error Property Error Note
+      semiotics jeans Kowloon boy sprawl pre-towards voodoo god realism.
+
+
+#property--no-margin.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'property__no_margin')
+
+  %p Removes all margin from component.
+
+  %p should remove margin:
+  .style-guide__example-block
+    .property.property--no-margin
+      = label_tag 'property_no_margin_1', 'Label One', class: 'property__name'
+      = text_field_tag 'property_no_margin_1', 'Input', class: 'text-box'
+    .property.property--no-margin
+      = label_tag 'property_no_margin_2', 'Label One', class: 'property__name'
+      = text_field_tag 'property_no_margin_2', 'Input', class: 'text-box'
+

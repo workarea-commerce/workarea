@@ -1,0 +1,97 @@
+#hidden.style-guide__subsection
+
+  %h3= link_to_style_guide('trumps', 'hidden')
+
+  %p Responsible the hiding and conditional showing of a block-level element. This trump is the logical inverse of #{link_to_style_guide('trumps', 'visible', true)}.
+
+  %p When accessibility is a concern, use #{link_to_style_guide('trumps', 'visually_hidden', true)} instead.
+
+  %p without <code>hidden</code>:
+  .style-guide__example-block
+    %p I'm some text
+    %p I'm some text that's about to be hidden
+
+  %p with <code>hidden</code>:
+  .style-guide__example-block
+    %p I'm some text
+    %p.hidden I'm some text that should be hidden
+
+#hidden--for-medium.style-guide__subsection
+
+  %h3= link_to_style_guide('trumps', 'hidden__for_medium')
+
+  %p Hides an element at the medium breakpoint and greater.
+
+  %p without <code>hidden--for-medium</code>:
+  .style-guide__example-block
+    %p I'm some text
+    %p I'm some text that's about to be hidden for medium and above
+
+  %p with <code>hidden--for-medium</code>:
+  .style-guide__example-block
+    %p I'm some text
+    %p.hidden.hidden--for-medium I'm some text that should be hidden for medium and above
+
+#hidden--for-medium-only.style-guide__subsection
+
+  %h3= link_to_style_guide('trumps', 'hidden__for_medium_only')
+
+  %p Hides an element for medium devices only
+
+  %p without <code>hidden--for-medium-only</code>:
+  .style-guide__example-block
+    %p I'm some text
+    %p I'm some text that's about to be hidden for medium devices only
+
+  %p with <code>hidden--for-medium-only</code>:
+  .style-guide__example-block
+    %p I'm some text
+    %p.hidden.hidden--for-medium-only I'm some text that should be hidden for medium devices only
+
+#hidden--for-small-only.style-guide__subsection
+
+  %h3= link_to_style_guide('trumps', 'hidden__for_small_only')
+
+  %p Hides an element for small devices only
+
+  %p without <code>hidden--for-small-only</code>:
+  .style-guide__example-block
+    %p I'm some text
+    %p I'm some text that's about to be hidden for small devices only
+
+  %p with <code>hidden--for-small-only</code>:
+  .style-guide__example-block
+    %p I'm some text
+    %p.hidden.hidden--for-small-only I'm some text that should be hidden for small devices only
+
+#hidden--for-wide.style-guide__subsection
+
+  %h3= link_to_style_guide('trumps', 'hidden__for_wide')
+
+  %p Hides an element at the wide breakpoint and greater.
+
+  %p without <code>hidden--for-wide</code>:
+  .style-guide__example-block
+    %p I'm some text
+    %p I'm some text that's about to be hidden for wide and above
+
+  %p with <code>hidden--for-wide</code>:
+  .style-guide__example-block
+    %p I'm some text
+    %p.hidden.hidden--for-wide I'm some text that should be hidden for wide and above
+
+#hidden--for-wide-only.style-guide__subsection
+
+  %h3= link_to_style_guide('trumps', 'hidden__for_wide_only')
+
+  %p Hides an element for wide devices only
+
+  %p without <code>hidden--for-wide-only</code>:
+  .style-guide__example-block
+    %p I'm some text
+    %p I'm some text that's about to be hidden for wide devices only
+
+  %p with <code>hidden--for-wide-only</code>:
+  .style-guide__example-block
+    %p I'm some text
+    %p.hidden.hidden--for-wide-only I'm some text that should be hidden for wide devices only

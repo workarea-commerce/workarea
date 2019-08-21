@@ -1,0 +1,126 @@
+/*------------------------------------*\
+    #DROPZONE
+\*------------------------------------*/
+
+$dropzone-color:          $gray !default;
+$dropzone-bg-color:       $white !default;
+$dropzone-border-color:   $border-color !default;
+$dropzone-error-color:    $red !default;
+$dropzone-success-color:  $green !default;
+
+$dropzone-indicator-size:  24px !default;
+
+
+/**
+ * This is a port of the basic styles found in the `dropzonejs-rails` gem.
+ */
+
+.dropzone {
+    position: relative;
+    margin-bottom: $vertical-margin;
+    padding: 32px 16px;
+    color: $dropzone-color;
+    background: $dropzone-bg-color;
+    border: 1px solid $dropzone-border-color;
+    border-radius: $global-border-radius;
+}
+
+.dz-started {}
+
+    .dz-message {
+        padding: 0 0 16px;
+        text-align: center;
+
+        .dz-started & {
+            display: none;
+        }
+    }
+
+        .dz-message-text {
+            display: block;
+            margin: 16px 0;
+            font-size: $font-size + 10px;
+        }
+
+        .dz-file-sizes-text {
+            margin: 16px 0 24px;
+        }
+
+    .dz-preview {
+        display: inline-block;
+        position: relative;
+        margin: 0 1% 24px;
+        width: 23%;
+        vertical-align: top;
+    }
+
+    .dz-error {}
+    .dz-success {}
+
+        /**
+         * 1. height of the image (set in JS) plus the top and bottom padding
+         */
+
+        .dz-image {
+            margin:  0 0 8px;
+            padding: 16px;
+            height:  160px + 16px + 16px; /* [1] */
+            text-align: center;
+            border: 1px solid $dropzone-border-color;
+        }
+
+        .dz-details {}
+
+            .dz-filename {
+                word-wrap: break-word;
+            }
+
+            .dz-error-message {
+                display: none;
+                color: $dropzone-error-color;
+
+                .dz-error & {
+                    display: block;
+                }
+            }
+
+                .dz-error-mark {
+                    @include svg('invalid.svg', $dropzone-indicator-size);
+                }
+
+        .dz-indicators {
+            position: absolute;
+            top:  8px;
+            left: 8px;
+            width:  $dropzone-indicator-size;
+            height: $dropzone-indicator-size;
+            background: $dropzone-bg-color;
+            border-radius: 50%;
+            box-shadow: 0 0 0 1px $dropzone-bg-color;
+
+            .dz-error & {
+                display: none;
+            }
+        }
+
+            .dz-progress {
+                .dz-error &,
+                .dz-success & {
+                    display: none;
+                }
+            }
+
+                /**
+                 * 1. hack specificity to trump `.loading` component styles.
+                 */
+                .dz-upload.dz-upload { /* [1] */
+                    margin: 0;
+                }
+
+            .dz-success-mark {
+                display: none;
+
+                .dz-success & {
+                    @include svg('valid.svg', $dropzone-indicator-size);
+                }
+            }

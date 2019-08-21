@@ -1,0 +1,44 @@
+/*------------------------------------*\
+    #VIDEO-AND-TEXT-CONTENT-BLOCK
+\*------------------------------------*/
+
+.video-and-text-content-block {
+    @extend %clearfix;
+}
+
+
+    .video-and-text-content-block__video-container {
+        display: block;
+        margin-bottom: $spacing-unit;
+
+        @include respond-to($medium-breakpoint) {
+            margin-right: $spacing-unit;
+            margin-left: $spacing-unit;
+        }
+    }
+
+    .video-and-text-content-block__video-container--left {
+        @include respond-to($medium-breakpoint) {
+            margin-left: 0;
+            float: left;
+        }
+    }
+
+    .video-and-text-content-block__video-container--right {
+        @include respond-to($medium-breakpoint) {
+            margin-right: 0;
+            float: right;
+        }
+    }
+
+        /**
+         * 1. element selector required to support pasted embed code
+         */
+        .video-and-text-content-block__video {
+            iframe { /* [1] */
+                max-width: 100%;
+            }
+        }
+
+
+    .video-and-text-content-block__text {}

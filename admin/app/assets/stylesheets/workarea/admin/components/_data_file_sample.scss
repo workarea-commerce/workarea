@@ -1,0 +1,18 @@
+/*------------------------------------*\
+    #DATA-FILE-SAMPLE
+\*------------------------------------*/
+
+$data-file-sample-max-height: 500px !default;
+$data-file-sample-padding: $spacing-unit * 2 !default;
+$data-file-sample-background: $light-gray !default;
+
+.data-file-sample {
+    padding: $data-file-sample-padding;
+    overflow: scroll;
+    max-height: $data-file-sample-max-height;
+    background: $data-file-sample-background;
+}
+
+    .data-file-sample__output {
+        user-select: all;
+    }

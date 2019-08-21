@@ -1,0 +1,20 @@
+#button-content-block.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'button_content_block')
+
+  %p Presents a Button content block.
+
+  %p should align the button <strong>left</strong>:
+  .style-guide__example-block
+    .button-content-block.button-content-block--left
+      = link_to 'Button', '#', class: 'button'
+
+  %p should align the button <strong>center</strong>:
+  .style-guide__example-block
+    .button-content-block.button-content-block--center
+      = link_to 'Button', '#', class: 'button'
+
+  %p should align the button <strong>right</strong>:
+  .style-guide__example-block
+    .button-content-block.button-content-block--right
+      = link_to 'Button', '#', class: 'button'

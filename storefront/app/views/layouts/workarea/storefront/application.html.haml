@@ -1,0 +1,175 @@
+- add_css(layout_content.css)
+- add_javascript(layout_content.javascript)
+
+!!!
+/
+  Platform: Workarea Ecommerce
+  Web:      http://workarea.com
+  Email:    sales@workarea.com
+  Phone:    215-925-1800
+
+%html{ lang: 'en' }
+  %head
+    %meta{ charset: 'utf-8' }
+    %title= page_title
+    %meta{ name: 'robots', content: 'noodp' }
+    = csrf_meta_tags unless http_caching?
+    %meta{ name: 'viewport', content: 'width=device-width, initial-scale=1.0' }
+    %meta{ property: 'locale', content: I18n.locale }
+    %meta{ property: 'environment', content: Rails.env }
+    = alternate_locales_tags
+    = render 'workarea/storefront/favicons/tags'
+    %link{ rel: 'manifest', href: web_manifest_path }
+    %meta{ name: 'theme-color', content: Workarea.config.web_manifest.theme_color }
+
+    :css
+      @-ms-viewport { width: device-width; }
+    = yield :head
+    = stylesheet_link_tag Workarea.config.asset_manifests.storefront_stylesheet, media: 'all'
+    = yield :css
+
+    = append_partials('storefront.document_head')
+    = javascript_include_tag Workarea.config.asset_manifests.storefront_javascript_head
+
+    %script{ type: 'application/ld+json' }
+      :plain
+        {
+          "@context": "http://schema.org",
+          "@type": "WebSite",
+          "url": "#{root_url}",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "#{search_url}?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        }
+
+
+  %body{ itemscope: true, itemtype: 'http://schema.org/WebPage' }
+    = append_partials('storefront.body_top')
+
+    %nav.accessibility-nav.visually-hidden
+      = link_to t('workarea.storefront.layouts.accessibility_info'), accessibility_path
+      = link_to t('workarea.storefront.layouts.main_content'), '#main_content', accesskey: 'S'
+      = link_to t('workarea.storefront.layouts.primary_navigation'), '#navigation', accesskey: 'M'
+
+    .page-messages{ role: 'complementary' }
+      = flash_messages if flash.present?
+
+    #top.page-container
+
+      .page-header{ role: 'banner' }
+
+        .content-wrapper
+
+          - if locale_options.many?
+            .page-header__locale
+              = form_tag url_for(locale: nil), method: 'get' do
+                = switch_locale_fields
+                .value= select_tag :locale, options_for_select(locale_options, I18n.locale), required: true, data: { form_submitting_control: '' }
+                %p.hidden-if-js-enabled= button_tag t('workarea.storefront.forms.go'), value: 'switch', class: 'button'
+
+          .grid.grid--middle
+            .grid__cell.grid__cell--20
+              = link_to menus_path, id: 'mobile_nav_button', role: 'button', aria: { label: t('workarea.storefront.layouts.mobile_navigation') } do
+                = inline_svg('workarea/storefront/icons/menu.svg', class: 'svg-icon svg-icon--large svg-icon--blue visible visible--for-small-only', title: t('workarea.storefront.layouts.mobile_navigation'))
+
+            .grid__cell.grid__cell--80
+              .grid.grid--auto.grid--right
+                = append_partials('storefront.utility_nav')
+                .grid__cell
+                  = link_to t('workarea.storefront.users.account'), users_account_path, class: 'page-header__account-link'
+                  %span{ data: { log_out_link_placeholder: '' } }
+                .grid__cell
+                  = link_to t('workarea.storefront.carts.title'), cart_path, accesskey: 'Y', class: 'page-header__cart-link', id: 'cart_link'
+
+          .grid.grid--middle
+            .grid__cell.grid__cell--50-at-medium
+              = link_to image_tag('workarea/storefront/logo.png', alt: t('workarea.storefront.layouts.logo'), class: 'page-header__logo', width: 256), root_path, rel: 'home'
+            .grid__cell.grid__cell--50-at-medium
+              .page-header__search
+                = form_tag search_path, method: 'get', class: 'page-header__search-form', role: 'search' do
+                  .page-header__search-value
+                    .value= search_field_tag :q, params[:q], id: 'storefront_search', class: 'text-box', title: t('workarea.storefront.searches.search'), aria: { label: t('workarea.storefront.searches.search') }, placeholder: t('workarea.storefront.searches.search'), data: { search_field: '' }
+                  .page-header__search-button= button_tag t('workarea.storefront.forms.go'), value: 'search', class: 'button'
+
+          %nav#navigation.primary-nav
+            %ul.primary-nav__menu
+              - navigation_menus.each do |menu|
+                %li.primary-nav__item{ data: navigation_menu_item_data_attribute(menu) }
+                  = link_to_menu(menu)
+
+          - if layout_content.content_blocks_for('header_promo').present?
+            .page-header__promo
+              = render_content_blocks(layout_content.content_blocks_for('header_promo'))
+
+          = append_partials('storefront.page_header')
+
+      .page-content
+
+        .content-wrapper
+          - if content_for?(:breadcrumbs)
+            .breadcrumbs{ role: 'navigation' }
+              = yield :breadcrumbs
+          - elsif @breadcrumbs.present?
+            .breadcrumbs{ role: 'navigation' }
+              %p.breadcrumbs__node-group
+                - @breadcrumbs.each do |taxon|
+                  %span.breadcrumbs__node{ itemprop: 'breadcrumb' }
+                    - if taxon.navigable.present?
+                      - if @breadcrumbs.last == taxon
+                        %span.breadcrumbs__text= taxon.name
+                      - else
+                        = link_to taxon.name, storefront_path_for(taxon), class: 'breadcrumbs__link'
+                    - elsif !current_page?(taxon.url)
+                      = link_to taxon.name, storefront_path_for(taxon), class: 'breadcrumbs__link'
+                    - else
+                      %span.breadcrumbs__text= taxon.name
+
+          - content_for_page_aside = yield :page_aside
+
+          .grid.grid--rev
+            .grid__cell{ class: ('grid__cell--80-at-medium' if content_for_page_aside.present?)}
+              #main_content.page-content__main{ role: 'main' }
+                = yield
+                %p.visually-hidden= link_to t('workarea.storefront.layouts.top_of_page'), '#top'
+
+            - if content_for_page_aside.present?
+              .grid__cell.grid__cell--20-at-medium
+                #aside-content.page-content__aside{ role: 'complementary' }
+                  = content_for_page_aside
+                  %div{ data: { recommendations_placeholder: recent_views_path(view: 'aside') } }
+                  = append_partials('storefront.page_aside')
+                  %p.visually-hidden= link_to t('workarea.storefront.layouts.top_of_page'), '#top'
+
+      .page-footer{ role: 'contentinfo' }
+
+        .content-wrapper
+
+          .grid
+
+            - footer_navigation_content = layout_content.content_blocks_for('footer_navigation')
+
+            - if footer_navigation_content.present?
+              .grid__cell.grid__cell--33-at-medium
+                .page-footer__nav= render_content_blocks(footer_navigation_content)
+
+            .grid__cell.align-center{ class: ('grid__cell--33-at-medium' if footer_navigation_content.present?)}
+              %ul.page-footer__help
+                %li.page-footer__help-item= link_to t('workarea.storefront.contacts.contact_us'), contact_path, class: 'page-footer__help-link'
+                %li.page-footer__help-item= link_to t('workarea.storefront.sitemaps.heading'), sitemap_path, class: 'page-footer__help-link'
+                = append_partials('storefront.footer_help')
+            .grid__cell{ class: ('grid__cell--33-at-medium' if footer_navigation_content.present?)}
+              .page-footer__email-signup
+                = form_tag email_signup_path, method: :post, id: 'footer_email_signup_form', authenticity_token: !http_caching?, class: 'page-footer__email-signup-form', data: { analytics: email_signup_analytics_data.to_json } do
+                  .page-footer__email-value
+                    .value= email_field_tag :email, nil, id: 'footer_email_signup_field', class: 'text-box', placeholder: t('workarea.storefront.forms.email_placeholder'), title: t('workarea.storefront.users.email'), required: true, type: 'email', autocapitalize: 'off', autocomplete: 'email', aria: { label: t('workarea.storefront.users.email') }
+                  .page-footer__email-button= button_tag t('workarea.storefront.users.join'), value: 'sign_up', class: 'button'
+
+          %p.page-footer__copyright © #{Time.current.year}
+
+          %p.visually-hidden= link_to t('workarea.storefront.layouts.top_of_page'), '#top'
+
+    = javascript_include_tag Workarea.config.asset_manifests.storefront_javascript
+    = yield :javascript
+    = append_partials('storefront.javascript')

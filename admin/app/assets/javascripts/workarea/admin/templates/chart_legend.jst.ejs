@@ -1,0 +1,9 @@
+<!-- TODO remove in v4, not used >= 3.4 -->
+<ul class="chart-legend">
+    <% _.forEach(datasets, function (dataset) { %>
+        <li class="chart-legend__item">
+            <span class="chart-legend__color-dot" style="background: <%= dataset.legendColor %>"></span>
+            <span class="chart-legend__label"><%= dataset.label %></span>
+        </li>
+    <% }); %>
+</ul>

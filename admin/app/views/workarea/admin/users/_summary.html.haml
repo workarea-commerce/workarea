@@ -1,0 +1,15 @@
+.summary
+  = link_to user_path(model) do
+    %span.summary__name= model.email
+    .summary__info-container
+      %span.summary__info= local_time_ago(model.updated_at)
+      %span.summary__info
+        = pluralize(model.insights.orders, t('workarea.admin.users.summary.order'))
+        ,
+        = number_to_currency(model.insights.revenue)
+    - summary_type = model.admin? ? t('workarea.admin.users.summary.admin_user') : t('workarea.admin.users.summary.user')
+    %span.summary__type{ title: summary_type }
+      = summary_type
+  .checkbox.summary__checkbox.hidden
+    = check_box_tag 'product_id', model.to_global_id.to_param, false, class: 'checkbox__input summary__checkbox-input', id: dom_id(model)
+    = label_tag dom_id(model), t('workarea.admin.bulk_actions.add_summary_button'), class: 'checkbox__label summary__checkbox-label'

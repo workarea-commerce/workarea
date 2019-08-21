@@ -1,0 +1,56 @@
+/**
+ * Grid system
+ */
+$av-widths: (2 3 4 5 6);
+
+$av-enable-grid-auto: true;
+$av-enable-grid-middle: true;
+$av-enable-grid-center: true;
+$av-enable-grid-right: true;
+$av-enable-grid-flush: true;
+$av-enable-grid-tiny: true;
+$av-enable-grid-large: true;
+$av-enable-grid-huge: true;
+
+
+/**
+ * Colors
+ */
+$white: #fff;
+$black: #000;
+
+$gray: #303541;
+$light-gray: #999;
+$almost-white: #eee;
+$off-white: #f6f6f6;
+
+$gray-alpha-5: rgba($gray, 0.05);
+$gray-alpha-15: rgba($gray, 0.15);
+$gray-alpha-50: rgba($gray, 0.50);
+
+$blue: #0060ff;
+$dark-blue: #011eff;
+$green: #42cc81;
+$pink: #ca10b1;
+$orange: #ff7d03;
+$teal: #02b9cf;
+
+
+/**
+ * Globals
+ */
+$spacing-unit: 0.55rem;
+
+$font-color: $gray;
+$link-color: $blue;
+
+$animation-speed: 0.1s;
+
+$box-shadow: 0 0 20px $gray-alpha-15;
+$tight-box-shadow: 0 2px 10px darken($gray-alpha-50, 35%);
+
+
+/**
+ * Shared component config
+ */
+$header-height: 76px;

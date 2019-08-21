@@ -1,0 +1,19 @@
+/*------------------------------------*\
+    #PAYMENT-ICON
+\*------------------------------------*/
+
+$payment-icon-width:     38px !default;
+$payment-icon-height:    25px !default;
+
+.payment-icon {
+    display: inline-block;
+    width:  $payment-icon-width;
+    height: $payment-icon-height;
+    vertical-align: middle;
+}
+
+.payment-icon--visa {}
+.payment-icon--mastercard {}
+.payment-icon--american-express {}
+.payment-icon--discover {}
+.payment-icon--diner-s-club {}

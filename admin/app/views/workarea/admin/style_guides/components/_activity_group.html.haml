@@ -1,0 +1,80 @@
+#activity-group.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'activity_group')
+
+  %p Wraps a group of <code>activity</code> components.
+
+  %p should visually group <code>activity</code> components.
+  .style-guide__example-block
+    .grid
+      .activity-group
+        .grid__cell.grid__cell--20
+          .date-marker
+            .date-marker__annotation Today
+            .date-marker__month= local_time(Time.current, format: '%b')
+            .date-marker__day= local_time(Time.current, format: '%e')
+
+        .grid__cell.grid__cell--80
+          .activity
+            .activity__header
+              .activity__avatar
+                %span.avatar BC
+              %h3.activity__name Ben Crouse
+              %p.activity__time= time_tag(Time.current)
+              .activity__actions
+                .grid.grid--auto
+                  .grid__cell
+                    = button_tag value: 'edit_changes', class: 'text-button' do
+                      %span Edit
+                      = inline_svg('workarea/admin/icons/edit.svg', class: 'text-button__icon')
+                  .grid__cell
+                    = button_tag value: 'delete_changeset', class: 'text-button' do
+                      %span= t('workarea.admin.actions.delete')
+                      = inline_svg('workarea/admin/icons/delete.svg', class: 'text-button__icon')
+            .activity__message
+              Your mom created a product.
+
+          .activity
+            .activity__header
+              .activity__avatar
+                %span.avatar BC
+              %h3.activity__name Ben Crouse
+              %p.activity__time= time_tag(Time.current)
+              .activity__actions
+                .grid.grid--auto
+                  .grid__cell
+                    = button_tag value: 'edit_changes', class: 'text-button' do
+                      %span Edit
+                      = inline_svg('workarea/admin/icons/edit.svg', class: 'text-button__icon')
+                  .grid__cell
+                    = button_tag value: 'delete_changeset', class: 'text-button' do
+                      %span= t('workarea.admin.actions.delete')
+                      = inline_svg('workarea/admin/icons/delete.svg', class: 'text-button__icon')
+            .activity__message
+              Your mom created a product.
+
+      .activity-group
+        .grid__cell.grid__cell--20
+          .date-marker
+            .date-marker__month= local_time(Time.current + 3600 * 24, format: '%b')
+            .date-marker__day= local_time(Time.current + 3600 * 24, format: '%e')
+
+        .grid__cell.grid__cell--80
+          .activity
+            .activity__header
+              .activity__avatar
+                %span.avatar BC
+              %h3.activity__name Ben Crouse
+              %p.activity__time= time_tag(Time.current + 3600 * 24)
+              .activity__actions
+                .grid.grid--auto
+                  .grid__cell
+                    = button_tag value: 'edit_changes', class: 'text-button' do
+                      %span Edit
+                      = inline_svg('workarea/admin/icons/edit.svg', class: 'text-button__icon')
+                  .grid__cell
+                    = button_tag value: 'delete_changeset', class: 'text-button' do
+                      %span= t('workarea.admin.actions.delete')
+                      = inline_svg('workarea/admin/icons/delete.svg', class: 'text-button__icon')
+            .activity__message
+              Your mom created a product.

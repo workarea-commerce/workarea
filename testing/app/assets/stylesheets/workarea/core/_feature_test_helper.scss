@@ -1,0 +1,8 @@
+/**
+ * "Disable" text-transforms, transitions and animations in the test environment
+ */
+* {
+    text-transform: none !important;
+    transition: none !important;
+    animation: none !important;
+}

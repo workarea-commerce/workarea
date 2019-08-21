@@ -1,0 +1,52 @@
+- @page_title = t('workarea.admin.navigation_taxons.edit.page_title', name: @taxon.name)
+
+.view
+  .view__header
+    .grid.grid--middle.grid--right
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to "↑ #{t('workarea.admin.navigation_taxons.edit.index_link')}", navigation_taxons_path(taxon_ids: @taxon.parent_ids + [@taxon.id])
+          %h1= t('workarea.admin.navigation_taxons.edit.title')
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@taxon)
+
+  - @taxon.errors.full_messages.each do |message|
+    = render_message 'error', message
+
+  .view__container.view__container--narrow
+    = form_tag navigation_taxon_path(@taxon), method: :patch, id: 'link_form', data: { unsaved_changes: '' } do
+      .section
+        %h2= t('workarea.admin.navigation_taxons.edit.properties')
+        .property
+          = label_tag 'taxon[name]', t('workarea.admin.fields.name'), class: 'property__name'
+          = text_field_tag 'taxon[name]', @taxon.name, class: 'text-box text-box--i18n'
+
+      %span.heading.heading--3= t('workarea.admin.navigation_taxons.edit.links_to')
+
+      .new-navigation-link__section{ data: { new_navigation_taxon: @taxon.navigable_id.present? ? @taxon.navigable_id : '' } }
+        .new-navigation-link__field
+          .property
+            = label_tag 'navigable_type', t('workarea.admin.navigation_taxons.edit.navigable_type_label'), class: 'property__name'
+            = select_tag 'navigable_type', options_for_select(navigable_types, @taxon.resource_name), data: { unsaved_changes_ignore: '' }
+
+        .new-navigation-link__field
+          .property
+            = label_tag 'navigable_id', t('workarea.admin.navigation_taxons.edit.id_label'), class: 'property__name'
+
+            - if @taxon.navigable.try(:name).present?
+              = select_tag 'navigable_id', options_for_select([[@taxon.navigable.try(:name), @taxon.navigable_id]], @taxon.navigable_id), include_blank: true
+            - else
+              = select_tag 'navigable_id', nil, include_blank: true
+
+        .new-navigation-link__section
+          .property.property--stacked
+            = label_tag 'url', nil, class: 'property__name' do
+              %span.property__text= t('workarea.admin.fields.url')
+            .value
+              = text_field_tag 'taxon[url]', @taxon.url, class: 'text-box'
+
+      = append_partials('admin.navigation_taxon_fields', taxon: @taxon)
+
+      .workflow-bar
+        .grid.grid--auto.grid--right.grid--middle
+          .grid__cell= button_tag t('workarea.admin.form.save_changes'), value: 'save_taxon', class: 'workflow-bar__button workflow-bar__button--update'

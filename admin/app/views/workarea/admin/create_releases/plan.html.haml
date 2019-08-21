@@ -1,0 +1,83 @@
+- @page_title = t('workarea.admin.create_releases.plan.page_title', name: @release.name)
+
+.view.view--mixed-results
+  .view__header
+    .view__heading
+      %h1.heading--no-margin= t('workarea.admin.create_releases.plan.title', release_name: @release.name)
+      %p= link_to t('workarea.admin.create_releases.workflow.or_skip_this'), url_for(@release)
+
+  .view__container
+    %p.align-center= t('workarea.admin.create_releases.plan.create_instruction')
+
+    .release-creatable>
+      = link_to create_catalog_categories_path, class: 'release-creatable__icon-set' do
+        = inline_svg('workarea/admin/icons/categories.svg', class: 'release-creatable__type-icon svg-icon svg-icon--extra-large')
+        = inline_svg('workarea/admin/icons/add_circle.svg', class: 'release-creatable__add-icon svg-icon svg-icon--small svg-icon--green')
+      = link_to t('workarea.admin.create_releases.plan.creatable.add_category'), create_catalog_categories_path, id: 'add_category', class: 'button button--create'
+    .release-creatable>
+      = link_to create_catalog_products_path, class: 'release-creatable__icon-set' do
+        = inline_svg('workarea/admin/icons/products.svg', class: 'release-creatable__type-icon svg-icon svg-icon--extra-large')
+        = inline_svg('workarea/admin/icons/add_circle.svg', class: 'release-creatable__add-icon svg-icon svg-icon--small svg-icon--green')
+      = link_to t('workarea.admin.create_releases.plan.creatable.add_product'), create_catalog_products_path, id: 'add_product', class: 'button button--create'
+    .release-creatable>
+      = link_to create_content_pages_path, class: 'release-creatable__icon-set' do
+        = inline_svg('workarea/admin/icons/pages.svg', class: 'release-creatable__type-icon svg-icon svg-icon--extra-large')
+        = inline_svg('workarea/admin/icons/add_circle.svg', class: 'release-creatable__add-icon svg-icon svg-icon--small svg-icon--green')
+      = link_to t('workarea.admin.create_releases.plan.creatable.add_page'), create_content_pages_path, id: 'add_page', class: 'button button--create'
+    .release-creatable>
+      = link_to create_pricing_discounts_path, class: 'release-creatable__icon-set' do
+        = inline_svg('workarea/admin/icons/pricing_discount.svg', class: 'release-creatable__type-icon svg-icon svg-icon--extra-large')
+        = inline_svg('workarea/admin/icons/add_circle.svg', class: 'release-creatable__add-icon svg-icon svg-icon--small svg-icon--green')
+      = link_to t('workarea.admin.create_releases.plan.creatable.add_discount'), create_pricing_discounts_path, id: 'add_discount', class: 'button button--create'
+
+    %p.align-center= t('workarea.admin.create_releases.plan.instruction')
+
+    .browsing-controls.browsing-controls--with-divider.browsing-controls--center{ class: ('browsing-controls--filters-displayed' unless @search.toggle_facets?) }
+      = form_tag plan_create_release_path(@release), method: 'get', id: 'releasable_search_form', class: 'browsing-controls__form' do
+        = facet_hidden_inputs(@search.facets)
+        .browsing-controls__sort
+          .property.property--inline
+            = label_tag 'sort', t('workarea.admin.search.sort_by'), class: 'property__name'
+            = select_tag :sort, options_for_select(@search.sorts, selected: @search.sort), data: { form_submitting_control: '' }
+
+        .browsing-controls__search
+          .search-form
+            = text_field_tag :q, params[:q], class: 'search-form__input', id: 'search_products', title: t('workarea.admin.search.keywords'), placeholder: t('workarea.admin.search.keywords')
+            = submit_tag 'search_releasables', class: 'search-form__button'
+
+        - if @search.facets.present?
+          - @search.facets.each do |facet|
+            = render "workarea/admin/facets/#{facet.type}", facet: facet
+
+        - if @search.toggle_facets?
+          .browsing-controls__toggle-filters
+            %button.text-button{ type: 'button', data: { toggle_filters: '' } }= t('workarea.admin.search.show_filters')
+
+      = render 'workarea/admin/facets/applied', search: @search, reset_path: plan_create_release_path(@release)
+
+    - if @search.results.any?
+      .grid.grid--auto.grid--flush.grid--center
+        - @search.results.each do |result|
+          .grid__cell= render_summary_for(result)
+
+      - if @search.results.total_pages > 1
+        = render 'workarea/admin/shared/pagination', collection: @search.results
+
+  .workflow-bar
+    .grid.grid--middle
+      .grid__cell.grid__cell--20
+        - if @release.new_record?
+          = link_to t('workarea.admin.form.cancel'), releases_path, class: 'workflow-bar__button workflow-bar__button--delete'
+        - else
+          = link_to t('workarea.admin.form.cancel'), release_path(@release), class: 'workflow-bar__button workflow-bar__button--delete', data: { method: 'delete', confirm: t('workarea.admin.create_releases.workflow.delete_confirmation') }
+
+      .grid__cell.grid__cell--60
+        %ol.workflow-bar__steps
+          %li.workflow-bar__step 1) #{link_to t('workarea.admin.create_releases.workflow.pick_day'), releases_path}
+          %li.workflow-bar__step 2) #{link_to t('workarea.admin.create_releases.workflow.setup'), edit_create_release_path(@release)}
+          %li.workflow-bar__step
+            %strong 3) #{t('workarea.admin.create_releases.workflow.plan_changes')}
+
+      .grid__cell.grid__cell--20
+        .grid.grid--auto.grid--right.grid--middle
+          .grid__cell= link_to "#{t('workarea.admin.create_releases.workflow.skip_and_finish')} →", url_for(@release), class: 'workflow-bar__button'

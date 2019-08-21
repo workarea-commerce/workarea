@@ -1,0 +1,36 @@
+- @title = t('workarea.storefront.sitemaps.heading')
+
+- content_for :head do
+  - cache "#{@sitemap.cache_key}/head", expires_in: Workarea.config.cache_expirations.sitemap_fragment_cache do
+    - if @sitemap.first_page?
+      %meta{ name: 'robots', content: 'index, follow' }
+    - else
+      %meta{ name: 'robots', content: 'noindex, follow' }
+
+    - if @sitemap.first_page?
+      %link{ href: sitemap_path, rel: 'canonical' }
+    - else
+      %link{ href: sitemap_path(page: @sitemap.page), rel: 'canonical' }
+
+    - if @sitemap.second_page?
+      %link{ href: sitemap_path, rel: 'prev' }
+    - elsif !@sitemap.first_page?
+      %link{ href: url_for(page: @sitemap.prev_page), rel: 'prev' }
+
+    - unless @sitemap.last_page?
+      %link{ href: url_for(page: @sitemap.next_page), rel: 'next' }
+
+.view
+
+  %h1= t('workarea.storefront.sitemaps.heading')
+
+  - cache @sitemap, expires_in: Workarea.config.cache_expirations.sitemap_fragment_cache do
+    - unless @sitemap.results.any?
+      %p= t('workarea.storefront.sitemaps.none_found')
+    - else
+      %ul.sitemap
+        - @sitemap.results.each do |taxon|
+          - name = taxon.ancestors_and_self.map(&:name).join(' > ')
+          %li.sitemap__item= link_to name, storefront_path_for(taxon), class: 'sitemap__link'
+      - if @sitemap.total_pages > 1
+        = render 'workarea/storefront/sitemaps/pagination', collection: @sitemap.taxons

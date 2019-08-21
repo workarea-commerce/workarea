@@ -1,0 +1,37 @@
+/*------------------------------------*\
+    #UI-ACCORDION-HEADER
+\*------------------------------------*/
+
+$ui-accordion-header-color:            $black !default;
+$ui-accordion-header-bg-color:         $light-gray !default;
+$ui-accordion-header-hover-bg-color:   $off-white !default;
+$ui-accordion-header-border-bg-color:  $border-color !default;
+
+$ui-accordion-header-padding:  16px !default;
+
+.ui-accordion-header {
+    margin: 0;
+    padding: $ui-accordion-header-padding;
+    color: $ui-accordion-header-color;
+    font-weight: bold;
+    text-transform: uppercase;
+    background: $ui-accordion-header-bg-color;
+    border: 1px solid $ui-accordion-header-border-bg-color;
+    cursor: pointer;
+
+    &.ui-state-hover {
+        background-color: $ui-accordion-header-hover-bg-color;
+    }
+
+    &::before {
+        display: inline-block;
+        margin-right: $spacing-unit * 2;
+        content: '►';
+        transition: transform $global-transition-speed;
+    }
+
+    &.ui-state-active::before {
+        transform: rotate(90deg);
+        transform-origin: center;
+    }
+}

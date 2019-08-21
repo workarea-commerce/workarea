@@ -1,0 +1,73 @@
+/*------------------------------------*\
+    #TEXT-BUTTON
+\*------------------------------------*/
+
+$text-button-color: $off-black !default;
+$text-button-hover-color: $dark-gray !default;
+
+$text-button-create-color: $green !default;
+$text-button-create-hover-color: $bright-green !default;
+
+$text-button-destroy-color: $bright-red !default;
+$text-button-destroy-hover-color: $red !default;
+
+$text-button-font-size: 1em !default;
+$text-button-icon-size: 1.3em !default;
+
+
+.text-button {
+    @extend %button-reset;
+    color: $text-button-color;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+
+    &:hover {
+        color: $text-button-hover-color;
+        text-decoration: none;
+    }
+}
+
+.text-button--create {
+    color: $text-button-create-color;
+
+    &:hover {
+        color: $text-button-create-hover-color;
+    }
+}
+
+.text-button--destroy {
+    color: $text-button-destroy-color;
+
+    &:hover {
+        color: $text-button-destroy-hover-color;
+    }
+}
+
+
+    .text-button__icon {
+        width: $text-button-icon-size;
+        height: $text-button-icon-size;
+        fill: $text-button-color;
+        vertical-align: text-top;
+
+        .text-button:hover & {
+            fill: $text-button-hover-color;
+        }
+
+        .text-button--create & {
+            fill: $text-button-create-color;
+        }
+
+        .text-button--create:hover & {
+            fill: $text-button-create-hover-color;
+        }
+
+        .text-button--destroy & {
+            fill: $text-button-destroy-color;
+        }
+
+        .text-button--destroy:hover & {
+            fill: $text-button-destroy-hover-color;
+        }
+    }

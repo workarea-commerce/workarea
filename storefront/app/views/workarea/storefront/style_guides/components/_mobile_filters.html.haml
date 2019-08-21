@@ -1,0 +1,17 @@
+#mobile-filters.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'mobile_filters')
+
+  %p Provides a toggling UI for filtering search results for mobile devices.
+
+  %p should toggle content between a visible and invisible state:
+  .style-guide__example-block
+    .mobile-filters
+      = check_box_tag 'toggle_mobile_filters', nil, true, class: 'mobile-filters__control'
+      .mobile-filters__trigger
+        = label_tag 'toggle_mobile_filters', 'Filter Results', class: 'button button--large'
+      .mobile-filters__content
+        %ol
+          %li Filter 1
+          %li Filter 2
+          %li Filter 3

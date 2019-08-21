@@ -1,0 +1,19 @@
+- @page_title = @customization.query
+
+.view
+  .view__header
+    .grid
+      .grid__cell.grid__cell--25
+        = render 'workarea/admin/releases/select'
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to "↑ #{t('workarea.admin.search_customizations.show.index_link')}", search_customizations_path
+          %h1= @customization.query
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@customization)
+
+  .view__container
+    = render_cards_for(@customization)
+
+    .workflow-bar
+      = link_to t('workarea.admin.actions.delete'), search_customization_path(@customization), class: 'workflow-bar__button workflow-bar__button--delete', data: { method: 'delete', confirm: 'Are you sure you want to delete?' }

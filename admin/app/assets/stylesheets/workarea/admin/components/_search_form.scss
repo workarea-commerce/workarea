@@ -1,0 +1,78 @@
+/*------------------------------------*\
+    #SEARCH-FORM
+\*------------------------------------*/
+
+$search-form-width:  275px !default;
+$search-form-input-bg-color:  $off-white !default;
+
+$search-form-icon-size:     16px !default;
+$search-form-icon-spacing:  8px !default;
+
+$search-form-major-height:        $global-header-height !default;
+$search-form-major-icon-size:     26px !default;
+$search-form-major-icon-spacing:  16px !default;
+
+
+/**
+ * 1. provides positioning context for `.search-form__button`
+ */
+.search-form {
+    position: relative; /* [1] */
+    width: $search-form-width;
+    margin: 0;
+}
+
+.search-form--major {
+    width: 100%;
+}
+
+.search-form--with-margin {
+    margin-bottom: $vertical-margin;
+}
+
+    .search-form__input {
+        @include text-box-image('icons/search.svg', left, $search-form-icon-size, $search-form-icon-spacing);
+        padding-top:    $spacing-unit;
+        padding-right:  $spacing-unit;
+        padding-bottom: $spacing-unit;
+        width:  100%;
+        background-color: $search-form-input-bg-color;
+        border: 0;
+        border-radius: $global-border-radius;
+
+        .search-form--major & {
+            @include text-box-image('icons/search.svg', left, $search-form-major-icon-size, $search-form-major-icon-spacing);
+            height: $search-form-major-height;
+        }
+
+        .header & {
+            border-top-right-radius: 0;
+            border-top-left-radius: 0;
+        }
+
+        &:focus {
+            @include focus-ring;
+        }
+    }
+
+    /**
+     * 1. negate the styles from `base/forms.scss`
+     */
+    .search-form__button {
+        @extend %button-reset;
+        @extend %image-replacement;
+        position: absolute;
+        top:    0;
+        bottom: 0;
+        left:  0;
+        width: $search-form-icon-size + ($search-form-icon-spacing * 2);
+        cursor: pointer;
+
+        .search-form--major & {
+            width: $search-form-major-icon-size + ($search-form-major-icon-spacing * 2);
+        }
+
+        &[disabled] {
+            background-color: transparent;
+        }
+    }

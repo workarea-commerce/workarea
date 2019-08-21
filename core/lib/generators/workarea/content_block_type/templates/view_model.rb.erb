@@ -1,0 +1,16 @@
+module Workarea
+  module Storefront
+    module ContentBlocks
+      class <%= class_name %>ViewModel < ContentBlockViewModel
+        # Custom local variables passed into the view template.
+        #
+        # @return [Hash]
+        def locals
+          super.merge(type: '<%= block_name %>')
+        end
+
+        # TODO: Add more custom view model logic.
+      end
+    end
+  end
+end

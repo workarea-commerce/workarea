@@ -1,0 +1,209 @@
+%tr
+  %td
+    %p
+      %strong= "#{t('workarea.storefront.orders.id')}:"
+      = order.id
+    %p
+      %strong= "#{t('workarea.storefront.orders.status')}:"
+      = order.fulfillment_status
+
+= append_partials('storefront.order_mailer_summary_top', order: order)
+
+%tr
+  %td
+    %table{ role: 'presentation', width: '100%' }
+      %tr
+        %td.stack-column-center
+          .align-center
+            %h2 #{t('workarea.storefront.orders.billing')} #{t('workarea.storefront.orders.address')}
+            %p
+              = order.billing_address.first_name
+              = order.billing_address.last_name
+              %br
+              - if order.billing_address.company.present?
+                = order.billing_address.company
+                %br
+              = order.billing_address.street
+              %br
+              - if order.billing_address.street_2.present?
+                = order.billing_address.street_2
+                %br
+              = "#{order.billing_address.city},"
+              = order.billing_address.region
+              = order.billing_address.postal_code
+              %br
+              = order.billing_address.country
+              %br
+              = number_to_phone order.billing_address.phone_number, extension: order.billing_address.phone_extension
+
+            %h2= t('workarea.storefront.orders.payment_method')
+            - order.tenders.each do |tender|
+              = render "workarea/storefront/order_mailer/tenders/#{tender.slug}", tender: tender
+
+        - if order.requires_shipping?
+          %td.stack-column-center
+            .align-center
+              %h2 #{t('workarea.storefront.orders.shipping')} #{t('workarea.storefront.orders.address')}
+              - order.shippings.each do |shipping|
+                %p
+                  = shipping.address.first_name
+                  = shipping.address.last_name
+                  %br
+                  - if shipping.address.company.present?
+                    = shipping.address.company
+                    %br
+                  = shipping.address.street
+                  %br
+                  - if shipping.address.street_2.present?
+                    = shipping.address.street_2
+                    %br
+                  = "#{shipping.address.city},"
+                  = shipping.address.region
+                  = shipping.address.postal_code
+                  %br
+                  = shipping.address.country
+                  %br
+                  = number_to_phone shipping.address.phone_number, extension: shipping.address.phone_extension
+
+- if order.requires_shipping?
+  %tr
+    %td
+      %h2= t('workarea.storefront.orders.shipping')
+
+      - order.shippings.each do |shipping|
+
+        %h3= t('workarea.storefront.orders.shipping_service')
+        %p
+          = shipping.try(:shipping_service).try(:name) || t('workarea.storefront.checkouts.not_applicable')
+          = append_partials('storefront.order_mailer_summary_shipping', shipping: shipping)
+        - if shipping.instructions.present?
+          %p
+            %strong= t('workarea.storefront.orders.shipping_instructions')
+            %br
+            = shipping.instructions
+
+        - if shipping.partial?
+          %table.product-grid
+            - shipping.items.each_slice(4) do |item_row|
+              %tr
+                - item_row.each do |item|
+                  %td.stack-column-center
+                    %table.product-grid__product{ role: 'presentation', width: '100%' }
+                      %tr
+                        %td.product-grid__image
+                          = link_to product_url(item.product, sku: item.sku), class: 'product-grid__link' do
+                            = image_tag(product_image_url(item.product.primary_image, :medium_thumb), alt: item.product_name)
+                      %tr
+                        %td.product-grid__info
+                          = link_to product_url(item.product, sku: item.sku), class: 'product-grid__link' do
+                            .product-grid__name= item.product_name
+                          = item.sku
+
+                      %tr
+                        %td
+                          %table
+                            - item.details.each do |name, value|
+                              %tr
+                                %td.align-left
+                                  %strong= "#{name.titleize}:"
+                                %td.align-right= value
+
+                            - item.customizations.each do |name, value|
+                              %tr
+                                %td.align-left
+                                  %strong= "#{name.titleize}:"
+                                %td.align-right= value
+
+                      %tr
+                        %td
+                          %strong= t('workarea.storefront.orders.quantity')
+                          = item.quantity
+
+                      = append_partials('storefront.order_mailer_summary_order_details', item: item)
+
+%tr
+  %td
+    %h3= t('workarea.storefront.checkouts.items')
+    %table.product-grid
+      - order.items.each_slice(4) do |item_row|
+        %tr
+          - item_row.each do |item|
+            %td.stack-column-center
+              %table.product-grid__product{ role: 'presentation', width: '100%' }
+                %tr
+                  %td.product-grid__image
+                    = link_to product_url(item.product, sku: item.sku), class: 'product-grid__link' do
+                      = image_tag(product_image_url(item.product.primary_image, :medium_thumb), alt: item.product_name)
+                %tr
+                  %td.product-grid__info
+                    = link_to product_url(item.product, sku: item.sku), class: 'product-grid__link' do
+                      .product-grid__name= item.product_name
+                    = item.sku
+
+                %tr
+                  %td
+                    %table
+                      - item.details.each do |name, value|
+                        %tr
+                          %td.align-left
+                            %strong= "#{name.titleize}:"
+                          %td.align-right= value
+
+                      - item.customizations.each do |name, value|
+                        %tr
+                          %td.align-left
+                            %strong= "#{name.titleize}:"
+                          %td.align-right= value
+
+                      %tr
+                        %td.align-left
+                          %strong= t('workarea.storefront.orders.quantity')
+                        %td.align-right= item.quantity
+
+                      = append_partials('storefront.order_mailer_summary_order_details', item: item)
+
+                    - if item.total_adjustments.many?
+                      - item.total_adjustments.each do |adjustment|
+                        %tr
+                          %td.align-left
+                            %em= "#{adjustment.description}:"
+                          %td.align-right= number_to_currency(adjustment.amount)
+
+                      %tr
+                        %td.align-left
+                          %strong= "#{t('workarea.storefront.orders.item_total')}:"
+                        %td.align-right= number_to_currency item.total_price
+
+
+    %h3= t('workarea.storefront.orders.total')
+    %table
+      %tr
+        %th.align-left= t('workarea.storefront.orders.item_total')
+        %td.align-right= number_to_currency order.subtotal_price
+
+      - if order.total_adjustments.any?
+        - order.total_adjustments.each do |adjustment|
+          %tr
+            %th.align-left= adjustment.description
+            %td.align-right= number_to_currency(adjustment.amount)
+
+      %tr
+        %th.align-left= t('workarea.storefront.orders.shipping')
+        %td.align-right= number_to_currency order.shipping_total
+
+      %tr
+        %th.align-left= t('workarea.storefront.orders.tax')
+        %td.align-right= number_to_currency order.tax_total
+
+      - if order.store_credit_amount > 0
+        %tr
+          %th.align-left= t('workarea.storefront.orders.store_credit')
+          %td.align-right= number_to_currency(-1 * order.store_credit_amount)
+
+      = append_partials('storefront.order_mailer_summary_payment', order: order)
+
+      %tr
+        %th.align-left= t('workarea.storefront.orders.total')
+        %td.align-right= number_to_currency order.paid_amount
+
+= append_partials('storefront.order_mailer_summary_bottom', order: order)

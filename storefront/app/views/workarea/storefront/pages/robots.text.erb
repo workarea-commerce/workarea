@@ -1,0 +1,17 @@
+User-Agent: *
+Allow: <%= sitemap_path %>
+<% if !Rails.env.production? %>
+Disallow: /
+<% else %>
+Disallow: /cart
+Disallow: /checkout
+Disallow: /orders
+Disallow: /search
+Disallow: /login
+Disallow: /logout
+Disallow: /forgot_password
+Disallow: /users
+Disallow: /wish_lists
+Disallow: /products/*/details
+<% end %>
+<%= append_partials('storefront.robots_txt') %>

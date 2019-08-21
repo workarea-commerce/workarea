@@ -1,0 +1,132 @@
+- @page_title = t('workarea.admin.users.permissions.title', user: @user.name)
+
+.view
+  .view__header
+    .grid.grid--middle.grid--right
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@user)
+          %h1= link_to @user.name, url_for(@user)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@user)
+
+  .view__container
+    = render_cards_for(@user, :permissions)
+
+    - if @user.super_admin?
+      .section
+        .grid.grid--center
+          .grid__cell.grid__cell--50
+            = render_message 'warning' do
+              = t('workarea.admin.users.permissions.cannot_be_changed')
+
+    .section
+      = form_tag user_path(@user), method: :patch, id: 'user_form', data: { unsaved_changes: '' } do
+        .grid.grid--center
+          .grid__cell.grid__cell--33
+            %h3.align-center= t('workarea.admin.users.permissions.admin_access')
+            .property
+              = check_box :user, :admin, disabled: @user.super_admin?
+              = label_tag 'user[admin]', t('workarea.admin.users.permissions.access_to_administration'), class: 'property__name'
+
+            .property
+              = check_box :user, :permissions_manager, disabled: @user.super_admin?
+              = label_tag 'user[permissions_manager]', t('workarea.admin.users.permissions.can_grant_or_revoke_permissions'), class: 'property__name'
+
+            .property
+              = check_box :user, :can_publish_now, disabled: @user.super_admin?
+              = label_tag 'user[can_publish_now]', t('workarea.admin.users.permissions.can_publish_now'), class: 'property__name'
+              = link_to '#can-publish-warning', data: { tooltip: '' } do
+                = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.users.permissions.can_publish_now_info'))
+
+              #can-publish-warning.tooltip-content
+                %p= t('workarea.admin.users.permissions.can_publish_now_message')
+
+            .property
+              = check_box :user, :can_restore, disabled: @user.super_admin?
+              = label_tag 'user[can_restore]', t('workarea.admin.users.permissions.can_restore_deleted_items'), class: 'property__name'
+
+            .property
+              = check_box :user, :status_email_recipient, disabled: @user.super_admin?
+              = label_tag 'user[status_email_recipient]', t('workarea.admin.users.permissions.status_email'), class: 'property__name'
+
+          .grid__cell.grid__cell--33
+            %h3.align-center= t('workarea.admin.users.permissions.admin_areas')
+            .grid
+              .grid__cell.grid__cell--50
+                .property
+                  = check_box :user, :releases_access, disabled: @user.super_admin?
+                  = label_tag 'user_releases_access', class: 'property__name' do
+                    = inline_svg('workarea/admin/icons/release.svg', class: 'svg-icon')
+                    %span= t('workarea.admin.users.permissions.releases')
+
+              .grid__cell.grid__cell--50
+                .property
+                  = check_box :user, :store_access, disabled: @user.super_admin?
+                  = label_tag 'user_store_access', class: 'property__name' do
+                    = inline_svg('workarea/admin/icons/pages.svg', class: 'svg-icon')
+                    %span= t('workarea.admin.users.permissions.store')
+
+              .grid__cell.grid__cell--50
+                .property
+                  = check_box :user, :search_access, disabled: @user.super_admin?
+                  = label_tag 'user_search_access', class: 'property__name' do
+                    = inline_svg('workarea/admin/icons/search.svg', class: 'svg-icon')
+                    %span= t('workarea.admin.users.permissions.search')
+
+              .grid__cell.grid__cell--50
+                .property
+                  = check_box :user, :catalog_access, disabled: @user.super_admin?
+                  = label_tag 'user_catalog_access', class: 'property__name' do
+                    = inline_svg('workarea/admin/icons/products.svg', class: 'svg-icon')
+                    %span= t('workarea.admin.users.permissions.catalog')
+
+              .grid__cell.grid__cell--50
+                .property
+                  = check_box :user, :orders_access, disabled: @user.super_admin?
+                  = label_tag 'user_orders_access', class: 'property__name' do
+                    = inline_svg('workarea/admin/icons/orders.svg', class: 'svg-icon')
+                    %span= t('workarea.admin.users.permissions.orders')
+
+              .grid__cell.grid__cell--50
+                .property
+                  = check_box :user, :people_access, disabled: @user.super_admin?
+                  = label_tag 'user_people_access', class: 'property__name' do
+                    = inline_svg('workarea/admin/icons/user.svg', class: 'svg-icon')
+                    %span= t('workarea.admin.users.permissions.people')
+
+              .grid__cell.grid__cell--50
+                .property
+                  = check_box :user, :marketing_access, disabled: @user.super_admin?
+                  = label_tag 'user_marketing_access', class: 'property__name' do
+                    = inline_svg('workarea/admin/icons/insights.svg', class: 'svg-icon')
+                    %span= t('workarea.admin.users.permissions.marketing')
+
+              .grid__cell.grid__cell--50
+                .property
+                  = check_box :user, :reports_access, disabled: @user.super_admin?
+                  = label_tag 'user_reports_access', class: 'property__name' do
+                    = inline_svg('workarea/admin/icons/insights.svg', class: 'svg-icon')
+                    %span= t('workarea.admin.users.permissions.reports')
+
+              .grid__cell.grid__cell--50
+                .property
+                  = check_box :user, :settings_access, disabled: @user.super_admin?
+                  = label_tag 'user_settings_access', class: 'property__name' do
+                    = inline_svg('workarea/admin/icons/settings.svg', class: 'svg-icon')
+                    %span= t('workarea.admin.users.permissions.settings')
+
+              .grid__cell.grid__cell--50
+                .property
+                  = check_box :user, :help_admin, disabled: @user.super_admin?
+                  = label_tag 'user_help_admin', class: 'property__name' do
+                    = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon')
+                    %span= t('workarea.admin.users.permissions.help')
+
+              = append_partials('admin.user_permissions')
+
+        .workflow-bar
+          .grid.grid--auto.grid--right.grid--middle
+            = append_partials('admin.user_permissions_workflow_bar')
+            - button_styles = @user.super_admin? ? 'workflow-bar__button' : 'workflow-bar__button workflow-bar__button--update'
+            .grid__cell= button_tag t('workarea.admin.users.permissions.button'), value: 'save_permissions', class: button_styles, disabled: @user.super_admin?

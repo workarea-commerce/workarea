@@ -1,0 +1,21 @@
+- @page_title = t('workarea.admin.dashboards.store.store_dashboard')
+
+.view
+  .view__header
+    .view__heading
+      = link_to "↑ #{t('workarea.admin.dashboards.main_dashboard')}", root_path
+      %h1= t('workarea.admin.dashboards.store.title')
+
+  .view__container
+    %ul.secondary-nav
+      %li= link_to t('workarea.admin.dashboards.store.home_page'), current_system_page_content_for(:home_page)
+      %li= link_to t('workarea.admin.dashboards.store.content_pages'), content_pages_path
+      %li= link_to t('workarea.admin.dashboards.store.assets'), content_assets_path
+      %li= link_to t('workarea.admin.dashboards.store.primary_navigation'), navigation_menus_path
+      %li= link_to t('workarea.admin.dashboards.store.taxonomy'), navigation_taxons_path
+      %li= link_to t('workarea.admin.dashboards.store.system_pages'), content_index_path
+      = append_partials('admin.store_dashboard_navigation')
+
+  .view__container.view__container--narrow
+    - @dashboard.insights.each do |insight|
+      = render "workarea/admin/insights/#{insight.slug}", insight: insight

@@ -1,0 +1,38 @@
+- number_of_pages = collection.total_pages
+- current_page = collection.current_page
+
+- unless number_of_pages == 1
+  %ul.pagination
+    %li.pagination__node
+      - if collection.first_page?
+        %span.pagination__navigation.pagination__navigation--disabled= t('workarea.admin.shared.pagination.prev')
+      - else
+        = link_to t('workarea.admin.shared.pagination.prev'), pagination_path_for(page: current_page - 1), class: 'pagination__navigation'
+    - max_page = [current_page + 1, 3].max
+    - start = [1, current_page - 1].max
+    - if start > number_of_pages - 3 && start >= 2
+      - start = number_of_pages - 2
+    - stop = [max_page, number_of_pages].min
+    - if start > 1
+      %li.pagination__node= link_to 1, pagination_path_for(page: 1), class: 'pagination__link'
+      - if start == 3
+        %li.pagination__node= link_to 2, pagination_path_for(page: 2), class: 'pagination__link'
+      - if start >= 4
+        %li.pagination__node
+          %span …
+    - Range.new(start, stop).each do |page|
+      - if page == current_page
+        %li.pagination__node
+          %strong= page
+      - else
+        %li.pagination__node= link_to page, pagination_path_for(page: page), class: 'pagination__link'
+    - if stop < number_of_pages
+      - if (stop + 1) != number_of_pages
+        %li.pagination__node
+          %span …
+      %li.pagination__node= link_to number_of_pages, pagination_path_for(page: number_of_pages), class: 'pagination__link'
+    %li.pagination__node
+      - if collection.last_page?
+        %span.pagination__navigation.pagination__navigation--disabled= t('workarea.admin.shared.pagination.next')
+      - else
+        = link_to t('workarea.admin.shared.pagination.next'), pagination_path_for(page: current_page + 1), class: 'pagination__navigation'

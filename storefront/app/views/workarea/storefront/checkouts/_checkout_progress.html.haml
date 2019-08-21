@@ -1,0 +1,6 @@
+%nav.checkout-progress
+  .checkout-progress__step{ class: ('checkout-progress__step--active' if @checkout_step == 'addresses') }
+    = link_to_unless @checkout_step == 'addresses', t('workarea.storefront.checkouts.addresses_step_text'), checkout_addresses_path, class: 'checkout-progress__link'
+  .checkout-progress__step{ class: ('checkout-progress__step--active' if @checkout_step == 'shipping') }
+    = link_to_unless @checkout_step.in?(%w(addresses shipping)), t('workarea.storefront.checkouts.shipping_step_text'), checkout_shipping_path, class: 'checkout-progress__link'
+  .checkout-progress__step{ class: ('checkout-progress__step--active' if @checkout_step == 'payment') }= t('workarea.storefront.checkouts.payment_step_text')

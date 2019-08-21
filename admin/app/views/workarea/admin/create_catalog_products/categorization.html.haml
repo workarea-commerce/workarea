@@ -1,0 +1,68 @@
+- @page_title = t('workarea.admin.create_catalog_products.categorization.page_title', product_name: @product.name)
+
+.view
+  .view__header
+    .grid.grid--right
+      .grid__cell.grid__cell--50
+        .view__heading
+          %h1.heading.heading--no-margin= t('workarea.admin.create_catalog_products.categorization.categorize', product_name: @product.name)
+          %p= link_to t('workarea.admin.create_catalog_products.categorization.or_skip_this'), publish_create_catalog_product_path(@product)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@product, html_options: { target: @product.id })
+
+  .view__container.view__container--narrow
+    .grid.grid--center.grid--huge
+      .grid__cell.grid__cell--50-at-medium
+        %h2.align-center= t('workarea.admin.create_catalog_products.categorization.by_matching_category_rules')
+
+        - if @product.rules_categories.blank?
+          %p.align-center= t('workarea.admin.create_catalog_products.categorization.doesnt_match_any_categorys_rules')
+        - else
+          %ul.list-reset.align-center
+            - @product.rules_categories.each do |category|
+              %li
+                %strong= link_to category.name, catalog_category_path(category)
+
+      .grid__cell.grid__cell--50-at-medium
+        %h2.align-center= t('workarea.admin.create_catalog_products.categorization.by_being_featured')
+
+        - if @product.featured_categories.blank?
+          %p.align-center= t('workarea.admin.create_catalog_products.categorization.not_featured_in_any_categories_yet')
+        - else
+          %ul.list-reset.align-center
+            - @product.featured_categories.each do |category|
+              %li
+                %strong= link_to category.name, catalog_category_path(category)
+                = link_to catalog_product_categorization_path(@product, category), data: { remote: true, method: 'delete', dom_remove: 'li' } do
+                  = inline_svg('workarea/admin/icons/delete.svg', class: 'svg-icon svg-icon--small svg-icon--red', title: t('workarea.admin.actions.remove'))
+
+        .section
+          = form_tag save_categorization_create_catalog_product_path(@product), method: 'post', class: 'align-center' do
+            = select_tag 'category_ids[]', nil, multiple: true, data: { remote_select: { source: catalog_categories_path(format: :json), options: { placeholder: 'Feature in categories...' } }.to_json }
+            = button_tag t('workarea.admin.create_catalog_products.categorization.save'), value: 'add_categories', class: 'button button--small'
+
+    .workflow-bar
+      .grid.grid--middle
+        .grid__cell.grid__cell--20
+          = link_to t('workarea.admin.create_catalog_products.categorization.cancel'), catalog_product_path(@product), class: 'workflow-bar__button workflow-bar__button--delete', data: { method: 'delete', confirm: t('workarea.admin.create_catalog_products.are_you_sure_all_work_on_this_product_will_be_lost') }
+
+        .grid__cell.grid__cell--60
+          %ol.workflow-bar__steps
+            %li.workflow-bar__step
+              1) #{link_to t('workarea.admin.create_catalog_products.steps.setup'), edit_create_catalog_product_path(@product)}
+            %li.workflow-bar__step
+              2) #{link_to t('workarea.admin.create_catalog_products.steps.variants'), variants_create_catalog_product_path(@product)}
+            %li.workflow-bar__step
+              3) #{link_to t('workarea.admin.create_catalog_products.steps.images'), images_create_catalog_product_path(@product)}
+            %li.workflow-bar__step
+              4) #{link_to t('workarea.admin.create_catalog_products.steps.details'), details_create_catalog_product_path(@product)}
+            %li.workflow-bar__step
+              5) #{link_to t('workarea.admin.create_catalog_products.steps.content'), content_create_catalog_product_path(@product)}
+            %li.workflow-bar__step
+              %strong 6) #{t('workarea.admin.create_catalog_products.steps.categorization')}
+            %li.workflow-bar__step
+              7) #{t('workarea.admin.create_catalog_products.steps.publish')}
+
+        .grid__cell.grid__cell--20
+          .grid.grid--auto.grid--right.grid--middle
+            .grid__cell= link_to "#{t('workarea.admin.create_catalog_products.categorization.continue_to_publish')} →", publish_create_catalog_product_path(@product), class: 'workflow-bar__button'

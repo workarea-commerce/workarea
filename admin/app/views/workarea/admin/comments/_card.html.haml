@@ -1,0 +1,26 @@
+.card{ class: card_classes(:comments, local_assigns[:active]) }
+  = link_to commentable_comments_path(commentable.to_global_id), title: pluralize(commentable.comment_count, t('workarea.admin.comments.card.label')), class: 'card__header' do
+    %span.card__header-text= t('workarea.admin.comments.card.title')
+    = inline_svg 'workarea/admin/icons/comments.svg', class: 'card__icon'
+
+  - if local_assigns[:active].blank?
+    .card__body
+      - unless commentable.has_comments?
+        %p= t('workarea.admin.comments.card.description_1')
+        %p= t('workarea.admin.comments.card.description_2')
+
+        = link_to commentable_comments_path(commentable.to_global_id), class: 'card__button' do
+          %span.button.button--small= t('workarea.admin.comments.card.blank_button')
+      - else
+        .comments
+          %ul.comments__comment-group
+            - commentable.comments.take(3).each do |comment|
+              %li.comments__comment
+                .comments__comment-avatar
+                  = avatar_for comment.author
+                .comments__comment-body
+                  %span.comments__comment-author= comment&.author&.name
+                  %span= comment.body
+                  %span.comments__comment-time #{time_ago_in_words(comment.created_at)} ago
+        = link_to commentable_comments_path(commentable.to_global_id), class: 'card__button' do
+          %span.button.button--small= t('workarea.admin.comments.card.button')

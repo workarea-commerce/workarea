@@ -1,0 +1,48 @@
+FROM ruby:2.4.4-slim
+
+ARG APP_PATH
+ARG APP_BUNDLE_BIN
+
+RUN apt-get update \
+ && apt-get install -yqq curl gnupg \
+ && curl -sS -o - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
+ && echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list \
+ && curl -sL https://deb.nodesource.com/setup_8.x | bash - \
+ && apt-get update \
+ && apt-get install -yqq --no-install-recommends \
+    git \
+    ssh \
+    tzdata \
+    build-essential \
+    nodejs \
+    libssl-dev \
+    libyaml-dev \
+    libreadline6-dev \
+    zlib1g-dev \
+    libncurses5-dev \
+    libffi-dev \
+    libgdbm3 \
+    libgdbm-dev \
+    autoconf \
+    bison \
+    xvfb \
+    imagemagick \
+    jpegoptim \
+    google-chrome-stable \
+ && apt-get clean \
+ && rm -rf /var/lib/apt/lists/*
+
+<% if include_webpack? %>
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
+ && echo "deb https://dl.yarnpkg.com/debian/ stable main" >> /etc/apt/sources.list.d/yarn.list \
+ && apt-get update && apt-get install -yqq --no-install-recommends yarn
+
+EXPOSE 3035
+<% end %>
+EXPOSE 3000
+
+ENV PATH /usr/local/bundle/bin:$APP_PATH/bin:$APP_BUNDLE_BIN:$PATH
+
+WORKDIR $APP_PATH
+
+CMD ["sh", "docker-entrypoint.sh"]

@@ -1,0 +1,6 @@
+- if report.graph_data.present?
+  .align-center
+    = area_chart report.graph_data, Workarea.config.default_chartkick_options.merge({ width: '50%' }.merge(local_assigns.slice(:prefix, :suffix)))
+
+- if report.day_of_week? && report.uneven_day_distribution?
+  = render_message 'warning', t('workarea.admin.reports.group_by_time.uneven_day_distribution')

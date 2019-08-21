@@ -1,0 +1,72 @@
+version: '3'
+services:
+  mongo:
+    image: "mongo:4.0"
+    volumes:
+      - mongo:/data/db
+
+  redis:
+    image: "redis"
+    volumes:
+      - redis:/data
+
+  elasticsearch:
+    image: "elasticsearch:5.6"
+    ports:
+      - '9201:9200'
+      - '9301:9300'
+    volumes:
+      - elasticsearch:/usr/share/elasticsearch/data
+
+  # Uncomment this is you want to use mailcatcher
+  # mailcatcher:
+  #   image: schickling/mailcatcher
+  #   ports:
+  #     - 1080:1080
+
+  web: &web
+    build:
+      context: .
+      args:
+        - APP_PATH=${APP_PATH}
+        - APP_BUNDLE_BIN=${BUNDLE_BIN}
+    ports:
+      - "${RAILS_PORT}:3000"
+    volumes:
+      - <%= include_docker_sync? ? "#{app_name}-sync:${APP_PATH}:nocopy" : ".:${APP_PATH}" %>
+      <%= '- gem_cache:/gems' unless include_docker_sync? %>
+    depends_on:
+      - redis
+      - mongo
+      - elasticsearch
+    env_file:
+      - docker.env
+    stdin_open: true
+    tty: true
+  <% if include_webpack? %>
+  webpack_server:
+    <<: *web
+    command: ['sh', './docker-wait.sh', 'bin/webpack-dev-server']
+    depends_on:
+      - web
+    ports:
+      - '3035:3035'
+  <% end %>
+  # Uncomment this if you want to run sidekiq
+  # sidekiq:
+  #   <<: *web
+  #   command: ['sh', './docker-wait.sh', 'sidekiq']
+  #   depends_on:
+  #     - web
+  #   ports: []
+
+volumes:
+  mongo:
+  redis:
+  elasticsearch:
+  <% if include_docker_sync? %>
+  <%= app_name %>-sync:
+    external: true
+  <% else %>
+  gem_cache:
+  <% end%>

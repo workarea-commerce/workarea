@@ -1,0 +1,7 @@
+.toggle-button{ data: data }
+  .toggle-button__switch
+    = radio_button_tag input_name, true, condition, disabled: disabled, class: 'toggle-button__input toggle-button__input--positive', title: title_true, id: "#{dom_id}_true"
+    = label_tag "#{dom_id}_false", label_true, class: 'toggle-button__label toggle-button__label--positive', id: "#{dom_id}_false_label"
+    = radio_button_tag input_name, false, !condition, disabled: disabled, class: 'toggle-button__input toggle-button__input--negative', title: title_false, id: "#{dom_id}_false"
+    = label_tag "#{dom_id}_true", label_false, class: 'toggle-button__label toggle-button__label--negative', id: "#{dom_id}_true_label"
+  = block

@@ -1,0 +1,19 @@
+/*------------------------------------*\
+    #CHECKOUT-STEP-SUMMARY
+\*------------------------------------*/
+
+.checkout-step-summary {
+    padding: $spacing-unit;
+}
+
+    .checkout-step-summary__step {}
+
+    .checkout-step-summary__step--hidden-for-small {
+        display: none;
+
+        @include respond-to($medium-breakpoint) {
+            display: block;
+        }
+    }
+
+        .checkout-step-summary__section {}

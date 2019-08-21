@@ -1,0 +1,22 @@
+%tr
+  %td
+    %h2= t('workarea.storefront.email.recommendations')
+    %table.product-grid{ role: 'presentation', width: '100%' }
+      - recommendations.each_slice(4) do |product_row|
+        %tr
+          - product_row.each do |product|
+            %td.stack-column-center
+              %table.product-grid__product{ role: 'presentation', width: '100%' }
+                %tr
+                  %td.product-grid__image
+                    = link_to product_url(product), class: 'product-grid__link' do
+                      = image_tag(product_image_url(product.primary_image, :medium_thumb), alt: product.name)
+                %tr
+                  %td.product-grid__info
+                    = link_to product_url(product), class: 'product-grid__link' do
+                      .product-grid__name= product.name
+                      .product-grid__price
+                        - if product.one_price?
+                          = number_to_currency product.sell_min_price
+                        - else
+                          = "#{number_to_currency product.sell_min_price} - #{number_to_currency product.sell_max_price}"

@@ -1,0 +1,167 @@
+<div class='section [ white-text align-center ]'>
+  <h1 class='heading heading--4'>How can we help?</h1>
+  <p class='text text--small'>These guides are for Version 3. <%= link_to('Looking for Version 2?', 'http://classic.developer.workarea.com/2', target: '_blank', class: 'white-text bold-text') %></p>
+  <% form_tag '/search.html', class: 'search', method: 'get' do %>
+    <input type='search' name='q' placeholder='Search the Workarea Commerce Docs' class='search__input' autocomplete='off' id='search'>
+    <input type='submit' class='search__button' value='⟶'>
+  <% end %>
+</div>
+
+<div class='grid grid--tiny'>
+  <div class='grid__cell 1/3--lap-and-up'>
+    <div class='fancy-box fancy-box--green'>
+      <div class='fancy-box__icon'>
+        <%= partial 'shared/svgs', locals: { svg: 'getting_started' } %>
+      </div>
+      <span class='fancy-box__heading'>Getting Started</span>
+      <ul href='#' class='fancy-box__links'>
+        <li><%= link_to 'Overview', '/articles/overview.html', class: 'fancy-box__link' %></li>
+        <li><%= link_to 'Create a New Workarea App', '/articles/create-a-new-app.html', class: 'fancy-box__link' %></li>
+        <li><%= link_to 'Work on an Existing Workarea App', '/articles/use-an-existing-workarea-app.html', class: 'fancy-box__link' %></li>
+        <li><%= link_to 'Navigating the Code', '/articles/navigating-the-code.html', class: 'fancy-box__link' %></li>
+        <li><%= link_to 'Prerequisites &amp; Dependencies', '/articles/prerequisites-and-dependencies.html', class: 'fancy-box__link' %></li>
+      </ul>
+      <div class='fancy-box__action'>
+        <%= link_to 'Read More', '/articles/overview.html', class: 'button button--small' %>
+      </div>
+    </div>
+  </div>
+
+  <div class='grid__cell 1/3--lap-and-up'>
+    <div class='fancy-box fancy-box--pink'>
+      <div class='fancy-box__icon'>
+        <%= partial 'shared/svgs', locals: { svg: 'architecture' } %>
+      </div>
+      <span class='fancy-box__heading'>Architecture</span>
+      <ul href='#' class='fancy-box__links'>
+        <li><%= link_to 'Extension', '/articles/extension-overview.html', class: 'fancy-box__link' %></li>
+        <li><%= link_to 'Testing', '/articles/testing.html', class: 'fancy-box__link' %></li>
+        <li><%= link_to 'Products', '/articles/products.html', class: 'fancy-box__link' %></li>
+        <li><%= link_to 'Orders', '/articles/orders.html', class: 'fancy-box__link' %></li>
+        <li><%= link_to 'Style Guides', '/articles/style-guides.html', class: 'fancy-box__link' %></li>
+      </ul>
+      <div class='fancy-box__action'>
+        <%= link_to 'Read More', '/articles/extension-overview.html', class: 'button button--small' %>
+      </div>
+    </div>
+  </div>
+
+  <div class='grid__cell 1/3--lap-and-up'>
+    <div class='fancy-box fancy-box--orange'>
+      <div class='fancy-box__icon'>
+        <%= partial 'shared/svgs', locals: { svg: 'implementation' } %>
+      </div>
+      <span class='fancy-box__heading'>Implementation</span>
+      <ul href='#' class='fancy-box__links'>
+        <li><%= link_to 'Add, Remove, or Change a Product Template', '/articles/add-remove-or-change-a-product-template.html', class: 'fancy-box__link' %></li>
+        <li><%= link_to 'Product Image Sizes &amp; Processing', '/articles/configure-product-image-sizes-and-processing.html', class: 'fancy-box__link' %></li>
+        <li><%= link_to 'Create a Custom Discount', '/articles/create-a-custom-discount.html', class: 'fancy-box__link' %></li>
+        <li><%= link_to 'Add a Content Block Type', '/articles/add-a-content-block-type.html', class: 'fancy-box__link' %></li>
+        <li><%= link_to 'Create a Plugin', '/articles/create-a-plugin.html', class: 'fancy-box__link' %></li>
+      </ul>
+      <div class='fancy-box__action'>
+        <%= link_to 'Read More', '/articles/add-remove-or-change-a-product-template.html', class: 'button button--small' %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class='alt-heading'>
+  <span class='alt-heading__heading heading heading--6'>Resources</span>
+  <hr class='alt-heading__hr'>
+</div>
+
+<div class='grid grid--center'>
+  <div class='grid__cell 1/3--lap-and-up 1/5--desk'>
+    <div class='align-center'>
+      <% link_to '/release-notes.html', class: 'box' do %>
+        <div class='box__header'>
+          <span class='box__heading'>Release Notes</span>
+        </div>
+        <p class='box__text'>
+          Stay up-to-date with each new patch release.
+        </p>
+      <% end %>
+    </div>
+  </div>
+  <div class='grid__cell 1/3--lap-and-up 1/5--desk'>
+    <div class='align-center'>
+      <% link_to '/cli.html', class: 'box' do %>
+        <div class='box__header'>
+          <span class='box__heading'>CLI</span>
+        </div>
+        <p class='box__text'>
+          Make life easy with our command line interface!
+        </p>
+      <% end %>
+    </div>
+  </div>
+  <div class='grid__cell 1/3--lap-and-up 1/5--desk'>
+    <div class='align-center'>
+      <a href='https://demo.workarea.com/api/docs' target='_blank' class='box'>
+        <div class='box__header'>
+          <div class='grid'>
+            <span class='grid__cell 4/5'>
+              <span class='box__heading'>API Reference</span>
+            </span>
+            <span class='grid__cell 1/5 align-right'>
+              <span class='box__arrow'>
+                <%= partial 'shared/svgs', locals: { svg: 'external' } %>
+              </span>
+            </span>
+          </div>
+        </div>
+        <p class='box__text'>
+          Building something? View our API Reference!
+        </p>
+      </a>
+    </div>
+  </div>
+  <div class='grid__cell 1/3--lap-and-up 1/5--desk'>
+    <div class='align-center'>
+      <a href='https://workarea-community.slack.com' target='_blank' class='box'>
+        <div class='box__header'>
+          <div class='grid'>
+            <span class='grid__cell 4/5'>
+              <span class='box__heading'>Slack</span>
+            </span>
+            <span class='grid__cell 1/5 align-right'>
+              <span class='box__arrow'>
+                <%= partial 'shared/svgs', locals: { svg: 'external' } %>
+              </span>
+            </span>
+          </div>
+        </div>
+        <p class='box__text'>
+          Chances are someone's asked the same question as you.
+        </p>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class='alt-heading'>
+  <span class='alt-heading__heading heading heading--6'>Release Announcement Signup</span>
+  <hr class='alt-heading__hr'>
+</div>
+
+<div class='grid'>
+  <div class='grid__cell'>
+    <p class='no-top-margin'>Want to be notified each time a new version of Workarea is made available? Then sign up for our bi-monthly release announcements!</p>
+    <!-- Begin Mailchimp Signup Form -->
+    <div id="mc_embed_signup">
+      <form action="https://weblinc.us10.list-manage.com/subscribe/post?u=ae9f272a94b6f17f65464bf46&amp;id=effab6b1e6" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+        <div id="mc_embed_signup_scroll">
+          <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+          <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_ae9f272a94b6f17f65464bf46_effab6b1e6" tabindex="-1" value=""></div>
+
+          <div class='grid grid--auto grid--middle'>
+            <div class='grid__cell'><input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="you@areaweso.me" required></div>
+            <div class='grid__cell'><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button button--small"></div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <!--End mc_embed_signup-->
+  </div>
+</div>

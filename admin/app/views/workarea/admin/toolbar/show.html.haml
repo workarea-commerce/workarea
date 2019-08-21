@@ -1,0 +1,79 @@
+!!!
+%html{ lang: 'en', class: locale_options.many? ? 'i18n' : nil }
+  %head
+    %meta{ charset: 'utf-8' }
+    %title= page_title
+    = csrf_meta_tags
+    %meta{ property: 'locale', content: I18n.locale }
+    %meta{ property: 'environment', content: Rails.env }
+    %meta{ property: 'turbolinks-root', content: root_path }
+    = stylesheet_link_tag 'workarea/admin/application', media: 'all'
+    = javascript_include_tag 'workarea/admin/application'
+    = yield :head
+
+    %base{ target: '_parent' }
+
+  %body{ data: { turbolinks: 'false' } }
+
+    .admin-toolbar
+
+      .page-container
+
+        #header.header
+          = inline_svg('workarea/admin/logo.svg', class: 'header__logo', title: 'Workarea')
+
+          = link_to inline_svg('workarea/admin/icons/menu.svg', class: 'header__menu-icon', title: t('workarea.admin.toolbar.open_primary_menu')), '#primary_nav', class: 'header__menu-button header__menu-button--open'
+          = button_tag inline_svg('workarea/admin/icons/close.svg', class: 'header__menu-icon', title: t('workarea.admin.toolbar.close_primary_menu')), class: 'header__menu-button header__menu-button--close', type: 'button', id: 'takeover_close_button'
+
+          .header__contents
+
+            = form_tag search_path, method: 'get', class: 'header__search-form', role: 'search' do
+              .search-form.search-form--major
+                = search_field_tag :q, nil, placeholder: t('workarea.admin.toolbar.search_placeholder'), title: t('workarea.admin.toolbar.search_title'), class: 'search-form__input', data: { categorized_autocomplete_field: '' }, id: 'admin_search', aria: { label: t('workarea.admin.toolbar.search_title') }
+                = submit_tag t('workarea.admin.toolbar.search'), class: 'search-form__button', value: 'search_admin'
+
+            - if @model.present?
+              - unless @model.active?
+                .header__alert
+                  = inline_svg('workarea/admin/icons/alert.svg', class: 'header__alert-icon', title: t('workarea.admin.toolbar.inactive_message', model: @model.name), data: { tooltip: { content_id: "#inactive-info", side: 'left' }.to_json })
+
+                #inactive-info.tooltip-content= t('workarea.admin.toolbar.inactive_message', model: @model.name)
+
+              .header__action= link_to t('workarea.admin.toolbar.admin_model_view', model: @model.name), url_for(@model), class: 'header__action-link'
+
+            - if @content.present?
+              .header__action= link_to t('workarea.admin.toolbar.edit_content'), edit_content_path(@content), class: 'header__action-link'
+
+            .header__action
+              = form_tag release_session_path(return_to: params[:return_to]), method: :post, class: 'header__action-link' do
+                = inline_svg('workarea/admin/icons/calendar.svg', title: t('workarea.admin.toolbar.managing_changes_for'), class: 'release-select__icon')
+                = select_tag :release_id, release_options_for_select, data: { form_submitting_control: '' }, id: nil, aria: { label: t('workarea.admin.toolbar.managing_changes_for') }
+
+                - if current_release.present?
+                  = link_to t('workarea.admin.toolbar.view'), release_path(current_release.id)
+
+            - if admin_browsing_as_guest?
+              .header__action
+                .header__user-menu
+                  .header__user-menu-cell
+                    = form_tag guest_browsing_path, method: 'delete', data: { disable_delete_confirmation: '' } do
+                      = button_tag t('workarea.admin.toolbar.stop_guest_browsing'), class: 'text-button text-button--destroy'
+            - elsif impersonating?
+              .header__action
+                .header__user-menu
+                  .header__user-menu-cell=(avatar_for current_impersonation, 'avatar--large')
+                  .header__user-menu-cell
+                    %strong
+                      = link_to current_impersonation.email, user_path(current_impersonation)
+                    %br
+                    = form_tag impersonations_path, method: 'delete', data: { disable_delete_confirmation: '' } do
+                      = button_tag t('workarea.admin.toolbar.stop_impersonation'), class: 'text-button text-button--destroy'
+
+            - if allow_pricing_override?
+              .header__action= link_to t('workarea.admin.toolbar.adjust_order_pricing'), edit_pricing_override_path(current_order.id), class: 'header__action-link'
+
+            = append_partials('admin.toolbar')
+
+        = render 'workarea/admin/shared/primary_nav', visible: true
+
+    = yield :javascript

@@ -1,0 +1,64 @@
+/*------------------------------------*\
+    #NEW-BLOCK-BUTTON
+\*------------------------------------*/
+
+$new-block-button-color:         $gray !default;
+$new-block-button-hover-color:   $off-black !default;
+$new-block-button-border-color:  $border-color !default;
+
+$new-block-button-icon-size:  64px !default;
+
+$new-block-button-width:  $new-block-button-icon-size * 4 !default;
+$new-block-button-hight:  $new-block-button-icon-size * 2 !default;
+
+$new-block-button-icon-color:        $gray !default;
+$new-block-button-hover-icon-color:  $dark-gray !default;
+
+
+.new-block-button {
+    display: block;
+    position: relative;
+    margin-bottom: ($spacing-unit * 2);
+    padding: ($spacing-unit * 3) $spacing-unit $spacing-unit;
+    width: $new-block-button-width;
+    height: $new-block-button-hight;
+    text-align: center;
+    border: 1px solid $new-block-button-border-color;
+    border-radius: $global-border-radius;
+    overflow: hidden;
+
+    &:hover {
+        color: $new-block-button-hover-color;
+        text-decoration: none;
+        border-color: $new-block-button-hover-color;
+    }
+}
+
+    .new-block-button__icon {
+        display: block;
+        margin: 0 auto $spacing-unit;
+        width: $new-block-button-icon-size;
+        height: $new-block-button-icon-size;
+        fill: $new-block-button-icon-color;
+
+        .new-block-button:hover & {
+            fill: $new-block-button-hover-icon-color;
+        }
+    }
+
+    .new-block-button__name {
+        @extend %truncate;
+        display: block;
+        color: $new-block-button-color;
+
+        .new-block-button:hover & {
+            color: $new-block-button-hover-color;
+        }
+    }
+
+    .new-block-button__help {
+        display: block;
+        position: absolute;
+        right: $spacing-unit;
+        bottom: $spacing-unit;
+    }

@@ -1,0 +1,193 @@
+/*------------------------------------*\
+    #CARD
+\*------------------------------------*/
+
+$card-bg-color:                   $white !default;
+$card-border-color:               $border-color !default;
+$card-shadow-color:               $gray !default;
+$card-active-shadow-color:        $blue !default;
+$card-active-shadow-hover-color:  $bright-blue !default;
+
+$card-header-text-color:    $off-black !default;
+$card-header-icon-color:    $blue !default;
+$card-header-active-color:  $blue !default;
+
+$card-icon-size:    ($spacing-unit * 2) !default;
+
+$card-body-size:            280px !default;
+$card-body-bg-color:        $white !default;
+$card-body-hover-bg-color:  rgba($off-white, 0.4) !default;
+
+$card-photo-size:      ($card-body-size / 2) - $spacing-unit * 3 !default;
+$card-photo-bg-color:  $light-gray !default;
+
+$card-product-size:    $card-body-size / 2 !default;
+
+
+
+/**
+ * 1. prevents `.card__body` overflow and ensures rounded hover state for
+ *    `.card__heading`.
+ */
+.card {
+    @include global-box-shadow($card-shadow-color, tight);
+    margin: 0 ($spacing-unit * 1.5) ($spacing-unit * 3);
+    width: $card-body-size;
+    background: $card-bg-color;
+    border-radius: $global-border-radius;
+    overflow: hidden; /* [1] */
+    transition: box-shadow $global-transition-speed ease-out;
+
+    &:hover {
+        @include global-box-shadow;
+    }
+}
+
+.card--active {
+    @include global-box-shadow($card-active-shadow-color);
+
+    &:hover {
+        @include global-box-shadow($card-active-shadow-hover-color);
+    }
+}
+
+.card--button {
+    width: auto;
+    margin-bottom: $spacing-unit * 1.5;
+}
+
+    .card__header {
+        @extend %clearfix;
+        display: block;
+        padding: $spacing-unit * 2;
+
+        &:hover {
+            text-decoration: none;
+        }
+    }
+
+        /**
+         * 1. this UI requires truncation, but the alignment of the text v. the
+         *    icon requires the line height be specific. This value allows each
+         *    glyph that dips below the baseline to render properly. Glyphs like
+         *    lower-case 'g' were being cut off.
+         * 2. in support of Comment #1, realign the the icon to match the new
+         *    `.card__header-text` line height.
+         */
+        .card__header-text {
+            @extend %truncate;
+            width: calc(100% - #{$card-icon-size});
+            float: left;
+            color: $card-header-text-color;
+            font-size: $font-size + 2px;
+            font-weight: bold;
+            line-height: 1.25; /* [1] */
+
+            .card--active & {
+                color: $card-header-active-color;
+            }
+
+            .card--button & {
+                margin-right: $horizontal-margin;
+                width: auto;
+            }
+        }
+
+        .card__icon {
+            position: relative;
+            top: 2px; /* [2] */
+            width: $card-icon-size;
+            height: $card-icon-size;
+            float: right;
+            fill: $card-header-icon-color;
+        }
+
+
+    /**
+     * 1. provides positioning context for `.card__empty-note` & `.card__button`
+     * 2. allows a single `.card__photo` to take up the entire `.card__body`.
+     */
+    .card__body {
+        position: relative; /* [1] */
+        padding: $spacing-unit * 2;
+        width: $card-body-size;
+        height: $card-body-size;
+        font-size: $font-size;
+        background-color: $card-body-bg-color;
+        border-top: 1px solid $card-border-color;
+        overflow: hidden; /* [2] */
+    }
+
+
+        .card__centered-content {
+            @include center(vertical);
+            left: 0;
+            right: 0;
+            padding: 0 ($spacing-unit * 2);
+        }
+
+
+        /**
+         * 1. an invisible, clickable wrapper that occupies `.card__body`.
+         */
+        .card__button {
+            opacity: 0;
+            transition: opacity $global-transition-speed ease-out;
+
+            .card:hover & {
+                opacity: 1;
+            }
+
+            &:before { /* [1] */
+                display: block;
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                background-color: $card-body-hover-bg-color;
+                content: '';
+            }
+        }
+
+        .card__empty-note {}
+
+        /**
+         * 1. provides positioning context for `.card__more-text`
+         * 2. apply a bottom margin to only the first two photos in the grid.
+         */
+        .card__photo-box {
+            position: relative; /* [1] */
+            width: $card-photo-size;
+            height: $card-photo-size;
+            font-size: 1.17rem;
+            background: $card-photo-bg-color;
+            overflow: hidden;
+
+            &:nth-child(-n+3) { /* [2] */
+                margin-bottom: $spacing-unit;
+            }
+        }
+
+            .card__photo {
+                @include center;
+                font-weight: bold;
+            }
+
+        .card__product {
+            text-align: center;
+        }
+
+            .card__product-image {
+                margin-bottom: $vertical-margin;
+                width: $card-product-size;
+            }
+
+            .card__product-name {}
+
+        .card__hr {
+            margin: $spacing-unit 0;
+            height: 1px;
+            background: $card-border-color;
+            border: 0;
+        }

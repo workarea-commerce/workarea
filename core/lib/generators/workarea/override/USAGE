@@ -1,0 +1,22 @@
+Options:
+  TYPE can be one of:
+    - views
+    - layouts
+    - stylesheets
+    - javascripts
+    - images
+    - fonts
+
+Description:
+  Generates application-specific overrides of Workarea front-end files
+
+Examples:
+  rails g workarea:override views workarea/storefront
+  rails g workarea:override layouts workarea/storefront/application.html.haml
+  rails g workarea:override layouts workarea/admin/application.html.haml
+  rails g workarea:override stylesheets workarea/storefront/reviews
+  rails g workarea:override stylesheets workarea/core/helpers/_respond_to.scss
+  rails g workarea:override javascripts workarea/core/modules/string.js
+  rails g workarea:override javascripts workarea/storefront/templates/btn.jst.ejs
+  rails g workarea:override fonts workarea/storefront/icons.woff
+  rails g workarea:override stylesheets jquery_ui/admin/_ui_dialog.scss

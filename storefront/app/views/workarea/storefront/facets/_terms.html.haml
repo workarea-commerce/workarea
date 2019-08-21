@@ -1,0 +1,11 @@
+.result-filters__section{ class: "result-filters__section--#{facet.system_name}" }
+  %h2= t('workarea.storefront.products.filter_title', name: facet.display_name)
+  %ul.result-filters__group
+    - facet.results.each do |value_name, count|
+      %li.result-filters__filter{ class: ('result-filters__filter--selected' if facet.selected?(value_name)) }
+        = link_to facet_path(facet, value_name), rel: 'nofollow', class: 'result-filters__link' do
+          = value_name.titleize
+          - if facet.selected?(value_name)
+            %strong.result-filters__remove= t('workarea.storefront.products.remove_filter')
+          - else
+            %span.result-filters__count (#{count})

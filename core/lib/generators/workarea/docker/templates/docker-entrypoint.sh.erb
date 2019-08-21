@@ -1,0 +1,6 @@
+#!bin/bash
+
+rm -rf tmp/pids
+bundle check || bundle install --binstubs="$BUNDLE_BIN" --jobs=4
+<%= "yarn install" if include_webpack? %>
+bin/rails server

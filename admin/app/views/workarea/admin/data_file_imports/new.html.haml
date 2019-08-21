@@ -1,0 +1,47 @@
+- @page_title = t('workarea.admin.data_file_imports.new.title', name: @import.name.pluralize)
+
+.view
+  .view__header
+    .grid.grid--middle.grid--center
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to "← #{t('workarea.admin.data_file_imports.new.back')}", return_to
+          %h1= t('workarea.admin.data_file_imports.new.title', name: @import.name.pluralize)
+
+  .view__container
+    = form_tag data_file_imports_path, method: 'post', multipart: true, data: { unsaved_changes: '' } do
+      = hidden_field_tag :return_to, return_to
+      = hidden_field_tag 'import[model_type]', @import.model_type
+
+      .section
+        .grid.grid--center
+          .grid__cell.grid__cell--50
+            - @import.errors.full_messages.each do |message|
+              = render_message 'error', message
+
+            .property.align-center
+              = file_field_tag 'import[file]', class: 'text-box text-box--wide', required: true
+              = button_tag t('workarea.admin.data_file_imports.new.start_import'), value: 'create_import', class: 'button button--inline'
+              %span.property__note= t('workarea.admin.data_file_imports.new.note')
+
+      .section
+        .grid.grid--huge
+          .grid__cell.grid__cell--50
+            %h2.align-center.heading.heading--no-margin= t('workarea.admin.data_file_imports.new.what_should_the_file_look_like')
+            %p.align-center
+              #{t('workarea.admin.data_file_imports.new.formats')}:
+              - Workarea.config.data_file_formats.each do |file_type|
+                = link_to_unless @import.file_type.to_s == file_type.to_s, file_type.upcase, url_for(import: { model_type: @import.model_type, file_type: file_type }), data: { turbolinks: false }
+              %br
+              = link_to t('workarea.admin.data_file_imports.new.download_sample'), url_for(params.merge(action: 'sample')) if @import.samples.present?
+
+            - if @import.samples.blank?
+              %p.align-center= t('workarea.admin.data_file_imports.new.no_samples')
+            - else
+              .data-file-sample
+                %pre.data-file-sample__output= @import.sample_file_content
+
+          .grid__cell.grid__cell--50
+            %h2.align-center= t('workarea.admin.data_file_imports.new.what_are_the_rules_for_the_data')
+            = render_validations_for(@import.model_class)
+            = render_import_format_notes_for(@import.format)

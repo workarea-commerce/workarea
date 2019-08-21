@@ -1,0 +1,79 @@
+/*------------------------------------*\
+    #INDEX-TABLE
+\*------------------------------------*/
+
+$index-table-row-color:  $black !default;
+$index-table-row-inactive-color:  $gray !default;
+$index-table-image-size:  32px !default;
+
+/**
+ * An extension of the base table presentation. Customized for the use-case of
+ * displaying object data on the Admin's index views.
+ *
+ * 1. since the intent of this component is to be placed on a `table` element,
+ *    we'll be lazy and style the `td` element directly.
+ * 2. always align the last column's cells to the right.
+ */
+.index-table { /* [1] */
+    td {
+        vertical-align: middle;
+        line-height: 1;
+        padding: ($spacing-unit * 1.5) $spacing-unit;
+    }
+
+    th:last-of-type,
+    td:last-of-type { /* [2] */
+        text-align: right;
+    }
+}
+
+    .index-table__row {
+        color: $index-table-row-color;
+    }
+
+    .index-table__row--inactive {
+        color: $index-table-row-inactive-color;
+    }
+
+        .index-table__image-cell {
+            width: $index-table-image-size;
+            text-align: center;
+        }
+
+            .index-table__image-link {
+                display: inline-block;
+                position: relative;
+                width: $index-table-image-size;
+                height: $index-table-image-size;
+                overflow: hidden;
+            }
+
+                /**
+                 * 1. for this use case we don't want the responsive image
+                 *    technique applied to these images.
+                 * 2. max-height to allow for avatar use case, which controls
+                 *    its own height.
+                 */
+                .index-table__image {
+                    @include center;
+                    max-width: none; /* [1] */
+                    max-height: $index-table-image-size; /* [2] */
+                }
+
+    /**
+     * 1. class added via javascript. When added, the row becomes a control to
+     *    toggle the bulk actions checkbox only.
+     * 2. element selector used to ensure that any links within the clickable
+     *    UI look less interactive.
+     */
+    .index-table__row--clickable { /* [1] */
+        cursor: pointer;
+
+        a { /* [2] */
+            text-decoration: none;
+        }
+    }
+
+        .index-table__control-cell {
+            text-align: center;
+        }

@@ -1,0 +1,35 @@
+#product-summary.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'product_summary')
+
+  %p Displays a compact product summary for use within #{link_to_style_guide('components', 'product_grid', true)} on product browse and search results pages.
+
+  .style-guide__example-block
+    .product-summary
+      %p.product-summary__media
+        = link_to('#', class: 'product-summary__media-link') do
+          = image_tag('workarea/storefront/style_guide_product.jpg', alt: 'Product Name', class: 'product-summary__media-image')
+      .product-summary__info
+        %p.product-summary__name= link_to('Product Name', '#')
+        .product-prices.product-prices--summary
+          %p.product-prices__price
+            %span= number_to_currency(109.99)
+
+  = append_partials('storefront.style_guide_product_summary')
+
+#product-summary--small.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'product_summary__small')
+
+  %p Displays a compact #{link_to_style_guide('components', 'product_summary', true)} for independent use. Reduces the overall size of the component, by shrinking and/or reducing its contents. Frequently used within #{link_to_style_guide('components', 'product_grid__small_summaries', true)} components.
+
+  .style-guide__example-block
+    .product-summary.product-summary--small
+      %p.product-summary__media
+        = link_to('#', class: 'product-summary__media-link') do
+          = image_tag('workarea/storefront/style_guide_product.jpg', alt: 'Product Name', class: 'product-summary__media-image')
+      .product-summary__info
+        %p.product-summary__name= link_to('Product Name', '#')
+        .product-prices.product-prices--summary
+          %p.product-prices__price
+            %span= number_to_currency(109.99)

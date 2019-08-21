@@ -1,0 +1,79 @@
+#product-prices.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'product_prices')
+
+  %p Displays a list of one or more product prices or price ranges, potentially with price labels.
+
+  .style-guide__example-block
+    .product-prices
+      %p.product-prices__price
+        %span= number_to_currency(109.99)
+
+  %p With price range:
+  .style-guide__example-block
+    .product-prices
+      %p.product-prices__price
+        %span= number_to_currency(109.99)
+        %span – #{number_to_currency(129.99)}
+
+  %p With MSRP:
+  .style-guide__example-block
+    .product-prices
+      %p.product-prices__price
+        %span= number_to_currency(109.99)
+      %p.product-prices__price
+        %s= number_to_currency(129.99)
+
+  %p With MSRP range:
+  .style-guide__example-block
+    .product-prices
+      %p.product-prices__price
+        %span= number_to_currency(109.99)
+        %span – #{number_to_currency(129.99)}
+      %p.product-prices__price
+        %s #{number_to_currency(129.99)} – #{number_to_currency(149.99)}
+
+  %p With sale price:
+  .style-guide__example-block
+    .product-prices
+      %p.product-prices__price
+        %strong= number_to_currency(109.99)
+      %p.product-prices__price
+        %s= number_to_currency(129.99)
+
+  %p With sale range:
+  .style-guide__example-block
+    .product-prices
+      %p.product-prices__price
+        %strong= number_to_currency(109.99)
+        %strong – #{number_to_currency(129.99)}
+      %p.product-prices__price
+        %s #{number_to_currency(129.99)} – #{number_to_currency(149.99)}
+
+#product-prices--details.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'product_prices__details')
+
+  %p Styling for when #{link_to_style_guide('components', 'product_prices', true)} is displayed on the Product Detail template.
+
+  .style-guide__example-block
+    .product-prices.product-prices--details
+      %p.product-prices__price
+        %strong= number_to_currency(109.99)
+        %strong – #{number_to_currency(129.99)}
+      %p.product-prices__price
+        %s #{number_to_currency(129.99)} – #{number_to_currency(149.99)}
+
+#product-prices--summary.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'product_prices__summary')
+
+  %p Styling for when #{link_to_style_guide('components', 'product_prices', true)} is displayed within the #{link_to_style_guide('components', 'product_summary', true)} component.
+
+  .style-guide__example-block
+    .product-prices.product-prices--summary
+      %p.product-prices__price
+        %strong= number_to_currency(109.99)
+        %strong – #{number_to_currency(129.99)}
+      %p.product-prices__price
+        %s #{number_to_currency(129.99)} – #{number_to_currency(149.99)}

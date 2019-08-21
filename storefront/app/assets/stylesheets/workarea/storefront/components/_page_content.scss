@@ -1,0 +1,14 @@
+/*------------------------------------*\
+    #PAGE-CONTENT
+\*------------------------------------*/
+
+.page-content {
+    position: relative;
+    z-index: index($page-container, page-content);
+}
+
+.page-content--checkout {}
+
+    .page-content__aside {}
+
+    .page-content__main {}

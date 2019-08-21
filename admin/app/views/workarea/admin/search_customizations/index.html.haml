@@ -1,0 +1,78 @@
+- @page_title = t('workarea.admin.search_customizations.index.page_title')
+
+.view
+  .view__header
+    .view__heading
+      = link_to "↑ #{t('workarea.admin.search_customizations.index.search_dashboard')}", search_dashboards_path, class: 'view__dashboard-button'
+      %h1= t('workarea.admin.search_customizations.index.search_customizations')
+
+  .view__container
+
+    .browsing-controls.browsing-controls--with-divider.browsing-controls--center
+      = form_tag search_customizations_path, method: 'get', class: 'browsing-controls__form align-center' do
+        .browsing-controls__sort
+          .property.property--inline
+            = label_tag 'sort', t('workarea.admin.search.sort_by'), class: 'property__name'
+            = select_tag 'sort', options_for_select(sort_options(Workarea::Search::Customization), params[:sort]), data: { form_submitting_control: '' }
+
+        .browsing-controls__search
+          .search-form
+            = text_field_tag :q, params[:q], class: 'search-form__input', id: 'search_customizations', title: t('workarea.admin.search_customizations.index.term_to_customize'), placeholder: t('workarea.admin.search_customizations.index.term_to_customize'), data: { autocomplete_field: search_customizations_path(format: :json) }
+            = submit_tag 'search_customizations', class: 'search-form__button'
+
+      - if current_popular_searches.any?
+        .grid.grid--auto.grid--center
+          .grid__cell
+            .box.box--rounded
+              .grid.grid--auto.grid--center
+                %strong.grid__cell #{t('workarea.admin.search_customizations.index.popular_searches')}:
+                .grid__cell
+                  %ol.inline-list.inline-list--commas
+                    - current_popular_searches.each_with_index do |result, index|
+                      %li= link_to result['query_string'], search_customizations_path(q: result['query_string']), data: { method: 'post' }
+
+        %p.browsing-controls__count= pluralize(@customizations.count, 'customization')
+
+    - if @customizations.any?
+      %table.index-table
+        %thead
+          %tr
+            %th= t('workarea.admin.fields.search_id')
+            %th= t('workarea.admin.fields.search_terms')
+            %th.align-center= t('workarea.admin.fields.redirect')
+            %th.align-center= t('workarea.admin.fields.rewrite')
+            %th.align-center= t('workarea.admin.fields.featured_products')
+            %th.align-center= t('workarea.admin.fields.insights')
+            %th= t('workarea.admin.fields.created_at')
+        %tbody
+          - @customizations.each do |customization|
+            %tr.index-table__row
+              %td
+                = link_to customization.id, search_customization_path(customization)
+                = upcoming_changesets_icon_for(customization)
+                = comments_icon_for(customization)
+                = top_icon_for(customization)
+                = trending_icon_for(customization)
+              %td= link_to customization.query, search_customization_path(customization)
+              %td.align-center= t("workarea.admin.#{customization.redirect?}")
+              %td.align-center= t("workarea.admin.#{customization.rewrite?}")
+              %td.align-center= customization.product_ids.length
+              %td.align-center
+                = link_to insights_search_customization_path(customization), class: 'link link--no-underline' do
+                  %span.spark{ title: t('workarea.admin.search_customizations.index.sparkline_title') }
+                    {#{sparkline_analytics_data_for(customization.insights.orders_sparkline).join(',')}}
+              %td= local_time_ago customization.created_at
+
+      - if @customizations.total_pages > 1
+        = render 'workarea/admin/shared/pagination', collection: @customizations
+
+  .workflow-bar
+    .align-right
+      = button_tag t('workarea.admin.search_customizations.index.add_new_customization'), id: 'add_search_customization', class: 'workflow-bar__button workflow-bar__button--create', data: { tooltip: { content_id: '#add_new_search_customization', interactive: true, trigger: 'click' }.to_json }, type: 'button', turbolinks: false
+      #add_new_search_customization.tooltip-content
+        .grid.grid--middle
+          = form_tag search_customizations_path, method: 'post' do
+            .grid__cell.grid__cell--80
+              = text_field_tag 'q', params[:q], class: 'text-box text-box--medium', placeholder: t('workarea.admin.search_customizations.index.term_to_customize'), data: { autocomplete_field: search_customizations_path(format: :json) }
+            .grid__cell.grid__cell--20
+              = button_tag t('workarea.admin.search.go'), value: 'find_search_customization', class: 'button button--small'

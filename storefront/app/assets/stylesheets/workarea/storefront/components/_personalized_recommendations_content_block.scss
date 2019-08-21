@@ -1,0 +1,10 @@
+/*------------------------------------*\
+    #PERSONALIZED-RECOMMENDATIONS-CONTENT-BLOCK
+\*------------------------------------*/
+
+.personalized-recommendations-content-block {}
+
+    .personalized-recommendations-content-block__heading {
+        @extend %heading;
+        @extend %heading--2;
+    }

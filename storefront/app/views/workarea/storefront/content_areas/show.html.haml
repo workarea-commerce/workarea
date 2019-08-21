@@ -1,0 +1,6 @@
+- @title = @content.browser_title
+- add_css(@content.css)
+- add_javascript(@content.javascript)
+
+.view
+  = render_content_blocks(@content.content_blocks_for(@area_id))

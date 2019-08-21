@@ -1,0 +1,28 @@
+.taxonomy-content-block.taxonomy-content-block--two-column
+
+  - if view_model.left_image?
+    .taxonomy-content-block__container
+      = render_image_with_link(view_model.find_asset(image).url, image_alt, 'taxonomy-content-block', image_link)
+
+  - view_model.series.each do |taxonomy|
+    .taxonomy-content-block__container{ class: ('taxonomy-content-block__container--without-image' unless image.present? )}
+      - if taxonomy.data[:header].present?
+        %span.taxonomy-content-block__menu-heading= taxonomy.data[:header]
+
+      %ul.taxonomy-content-block__menu
+        - if taxonomy.show_starting_taxon?
+          %li.taxonomy-content-block__menu-item.taxonomy-content-block__menu-item--start
+            - if taxonomy.starting_taxon.placeholder?
+              = taxonomy.starting_taxon.name
+            - else
+              = link_to taxonomy.starting_taxon.name, storefront_path_for(taxonomy.starting_taxon), data: { analytics: primary_navigation_analytics_data(taxonomy.starting_taxon).to_json }, class: 'taxonomy-content-block__menu-link'
+        - taxonomy.taxons.each do |taxon|
+          %li.taxonomy-content-block__menu-item
+            - if taxon.placeholder?
+              = taxon.name
+            - else
+              = link_to taxon.name, storefront_path_for(taxon), data: { analytics: primary_navigation_analytics_data(taxon).to_json }, class: 'taxonomy-content-block__menu-link'
+
+  - if view_model.right_image?
+    .taxonomy-content-block__container
+      = render_image_with_link(view_model.find_asset(image).url, image_alt, 'taxonomy-content-block', image_link)

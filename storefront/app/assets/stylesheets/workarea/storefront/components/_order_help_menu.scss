@@ -1,0 +1,31 @@
+/*------------------------------------*\
+    #ORDER-HELP-MENU
+\*------------------------------------*/
+
+$order-help-menu-item-separator:  '|' !default;
+
+
+.order-help-menu {
+    @extend %inline-list;
+    margin-bottom: $vertical-margin;
+    text-align: center;
+
+    .page-header & {
+        margin-bottom: 0;
+
+        @include respond-to($medium-breakpoint) {
+            text-align: right;
+        }
+    }
+}
+
+    /**
+     * 1. adds visual separator for adjacent `.order-help-menu__item`
+     */
+
+    .order-help-menu__item {
+        & + &:before { /* [1] */
+            margin: 0 ($spacing-unit / 2);
+            content: $order-help-menu-item-separator;
+        }
+    }

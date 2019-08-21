@@ -1,0 +1,14 @@
+/*------------------------------------*\
+    #UI-STATE-FOCUS
+\*------------------------------------*/
+
+$state-focus-color:  $white !default;
+
+
+/**
+ * 1. focused menu item state
+ */
+
+.ui-state-focus { /* [1] */
+    background: $state-focus-color;
+}

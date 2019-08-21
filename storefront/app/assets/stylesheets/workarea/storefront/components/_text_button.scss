@@ -1,0 +1,17 @@
+/*------------------------------------*\
+    #TEXT-BUTTON
+\*------------------------------------*/
+
+$text-button-color:  $link-color !default;
+
+
+.text-button {
+    @extend %button-reset;
+    color: $text-button-color;
+    text-decoration: none;
+    cursor: pointer;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}

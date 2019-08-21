@@ -1,0 +1,11 @@
+/*------------------------------------*\
+    #CHARTKICK
+\*------------------------------------*/
+
+$chartkick-color: $off-black !default;
+
+.chartkick {
+    color: $chartkick-color;
+    text-align: center;
+    margin: 0 auto;
+}

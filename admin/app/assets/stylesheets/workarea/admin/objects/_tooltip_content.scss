@@ -1,0 +1,25 @@
+/*------------------------------------*\
+    #TOOLTIP-CONTENT
+\*------------------------------------*/
+
+$tooltip-content-padding:  $spacing-unit !default;
+
+
+/**
+ * Manages the hiding and conditional showing of tooltip content.
+ */
+
+%tooltip-content,
+.tooltip-content {
+    display: none;
+    padding: $tooltip-content-padding;
+
+    .tooltipster-content & {
+        display: block;
+    }
+}
+
+%tooltip-content--no-padding,
+.tooltip-content--no-padding {
+    padding: 0;
+}

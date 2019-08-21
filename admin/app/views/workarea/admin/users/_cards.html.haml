@@ -1,0 +1,199 @@
+.grid.grid--auto.grid--flush.grid--center
+  .grid__cell
+    .card{ class: card_classes(:attributes, local_assigns[:active]) }
+      = link_to edit_user_path(model), class: 'card__header' do
+        %span.card__header-text= t('workarea.admin.cards.attributes.title')
+        = inline_svg 'workarea/admin/icons/attributes.svg', class: 'card__icon'
+
+      - if local_assigns[:active].blank?
+        .card__body
+          %ul.list-reset
+            %li
+              %strong= t('workarea.admin.fields.email')
+              = mail_to model.email
+            %li
+              %strong= t('workarea.admin.fields.first_name')
+              = model.first_name.presence || t('workarea.admin.cards.attributes.no_value')
+            %li
+              %strong= t('workarea.admin.fields.last_name')
+              = model.last_name.presence || t('workarea.admin.cards.attributes.no_value')
+            %li
+              %strong= t('workarea.admin.fields.store_credit')
+              = number_to_currency model.payment_profile.store_credit
+            %li
+              %strong= t('workarea.admin.fields.tags')
+              = model.tags.join(', ').presence || t('workarea.admin.cards.attributes.no_value')
+            %li
+              %strong= t('workarea.admin.fields.updated_at')
+              #{local_time_ago(model.updated_at)}
+            %li
+              %strong= t('workarea.admin.fields.created_at')
+              #{local_time_ago(model.created_at)}
+            %li
+              %strong= t('workarea.admin.fields.created_by')
+              - if model.created_by.present?
+                = link_to model.created_by.name, user_path(model.created_by)
+              - else
+                = t('workarea.admin.users.cards.not_applicable')
+
+            - unless model.admin?
+              %li
+                %strong= t('workarea.admin.fields.last_impersonated_at')
+                = model.last_impersonated_at.present? ? local_time_ago(model.last_impersonated_at) : t('workarea.admin.users.cards.not_applicable')
+              %li
+                %strong= t('workarea.admin.fields.last_impersonated_by')
+                - if model.last_impersonated_by.present?
+                  = link_to model.last_impersonated_by.email, user_path(model.last_impersonated_by)
+                - else
+                  = t('workarea.admin.users.cards.not_applicable')
+
+          = link_to edit_user_path(model), class: 'card__button' do
+            %span.button.button--small= t('workarea.admin.cards.attributes.button')
+
+  .grid__cell
+    .card{ class: card_classes(:orders, local_assigns[:active]) }
+      = link_to orders_user_path(model), class: 'card__header' do
+        %span.card__header-text= t('workarea.admin.users.cards.orders.title')
+        = inline_svg 'workarea/admin/icons/orders.svg', class: 'card__icon'
+
+      - if local_assigns[:active].blank?
+        .card__body
+          - if model.orders.empty?
+            %p.card__empty-note= t('workarea.admin.users.cards.orders.empty')
+          - else
+            %ul.list-reset
+              - model.orders.take(10).each do |order|
+                %li
+                  %strong= link_to order.id, order_path(order)
+                  = local_time(order.placed_at, :long)
+
+              - if model.orders.size > 10
+                %p= t('workarea.admin.cards.more', amount: model.orders.size - 10)
+
+          = link_to orders_user_path(model), class: 'card__button' do
+            %span.button.button--small= t('workarea.admin.users.cards.orders.button')
+
+  .grid__cell
+    .card{ class: card_classes(:addresses, local_assigns[:active]) }
+      = link_to addresses_user_path(model), class: 'card__header' do
+        %span.card__header-text= t('workarea.admin.users.cards.saved_addresses.title')
+        = inline_svg 'workarea/admin/icons/saved_addresses.svg', class: 'card__icon'
+
+      - if local_assigns[:active].blank?
+        .card__body
+          .align-center
+            - if model.addresses.empty?
+              %p.card__empty-note= t('workarea.admin.users.cards.saved_addresses.empty')
+            - else
+              %ul.list-reset
+                - model.addresses.each do |address|
+                  %li
+                    %p= formatted_address(address)
+
+          = link_to addresses_user_path(model), class: 'card__button' do
+            %span.button.button--small= t('workarea.admin.users.cards.saved_addresses.button')
+
+  .grid__cell
+    .card{ class: card_classes(:insights, local_assigns[:active]) }
+      = link_to insights_user_path(model), class: 'card__header' do
+        %span.card__header-text= t('workarea.admin.users.cards.insights.title')
+        = inline_svg 'workarea/admin/icons/insights.svg', class: 'card__icon'
+
+      - if local_assigns[:active].blank?
+        .card__body
+          .section
+            %span.heading.heading--2.heading--no-margin.align-center
+              #{number_to_currency model.insights.revenue}
+            %p.align-center= t('workarea.admin.users.cards.insights.revenue')
+
+            .grid
+              .grid__cell.grid__cell--50
+                %p.align-center
+                  %strong= number_with_delimiter model.insights.orders
+                  %br
+                  #{t('workarea.admin.users.cards.insights.order').pluralize(model.insights.orders)}
+              .grid__cell.grid__cell--50
+                %p.align-center
+                  %strong= number_to_currency model.insights.average_order_value
+                  %br
+                  #{t('workarea.admin.users.cards.insights.average_order_value')}
+              .grid__cell.grid__cell--50
+                %p.align-center
+                  %strong
+                    - if model.insights.first_order_at.blank?
+                      \-
+                    - else
+                      = local_time(model.insights.first_order_at, :date_only)
+                  %br
+                  #{t('workarea.admin.users.cards.insights.first_order')}
+              .grid__cell.grid__cell--50
+                %p.align-center
+                  %strong
+                    - if model.insights.first_order_at.blank?
+                      \-
+                    - else
+                      = local_time(model.insights.last_order_at, :date_only)
+                  %br
+                  #{t('workarea.admin.users.cards.insights.last_order')}
+
+          = link_to insights_user_path(model), class: 'card__button' do
+            %span.button.button--small= t('workarea.admin.users.cards.insights.button')
+
+  - if current_user.permissions_manager?
+    .grid__cell
+      .card{ class: card_classes(:permissions, local_assigns[:active]) }
+        = link_to permissions_user_path(model), class: 'card__header' do
+          %span.card__header-text= t('workarea.admin.users.cards.permissions.title')
+          = inline_svg 'workarea/admin/icons/permissions.svg', class: 'card__icon'
+
+        - if local_assigns[:active].blank?
+          .card__body
+            %table.data-pairs
+              %tbody
+                %tr
+                  %th
+                    %span.data-pairs__name= t('workarea.admin.users.permissions.admin')
+                  %td= check_box :user, :admin?
+                %tr
+                  %th
+                    %span.data-pairs__name= t('workarea.admin.users.permissions.releases')
+                  %td= check_box :user, :releases_access
+                %tr
+                  %th
+                    %span.data-pairs__name= t('workarea.admin.users.permissions.store')
+                  %td= check_box :user, :store_access
+                %tr
+                  %th
+                    %span.data-pairs__name= t('workarea.admin.users.permissions.search')
+                  %td= check_box :user, :search_access
+                %tr
+                  %th
+                    %span.data-pairs__name= t('workarea.admin.users.permissions.catalog')
+                  %td= check_box :user, :catalog_access
+                %tr
+                  %th
+                    %span.data-pairs__name= t('workarea.admin.users.permissions.orders')
+                  %td= check_box :user, :orders_access
+                %tr
+                  %th
+                    %span.data-pairs__name= t('workarea.admin.users.permissions.people')
+                  %td= check_box :user, :people_access
+                %tr
+                  %th
+                    %span.data-pairs__name= t('workarea.admin.users.permissions.marketing')
+                  %td= check_box :user, :marketing_access
+                %tr
+                  %th
+                    %span.data-pairs__name= t('workarea.admin.users.permissions.help')
+                  %td= check_box :user, :help_admin
+
+            = link_to permissions_user_path(model), class: 'card__button' do
+              %span.button.button--small= t('workarea.admin.users.cards.permissions.button')
+
+  = append_partials('admin.user_cards', model: model, active: local_assigns[:active])
+
+  .grid__cell
+    = render 'workarea/admin/timeline/card', timeline: model.timeline, active: local_assigns[:active]
+
+  .grid__cell
+    = render 'workarea/admin/comments/card', commentable: model, active: local_assigns[:active]

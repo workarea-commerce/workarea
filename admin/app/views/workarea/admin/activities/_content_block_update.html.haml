@@ -1,0 +1,23 @@
+.activity
+  .activity__header
+    .activity__avatar
+      = link_to_modifier(entry) do
+        = avatar_for entry.modifier
+    %h3.activity__name= link_to_modifier(entry)
+    %p.activity__time= activity_time(entry.created_at)
+  .activity__message
+    - content = Workarea::Content.from_block(entry.audited_id)
+    - if content.present?
+      - content_name = link_to content.name, content_path(content)
+    - else
+      - content_name = t('workarea.admin.activities.some_content')
+
+    - if entry.audited.blank?
+      - name = t('workarea.admin.activities.a_content_block')
+    - elsif entry.root.blank?
+      - name = entry.audited.name
+    - else
+      - name = link_to content.name, content_path(content)
+
+    = t('workarea.admin.activities.content_block_update_html', name: name, fields: fields_clause_for(entry.tracked_changes), content_name: content_name)
+    = render 'workarea/admin/activities/release_info', entry: entry

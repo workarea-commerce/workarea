@@ -1,0 +1,21 @@
+#clearfix.style-guide__subsection
+
+  %h3= link_to_style_guide('trumps', 'clearfix')
+
+  %p Applies a CSS clearfix technique to force the element to contain floats.
+
+  %p Designed to be applied to block-level elements.
+
+  %p In the following examples a <code>div</code> with a black background contains two floated <code>div</code> elements with red backgrounds:
+
+  %p without <code>clearfix</code>:
+  .style-guide__example-block
+    %div{ style: 'background: black;'}
+      %div{ style: 'background: red; width: 50px; height: 50px; float: left;'}
+      %div{ style: 'background: red; width: 50px; height: 50px; float: right;'}
+
+  %p with <code>clearfix</code>:
+  .style-guide__example-block
+    .clearfix{ style: 'background: black;'}
+      %div{ style: 'background: red; width: 50px; height: 50px; float: left;'}
+      %div{ style: 'background: red; width: 50px; height: 50px; float: right;'}

@@ -1,0 +1,56 @@
+- @page_title = t('workarea.admin.content_assets.edit.page_title', asset: @asset.name)
+
+.view
+  .view__header
+    .grid.grid--middle.grid--right
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@asset)
+          %h1= link_to @asset.name, url_for(@asset)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@asset)
+
+  .view__container
+    = render_cards_for(@asset, :attributes)
+
+  .view__container.view__container--narrow
+    - @asset.errors.full_messages.each do |message|
+      = render_message 'error', message
+
+    = form_tag content_asset_path(@asset), method: 'patch', multipart: true, id: 'asset_form', data: { unsaved_changes: '' } do
+      .section
+        .property
+          = label_tag 'asset_name', t('workarea.admin.fields.name'), class: 'property__name'
+          = text_field_tag 'asset[name]', @asset.name, class: 'text-box'
+
+        .property
+          = label_tag 'asset_tag_list', t('workarea.admin.fields.tags'), class: 'property__name'
+          = text_field_tag 'asset[tag_list]', @asset.tag_list, class: 'text-box'
+          %span.property__note=  t('workarea.admin.content_assets.edit.tags_note')
+
+        .grid.grid--huge
+          .grid__cell.grid__cell--50-at-medium
+            .property
+              = label_tag 'asset[file]', t('workarea.admin.fields.file'), class: 'property__name'
+              = file_field_tag 'asset[file]'
+            .property
+              = label_tag 'asset_type', t('workarea.admin.content_assets.edit.type_label'), class: 'property__name'
+              = @asset.type.titleize
+
+          .grid__cell.grid__cell--50-at-medium
+            = link_to @asset.url, target: '_blank', rel: 'noopener' do
+              = image_tag @asset.url, alt: t('workarea.admin.content_assets.edit.preview_alt_text', name: @asset.name)
+
+        .grid
+          .grid__cell.grid__cell--50.grid__cell--25-at-medium
+            .property
+              = label_tag 'asset_updated_at', t('workarea.admin.fields.updated_at'), class: 'property__name'
+              = local_time(@asset.updated_at)
+          .grid__cell.grid__cell--50.grid__cell--25-at-medium
+            .property
+              = label_tag 'asset_created_at', t('workarea.admin.fields.created_at'), class: 'property__name'
+              = local_time(@asset.created_at)
+
+      .workflow-bar
+        .grid.grid--auto.grid--right.grid--middle
+          .grid__cell= button_tag t('workarea.admin.content_assets.edit.save_asset'), value: 'save_asset', class: 'workflow-bar__button workflow-bar__button--update'

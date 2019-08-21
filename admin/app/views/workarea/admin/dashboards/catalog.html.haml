@@ -1,0 +1,19 @@
+- @page_title = t('workarea.admin.dashboards.catalog.catalog_dashboards')
+
+.view
+  .view__header
+    .view__heading
+      = link_to "↑ #{t('workarea.admin.dashboards.main_dashboard')}", root_path
+      %h1= t('workarea.admin.dashboards.catalog.catalog')
+
+  .view__container
+    %ul.secondary-nav
+      %li= link_to t('workarea.admin.dashboards.catalog.products'), catalog_products_path
+      %li= link_to t('workarea.admin.dashboards.catalog.categories'), catalog_categories_path
+      %li= link_to t('workarea.admin.dashboards.catalog.pricing'), pricing_skus_path
+      %li= link_to t('workarea.admin.dashboards.catalog.inventory'), inventory_skus_path
+      = append_partials('admin.catalog_dashboard_navigation')
+
+  .view__container.view__container--narrow
+    - @dashboard.insights.each do |insight|
+      = render "workarea/admin/insights/#{insight.slug}", insight: insight

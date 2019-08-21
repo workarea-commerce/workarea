@@ -1,0 +1,71 @@
+- @page_title = t('workarea.admin.inventory_skus.edit.page_title', sku: @sku.id)
+
+.view
+  .view__header
+    .grid.grid--middle.grid--right
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@sku)
+          %h1= link_to @sku.name, url_for(@sku)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@sku)
+
+  .view__container
+    = render_cards_for(@sku, :attributes)
+
+  .view__container.view__container--narrow
+    - @sku.errors.full_messages.each do |message|
+      = render_message 'error', message
+
+    = form_tag inventory_sku_path(@sku), method: :patch, id: 'sku_form', data: { unsaved_changes: '' } do
+      .section
+        .grid.grid--huge
+          .grid__cell.grid__cell--25-at-medium
+            .property
+              = label_tag 'sku[id]', t('workarea.admin.inventory_skus.edit.sku'), class: 'property__name'
+              = @sku.id
+
+          .grid__cell.grid__cell--25-at-medium
+            .property
+              = label_tag 'sku[policy]', class: 'property__name' do
+                %span.property__text= t('workarea.admin.inventory_skus.edit.tracking_policy')
+                = link_to '#tracking-policy-info', data: { tooltip: '' } do
+                  = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.inventory_skus.edit.tracking_policy'))
+              #tracking-policy-info.tooltip-content
+                %p= t('workarea.admin.inventory_skus.edit.tracking_policy_info_html')
+              = select_tag 'sku[policy]', options_for_select(inventory_policies, @sku.policy.optionize)
+
+        .grid.grid--huge
+          .grid__cell.grid__cell--25-at-medium
+            .property
+              = label_tag 'sku[available]', t('workarea.admin.inventory_skus.edit.available_quantity'), class: 'property__name'
+              = number_field_tag 'sku[available]', @sku.available, class: 'text-box text-box--small', min: '0', required: true
+
+          .grid__cell.grid__cell--25-at-medium
+            .property
+              = label_tag 'sku[reserve]', t('workarea.admin.inventory_skus.edit.reserved_quantity'), class: 'property__name'
+              = number_field_tag 'sku[reserve]', @sku.reserve, class: 'text-box text-box--small', min: '0', required: true
+
+          .grid__cell.grid__cell--25-at-medium
+            .property
+              = label_tag 'sku[backordered]', t('workarea.admin.inventory_skus.edit.backordered_quantity'), class: 'property__name'
+              = number_field_tag 'sku[backordered]', @sku.backordered, class: 'text-box text-box--small', min: '0', required: true
+
+          .grid__cell.grid__cell--25-at-medium
+            .property
+              = label_tag 'sku[backordered_until]', t('workarea.admin.inventory_skus.edit.backordered_ship_date'), class: 'property__name'
+              = datetime_picker_tag 'sku[backordered_until]', @sku.backordered_until.try(:to_s, :date_only), class: 'text-box text-box--medium', data: { datepicker_field: { } }
+
+        .grid.grid--huge
+          .grid__cell.grid__cell--50.grid__cell--25-at-medium
+            .property
+              = label_tag 'sku_updated_at', t('workarea.admin.fields.updated_at'), class: 'property__name'
+              = local_time(@sku.updated_at)
+          .grid__cell.grid__cell--50.grid__cell--25-at-medium
+            .property
+              = label_tag 'sku_created_at', t('workarea.admin.fields.created_at'), class: 'property__name'
+              = local_time(@sku.created_at)
+
+      .workflow-bar
+        .grid.grid--auto.grid--right
+          .grid__cell= button_tag t('workarea.admin.inventory_skus.edit.save_sku'), value: 'save_sku', class: 'workflow-bar__button workflow-bar__button--update'

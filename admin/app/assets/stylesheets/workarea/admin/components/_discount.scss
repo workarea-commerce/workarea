@@ -1,0 +1,41 @@
+/*------------------------------------*\
+    #DISCOUNT
+\*------------------------------------*/
+
+.discount {}
+
+    .discount__rules {}
+
+        .discount__node-line {
+            margin: $spacing-unit 0;
+        }
+
+            .discount__node-group {
+                display: inline;
+            }
+
+                .discount__node {
+                    display: inline-block;
+                    margin: 3px;
+                }
+
+            .discount__rules-fields {
+                display: inline;
+                margin: 0;
+            }
+
+                .discount__rules-legend {
+                    margin: 0;
+                }
+
+                .discount__rules-heading {
+                    @extend %visually-hidden;
+                }
+
+                .discount__optional-node-group {
+                    display: none;
+                }
+
+                .discount__optional-node-group--visible {
+                    display: inline;
+                }

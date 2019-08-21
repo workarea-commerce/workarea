@@ -1,0 +1,36 @@
+.insight
+  .insight__date
+    %span.insight__period= insight.reporting_on.to_date.to_s(:date_only)
+  .insight__heading= t('workarea.admin.insights.release_reminder.title')
+  .insight__body
+    %p.insight__note= t('workarea.admin.insights.release_reminder.info', count: insight.results.size)
+    .grid.grid--auto.grid--large.grid--center
+      - insight.results.select(&:release).each do |result|
+        .grid__cell
+          .card{ class: card_classes(:planned_changes) }
+            = link_to release_changesets_path(result.release), class: 'card__header' do
+              %span.card__header-text= result.release.name
+              = inline_svg 'workarea/admin/icons/planned_changes.svg', class: 'card__icon'
+
+            .card__body
+              - if result.release.changesets_with_releasable.empty?
+                %p.card__empty-note= t('workarea.admin.dashboards.upcoming_store_changes.no_changes_for_this_release')
+              - else
+                - result.release.changesets_with_releasable.take(3).each do |changeset|
+                  .activity
+                    .activity__header
+                      .activity__avatar
+                        = changeset_icon changeset, { class: 'svg-icon'}
+                      .activity__name= changeset.release.name
+                      .activity__time
+                        = changeset.publish_humanized
+                        - if changeset.release_date.present?
+                          = local_time(changeset.release_date, :long)
+                    .activity__message
+                      .release-changeset.release-changeset--activity
+                        .release-changeset__body
+                          - changeset.changed_fields.each do |field|
+                            = render_changeset_field(changeset, field)
+
+                = link_to release_changesets_path(result.release), class: 'card__button' do
+                  %span.button.button--small= t('workarea.admin.dashboards.upcoming_store_changes.view_changes')

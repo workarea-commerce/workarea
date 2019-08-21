@@ -1,0 +1,83 @@
+#button-property.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'button_property')
+
+  %p Serves the same purpose as a #{link_to_style_guide('components', 'property', true)}, ensuring a consistent layout within a form, but is tailored specifically for radio button and check box fields.
+
+  .style-guide__example-block
+    .property
+      = label_tag 'wl_button_property_text_field_1', nil, class: 'property__name' do
+        %span.property__text Label One
+        %span.property__requirement (required)
+      .value
+        = text_field_tag 'wl_button_property_text_field_1', nil, class: 'text-box'
+    .button-property
+      .value
+        = radio_button_tag 'wl_button_property_radio_button_1', '1', false
+      = label_tag 'wl_button_property_radio_button_1_1', nil, class: 'button-property__name' do
+        %span.button-property__text Radio Button Label Two With Enough Text to Make It Much Longer Than The Others
+    .button-property
+      .value
+        = check_box_tag 'wl_button_property_check_box_1'
+      = label_tag 'wl_button_property_check_box_1', nil, class: 'button-property__name' do
+        %span.button-property__text Checkbox Label Three With Enough Text to Make It Much Longer Than The Others
+    .property
+      = label_tag 'wl_button_property_select_field_1', nil, class: 'property__name' do
+        %span.property__text Label Four
+        %span.property__requirement (required)
+      .value
+        = select_tag 'wl_button_property_select_field_1', options_for_select(%w(One Two Three))
+    .button-property
+      .value
+        = radio_button_tag 'wl_button_property_radio_button_1', '2', false
+        %span.value__error Error Message
+      = label_tag 'wl_button_property_radio_button_1_2', nil, class: 'button-property__name' do
+        %span.button-property__text Radio Button Label Five
+    .button-property
+      .value
+        = check_box_tag 'wl_button_property_check_box_2'
+        %span.value__error Error Message
+      = label_tag 'wl_button_property_check_box_2', nil, class: 'button-property__name' do
+        %span.button-property__text Checkbox Label Six
+
+#button-property--responsive.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'button_property__responsive')
+
+  %p Allows #{link_to_style_guide('components', 'button_property', true)} to be displayed as a row at the medium breakpoint.
+
+  .style-guide__example-block
+    .property.property--responsive
+      = label_tag 'wl_button_property_responsive_text_field_1', nil, class: 'property__name' do
+        %span.property__text Label One
+        %span.property__requirement (required)
+      .value
+        = text_field_tag 'wl_button_property_responsive_text_field_1', nil, class: 'text-box'
+    .button-property.button-property--responsive
+      .value
+        = radio_button_tag 'wl_button_property_responsive_radio_button_1', '1', false
+      = label_tag 'wl_button_property_responsive_radio_button_1_1', nil, class: 'button-property__name' do
+        %span.button-property__text Radio Button Label Two With Enough Text to Make It Much Longer Than The Others
+    .button-property.button-property--responsive
+      .value
+        = check_box_tag 'wl_button_property_responsive_check_box_1'
+      = label_tag 'wl_button_property_responsive_check_box_1', nil, class: 'button-property__name' do
+        %span.button-property__text Checkbox Label Three With Enough Text to Make It Much Longer Than The Others
+    .property.property--responsive
+      = label_tag 'wl_button_property_responsive_select_field_1', nil, class: 'property__name' do
+        %span.property__text Label Four
+        %span.property__requirement (required)
+      .value
+        = select_tag 'wl_button_property_responsive_select_field_1', options_for_select(%w(One Two Three))
+    .button-property.button-property--responsive
+      .value
+        = radio_button_tag 'wl_button_property_responsive_radio_button_1', '2', false
+        %span.value__error Error Message
+      = label_tag 'wl_button_property_responsive_radio_button_1_2', nil, class: 'button-property__name' do
+        %span.button-property__text Radio Button Label Five
+    .button-property.button-property--responsive
+      .value
+        = check_box_tag 'wl_button_property_responsive_check_box_2'
+        %span.value__error Error Message
+      = label_tag 'wl_button_property_responsive_check_box_2', nil, class: 'button-property__name' do
+        %span.button-property__text Checkbox Label Six

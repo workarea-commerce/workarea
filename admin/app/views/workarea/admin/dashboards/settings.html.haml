@@ -1,0 +1,29 @@
+- @page_title = t('workarea.admin.dashboards.settings.settings_dashboard')
+
+.view
+  .view__header
+    .view__heading
+      = link_to "↑ #{t('workarea.admin.dashboards.main_dashboard')}", root_path
+      %h1= t('workarea.admin.dashboards.settings.title')
+
+  .view__container
+    %ul.secondary-nav
+      %li= link_to t('workarea.admin.dashboards.settings.search'), search_settings_path
+      %li= link_to t('workarea.admin.dashboards.settings.tax_categories'), tax_categories_path
+      %li= link_to t('workarea.admin.dashboards.settings.shipping_services'), shipping_services_path
+      %li= link_to t('workarea.admin.dashboards.settings.redirects'), navigation_redirects_path
+      = append_partials('admin.settings_dashboard_navigation')
+      %li= link_to t('workarea.admin.dashboards.settings.trash'), trash_index_path
+
+  .view__container
+    .insight
+      .insight__heading= t('workarea.admin.dashboards.settings.current_configuration')
+      .insight__body.insight__body--pad-sides
+        %p.insight__note= t('workarea.admin.dashboards.settings.times_in_seconds')
+        - @settings.each do |key, value|
+          - sanitized = sanitize_config_value(value)
+          - if sanitized.present?
+            .align-left
+              %h2.heading.heading--4 #{key.to_s.titleize}:
+              %p= sanitized
+

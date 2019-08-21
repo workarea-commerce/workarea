@@ -1,0 +1,40 @@
+- @page_title = t('workarea.admin.pricing_discount_code_lists.new.title')
+
+.view
+  .view__header
+    .grid.grid--middle.grid--center
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@code_list)
+          %h1= t('workarea.admin.pricing_discount_code_lists.new.title')
+
+  .view__container.view__container--narrow
+    - if @code_list.errors.present?
+      - @code_list.errors.full_messages.each do |message|
+        = render_message 'error', message
+
+    = form_tag pricing_discount_code_lists_path, method: 'post', id: 'promo_code_list_form', data: { unsaved_changes: '' } do
+
+      .section
+
+        .property.property--required
+          = label_tag 'code_list[name]', t('workarea.admin.fields.name'), class: 'property__name'
+          = text_field_tag 'code_list[name]', @code_list.name, class: 'text-box', required: true
+
+        .property
+          = label_tag 'code_list[prefix]', t('workarea.admin.fields.prefix'), class: 'property__name'
+          = text_field_tag 'code_list[prefix]', @code_list.prefix, class: 'text-box text-box--medium'
+          %span.property__note= t('workarea.admin.pricing_discount_code_lists.fields.prefix_note')
+
+        .property.property--required
+          = label_tag 'code_list[count]', t('workarea.admin.fields.count'), class: 'property__name'
+          = number_field_tag 'code_list[count]', @code_list.count, class: 'text-box text-box--medium', required: true
+          %span.property__note= t('workarea.admin.pricing_discount_code_lists.fields.count_note')
+
+        .property
+          = label_tag 'code_list[expires_at]', t('workarea.admin.fields.expires_at'), class: 'property__name'
+          = datetime_picker_tag 'code_list[expires_at]', @code_list.expires_at, class: 'text-box text-box--medium', data: { datepicker_field: '' }
+
+      .workflow-bar
+        .grid.grid--auto.grid--right.grid--middle
+          .grid__cell= button_tag t('workarea.admin.pricing_discount_code_lists.new.create_code_list'), value: 'create_code_list', class: 'workflow-bar__button workflow-bar__button--create'

@@ -1,0 +1,4 @@
+%blockquote.quote-content-block
+  .quote-content-block__text!= quote
+  - if author.present?
+    %span.quote-content-block__author= author

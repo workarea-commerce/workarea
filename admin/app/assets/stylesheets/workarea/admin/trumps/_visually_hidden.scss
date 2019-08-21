@@ -1,0 +1,14 @@
+/*------------------------------------*\
+    #VISUALLY-HIDDEN
+\*------------------------------------*/
+
+/**
+ * Visually hides an element off screen, keeping it accessible to assitive
+ * technology.
+ */
+.visually-hidden,
+%visually-hidden {
+    position: absolute;
+    top:  0;
+    left: -99999px;
+}

@@ -1,0 +1,13 @@
+#truncate.style-guide__subsection
+
+  %h3= link_to_style_guide('trumps', 'truncate')
+
+  %p Forces text to be truncated (with an ellipsis) rather than wrapping or overflowing.
+
+  %p without <code>truncate</code>:
+  .style-guide__example-block
+    %p{ style: 'width: 125px; outline: 1px dashed;'} Pneumonoultramicroscopicsilicovolcanoconiosis
+
+  %p with <code>truncate</code>:
+  .style-guide__example-block
+    %p.truncate{ style: 'width: 125px; outline: 1px dashed;'} Pneumonoultramicroscopicsilicovolcanoconiosis

@@ -1,0 +1,7 @@
+/*------------------------------------*\
+    #UI-HELPER-HIDDEN-ACCESSIBLE
+\*------------------------------------*/
+
+.ui-helper-hidden-accessible {
+    @extend %visually-hidden;
+}

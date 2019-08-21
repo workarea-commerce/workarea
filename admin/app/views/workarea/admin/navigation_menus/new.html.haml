@@ -1,0 +1,44 @@
+- @page_title = t('workarea.admin.navigation_menus.new.page_title')
+
+.view
+  .view__header
+    .grid.grid--middle.grid--center
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to "↑ #{t('workarea.admin.navigation_menus.new.index_link')}", navigation_menus_path
+          %h1= t('workarea.admin.navigation_menus.new.title')
+
+  .view__container.view__container--narrow
+    .section
+      %h2= t('workarea.admin.navigation_menus.new.heading')
+      %p= t('workarea.admin.navigation_menus.new.creation_prompt_html',
+        category_link: link_to(t('workarea.admin.navigation_menus.new.create_a_category'), create_catalog_categories_path),
+        page_link: link_to(t('workarea.admin.navigation_menus.new.create_a_page'), create_content_pages_path))
+      %p= t('workarea.admin.navigation_menus.new.instruction')
+
+    - @menu.errors.full_messages.each do |message|
+      = render_message 'error', message
+
+    = form_tag navigation_menus_path, method: 'post', data: { unsaved_changes: '' } do
+      = hidden_field_tag 'menu[position]', @menu.position
+
+      .section
+        %h2= t('workarea.admin.navigation_menus.new.link_up_taxonomy')
+
+        .property
+          = label_tag 'menu[name]', t('workarea.admin.fields.name'), class: 'property__name'
+          = text_field_tag 'menu[name]', @menu.name, class: 'text-box text-box--i18n', placeholder: t('workarea.admin.navigation_menus.new.name_placeholder')
+
+        .property
+          = label_tag 'menu[taxon_id]', t('workarea.admin.fields.taxon_id'), class: 'property__name'
+          = select_tag 'menu[taxon_id]', options_from_collection_for_select(@taxons, :id, :name, @menu.taxon_id), required: true
+
+      .workflow-bar
+        .grid
+          .grid__cell.grid__cell--20
+            = link_to t('workarea.admin.form.cancel'), navigation_menus_path, class: 'workflow-bar__button workflow-bar__button--delete'
+
+          .grid__cell.grid__cell--80
+            .grid.grid--auto.grid--right.grid--middle
+              .grid__cell= render 'workarea/admin/shared/activate_select', name: 'menu[activate_with]'
+              .grid__cell= button_tag t('workarea.admin.actions.save'), value: 'create_menu', class: 'workflow-bar__button workflow-bar__button--update'

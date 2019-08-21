@@ -1,0 +1,8 @@
+%fieldset.discount__rules-fields
+  %legend.discount__rules-legend
+    %span.discount__rules-heading Item Quantity
+  %p.discount__optional-node-group{ data: { discount_options_menu_condition_group: { type: 'item_quantity' }.to_json } }
+    %span.discount__node is at least
+    %span.discount__node
+      %span.property.property--inline
+        = number_field_tag 'discount[item_quantity]', discount.item_quantity, min: '0', class: 'text-box text-box--small', title: 'Minimum Quantity', placeholder: '0'

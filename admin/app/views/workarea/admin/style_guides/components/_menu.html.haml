@@ -1,0 +1,112 @@
+#menu.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'menu')
+
+  %p Styles a list element as a menu. Provides styling for menu items and links.
+
+  %p should work with <code>ul</code> elements:
+  .style-guide__example-block
+    %ul.menu
+      %li.menu__item= link_to 'Foo Bar', '#', class: 'menu__link'
+      %li.menu__item= link_to 'Baz Qux', '#', class: 'menu__link'
+      %li.menu__item= link_to 'Quux Corge', '#', class: 'menu__link'
+      %li.menu__item= link_to 'Grault Garply', '#', class: 'menu__link'
+      %li.menu__item= link_to 'Waldo Fred', '#', class: 'menu__link'
+
+  %p should work with <code>ol</code> elements:
+  .style-guide__example-block
+    %ol.menu
+      %li.menu__item= link_to 'Foo Bar', '#', class: 'menu__link'
+      %li.menu__item= link_to 'Baz Qux', '#', class: 'menu__link'
+      %li.menu__item= link_to 'Quux Corge', '#', class: 'menu__link'
+      %li.menu__item= link_to 'Grault Garply', '#', class: 'menu__link'
+      %li.menu__item= link_to 'Waldo Fred', '#', class: 'menu__link'
+
+  %p should support an <strong>active</strong> link state:
+  .style-guide__example-block
+    %ul.menu
+      %li.menu__item= link_to 'Foo Bar', '#', class: 'menu__link'
+      %li.menu__item= link_to 'Baz Qux', '#', class: 'menu__link menu__link--active'
+      %li.menu__item= link_to 'Quux Corge', '#', class: 'menu__link'
+      %li.menu__item= link_to 'Grault Garply', '#', class: 'menu__link'
+      %li.menu__item= link_to 'Waldo Fred', '#', class: 'menu__link'
+
+  %p should support an <strong>hover</strong> link state:
+  .style-guide__example-block
+    %ul.menu
+      %li.menu__item= link_to 'Foo Bar', '#', class: 'menu__link'
+      %li.menu__item= link_to 'Baz Qux', '#', class: 'menu__link'
+      %li.menu__item= link_to 'Quux Corge', '#', class: 'menu__link'
+      %li.menu__item= link_to 'Grault Garply', '#', class: 'menu__link'
+      %li.menu__item= link_to 'Waldo Fred', '#', class: 'menu__link'
+
+  %p should allow nesting:
+  .style-guide__example-block
+    %ul.menu
+      %li.menu__item= link_to 'Foo Bar', '#', class: 'menu__link'
+      %li.menu__item
+        = link_to 'Baz Qux', '#', class: 'menu__link menu__link--active'
+        %ul.menu
+          %li.menu__item= link_to 'Foo Bar', '#', class: 'menu__link'
+          %li.menu__item= link_to 'Baz Qux', '#', class: 'menu__link'
+          %li.menu__item
+            = link_to 'Quux Corge', '#', class: 'menu__link menu__link--active'
+            %ul.menu
+              %li.menu__item= link_to 'Foo Bar', '#', class: 'menu__link'
+              %li.menu__item= link_to 'Baz Qux', '#', class: 'menu__link'
+              %li.menu__item= link_to 'Quux Corge', '#', class: 'menu__link'
+          %li.menu__item= link_to 'Grault Garply', '#', class: 'menu__link'
+          %li.menu__item= link_to 'Waldo Fred', '#', class: 'menu__link'
+      %li.menu__item= link_to 'Quux Corge', '#', class: 'menu__link'
+
+  %p should support <code>menu__heading</code>:
+  .style-guide__example-block
+    %ul.menu
+      %li.menu__item
+        %span.menu__heading First Heading
+      %li.menu__item= link_to 'Foo Bar', '#', class: 'menu__link'
+      %li.menu__item= link_to 'Baz Qux', '#', class: 'menu__link'
+      %li.menu__item= link_to 'Quux Corge', '#', class: 'menu__link'
+      %li.menu__item= link_to 'Grault Garply', '#', class: 'menu__link'
+      %li.menu__item= link_to 'Waldo Fred', '#', class: 'menu__link'
+      %li.menu__item
+        %span.menu__heading Second Heading
+      %li.menu__item= link_to 'Foo Bar', '#', class: 'menu__link'
+      %li.menu__item= link_to 'Baz Qux', '#', class: 'menu__link'
+      %li.menu__item= link_to 'Quux Corge', '#', class: 'menu__link'
+      %li.menu__item= link_to 'Grault Garply', '#', class: 'menu__link'
+      %li.menu__item= link_to 'Waldo Fred', '#', class: 'menu__link'
+
+
+#menu--condensed.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'menu__condensed')
+
+  %p A condensed menu
+
+  %p should make the UI smaller:
+  .style-guide__example-block
+    %ul.menu.menu--condensed
+      %li.menu__item= link_to 'Foo Bar', '#', class: 'menu__link'
+      %li.menu__item= link_to 'Baz Qux', '#', class: 'menu__link'
+      %li.menu__item= link_to 'Quux Corge', '#', class: 'menu__link'
+      %li.menu__item= link_to 'Grault Garply', '#', class: 'menu__link'
+      %li.menu__item= link_to 'Waldo Fred', '#', class: 'menu__link'
+
+  %p should support <code>menu__heading</code>:
+  .style-guide__example-block
+    %ul.menu.menu--condensed
+      %li.menu__item
+        %span.menu__heading First Heading
+      %li.menu__item= link_to 'Foo Bar', '#', class: 'menu__link'
+      %li.menu__item= link_to 'Baz Qux', '#', class: 'menu__link'
+      %li.menu__item= link_to 'Quux Corge', '#', class: 'menu__link'
+      %li.menu__item= link_to 'Grault Garply', '#', class: 'menu__link'
+      %li.menu__item= link_to 'Waldo Fred', '#', class: 'menu__link'
+      %li.menu__item
+        %span.menu__heading Second Heading
+      %li.menu__item= link_to 'Foo Bar', '#', class: 'menu__link'
+      %li.menu__item= link_to 'Baz Qux', '#', class: 'menu__link'
+      %li.menu__item= link_to 'Quux Corge', '#', class: 'menu__link'
+      %li.menu__item= link_to 'Grault Garply', '#', class: 'menu__link'
+      %li.menu__item= link_to 'Waldo Fred', '#', class: 'menu__link'

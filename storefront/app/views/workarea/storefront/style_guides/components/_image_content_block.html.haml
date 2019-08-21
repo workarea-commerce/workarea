@@ -1,0 +1,38 @@
+#image-content-block.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'image_content_block')
+
+  %p Styles an image content block which may contain a link.
+
+  %p should align the image <strong>left</strong>:
+  .style-guide__example-block
+    .image-content-block.image-content-block--left
+      = image_tag 'workarea/storefront/style_guide_light_banner.png', alt: '', class: 'image-content-block__image'
+
+  %p should align the image <strong>center</strong>:
+  .style-guide__example-block
+    .image-content-block.image-content-block--center
+      = image_tag 'workarea/storefront/style_guide_light_banner.png', alt: '', class: 'image-content-block__image'
+
+  %p should align the image <strong>right</strong>:
+  .style-guide__example-block
+    .image-content-block.image-content-block--right
+      = image_tag 'workarea/storefront/style_guide_light_banner.png', alt: '', class: 'image-content-block__image'
+
+  %p should align the <strong>linked</strong> image <strong>left</strong>:
+  .style-guide__example-block
+    .image-content-block.image-content-block--left
+      = link_to '#', class: 'image-content-block__link' do
+        = image_tag 'workarea/storefront/style_guide_light_banner.png', alt: '', class: 'image-content-block__image'
+
+  %p should align the <strong>linked</strong> image <strong>center</strong>:
+  .style-guide__example-block
+    .image-content-block.image-content-block--center
+      = link_to '#', class: 'image-content-block__link' do
+        = image_tag 'workarea/storefront/style_guide_light_banner.png', alt: '', class: 'image-content-block__image'
+
+  %p should align the <strong>linked</strong> image <strong>right</strong>:
+  .style-guide__example-block
+    .image-content-block.image-content-block--right
+      = link_to '#', class: 'image-content-block__link' do
+        = image_tag 'workarea/storefront/style_guide_light_banner.png', alt: '', class: 'image-content-block__image'

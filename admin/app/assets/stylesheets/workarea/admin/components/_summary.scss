@@ -1,0 +1,199 @@
+/*------------------------------------*\
+    #SUMMARY
+\*------------------------------------*/
+
+$summary-size:  200px !default;
+
+$summary-bg-color:                  $white !default;
+$summary-box-shadow-color:          $gray !default;
+$summary-selected-box-shadow:       $green !default;
+
+$summary-inactive-opacity:          0.75 !default;
+
+$summary-hover-border-color:       $off-black !default;
+
+$summary-type-color:     $off-black !default;
+$summary-type-bg-color:  $light-gray !default;
+
+$summary-name-incative-color: $off-black !default;
+
+$summary-info-color:              $dark-gray !default;
+$summary-info-color-inactive:     $red !default;
+$summary-info-bg-color:           $white !default;
+$summary-info-bottom-offset:      $spacing-unit * 3 !default;
+$summary-info-height:             $spacing-unit * 4 !default;
+$summary-info-height--multi-line: 52px !default;
+$summary-info-border-color:       $border-color !default;
+
+/**
+ * 1. provides positioning context for `.summary__checkbox`
+ */
+.summary {
+    @include global-box-shadow($summary-box-shadow-color, tight);
+    display: block;
+    position: relative; /* [1] */
+    margin: 0 ($spacing-unit * 1.5) ($spacing-unit * 3);
+    width: $summary-size;
+    height: $summary-size;
+    text-align: center;
+    background: $summary-bg-color;
+    border-radius: $global-border-radius;
+    transition: box-shadow $global-transition-speed;
+
+    &:hover {
+        @include global-box-shadow;
+    }
+}
+
+.summary--inactive {
+    opacity: $summary-inactive-opacity;
+    transition: opacity $global-transition-speed;
+
+    &:hover {
+        opacity: 1;
+    }
+}
+
+.summary--selected {
+    @include global-box-shadow($summary-selected-box-shadow);
+}
+
+    .summary__type {
+        @extend %truncate;
+        @include center($to: horizontal);
+        display: none;
+        top: 0;
+        padding: $spacing-unit ($spacing-unit * 3);
+        max-width: 100%;
+        color: $summary-type-color;
+        font-size: $font-size + 1px;
+        background-color: $summary-type-bg-color;
+        border-radius: 0 0 $global-border-radius $global-border-radius;
+
+        .view--mixed-results & {
+            display: inline-block;
+        }
+    }
+
+    .summary__type--template {
+        display: inline-block;
+
+        .view--mixed-results & {
+            display: none;
+        }
+    }
+
+    /**
+     * 1. provide positioning context for `.summary__image`
+     * 2. ensures `.summary__image` does not exceed it's rounded boundary
+     */
+    .summary__image-container {
+        position: relative; /* [1] */
+        width:  $summary-size;
+        height: $summary-size;
+        border-radius: $global-border-radius;
+        overflow: hidden; /* [2] */
+    }
+
+        .summary__image {
+            @include center;
+            display: block;
+            opacity: 0.5;
+        }
+
+    .summary__name {
+        @extend %truncate;
+        @include center;
+        display: block;
+        padding: 0 $spacing-unit;
+        width: 100%;
+        font-size: 16px;
+        font-weight: bold;
+
+        .summary:hover & {
+            text-decoration: underline;
+        }
+
+        .summary--inactive & {
+            color: $summary-name-incative-color;
+        }
+    }
+
+    .summary__info-container {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        padding: $spacing-unit;
+        height: $summary-info-height;
+        background-color: $summary-info-bg-color;
+        border-top: 1px solid $summary-info-border-color;
+        border-radius: 0 0 $global-border-radius $global-border-radius;
+        overflow: hidden;
+    }
+
+    .summary__info-container--multi-line {
+        .summary:hover & {
+            height: $summary-info-height--multi-line;
+        }
+    }
+
+        /**
+         * 1. toggle between primary and secondary information on summary hover
+         * 2. Secondary summary info - displays on hover
+         */
+        .summary__info {
+            @extend %truncate;
+            display: block;
+            padding: 0 ($spacing-unit / 2);
+            color: $summary-info-color;
+            font-size: $font-size - 2px;
+            transform: translateY(0);
+
+            p {
+                margin: 0;
+            }
+
+            .summary:hover & {  /* [1] */
+                max-height: 0;
+                transform: translateY(120%);
+            }
+
+            & + & { /* [2] */
+                transform: translateY($summary-info-bottom-offset);
+
+                .summary:hover & {
+                    max-height: none;
+                    transform: translateY(0);
+                }
+            }
+        }
+
+            .summary__info-text-inactive {
+                color: $summary-info-color-inactive;
+            }
+
+    /**
+     * 1. visibility controlled via JavaScript. The default state of this
+     *    element is hidden.
+     */
+    .summary__checkbox { /* [1] */
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+    }
+        .summary__checkbox-label {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+
+        .summary__checkbox-input {
+            position: absolute;
+            top: $spacing-unit;
+            left: $spacing-unit;
+        }

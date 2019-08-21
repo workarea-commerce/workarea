@@ -1,0 +1,10 @@
+%fieldset.discount__rules-fields
+  %legend.discount__rules-legend
+    %span.discount__rules-heading Order Total
+  %p.discount__optional-node-group{ data: { discount_options_menu_condition_group: { type: 'order_total' }.to_json } }
+    %span.discount__node is
+    %span.discount__node= select_tag 'discount[order_total_operator]', options_for_select(discount.order_total_operator_options, discount.order_total_operator), title: 'Order Total is'
+    %span.discount__node
+      %span.property.property--inline
+        = Money.default_currency.symbol
+        = text_field_tag 'discount[order_total]', discount.order_total, class: 'text-box text-box--small', title: 'Amount', placeholder: '99.99'

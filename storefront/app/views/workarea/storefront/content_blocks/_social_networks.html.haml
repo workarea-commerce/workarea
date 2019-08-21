@@ -1,0 +1,17 @@
+%ul.social-networks-content-block
+  - if facebook.present?
+    %li.social-networks-content-block__item
+      = link_to facebook, class: 'social-networks-content-block__button', aria: { label: t('workarea.storefront.content_blocks.social_networks.facebook') } do
+        = inline_svg('workarea/storefront/icons/facebook.svg', class: 'svg-icon svg-icon--extra-large svg-icon--blue')
+  - if twitter.present?
+    %li.social-networks-content-block__item
+      = link_to twitter, class: 'social-networks-content-block__button', aria: { label: t('workarea.storefront.content_blocks.social_networks.twitter') } do
+        = inline_svg('workarea/storefront/icons/twitter.svg', class: 'svg-icon svg-icon--extra-large svg-icon--blue')
+  - if google_plus.present?
+    %li.social-networks-content-block__item
+      = link_to google_plus, class: 'social-networks-content-block__button', aria: { label: t('workarea.storefront.content_blocks.social_networks.google_plus') } do
+        = inline_svg('workarea/storefront/icons/google_plus.svg', class: 'svg-icon svg-icon--extra-large svg-icon--blue')
+  - if pinterest.present?
+    %li.social-networks-content-block__item
+      = link_to pinterest, class: 'social-networks-content-block__button', aria: { label: t('workarea.storefront.content_blocks.social_networks.pinterest') } do
+        = inline_svg('workarea/storefront/icons/pinterest.svg', class: 'svg-icon svg-icon--extra-large svg-icon--blue')

@@ -1,0 +1,24 @@
+- @title = t('workarea.storefront.users.add_address')
+
+- content_for :breadcrumbs do
+  %p.breadcrumbs__node-group
+    %span.breadcrumbs__node{ itemprop: 'breadcrumb' }
+      = link_to t('workarea.storefront.layouts.home'), root_path, rel: 'home', class: 'breadcrumbs__link'
+    %span.breadcrumbs__node{ itemprop: 'breadcrumb' }
+      = link_to t('workarea.storefront.users.account'), users_account_path, class: 'breadcrumbs__link'
+    %span.breadcrumbs__node{ itemprop: 'breadcrumb' }
+      %span.breadcrumbs__text= t('workarea.storefront.users.add_address')
+
+.view
+
+  %h1= t('workarea.storefront.users.add_address')
+
+  - if @address.errors.any?
+    - @address.errors.full_messages.each do |message|
+      = render_message 'error', message, data: { analytics: validation_error_analytics_data('users').to_json }
+
+  = form_tag users_addresses_path, method: 'post', id: 'address_form', data: { account_dashboard_ajax: 'addresses' } do
+    = render 'workarea/storefront/shared/address_fields', label: 'address', address: @address
+    .grid.grid--auto
+      %p.grid__cell= button_tag t('workarea.storefront.forms.save'), value: 'save_address', class: 'button'
+      %p.grid__cell= link_to t('workarea.storefront.forms.cancel'), users_account_path, class: 'text-button', data: { dialog_close_button: '' }

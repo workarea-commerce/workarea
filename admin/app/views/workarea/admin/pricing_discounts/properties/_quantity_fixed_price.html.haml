@@ -1,0 +1,36 @@
+.discount__node-line
+  %p.discount__node-group
+    %span.discount__node Get any
+    %span.discount__node
+      %span.property.property--inline
+        = number_field_tag 'discount[quantity]', @discount.quantity || 1, min: '1', class: 'text-box text-box--small', title: 'Quantity Purchased', required: true
+
+.discount__node-line
+  %p.discount__node-group
+    %span.discount__node of the following products:
+    %span.discount__node= select_tag 'discount[product_ids]', options_from_collection_for_select(@discount.products, 'id', 'name', @discount.product_ids), multiple: true, data: { remote_select: { source: catalog_products_path(format: :json), options: { placeholder: 'Product A, Product B' } }.to_json }
+.discount__node-line
+  %p.discount__node-group
+    %span.discount__node or from the following categories:
+    %span.discount__node= select_tag 'discount[category_ids]', options_from_collection_for_select(@discount.categories, 'id', 'name', @discount.category_ids), multiple: true, data: { remote_select: { source: catalog_categories_path(format: :json), options: { placeholder: 'Category A, Category B' } }.to_json }
+
+.discount__node-line
+  %p.discount__node-group
+    %span.discount__node for #{Money.default_currency.symbol}
+    %span.discount__node
+      %span.property.property--inline
+        = text_field_tag 'discount[price]', @discount.price, class: 'text-box text-box--small', title: 'Amount of Discount', placeholder: '10', required: true
+    %span.discount__node , a maximum of
+    %span.discount__node= select_tag 'discount[max_applications]', options_for_select(@discount.max_applications_options, @discount.max_applications), title: 'Maximum Number of Applications'
+    %span.discount__node time(s)
+
+.discount__node-line
+  %p.discount__node-group
+    %span.discount__node= select_tag 'condition_options', options_for_select(@discount.condition_options, @discount.selected_condition_option), title: 'When to Apply Discount', data: { discount_options_menu: { type: 'condition' }.to_json }
+  = render 'workarea/admin/pricing_discounts/conditions/order_total', discount: @discount
+  = render 'workarea/admin/pricing_discounts/conditions/user_tags', discount: @discount
+  = append_partials('admin.discount_conditions', discount: @discount)
+  %p.discount__node-group
+    %span.discount__node applied
+    %span.discount__node= select_tag 'application_options', options_for_select(@discount.application_options, @discount.selected_application_option), title: 'When to Apply Discount', data: { discount_options_menu: { type: 'application' }.to_json }
+  = render 'workarea/admin/pricing_discounts/conditions/promo_code', discount: @discount

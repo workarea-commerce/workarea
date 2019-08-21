@@ -1,0 +1,57 @@
+/*------------------------------------*\
+    #HELP-ARTICLE-SUMMARY
+\*------------------------------------*/
+
+$help-article-summary-bg-color:      $white !default;
+$help-article-summary-border-color:  $border-color !default;
+$help-article-summary-icon-color:    $gray !default;
+
+
+.help-article-summary {
+    display: table;
+    width: 100%;
+    background: $help-article-summary-bg-color;
+    border-bottom: 1px solid $help-article-summary-border-color;
+}
+
+    .help-article-summary__cell {
+        display: table-cell;
+        padding: ($spacing-unit * 3);
+        vertical-align: top;
+    }
+
+    .help-article-summary__cell--full {
+        width: 100%;
+    }
+
+    .help-article-summary__cell--nowrap {
+        white-space: nowrap;
+    }
+
+        .help-article-summary__category {
+            margin-bottom: $spacing-unit;
+        }
+
+        .help-article-summary__name {
+            margin: 8px 0;
+            font-size: $font-size + 6px;
+        }
+
+        .help-article-summary__text {
+            margin: 4px 0;
+        }
+
+        .help-article-summary__action {
+            display: inline-block;
+
+            & + & {
+                margin: 0 0 0 4px;
+            }
+
+            /**
+             * Extend `.icon` in components/_icons.scss
+             */
+            .icon {
+                color: $help-article-summary-icon-color;
+            }
+        }

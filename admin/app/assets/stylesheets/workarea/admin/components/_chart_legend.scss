@@ -1,0 +1,22 @@
+/*------------------------------------*\
+    #CHART-LEGEND
+    TODO remove in v4, not used >= 3.4
+\*------------------------------------*/
+
+$chart-legend-dot-size:     $font-size !default;
+
+
+.chart-legend {
+    @extend %list-reset;
+}
+
+    .chart-legend__item {}
+
+        .chart-legend__color-dot {
+            display: inline-block;
+            width: $chart-legend-dot-size;
+            height: $chart-legend-dot-size;
+            vertical-align: middle;
+        }
+
+        .chart-legend__label {}

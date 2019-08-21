@@ -1,0 +1,48 @@
+- @page_title = t('workarea.admin.tax_categories.index.title')
+
+.view
+  .view__header
+    .grid.grid--middle.grid--center
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to "↑ #{t('workarea.admin.tax_categories.index.dashboard_link')}", settings_dashboards_path, class: 'view__dashboard-button'
+          %h1.heading--no-margin= t('workarea.admin.tax_categories.index.title')
+          %p= t('workarea.admin.tax_categories.index.description_html', pricing_link: link_to(t('workarea.admin.tax_categories.index.pricing_link'), pricing_skus_path), shipping_link: link_to(t('workarea.admin.tax_categories.index.shipping_link'), shipping_services_path))
+
+  .view__container
+
+    .browsing-controls.browsing-controls--with-divider
+      %p.browsing-controls__count{ data: { browsing_controls_count: @categories.count } }
+        = t('workarea.admin.tax_categories.index.category_pluralize', count: @categories.count)
+
+    - if @categories.any?
+      %table.index-table
+        %thead
+          %tr
+            %th.index-table__control-cell
+              .checkbox
+                = check_box_tag 'select_all', nil, false, id: 'select_all', class: 'checkbox__input', data: { bulk_action_select_all: '' }
+                = label_tag 'select_all', t('workarea.admin.bulk_actions.select_all'), class: 'checkbox__label'
+            %th= t('workarea.admin.fields.tax_category')
+            %th= t('workarea.admin.fields.code')
+            %th.align-center= t('workarea.admin.fields.rates')
+            %th= t('workarea.admin.fields.updated_at')
+        %tbody
+          - @categories.each do |category|
+            %tr.index-table__row
+              %td.index-table__control-cell
+                .checkbox
+                  = check_box_tag 'global_id', category.to_gid_param, false, class: 'checkbox__input', id: dom_id(category), data: { bulk_action_item: '' }
+                  = label_tag dom_id(category), '', class: 'checkbox__label', title: t('workarea.admin.bulk_actions.add_summary_button')
+              %td= link_to category.name, tax_category_path(category)
+              %td= category.code
+              %td.align-center= link_to category.rates.length, tax_category_rates_path(category)
+              %td= local_time(category.updated_at, :long)
+
+  .workflow-bar
+    .grid
+      .grid__cell.grid__cell--50
+        = render 'workarea/admin/shared/bulk_actions', klass: Workarea::Tax::Category
+
+      .grid__cell.grid__cell--50.align-right
+        = link_to t('workarea.admin.tax_categories.index.new_button'), new_tax_category_path, id: 'add_tax_category', class: 'workflow-bar__button workflow-bar__button--create'

@@ -1,0 +1,84 @@
+/*------------------------------------*\
+    #PRODUCT-DETAILS
+\*------------------------------------*/
+
+$product-details-primary-image-max-width:  400px !default;
+$product-details-primary-image-ratio:      2 / 3 !default;
+
+$product-details-alt-image-selected-outline-color:  $highlight-color !default;
+
+
+/**
+ * 1. within a jQuery Dialog, set width since there is no
+ *    .product-details-container
+ */
+
+.product-details {
+    .ui-dialog & { /* [1] */
+        max-width: $dialog-content-max-width;
+    }
+}
+
+.product-details--generic {}
+
+
+    .product-details__name {}
+
+        .product-details__heading {}
+
+        .product-details__id {}
+
+
+    .product-details__description {}
+
+
+    .product-details__add-to-cart-form {}
+
+        .product-details__quantity {}
+
+        .product-details__inventory-status {}
+
+        .product-details__add-to-cart-action {}
+
+        .product-details__unavailable {}
+
+
+    .product-details__full-details {
+        display: none;
+
+        .ui-dialog & {
+            display: block;
+        }
+    }
+
+
+    /**
+     * 1. provides positioning context for loading indicator
+     */
+    .product-details__primary-image {
+        position: relative; /* [1] */
+        max-width: $product-details-primary-image-max-width;
+    }
+
+        .product-details__primary-image-link {
+            display: block;
+            padding: 0 0 ((1 / $product-details-primary-image-ratio) * 100%);
+            height: 0;
+            vertical-align: top;
+        }
+
+            .product-details__primary-image-link-image {}
+
+
+    .product-details__alt-images {}
+
+        .product-details__alt-image {}
+
+            .product-details__alt-image-link {
+                display: inline-block;
+            }
+
+            .product-details__alt-image-link--selected {
+                cursor: default;
+                outline: 1px solid $product-details-alt-image-selected-outline-color;
+            }

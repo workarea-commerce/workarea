@@ -1,0 +1,11 @@
+#ui-autocomplete.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'ui_autocomplete')
+
+  %p An example of the default jQuery UI autocomplete widget instance.
+
+  %p Enter the string "sweater" in the field below to see an example.
+
+  .style-guide__example-block
+    = text_field_tag 'ui_autocomplete_field', nil, class: 'text-box', data: { style_guide_autocomplete_field: '' }
+

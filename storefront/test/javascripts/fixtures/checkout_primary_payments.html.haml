@@ -1,0 +1,12 @@
+.checkout-payment__primary{ data: { checkout_primary_payment: '' } }
+  %form
+    #new_card.checkout-payment__primary-method.checkout-payment__primary-method--selected
+      %input{ type: 'radio', name: 'payment', value: 'new_card' }
+      %label{ for: 'payment[new_card]' }
+        New Card
+    %div
+      Saved Cards
+      #saved_card.checkout-payment__primary-method
+        %input{ type: 'radio', name: 'payment', value: 'saved_card_id' }
+        %label{ for: 'payment[saved_card_id]' }
+          Visa ending in XX-1234

@@ -1,0 +1,7 @@
+.summary
+  %span.summary__name= model.path
+  .summary__info-container.summary__info-container--multi-line
+    .summary__info
+      #{local_time_ago(model.created_at)}
+    %span.summary__info= model.destination
+  %span.summary__type= t('workarea.admin.navigation_redirects.summary.type')

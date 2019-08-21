@@ -1,0 +1,20 @@
+#inline-list-object.style-guide__subsection
+
+  %h3= link_to_style_guide('objects', 'inline_list')
+
+  %p Resets the list-specific styling of a <code>ul</code> or <code>ol</code> element, and displays each child <code>li</code> element as <code>inline-block</code>.
+
+  .style-guide__unit-test
+    %h4 Unit Test
+
+    %p should work with <code>ul</code> elements
+    .style-guide__example-block
+      %ul.inline-list
+        - 5.times do |i|
+          %li List Item #{i}
+
+    %p should work with <code>ol</code> elements
+    .style-guide__example-block
+      %ol.inline-list
+        - 5.times do |i|
+          %li List Item #{i}

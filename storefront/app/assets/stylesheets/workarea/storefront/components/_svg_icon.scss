@@ -1,0 +1,57 @@
+/*------------------------------------*\
+    #SVG-ICON
+\*------------------------------------*/
+
+// TODO: v4 use explicit pixel values
+$svg-icon-size:              $spacing-unit * 3;
+$svg-icon-small-size:        $spacing-unit * 2;
+$svg-icon-large-size:        $spacing-unit * 4;
+$svg-icon-extra-large-size:  $spacing-unit * 6;
+
+
+.svg-icon {
+    display: inline-block;
+    width: $svg-icon-size;
+    height: $svg-icon-size;
+    vertical-align: middle;
+}
+
+/**
+ * Display modifiers
+ */
+.svg-icon--block {
+    display: block;
+}
+
+
+/**
+ * Size Modifiers
+ */
+.svg-icon--small {
+    width: $svg-icon-small-size;
+    height: $svg-icon-small-size;
+}
+
+.svg-icon--large {
+    width: $svg-icon-large-size;
+    height: $svg-icon-large-size;
+}
+
+.svg-icon--extra-large {
+    width: $svg-icon-extra-large-size;
+    height: $svg-icon-extra-large-size;
+}
+
+
+/**
+ * Color Modifiers
+ */
+.svg-icon--blue { fill: $blue; }
+.svg-icon--yellow { fill: $yellow; }
+.svg-icon--red { fill: $red; }
+.svg-icon--green { fill: $green; }
+.svg-icon--white { fill: $white; }
+.svg-icon--gray { fill: $gray; }
+.svg-icon--black { fill: $black; }
+.svg-icon--black-alpha-15 { fill: $black-alpha-15; }
+.svg-icon--black-alpha-50 { fill: $black-alpha-50; }

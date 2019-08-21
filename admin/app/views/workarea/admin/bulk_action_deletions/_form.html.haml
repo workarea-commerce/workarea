@@ -1,0 +1,8 @@
+.grid__cell
+  = form_tag bulk_actions_path, method: :post, data: { bulk_action_form: '', bulk_action_deletion: '' } do
+    = hidden_field_tag 'type', 'Workarea::BulkAction::Deletion', id: nil
+    = hidden_field_tag 'query_id', local_assigns[:query_id].presence || generic_admin_search_query_id(params.to_unsafe_h), id: nil
+    = hidden_field_tag 'bulk_action[model_type]', local_assigns[:model_type], id: nil
+    = hidden_field_tag 'return_to', request.path, id: nil
+    %button.workflow-bar__button.workflow-bar__button--delete{ type: :submit }
+      = t('workarea.admin.bulk_action_deletions.button')

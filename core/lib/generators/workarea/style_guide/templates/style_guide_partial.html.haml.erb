@@ -1,0 +1,51 @@
+#<%= @name %>.style-guide__subsection
+
+  %h3= link_to_style_guide('<%= @section %>', '<%= @slug %>')
+
+  %p <%= @name %> Description
+
+<% if @section == 'tools' %>
+  %table.table
+    %thead
+      %tr
+        %th Parameter
+        %th Description
+        %th Required?
+        %th Default Value
+    %tbody
+      %tr
+        %td <code>$example-param</code>
+        %td It's just an example
+        %td Yes
+        %td None
+
+  %p Useage:
+  %pre.style-guide__code-block
+    %code
+      :preserve
+        .example {
+            @include example($param)
+        }
+<% end; if @section == 'components' %>
+  .style-guide__example-block
+    %span.example
+<% end; if ['objects','components'].include?(@section) %>
+  .style-guide__unit-test
+    %h4 Unit Test
+
+    %p should work with <code>example</code> elements
+    .style-guide__example-block
+      %span.example-class
+
+    %p should work with <code>example</code> elements
+    .style-guide__example-block
+      %span.example-class
+<% end; if @section == 'trumps' %>
+  %p without <code>example-class</code>:
+  .style-guide__example-block
+    %span Example
+
+  %p without <code>example-class</code>:
+  .style-guide__example-block
+    %span.example-class Example
+<% end %>

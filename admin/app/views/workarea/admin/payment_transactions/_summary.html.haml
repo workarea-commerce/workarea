@@ -1,0 +1,6 @@
+= link_to payment_transaction_path(model), class: 'summary' do
+  %span.summary__name #{model.payment_title} #{model.action.titleize}
+  .summary__info-container
+    %span.summary__info= local_time_ago(model.updated_at)
+    %span.summary__info= t('workarea.admin.payment_transactions.summary.order_info', order_id: model.order_id, amount: number_to_currency(model.amount))
+  %span.summary__type{ title: t('workarea.admin.payment_transactions.summary.title') }= t('workarea.admin.payment_transactions.summary.title')

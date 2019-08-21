@@ -1,0 +1,403 @@
+en:
+  workarea:
+    storefront:
+      addresses:
+        first_name: First Name
+        last_name: Last Name
+        company: Company
+        company_prompt: Add a Company
+        street: Address Line 1
+        street_2: Address Line 2
+        street_2_placeholder: Apartment, Suite, Unit, Building, Floor
+        no_po_boxes: We do not accept PO Boxes for this address
+        country: Country
+        postal_code: Postal Code
+        city: City
+        region: State
+        phone_number: Phone Number
+        phone_extension: Ext.
+        select_state: Select State
+
+      carts:
+        title: Cart
+        view_cart: View Cart
+        view_full_cart: View Full Cart
+        empty: Your Cart is Empty
+        continue_shopping: Continue Shopping
+        checkout: Checkout
+        remove: Remove
+        update: Update
+        free_gift: Free Gift!
+        add: Add
+        estimate: Estimate
+        postal_code: Postal Code
+        shipping_services: Shipping Services
+        calculated_at_checkout: Calculated at Checkout
+        enter_promo_code: Enter Promo Code
+        enter_promo_code_prompt: Enter a promo code
+
+      checkouts:
+        login_prompt: Already have an account?
+        login_title: Log In
+        addresses_title: Checkout Addresses
+        shipping_title: Checkout Shipping Options
+        payment_title: Checkout Payment and Review
+        confirmation_title: Order Confirmation
+        addresses_step_text: Step 1 - Addresses
+        shipping_step_text: Step 2 - Shipping Options
+        payment_step_text: Step 3 - Payment and Review
+        addresses: Addresses
+        email: Email
+        shipping_address: Shipping Address
+        billing_address: Billing Address
+        shipping_instructions_prompt: Add delivery instructions
+        shipping_instructions: Delivery Instructions
+        shipping_instructions_title: Add instructions for the carrier
+        shipping_instructions_placeholder: Doorbell is broken, knock on door.
+        shipping_options: Shipping Options
+        shipping_service: Shipping Service
+        shipping_service_with_index: "Shipping Service #%{index}"
+        not_applicable: N/A
+        to_be_determined: TBD
+        continue_to_shipping: Continue to Shipping Options
+        continue_to_shipping_disabled_text: Continuing to Shipping Options...
+        continue_to_payment: Continue to Payment and Review
+        continue_to_payment_disabled_text: Continuing to Payment and Review...
+        go_to_account: Go to Account
+        login: Log in to checkout with an existing account.
+        checkout_as_guest: Checkout as a Guest
+        create_an_account: You can create an account at the end of checkout.
+        use_a_promo_code: Use a promo code
+        payment_method: Payment Method
+        store_credit_applied: "%{amount} store credit will be applied to your order."
+        store_credit_balance: "Your store credit balance is %{amount}."
+        new_credit_card: New Credit Card
+        credit_card_types: Visa, MasterCard, Discover, American Express
+        place_order: Place Order
+        place_order_disabled_text: Placing Order...
+        same_as_shipping: Use same as shipping
+        saved_addresses: Saved Addresses
+        select_an_address: Select an Address
+        totals: Totals
+        items: Items
+        confirmation_text: A confirmation email is on its way to %{email}
+
+      contacts:
+        contact_us: Contact Us
+        name: Name
+        email: Email
+        order_id: Order Number
+        subject: Subject
+        message: Message
+
+      content_blocks:
+        video: Video from %{url}
+        hidden_block_css_content: Block hidden at this breakpoint
+        category_summary:
+          empty: '%{name} is empty'
+          summary_of: 'Summary of "%{name}"'
+          view_all: '%{name} (View All)'
+        social_networks:
+          facebook: 'Share to Facebook'
+          twitter: 'Share to Twitter'
+          google_plus: 'Share to Google Plus'
+          pinterest: 'Share to Pinterest'
+
+      credit_cards:
+        summary: "%{issuer} ending in %{number}"
+        expires: "Expires:"
+        expiry: "%{month}/%{year}"
+        expired: (expired)
+        issuer: Issuer
+        card_number: Card Number
+        security_code: Security Code
+        expiration_date: Expiration Date
+        expiration_month: Expiration Month
+        expiration_year: Expiration Year
+        whats_this: What's This?
+        name_on_card: "Name on Card:"
+
+      email:
+        title: A Message from %{host}
+        account_created:
+          subject: Thanks for creating an account!
+          thanks_html: Thanks for creating an account, %{email}.
+          thanks_text: Thanks for creating an account, %{email}.
+          info_html: You can update your information at any time by visiting
+          info_text: You can update your information at any time by visiting
+          closing_html: Have a great day!
+          closing_text: Have a great day!
+        password_reset:
+          subject: Reset Your Password
+          info_html: Click this link to reset your password
+          info_text: Click this link to reset your password
+        inquiry:
+          heading: Customer Service Inquiry on %{subject}
+          name: Name
+          email: Email
+          order_id: Order Number
+          subject: Subject
+          message: Message
+        order_cancellation:
+          subject: Order %{order_id} Cancellation
+          heading: Order %{order_id} Cancellation
+          info_html: These items have been canceled.
+          info_text: These items have been canceled.
+        order_shipped:
+          subject: Order %{order_id} Shipped
+          heading: Order %{order_id} Shipped
+        order_confirmation:
+          subject: Order %{order_id} Confirmation
+          heading: Order %{order_id} Confirmation
+        order_refund:
+          subject: Order %{order_id} Refund
+          heading: Order %{order_id} Refund
+          info_html: A refund of %{amount} has been processed.
+          info_text: A refund of %{amount} has been processed.
+        order_reminder:
+          subject: You didn't finish checking out!
+          info_html: We noticed that you didn't complete checkout, and we wanted to help. To complete your order, %{link}. Please let us know if there is any other way we can help.
+          info_text: We noticed that you didn't complete checkout, and we wanted to help. To complete your order, visit the link below. Please let us know if there is any other way we can help.
+          resume_link: resume your checkout
+        recommendations: You may also like…
+
+      flash_messages:
+        error: Error
+        no_search_query: You must enter a search term.
+        no_matching_order: We could not find a matching order. Please try again.
+        email_signed_up: Your email address has been added to our list.
+        email_signup_error: The provided email address was invalid.
+        contact_message_sent: Your message has been sent.
+        contact_error: There was a problem sending your message.
+        review_your_order: Review your order and click Place Order.
+        login_failure: Sorry, we couldn't find an account matching that email and password.
+        logged_in: Login successful. Welcome back!
+        logged_out: You've been logged out.
+        addresses_saved: Your addresses have been saved.
+        shipping_options_saved: Your shipping options have been saved.
+        order_placed: Your order has been placed. Thanks!
+        order_place_error: There was a problem placing your order.
+        checkout_lock_error: There may have been an error updating your order.
+                             Please check the order history to see if your order was placed.
+        checkout_expired: Your checkout has expired.
+        promo_code_added: Promo code "%{promo_code}" has been added to your cart.
+        promo_code_error: This is not a valid promo code.
+        order_resumed: Your order has been resumed!
+        order_not_resumed: Sorry, we couldn't find this cart
+        cart_item_added: This item has been added to your cart.
+        cart_item_error: There was an error adding this item to your cart.
+        cart_item_updated: Your item has been updated.
+        cart_item_removed: This item has been removed from your cart.
+        account_locked: This account has been locked for 30 minutes.
+        account_created: Your account has been created. Welcome!
+        account_create_error: There was an error creating your account.
+        account_updated: Your information has been updated.
+        address_saved: Your address has been saved.
+        address_save_error: There were errors saving your address.
+        address_removed: Your address has been removed.
+        credit_card_saved: Your credit card has been saved.
+        credit_card_save_error: There were errors saving your credit card.
+        credit_card_updated: Your credit card has been updated.
+        credit_card_update_error: There were errors updating your credit card.
+        credit_card_removed: Your credit card has been removed.
+        password_reset_expired: This password reset is expired.
+        password_reset_email_sent: If a valid e-mail address was entered, instructions to reset your password have been sent to "%{email}"
+        password_reset: Your password has been reset.
+        old_password_invalid: Your old password is not valid.
+        password_required: Password is required.
+        items_required: You must add an item to your cart to checkout
+        order_custom_pricing: Your cart has custom pricing, you cannot edit the contents of your cart.
+        no_available_shipping_options: There are no available shipping options for your shipping adddress.
+
+      forms:
+        required: '*'
+        optional: (optional)
+        save: Save
+        cancel: Cancel
+        update: Update
+        edit: Edit
+        delete: Delete
+        send: Send
+        go: Go
+        email_placeholder: name@example.com
+        confirmation_alert: Are you sure you want to delete this?
+
+      layouts:
+        accessibility_info: Accessibility Information
+        main_content: Skip to Main Content
+        primary_navigation: Skip to Primary Navigation
+        logo: Go to Home Page
+        home: Home
+        top_of_page: Top of Page
+        return_to_cart: Return to Cart
+        shipping_policy: Shipping Policy
+        returns: Returns
+        customer_service: Customer Service
+        contact_us: Contact Us
+        locale: Select locale
+        mobile_navigation: Mobile Navigation
+        default_meta_description: Shop online for %{site_name} products
+
+      messages:
+        info: Info
+        error: Error
+        success: Success
+
+      orders:
+        order: Order
+        id: Number
+        status: Status
+        items: Items
+        item_name: Name
+        quantity: Quantity
+        price: Price
+        item_total: Item Total
+        subtotal: Subtotal
+        shipping: Shipping
+        tax: Tax
+        total: Total
+        customizations: Customizations
+        shipping_instructions: Delivery Instructions
+        shipping_service: Shipping Service
+        billing: Billing
+        payment_method: Payment Method
+        package: Package
+        packages: Packages
+        carrier: Carrier
+        tracking: Tracking
+        tracking_number: Tracking Number
+        track_package: Track Package
+        no_tracking: Shipped without a tracking number.
+        pending: Pending
+        canceled: Canceled
+        store_credit: Store Credit
+        price_now: Now
+        price_was: Was
+        promo_code: Promo Code
+        promo_code_prompt: Enter a promo code
+        placed_at: Placed At
+        address: Address
+        addresses: Addresses
+        payment: Payment
+        order_status: Order Status
+        status_login: Log In to View Your Orders
+        status_lookup: Find Your Order
+        billing_address_postal_code: Billing Address Postal Code
+        lookup_order: Lookup Order
+        view: View
+        item_shipped: This item has shipped with package %{tracking_number}.
+        item_canceled: This item has been canceled.
+        refunds: Refunds
+        issued: Issued
+        refund_description_html: "%{amount} on %{type}"
+        billing_address: Billing Address
+        amount: Amount
+        totals: Totals
+        cancelations: Cancelations
+        sku: SKU
+        each: each
+        view_order: View Order
+
+      pagination:
+        loading_more: Loading More...
+        load_more: Load More
+        next_page: Next Page
+
+      products:
+        filter_title: Filter by %{name}
+        remove_filter: (remove)
+        reset_filters: Reset Filters
+        filter_results: Filter Results
+        filter_nav_close_button: Close
+        price: Price
+        none_found: No products found.
+        select_options: Select options
+        quantity: Quantity
+        add_to_cart: Add to Cart
+        add_to_cart_disabled_text: Adding to Cart...
+        unavailable: This product is currently unavailable for purchase.
+        view_full_details: View Full Details
+        description: Description
+        featured: Featured
+        in_stock: In Stock
+        few_left: Only %{quantity} Left
+        ships_on: Ships on %{date}
+        backordered: Backordered
+        out_of_stock: Out of Stock
+        zoom: Larger View of Product
+        read_more: Read More
+        image_alt_attribute: View larger image of %{name}
+        select_option: Select %{name}
+        clear_selections: Clear selections
+
+      recommendations:
+        heading: Recommendations
+        personalized_heading: Recommendations for You
+        recent_products: Recent Products
+        recent_categories: Recent Categories
+        recent_searches: Recent Searches
+        you_may_also_like: You may also like...
+
+      sitemaps:
+        heading: Sitemap
+        none_found: Nothing left to show
+        pagination:
+          next: Next
+          prev: Prev
+
+      searches:
+        search: Search
+        searches: Searches
+        title: Search Results
+        heading: "%{results} for \"%{terms}\""
+        result: result
+        no_results: 'Sorry, no results for "%{terms}"'
+        search_again: Search Again
+        suggestions: Suggested searches
+        products: Products
+        categories: Categories
+        pages: Pages
+        showing_suggested_results: Showing results for "%{suggestion}". No results found for "%{original}".
+        sort_by: Sort By
+        sort: Sort
+        content: Pages
+        back_to_top: Back To Top
+
+      users:
+        account: Your Account
+        email: Email
+        password: Password
+        sign_up_for_email: Sign up for our email list
+        create_account: Create an Account
+        create_account_disabled_text: Creating Account...
+        login: Log In
+        logout: Log Out
+        forgot_password: Forgot your password?
+        edit_title: Edit
+        first_name: First Name
+        last_name: Last Name
+        new_password: New Password
+        edit_address: Edit Address
+        details: Details
+        credit_cards: Credit Cards
+        name: Name
+        no_saved_credit_cards: You have no saved credit cards.
+        add_credit_card: Add a Credit Card
+        addresses: Addresses
+        no_saved_addresses: You have no saved addresses.
+        add_address: Add an Address
+        recent_orders: Recent Orders
+        no_orders: You have no orders.
+        order_history: Order History
+        edit_credit_card: Edit Credit Card
+        default_card: Default Card?
+        set_as_default_card: Set as default credit card.
+        login_or_create_an_account: Log In or Create an Account
+        change_password: Change Password
+        old_password: Old Password
+        new_password: New Password
+        reset_password: Reset Password
+        forgot_password_instructions: Enter your email address, and we'll email you a link to reset your password.
+        join: Join
+        recommendations: Recommendations for You
+        order_details: Order Details

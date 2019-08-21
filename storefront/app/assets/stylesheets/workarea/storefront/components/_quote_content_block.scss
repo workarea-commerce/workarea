@@ -1,0 +1,38 @@
+/*------------------------------------*\
+    #QUOTE-CONTENT-BLOCK
+\*------------------------------------*/
+
+$quote-content-block-border-color:  $gray !default;
+
+$quote-content-block-quote-size:  5em !default;
+
+
+.quote-content-block {
+    margin: 0;
+    padding: $spacing-unit;
+    border-left: $spacing-unit solid $quote-content-block-border-color;
+    quotes: "\201C""\201D""\2018""\2019";
+
+    &:before {
+        margin-right: $spacing-unit;
+        font-size: $quote-content-block-quote-size;
+        line-height: 0;
+        vertical-align: text-bottom;
+        content: '“';
+    }
+}
+
+    /**
+     * 1. element selector required due to rich text editor content.
+     */
+    .quote-content-block__text {
+        p { /* [1] */
+            display: inline;
+        }
+    }
+
+    .quote-content-block__author {
+        display: block;
+        font-style: italic;
+        text-align: right;
+    }

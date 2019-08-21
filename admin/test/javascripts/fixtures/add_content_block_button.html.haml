@@ -1,0 +1,10 @@
+#content_editor
+  .content-block{ data: { block_order: 2 } }
+    %a{ href: '/foo?position=3', data: { add_content_block_button: '' } } Add
+    %a{ href: '/foo?bar=baz&position=6', data: { add_content_block_button: '' } } Add
+  .content-block{ data: { block_order: 1 } }
+    %a{ href: '/foo?baz=qux&position=1&qux=quxxx', data: { add_content_block_button: '' } } Add
+    %a{ href: '/foo?bar=baz&position=7', data: { add_content_block_button: '' } } Add
+  .content-block{ data: { block_order: 0 } }
+    %a{ href: '/foo?position=566', data: { add_content_block_button: '' } } Add
+    %a{ href: '/foo?bar=baz&position=2', data: { add_content_block_button: '' } } Add

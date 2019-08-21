@@ -1,0 +1,32 @@
+/*------------------------------------*\
+    #GLOBAL-BOX-SHADOW
+\*------------------------------------*/
+
+/// Provides control over the global box shadows for the site.
+///
+/// @param {Color} $color [$shadow-color] - the box shadow color
+/// @param {String} $lighting [center] - choose to 'light' the UI from a
+///     direction. `top`, `bottom`, and `tight` are options. All other values
+///     will result in the lighting being centered.
+///
+/// @example scss - Global Box Shadow mixin
+///     $block-hover-color:  $green !default;
+///
+///     .block {
+///         @include global-box-shadow($lighting: top);
+///
+///         &:hover {
+///             @include global-box-shadow($block-hover-color, top)
+///         }
+///     }
+@mixin global-box-shadow($color: $shadow-color, $lighting: center) {
+    @if $lighting == top {
+        box-shadow: 0 2px 5px 0 $color;
+    } @else if $lighting == bottom {
+        box-shadow: 0 -2px 5px 0 $color;
+    } @else if $lighting == tight {
+        box-shadow: 0 0 2px 0 $color;
+    } @else {
+        box-shadow: 0 0 5px 0 $color;
+    }
+}

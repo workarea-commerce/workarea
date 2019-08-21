@@ -1,0 +1,21 @@
+.discount__node-line
+  %p.discount__node-group
+    %span.discount__node Set shipping cost for
+    %span.discount__node= select_tag 'discount[shipping_service]', options_for_select(@discount.shipping_service_options, @discount.shipping_service), title: 'Shipping Service'
+    %span.discount__node to
+    %span.discount__node
+      %span.property.property--inline
+        = Money.default_currency.symbol
+        = text_field_tag 'discount[amount]', @discount.amount, class: 'text-box text-box--small', title: 'Amount', placeholder: '0', required: true
+
+.discount__node-line
+  %p.discount__node-group
+    %span.discount__node= select_tag 'condition_options', options_for_select(@discount.condition_options, @discount.selected_condition_option), title: 'When to Apply Discount', data: { discount_options_menu: { type: 'condition' }.to_json }
+  = render 'workarea/admin/pricing_discounts/conditions/order_total', discount: @discount
+  = render 'workarea/admin/pricing_discounts/conditions/user_tags', discount: @discount
+  = append_partials('admin.discount_conditions', discount: @discount)
+
+  %p.discount__node-group
+    %span.discount__node applied
+    %span.discount__node= select_tag 'application_options', options_for_select(@discount.application_options, @discount.selected_application_option), title: 'When to Apply Discount', data: { discount_options_menu: { type: 'application' }.to_json }
+  = render 'workarea/admin/pricing_discounts/conditions/promo_code', discount: @discount

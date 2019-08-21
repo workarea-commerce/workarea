@@ -1,0 +1,21 @@
+.taxon-select{ data: { taxon_selected: taxon.try(:id).to_s } }
+  - if taxon.present?
+    .menu-editor.menu-editor--full-width
+      .menu-editor__menu
+        .menu-editor__head
+          %ul.menu-editor__breadcrumbs
+            - taxon.ancestors_and_self.each do |ancestor|
+              %li.menu-editor__breadcrumbs-node
+                %span.menu-editor__head-label= link_to ancestor.name, select_navigation_taxon_path(ancestor)
+                - unless taxon.ancestors_and_self. last == ancestor
+                  = inline_svg('workarea/admin/icons/navigate_next.svg', class: 'menu-editor__icon')
+        %ul.menu-editor__menu-list
+          - taxon.children.each do |child|
+            %li.menu-editor__list-item
+              = link_to select_navigation_taxon_path(child), class: 'menu-editor__menu-link' do
+                = taxon_icon(child, class: 'menu-editor__icon menu-editor__icon--link')
+                %span.menu-editor__menu-link-text= child.name
+                - if child.has_children?
+                  = inline_svg 'workarea/admin/icons/navigate_next.svg', class: 'menu-editor__icon menu-editor__icon--link menu-editor__icon menu-editor__icon--parent'
+  - else
+    %p= t('workarea.admin.navigation_taxons.select.none_selected')

@@ -1,0 +1,42 @@
+/*------------------------------------*\
+    #BULK-ACTIONS
+\*------------------------------------*/
+
+$bulk-actions-border-color:  $border-color !default;
+
+$bulk-actions-section-heading-bg-color:      $light-gray !default;
+$bulk-actions-section-heading-border-color:  $border-color !default;
+
+
+.bulk-actions {}
+
+
+    .bulk-actions__section {
+        margin-bottom: $vertical-margin;
+    }
+
+        .bulk-actions__section-heading {
+            margin-bottom: 0;
+            padding: $spacing-unit ($spacing-unit * 4);
+            background-color: $bulk-actions-section-heading-bg-color;
+            border-bottom: 1px solid $bulk-actions-section-heading-border-color;
+            border-top-right-radius: $global-border-radius;
+            border-top-left-radius: $global-border-radius;
+        }
+
+
+        .bulk-actions__sub-section {
+            padding: ($spacing-unit * 2) ($spacing-unit * 4);
+            border: 1px solid $bulk-actions-border-color;
+
+            + .bulk-actions__sub-section {
+                border-top: 0;
+            }
+        }
+
+            .bulk-actions__sub-heading {
+                @extend %heading;
+                @extend %heading--4;
+                margin-bottom: 0;
+                font-weight: bold;
+            }

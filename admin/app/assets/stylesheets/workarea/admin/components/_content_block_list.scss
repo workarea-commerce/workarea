@@ -1,0 +1,58 @@
+/*------------------------------------*\
+    #CONTENT-BLOCK-LIST
+\*------------------------------------*/
+
+$content-block-list-border:  1px solid $light-gray !default;
+
+$content-block-list-heading-bg-color:  $light-gray !default;
+
+$content-block-list-item-bg-color:  $white !default;
+
+$content-block-icon-size:   24px !default;
+$content-block-icon-color:  $gray !default;
+
+
+.content-block-list {
+    @extend %list-reset;
+    border-bottom: $content-block-list-border;
+}
+
+    /**
+     * 1. while being dragged
+     */
+    .content-block-list__item {
+        @extend %clearfix;
+        padding: $spacing-unit;
+        background: $content-block-list-item-bg-color;
+        border-top: $content-block-list-border;
+
+        &.ui-sortable-helper { /* [1] */
+            border-bottom: $content-block-list-border;
+        }
+    }
+
+        .content-block-list__icon {
+            width: $content-block-icon-size;
+            height: $content-block-icon-size;
+            float: left;
+            fill: $content-block-icon-color;
+        }
+
+        .content-block-list__name {
+            @extend %truncate;
+            padding: 0 ($spacing-unit * 2);
+            width: calc(100% - #{$content-block-icon-size * 2});
+            float: left;
+            font-size: 1.16rem;
+            line-height: $content-block-icon-size;
+            cursor: pointer;
+
+            &:hover {
+                color: $link-color;
+            }
+        }
+
+        .content-block-list__icon--move {
+            cursor: move;
+        }
+

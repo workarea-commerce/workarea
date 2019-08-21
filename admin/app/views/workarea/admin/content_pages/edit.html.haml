@@ -1,0 +1,76 @@
+- @page_title = t('workarea.admin.content_pages.edit.page_title', page: @page.name)
+
+.view
+  .view__header
+    .grid
+      .grid__cell.grid__cell--25
+        = render 'workarea/admin/releases/select'
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@page)
+          %h1= link_to @page.name, url_for(@page)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@page)
+
+  .view__container
+    = render_cards_for(@page, :attributes)
+
+  .view__container.view__container--narrow
+    - @page.errors.full_messages.each do |message|
+      = render_message 'error', message
+
+    = form_tag content_page_path(@page), method: :patch, id: 'page_form', data: { unsaved_changes: '' } do
+
+      .section
+
+        .property.property--required
+          = label_tag 'page_name', t('workarea.admin.content_pages.edit.name_label'), class: 'property__name'
+          = text_field_tag 'page[name]', @page.name, class: 'text-box text-box--i18n', required: true
+
+        .property
+          %span.property__name
+            = t('workarea.admin.fields.active')
+            = inline_svg('workarea/admin/i18n.svg', class: 'svg-icon svg-icon--small') if locale_options.many? && Workarea.config.localized_active_fields
+          = toggle_button_for 'page[active]', @page.active?
+
+        .property
+          = label_tag 'page[tag_list]', t('workarea.admin.content_pages.edit.tags_label'), class: 'property__name'
+          = text_field_tag 'page[tag_list]', @page.tag_list, class: 'text-box'
+          %span.property__note= t('workarea.admin.content_pages.edit.tags_note')
+
+        .property
+          = label_tag 'page[slug]', t('workarea.admin.content_pages.edit.slug_label'), class: 'property__name'
+          %span= storefront.page_url('')
+          = text_field_tag 'page[slug]', @page.slug, class: 'text-box text-box--medium', placeholder: @page.slug || 'your-slug-here', disabled: current_release.present?
+          = render 'workarea/admin/shared/release_slug_tooltip'
+
+        .grid.grid--huge
+          .grid__cell.grid__cell--33-at-medium
+            .property
+              = label_tag 'page_template', t('workarea.admin.content_pages.edit.template_label'), class: 'property__name'
+              = select_tag 'page[template]', options_for_select(page_templates, @page.template)
+
+          .grid__cell.grid__cell--33-at-medium
+            .property
+              %span.property__name= t('workarea.admin.content_pages.edit.show_navigation_label')
+              = toggle_button_for 'page[show_navigation]', @page.show_navigation?, title_true: t('workarea.admin.content_pages.edit.show_navigation_true'), title_false: t('workarea.admin.content_pages.edit.show_navigation_false')
+
+          .grid__cell.grid__cell--33-at-medium
+            .property
+              %span.property__name= t('workarea.admin.content_pages.edit.display_h1_label')
+              = toggle_button_for 'page[display_h1]', @page.display_h1?, title_true: t('workarea.admin.true'), title_false: t('workarea.admin.false')
+
+        .grid
+          .grid__cell.grid__cell--50.grid__cell--25-at-medium
+            .property
+              = label_tag 'page_updated_at', t('workarea.admin.fields.updated_at'), class: 'property__name'
+              = local_time(@page.updated_at)
+          .grid__cell.grid__cell--50.grid__cell--25-at-medium
+            .property
+              = label_tag 'page_created_at', t('workarea.admin.fields.created_at'), class: 'property__name'
+              = local_time(@page.created_at)
+
+      .workflow-bar
+        .grid.grid--auto.grid--right.grid--middle
+          .grid__cell= render 'workarea/admin/shared/publishing_select'
+          .grid__cell= button_tag t('workarea.admin.form.save_changes'), value: 'save_page', class: 'workflow-bar__button workflow-bar__button--update'

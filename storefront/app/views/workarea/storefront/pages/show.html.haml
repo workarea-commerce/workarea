@@ -1,0 +1,28 @@
+- @title = @page.browser_title
+- @breadcrumbs = @page.breadcrumbs
+
+- add_css(@page.css)
+- add_javascript(@page.javascript)
+
+- content_for :head do
+  - cache "#{@page.cache_key}/head", expires_in: Workarea.config.cache_expirations.pages_fragment_cache do
+    %meta{ property: 'global-id', content: @page.to_global_id.to_param }
+
+    %link{ href: page_url(@page), rel: 'canonical' }
+    %meta{ name: :description, content: @page.meta_description }
+
+    %meta{ property: 'og:url', content: url_for(only_path: false) }
+    %meta{ property: 'og:title', content: page_title }
+    %meta{ property: 'og:type', content: 'website' }
+    %meta{ property: 'og:image', content: @page.open_graph_asset.url }
+    %meta{ property: 'og:image:secure_url', content: @page.open_graph_asset.url }
+
+- if @page.show_navigation?
+  - content_for :page_aside do
+    - cache "#{@page.cache_key}/aside", expires_in: Workarea.config.cache_expirations.pages_fragment_cache do
+      = left_navigation
+
+.view
+  %h1{ class: @page.display_h1? ? nil : 'visually-hidden' }= @page.name
+
+  = render "workarea/storefront/pages/templates/#{@page.template}", page: @page

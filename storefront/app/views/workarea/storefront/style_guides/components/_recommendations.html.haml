@@ -1,0 +1,34 @@
+#recommendations.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'recommendations')
+
+  %p A component used to display recommended products in embedded <code>.product-summary</code> components.
+
+  %p should provide a responsive layout for multiple <code>.product-summary</code> components:
+  .style-guide__example-block
+    .recommendations
+      .recommendations__products
+        .grid
+          - (1..6).each do |i|
+            .grid__cell.grid__cell--50.grid__cell--33-at-medium.grid__cell--16-at-wide
+              .product-summary.product-summary--small
+                .product-summary__media
+                  .product-summary__image-wrapper
+                    = image_tag 'workarea/core/placeholder.png', size: '180x180', class: 'product-summary__image'
+                .product-summary__info
+                  %span.product-summary__name Product Title #{i}
+
+  %p should support a heading:
+  .style-guide__example-block
+    .recommendations
+      %h2.recommendations__heading Recommended For You
+      .recommendations__products
+        .grid
+          - (1..6).each do |i|
+            .grid__cell.grid__cell--50.grid__cell--33-at-medium.grid__cell--16-at-wide
+              .product-summary.product-summary--small
+                .product-summary__media
+                  .product-summary__image-wrapper
+                    = image_tag 'workarea/core/placeholder.png', size: '180x180', class: 'product-summary__image'
+                .product-summary__info
+                  %span.product-summary__name Product Title #{i}

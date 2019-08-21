@@ -1,0 +1,67 @@
+/*------------------------------------*\
+    #MOBILE-NAV
+\*------------------------------------*/
+
+$mobile-nav-bg-color:   $white !default;
+$mobile-nav-box-shadow: 8px 0 8px $black-alpha-50;
+
+$mobile-nav-width:  90% !default;
+
+
+.mobile-nav {
+    display: none;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: index($components, mobile-nav);
+    width: $mobile-nav-width;
+    background: $mobile-nav-bg-color;
+    box-shadow: $mobile-nav-box-shadow;
+}
+
+.mobile-nav--active {
+    display: block;
+}
+
+
+    .mobile-nav__close-button {}
+
+
+    .mobile-nav__back-button {}
+
+
+    /**
+     * 1. provides positioning context for `.mobile-nav__content`
+     */
+    .mobile-nav__menu {
+        @extend %list-reset;
+    }
+
+
+        .mobile-nav__item {
+            margin: 0 $spacing-unit;
+        }
+
+        .mobile-nav__item--has-children {
+            &:after {
+                content: '→';
+            }
+        }
+
+
+            .mobile-nav__link {}
+
+            .mobile-nav__link
+
+            .mobile-nav__link--selected {
+                font-weight: bold;
+            }
+
+
+            /**
+             * 1. injected via JavaScript
+             */
+            .mobile-nav__content { /* [1] */
+                @extend %list-reset;
+            }

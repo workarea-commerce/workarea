@@ -1,0 +1,40 @@
+- @page_title = t('workarea.admin.catalog_products.content.page_title', product: @product.name)
+
+.view
+  .view__header
+    .grid
+      .grid__cell.grid__cell--25
+        = render 'workarea/admin/releases/select'
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@product)
+          %h1= link_to @product.name, url_for(@product)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@product)
+
+  .view__container
+    = render_cards_for(@product, :content)
+
+  .view__container.view__container--narrow
+    = form_tag catalog_product_path(@product), method: :patch, id: 'product_form', data: { unsaved_changes: '' } do
+      .section
+        %h2.view__heading= t('workarea.admin.fields.description')
+
+        .property
+          .wysiwyg{ data: { wysiwyg: '' } }= text_area_tag 'product[description]', @product.description, class: 'text-box text-box--multi-line text-box--i18n', id: "product_description"
+
+      .section
+        %h2.view__heading= t('workarea.admin.catalog_products.content.seo_content')
+
+        .property
+          = label_tag "product[browser_title]", t('workarea.admin.fields.browser_title'), class: 'property__name'
+          = text_field_tag 'product[browser_title]', @product.browser_title, class: 'text-box text-box--i18n', id: "product_browser_title"
+
+        .property
+          = label_tag "product[meta_description]", t('workarea.admin.fields.meta_description'), class: 'property__name'
+          = text_field_tag 'product[meta_description]', @product.meta_description, class: 'text-box text-box--i18n', id: "product_meta_description"
+
+      .workflow-bar
+        .grid.grid--auto.grid--right.grid--middle
+          .grid__cell= render 'workarea/admin/shared/publishing_select'
+          .grid__cell= button_tag t('workarea.admin.form.save_changes'), class: 'workflow-bar__button workflow-bar__button--update'

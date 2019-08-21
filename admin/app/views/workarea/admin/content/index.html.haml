@@ -1,0 +1,32 @@
+- @page_title = t('workarea.admin.content.index.title')
+
+.view
+  .view__header
+    .view__heading
+      = link_to "↑ #{t('workarea.admin.content.index.dashboard_link')}", store_dashboards_path, class: 'view__dashboard-button'
+      %h1.heading--no-margin= t('workarea.admin.content.index.title')
+      %p
+        = t('workarea.admin.content.index.help_text')
+        = link_to t('workarea.admin.content.index.help_link'), content_pages_path
+
+  .view__container.view__container--narrow
+    .browsing-controls.browsing-controls--with-divider
+      %p.browsing-controls__count
+        = t('workarea.admin.content.index.page_pluralize', count: @content.count)
+
+    - if @content.any?
+      %table.index-table
+        %thead
+          %tr
+            %th= t('workarea.admin.fields.name')
+            %th.align-center= t('workarea.admin.fields.content_blocks')
+            %th= t('workarea.admin.fields.updated_at')
+        %tbody
+          - @content.each do |result|
+            %tr.index-table__row
+              %td
+                = link_to result.name, content_path(result)
+                = upcoming_changesets_icon_for(result)
+                = comments_icon_for(result)
+              %td.align-center= result.blocks.size
+              %td= local_time_ago(result.updated_at)

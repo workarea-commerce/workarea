@@ -1,0 +1,27 @@
+- if @recent_views.products.any? || @recent_views.categories.any? || @recent_views.searches.any?
+  .recent-views
+
+    - if @recent_views.products.any?
+      .recent-views__section.recent-views__section--products
+        %h2.recent-views__heading= t('workarea.storefront.recommendations.recent_products')
+        .grid
+          - @recent_views.products.each do |product|
+            .grid__cell.grid__cell--50.grid__cell--33-at-medium.grid__cell--16-at-wide
+              .product-summary.product-summary--small{ itemscope: true, itemtype: 'http://schema.org/Product' }
+                = render 'workarea/storefront/products/summary', product: product
+
+    - if @recent_views.categories.any?
+      .recent-views__section.recent-views__section--categories
+        %h2.recent-views__heading= t('workarea.storefront.recommendations.recent_categories')
+        %ul.recent-views__list
+          - @recent_views.categories.each do |category|
+            %li.recent-views__item
+              = link_to category.name, category_path(category), class: 'recent-views__link'
+
+    - if @recent_views.searches.any?
+      .recent-views__section.recent-views__section--searches
+        %h2.recent-views__heading= t('workarea.storefront.recommendations.recent_searches')
+        %ul.recent-views__list
+          - @recent_views.searches.each do |search|
+            %li.recent-views__item
+              = link_to search, search_path(q: search), class: 'recent-views__link'

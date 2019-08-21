@@ -1,0 +1,34 @@
+-# TODO v4 rewrite, simply and add better classes
+- cache "#{product.cache_key}/prices", expires_in: Workarea.config.cache_expirations.product_pricing_fragment_cache do
+  - if product.one_price?
+    %p.product-prices__price
+      - if product.show_sell_range?
+        %span.product-prices__sell-price.product-prices__sell-price--min= render 'workarea/storefront/products/price', price: product.sell_min_price
+        %span.product-prices__sell-price.product-prices__sell-price--max – #{number_to_currency product.sell_max_price}
+      - else
+        %span.product-prices__sell-price= render 'workarea/storefront/products/price', price: product.sell_min_price
+
+  - else
+    - if product.on_sale?
+      %p.product-prices__price.product-prices__price--on-sale
+        - if product.show_sell_range?
+          %strong.product-prices__sell-price.product-prices__sell-price--min= render 'workarea/storefront/products/price', price: product.sell_min_price
+          %strong.product-prices__sell-price.product-prices__sell-price--max – #{number_to_currency product.sell_max_price}
+        - else
+          %strong.product-prices__sell-price= render 'workarea/storefront/products/price', price: product.sell_min_price
+
+    - else
+      %p.product-prices__price
+        - if product.show_sell_range?
+          %span.product-prices__sell-price.product-prices__sell-price--min= render 'workarea/storefront/products/price', price: product.sell_min_price
+          %span.product-prices__sell-price.product-prices__sell-price--max – #{number_to_currency product.sell_max_price}
+        - else
+          %span.product-prices__sell-price= render 'workarea/storefront/products/price', price: product.sell_min_price
+
+    %p.product-prices__price.product-prices__price--original
+      - if product.show_original_range?
+        %s.product-prices__original-price.product-prices__original-price--range #{number_to_currency product.original_min_price} – #{number_to_currency product.original_max_price}
+      - else
+        %s.product-prices__original-price= number_to_currency product.original_min_price
+
+  = append_partials('storefront.product_pricing', product: product)

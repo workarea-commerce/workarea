@@ -1,0 +1,75 @@
+/*------------------------------------*\
+    #TEXT
+\*------------------------------------*/
+
+$code-bg-color: $white !default;
+$code-block-border-color: $light-gray !default;
+
+code {
+    font-family: $monospace-font-family;
+}
+
+p, blockquote {
+    margin-bottom: $vertical-margin;
+}
+
+address {
+    font-style: inherit;
+}
+
+
+pre {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+
+.code {
+    display: inline-block;
+    background: $code-bg-color;
+    padding: ($spacing-unit / 2) ($spacing-unit);
+    border-radius: $global-border-radius;
+}
+
+.code--block {
+    display: block;
+    border: 1px solid $code-block-border-color;
+    border-radius: $global-border-radius;
+}
+
+
+%text,
+.text {
+    font-size: $font-size;
+    font-weight: $font-weight;
+    line-height: $line-height;
+    letter-spacing: 0.025em;
+}
+
+%text--small,
+.text--small {
+    font-size: $font-size - 2px;
+    font-weight: 500;
+}
+
+%text--large,
+.text--large {
+    font-size: $font-size + 4px;
+}
+
+%text--larger,
+.text--larger {
+    font-size: $font-size + 6px;
+}
+
+dt, dd,
+strong, b,
+%text--bold,
+.text--bold {
+    font-weight: bold;
+
+    &.text--small {
+        letter-spacing: -0.02em;
+    }
+}

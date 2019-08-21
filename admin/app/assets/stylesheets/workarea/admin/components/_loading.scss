@@ -1,0 +1,63 @@
+/*------------------------------------*\
+    #LOADING
+\*------------------------------------*/
+
+$loading-color:           $gray !default;
+$loading-bg-color:        $transparent !default;
+
+$loading-border-width:          ($spacing-unit / 2) !default;
+$loading-large-border-width:    $spacing-unit !default;
+$loading-indicator-size:        ($spacing-unit * 3) !default;
+$loading-large-indicator-size:  $spacing-unit * 8 !default;
+
+
+.loading {
+    @extend %image-replacement;
+    display: block;
+    position: relative;
+    margin: 16px 0;
+    min-height: $loading-indicator-size;
+    background-color: $loading-bg-color;
+
+    &:after {
+        display: block;
+        position: absolute;
+        top:  50%;
+        left: 50%;
+        margin-top:  ($loading-indicator-size / 2) * -1;
+        margin-left: ($loading-indicator-size / 2) * -1;
+        width:  $loading-indicator-size;
+        height: $loading-indicator-size;
+        background: none;
+        border: $loading-border-width solid $loading-color;
+        border-right-color: $transparent;
+        border-radius: 50%;
+        animation: rotate 0.8s infinite linear;
+        content: '';
+    }
+}
+
+.loading--large {
+    min-height: $loading-large-indicator-size;
+
+    &:after {
+        margin-top:  ($loading-large-indicator-size / 2) * -1;
+        margin-left: ($loading-large-indicator-size / 2) * -1;
+        width:  $loading-large-indicator-size;
+        height: $loading-large-indicator-size;
+        border-width: $loading-large-border-width;
+    }
+}
+
+.loading--fill-parent {
+    position: absolute;
+    top:    0;
+    right:  0;
+    bottom: 0;
+    left:   0;
+}
+
+@keyframes rotate {
+    0%    { transform: rotate(0deg);   }
+    100%  { transform: rotate(360deg); }
+}

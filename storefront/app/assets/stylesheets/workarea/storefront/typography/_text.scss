@@ -1,0 +1,26 @@
+/*------------------------------------*\
+    #TEXT
+\*------------------------------------*/
+
+p, blockquote,
+pre {
+    margin-bottom: $vertical-margin;
+}
+
+address {
+    font-style: inherit;
+}
+
+
+.text {
+    font-size: 1rem;
+    line-height: $line-height;
+}
+
+.text--small {
+    font-size: 0.8rem;
+}
+
+.text--large {
+    font-size: 1.2rem;
+}

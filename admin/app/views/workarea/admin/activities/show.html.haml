@@ -1,0 +1,43 @@
+- @page_title = t('workarea.admin.activities.show.admin_activity')
+
+.view
+  .view__header
+    .view__heading
+      = link_to "↑ #{t('workarea.admin.activities.main_dashboard')}", root_path
+      %h1= t('workarea.admin.activities.show.admin_activity')
+
+      - if params[:id].present?
+        %p= link_to t('workarea.admin.activities.show.view_all_admin_activity'), activity_path
+
+  .view__container
+    .browsing-controls.browsing-controls--with-divider.browsing-controls--center.browsing-controls--filters-displayed
+      = form_tag activity_path, method: 'get', id: 'activity_form', class: 'browsing-controls__form' do
+        .browsing-controls__sort
+          .property.property--inline
+            %span.property__name= t('workarea.admin.activities.show.show')
+            = select_tag 'type', options_for_select(@activity.type_options, params[:type]), data: { form_submitting_control: '' }
+
+        .browsing-controls__search
+          .property.property--inline-with-label
+            %span.property__name= t('workarea.admin.activities.show.activity_by')
+            = select_tag 'admin', options_for_select(@activity.admin_options, params[:admin]), data: { form_submitting_control: '' }
+
+        = render 'workarea/admin/shared/creation_date', search: @activity, form_path: catalog_categories_path
+
+    .activity-group.activity-group--bordered
+      - if @activity.entries.present?
+        - @activity.days.each_with_index do |(day, entries), index|
+          - unless (index.zero? && @activity.hide_first_header?) || entries.blank?
+            .activity-group__header
+              - if day < Time.current.beginning_of_week.to_date
+                = day.to_s(:date_only)
+              - else
+                = relative_weekday(day)
+          .activity-group__activities
+            - entries.each do |entry|
+              = render_activity_entry(entry)
+      - else
+        %p.heading.heading--3= t('workarea.admin.activities.show.no_activity')
+
+    - if @activity.entries.total_pages > 1
+      = render 'workarea/admin/shared/pagination', collection: @activity.entries

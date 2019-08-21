@@ -1,0 +1,700 @@
+/**
+ * @namespace WORKAREA
+ */
+
+(function () {
+    'use strict';
+
+    /**
+     * @namespace WORKAREA.config
+     * @property {object} datetimepickerFields
+     * @property {object} datePickerFields
+     * @property {object} wysiwygs
+     * @property {object} remoteSelects
+     * @property {object} productImagesSortable
+     * @property {object} recommendationsSortables
+     * @property {object} searchResultsSortables
+     * @property {object} dashboardCharts
+     * @property {object} messages
+     * @property {object} tooltipster
+     * @property {object} helpLookupButtons
+     * @property {object} contentBlocks
+     * @property {object} forms
+     * @property {object} directUploads
+     * @property {object} expandable
+     */
+
+    WORKAREA.config.datetimepickerFields = {
+        fieldSuffixes: {
+            picker: '_picker',
+            date: '_date',
+            hours: '_hours',
+            minutes: '_minutes',
+            ampm: '_ampm'
+        },
+        timezone: new Date().getTimezoneOffset() * -1
+    };
+
+    // TODO v4 remove
+    WORKAREA.config.datetimepicker = WORKAREA.config.datetimepickerFields;
+
+    WORKAREA.config.datepickerFields = {
+        uiOptions: {
+            dateFormat: 'yy-mm-dd',
+            prevText: '←',
+            nextText: '→'
+        }
+    };
+
+    WORKAREA.config.wysiwygs = {
+        uiOptions: {
+            toolbar: 'wysiwyg_toolbar',
+            style: false,
+            autoLink: false,
+            composerClassName: 'wysihtml-editor',
+            bodyClassName: 'wysihtml',
+            useLineBreaks: false,
+            stylesheets: [],
+            cleanUp: false
+        },
+
+        parserRules: {
+            'attributes': {
+              'style': 'any',
+              'href':  'href',
+              'alt': 'alt'
+            },
+            'classes': {
+                'wysiwyg-clear-both': 1,
+                'wysiwyg-clear-left': 1,
+                'wysiwyg-clear-right': 1,
+                'wysiwyg-color-aqua': 1,
+                'wysiwyg-color-black': 1,
+                'wysiwyg-color-blue': 1,
+                'wysiwyg-color-fuchsia': 1,
+                'wysiwyg-color-gray': 1,
+                'wysiwyg-color-green': 1,
+                'wysiwyg-color-lime': 1,
+                'wysiwyg-color-maroon': 1,
+                'wysiwyg-color-navy': 1,
+                'wysiwyg-color-olive': 1,
+                'wysiwyg-color-purple': 1,
+                'wysiwyg-color-red': 1,
+                'wysiwyg-color-silver': 1,
+                'wysiwyg-color-teal': 1,
+                'wysiwyg-color-white': 1,
+                'wysiwyg-color-yellow': 1,
+                'wysiwyg-float-left': 1,
+                'wysiwyg-float-right': 1,
+                'wysiwyg-font-size-large': 1,
+                'wysiwyg-font-size-larger': 1,
+                'wysiwyg-font-size-medium': 1,
+                'wysiwyg-font-size-small': 1,
+                'wysiwyg-font-size-smaller': 1,
+                'wysiwyg-font-size-x-large': 1,
+                'wysiwyg-font-size-x-small': 1,
+                'wysiwyg-font-size-xx-large': 1,
+                'wysiwyg-font-size-xx-small': 1,
+                'wysiwyg-text-align-center': 1,
+                'wysiwyg-text-align-justify': 1,
+                'wysiwyg-text-align-left': 1,
+                'wysiwyg-text-align-right': 1
+            },
+            'tags': {
+                'tr': {
+                    'add_class': {
+                        'align': 'align_text'
+                    }
+                },
+                'strike': {
+                    'remove': 1
+                },
+                'form': {
+                    'rename_tag': 'div'
+                },
+                'rt': {
+                    'rename_tag': 'span'
+                },
+                'code': {},
+                'acronym': {
+                    'rename_tag': 'span'
+                },
+                'br': {
+                    'add_class': {
+                        'clear': 'clear_br'
+                    }
+                },
+                'details': {
+                    'rename_tag': 'div'
+                },
+                'h4': {
+                    'add_class': {
+                        'align': 'align_text'
+                    }
+                },
+                'em': {},
+                'title': {
+                    'remove': 1
+                },
+                'multicol': {
+                    'rename_tag': 'div'
+                },
+                'figure': {
+                    'rename_tag': 'div'
+                },
+                'xmp': {
+                    'rename_tag': 'span'
+                },
+                'small': {
+                    'rename_tag': 'span',
+                    'set_class': 'wysiwyg-font-size-smaller'
+                },
+                'area': {
+                    'remove': 1
+                },
+                'time': {
+                    'rename_tag': 'span'
+                },
+                'dir': {
+                    'rename_tag': 'ul'
+                },
+                'bdi': {
+                    'rename_tag': 'span'
+                },
+                'command': {
+                    'remove': 1
+                },
+                'ul': {},
+                'progress': {
+                    'rename_tag': 'span'
+                },
+                'dfn': {
+                    'rename_tag': 'span'
+                },
+                'iframe': {
+                    'remove': 1
+                },
+                'figcaption': {
+                    'rename_tag': 'div'
+                },
+                'a': {
+                    'check_attributes': {
+                        'href': 'href',
+                        'target': 'any'
+                    }
+                },
+                'img': {
+                    'check_attributes': {
+                        'width': 'numbers',
+                        'alt': 'alt',
+                        'src': 'src',
+                        'height': 'numbers'
+                    },
+                    'add_class': {
+                        'align': 'align_img'
+                    }
+                },
+                'rb': {
+                    'rename_tag': 'span'
+                },
+                'footer': {
+                    'rename_tag': 'div'
+                },
+                'noframes': {
+                    'remove': 1
+                },
+                'abbr': {
+                    'rename_tag': 'span'
+                },
+                'u': {},
+                'bgsound': {
+                    'remove': 1
+                },
+                'sup': {
+                    'rename_tag': 'span'
+                },
+                'address': {
+                    'rename_tag': 'div'
+                },
+                'basefont': {
+                    'remove': 1
+                },
+                'nav': {
+                    'rename_tag': 'div'
+                },
+                'h1': {
+                    'add_class': {
+                        'align': 'align_text'
+                    }
+                },
+                'head': {
+                    'remove': 1
+                },
+                'tbody': {
+                    'add_class': {
+                        'align': 'align_text'
+                    }
+                },
+                'dd': {
+                    'rename_tag': 'div'
+                },
+                's': {
+                    'rename_tag': 'span'
+                },
+                'li': {},
+                'td': {
+                    'check_attributes': {
+                        'rowspan': 'numbers',
+                        'colspan': 'numbers'
+                    },
+                    'add_class': {
+                        'align': 'align_text'
+                    }
+                },
+                'object': {
+                    'remove': 1
+                },
+                'div': {
+                    'add_class': {
+                        'align': 'align_text'
+                    }
+                },
+                'option': {
+                    'rename_tag': 'span'
+                },
+                'select': {
+                    'rename_tag': 'span'
+                },
+                'i': {},
+                'track': {
+                    'remove': 1
+                },
+                'wbr': {
+                    'remove': 1
+                },
+                'fieldset': {
+                    'rename_tag': 'div'
+                },
+                'big': {
+                    'rename_tag': 'span',
+                    'set_class': 'wysiwyg-font-size-larger'
+                },
+                'button': {
+                    'rename_tag': 'span'
+                },
+                'noscript': {
+                    'remove': 1
+                },
+                'svg': {
+                    'remove': 1
+                },
+                'input': {
+                    'remove': 1
+                },
+                'table': {},
+                'keygen': {
+                    'remove': 1
+                },
+                'h5': {
+                    'add_class': {
+                        'align': 'align_text'
+                    }
+                },
+                'meta': {
+                    'remove': 1
+                },
+                'map': {
+                    'rename_tag': 'div'
+                },
+                'isindex': {
+                    'remove': 1
+                },
+                'mark': {
+                    'rename_tag': 'span'
+                },
+                'caption': {
+                    'add_class': {
+                        'align': 'align_text'
+                    }
+                },
+                'tfoot': {
+                    'add_class': {
+                        'align': 'align_text'
+                    }
+                },
+                'base': {
+                    'remove': 1
+                },
+                'video': {
+                    'remove': 1
+                },
+                'strong': {},
+                'canvas': {
+                    'remove': 1
+                },
+                'output': {
+                    'rename_tag': 'span'
+                },
+                'marquee': {
+                    'rename_tag': 'span'
+                },
+                'b': {},
+                'q': {
+                    'check_attributes': {
+                        'cite': 'url'
+                    }
+                },
+                'applet': {
+                    'remove': 1
+                },
+                'span': {},
+                'rp': {
+                    'rename_tag': 'span'
+                },
+                'spacer': {
+                    'remove': 1
+                },
+                'source': {
+                    'remove': 1
+                },
+                'aside': {
+                    'rename_tag': 'div'
+                },
+                'frame': {
+                    'remove': 1
+                },
+                'section': {
+                    'rename_tag': 'div'
+                },
+                'body': {
+                    'rename_tag': 'div'
+                },
+                'ol': {},
+                'nobr': {
+                    'rename_tag': 'span'
+                },
+                'html': {
+                    'rename_tag': 'div'
+                },
+                'summary': {
+                    'rename_tag': 'span'
+                },
+                'var': {
+                    'rename_tag': 'span'
+                },
+                'del': {
+                    'remove': 1
+                },
+                'blockquote': {
+                    'check_attributes': {
+                        'cite': 'url'
+                    }
+                },
+                'style': {
+                    'remove': 1
+                },
+                'device': {
+                    'remove': 1
+                },
+                'meter': {
+                    'rename_tag': 'span'
+                },
+                'h3': {
+                    'add_class': {
+                        'align': 'align_text'
+                    }
+                },
+                'textarea': {
+                    'rename_tag': 'span'
+                },
+                'embed': {
+                    'remove': 1
+                },
+                'hgroup': {
+                    'rename_tag': 'div'
+                },
+                'font': {
+                    'rename_tag': 'span',
+                    'add_class': {
+                        'size': 'size_font'
+                    }
+                },
+                'tt': {
+                    'rename_tag': 'span'
+                },
+                'noembed': {
+                    'remove': 1
+                },
+                'thead': {
+                    'add_class': {
+                        'align': 'align_text'
+                    }
+                },
+                'blink': {
+                    'rename_tag': 'span'
+                },
+                'plaintext': {
+                    'rename_tag': 'span'
+                },
+                'xml': {
+                    'remove': 1
+                },
+                'h6': {
+                    'add_class': {
+                        'align': 'align_text'
+                    }
+                },
+                'param': {
+                    'remove': 1
+                },
+                'th': {
+                    'check_attributes': {
+                        'rowspan': 'numbers',
+                        'colspan': 'numbers'
+                    },
+                    'add_class': {
+                        'align': 'align_text'
+                    }
+                },
+                'legend': {
+                    'rename_tag': 'span'
+                },
+                'hr': {},
+                'label': {
+                    'rename_tag': 'span'
+                },
+                'dl': {
+                    'rename_tag': 'div'
+                },
+                'kbd': {
+                    'rename_tag': 'span'
+                },
+                'listing': {
+                    'rename_tag': 'div'
+                },
+                'dt': {
+                    'rename_tag': 'span'
+                },
+                'nextid': {
+                    'remove': 1
+                },
+                'pre': {},
+                'center': {
+                    'rename_tag': 'div',
+                    'set_class': 'wysiwyg-text-align-center'
+                },
+                'audio': {
+                    'remove': 1
+                },
+                'datalist': {
+                    'rename_tag': 'span'
+                },
+                'samp': {
+                    'rename_tag': 'span'
+                },
+                'col': {
+                    'remove': 1
+                },
+                'article': {
+                    'rename_tag': 'div'
+                },
+                'cite': {},
+                'link': {
+                    'remove': 1
+                },
+                'script': {
+                    'remove': 1
+                },
+                'bdo': {
+                    'rename_tag': 'span'
+                },
+                'menu': {
+                    'rename_tag': 'ul'
+                },
+                'colgroup': {
+                    'remove': 1
+                },
+                'ruby': {
+                    'rename_tag': 'span'
+                },
+                'h2': {
+                    'add_class': {
+                        'align': 'align_text'
+                    }
+                },
+                'ins': {
+                    'rename_tag': 'span'
+                },
+                'p': {
+                    'add_class': {
+                        'align': 'align_text'
+                    }
+                },
+                'sub': {
+                    'rename_tag': 'span'
+                },
+                'comment': {
+                    'remove': 1
+                },
+                'frameset': {
+                    'remove': 1
+                },
+                'optgroup': {
+                    'rename_tag': 'span'
+                },
+                'header': {
+                    'rename_tag': 'div'
+                }
+            }
+        }
+    };
+
+    WORKAREA.config.remoteSelects = {
+        ajax: {
+            dataType: 'json',
+            delay: 250,
+            processResults: function (data) {
+                return {
+                    results: _.map(data.results, function (item) {
+                        return {
+                            id: item.value,
+                            text: item.label,
+                            sparkline_data: item.sparkline_data || [],
+                            top: item.top,
+                            trending: item.trending,
+                            title: item.title
+                        };
+                    })
+                };
+            },
+            cache: true,
+            escapeMarkup: function (markup) {
+                return markup;
+            },
+        },
+
+        width: false
+    };
+
+    WORKAREA.config.productImagesSortable = {
+        opacity: '0.8',
+        cursor: 'move',
+    };
+
+    WORKAREA.config.recommendationsSortables = {
+        opacity: '0.8',
+        cursor: 'move',
+        handle: '[data-recommendations-sortable-handle]'
+    };
+
+    WORKAREA.config.dashboardCharts = {
+        colors: [
+            '103, 63, 180', // #673FB4 Purple
+            '0, 166, 239',  // #00A6EF Blue
+            '46, 204, 113', // #2ECC71 Green
+            '249, 25, 160', // #F919A0 Magenta
+            '243, 165, 54'  // #F3A536 Orange
+        ],
+        types: {
+            Line: {
+                datasetFill: false,
+                pointDotRadius: 2,
+                datasetStrokeWidth: 2,
+                scaleShowVerticalLines: false
+            },
+            Doughnut: {
+                tooltipEvents: [],
+                tooltipTemplate: '\<\%\=value\%\>',
+                tooltipFillColor: 'rgba(0, 0, 0, 0)',
+                tooltipFontFamily: '"Source Sans Pro Semibold", sans-serif',
+                tooltipYPadding: -10,
+                tooltipXPadding: 0,
+                tooltipCaretSize: 0,
+                tooltipCornerRadius: 0,
+                tooltipFontSize: 30,
+                onAnimationComplete: function () {
+                    this.showTooltip(this.segments, true);
+                },
+            },
+            Bar: {
+                scaleShowVerticalLines: false
+            },
+            HorizontalBar: {
+                scaleShowVerticalLines: false
+            }
+        }
+    };
+
+    WORKAREA.config.messages = {
+        delay: 4000
+    };
+
+    WORKAREA.config.tooltipster = {
+        theme: 'tooltipster-workarea-admin',
+        updateAnimation: 'fade',
+        delay: 200,
+        animationDuration: 200, // matches `$global-transition-speed`
+        maxWidth: 480
+    };
+
+    WORKAREA.config.contentEditorForms = {
+        previewDebounceValue: 500
+    };
+
+    WORKAREA.config.helpLookupButtons = {
+        keywordElements: ['title', 'h1', 'h2', 'h3']
+    };
+
+    WORKAREA.config.contentBlocks = {
+        loadingTimeout: 10000
+    };
+
+    WORKAREA.config.storefrontBreakPoints = {
+        <% Workarea.config.storefront_break_points.each do |name, size| %>
+            '<%= name %>':  <%= size %>,
+        <% end %>
+    };
+
+    WORKAREA.config.forms = {
+        errorLabelClasses: 'property__note property__note--error'
+    };
+
+    WORKAREA.config.bulkActionDeletion = {
+        threshold: <%= Workarea.config.bulk_action_deletion_confirmation_threshold %>
+    };
+
+    WORKAREA.config.directUploads = {
+        suppressWarning: false,
+        countThreshold: 500,
+        sizeThreshold: 500 // in MB
+    };
+
+    WORKAREA.config.expandable = {
+        threshold: 350
+    };
+
+
+    /**
+     * Chart.js
+     */
+
+    _.assign(Chart.defaults.global, {
+        scaleFontFamily: '"Source Sans Pro Light", sans-serif',
+        tooltipFontFamily: '"Source Sans Pro Semibold", sans-serif',
+        tooltipTitleFontFamily: '"Source Sans Pro Bold", sans-serif',
+        tooltipFontStyle: 'normal',
+        tooltipTitleFontStyle: 'normal',
+        tooltipYPadding: 8,
+        tooltipXPadding: 8,
+        tooltipCornerRadius: 5,
+        tooltipXOffset: 8,
+        responsive: true
+    });
+
+
+    /**
+     * Select2
+     */
+
+    $.fn.select2.defaults.set('theme', 'workarea');
+})();

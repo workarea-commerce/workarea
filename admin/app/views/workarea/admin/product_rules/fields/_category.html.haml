@@ -1,0 +1,5 @@
+= hidden_field_tag 'product_rule[name]', 'category'
+Name
+= select_tag 'product_rule[operator]', options_for_select([['equal', 'equal'], ['not equal', 'not_equal']], rule.operator)
+- categories = Workarea::Catalog::Category.any_in(id: rule.terms)
+= select_tag 'product_rule[value]', options_from_collection_for_select(categories, 'id', 'name', rule.terms), multiple: true, data: { remote_select: { source: catalog_categories_path, options: { placeholder: 'Choose a category...' } }.to_json }

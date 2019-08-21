@@ -1,0 +1,42 @@
+/*------------------------------------*\
+    #DATE-MARKER
+\*------------------------------------*/
+
+$date-marker-min-width:        50px !default;
+$date-marker-background-color: $light-gray !default;
+$date-marker-month-font-size:  12px !default;
+$date-marker-day-font-size:    20px !default;
+
+.date-marker {
+    position: relative;
+    margin-top: $spacing-unit;
+    margin-right: $horizontal-margin;
+    padding: $spacing-unit;
+    min-width: $date-marker-min-width;
+    float: right;
+    font-weight: bold;
+    line-height: 1.2;
+    text-align: center;
+    background-color: $date-marker-background-color;
+}
+
+.date-marker--no-date {
+    padding: 0;
+}
+
+    .date-marker__annotation {
+        @include center($to: vertical);
+        right: $date-marker-min-width + $horizontal-margin;
+        text-align: right;
+        white-space: nowrap;
+    }
+
+    .date-marker__month {
+        font-size: $date-marker-month-font-size;
+    }
+
+    .date-marker__day {
+        margin-bottom: 0;
+        font-size: $date-marker-day-font-size;
+    }
+

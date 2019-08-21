@@ -1,0 +1,5 @@
+<form action="<%= url %>" method="post">
+    <input type="hidden" name="<%= csrfParam %>" value="<%= csrfToken %>" />
+    <input type="hidden" name="bookmark[name]" value="<%= name %>" />
+    <input type="hidden" name="bookmark[path]" value="<%= path %>" />
+</form>

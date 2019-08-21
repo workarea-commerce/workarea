@@ -1,0 +1,32 @@
+/*------------------------------------*\
+    #PAGE
+\*------------------------------------*/
+
+/**
+ *
+ * 1. ensure the page is always at least the height of the viewport
+ * 2. ensure OSX fonts will look more consistent with other OSes that do not
+ *    utilize sub-pixel anti-aliasing.
+ * 3. changing this value will potentially break inline-block based layout
+ * 4. ensure browsers will not automatically zoom fonts.
+ * 5. use a better font for devices that have a pixel density high enough for it
+ *    to matter
+ */
+
+html {
+    min-height: 100%; /* [1] */
+    color: $font-color;
+    font-size: $font-size;
+    font-family: $font-family;
+    font-weight: $font-weight;
+    -moz-osx-font-smoothing: grayscale; /* [2] */
+    -webkit-font-smoothing:  antialiased; /* [2] */
+    line-height: $line-height;
+    letter-spacing: normal; /* [3] */
+    text-size-adjust: 100%; /* [4] */
+    background-color: $background-color;
+
+    @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) { /* [5] */
+        font-family: $retina-font-family;
+    }
+}

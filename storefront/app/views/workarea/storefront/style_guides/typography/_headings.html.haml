@@ -1,0 +1,25 @@
+#headings.style-guide__subsection
+
+  %h3= link_to_style_guide('typography', 'headings')
+
+  %p Sets up the element to be styled the same as an <code>h1-6</code>, using the <code>heading</code> class in combination with a <code>heading--X</code> modifier, where <code>X</code> is the
+
+  %p Can be used on any inline or block-level element to visually present the element as a heading. Frequently applied when, semantically speaking, using a given <code>h1-6</code> tag wouldn't be appropriate.
+
+  %p In the following examples we have a variety of text-wrapping elements:
+
+  %p should style a variety of elements properly.
+  .style-guide__example-block
+    %h1 Heading 1
+    %span.heading.heading--1 Heading 1
+    %h2 Heading 2
+    %p.heading.heading--2 Heading 2
+    %h3 Heading 3
+    %strong.heading.heading--3 Heading 3
+    %h4 Heading 4
+    %h6.heading.heading--4 Heading 4
+    %h5 Heading 5
+    %h3.heading.heading--5 Heading 5
+    %h6 Heading 6
+    %h1.heading.heading--6 Heading 6
+

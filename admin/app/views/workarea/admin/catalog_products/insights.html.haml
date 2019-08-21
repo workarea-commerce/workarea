@@ -1,0 +1,89 @@
+- @page_title = t('workarea.admin.catalog_products.insights.page_title', product: @product.name)
+
+.view
+  .view__header
+    .grid.grid--middle.grid--right
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@product)
+          %h1= link_to @product.name, url_for(@product)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@product)
+  .view__container
+    = render_cards_for(@product, :insights)
+
+    .section
+      .browsing-controls.browsing-controls--center.browsing-controls--filters-displayed
+        = form_tag request.path, method: 'get', class: 'browsing-controls__form' do
+          = render 'workarea/admin/shared/date_selector', starts_at: @product.insights.starts_at, ends_at: @product.insights.ends_at
+
+      .grid.grid--auto.grid--center
+        .grid__cell
+          .card
+            .card__body.align-center
+              %h6.heading.heading--no-margin= t('workarea.admin.catalog_products.insights.views')
+              %span.heading.heading--1.heading--no-margin= number_with_delimiter @product.insights.views
+              %p
+                - if @product.insights.views_percent_change.present?
+                  = insights_trend_icon(@product.insights.views_percent_change)
+                  = t('workarea.admin.catalog_products.insights.from_previous', percentage: insights_number_to_percentage(@product.insights.views_percent_change))
+              = area_chart @product.insights.views_graph_data, Workarea.config.default_chartkick_options
+
+        .grid__cell
+          .card
+            .card__body.align-center
+              %h6.heading.heading--no-margin= t('workarea.admin.catalog_products.insights.orders')
+              %span.heading.heading--1.heading--no-margin= number_with_delimiter @product.insights.orders
+              %p
+                - if @product.insights.orders_percent_change.present?
+                  = insights_trend_icon(@product.insights.orders_percent_change)
+                  = t('workarea.admin.catalog_products.insights.from_previous', percentage: insights_number_to_percentage(@product.insights.orders_percent_change))
+              = area_chart @product.insights.orders_graph_data, Workarea.config.default_chartkick_options
+
+        .grid__cell
+          .card
+            .card__body.align-center
+              %h6.heading.heading--no-margin= t('workarea.admin.catalog_products.insights.revenue')
+              %span.heading.heading--1.heading--no-margin= number_to_currency @product.insights.revenue
+              %p
+                - if @product.insights.revenue_percent_change.present?
+                  = insights_trend_icon(@product.insights.revenue_percent_change)
+                  = t('workarea.admin.catalog_products.insights.from_previous', percentage: insights_number_to_percentage(@product.insights.revenue_percent_change))
+              = area_chart @product.insights.revenue_graph_data, Workarea.config.default_chartkick_options.merge(prefix: Money.default_currency.symbol)
+
+        .grid__cell
+          .card
+            .card__body.align-center
+              %h6.heading.heading--no-margin= t('workarea.admin.catalog_products.insights.units_sold')
+              %span.heading.heading--1.heading--no-margin= number_with_delimiter @product.insights.units_sold
+              %p
+                - if @product.insights.units_sold_percent_change.present?
+                  = insights_trend_icon(@product.insights.units_sold_percent_change)
+                  = t('workarea.admin.catalog_products.insights.from_previous', percentage: insights_number_to_percentage(@product.insights.units_sold_percent_change))
+              = area_chart @product.insights.units_sold_graph_data, Workarea.config.default_chartkick_options
+
+  .view__container.view__container--narrow
+    - if @product.insights.skus.any?
+      .section
+        %h2.align-center.heading.heading--no-margin= t('workarea.admin.catalog_products.insights.skus')
+        %p.align-center= t('workarea.admin.catalog_products.insights.date_range', starts_at: @product.insights.starts_at.to_s(:date_only), ends_at: @product.insights.ends_at.to_s(:date_only))
+        %table
+          %thead
+            %tr
+              %th= t('workarea.admin.fields.sku')
+              %th.align-center= t('workarea.admin.fields.orders')
+              %th.align-center= t('workarea.admin.fields.units_sold')
+              %th.align-right= t('workarea.admin.fields.revenue')
+          %tbody
+            - @product.insights.skus.each do |sku|
+              %tr
+                %td= sku._id
+                %td.align-center= number_with_delimiter sku.orders
+                %td.align-center= number_with_delimiter sku.units_sold
+                %td.align-right= number_to_currency sku.revenue
+
+    - if @product.insights.feed.any?
+      .section
+        %h2.align-center= t('workarea.admin.catalog_products.insights.insights_featuring_this_product')
+        - @product.insights.feed.each do |insight|
+          = render "workarea/admin/insights/#{insight.slug}", insight: insight

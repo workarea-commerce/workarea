@@ -1,0 +1,22 @@
+.activity
+  .activity__header
+    .activity__avatar
+      = link_to_modifier(entry) do
+        = avatar_for entry.modifier
+    %h3.activity__name= link_to_modifier(entry)
+    %p.activity__time= activity_time(entry.created_at)
+  .activity__message
+    - if entry.root.present?
+      - product_name = link_to entry.root.name, catalog_product_path(entry.root)
+    - else
+      - product_name = t('workarea.admin.activities.a_product')
+
+    - if entry.audited.blank?
+      - name = t('workarea.admin.activities.a_variant')
+    - elsif entry.root.blank?
+      - name = entry.audited.name
+    - else
+      - name = link_to entry.audited.name, edit_catalog_product_variant_path(entry.root, entry.audited)
+
+    = t('workarea.admin.activities.catalog_product_variant_update_html', name: name, fields: fields_clause_for(entry.tracked_changes), product_name: product_name)
+    = render 'workarea/admin/activities/release_info', entry: entry

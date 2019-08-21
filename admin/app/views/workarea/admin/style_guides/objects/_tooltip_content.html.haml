@@ -1,0 +1,31 @@
+#tooltip-content-object.style-guide__subsection
+
+  %h3= link_to_style_guide('objects', 'tooltip_content')
+
+  %p Hides an element unless it's found within a tooltip.
+
+  %p should be invisible when not in a tooltip:
+  .style-guide__example-block
+    %p
+      %span.tooltip-content should be hidden
+
+  %p should be visible when inside a tooltip:
+  .style-guide__example-block
+    %span.tooltipster-content
+      %span.tooltip-content should be visible
+
+  %p should add padding around text:
+  .style-guide__example-block
+    %span.tooltipster-content
+      %span.tooltip-content should be padded
+
+#tooltip-content--no-padding-object.style-guide__subsection
+
+  %h3= link_to_style_guide('objects', 'tooltip_content__no_padding')
+
+  %p Adds a healthy amount of padding to the content.
+
+  %p should add padding around text:
+  .style-guide__example-block
+    %span.tooltipster-content
+      %span.tooltip-content.tooltip-content--no-padding should not be padded

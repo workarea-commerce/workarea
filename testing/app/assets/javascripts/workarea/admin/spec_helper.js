@@ -1,0 +1,1 @@
+//= require workarea/admin/application

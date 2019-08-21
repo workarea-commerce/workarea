@@ -1,0 +1,119 @@
+/**
+ * Global Font
+ */
+@import url('https://fonts.googleapis.com/css?family=Open+Sans|Fira+Mono&display=swap');
+
+html {
+  font-size: 16px; // defines rem
+  font-weight: 200;
+  line-height: 1.5;
+  font-family: 'Helvetica', 'Open Sans', 'Arial', sans-serif;
+  color: $font-color;
+}
+
+
+
+/**
+ * Code Examples
+ */
+code {
+  font-family: 'Fira Mono', monospace;
+  display: inline-block;
+  padding: 0 0.55em;
+  background: $almost-white;
+}
+
+
+
+/**
+ * Links
+ */
+a {
+  color: $link-color;
+}
+
+
+/**
+ * Headings
+ */
+.heading,
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 800;
+  line-height: 1.15;
+}
+
+.heading { display: block; }
+
+.heading--no-bottom-margin { margin-bottom: 0 }
+
+h1, .heading--1 { font-size: 2rem; }
+h2, .heading--2 { font-size: 1.75rem; }
+h3, .heading--3 { font-size: 1.5rem; }
+h4, .heading--4 { font-size: 1.25rem; }
+h5, .heading--5 { font-size: 1.1rem; }
+h6, .heading--6 { font-size: 1rem; }
+
+
+.alt-heading {
+  text-align: center;
+  margin: ($spacing-unit * 4) 0 ($spacing-unit * 2);
+
+  @include av-mq(lap-and-up) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 32%;
+    text-align: right;
+  }
+}
+
+  .alt-heading__heading {
+    display: inline-block;
+    padding-right: $spacing-unit * 2;
+  }
+
+  .alt-heading__hr {
+    display: none;
+
+    @include av-mq(lap-and-up) {
+      display: block;
+      flex-grow: 1;
+    }
+  }
+
+
+
+/**
+ * Horizontal Rule
+ */
+hr {
+  height: 1px;
+  border: 0;
+  background: $gray;
+}
+
+
+
+/**
+ * Article Specifics
+ */
+.article {
+  padding: $spacing-unit * 2;
+
+  ul { padding-left: $spacing-unit * 2; }
+  li { margin-bottom: $spacing-unit; }
+
+  > h1 { margin-top: 0.35em; }
+
+  h2 { font-size: 1.5rem; }
+  h3 { font-size: 1.25rem; }
+  h4, h5, h6 { font-size: 1rem; }
+}
+
+
+
+/**
+ * Text
+ */
+ .text { font-size: 1rem; }
+ .text--small { font-size: 0.889rem }

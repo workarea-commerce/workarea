@@ -1,0 +1,97 @@
+#visible.style-guide__subsection
+
+  %h3= link_to_style_guide('trumps', 'visible')
+
+  %p Responsible the revealing and conditional hiding of a block-level element. This trump is the logical inverse of #{link_to_style_guide('trumps', 'hidden', true)}.
+
+  %p When accessibility is a concern, use #{link_to_style_guide('trumps', 'visually_hidden', true)} instead.
+
+  %p without <code>visible</code>:
+  .style-guide__example-block
+    %p I'm some text
+    %p I'm some text that's about to be visible
+
+  %p with <code>visible</code>:
+  .style-guide__example-block
+    %p I'm some text
+    %p.visible I'm some text that is visible
+
+#visible--for-medium.style-guide__subsection
+
+  %h3= link_to_style_guide('trumps', 'visible__for_medium')
+
+  %p Reveals an element at the medium breakpoint and greater.
+
+  %p without <code>visible--for-medium</code>:
+  .style-guide__example-block
+    %p I'm some text
+    %p I'm some text that's about to be visible for medium and above
+
+  %p with <code>visible--for-medium</code>:
+  .style-guide__example-block
+    %p I'm some text
+    %p.visible.visible--for-medium I'm some text that should be visible for medium and above
+
+#visible--for-medium-only.style-guide__subsection
+
+  %h3= link_to_style_guide('trumps', 'visible__for_medium_only')
+
+  %p Reveals an element for medium devices only
+
+  %p without <code>visible--for-medium-only</code>:
+  .style-guide__example-block
+    %p I'm some text
+    %p I'm some text that's about to be visible for medium devices only
+
+  %p with <code>visible--for-medium-only</code>:
+  .style-guide__example-block
+    %p I'm some text
+    %p.visible.visible--for-medium-only I'm some text that should be visible for medium devices only
+
+#visible--for-small-only.style-guide__subsection
+
+  %h3= link_to_style_guide('trumps', 'visible__for_small_only')
+
+  %p Reveals an element for small devices only
+
+  %p without <code>visible--for-small-only</code>:
+  .style-guide__example-block
+    %p I'm some text
+    %p I'm some text that's about to be visible for small devices only
+
+  %p with <code>visible--for-small-only</code>:
+  .style-guide__example-block
+    %p I'm some text
+    %p.visible.visible--for-small-only I'm some text that should be visible for small devices only
+
+#visible--for-wide.style-guide__subsection
+
+  %h3= link_to_style_guide('trumps', 'visible__for_wide')
+
+  %p Reveals an element at the wide breakpoint and greater.
+
+  %p without <code>visible--for-wide</code>:
+  .style-guide__example-block
+    %p I'm some text
+    %p I'm some text that's about to be visible for wide and above
+
+  %p with <code>visible--for-wide</code>:
+  .style-guide__example-block
+    %p I'm some text
+    %p.visible.visible--for-wide I'm some text that should be visible for wide and above
+
+#visible--for-wide-only.style-guide__subsection
+
+  %h3= link_to_style_guide('trumps', 'visible__for_wide_only')
+
+  %p Reveals an element for wide devices only
+
+  %p without <code>visible--for-wide-only</code>:
+  .style-guide__example-block
+    %p I'm some text
+    %p I'm some text that's about to be visible for wide devices only
+
+  %p with <code>visible--for-wide-only</code>:
+  .style-guide__example-block
+    %p I'm some text
+    %p.visible.visible--for-wide-only I'm some text that should be visible for wide devices only

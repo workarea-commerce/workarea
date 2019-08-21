@@ -1,0 +1,45 @@
+#view.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'view')
+
+  %p Provides basic styling for every view.
+
+  %p should provide visual styling for various view heading elements:
+  .style-guide__example-block
+    .view
+      .view__header
+        .grid.grid--middle
+          .grid__cell.grid__cell--25
+            = link_to '#', class: 'view__back-button' do
+              = inline_svg('workarea/admin/icons/navigate_before.svg', class: 'view__back-button-icon')
+              %span Back
+          .grid__cell.grid__cell--50
+            .view__heading
+              = link_to "← Super Back", '#'
+              %h1 View Heading
+
+  %p should constrain the width and center content within it's container:
+  .style-guide__example-block
+    .view
+      .view__container
+        %p Claymore mine monofilament tiger-team skyscraper systemic gang paranoid soul-delay courier-ware sprawl girl-space. Nano-towards 3D-printed euro-pop into rifle BASE jump. Plastic military-grade face forwards long-chain hydrocarbons-ware film bomb man carbon silent office. Tower tattoo network tanto stimulate assault camera-space grenade faded concrete rain boy hacker. Wristwatch tiger-team construct j-pop office drone rain digital into jeans render-farm shoes fluidity sensory rifle numinous vehicle.
+
+
+#view--mixed-results.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'view__mixed_results')
+
+  %p Modifies the view to announce the page containes mixed search results.
+
+  %p should show the <code>summary__type</code> element within summary cards:
+  .style-guide__example-block
+    .view--mixed-results
+      = link_to '#', class: 'summary' do
+        .summary__image-container
+          = image_tag 'workarea/core/placeholder.png', size: '200x200', alt: 'Placeholder Image', class: 'summary__image'
+        %span.summary__name Name of Summary
+        .summary__info-container
+          %span.summary__info 13 hours ago
+          %span.summary__info 1234ABCD, 8 SKUS
+        %span.summary__type{ title: 'Summary Type' } Summary Type
+

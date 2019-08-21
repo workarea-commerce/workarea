@@ -1,0 +1,22 @@
+.insight
+  .insight__date
+    %span.insight__period= insight.reporting_on.strftime('%B %Y')
+  .insight__heading= t('workarea.admin.insights.sales_by_navigation.title')
+  .insight__body
+    %p.insight__note= t('workarea.admin.insights.sales_by_navigation.info')
+    %table
+      %thead
+        %tr
+          %th.align-center= t('workarea.admin.insights.sales_by_navigation.menu')
+          %th.align-center= t('workarea.admin.insights.sales_by_navigation.of_revenue')
+          %th.align-center= t('workarea.admin.insights.sales_by_navigation.revenue')
+      %tbody
+        - insight.results.each do |result|
+          %tr
+            %td.align-center
+              - if result.menu.blank?
+                \-
+              - else
+                = link_to result.menu.name, navigation_menus_path
+            %td.align-center= insights_number_to_percentage result.percent_of_total
+            %td.align-center= number_to_currency result.revenue

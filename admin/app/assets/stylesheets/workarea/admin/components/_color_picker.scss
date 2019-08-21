@@ -1,0 +1,21 @@
+/*------------------------------------*\
+    #COLOR-INPUT
+\*------------------------------------*/
+
+$color-input-size: $spacing-unit * 4 !default;
+
+
+.color-picker {}
+
+    .color-picker__input {
+        padding: 0;
+        width: $color-input-size;
+        height: $color-input-size;
+        border: 0;
+        border-radius: $global-border-radius;
+        appearance: none;
+
+        &::-webkit-color-swatch-wrapper {
+            padding: 0;
+        }
+    }

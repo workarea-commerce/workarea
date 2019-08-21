@@ -1,0 +1,47 @@
+/*------------------------------------*\
+    #RESET
+\*------------------------------------*/
+
+/**
+ * Remove browser default margins from various elements
+ */
+h1, h2, h3, h4, h5, h6,
+p, blockquote, pre,
+dl, dd, ol, ul,
+form, fieldset, legend,
+figure, caption,
+table, th, td,
+hr {
+    margin: 0;
+}
+
+
+/**
+ * Remove special-browser treatment certain form controls
+ * See: http://stackoverflow.com/questions/7599533/ios-forces-rounded-corners-and-glare-on-inputs
+ */
+button,
+html [type='button'],
+[type='reset'], [type='submit'],
+textarea, input:not([type=radio]):not([type=checkbox]) {
+    -webkit-appearance: none;
+}
+
+
+/**
+ * Remove clear buttons on inputs in IE.
+ * See: http://msdn.microsoft.com/en-us/library/windows/apps/hh465740.aspx
+ */
+input::-ms-clear {
+    display: none;
+}
+
+
+/**
+ * Remove all styling from fieldsets
+ */
+fieldset {
+    padding: 0;
+    border: 0;
+}
+

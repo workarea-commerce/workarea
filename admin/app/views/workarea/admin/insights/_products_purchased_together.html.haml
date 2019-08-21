@@ -1,0 +1,26 @@
+.insight
+  .insight__date
+    %span.insight__period= t('workarea.admin.insights.week_ending', date: insight.reporting_on.end_of_week.to_date.to_s(:long))
+  .insight__heading= t('workarea.admin.insights.products_purchased_together.title')
+  .insight__body
+    %p.insight__note= t('workarea.admin.insights.products_purchased_together.info')
+    %table
+      %thead
+        %tr
+          %th.align-center= t('workarea.admin.fields.name')
+          %th.align-center= t('workarea.admin.fields.orders')
+          %th.align-center= t('workarea.admin.fields.related_product')
+      %tbody
+        - insight.results.each do |result|
+          %tr
+            %td.align-center
+              - if result.product.blank?
+                = result.product_id
+              - else
+                = link_to result.product.name, catalog_product_path(result.product)
+            %td.align-center= result.orders
+            %td.align-center
+              - if result.related_product.blank?
+                = result.related_product_id
+              - else
+                = link_to result.related_product.name, catalog_product_path(result.related_product)

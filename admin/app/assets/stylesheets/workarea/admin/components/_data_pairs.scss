@@ -1,0 +1,46 @@
+/*------------------------------------*\
+    #DATA-PAIRS
+\*------------------------------------*/
+
+$data-pairs-border-color:  $border-color !default;
+
+
+/**
+ * 1. element class name ommitted to avoid redundancy
+ * 2. various types of content will be found wrapped in paragraph tags within
+ *    tables
+ */
+
+.data-pairs {
+    margin-bottom: $vertical-margin;
+    border-collapse: collapse;
+
+    th,
+    td { /* [1] */
+        padding: $spacing-unit ($spacing-unit * 2);
+        border-bottom: 1px solid $data-pairs-border-color;
+        vertical-align: top;
+    }
+
+    th { /* [1] */
+        @extend %text;
+        @extend %text--small;
+        font-weight: bold;
+        text-transform: uppercase;
+        white-space: nowrap;
+    }
+
+    p { /* [2] */
+        margin: 0;
+    }
+
+    p + p { /* [2] */
+        margin-top: $spacing-unit;
+    }
+}
+
+    .data-pairs__name {
+        &:after {
+            content: ':';
+        }
+    }

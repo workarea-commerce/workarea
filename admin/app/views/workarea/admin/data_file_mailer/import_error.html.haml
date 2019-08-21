@@ -1,0 +1,13 @@
+%tr
+  %td
+    %h1= t('workarea.admin.data_file_mailer.import_error.message', name: @import.file_name)
+
+    %table
+      %tr
+        %td
+          %h2= t('workarea.admin.data_file_mailer.import_error.errors')
+          %p
+            = @import.error_type.presence || t('workarea.admin.data_file_mailer.import_error.unknown')
+            - if @import.error_message.present?
+              %br
+              = @import.error_message

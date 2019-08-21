@@ -1,0 +1,29 @@
+/*------------------------------------*\
+    #PRODUCT-RULES-PREVIEW
+\*------------------------------------*/
+
+.product-rules-preview {
+    padding: $spacing-unit * 2;
+    border-radius: $global-border-radius;
+    opacity: 1;
+    transition: opacity $global-transition-speed ease-out;
+}
+
+.product-rules-preview--flash {
+    opacity: 0;
+}
+
+    .product-rules-preview__body {
+    }
+
+        .product-rules-preview__products {
+            margin:  0 0 $spacing-unit * 2;
+            padding: $spacing-unit * 2 $spacing-unit 0;
+        }
+
+            .product-rules-preview__no-results {
+                margin: 36px 0;
+                font-size: 21px;
+                font-weight: bold;
+                text-align: center;
+            }

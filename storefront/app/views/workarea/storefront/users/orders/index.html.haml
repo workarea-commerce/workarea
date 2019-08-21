@@ -1,0 +1,21 @@
+- @title = t('workarea.storefront.users.order_history')
+
+- content_for :breadcrumbs do
+  %p.breadcrumbs__node-group
+    %span.breadcrumbs__node{ itemprop: 'breadcrumb' }
+      = link_to t('workarea.storefront.layouts.home'), root_path, rel: 'home', class: 'breadcrumbs__link'
+    %span.breadcrumbs__node{ itemprop: 'breadcrumb' }
+      = link_to t('workarea.storefront.users.account'), users_account_path, class: 'breadcrumbs__link'
+    %span.breadcrumbs__node{ itemprop: 'breadcrumb' }
+      %span.breadcrumbs__text= t('workarea.storefront.users.order_history')
+
+.view
+
+  %h1= t('workarea.storefront.users.order_history')
+
+  - if @orders.empty?
+    %p= t('workarea.storefront.users.no_orders')
+
+  - else
+    - @orders.each do |order|
+      = render 'workarea/storefront/users/orders/summary', order: order

@@ -1,0 +1,4 @@
+= hidden_field_tag 'product_rule[name]', 'created_at', id: nil
+With creation date
+= select_tag 'product_rule[operator]', options_for_select(product_rule_operators, rule.operator)
+= text_field_tag 'product_rule[value]', rule.value, data: { datepicker_field: '' }, class: 'text-box text-box--i18n text-box--medium'

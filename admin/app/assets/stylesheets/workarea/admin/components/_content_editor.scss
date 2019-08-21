@@ -1,0 +1,161 @@
+/*------------------------------------*\
+    #CONTENT-EDITOR
+\*------------------------------------*/
+
+$content-editor-area-width:  70% !default;
+$content-editor-aside-width: 30% !default;
+
+$content-editor-border-color: $light-gray !default;
+
+$content-editor-controls-color:      $off-black !default;
+$content-editor-controls-width:      calc(70% - 16px) !default;
+$content-editor-controls-icon-color: $off-black !default;
+
+$content-editor-form-action-bg-color: $white !default;
+
+$content-editor-stuck-left-offset:   6px !default;
+$content-editor-stuck-right-offset:  10px !default;
+
+@mixin content-editor-sticky-aside {
+    position: absolute;
+    top: 0;
+    left: $content-editor-area-width;
+    bottom: 0;
+    padding: ($spacing-unit * 2) 0;
+    width: $content-editor-aside-width;
+
+    .content-editor--stuck & {
+        position: fixed;
+        top: $global-header-height;
+        left: calc(#{$content-editor-area-width} - #{$content-editor-stuck-left-offset});
+        padding-right: #{$content-editor-stuck-right-offset};
+        overflow-y: auto;
+    }
+}
+
+
+/**
+ * 1. provides positioning context for elements using the
+ *    `content-editor-sticky-aside` mixin.
+ * 2. prevents wild jank when scrolling within an editor that contains only one
+ *    content block on a smaller screen.
+ */
+.content-editor {
+    position: relative; /* [1] */
+    margin-bottom: $global-workflow-bar-height + ($spacing-unit * 2);
+    padding: $spacing-unit;
+    min-height: 100vh; /* [2] */
+    border-radius: $global-border-radius;
+}
+
+.content-editor--sticky {}
+
+
+    .content-editor__controls {
+        padding: $spacing-unit ($spacing-unit * 2);
+        width: $content-editor-controls-width;
+        color: $content-editor-controls-color;
+        font-weight: bold;
+        border: 1px solid $content-editor-border-color;
+        border-top-right-radius: 5px;
+        border-top-left-radius: 5px;
+    }
+
+    .content-editor__controls--full {
+        width: 100%;
+    }
+
+        .content-editor__controls-action {
+            margin-left: $horizontal-margin;
+            color: $content-editor-controls-color;
+            vertical-align: middle;
+        }
+
+            .content-editor__controls-action-icon {
+                margin-right: $spacing-unit;
+                fill: $content-editor-controls-icon-color;
+            }
+
+
+    .content-editor__no-content {
+        padding: ($spacing-unit * 4) ($spacing-unit * 2);
+        text-align: center;
+        border: 1px solid $content-editor-border-color;
+        border-top: 0;
+    }
+
+    .content-editor__no-content--border-top {
+        border-top: 1px solid $content-editor-border-color;
+    }
+
+    /**
+     * 1. allows internal `.content-block`s to be reordered quickly.
+     * 2. the box shadow spread is the width of a `$spacing-unit`.
+     */
+    .content-editor__area {
+        display: flex; /* [1] */
+        width: calc(#{$content-editor-area-width} - #{($spacing-unit * 2)}); /* [2] */
+        border: 1px solid $content-editor-border-color;
+        flex-direction: column;
+
+        .content-editor__controls ~ & {
+            border-top: 0;
+        }
+    }
+
+        .content-editor__area-select-form {
+            display: inline-block;
+        }
+
+
+        /**
+         * 1. arbitrary, just give em a lot of room
+         */
+        .content-editor__form {
+            @include content-editor-sticky-aside;
+            display: none;
+            padding-bottom: $spacing-unit * 20; /* [1] */
+
+            .content-block--active + & {
+                display: block;
+            }
+        }
+
+
+            .content-editor__form-header {
+                margin-bottom: ($spacing-unit * 2);
+            }
+
+                .content-editor__form-heading {
+                    @extend %heading;
+                    @extend %heading--3;
+                    margin-bottom: 0;
+                    text-align: center;
+                }
+
+
+            /**
+             * 1. ensure focus-ring isn't cut off.
+             */
+            .content-editor__form-fields {
+                margin-bottom: ($spacing-unit * 2);
+                padding: ($spacing-unit / 2); /* [1] */
+            }
+
+            .content-editor__form-actions {
+                position: fixed;
+                right: 0;
+                bottom: 0;
+                padding: ($spacing-unit * 2);
+                width: calc(#{$content-editor-aside-width} + #{$spacing-unit});
+                background-color: $content-editor-form-action-bg-color;
+
+                .content-editor--in-workflow & {
+                    bottom: $global-workflow-bar-height;
+                }
+            }
+
+    .content-editor__aside {
+        @include content-editor-sticky-aside;
+        padding-bottom: $global-workflow-bar-height;
+    }

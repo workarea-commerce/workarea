@@ -1,0 +1,24 @@
+Options:
+  ENGINE is either:
+    - admin
+    - storefront
+
+  SECTION is an existing section, the workarea gem offers these sections out of the box:
+    - settings
+    - base
+    - typography
+    - objects
+    - components
+    - trumps
+
+  NAME is the name of your partial, separated with dashes:
+    - button
+    - button--large
+    - table--prices
+
+Description:
+  Creates a new Style Guide entry for your application.
+
+Examples:
+  rails g workarea:style_guide storefront components button
+  rails g workarea:style_guide admin components button--large

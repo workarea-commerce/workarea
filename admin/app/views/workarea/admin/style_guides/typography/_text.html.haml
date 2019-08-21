@@ -1,0 +1,50 @@
+#text.style-guide__subsection
+
+  %h3= link_to_style_guide('typography', 'text')
+
+  %p Styles elements that usually contain only text.
+
+  %p should force monospace font for <code>code</code> elements:
+  .style-guide__example-block
+    %code I am a robot
+
+  %p <code>.code</code> should further improve the look of <code>code</code> elements:
+  .style-guide__example-block
+    %code.code I am a robot
+
+  %p <code>.code--block</code> should render the <code>code</code> element full width:
+  .style-guide__example-block
+    %code.code.code--block I am a robot
+
+  %p should provide a bottom margin for <code>p</code> and <code>blockquote</code>:
+  .style-guide__example-block
+    %p I'm a Paragraph
+    %blockquote I'm a Blockquote
+
+  %p <code>.text</code> should reset text to default, adding <code>letter-spacing</code>:
+  .style-guide__example-block
+    %h1.text I'm an H1
+
+  %p <code>.text--small</code> should decrease the <code>font-size</code> while increasing the <code>font-weight</code>:
+  .style-guide__example-block
+    %h1.text.text--small I'm an H1
+
+  %p <code>.text--large</code> should increase the <code>font-size</code>:
+  .style-guide__example-block
+    %h1.text.text--large I'm an H1
+
+  %p <code>.text--larger</code> should further increase the <code>font-size</code>:
+  .style-guide__example-block
+    %h1.text.text--larger I'm an H1
+
+  %p should provide consistent <code>font-weight</code> for bold elements:
+  .style-guide__example-block
+    %dh I'm a DH
+    %dt I'm a DT
+    %strong I'm a Strong <br>
+    %b I'm a B <br>
+    %span.text.text--bold I'm a <code>.text--bold</code> <br>
+
+  %p should provide a reduced letter spacing for elements that chain <code>.text--small</code> and <code>.text--bold</code>:
+  .style-guide__example-block
+    %span.text.text--bold.text--small I'm a <code>.text--bold.text--small</code>

@@ -1,0 +1,44 @@
+- @page_title = t('workarea.admin.tax_categories.edit.title', category: @category.name)
+
+.view
+  .view__header
+    .grid.grid--middle.grid--right
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@category)
+          %h1= link_to @category.name, url_for(@category)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@category)
+
+  .view__container
+    = render_cards_for(@category, :attributes)
+
+  .view__container.view__container--narrow
+    - @category.errors.full_messages.each do |message|
+      = render_message 'error', message
+
+    = form_tag tax_category_path(@category), method: :patch, id: 'tax_category_form', data: { unsaved_changes: '' } do
+
+      .section
+
+        .property.property--required
+          = label_tag 'category_name', t('workarea.admin.tax_categories.fields.name'), class: 'property__name'
+          = text_field_tag 'category[name]', @category.name, class: 'text-box text-box--i18n', required: true
+
+        .property.property--required
+          = label_tag 'category_code', t('workarea.admin.tax_categories.fields.tax_code'), class: 'property__name'
+          = text_field_tag 'category[code]', @category.code, class: 'text-box', required: true
+
+        .grid
+          .grid__cell.grid__cell--50.grid__cell--25-at-medium
+            .property
+              = label_tag 'category_updated_at', t('workarea.admin.fields.updated_at'), class: 'property__name'
+              = local_time(@category.updated_at)
+          .grid__cell.grid__cell--50.grid__cell--25-at-medium
+            .property
+              = label_tag 'category_created_at', t('workarea.admin.fields.created_at'), class: 'property__name'
+              = local_time(@category.created_at)
+
+      .workflow-bar
+        .grid.grid--auto.grid--right.grid--middle
+          .grid__cell= button_tag t('workarea.admin.tax_categories.edit.button'), value: 'save_tax_category', class: 'workflow-bar__button workflow-bar__button--update'

@@ -1,0 +1,274 @@
+.order-summary
+  .box
+    .box__header
+      .grid.grid--middle.grid--auto.grid--large
+        .grid__cell
+          %h2.box__heading #{t('workarea.storefront.orders.order')} ##{order.id}
+        .grid__cell
+          %strong
+            #{t('workarea.storefront.orders.placed_at')}:
+          = local_time(order.placed_at, '%B %e, %Y')
+        .grid__cell
+          %strong
+            #{t('workarea.storefront.orders.status')}:
+          = order.fulfillment_status || order.status
+        = append_partials('storefront.order_summary_header', order: order, show_fullfillment: local_assigns[:show_fullfillment])
+    .box__body
+      .grid
+        .grid__cell.grid__cell--25-at-medium
+          %h3= t('workarea.storefront.orders.billing_address')
+          = order.billing_address.first_name
+          = order.billing_address.last_name
+          - if order.billing_address.company.present?
+            %br
+            = order.billing_address.company
+          %br
+          = order.billing_address.street
+          - if order.billing_address.street_2.present?
+            %br
+            = order.billing_address.street_2
+          %br
+          = order.billing_address.city
+          = order.billing_address.region
+          = order.billing_address.postal_code
+          %br
+          = order.billing_address.country
+          %br
+          = number_to_phone order.billing_address.phone_number, extension: order.billing_address.phone_extension
+
+        .grid__cell.grid__cell--25-at-medium
+          %h3= t('workarea.storefront.orders.payment_method')
+          - order.tenders.each do |tender|
+            = render "workarea/storefront/orders/tenders/#{tender.slug}", tender: tender
+
+        .grid__cell.grid__cell--25-at-medium
+          %h3= t('workarea.storefront.orders.items')
+          %ol
+            - order.items.each do |item|
+              %li
+                %p
+                  = link_to item.product_name, product_path(item.product, sku: item.sku)
+                  - if item.quantity > 1
+                    %br
+                    %strong #{t('workarea.storefront.orders.quantity')}: #{item.quantity}
+                  %br
+                  %strong= number_to_currency(item.total_price)
+                  %br
+                  = item.sku
+                  %br
+                  - if item.has_options?
+                    - item.details.each do |name, value|
+                      #{name.titleize}: #{value}
+                      %br
+                  - item.customizations.each do |name, value|
+                    #{name.titleize}: #{value}
+                    %br
+                  = append_partials('storefront.order_summary_item_details', item: item)
+
+        .grid__cell.grid__cell--25-at-medium
+          %h3= t('workarea.storefront.orders.totals')
+          %table.table.table--totals
+            %tbody
+              %tr
+                %th
+                  %span #{t('workarea.storefront.orders.subtotal')}:
+                %td= number_to_currency(order.subtotal_price)
+
+              - if order.total_adjustments.any?
+                - order.total_adjustments.each do |adjustment|
+                  %tr
+                    %th
+                      %span= adjustment.description
+                    %td
+                      - if adjustment.discount?
+                        %strong.table__price-discount= number_to_currency(adjustment.amount)
+                      - else
+                        %span= number_to_currency(adjustment.amount)
+
+              - if order.requires_shipping?
+                %tr
+                  %th
+                    %span #{t('workarea.storefront.orders.shipping')}:
+                  %td= number_to_currency(order.shipping_total)
+
+              %tr
+                %th
+                  %span #{t('workarea.storefront.orders.tax')}:
+                %td= number_to_currency(order.tax_total)
+
+              - if order.store_credit_amount > 0
+                %tr
+                  %th
+                    %span= t('workarea.storefront.orders.store_credit')
+                  %td
+                    %strong.table__price-discount −#{number_to_currency(order.store_credit_amount)}
+
+              = append_partials('storefront.order_summary_payment', order: order)
+
+              %tr.table__total
+                %th
+                  %span
+                    %strong #{t('workarea.storefront.orders.total')}:
+                %td
+                  %strong= number_to_currency(order.paid_amount)
+
+  = append_partials('storefront.orders_summary_top', order: order)
+
+  - if order.requires_shipping?
+    .box
+      .box__header
+        %h2.box__heading= t('workarea.storefront.orders.shipping')
+      .box__body
+        .grid
+          - order.shippings.each do |shipping|
+            .grid__cell.grid__cell--33-at-medium
+              = shipping.address.first_name
+              = shipping.address.last_name
+              - if shipping.address.company.present?
+                %br
+                = shipping.address.company
+              %br
+              = shipping.address.street
+              - if shipping.address.street_2.present?
+                %br
+                = shipping.address.street_2
+              %br
+              = shipping.address.city
+              = shipping.address.region
+              = shipping.address.postal_code
+              %br
+              = shipping.address.country
+              %br
+              = number_to_phone shipping.address.phone_number, extension: shipping.address.phone_extension
+
+              %strong= shipping.try(:shipping_service).try(:name)
+              - if shipping.instructions.present?
+                %p
+                  %strong= t('workarea.storefront.orders.shipping_instructions')
+                  %br
+                  = shipping.instructions
+
+            .grid__cell.grid__cell--66-at-medium
+              - if shipping.partial?
+                %ul.product-list
+                  - shipping.items.each do |item|
+                    %li.product-list__item
+                      .product-list__item-cell
+                        .product-list__summary
+                          %p.product-list__media= link_to image_tag(product_image_url(item.image, :small_thumb), alt: item.product_name, class: 'product-list__media-image'), product_url(item.product, sku: item.sku), class: 'product-list__media-link'
+                          .product-list__info
+                            %p.product-list__name= link_to item.product_name, product_path(item.product, sku: item.sku)
+                            %p.product-list__id= item.sku_name
+                            - if item.has_options?
+                              .product-list__option-group
+                                - item.details.each do |name, value|
+                                  %p.product-list__option #{name.titleize}: #{value}
+                            - item.customizations.each do |name, value|
+                              %p.product-list__customization #{name.titleize}: #{value}
+                            = append_partials('storefront.order_summary_item_details', item: item)
+                      .product-list__item-cell
+                        %table.table
+                          %thead
+                            %tr
+                              %th.table__quantity= t('workarea.storefront.orders.quantity')
+                          %tbody
+                            %tr
+                              %td.table__quantity
+                                %p= item.quantity
+
+              - if order.packages.any?
+                .box
+                  .box__body
+                    .grid
+                      - order.packages.each_with_index do |package, index|
+                        .grid__cell.grid__cell--50-at-medium
+                          .box
+                            .box__header
+                              %h3.box__heading= "#{t('workarea.storefront.orders.package')} #{index + 1}"
+                            .box__body
+                              %ul.product-list
+                                - package.items.each do |item|
+                                  %li.product-list__item
+                                    .product-list__item-cell
+                                      .product-list__summary
+                                        %p.product-list__media= link_to image_tag(product_image_url(item.image, :small_thumb), alt: item.product_name, class: 'product-list__media-image'), product_url(item.product, sku: item.sku), class: 'product-list__media-link'
+                                        .product-list__info
+                                          %p.product-list__name= link_to item.product_name, product_path(item.product, sku: item.sku)
+                                          %p.product-list__id= item.sku
+
+                        .grid__cell.grid__cell--50-at-medium
+                          - if !package.tracking_number.present?
+                            %p=  t('workarea.storefront.orders.no_tracking')
+                          - else
+                            %p= link_to t('workarea.storefront.orders.track_package'), package.tracking_link, target: '_blank', rel: 'noopener', class: 'button button--full'
+                          = append_partials('storefront.order_summary_package_actions', package: package)
+
+              = append_partials('storefront.order_summary_shipping', shipping: shipping)
+
+  - if order.pending_items.any? && (!local_assigns.key?(:show_fullfillment) || show_fullfillment)
+    .box
+      .box__header
+        %h3.box__heading= t('workarea.storefront.orders.pending')
+      .box__body
+        %ul.product-list
+          - order.pending_items.each do |item|
+            %li.product-list__item
+              .product-list__item-cell
+                .product-list__summary
+                  %p.product-list__media= link_to image_tag(product_image_url(item.image, :small_thumb), alt: item.product_name, class: 'product-list__media-image'), product_url(item.product, sku: item.sku), class: 'product-list__media-link'
+                  .product-list__info
+                    %p.product-list__name= link_to item.product_name, product_path(item.product, sku: item.sku)
+                    %p.product-list__id= item.sku
+                    %p.product-list__quantity #{t('workarea.storefront.orders.quantity')}: #{item.quantity}
+
+  - if order.refunds.any? && (!local_assigns.key?(:show_fullfillment) || show_fullfillment)
+    .box
+      .box__header
+        %h2.box__heading= t('workarea.storefront.orders.refunds')
+      .box__body
+        - order.refunds.each do |refund|
+          %ul
+            - refund.tenders.each do |tender, amount|
+              %li
+                = t('workarea.storefront.orders.issued')
+                = local_time(refund.created_at, :short_date_at_time)
+                = t('workarea.storefront.orders.refund_description_html', type: tender.name.downcase, amount: number_to_currency(amount))
+
+  - if order.canceled_items.any? && (!local_assigns.key?(:show_fullfillment) || show_fullfillment)
+    .box
+      .box__header
+        %h2.box__heading= t('workarea.storefront.orders.cancelations')
+      .box__body
+        %ul.product-list
+          - order.canceled_items.each do |item|
+            %li.product-list__item
+              .product-list__item-cell
+                .product-list__summary
+                  %p.product-list__media= link_to image_tag(product_image_url(item.image, :small_thumb), alt: item.product_name, class: 'product-list__media-image'), product_url(item.product, sku: item.sku), class: 'product-list__media-link'
+                  .product-list__info
+                    %p.product-list__name= link_to item.product_name, product_path(item.product, sku: item.sku)
+                    %p.product-list__id= item.sku
+                    %p.product-list__quantity #{t('workarea.storefront.orders.quantity')}: #{item.quantity}
+
+  = append_partials('storefront.orders_summary_bottom', order: order)
+
+  - if local_assigns[:recommendations].present?
+    .hidden.hidden--for-small-only
+      .recommendations
+        %h2.recommendations__heading= t('workarea.storefront.recommendations.you_may_also_like')
+        .recommendations__products
+          .grid
+            - recommendations.each do |product|
+              .grid__cell.grid__cell--50.grid__cell--33-at-medium.grid__cell--16-at-wide
+                .product-summary.product-summary--small{ itemscope: true, itemtype: 'http://schema.org/Product' }
+                  = render 'workarea/storefront/products/summary', product: product
+
+  %ul.order-help-menu
+    %li.order-help-menu__item
+      = link_to t('workarea.storefront.layouts.contact_us'), contact_path, data: { dialog_button: '' }
+    %li.order-help-menu__item
+      = link_to page_path('shipping-information'), target: '_blank', rel: 'noopener', data: { dialog_button: '' } do
+        = t('workarea.storefront.layouts.shipping_policy')
+    %li.order-help-menu__item
+      = link_to page_path('return-information'), target: '_blank', rel: 'noopener', data: { dialog_button: '' } do
+        = t('workarea.storefront.layouts.returns')

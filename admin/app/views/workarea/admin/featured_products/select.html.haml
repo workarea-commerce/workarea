@@ -1,0 +1,72 @@
+- @page_title = t('workarea.admin.featured_products.select.title', featurable: @featurable.name)
+
+- content_for :head do
+  %meta{ name: 'turbolinks-cache-control', content: 'no-cache' }
+
+.view
+  .view__header
+    .grid.grid--right
+      .grid__cell.grid__cell--25
+        = render 'workarea/admin/releases/select'
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@featurable)
+          %h1= link_to @featurable.name, url_for(@featurable)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@featurable)
+
+  .view__container
+    = render_cards_for(@featurable, :featured_products)
+
+    .section
+      %h2.view__heading= t('workarea.admin.featured_products.select.instruction')
+      %p.align-center= t('workarea.admin.featured_products.select.details_html', link: link_to(t('workarea.admin.featured_products.select.sort_now_link'), edit_featured_product_path(@featurable.to_global_id)))
+      = render 'workarea/admin/featured_products/release_preview_warning'
+
+      .browsing-controls.browsing-controls--with-divider.browsing-controls--center{ class: ('browsing-controls--filters-displayed' unless @search.toggle_facets?) }
+        = form_tag select_featured_product_path(@featurable.to_global_id), method: 'get', id: 'product_search_form', class: 'browsing-controls__form' do
+          = facet_hidden_inputs(@search.facets)
+          .browsing-controls__sort
+            .property.property--inline
+              = label_tag 'sort', t('workarea.admin.search.sort_by'), class: 'property__name'
+              = select_tag :sort, options_for_select(@search.sorts, selected: @search.sort), data: { form_submitting_control: '' }
+
+          .browsing-controls__search
+            .search-form
+              = text_field_tag :q, params[:q], class: 'search-form__input', title: t('workarea.admin.search.keywords'), placeholder: t('workarea.admin.search.keywords'), id: nil
+              = submit_tag 'search_products', class: 'search-form__button'
+
+          = render 'workarea/admin/shared/creation_date', search: @search, form_path: select_featured_product_path(@featurable.to_global_id)
+
+          - if @search.facets.present?
+            - @search.facets.each do |facet|
+              = render "workarea/admin/facets/#{facet.type}", facet: facet
+
+          - if @search.toggle_facets?
+            .browsing-controls__toggle-filters
+              %button.text-button{ type: 'button', data: { toggle_filters: '' } }= t('workarea.admin.search.show_filters')
+
+        = render 'workarea/admin/facets/applied', search: @search, reset_path: select_featured_product_path(@featurable.to_global_id)
+
+        %p.browsing-controls__count
+          = t('workarea.admin.catalog_products.index.product_pluralize', count: @search.total)
+
+      .section
+        - if @search.results.blank?
+          %h2= t('workarea.admin.featured_products.select.empty_html', link: link_to(t('workarea.admin.featured_products.select.empty_link'), select_featured_product_path(@featurable.to_global_id)))
+
+        - else
+          .grid.grid--auto.grid--flush.grid--center
+            - @search.results.each do |result|
+              .grid__cell
+                - if @featurable.product_ids.include?(result.id)
+                  = render 'workarea/admin/featured_products/selected', featurable: @featurable, product: result
+                - else
+                  = render 'workarea/admin/featured_products/unselected', featurable: @featurable, product: result
+
+          - if @search.results.total_pages > 1
+            = render 'workarea/admin/shared/pagination', collection: @search.results
+
+      .workflow-bar
+        .grid.grid--auto.grid--right.grid--middle
+          .grid__cell= link_to t('workarea.admin.featured_products.select.sort_link'), edit_featured_product_path(@featurable.to_global_id), class: 'workflow-bar__button workflow-bar__button--update'

@@ -1,0 +1,38 @@
+/*------------------------------------*\
+    #AVATAR
+\*------------------------------------*/
+
+$avatar-color:     $white !default;
+$avatar-bg-color:  $gray !default;
+
+$avatar-size:        32px !default;
+$avatar-large-size:  40px !default;
+
+$avatar-font-size:        14px !default;
+$avatar-large-font-size:  18px !default;
+
+
+/**
+ * 1. this is the default background color, in case something goes awry within
+ *    the rails helper
+ */
+.avatar {
+    display: inline-block;
+    width:  $avatar-size;
+    height: $avatar-size;
+    color: $avatar-color;
+    font-size: $avatar-font-size;
+    line-height: $avatar-size;
+    text-align: center;
+    text-transform: uppercase;
+    background: $avatar-bg-color; /* [1] */
+    border-radius: 50%;
+}
+
+.avatar--large {
+    width:  $avatar-large-size;
+    height: $avatar-large-size;
+    font-size: $avatar-large-font-size;
+    line-height: $avatar-large-size;
+}
+

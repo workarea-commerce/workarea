@@ -1,0 +1,97 @@
+/*------------------------------------*\
+    #TEXT-BOX
+\*------------------------------------*/
+
+$text-box-color:                $dark-gray !default;
+$text-box-bg-color:             $light-gray !default;
+$text-box-focus-bg-color:       $white !default;
+
+$text-box-small-width:          $spacing-unit * 10 !default;
+$text-box-medium-width:         ($text-box-small-width * 2) !default;
+$text-box-wide-width:           ($text-box-small-width * 4) !default;
+
+$text-box-i18n-gap:             ($spacing-unit * 3) !default;
+
+$text-box-multi-line-height:    250px !default;
+
+$text-box-i18n-max-width:       140px !default;
+
+$number-input-spinner-width:    25px !default;
+
+
+/**
+ * 1. when `.text-box` is found within a table, differentiate it from it's
+ *    background on hover.
+ * 2. when the class `.i18n` is present within it's ancestor tree, an icon
+ *    shows up, which reduces the input's content zone. We provide
+ *    a gap width to fix that.
+ */
+.text-box {
+    padding: $spacing-unit;
+    width: 100%;
+    color: $text-box-color;
+    background: $text-box-bg-color;
+    border: 0;
+    border-radius: $global-border-radius;
+
+    &:focus {
+        @include focus-ring;
+        background-color: $text-box-focus-bg-color;
+    }
+
+    tr:hover & { /* [1] */
+        background-color: $text-box-focus-bg-color;
+    }
+}
+
+.text-box--small {
+    max-width: $text-box-small-width;
+
+    &[type=number] {
+        max-width: ($text-box-small-width + $number-input-spinner-width);
+    }
+}
+
+.text-box--medium { max-width: $text-box-medium-width; }
+.text-box--wide { max-width: $text-box-wide-width; }
+
+.text-box--multi-line { height: $text-box-multi-line-height; }
+.text-box--tall-multi-line { height: $text-box-multi-line-height * 2; }
+
+.text-box--code { font-family: $monospace-font-family; }
+
+
+/**
+ * 1. the i18n icon should not appear unless there is a class of `.i18n` within
+ *    it's ancestor tree.
+ */
+.text-box--i18n {
+    .i18n & { /* [1] */
+        @include text-box-image('i18n.svg');
+    }
+
+    .i18n &.text-box--small {
+        max-width: ($text-box-small-width + $text-box-i18n-gap);
+    }
+
+    .i18n &.text-box--small[type=number] {
+        max-width: ($text-box-small-width + $number-input-spinner-width + $text-box-i18n-gap);
+    }
+
+    .i18n &.text-box--medium {
+        max-width: ($text-box-medium-width + $text-box-i18n-gap);
+    }
+
+    .i18n &.text-box--wide {
+        max-width: ($text-box-wide-width + $text-box-i18n-gap);
+    }
+}
+
+// TODO: v4 Remove
+.text-box--valid {
+    @include text-box-image('valid.svg', right);
+}
+
+.text-box--invalid {
+    @include text-box-image('invalid.svg', right);
+}

@@ -1,0 +1,23 @@
+/*------------------------------------*\
+    #NEW-NAVIGATION-LINK
+\*------------------------------------*/
+
+$new-navigation-link-section-border-color:  $border-color !default;
+
+
+.new-navigation-link {}
+
+    .new-navigation-link__section {
+        display: table;
+        margin-bottom: $vertical-margin;
+        width: 100%;
+    }
+
+        .new-navigation-link__field {
+            display: table-cell;
+            padding: 0;
+
+            & + & {
+                padding-left: 8px;
+            }
+        }

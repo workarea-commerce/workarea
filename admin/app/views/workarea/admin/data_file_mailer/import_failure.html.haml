@@ -1,0 +1,22 @@
+%tr
+  %td
+    %h1= t('workarea.admin.data_file_mailer.import_failure.message', name: @import.file_name)
+    %p= t('workarea.admin.data_file_mailer.import_failure.failed', failed: @import.failed, count: pluralize(@import.total, @import.format.unit.downcase))
+
+    %table
+      %tr
+        %td
+          %h2= t('workarea.admin.data_file_mailer.import_failure.errors')
+
+          %ul
+            - @import.file_errors.each do |key, errors|
+              - errors.each do |field, values|
+                %li
+                  %strong= key
+                  %span -
+                  %code= field
+                  %span= values.to_sentence
+
+%tr
+  %td
+    %p= link_to t('workarea.admin.data_file_mailer.import_failure.link_text', name: @import.name.pluralize), index_url_for(@import.model_class, only_path: false)

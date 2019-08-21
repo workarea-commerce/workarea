@@ -1,0 +1,55 @@
+#release_changeset.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'release_changeset')
+
+  %p A release changeset
+
+  .style-guide__example-block
+    .release-changeset
+      %ul.release-changeset__list
+        %li.release-changeset__list-item
+          %span.release-changeset__field HTML
+          %span.release-changeset__old &lt;p&gt;Thanks for your order!&lt;/p&gt;
+          %span.release-changeset__new
+            &lt;h3&gt;You Rock!&lt;/h3&gt;
+            &lt;p&gt;Thanks for your order!&lt;/p&gt;
+
+  %p A release changeset in an activity log
+
+  .style-guide__example-block
+    .grid
+      .activity-group
+        .grid__cell.grid__cell--20
+          .date-marker
+            .date-marker__annotation Today
+            .date-marker__month= local_time(Time.current, format: '%b')
+            .date-marker__day= local_time(Time.current, format: '%e')
+
+        .grid__cell.grid__cell--80
+          .activity
+            .activity__header
+              .activity__avatar
+                %span.avatar BC
+              %h3.activity__name Release Name
+              %p.activity__time
+                Publishes on
+                =time_tag(Time.current)
+              .activity__actions
+                .grid.grid--auto
+                  .grid__cell
+                    = button_tag value: 'edit_changes', class: 'text-button' do
+                      %span Edit
+                      = inline_svg('workarea/admin/icons/edit.svg', class: 'text-button__icon')
+                  .grid__cell
+                    = button_tag value: 'delete_changeset', class: 'text-button' do
+                      %span= t('workarea.admin.actions.delete')
+                      = inline_svg('workarea/admin/icons/delete.svg', class: 'text-button__icon')
+            .activity__message
+              .release-changeset.release-changeset--activity
+                %ul.release-changeset__list
+                  %li.release-changeset__list-item
+                    %span.release-changeset__field HTML
+                    %span.release-changeset__old &lt;p&gt;Thanks for your order!&lt;/p&gt;
+                    %span.release-changeset__new
+                      &lt;h3&gt;You Rock!&lt;/h3&gt;
+                      &lt;p&gt;Thanks for your order!&lt;/p&gt;

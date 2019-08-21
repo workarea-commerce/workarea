@@ -1,0 +1,157 @@
+introduction:
+  overview.html.md: /articles/overview.html.md
+  api-overview.html.md: /articles/api-overview.html.md
+  b2b-overview.html.md: /articles/b2b-overview.html.md
+developing-on-workarea:
+  quick-start:
+    create-a-new-app.html.md: /articles/create-a-new-app.html.md
+    use-an-existing-workarea-app.html.md: /articles/use-an-existing-workarea-app.html.md
+  installing.html.md: /articles/installing.html.md
+  navigating-the-code.html.md: /articles/navigating-the-code.html.md
+  seeds.html.md: /articles/seeds.html.md
+  integrating-with-other-software: /articles/integrating-with-other-software.html.md
+  common-tasks:
+    run-sidekiq-in-a-local-environment: /articles/run-sidekiq-in-a-local-environment.html.md
+    add-remove-or-change-a-mongoid-validation.html.md: /articles/add-remove-or-change-a-mongoid-validation.html.md
+    add-metrics.html.md: /articles/add-metrics.html.md
+    add-a-report.html.md: /articles/add-a-report.html.md
+hosting-workarea:
+  infrastructure.html.md: /articles/infrastructure.html.md
+  configuration-for-hosting.html.md: /articles/configuration-for-hosting.html.md
+application-architecture:
+  prerequisites-and-dependencies.html.md: /articles/prerequisites-and-dependencies.html.md
+  domain-modeling.html.md: /articles/domain-modeling.html.md
+  testing.html.md: /articles/testing.html.md
+  view-models.html.md: /articles/view-models.html.md
+  workers.html.md: /articles/workers.html.md
+  caching:
+    http-caching.html.md: /articles/http-caching.html.md
+    html-fragment-caching.html.md: /articles/html-fragment-caching.html.md
+    low-level-caching.html.md: /articles/low-level-caching.html.md
+  diagrams:
+    commerce-model.html.md: /articles/commerce-model.html.md
+    writing-data.html.md: /articles/writing-data.html.md
+    reading-data.html.md: /articles/reading-data.html.md
+    images-flow.html.md: /articles/images-flow.html.md
+  extension:
+    extension-overview.html.md: /articles/extension-overview.html.md
+    appending.html.md: /articles/appending.html.md
+    decoration.html.md: /articles/decoration.html.md
+    overriding.html.md: /articles/overriding.html.md
+    configuration.html.md: /articles/configuration.html.md
+  misc:
+    application-document.html.md: /articles/application-document.html.md
+    releasable.html.md: /articles/releasable.html.md
+    swappable-list-data-structure.html.md: /articles/swappable-list-data-structure.html.md
+plugins:
+  plugins-overview.html.md: /articles/plugins-overview.html.md
+  create-a-plugin.html.md: /articles/create-a-plugin.html.md
+  maintain-a-plugin.html.md: /articles/maintain-a-plugin.html.md
+  test-if-a-plugin-is-installed.html.md: /articles/test-if-a-plugin-is-installed.html.md
+products:
+  products.html.md: /articles/products.html.md
+  sort-and-exclude-product-options.html.md: /articles/sort-and-exclude-product-options.html.md
+  change-the-storefront-product-pricing-ui.html.md: /articles/change-the-storefront-product-pricing-ui.html.md
+  configure-low-inventory-threshold.html.md: /articles/configure-low-inventory-threshold.html.md
+search:
+  searching.html.md: /articles/searching.html.md
+  storefront-search-features.html.md: /articles/storefront-search-features.html.md
+  storefront-searches.html.md: /articles/storefront-searches.html.md
+  analyze-storefront-search-results.html.md: /articles/analyze-storefront-search-results.html.md
+  change-storefront-search-results.html.md: /articles/change-storefront-search-results.html.md
+  index-storefront-search-documents.html.md: /articles/index-storefront-search-documents.html.md
+  add-remove-sort-and-group-storefront-search-filters.html.md: /articles/add-remove-sort-and-group-storefront-search-filters.html.md
+  change-the-storefront-search-filters-ui.html.md: /articles/change-the-storefront-search-filters-ui.html.md
+cart-and-checkout:
+  checkout.html.md: /articles/checkout.html.md
+  configure-a-payment-gateway.html.md: /articles/configure-a-payment-gateway.html.md
+  integrate-a-payment-gateway.html.md: /articles/integrate-a-payment-gateway.html.md
+  test-a-credit-card-transaction.html.md: /articles/test-a-credit-card-transaction.html.md
+orders:
+  orders.html.md: /articles/orders.html.md
+  orders-and-items.html.md: /articles/orders-and-items.html.md
+  order-life-cycle.html.md: /articles/order-life-cycle.html.md
+  shipping.html.md: /articles/shipping.html.md
+users:
+  configure-logins-and-authentication.html.md: /articles/configure-logins-and-authentication.html.md
+navigation:
+  navigation.html.md: /articles/navigation.html.md
+  navigable.html.md: /articles/navigable.html.md
+content:
+  content.html.md: /articles/content.html.md
+  contentable.html.md: /articles/contentable.html.md
+  add-a-content-area.html.md: /articles/add-a-content-area.html.md
+  add-a-content-block-type.html.md: /articles/add-a-content-block-type.html.md
+  add-system-content.html.md: /articles/add-system-content.html.md
+themes:
+  themes-overview.html.md: /articles/themes-overview.html.md
+  create-a-theme.html.md: /articles/create-a-theme.html.md
+pricing:
+  order-pricing.html.md: /articles/order-pricing.html.md
+  add-or-replace-a-pricing-calculator.html.md: /articles/add-or-replace-a-pricing-calculator.html.md
+  change-the-storefront-product-pricing-ui.html.md: /articles/change-the-storefront-product-pricing-ui.html.md
+  create-a-custom-discount.html.md: /articles/create-a-custom-discount.html.md
+inventory:
+  inventory.html.md: /articles/inventory.html.md
+  integrate-an-inventory-management-system.html.md: /articles/integrate-an-inventory-management-system.html.md
+  define-and-configure-inventory-policies.html.md: /articles/define-and-configure-inventory-policies.html.md
+storefronts:
+  views:
+    views.html.md: /articles/views.html.md
+    style-guides.html.md: /articles/style-guides.html.md
+    create-a-style-guide.html.md: /articles/create-a-style-guide.html.md
+    add-remove-or-change-a-product-template.html.md: /articles/add-remove-or-change-a-product-template.html.md
+    error-pages.html.md: /articles/error-pages.html.md
+    customize-a-helper.html.md: /articles/customize-a-helper.html.md
+    rails-asset-view-helpers.html.md: /articles/rails-asset-view-helpers.html.md
+    system-emails.html.md: /articles/system-emails.html.md
+    configure-contact-form-subjects-list.html.md: /articles/configure-contact-form-subjects-list.html.md
+  stylesheets:
+    css-architectural-overview.html.md: /articles/css-architectural-overview.html.md
+    stylesheets-overview.html.md: /articles/stylesheets-overview.html.md
+    add-stylesheets-through-a-manifest.html.md: /articles/add-stylesheets-through-a-manifest.html.md
+    add-css-through-the-admin-ui.html.md: /articles/add-css-through-the-admin-ui.html.md
+    feature-spec-helper-stylesheet.html.md: /articles/feature-spec-helper-stylesheet.html.md
+  javascripts:
+    javascript-overview.html.md: /articles/javascript-overview.html.md
+    javascript-reference-documentation.html.md: /articles/javascript-reference-documentation.html.md
+    javascript-modules.html.md: /articles/javascript-modules.html.md
+    javascript-templates.html.md: /articles/javascript-templates.html.md
+    access-routes-in-javascript.html.md: /articles/access-routes-in-javascript.html.md
+    analytics-overview.html.md: /articles/analytics-overview.html.md
+    integrate-a-web-analytics-provider.html.md: /articles/integrate-a-web-analytics-provider.html.md
+    add-javascript-through-a-manifest.html.md: /articles/add-javascript-through-a-manifest.html.md
+    add-javascript-through-a-view.html.md: /articles/add-javascript-through-a-view.html.md
+    add-javascript-through-the-admin-ui.html.md: /articles/add-javascript-through-the-admin-ui.html.md
+    featurejs-and-feature-spec-helper.html.md: /articles/featurejs-and-feature-spec-helper.html.md
+    automated-javascript-testing.html.md: /articles/automated-javascript-testing.html.md
+    browser-and-device-support.html.md: /articles/browser-and-device-support.html.md
+    progressive-web-application-support.html.md: /articles/progressive-web-application-support.html.md
+  assets:
+    rails-asset-manifests.html.md: /articles/rails-asset-manifests.html.md
+    configure-asset-types.html.md: /articles/configure-asset-types.html.md
+    configure-product-image-sizes-and-processing.html.md: /articles/configure-product-image-sizes-and-processing.html.md
+    configure-imageoptim.html.md: /articles/configure-imageoptim.html.md
+    favicon-support.html.md: /articles/favicon-support.html.md
+    change-product-placeholder-image.html.md: /articles/change-product-placeholder-image.html.md
+    configure-asset-storage.html.md: /articles/configure-asset-storage.html.md
+internationalization:
+  i18n.html.md: /articles/i18n.html.md
+  configure-locales.html.md: /articles/configure-locales.html.md
+  translate-or-customize-static-content.html.md: /articles/translate-or-customize-static-content.html.md
+  translate-or-customize-message-content.html.md: /articles/translate-or-customize-message-content.html.md
+  translate-administrable-content.html.md: /articles/translate-administrable-content.html.md
+  translate-javascript-content.html.md: /articles/translate-javascript-content.html.md
+contribute:
+  contribute-code.html.md: /articles/contribute-code.html.md
+  contribute-documentation.html.md: /articles/contribute-documentation.html.md
+  documentation.html.md: /articles/documentation.html.md
+  documentation-style-guide.html.md: /articles/documentation-style-guide.html.md
+  report-a-bug.html.md: /articles/report-a-bug.html.md
+  coding-standards:
+    ruby-coding-standards.html.md: /articles/ruby-coding-standards.html.md
+    javascript-coding-standards.html.md: /articles/javascript-coding-standards.html.md
+    stylesheet-coding-standards.html.md: /articles/stylesheet-coding-standards.html.md
+policies:
+  maintenance-policy.html.md: /articles/maintenance-policy.html.md
+  security-policy.html.md: /articles/security-policy.html.md

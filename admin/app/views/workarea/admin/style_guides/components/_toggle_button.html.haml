@@ -1,0 +1,59 @@
+#toggle-button.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'toggle_button')
+
+  %p Provides an alternate UI for selecting binary radio buttons.
+
+  %p Progressively enhanced by the <code>WORKAREA.toggleButtons</code> module, which provides additional functionality if a <code>[data-toggle-button]</code> attribute is found in addition to the component's class name.
+
+  %p <strong>Note:</strong> Requires a specific order of radio buttons and labels be maintained:
+
+  %ol
+    %li Positive radio input
+    %li Label with positive text, <code>for</code> attribute points to negative radio input ID
+    %li Negative radio input
+    %li Label with negative text, <code>for</code> attribute points to positive radio input ID
+
+  %p The order of positive and negative can change, but they must always be grouped together. In other words 1 & 2 (in the above list) can swap with 3 & 4
+
+  %p Default example:
+  .style-guide__example-block
+    .toggle-button
+      .toggle-button__switch
+        = radio_button 'toggle_1', nil, 'yes', class: 'toggle-button__input toggle-button__input--positive'
+        = label_tag 'toggle_1__no', 'Yes', class: 'toggle-button__label toggle-button__label--positive'
+        = radio_button 'toggle_1', nil, 'no', checked: true, class: 'toggle-button__input toggle-button__input--negative'
+        = label_tag 'toggle_1__yes', 'No', class: 'toggle-button__label toggle-button__label--negative'
+
+    .toggle-button
+      .toggle-button__switch
+        = radio_button 'toggle_2', nil, 'yes', checked: true, class: 'toggle-button__input toggle-button__input--positive'
+        = label_tag 'toggle_2__no', 'Yes', class: 'toggle-button__label toggle-button__label--positive'
+        = radio_button 'toggle_2', nil, 'no', class: 'toggle-button__input toggle-button__input--negative'
+        = label_tag 'toggle_2__yes', 'No', class: 'toggle-button__label toggle-button__label--negative'
+
+  %p Progressively enhanced:
+  .style-guide__example-block
+    .toggle-button{ data: { toggle_button: '' } }
+      .toggle-button__switch
+        = radio_button 'toggle_3', nil, 'yes', class: 'toggle-button__input toggle-button__input--positive'
+        = label_tag 'toggle_3__no', 'Yes', class: 'toggle-button__label toggle-button__label--positive'
+        = radio_button 'toggle_3', nil, 'no', checked: true, class: 'toggle-button__input toggle-button__input--negative'
+        = label_tag 'toggle_3__yes', 'No', class: 'toggle-button__label toggle-button__label--negative'
+      .toggle-button__more.toggle-button__more--to-right{ data: { toggle_button_positive_element: '' } }
+        = select_tag "activate", options_for_select([ 'now', 'with Release 1', 'with Release 2' ], 'now')
+
+  .style-guide__example-block
+    .toggle-button{ data: { toggle_button: '' } }
+      .toggle-button__switch
+        = radio_button 'toggle_4', nil, 'yes', class: 'toggle-button__input toggle-button__input--positive'
+        = label_tag 'toggle_4__no', 'Yes', class: 'toggle-button__label toggle-button__label--positive'
+        = radio_button 'toggle_4', nil, 'no', checked: true, class: 'toggle-button__input toggle-button__input--negative'
+        = label_tag 'toggle_4__yes', 'No', class: 'toggle-button__label toggle-button__label--negative'
+      .toggle-button__more.toggle-button__more--below{ data: { toggle_button_positive_element: '' } }
+        %span.toggle-button__note Definition: an affirmative answer or decision, especially in voting.
+      .toggle-button__more.toggle-button__more--below{ data: { toggle_button_negative_element: '' } }
+        %span.toggle-button__note Definition: a negative answer or decision, as in voting.
+
+
+

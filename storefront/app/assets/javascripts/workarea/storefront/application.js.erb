@@ -1,0 +1,162 @@
+<%
+  # Service Worker Registrations
+  %w(
+    workarea/storefront/serviceworkers/register_pwa_cache
+  ).each do |asset|
+    require_asset asset unless Rails.env.development?
+  end
+
+  # Plugin Service Worker Registrations
+  append_javascripts('storefront.serviceworker_registrations')
+
+  # Library Dependencies
+  %w(
+    webcomponentsjs-rails/MutationObserver
+    i18n
+    i18n/translations
+    local_time
+    lodash
+    jquery3
+    jquery-ui/core
+    jquery-ui/widget
+    jquery-ui/position
+    jquery-ui/widgets/mouse
+    jquery-ui/widgets/draggable
+    jquery-ui/widgets/resizable
+    jquery-ui/widgets/autocomplete
+    jquery-ui/widgets/button
+    jquery-ui/widgets/dialog
+    jquery-ui/widgets/menu
+    jquery.validate
+    jquery.validate.additional-methods
+    waypoints/noframework.waypoints
+    waypoints/shortcuts/sticky
+    jquery-unique-clone
+    jquery_ujs
+  ).each do |asset|
+    require_asset asset
+  end
+
+  # Plugin Library Dependencies
+  append_javascripts('storefront.dependencies')
+
+  # JST Templates
+  %w(
+    workarea/core/templates/lorem_ipsum_view
+    workarea/core/templates/reveal_password_button
+    workarea/storefront/templates/ui_menu_heading
+    workarea/storefront/templates/ui_menu_item
+    workarea/storefront/templates/loading
+    workarea/storefront/templates/message
+    workarea/storefront/templates/message_dismiss_action
+    workarea/storefront/templates/button
+    workarea/storefront/templates/same_as_shipping_button_property
+    workarea/storefront/templates/saved_addresses_property
+    workarea/storefront/templates/log_out_link
+    workarea/storefront/templates/page_header_cart_count
+    workarea/storefront/templates/pagination_button
+    workarea/storefront/templates/back_to_top_button
+    workarea/storefront/templates/authenticity_token
+    workarea/storefront/templates/mobile_filters_nav_close_button
+    workarea/storefront/templates/optional_field_prompt
+  ).each do |asset|
+    require_asset asset
+  end
+
+  # Plugin JST Templates
+  append_javascripts('storefront.templates')
+
+  # Library Extensions
+  %w(
+    jquery_ui/storefront/categorized_autocomplete
+  ).each do |asset|
+    require_asset asset
+  end
+
+  # Workarea Module Controller
+  require_asset 'workarea/core/workarea'
+
+  # Configuration
+  %w(
+    workarea/core/config
+    workarea/storefront/config
+  ).each do |asset|
+    require_asset asset
+  end
+
+  # Plugin Configuration
+  append_javascripts('storefront.config')
+
+  # Routing
+  %w(
+    workarea/core/routes
+    workarea/storefront/routes
+  ).each do |asset|
+    require_asset asset
+  end
+
+  # Modules
+  %w(
+    workarea/core/modules/transition_events
+    workarea/core/modules/environment
+    workarea/core/modules/cookie
+    workarea/core/modules/string
+    workarea/core/modules/url
+    workarea/core/modules/image
+    workarea/core/modules/deletion_forms
+    workarea/core/modules/form_submitting_controls
+    workarea/core/modules/jquery
+    workarea/core/modules/style_guide_empty_links
+    workarea/core/modules/style_guide_autocomplete_fields
+    workarea/core/modules/reveal_password
+    workarea/core/modules/local_time
+    workarea/storefront/modules/forms
+    workarea/storefront/modules/authenticity_token
+    workarea/storefront/modules/dialog
+    workarea/storefront/modules/dialog_buttons
+    workarea/storefront/modules/dialog_forms
+    workarea/storefront/modules/dialog_close_buttons
+    workarea/storefront/modules/loading
+    workarea/storefront/modules/messages
+    workarea/storefront/modules/pagination
+    workarea/storefront/modules/current_user
+    workarea/storefront/modules/break_points
+    workarea/storefront/modules/primary_nav_content
+    workarea/storefront/modules/product_details_sku_selects
+    workarea/storefront/modules/popup_buttons
+    workarea/storefront/modules/search_fields
+    workarea/storefront/modules/alternate_image_buttons
+    workarea/storefront/modules/scroll_to_buttons
+    workarea/storefront/modules/address_region_fields
+    workarea/storefront/modules/checkout_addresses_forms
+    workarea/storefront/modules/checkout_shipping_services
+    workarea/storefront/modules/checkout_primary_payments
+    workarea/storefront/modules/single_submit_forms
+    workarea/storefront/modules/log_out_link_placeholders
+    workarea/storefront/modules/admin_toolbar
+    workarea/storefront/modules/analytics
+    workarea/storefront/modules/cart_count
+    workarea/storefront/modules/recommendations_placeholders
+    workarea/storefront/modules/recent_views
+    workarea/storefront/modules/workarea_analytics
+    workarea/storefront/modules/mobile_nav_button
+    workarea/storefront/modules/back_to_top_button
+    workarea/storefront/modules/mobile_filter_buttons
+    workarea/storefront/modules/option_buttons
+    workarea/storefront/modules/optional_fields
+    workarea/storefront/modules/traffic_referrer
+  ).each do |asset|
+    require_asset asset
+  end
+
+  # Development Utilities
+  if Rails.env.test? || Rails.env.development?
+    require_asset 'workarea/core/modules/duplicate_id'
+  end
+
+  # Plugin Modules
+  append_javascripts('storefront.modules')
+%>
+
+// Initialize all modules
+WORKAREA.initModules($(document));

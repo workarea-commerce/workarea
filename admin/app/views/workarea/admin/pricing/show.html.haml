@@ -1,0 +1,99 @@
+- @page_title = t('workarea.admin.pricing.show.page_title', name: @order.name)
+
+.view
+  .view__header
+    .grid.grid--middle.grid--right
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@order)
+          %h1= link_to @order.name, url_for(@order)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@order)
+
+  .view__container
+    = render_cards_for(@order, :pricing)
+
+    .section
+      %table
+        %thead
+          %tr
+            %th= t('workarea.admin.pricing.show.product')
+            %th.align-center= t('workarea.admin.pricing.show.quantity')
+            %th.align-right= t('workarea.admin.pricing.show.pricing')
+        %tbody
+          - @order.items.each do |item|
+            %tr
+              %td
+                .grid.grid--auto
+                  .grid__cell
+                    = link_to image_tag(product_image_url(item.image, :small), alt: item.product.name), catalog_product_url(item.product, sku: item.sku)
+                  .grid__cell
+                    %p= link_to item.product.name, catalog_product_path(item.product, sku: item.sku)
+                    %p= item.sku
+                    - if item.customizations.any?
+                      - item.customizations.each do |name, value|
+                        %p #{name.titleize}: #{value}
+              %td.align-center= item.quantity
+              %td.align-right
+                - item.price_adjustments.each do |adjustment|
+                  %p
+                    %strong= adjustment.description
+                    %span= number_to_currency(adjustment.amount)
+                %p
+                  %strong= t('workarea.admin.pricing.show.total_price')
+                  %span= number_to_currency item.total_price
+
+      %table.data-pairs
+        %tbody
+          %tr
+            %th
+              %span.data-pairs__name= t('workarea.admin.pricing.show.promo_codes')
+            %td
+              - if @order.promo_codes.empty?
+                \-
+              - else
+                = @order.promo_codes.join(', ')
+
+          = append_partials('admin.orders_edit_discounts')
+
+    %h2.view__heading= t('workarea.admin.pricing.show.shipping_charges')
+    .section.align-center
+      %ul.list-reset
+        - @order.shipping.price_adjustments.each do |adjustment|
+          %li
+            %strong= adjustment.description
+            %span= number_to_currency(adjustment.amount)
+
+    %h2.view__heading= t('workarea.admin.pricing.show.totals')
+    .section
+      .grid
+        .grid__cell.grid__cell--33
+        .grid__cell.grid__cell--33
+          %table.data-pairs
+            %tbody
+              %tr
+                %th
+                  %span.data-pairs__name= t('workarea.admin.pricing.show.subtotal')
+                %td= number_to_currency @order.subtotal_price
+              %tr
+                %th
+                  %span.data-pairs__name= t('workarea.admin.pricing.show.shipping')
+                %td= number_to_currency @order.shipping_total
+              %tr
+                %th
+                  %span.data-pairs__name= t('workarea.admin.pricing.show.tax')
+                %td= number_to_currency @order.tax_total
+              - if @order.total_adjustments.any?
+                - @order.total_adjustments.each do |adjustment|
+                  %tr
+                    %th
+                      %span= adjustment.description
+                    %td
+                      - if adjustment.discount?
+                        %strong= number_to_currency(adjustment.amount)
+                      - else
+                        %span= number_to_currency(adjustment.amount)
+              %tr
+                %th
+                  %span.data-pairs__name= t('workarea.admin.pricing.show.total')
+                %td= number_to_currency @order.total_price

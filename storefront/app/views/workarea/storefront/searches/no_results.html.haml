@@ -1,0 +1,31 @@
+- @title = t('workarea.storefront.searches.title')
+
+- content_for :head do
+  %meta{ name: 'robots', content: 'noindex, follow' }
+
+.search-no-results.view{ data: { analytics: search_results_view_analytics_data(@search).to_json } }
+
+  %h1.search-no-results__heading= t('workarea.storefront.searches.no_results', terms: @search.query_string)
+
+  - if @search.query_suggestions.any?
+    .search-no-results__suggestions
+      %h2.search-no-results__suggestions-heading Did You Mean?
+      %ul.search-no-results__suggestions-list
+        - @search.query_suggestions.each do |search|
+          %li.search-no-results__suggestions-item
+            = link_to search, search_path(q: search), class: 'search-no-results__suggestions-link'
+
+  - if @search.no_results_content.present?
+    .search-no-results__content
+      = render_content_blocks(@search.no_results_content)
+
+  .search-no-results__search
+    %h2.search-no-results__search-heading= t('workarea.storefront.searches.search_again')
+    = form_tag search_path, method: 'get', class: 'inline-form' do
+      .inline-form__cell
+        .value= search_field_tag :q, params[:q], id: 'no_results_storefront_search', class: 'text-box', aria: { label: t('workarea.storefront.searches.search') }, placeholder: t('workarea.storefront.searches.search'), data: { search_field: '' }, role: 'search'
+      .inline-form__cell= button_tag t('workarea.storefront.forms.go'), class: 'button'
+
+
+  %div{ data: { recommendations_placeholder: recent_views_path } }
+  = append_partials('storefront.search_no_results', search: @search)

@@ -1,0 +1,14 @@
+.view
+  .content-preview
+    .content-preview__header
+      %ol.content-preview__breakpoint-selector
+        - preview_breakpoints.each do |name, size|
+          %li.content-preview__breakpoint-option
+            %button.content-preview__breakpoint-button{ type: 'button', class: ('content-preview__breakpoint-button--active' if name.to_s == 'wide'), data: { content_preview: name.to_s } }
+              = inline_svg("workarea/admin/icons/#{name.to_s.underscore}.svg", class: 'content-preview__breakpoint-button-icon svg-icon svg-icon--block svg-icon--large svg-icon--gray')
+              = name.to_s.titleize
+
+    %p= t('workarea.admin.content.preview.help_text')
+
+    .content-preview__preview-container
+      %iframe.content-preview__iframe{ src: storefront.content_area_path(@content, area_id: @content.current_area, disable_visibility_classes: true) }

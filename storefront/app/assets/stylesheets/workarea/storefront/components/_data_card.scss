@@ -1,0 +1,68 @@
+/*------------------------------------*\
+    #DATA-CARD
+\*------------------------------------*/
+
+$data-card-minimum-width:      200px !default;
+$data-card-border-color:       $light-gray !default;
+
+$data-card-default-indicator:  '✓' !default;
+
+
+.data-card {
+    margin:  0 0 $vertical-margin;
+    padding: ($spacing-unit * 2);
+    min-width: $data-card-minimum-width;
+    border: 1px solid $data-card-border-color;
+    border-radius: 5px;
+}
+
+/**
+ * 1. adjacent `.data-card__cell`
+ * 2. adjacent `.data-card__cell` within a `.data-card--row`
+ */
+
+    .data-card__cell {
+        margin-bottom: $vertical-margin;
+
+        & + & { /* [1] */
+            margin: 0;
+        }
+
+        .data-card--row & {
+            display: table-cell;
+            padding: ($spacing-unit * 2);
+        }
+
+        .data-card--row & + & { /* [2] */
+            text-align: right;
+        }
+    }
+
+        .data-card__line {
+            margin: 0;
+
+            & + & {
+                margin-top: $spacing-unit;
+            }
+        }
+
+        .data-card__credit-card {}
+
+            .data-card__credit-card-number {
+                display: inline-block;
+                vertical-align: middle;
+            }
+
+        .data-card__credit-card--default {
+            &:after {
+                content: $data-card-default-indicator;
+            }
+        }
+
+
+.data-card--row {
+    display: table;
+    width: 100%;
+    border-spacing:  0;
+    border-collapse: collapse;
+}

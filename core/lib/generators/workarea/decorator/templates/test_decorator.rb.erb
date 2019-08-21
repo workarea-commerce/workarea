@@ -1,0 +1,13 @@
+require 'test_helper'
+
+module Workarea
+  decorate <%= test_class_name %>, with: :<%= app_name.optionize %> do
+    # Define additional tests based on new functionality or
+    # override tests originally defined in the decorated class for
+    # changes that alter default behavior.
+    #
+    # While calling super to extend a test case is possible, it is
+    # recommended that you add a new test or completely override an
+    # existing test to avoid ambiguity in your test suite.
+  end
+end

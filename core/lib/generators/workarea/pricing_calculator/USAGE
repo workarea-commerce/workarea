@@ -1,0 +1,9 @@
+Description:
+    Generates a new PricingCalculator
+
+Example:
+    rails generate workarea:pricing_calculator Customizations
+
+    This will create:
+        app/models/workarea/pricing/calculators/customizations_calculator.rb
+        test/models/workarea/pricing/calculators/customizations_calculator_test.rb

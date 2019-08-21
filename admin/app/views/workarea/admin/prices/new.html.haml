@@ -1,0 +1,65 @@
+- @page_title = t('workarea.admin.prices.title', sku: @sku.name)
+
+.view
+  .view__header
+    .grid.grid--middle.grid--right
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@sku)
+          %h1= link_to @sku.name, url_for(@sku)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@sku)
+
+  .view__container
+    = render_cards_for(@sku, :prices)
+
+  .view__container.view__container--narrow
+    = form_tag pricing_sku_prices_path(@sku), method: :post, data: { unsaved_changes: '' } do
+      %table
+        %thead
+          %tr
+            %th= t('workarea.admin.prices.regular_price')
+            %th #{t('workarea.admin.prices.sale_price')} #{t('workarea.admin.prices.sale_price_default')}
+            %th= t('workarea.admin.prices.minimum_quantity')
+            %th= t('workarea.admin.fields.active')
+            %th= t('workarea.admin.fields.on_sale')
+            = append_partials('admin.price_table_columns', sku: @sku)
+            %th
+            %th
+        %tbody
+          - @sku.prices.each do |price, index|
+            %tr
+              %td= number_to_currency(price.regular)
+              %td= number_to_currency(price.sale)
+              %td= price.min_quantity
+              %td
+                - if price.active?
+                  = t('workarea.admin.prices.active')
+                - else
+                  = t('workarea.admin.prices.inactive')
+              %td= price.on_sale? ? t("workarea.admin.pricing_skus.on_sale") : t("workarea.admin.pricing_skus.not_on_sale")
+              = append_partials('admin.price_table_values', price: price)
+              %td
+              %td
+
+          %tr
+            %td
+              = currency_symbol
+              = text_field_tag 'price[regular]', '', class: 'text-box text-box--small', title: t('workarea.admin.fields.regular')
+            %td
+              = currency_symbol
+              = text_field_tag 'price[sale]', '', class: 'text-box text-box--small', title: t('workarea.admin.fields.sale')
+            %td
+              = text_field_tag 'price[min_quantity]', 1, class: 'text-box text-box--small', title: t('workarea.admin.fields.min_quantity'), min: '1'
+            %td
+              = toggle_button_for 'price[active]', true
+            %td
+              = toggle_button_for 'price[on_sale]', @sku.on_sale?
+
+            = append_partials('admin.price_table_fields', price: nil)
+            %td
+            %td
+
+      .workflow-bar
+        .grid.grid--auto.grid--right.grid--middle
+          .grid__cell= button_tag t('workarea.admin.prices.new.create_price'), value: 'create_price', class: 'workflow-bar__button workflow-bar__button--create'

@@ -1,0 +1,16 @@
+Description:
+    Generate boilerplate for a custom content block type.
+
+Options:
+    --skip-view-model - do not create a view model
+
+Example:
+    rails generate workarea:content_block_type BlockType
+
+    creates:
+      app/assets/stylesheets/workarea/storefront/components/_block_type_content_block.scss
+      app/views/workarea/admin/content_blocks/types/_block_type.html.haml
+      app/views/workarea/storefront/content_blocks/types/_block_type.html.haml
+      app/view_models/workarea/content_blocks/block_type_view_model.rb
+    modifies:
+      config/initializers/workarea.rb

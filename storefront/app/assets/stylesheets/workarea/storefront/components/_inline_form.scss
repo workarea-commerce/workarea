@@ -1,0 +1,11 @@
+/*------------------------------------*\
+    #INLINE-FORM
+\*------------------------------------*/
+
+.inline-form {}
+
+    .inline-form__cell {
+        display: inline-block;
+        margin: 0;
+        vertical-align: top;
+    }

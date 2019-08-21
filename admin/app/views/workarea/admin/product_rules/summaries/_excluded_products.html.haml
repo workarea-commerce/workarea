@@ -1,0 +1,4 @@
+- if rule.terms.size > 5
+  Exclude #{rule.terms.size} products
+- else
+  Exclude products #{exclude_products_rule_names_for(rule)}

@@ -1,0 +1,88 @@
+/*------------------------------------*\
+    #TOOLTIPSTER-WORKAREA-ADMIN
+\*------------------------------------*/
+
+/**
+ * This is the `tooltipster-workarea-admin` theme, which overrides the default
+ * 'sideTip' theme packaged with Tooltipster. For more theme examples see:
+ * https://github.com/iamceege/tooltipster/tree/4.1.2/src/css/plugins/tooltipster/sideTip/themes
+ */
+
+$tooltipster-bg-color:     $white !default;
+$tooltipster-arrow-color:  $light-gray !default;
+
+$tooltipster-arrow-height:  8px !default;
+
+
+/**
+ * 1. Important because z-index is dynamically
+ *    added as an inline style via JavaScript.
+ */
+.tooltipster-sidetip.tooltipster-workarea-admin {
+    z-index: index($components, tooltipster) !important; /* [1] */
+
+    /**
+     * Tooltip container
+     */
+    .tooltipster-box {
+        @include global-box-shadow;
+        background: $tooltipster-bg-color;
+        border: 0;
+        border-radius: $global-border-radius;
+    }
+
+
+    /**
+     * Content container
+     */
+
+    .tooltipster-content {
+        padding: $spacing-unit;
+        color: $font-color;
+        border-radius: $global-border-radius;
+    }
+
+
+    /**
+     * Container gutters. These make room for the arrow.
+     */
+    &.tooltipster-top .tooltipster-box    { margin-top:    $tooltipster-arrow-height; }
+    &.tooltipster-right .tooltipster-box  { margin-right:  $tooltipster-arrow-height; }
+    &.tooltipster-bottom .tooltipster-box { margin-bottom: $tooltipster-arrow-height; }
+    &.tooltipster-left .tooltipster-box   { margin-left:   $tooltipster-arrow-height; }
+
+
+    /**
+     * Arrow
+     *
+     * 1. styles for top and bottom arrows are default
+     * 2. then override the default for left and right arrows
+     */
+    .tooltipster-arrow { /* [1] */
+        margin: 0 0 0 ($tooltipster-arrow-height * -1);
+        width:  ($tooltipster-arrow-height * 2);
+        height: $tooltipster-arrow-height;
+    }
+
+    &.tooltipster-right .tooltipster-arrow,
+    &.tooltipster-left .tooltipster-arrow { /* [2] */
+        margin: ($tooltipster-arrow-height * -1) 0 0;
+        width:  $tooltipster-arrow-height;
+        height: ($tooltipster-arrow-height * 2);
+    }
+
+    .tooltipster-arrow-background { display: none; }
+
+    .tooltipster-arrow-border {
+        border-width: $tooltipster-arrow-height;
+    }
+
+    &.tooltipster-top .tooltipster-arrow-border    { border-top-color:    $tooltipster-arrow-color; }
+    &.tooltipster-right .tooltipster-arrow-border  { border-right-color:  $tooltipster-arrow-color; }
+    &.tooltipster-bottom .tooltipster-arrow-border { border-bottom-color: $tooltipster-arrow-color; }
+    &.tooltipster-left .tooltipster-arrow-border   { border-left-color:   $tooltipster-arrow-color; }
+
+    .tooltipster-arrow-uncropped {}
+    &.tooltipster-right .tooltipster-arrow-uncropped { left: $tooltipster-arrow-height * -1; }
+    &.tooltipster-bottom .tooltipster-arrow-uncropped { top: $tooltipster-arrow-height * -1; }
+}

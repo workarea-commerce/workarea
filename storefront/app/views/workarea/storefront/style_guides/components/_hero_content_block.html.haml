@@ -1,0 +1,29 @@
+#hero-content-block.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'hero_content_block')
+
+  %p A content block that displays an image with a positionable button overlay.
+
+  %p In the following examples:
+  %ul
+    %li The example block has been centered
+    %li An intrinsic ratio has been manually applied to each image.
+
+  - %w(top-left top-center top-right middle-left middle-center middle-right bottom-left bottom-center bottom-right).each do |position|
+    %p should display a <b>regular button</b> @ <b>#{position.gsub('-', ', ')}</b>
+    .style-guide__example-block
+      .hero-content-block
+        .hero-content-block__image-container{ style: "padding-bottom: 48.958333333%" }= image_tag 'workarea/storefront/style_guide_light_banner.png', alt: '', class: 'hero-content-block__image'
+        .hero-content-block__button{ class: "hero-content-block__button--#{position}" }= link_to 'Hero Action', '#', class: 'button'
+
+    %p should display a <b>large button</b> @ <b>#{position.gsub('-', ', ')}</b>
+    .style-guide__example-block
+      .hero-content-block
+        .hero-content-block__image-container{ style: "padding-bottom: 48.958333333%" }= image_tag 'workarea/storefront/style_guide_light_banner.png', alt: '', class: 'hero-content-block__image'
+        .hero-content-block__button{ class: "hero-content-block__button--#{position}" }= link_to 'Hero Action', '#', class: 'button button--large'
+
+    %p should display a <b>small button</b> @ <b>#{position.gsub('-', ', ')}</b>
+    .style-guide__example-block
+      .hero-content-block
+        .hero-content-block__image-container{ style: "padding-bottom: 48.958333333%" }= image_tag 'workarea/storefront/style_guide_light_banner.png', alt: '', class: 'hero-content-block__image'
+        .hero-content-block__button{ class: "hero-content-block__button--#{position}" }= link_to 'Hero Action', '#', class: 'button button--small'

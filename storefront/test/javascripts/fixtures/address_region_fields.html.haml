@@ -1,0 +1,17 @@
+%form
+  .address-fields
+    .property{ data: { address_region_fields: 'country' } }
+      = label_tag "address[country]", nil, class: 'property__name' do
+        %span.property__text Country
+      .value
+        - options = options_for_select([["United States", "US"], ["Canada", "CA"], ['Mexico', 'MX'], ['American Samoa', 'AS']])
+        = select_tag "address[country]", options, title: "Address Country"
+
+    .property{ data: { address_region_fields: 'region' } }
+      = label_tag "address[region]", nil, class: 'property__name' do
+        %span.property__text Region
+      .value
+        - regions = { 'United States' => [['Pennsylvania', 'PA']], 'Canada' => [['Quebec', 'QC']], 'American Samoa' => [['Palauli', 'PL']] }
+        - options = grouped_options_for_select(regions, 'PA', prompt: 'Select Region')
+        = select_tag "address_region_select", options, required: true, title: "Address Region", class: 'hidden'
+        = text_field_tag "address[region]", 'PA', class: 'text-box', required: true, title: "Address Region"

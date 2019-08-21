@@ -1,0 +1,184 @@
+/*------------------------------------*\
+    #HEADER
+\*------------------------------------*/
+
+$header-bg-color:  $white !default;
+
+$header-search-form-bg-color:  $off-white !default;
+
+$header-logo-height:  32px !default;
+$header-logo-color:   $off-white;
+
+$header-menu-button-bg-color:  $blue !default;
+$header-menu-button-size:      $global-header-height !default;
+
+$header-menu-icon-color:  $white !default;
+$header-menu-icon-size:   40px !default;
+
+$header-action-border-color:  $border-color !default;
+
+$header-action-link-color:           $off-black !default;
+$header-action-link-bg-color:        $white !default;
+$header-action-link-hover-bg-color:  $off-white !default;
+
+$header-alert-width: 56px;
+$header-alert-bg-color: $white !default;
+
+$header-alert-icon-color:  $red !default;
+$header-alert-icon-size:   24px !default;
+
+.header {
+    @extend %clearfix;
+    @include global-box-shadow;
+    position: fixed;
+    top: 0;
+    z-index: index($components, header);
+    width: 100%;
+    height: $global-header-height;
+    background: $header-bg-color;
+
+    .admin-toolbar & {
+        position: relative;
+        box-shadow: none;
+    }
+}
+
+.header--takeover {
+    box-shadow: none;
+}
+
+
+    .header__logo {
+        display: none;
+
+        .header--takeover & {
+            @include center;
+            display: block;
+            height: $header-logo-height;
+            fill: $header-logo-color;
+        }
+    }
+
+
+    .header__menu-button {
+        @extend %button-reset;
+        position: relative; /* [1] */
+        width:  $header-menu-button-size;
+        height: $header-menu-button-size;
+        float: left;
+        background: $header-menu-button-bg-color;
+        cursor: pointer;
+    }
+
+    .header__menu-button--open {
+        .header--takeover & {
+            display: none;
+        }
+    }
+
+    .header__menu-button--close {
+        display: none;
+
+        .header--takeover & {
+            display: block;
+        }
+    }
+
+        .header__menu-icon {
+            @include center;
+            width:  $header-menu-icon-size;
+            height: $header-menu-icon-size;
+            fill: $header-menu-icon-color;
+        }
+
+
+    .header__contents {
+        display: flex;
+
+        .header--takeover & {
+            display: none;
+        }
+    }
+
+
+        .header__search-form {
+            width: 100%;
+            background: $header-search-form-bg-color;
+        }
+
+
+        .header__action {
+            display: inline-block;
+            height: $global-header-height;
+            white-space: nowrap;
+            border-left: 1px solid $header-action-border-color;
+            vertical-align: top;
+        }
+
+            .header__action-link {
+                @extend %button-reset;
+                @extend %heading;
+                @extend %heading--5;
+                @extend %heading--no-margin;
+                padding: 0 ($spacing-unit * 2);
+                line-height: $global-header-height;
+                white-space: nowrap;
+                background: $header-action-link-bg-color;
+                cursor: pointer;
+                transition: background-color $global-transition-speed ease-out;
+
+                &:hover {
+                    text-decoration: none;
+                    background-color: $header-action-link-hover-bg-color;
+                }
+            }
+
+            .header__action-link-text {
+                display: none;
+
+                @include respond-to($medium-breakpoint) {
+                    display: inline-block;
+                }
+            }
+
+
+            .header__user-menu {
+                display: table;
+                height: $global-header-height;
+                line-height: 1;
+                text-align: left;
+                background: $header-action-link-bg-color;
+                transition: background-color $global-transition-speed ease-out;
+
+                &:hover {
+                    background-color: $header-action-link-hover-bg-color;
+                }
+            }
+
+                .header__user-menu-cell {
+                    display: table-cell;
+                    padding: 0 ($spacing-unit * 2);
+                    vertical-align: middle;
+
+                    + .header__user-menu-cell {
+                        display: none;
+                        padding-left: 0;
+
+                        @include respond-to($medium-breakpoint) {
+                            display: table-cell;
+                        }
+                    }
+                }
+
+        .header__alert {
+            width: $header-alert-width;
+            background: $header-alert-bg-color;
+            position: relative;
+        }
+
+            .header__alert-icon {
+                @include center;
+                width:  $header-alert-icon-size;
+                height: $header-alert-icon-size;
+                fill: $header-alert-icon-color;
+            }

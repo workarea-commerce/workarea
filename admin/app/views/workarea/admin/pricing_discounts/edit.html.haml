@@ -1,0 +1,57 @@
+- @page_title = t('workarea.admin.pricing_discounts.edit.page_title', name: @discount.name)
+
+.discount.view
+  .view__header
+    .grid
+      .grid__cell.grid__cell--25
+        = render 'workarea/admin/releases/select'
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@discount)
+          %h1= link_to @discount.name, url_for(@discount)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@discount)
+
+  .view__container
+    = render_cards_for(@discount, :attributes)
+
+  .view__container.view__container--narrow
+    - @discount.errors.full_messages.each do |message|
+      = render_message 'error', message
+
+    = form_tag pricing_discount_path(@discount), method: :patch, id: 'discount_form', data: { unsaved_changes: '' } do
+      .section
+        .property.property--required
+          = label_tag 'discount[name]', t('workarea.admin.fields.name'), class: 'property__name'
+          = text_field_tag 'discount[name]', @discount.name, class: 'text-box text-box--i18n', required: true
+
+        .property
+          = label_tag 'discount_tag_list', t('workarea.admin.fields.tags'), class: 'property__name'
+          = text_field_tag  'discount[tag_list]', @discount.tag_list, class: 'text-box'
+          %span.property__note= t('workarea.admin.form.csv_field_note')
+
+        .property
+          %span.property__name
+            = t('workarea.admin.fields.active')
+            = inline_svg('workarea/admin/i18n.svg', class: 'svg-icon svg-icon--small') if locale_options.many? && Workarea.config.localized_active_fields
+          = toggle_button_for 'discount[active]', @discount.active?
+
+        .grid
+          .grid__cell.grid__cell--33.grid__cell--25-at-medium
+            .property
+              = label_tag 'redemptions', t('workarea.admin.fields.redemptions'), class: 'property__name'
+              = @discount.redemptions.size
+
+          .grid__cell.grid__cell--33.grid__cell--25-at-medium
+            .property
+              = label_tag 'discount_updated_at', t('workarea.admin.fields.updated_at'), class: 'property__name'
+              = local_time(@discount.updated_at)
+          .grid__cell.grid__cell--33.grid__cell--25-at-medium
+            .property
+              = label_tag 'discount_created_at', t('workarea.admin.fields.created_at'), class: 'property__name'
+              = local_time(@discount.created_at)
+
+      .workflow-bar
+        .grid.grid--auto.grid--right.grid--middle
+          .grid__cell= render 'workarea/admin/shared/publishing_select'
+          .grid__cell= button_tag t('workarea.admin.form.save_changes'), value: 'save_discount', class: 'workflow-bar__button workflow-bar__button--update'

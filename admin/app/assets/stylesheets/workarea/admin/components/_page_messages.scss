@@ -1,0 +1,11 @@
+/*------------------------------------*\
+    #PAGE-MESSAGES
+\*------------------------------------*/
+
+.page-messages {
+    position: fixed;
+    top:   $spacing-unit;
+    right: 20%;
+    left:  20%;
+    z-index: index($components, page-messages);
+}

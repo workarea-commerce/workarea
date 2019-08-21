@@ -1,0 +1,16 @@
+module Workarea
+  module Storefront
+    module ProductTemplates
+      class <%= class_name %>ViewModel < ProductViewModel
+
+        # Override method from model in order to
+        # prepend the template type to the name of
+        # the product.
+        #
+        def name
+          [template, model.name].join(' ')
+        end
+      end
+    end
+  end
+end

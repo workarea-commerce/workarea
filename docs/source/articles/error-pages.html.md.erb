@@ -1,0 +1,95 @@
+---
+title: Error Pages
+excerpt: Workarea Storefront provides an errors controller through which it routes all 404 and 500 errors, and an errors view, which it conditionally renders for HTML responses in place of the static 404 and 500 error pages provided by Rails.[1] Storefront err
+---
+
+# Error Pages
+
+Workarea Storefront provides an errors controller through which it routes all 404 and 500 errors, and an errors view, which it conditionally renders for HTML responses in place of the static 404 and 500 error pages provided by Rails.<sup><a href="#notes" id="note-1-context">[1]</a></sup> Storefront error pages provide several advantages over the Rails defaults.
+
+- Each error page renders with administrable system content, specific to the error type (404 or 500)
+- The error pages use the Storefront layout, providing a consistent look and feel, as well as global functionality such as search and navigation
+- The errors view is a standard Workarea view, which you can [override](overriding.html) to extend as necessary
+
+For these reasons, **Workarea 3.3 changes error page rendering to _always_ use Workarea error pages instead of the Rails defaults**.
+
+## Use Workarea Error Pages
+
+To use the Storefront errors view with administrable content in place of the default Rails error pages, ensure [system contents](content.html#system-content) with the following names exist within each environment:
+
+- `'Not Found'` for 404 pages
+- `'Internal Server Error'` for 500 pages
+
+(Since Workarea 3.3, the errors controller creates these contents on demand, so it isn't necessary to create them in advance. However, you should create them if the retailer would like to customize the content for these pages.)
+
+The default customer service pages [seeds](seeds.html) create these system contents within development environments. For all other environments, create these contents through any Ruby interface to which you have access (e.g.&nbsp;Rails console/runner/task). Refer to the example in Listing 1.
+
+<!-- <figure id="listing-1">
+  <figcaption>
+    <p>Listing 1: Excerpt from <i>workarea-core-3.2.4/app/seeds/workarea/customer_service_pages_seeds.rb</i></p>
+  </figcaption> -->
+
+Listing 1: Excerpt from _workarea-core-3.2.4/app/seeds/workarea/customer\_service\_pages\_seeds.rb_
+
+```ruby
+module Workarea
+  class CustomerServicePagesSeeds
+    def perform
+      puts 'Adding auxiliary pages...'
+
+      <var># …</var>
+
+      internal_error_page = Content.for('Internal Server Error')
+      internal_error_page.save!
+
+      not_found_content = Content.for('Not Found')
+      not_found_content.blocks.build(
+        type: :html,
+        data: {
+          html: '<p>Try searching or <a href="/">start at the home page</a>.</p>'
+        }
+      )
+      not_found_content.save!
+    end
+  end
+end
+```
+<!-- </figure> -->
+
+Next, edit the content for these pages within each environment and view the results.
+
+<figure id="figure-1">
+  <figcaption>
+    <p>Figure 1: Administration of the 404 system content</p>
+  </figcaption>
+  <p><%= image_tag "images/404-system-content-admin.png", alt: "The admin for 404 system content" %></p>
+</figure><figure id="figure-2">
+  <figcaption>
+    <p>Figure 2: A Storefront 404 error page in a development environment</p>
+  </figcaption>
+  <p><%= image_tag "images/404-storefront-error-page.png", alt: "A 404 page in the Storefront" %></p>
+</figure>
+
+## View Production Error Pages in Development
+
+By default, Rails responds to an error in development with a debugging page. To view production error pages in development, you must change this behavior. Modify your application’s development configuration as shown in the following patch:
+
+```
+--- config/environments/development.rb.old	2018-03-20 15:37:21.000000000 -0400
++++ config/environments/development.rb	2018-03-20 15:37:04.000000000 -0400
+@@ -14,7 +14,7 @@
+   config.eager_load = false
+
+   # Show full error reports.
+- config.consider_all_requests_local = true
++ config.consider_all_requests_local = false
+
+   # Enable/disable caching. By default caching is disabled.
+   if Rails.root.join('tmp/caching-dev.txt').exist?
+```
+
+After changing your configuration, restart the application.
+
+## Notes
+
+[1] Specifically, the paths `'/404'` and `'/500'` (regardless of HTTP method) are routed to the `not_found` and `internal` actions of the `Storefront::ErrorsController`, each of which conditionally renders the _workarea/storefront/errors/show.html.haml_ view.

@@ -1,0 +1,16 @@
+/**
+ * UIs that stick shouldn't in the test environment.
+ */
+.header,
+.workflow-bar { position: absolute !important; }
+
+.takeover__logo,
+.content-editor__aside,
+.content-editor__form-actions { position: relative !important; }
+
+
+/**
+ * Phantom JS 2.1 does not have support for flexbox
+ * Overrides necessary to prevent layout issues in tests.
+ */
+.header__search-form { max-width: 300px; }

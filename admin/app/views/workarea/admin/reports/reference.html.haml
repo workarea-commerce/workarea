@@ -1,0 +1,88 @@
+- @page_title = t('workarea.admin.reports.reference.title')
+
+.view
+  .view__header
+    .view__heading
+      = link_to "← #{t('workarea.admin.reports.back')}", :back
+      %h1.heading.heading--no-margin= t('workarea.admin.reports.reference.title')
+      %p= t('workarea.admin.reports.reference.intro')
+
+  .view__container.view__container--narrow
+    .section
+      %h2.align-center= t('workarea.admin.reports.reference.terms')
+
+      %table
+        %tr
+          %td
+            %strong= t('workarea.admin.reports.reference.average_order_value')
+          %td= t('workarea.admin.reports.reference.average_order_value_description')
+        %tr
+          %td
+            %strong= t('workarea.admin.reports.reference.discounts')
+          %td= t('workarea.admin.reports.reference.discounts_description')
+        %tr
+          %td
+            %strong= t('workarea.admin.reports.reference.first_time_orders')
+          %td= t('workarea.admin.reports.reference.first_time_orders_description')
+        %tr
+          %td
+            %strong= t('workarea.admin.reports.reference.merchandise')
+          %td= t('workarea.admin.reports.reference.merchandise_description')
+        %tr
+          %td
+            %strong= t('workarea.admin.reports.reference.orders')
+          %td= t('workarea.admin.reports.reference.orders_description')
+        %tr
+          %td
+            %strong= t('workarea.admin.reports.reference.returning_orders')
+          %td= t('workarea.admin.reports.reference.returning_orders_description')
+        %tr
+          %td
+            %strong= t('workarea.admin.reports.reference.revenue')
+          %td= t('workarea.admin.reports.reference.revenue_description')
+        %tr
+          %td
+            %strong= t('workarea.admin.reports.reference.search_id')
+          %td= t('workarea.admin.reports.reference.search_id_description')
+        %tr
+          %td
+            %strong= t('workarea.admin.reports.reference.searches')
+          %td= t('workarea.admin.reports.reference.searches_description')
+        %tr
+          %td
+            %strong= t('workarea.admin.reports.reference.shipping')
+          %td= t('workarea.admin.reports.reference.shipping_description')
+        %tr
+          %td
+            %strong= t('workarea.admin.reports.reference.tax')
+          %td= t('workarea.admin.reports.reference.tax_description')
+        %tr
+          %td
+            %strong= t('workarea.admin.reports.reference.units_sold')
+          %td= t('workarea.admin.reports.reference.units_sold_description')
+
+    .section
+      %h2.align-center= t('workarea.admin.reports.reference.discrepancies')
+      %p.align-center= t('workarea.admin.reports.reference.discrepancies_description')
+
+      %table
+        %tr
+          %td
+            %strong= t('workarea.admin.reports.reference.definitions')
+          %td= t('workarea.admin.reports.reference.definitions_description')
+        %tr
+          %td
+            %strong= t('workarea.admin.reports.reference.browser_configuration')
+          %td= t('workarea.admin.reports.reference.browser_configuration_description')
+        %tr
+          %td
+            %strong= t('workarea.admin.reports.reference.time_zones')
+          %td= t('workarea.admin.reports.reference.time_zones_description_html', time_zone: Time.zone.name)
+        %tr
+          %td
+            %strong= t('workarea.admin.reports.reference.time_delay')
+          %td= t('workarea.admin.reports.reference.time_delay_description_html')
+
+    .section
+      %h2.align-center= t('workarea.admin.reports.reference.insights')
+      %p.align-center= t('workarea.admin.reports.reference.insights_description')

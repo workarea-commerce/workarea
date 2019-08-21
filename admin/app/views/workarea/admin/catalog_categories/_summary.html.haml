@@ -1,0 +1,14 @@
+= link_to catalog_category_path(model), class: (model.active? ? 'summary' : 'summary summary--inactive') do
+  %span.summary__name= model.name
+  .summary__info-container
+    %span.summary__info
+      - if model.active?
+        #{local_time_ago(model.updated_at)}
+      - else
+        %span.summary__info-text-inactive= t('workarea.admin.catalog_categories.summary.inactive')
+    %span.summary__info
+      - if model.breadcrumbs.blank?
+        = t('workarea.admin.catalog_categories.summary.no_taxonomy')
+      - else
+        = model.breadcrumbs.join(' > ')
+  %span.summary__type= t('workarea.admin.catalog_categories.summary.type')

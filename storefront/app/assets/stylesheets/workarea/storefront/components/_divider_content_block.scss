@@ -1,0 +1,38 @@
+/*------------------------------------*\
+    #DIVIDER-CONTENT-BLOCK
+\*------------------------------------*/
+
+$divider-content-block-color:  $black !default;
+
+.divider-content-block {
+    &:before,
+    &:after {
+        display: block;
+        height: ($spacing-unit * 4); // TODO: v4 remove
+        content: '';
+    }
+}
+
+.divider-content-block--small {
+    &:before, &:after {
+        height: $spacing-unit;
+    }
+}
+
+.divider-content-block--medium {
+    &:before, &:after {
+        height: $spacing-unit * 2;
+    }
+}
+
+.divider-content-block--large {
+    &:before, &:after {
+        height: $spacing-unit * 4;
+    }
+}
+
+    .divider-content-block__line {
+        display: block;
+        height: 0;
+        border-color: $divider-content-block-color;
+    }

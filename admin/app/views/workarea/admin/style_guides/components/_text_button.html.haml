@@ -1,0 +1,58 @@
+#text-button.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'text_button')
+
+  %p Displays an element as a bold link, underlined on hover. Primarily used for styling secondary actions, like "Cancel" next to a "Submit" action.
+
+  %p should work with <code>button[type=button]</code> elements:
+  .style-guide__example-block
+    = button_tag 'Text Button', class: 'text-button', type: 'button'
+
+  %p should support an icon
+  .style-guide__example-block
+    = button_tag class: 'text-button', type: 'button' do
+      Text Button
+      = inline_svg('workarea/core/icon.svg', class: 'text-button__icon')
+
+  %p should work with <code>button[type=submit]</code> elements:
+  .style-guide__example-block
+    = button_tag 'Text Button', class: 'text-button', type: 'submit'
+
+  %p should work with <code>input[type=submit]</code> elements:
+  .style-guide__example-block
+    = submit_tag 'Text Button', class: 'text-button'
+
+  %p should work with <code>a</code> elements:
+  .style-guide__example-block
+    = link_to 'Text Button', '#', class: 'text-button'
+
+  %p should style non-interactive elements wrapped in an <code>a</code> element:
+  .style-guide__example-block
+    = link_to '#' do
+      %span.text-button Span Text Button
+
+#text-button--create.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'text_button__create')
+
+  %p should change the color of the component
+  .style-guide__example-block
+    = button_tag 'Text Button', class: 'text-button text-button--create', type: 'button'
+
+  .style-guide__example-block
+    = button_tag class: 'text-button text-button--create', type: 'button' do
+      Text Button
+      = inline_svg('workarea/core/icon.svg', class: 'text-button__icon')
+
+#text-button--destroy.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'text_button__destroy')
+
+  %p should change the color of the component
+  .style-guide__example-block
+    = button_tag 'Text Button', class: 'text-button text-button--destroy', type: 'button'
+
+  .style-guide__example-block
+    = button_tag class: 'text-button text-button--destroy', type: 'button' do
+      Text Button
+      = inline_svg('workarea/core/icon.svg', class: 'text-button__icon')

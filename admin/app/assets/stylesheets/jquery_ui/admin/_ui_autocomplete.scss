@@ -1,0 +1,17 @@
+/*------------------------------------*\
+    #UI-AUTOCOMPLETE
+\*------------------------------------*/
+
+$autocomplete-bg-color:    $background-color !default;
+$autocomplete-max-height:  256px !default;
+
+.ui-autocomplete {
+    @include global-box-shadow;
+    position: absolute;
+    z-index: index($components, ui-autocomplete);
+    max-height: $autocomplete-max-height;
+    background: $autocomplete-bg-color;
+    border-radius: $global-border-radius;
+    list-style: none;
+    overflow-y: auto;
+}

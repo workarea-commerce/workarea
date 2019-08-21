@@ -1,0 +1,45 @@
+#message.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'message')
+
+  %p Displays a general-use message with an icon.
+
+  %p Progressively enhanced by <code>WORKAREA.messages</code> to add a dismiss button.
+
+  .style-guide__example-block
+    = render_message 'info' do
+      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+      = link_to 'Message link', '#'
+
+#message--error.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'message__error')
+
+  %p Modifies #{link_to_style_guide('components', 'message', true)} to change the color scheme and icon.
+
+  .style-guide__example-block
+    = render_message 'error' do
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+      = link_to 'Message link', '#'
+
+#message--success.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'message__success')
+
+  %p Modifies #{link_to_style_guide('components', 'message', true)} to change the color scheme and icon.
+
+  .style-guide__example-block
+    = render_message 'success' do
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
+      = link_to 'Message link', '#'
+
+#message--warning.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'message__warning')
+
+  %p Modifies #{link_to_style_guide('components', 'message', true)} to change the color scheme and icon.
+
+  .style-guide__example-block
+    = render_message 'warning' do
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
+      = link_to 'Message link', '#'

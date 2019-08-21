@@ -1,0 +1,58 @@
+- @page_title = t('workarea.admin.create_releases.setup.page_title')
+
+.view
+  .view__header
+    .view__heading
+      %h1= t('workarea.admin.create_releases.setup.title')
+
+  .view__container.view__container--narrow
+    - @release.errors.full_messages.each do |message|
+      = render_message 'error', message
+
+    = form_tag create_releases_path, method: 'post' do
+      = hidden_field_tag :id, @release.id unless @release.new_record?
+
+      .section
+        .property.property--required
+          = label_tag 'release_name', t('workarea.admin.fields.name'), class: 'property__name'
+          = text_field_tag 'release[name]', @release.name, class: 'text-box text-box--i18n', required: true, placeholder: t('workarea.admin.create_releases.setup.release_name_placeholder', year: Time.current.year)
+
+        - if current_user.can_publish_now?
+          .grid.grid--huge
+            .grid__cell.grid__cell--50-at-medium
+              .property
+                = label_tag 'release_publish_at', t('workarea.admin.fields.publish_at'), class: 'property__name'
+                .box.box--rounded= hidden_field_tag 'release[publish_at]', @release.publish_at, data: { datetimepicker_field: { inline: true } }
+
+            .grid__cell.grid__cell--50-at-medium
+              .property
+                = label_tag 'release_undo_at', t('workarea.admin.fields.undo_at'), class: 'property__name'
+                .box.box--rounded= hidden_field_tag 'release[undo_at]', nil, data: { datetimepicker_field: { inline: true } }
+
+        .property
+          = label_tag 'release[tag_list]', t('workarea.admin.fields.tags'), class: 'property__name'
+          = text_field_tag 'release[tag_list]', @release.tag_list, class: 'text-box'
+          %span.property__note= t('workarea.admin.create_releases.setup.tags_note')
+
+      .workflow-bar
+        .grid.grid--middle
+          .grid__cell.grid__cell--20
+            - if @release.new_record?
+              = link_to t('workarea.admin.form.cancel'), releases_path, class: 'workflow-bar__button workflow-bar__button--delete'
+            - else
+              = link_to t('workarea.admin.form.cancel'), release_path(@release), class: 'workflow-bar__button workflow-bar__button--delete', data: { method: 'delete', confirm: t('workarea.admin.create_releases.workflow.delete_confirmation') }
+
+          .grid__cell.grid__cell--60
+            %ol.workflow-bar__steps
+              %li.workflow-bar__step 1) #{link_to t('workarea.admin.create_releases.workflow.pick_day'), releases_path}
+              %li.workflow-bar__step
+                %strong 2) #{t('workarea.admin.create_releases.workflow.setup')}
+              %li.workflow-bar__step
+                - if @release.new_record?
+                  2) #{t('workarea.admin.create_releases.workflow.plan_changes')}
+                - else
+                  2) #{link_to t('workarea.admin.create_releases.workflow.plan_changes'), plan_create_release_path(@release)}
+
+          .grid__cell.grid__cell--20
+            .grid.grid--auto.grid--right.grid--middle
+              .grid__cell= button_tag t('workarea.admin.create_releases.workflow.save_and_plan_changes'), value: 'save_setup', class: 'workflow-bar__button workflow-bar__button--create'

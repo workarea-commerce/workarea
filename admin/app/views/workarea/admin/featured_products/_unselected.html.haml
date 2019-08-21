@@ -1,0 +1,8 @@
+= link_to add_featured_product_path(featurable.to_global_id, product_id: product.id), class: 'product-summary', data: { remote: true, method: 'post', replace: true } do
+  .product-summary__media
+    .product-summary__image-wrapper
+      = image_tag(product_image_url(product.primary_image, :small), alt: product.name, class: 'product-summary__image')
+  %span.product-summary__name= product.name
+  %span.product-summary__graph
+    %span.spark{ title: t('workarea.admin.catalog_categories.cards.featured_products.sparkline_title') }
+      {#{sparkline_analytics_data_for(product.insights.orders_sparkline).join(',')}}

@@ -1,0 +1,21 @@
+#video-and-text-content-block.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'video_and_text_content_block')
+
+  %p A content block that provides layout for a video and accompanying text.
+
+  - %w(left right).each do |video_alignment|
+    %p should display the <strong>video on the #{video_alignment}</strong>:
+    .style-guide__example-block
+      .video-and-text-content-block
+        .video-and-text-content-block__video-container{ class: "video-and-text-content-block__video-container--#{video_alignment}" }
+          %iframe{ width: 560, height: 315, frameborder: 0, allowfullscreen: true, src: ('https://www.youtube.com/embed/A21I70ggSQw' unless Rails.env.test?)}
+        .video-and-text-content-block__text Geodesic tower knife military-grade katana sensory courier fetishism singularity rifle pistol ablative warehouse media table woman. Industrial grade sub-orbital garage franchise futurity hacker corrupted office city military-grade tank-traps-space. Boat assault savant knife kanji convenience store decay. Savant drugs hacker industrial grade digital bicycle ablative dissident monofilament Legba.
+
+    - %w(left right center justify).each do |text_alignment|
+      %p should support <strong>text align #{text_alignment}</strong> when the <strong>video is aligned #{video_alignment}</strong>:
+      .style-guide__example-block
+        .video-and-text-content-block
+          .video-and-text-content-block__video-container{ class: "video-and-text-content-block__video-container--#{video_alignment}" }
+            %iframe{ width: 560, height: 315, frameborder: 0, allowfullscreen: true, src: ('https://www.youtube.com/embed/A21I70ggSQw' unless Rails.env.test?)}
+          .video-and-text-content-block__text{ style: "text-align: #{text_alignment}" } Geodesic tower knife military-grade katana sensory courier fetishism singularity rifle pistol ablative warehouse media table woman. Industrial grade sub-orbital garage franchise futurity hacker corrupted office city military-grade tank-traps-space. Boat assault savant knife kanji convenience store decay. Savant drugs hacker industrial grade digital bicycle ablative dissident monofilament Legba.

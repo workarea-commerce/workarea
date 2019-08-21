@@ -1,0 +1,110 @@
+/*------------------------------------*\
+    #WYSIWYG
+\*------------------------------------*/
+
+$wysiwyg-color:                   $dark-gray !default;
+$wysiwyg-color-hover:             $off-black !default;
+$wysiwyg-bg-color:                $white !default;
+$wysiwyg-border-color:            $border-color !default;
+$wysiwyg-button-active-color:     $blue !default;
+$wysiwyg-button-activated-color:  $blue !default;
+
+$wysiwyg-dropdown-bg-color:       $white !default;
+$wysiwyg-dropdown-border-color:   $border-color !default;
+
+.wysiwyg {}
+
+    .wysiwyg__toolbar {
+        display: inline-block;
+        margin: 0 6px 6px 0;
+        vertical-align: top;
+    }
+
+        .wysiwyg__toolbar-dropdown {
+            display: inline-block;
+            position: relative;
+            vertical-align: middle;
+        }
+
+            .wysiwyg__toolbar-dropdown-button {
+                @extend %button-reset;
+            }
+
+            .wysiwyg__toolbar-dropdown-content {
+                display: none;
+                position: absolute;
+                max-height: 200px;
+                background-color: $wysiwyg-dropdown-bg-color;
+                border: 1px solid $border-color;
+                overflow-y: auto;
+
+                .wysiwyg__toolbar-dropdown:hover & {
+                    display: block;
+                }
+            }
+
+                .wysiwyg__toolbar-dropdown-option {
+                    display: block;
+                    padding: $spacing-unit;
+                    color: $wysiwyg-color;
+                    white-space: nowrap;
+
+                    &:hover {
+                        color: $wysiwyg-color-hover;
+                        text-decoration: none;
+                    }
+                }
+
+
+        .wysiwyg__toolbar-button {
+            display: inline-block;
+            margin:  5px 0 0;
+            padding: 1px 5px 0;
+            color: $wysiwyg-color;
+            vertical-align: middle;
+
+            &.wysihtml-command-active {
+                color: $wysiwyg-button-active-color;
+            }
+
+            &:hover {
+                color: $wysiwyg-color-hover;
+                text-decoration: none;
+            }
+
+            &:active {
+                color: $wysiwyg-button-activated-color;
+                border-color: $wysiwyg-button-activated-color;
+            }
+        }
+
+            .wysiwyg__toolbar-button-icon {
+                .wysihtml-command-active & {
+                    fill: $wysiwyg-button-active-color;
+                }
+            }
+
+        .wysiwyg__toolbar-button--text {
+            position: relative;
+            border: 1px solid $wysiwyg-border-color;
+            border-radius: 2px;
+        }
+
+    /**
+     * 1. similar to `.text-box--i18n` this icon should not appear unless the
+     *    `.text-box--i18n` class is applied to the wysiwyg text box and a class
+     *    of `.i18n` is within it's ancestor tree.
+     */
+
+    .wysiwyg__iframe {
+        display: block;
+        padding: 10px;
+        width:  100%;
+        height: 200px;
+        background: $wysiwyg-bg-color;
+        border: 1px solid $wysiwyg-border-color;
+
+        .i18n .text-box--i18n ~ & { /* [1] */
+            @include text-box-image('i18n.svg');
+        }
+    }

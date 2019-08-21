@@ -1,0 +1,11 @@
+/*------------------------------------*\
+    #UI-ACCORDION
+\*------------------------------------*/
+
+$ui-accordion-border-bg-color:        $border-color !default;
+$ui-accordion-rounded-border-radius:  $global-border-radius !default;
+
+.ui-accordion {
+    border: 1px solid $ui-accordion-border-bg-color;
+    border-radius: $ui-accordion-rounded-border-radius;
+}

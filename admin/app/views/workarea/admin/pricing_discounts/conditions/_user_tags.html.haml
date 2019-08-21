@@ -1,0 +1,13 @@
+%fieldset.discount__rules-fields
+  %legend.discount__rules-legend
+    %span.discount__rules-heading User Tags
+  %p.discount__optional-node-group{ data: { discount_options_menu_condition_group: { type: 'user_tag' }.to_json } }
+    %span.discount__node with
+    %span.discount__node
+      %span.property.property--inline
+        = text_field_tag 'discount[user_tags_list]', discount.user_tags_list, class: 'text-box text-box--medium', title: 'User Tag', placeholder: 'vip'
+        = link_to '#user-tag-help', data: { tooltip: '' } do
+          = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue')
+
+  #user-tag-help.tooltip-content
+    %p= t('workarea.admin.pricing_discounts.conditions.user_tag.list_help')

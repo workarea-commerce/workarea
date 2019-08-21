@@ -1,0 +1,35 @@
+.view
+  .view__header
+    .view__heading
+      %h1= t('workarea.admin.help.takeover.title')
+
+  .view__container
+    = form_tag help_index_path, method: 'get' do
+      .search-form.search-form--major.search-form--with-margin
+        = text_field_tag :q, params[:q], class: 'search-form__input', id: 'search_help', title: t('workarea.admin.help.takeover.search_placeholder'), placeholder: t('workarea.admin.help.takeover.search_placeholder')
+        = submit_tag 'search_help', class: 'search-form__button'
+
+    - if @search.results.present?
+      %h2.heading.heading--3
+        .align-center= t('workarea.admin.help.takeover.related_articles_for_this_page')
+
+      - @search.results.each do |help_article|
+        .help-article-summary
+          .help-article-summary__cell.help-article-summary__cell--full
+            .help-article-summary__category
+              = link_to help_article.category, help_index_path(category: [help_article.category]), target: '_blank', rel: 'noopener', class: 'button button--small'
+            = link_to help_article.name, help_path(help_article), class: 'help-article-summary__name'
+            %p.help-article-summary__text= help_article.summary
+          - if current_user.help_admin?
+            .help-article-summary__cell.help-article-summary__cell--nowrap
+              %span.help-article-summary__action
+                = link_to edit_help_path(help_article), title: t('workarea.admin.help.takeover.edit_name', name: help_article.name) do
+                  = inline_svg('workarea/admin/icons/edit.svg', class: 'svg-icon svg-icon--small', title: t('workarea.admin.help.takeover.edit'))
+              %span.help-article-summary__action
+                = form_tag help_path(help_article), method: 'delete' do
+                  = button_tag class: 'button-reset', title: t('workarea.admin.actions.delete') do
+                    = inline_svg('workarea/admin/icons/delete.svg', class: 'svg-icon svg-icon--small svg-icon--red', title: t('workarea.admin.actions.delete'))
+
+    .section.align-center
+      %h3= t('workarea.admin.help.takeover.didnt_find_what_you_are_looking_for')
+      = link_to t('workarea.admin.help.takeover.view_all_help'), help_index_path, class: 'button'

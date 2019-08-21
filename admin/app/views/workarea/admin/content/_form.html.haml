@@ -1,0 +1,51 @@
+- return_to_param = params[:return_to].respond_to?(:to_h) ? params[:return_to].to_h : params[:return_to]
+- return_to_url = return_to_param.present? ? url_for(return_to_param) : request.path
+= hidden_field_tag 'return_to', return_to_url, id: dom_id(block, :return_to)
+= hidden_field_tag 'block[type_id]', block.type_id, id: dom_id(block, :type_id)
+= hidden_field_tag 'block[position]', params[:new_block][:position], id: dom_id(block, :position) if params[:new_block].present?
+
+.content-editor__form-header
+  .align-center
+    - if block.new_record?
+      = link_to "← #{t('workarea.admin.content.form.cancel')}", return_to_url
+    - else
+      = link_to "← #{t('workarea.admin.content.form.all_blocks')}", '#', data: { content_editor_form_cancel: '' }
+
+  .grid.grid--middle.grid--center.grid--auto
+    .grid__cell
+      = content_block_icon(block.icon, title: block.name, class: 'svg-icon svg-icon--gray')
+    .grid__cell
+      %span.content-editor__form-heading= block.name
+
+.content-editor__form-fields
+  .tabs
+    - block.fieldsets.each do |fieldset|
+      .tabs__panel
+        %h2.tabs__heading= fieldset.name
+        - fieldset.fields.each do |field|
+          = render "workarea/admin/content_blocks/#{field.partial}", field: field, block: block
+
+    .tabs__panel
+      %h2.tabs__heading= t('workarea.admin.content.form.display')
+      %span.heading.heading--4= t('workarea.admin.content.form.hide_for')
+
+      - Workarea.config.storefront_break_points.each_key do |breakpoint|
+        .property
+          = hidden_field_tag 'block[hidden_breakpoints][]', '', id: nil
+          = check_box_tag 'block[hidden_breakpoints][]', breakpoint.to_s, block.hidden_breakpoints.include?(breakpoint.to_s), id: dom_id(block, "hidden_breakpoint_#{breakpoint.to_s}")
+          = label_tag dom_id(block, "hidden_breakpoint_#{breakpoint.to_s}"), nil, class: 'property__name' do
+            #{breakpoint.to_s.titleize} #{t('workarea.admin.content.form.devices')}
+
+.content-editor__form-actions
+  .grid.grid--auto.grid--center.grid--middle
+    .grid__cell
+      - if block.new_record?
+        = render 'workarea/admin/shared/activate_select', name: 'block[activate_with]'
+      - else
+        = render 'workarea/admin/shared/publishing_select'
+
+    .grid__cell
+      - if block.new_record?
+        = button_tag t('workarea.admin.actions.save'), value: 'create_block', class: 'button button--create'
+      - else
+        = button_tag t('workarea.admin.form.save_changes'), value: 'save_block', class: 'button'

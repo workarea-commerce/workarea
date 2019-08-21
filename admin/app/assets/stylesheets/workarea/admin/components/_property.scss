@@ -1,0 +1,116 @@
+/*------------------------------------*\
+    #PROPERTY
+\*------------------------------------*/
+
+$property-name-color:           $dark-gray !default;
+$property-name-required-color:  $red !default;
+$property-name-invalid-color:   $red !default;
+$property-name-font-size:       $form-control-font-size;
+
+$property-note-color:           $dark-gray !default;
+$property-note-error-color:     $red !default;
+
+
+.property {
+    margin: 0 0 $vertical-margin;
+
+    & + & {
+        margin-top: $vertical-margin;
+    }
+
+    .table & {
+        margin: 6px 0;
+    }
+
+    .tooltip-content & {
+        margin-top: 0;
+    }
+}
+
+.property--required {}
+
+.property--invalid {
+    select,
+    input, textarea {
+        @include focus-ring($property-name-invalid-color);
+    }
+}
+
+.property--inline {
+    display: inline-block;
+    margin: 0;
+}
+
+.property--inline-with-label {
+    display: inline-block;
+    margin: 0;
+}
+
+.property--no-margin {
+    margin: 0;
+
+    & + & {
+        margin: 0;
+    }
+}
+
+    /**
+     * 1. the DOM is structured differently for properties containing checkboxes
+     *    or radio buttons
+     */
+    .property__name {
+        display: block;
+        padding: ($spacing-unit / 2) 0;
+        color: $property-name-color;
+        font-size: $property-name-font-size;
+        font-weight: bold;
+
+        input ~ & { /* [1] */
+            display: inline-block;
+            padding-left: ($spacing-unit / 2);
+        }
+
+        .property--required &:after {
+            color: $property-name-required-color;
+            content: ' *';
+        }
+
+        .property--invalid & {
+            color: $property-name-invalid-color;
+        }
+
+        .property--inline & {
+            display: none;
+        }
+
+        .property--inline-with-label & {
+            display: inline-block;
+        }
+    }
+
+    .property__name--inline {
+        display: inline-block;
+    }
+
+    /**
+     * 1. the DOM is structured differently for properties containing checkboxes
+     *    or radio buttons
+     * 2. important to override inline styles applied by jquery validation
+     */
+    .property__note {
+        display: block;
+        color: $property-note-color;
+
+        input ~ .property__name ~ & { /* [1] */
+            display: inline-block;
+            padding-left: ($spacing-unit / 2);
+        }
+
+        .property--inline & {
+            display: none !important; /* [2] */
+        }
+    }
+
+    .property__note--error {
+        color: $property-note-error-color;
+    }

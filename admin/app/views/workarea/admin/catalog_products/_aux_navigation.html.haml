@@ -1,0 +1,3 @@
+.grid.grid--auto.grid--right.grid--middle
+  .grid__cell= link_to t('workarea.admin.actions.view_on_storefront'), storefront.product_path(model), local_assigns[:html_options]
+  = append_partials('admin.catalog_product_aux_navigation', model: model)

@@ -1,0 +1,73 @@
+#text-box.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'text_box')
+
+  %p Provides uniform styling for <code>input</code> elements.
+
+  .style-guide__example-block
+    = text_field_tag 'wl_text_box_blank', nil, class: 'text-box'
+  .style-guide__example-block
+    = text_field_tag 'wl_text_box_placeholder', nil, class: 'text-box', placeholder: 'Placeholder'
+  .style-guide__example-block
+    = text_field_tag 'wl_text_box_value', 'Value', class: 'text-box'
+  .style-guide__example-block
+    = number_field_tag 'wl_text_box_number', 99, class: 'text-box'
+
+  %p should style the disabled state:
+  .style-guide__example-block
+    = text_field_tag 'wl_disabled_text_box_blank', nil, class: 'text-box', disabled: true
+  .style-guide__example-block
+    = text_field_tag 'wl_disabled_text_box_placeholder', nil, class: 'text-box', placeholder: 'Placeholder', disabled: true
+  .style-guide__example-block
+    = text_field_tag 'wl_disabled_text_box_value', 'Value', class: 'text-box', disabled: true
+  .style-guide__example-block
+    = number_field_tag 'wl_disabled_text_box_number', 99, class: 'text-box', disabled: true
+
+#text-box--multi-line.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'text_box__multi_line')
+
+  %p Increases the height of a #{link_to_style_guide('components', 'text_box', true)}. Typically used with <code>textarea</code> elements.
+
+  .style-guide__example-block
+    = text_area_tag 'wl_text_box_multi_line_blank', nil, class: 'text-box text-box--multi-line'
+  .style-guide__example-block
+    = text_area_tag 'wl_text_box_multi_line_placeholder', nil, class: 'text-box text-box--multi-line', placeholder: 'Placeholder'
+  .style-guide__example-block
+    = text_area_tag 'wl_text_box_multi_line_value', "Value line 1\nValue line 2\nValue line 3\nValue line 4\nValue line 5\nValue line 6", class: 'text-box text-box--multi-line'
+
+#text-box--small.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'text_box__small')
+
+  %p Reduces width of a #{link_to_style_guide('components', 'text_box', true)}. Used mostly for short strings of text, or longer numerical values.
+
+  .style-guide__example-block
+    = text_field_tag 'wl_text_box_small', 19106, class: 'text-box text-box--small'
+
+#text-box--wide.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'text_box__wide')
+
+  %p Increases width of a #{link_to_style_guide('components', 'text_box', true)}. Frequently used with #{link_to_style_guide('components', 'text_box__multi_line', true)}.
+
+  .style-guide__example-block
+    = text_field_tag 'wl_text_box_wide', nil, class: 'text-box text-box--wide'
+
+#text-box--x-small.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'text_box__x_small')
+
+  %p Reduces width of a #{link_to_style_guide('components', 'text_box', true)}. Used mostly for sort numerical values.
+
+  .style-guide__example-block
+    = number_field_tag 'wl_text_box_x_small', 99, class: 'text-box text-box--x-small'
+
+#text-box--full.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'text_box__full')
+
+  %p Increases width to fill parent element
+
+  .style-guide__example-block
+    = number_field_tag 'wl_text_box_full', 99, class: 'text-box text-box--full'

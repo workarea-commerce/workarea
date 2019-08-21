@@ -1,0 +1,36 @@
+#color-picker-field.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'color_picker_field')
+
+  %p Color picker fields are available via the content block DSL. They use the browsers native color picker UI.
+
+  .style-guide__example-block
+    .property
+      = label_tag 'color_picker_1', 'Color', class: 'property__name'
+      .color-picker
+        = color_field_tag 'color_picker_field', '#0060ff', id: 'color_picker_1', class: 'color-picker__input'
+
+  %p Color pickers can accept an array of preset brand colors which are rendered when the user clicks the picker, along with a button allowing the user to open the browsers native color picker.
+
+  .style-guide__example-block
+    .property
+      = label_tag 'color_picker_2', 'Color', class: 'property__name'
+      .color-picker
+        = color_field_tag 'color_picker_field', '#0060ff', id: 'color_picker_2', class: 'color-picker__input', list: 'color-picker-preset-list-id'
+        - presets = ['#ffffff', '#000000', '#303541', '#0060ff', '#011eff']
+        %datalist{ id: 'color-picker-preset-list-id' }
+          - presets.each do |color|
+            %option= color
+
+  %p For browsers with no, default color picker support, a polyfill will be employed.
+
+  .style-guide__example-block
+    .property
+      = label_tag 'color_picker_3', 'Color', class: 'property__name'
+      .color-picker
+        = text_field_tag 'color_picker_field', '#0060ff', id: 'color_picker_3', class: 'color-picker__input'
+
+  :javascript
+    $(function () {
+      $('#color_picker_3').spectrum();
+    });

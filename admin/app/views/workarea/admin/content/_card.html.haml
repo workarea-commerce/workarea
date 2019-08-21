@@ -1,0 +1,24 @@
+.card{ class: card_classes(:content, local_assigns[:active]) }
+  = link_to edit_content_path(content), class: 'card__header', data: { turbolinks: false } do
+    %span.card__header-text= t('workarea.admin.content.card.title')
+    = inline_svg 'workarea/admin/icons/content.svg', class: 'card__icon'
+
+  - if local_assigns[:active].blank?
+    .card__body
+      - if content.blocks.active.empty?
+        %p.card__empty-note= t('workarea.admin.content.card.description')
+        = link_to edit_content_path(content), class: 'card__button' do
+          %span.button.button--small= t('workarea.admin.content.card.blank_button')
+      - else
+        %ol.content-block-list
+          - content.blocks.active.take(5).each do |block|
+            %li.content-block-list__item
+              = content_block_icon(block.icon, title: block.name, class: 'content-block-list__icon')
+              %span.content-block-list__name= block.name
+
+          - if content.blocks.length > 5
+            %li.content-block-list__item.align-center
+              = link_to t('workarea.admin.cards.more', amount: content.blocks.length - 5), edit_content_path(content)
+
+        = link_to edit_content_path(content), class: 'card__button' do
+          %span.button.button--small= t('workarea.admin.content.card.button')

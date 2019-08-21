@@ -1,0 +1,4 @@
+.grid.grid--auto.grid--right.grid--middle
+  - if model.user.present?
+    .grid__cell= link_to t('workarea.admin.orders.view_user', user: model.user.name), user_path(model.user), local_assigns[:html_options]
+  = append_partials('admin.order_aux_navigation', model: model)

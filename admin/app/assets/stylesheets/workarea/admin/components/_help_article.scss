@@ -1,0 +1,17 @@
+/*------------------------------------*\
+    #HELP-ARTICLE
+\*------------------------------------*/
+
+$help-article-bg-color:  $white !default;
+$help-article-img-border-color: $blue !default;
+
+
+.help-article {
+    padding: 0 ($spacing-unit * 2);
+    background: $help-article-bg-color;
+
+    img {
+        padding: $spacing-unit / 2;
+        border: 1px solid $help-article-img-border-color;
+    }
+}

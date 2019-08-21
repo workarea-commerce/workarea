@@ -1,0 +1,69 @@
+.grid.grid--rev
+  .grid__cell.grid__cell--60-at-medium
+
+    .product-details__name
+      %h1.product-details__heading{ itemprop: 'name' }= product.name
+
+      %p.product-details__id
+        %span{ itemprop: 'productID' }= product.id
+
+    .product-prices.product-prices--details{ itemprop: 'offers', itemscope: true, itemtype: 'http://schema.org/Offer' }
+      = render 'workarea/storefront/products/pricing', product: product
+
+    = append_partials('storefront.product_pricing_details', product: product)
+
+    - if product.description.present?
+      .product-details__description
+        %p= truncated_product_description(product, t('workarea.storefront.products.read_more'))
+
+    = form_tag cart_items_path, method: 'post', class: 'product-details__add-to-cart-form', data: { dialog_form: { dialogOptions: { closeAll: true, initModules: true } }, analytics: add_to_cart_analytics_data(product).to_json } do
+      = hidden_field_tag :product_id, product.id, id: dom_id(product, 'product_id')
+      = hidden_field_tag :via, params[:via], id: dom_id(product, 'via')
+
+      - if product.sku_options.one?
+        = hidden_field_tag :sku, product.sku_options.first.second
+
+      - else
+        .property
+          = label_tag :sku, nil, class: 'property__name', for: "sku_#{dom_id(product)}" do
+            %span.property__text= t('workarea.storefront.products.select_options')
+          .value
+            = select_tag :sku, options_for_select(product.sku_options, params[:sku]), required: true, id: "sku_#{dom_id(product)}", data: { product_details_sku_select: product.slug }
+        - if params[:sku].present?
+          %p.product-details__inventory-status= product.inventory_status
+
+      = append_partials('storefront.add_to_cart_form', product: product)
+
+      - if product.purchasable?
+        .product-details__quantity
+          .property
+            = label_tag :quantity, nil, class: 'property__name', for: "quantity#{dom_id(product)}" do
+              %span.property__text= t('workarea.storefront.products.quantity')
+            .value= number_field_tag :quantity, params[:quantity] || 1, class: 'text-box text-box--x-small', required: true, min: 1, id: "quantity#{dom_id(product)}"
+
+        %p.product-details__add-to-cart-action= button_tag t('workarea.storefront.products.add_to_cart'), value: 'add_to_cart', class: 'button button--large'
+
+      - else
+        = hidden_field_tag :quantity, params[:quantity] || 1, id: "quantity#{dom_id(product)}"
+        %p.product-details__unavailable= t('workarea.storefront.products.unavailable')
+
+    = append_partials('storefront.product_details', product: product)
+
+    %p.product-details__full-details=link_to t('workarea.storefront.products.view_full_details'), product_path(product, color: params[:color]), class: 'text-button', itemprop: 'url'
+
+  .grid__cell.grid__cell--40-at-medium
+
+    .product-details__primary-image
+      = link_to(product_image_url(product.primary_image, :zoom), target: '_blank', rel: 'noopener', class: 'product-details__primary-image-link', style: intrinsic_ratio_product_image_styles(product.primary_image), data: { dialog_button: '' }) do
+        = image_tag product_image_url(product.primary_image, :detail), alt: t('workarea.storefront.products.image_alt_attribute', name: product.name), itemprop: 'image', class: 'product-details__primary-image-link-image'
+
+    - if product.images.length > 1
+      .product-details__alt-images
+        .grid.grid--auto
+          - product.images.each_with_index do |image, index|
+            .grid__cell
+              .product-details__alt-image
+                - button_class = index == 0 ? 'product-details__alt-image-link product-details__alt-image-link--selected' : 'product-details__alt-image-link'
+                = link_to(image_tag(product_image_url(image, :small_thumb), alt: t('workarea.storefront.products.zoom')), product_image_url(image, :zoom), class: button_class, target: '_blank', rel: 'noopener', data: { alternate_image_button: { src: product_image_url(image, :detail) }.to_json })
+
+          = append_partials('storefront.product_details_alt_images', product: product)

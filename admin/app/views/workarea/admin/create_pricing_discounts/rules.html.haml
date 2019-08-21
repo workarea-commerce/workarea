@@ -1,0 +1,85 @@
+- @page_title = t('workarea.admin.create_pricing_discounts.rules.title')
+
+.discount.view
+  .view__header
+    .view__heading
+      %h1.heading.heading--no-margin= t('workarea.admin.create_pricing_discounts.rules.what_does_it_discount', discount_name: @discount.name)
+
+  .view__container.view__container--narrow
+
+    - if @discount.errors.present?
+      - @discount.errors.full_messages.each do |message|
+        = render_message 'error', message
+
+    = form_tag create_pricing_discounts_path, method: 'post', id: 'discount_form' do
+      = hidden_field_tag 'discount[active]', false
+
+      = hidden_field_tag 'type', params[:type]
+      = hidden_field_tag :id, @discount.id unless @discount.new_record?
+
+      - if params[:discount].present?
+        = hidden_field_tag 'discount[name]', params[:discount][:name]
+        = hidden_field_tag 'discount[tag_list]', params[:discount][:tag_list]
+
+      .section
+        .property
+          %span.property__name= t('workarea.admin.create_pricing_discounts.rules.description')
+          .discount__rules
+            = render "workarea/admin/pricing_discounts/properties/#{@discount.slug}", discount: @discount
+
+      .grid.grid--huge
+        .grid__cell.grid__cell--50
+          .property
+            %span.property__name= t('workarea.admin.fields.single_use')
+            = toggle_button_for 'discount[single_use]', @discount.single_use? do
+              .toggle-button__more.toggle-button__more--below{ data: { toggle_button_positive_element: '' } }
+                %span.toggle-button__note= t('workarea.admin.create_pricing_discounts.rules.redeem_once_per_email')
+              .toggle-button__more.toggle-button__more--below{ data: { toggle_button_negative_element: '' } }
+                %span.toggle-button__note= t('workarea.admin.create_pricing_discounts.rules.redeem_unlimited_times')
+
+        .grid__cell.grid__cell--50
+          .property
+            %span.property__name= t('workarea.admin.fields.allow_sale_items')
+            = toggle_button_for 'discount[allow_sale_items]', @discount.allow_sale_items? do
+              .toggle-button__more.toggle-button__more--below{ data: { toggle_button_positive_element: '' } }
+                %span.toggle-button__note= t("workarea.admin.pricing_discounts.rules.sale_items_notes.active.#{@discount.price_level}")
+              .toggle-button__more.toggle-button__more--below{ data: { toggle_button_negative_element: '' } }
+                %span.toggle-button__note= t("workarea.admin.pricing_discounts.rules.sale_items_notes.inactive.#{@discount.price_level}")
+
+        .grid__cell.grid__cell--50
+          .property
+            = label_tag 'discount[compatible_discount_ids]', t('workarea.admin.fields.compatible_discount_ids'), class: 'property__name'
+            = select_tag 'discount[compatible_discount_ids]', options_from_collection_for_select(@discount.compatible_discounts, 'id', 'name', @discount.compatible_discount_ids), multiple: true, data: { remote_select: { source: pricing_discounts_path(format: :json) }.to_json }
+            %span.property__note= t('workarea.admin.create_pricing_discounts.rules.compatible_discounts_note')
+
+        .grid__cell.grid__cell--50
+          .property
+            = label_tag 'discount_excluded_category_ids', t('workarea.admin.fields.excluded_category_ids'), class: 'property__name'
+            = select_tag 'discount[excluded_category_ids]', options_from_collection_for_select(@discount.excluded_categories, 'id', 'name', @discount.excluded_category_ids), multiple: true, data: { remote_select: { source: catalog_categories_path(format: :json) }.to_json }
+            %span.property__note= t('workarea.admin.pricing_discounts.rules.excluded_categories_note')
+
+        .grid__cell.grid__cell--50
+          .property
+            = label_tag 'discount_excluded_product_ids', t('workarea.admin.fields.excluded_product_ids'), class: 'property__name'
+            = select_tag 'discount[excluded_product_ids]', options_from_collection_for_select(@discount.excluded_products, 'id', 'name', @discount.excluded_product_ids), multiple: true, data: { remote_select: { source: catalog_products_path(format: :json) }.to_json }
+            %span.property__note= t('workarea.admin.pricing_discounts.rules.excluded_products_note')
+
+      .workflow-bar
+        .grid.grid--middle
+          .grid__cell.grid__cell--20
+            - if @discount.new_record?
+              = link_to t('workarea.admin.create_pricing_discounts.workflow.cancel'), pricing_discounts_path, class: 'workflow-bar__button workflow-bar__button--delete'
+            - else
+              = link_to t('workarea.admin.create_pricing_discounts.workflow.cancel'), pricing_discount_path(@discount), class: 'workflow-bar__button workflow-bar__button--delete', data: { method: 'delete', confirm: t('workarea.admin.create_pricing_discounts.workflow.cancel_confirmation') }
+
+          .grid__cell.grid__cell--60
+            %ol.workflow-bar__steps
+              %li.workflow-bar__step 1) #{link_to t('workarea.admin.create_pricing_discounts.workflow.steps.setup'), create_pricing_discounts_path(@discount.workflow_params)}
+              %li.workflow-bar__step 2) #{link_to t('workarea.admin.create_pricing_discounts.workflow.steps.details'), details_create_pricing_discounts_path(@discount.workflow_params)}
+              %li.workflow-bar__step
+                %strong 3) #{t('workarea.admin.create_pricing_discounts.workflow.steps.rules')}
+              %li.workflow-bar__step 4) #{t('workarea.admin.create_pricing_discounts.workflow.steps.publish')}
+
+          .grid__cell.grid__cell--20
+            .grid.grid--auto.grid--right.grid--middle
+              .grid__cell= button_tag t('workarea.admin.create_pricing_discounts.workflow.save_and_continue'), value: 'save_rules', class: 'workflow-bar__button workflow-bar__button--create'

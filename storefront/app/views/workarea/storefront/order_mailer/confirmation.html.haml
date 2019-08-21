@@ -1,0 +1,15 @@
+= append_partials('storefront.order_confirmation_mailer.top')
+
+- content_for :preheader_text do
+  = @content
+
+%tr
+  %td
+    %h1= t('workarea.storefront.email.order_confirmation.heading', order_id: @order.id)
+    = @content
+
+= render 'summary', order: @order
+
+= render 'workarea/storefront/mailers/recommendations', recommendations: @recommendations
+
+= append_partials('storefront.order_confirmation_mailer.bottom')

@@ -1,0 +1,6 @@
+.view
+  = form_tag releases_path, method: 'post', id: 'release_form', data: { unsaved_changes: '' } do
+    = hidden_field_tag :return_to, request.path
+    .property.property--padded.property--no-margin
+      = text_field_tag 'release[name]', nil, class: 'text-box text-box--medium', title: t('workarea.admin.releases.new.name_of_new_release'), placeholder: t('workarea.admin.releases.new.name'), required: true
+      = button_tag t('workarea.admin.releases.new.add'), value: 'save_release', class: 'button button--small', data: { disable_with: t('workarea.admin.releases.new.add') }

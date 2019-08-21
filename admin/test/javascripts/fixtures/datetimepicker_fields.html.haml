@@ -1,0 +1,11 @@
+.property
+  = label_tag 'valid_date_field', 'Datepicker with stored iso8601 value', class: 'property__name'
+  = text_field_tag 'valid_date_field', '2016-06-02T05:00:00+00:00', class: 'text-box', id: 'valid_date_field', data: { datetimepicker_field: '' }
+
+.property
+  = label_tag 'invalid_date_field', 'Datepicker with invalid stored or cached value', class: 'property__name'
+  = text_field_tag 'invalid_date_field', 'not a date', class: 'text-box', id: 'invalid_date_field', data: { datetimepicker_field: '' }
+
+.property
+  = label_tag 'inline_date_field', 'Datepicker with stored iso8601 value', class: 'property__name'
+  = hidden_field_tag 'inline_date_field', '2016-06-02T05:00:00+00:00', class: 'text-box', id: 'inline_date_field', data: { datetimepicker_field: { inline: true }.to_json }

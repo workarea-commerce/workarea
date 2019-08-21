@@ -1,0 +1,42 @@
+- @page_title = t('workarea.admin.recommendations.edit.page_title', product: @product.name)
+
+.view
+  .view__header
+    .grid.grid--middle.grid--right
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@product)
+          %h1= link_to @product.name, url_for(@product)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@product)
+
+  .view__container
+    = render_cards_for(@product, :recommendations)
+
+  .view__container.view__container--narrow
+    - @settings.errors.full_messages.each do |message|
+      = render_message 'error', message
+
+    = form_tag catalog_product_recommendations_path(@product), method: 'put', id: 'recommendations_form', data: { unsaved_changes: '' } do
+
+      .section
+        %h2.view__heading= t('workarea.admin.recommendations.edit.drag_to_reorder_priority')
+        %ol.list-reset{ data: { recommendations_sortable: '' } }
+          - @settings.sources.each do |source|
+            %li.box
+              .grid.grid--auto.grid--middle
+                .grid__cell
+                  = inline_svg('workarea/admin/icons/grip.svg', class: 'svg-icon svg-icon--gray', data: { recommendations_sortable_handle: '' });
+                .grid__cell
+                  - if source == 'custom'
+                    = hidden_field_tag 'sources[]', source, id: nil
+                    .grid.grid--auto.grid--middle
+                      .grid__cell= t('workarea.admin.recommendations.edit.custom')
+                      .grid__cell= select_tag 'settings[product_ids]', options_from_collection_for_select(@settings.products, 'id', 'name', @settings.products.map(&:id)), multiple: true, data: { remote_select: { source: catalog_products_path(format: :json), options: { placeholder: 'Choose a product...' } }.to_json }, title: 'Select Custom Recommendations'
+                  - else
+                    = hidden_field_tag 'sources[]', source, id: nil
+                    = @settings.sources_display[source.to_sym]
+
+      .workflow-bar
+        .grid.grid--auto.grid--right.grid--middle
+          .grid__cell= button_tag t('workarea.admin.recommendations.edit.save_recommendations'), value: 'save_recommendations', class: 'workflow-bar__button workflow-bar__button--update'

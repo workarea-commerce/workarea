@@ -1,0 +1,6 @@
+.takeover#takeover
+  .takeover__content
+    .view{ data: { asset_picker: '' } }
+      %form#form{ action: '/foo' }
+      %a#link{ href: '/bar' }
+      %a#summary{ href: '/baz', data: { asset: { id: 'foo', name: 'Foo Asset' }.to_json } }

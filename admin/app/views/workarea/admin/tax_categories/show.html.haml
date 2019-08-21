@@ -1,0 +1,19 @@
+- @page_title = @category.name
+
+.view
+  .view__header
+    .grid.grid--middle.grid--right
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@category)
+          %h1= @category.name
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@category)
+
+  .view__container
+    = render_cards_for(@category)
+
+    .workflow-bar
+      .grid
+        .grid__cell.grid__cell--50
+          = link_to t('workarea.admin.actions.delete'), tax_category_path(@category), class: 'workflow-bar__button workflow-bar__button--delete', data: { method: 'delete', confirm: t('workarea.admin.actions.delete_confirmation') }

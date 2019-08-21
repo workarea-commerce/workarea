@@ -1,0 +1,220 @@
+- @page_title = t('workarea.admin.dashboards.reports.title')
+
+.view
+  .view__header
+    .view__heading
+      = link_to "↑ #{t('workarea.admin.dashboards.main_dashboard')}", root_path
+      %h1.heading.heading--no-margin= t('workarea.admin.dashboards.reports.title')
+      %p= t('workarea.admin.reports.reference_link_html', path: reference_report_path)
+
+  .view__container
+    .grid.grid--auto.grid--flush.grid--center
+      .grid__cell
+        .card{ class: card_classes(:insights_report, local_assigns[:active]) }
+          = link_to insights_report_path, class: 'card__header' do
+            %span.card__header-text= t('workarea.admin.reports.insights.title')
+            = inline_svg 'workarea/admin/icons/insights.svg', class: 'card__icon'
+
+          .card__body
+            .card__centered-content
+              %table
+                %tbody
+                  - @dashboard.insights.take(4).each do |result|
+                    %tr
+                      %td= result.slug.humanize
+                      %td.align-right= result.results.size
+
+              = link_to insights_report_path, class: 'card__button' do
+                %span.button.button--small= t('workarea.admin.dashboards.reports.view_full_report')
+
+      .grid__cell
+        .card{ class: card_classes(:sales_over_time_report, local_assigns[:active]) }
+          = link_to sales_over_time_report_path, class: 'card__header' do
+            %span.card__header-text= t('workarea.admin.reports.sales_over_time.title')
+            = inline_svg 'workarea/admin/icons/insights.svg', class: 'card__icon'
+
+          .card__body
+            .card__centered-content= area_chart @dashboard.sales_over_time.graph_data, Workarea.config.default_chartkick_options.merge(prefix: Money.default_currency.symbol)
+
+            = link_to sales_over_time_report_path, class: 'card__button' do
+              %span.button.button--small= t('workarea.admin.dashboards.reports.view_full_report')
+
+      .grid__cell
+        .card{ class: card_classes(:average_order_value_report, local_assigns[:active]) }
+          = link_to average_order_value_report_path, class: 'card__header' do
+            %span.card__header-text= t('workarea.admin.reports.average_order_value.title')
+            = inline_svg 'workarea/admin/icons/insights.svg', class: 'card__icon'
+
+          .card__body
+            .card__centered-content
+              = area_chart @dashboard.average_order_value.graph_data, Workarea.config.default_chartkick_options.merge(prefix: Money.default_currency.symbol)
+
+            = link_to average_order_value_report_path, class: 'card__button' do
+              %span.button.button--small= t('workarea.admin.dashboards.reports.view_full_report')
+
+      .grid__cell
+        .card{ class: card_classes(:sales_by_traffic_referrer_report, local_assigns[:active]) }
+          = link_to sales_by_traffic_referrer_report_path, class: 'card__header' do
+            %span.card__header-text= t('workarea.admin.reports.sales_by_traffic_referrer.title')
+            = inline_svg 'workarea/admin/icons/insights.svg', class: 'card__icon'
+
+          .card__body
+            .card__centered-content
+              = column_chart @dashboard.marketing.traffic_referrer_graph_data, Workarea.config.default_chartkick_options.merge(prefix: Money.default_currency.symbol)
+
+            = link_to sales_by_traffic_referrer_report_path, class: 'card__button' do
+              %span.button.button--small= t('workarea.admin.dashboards.reports.view_full_report')
+
+      .grid__cell
+        .card{ class: card_classes(:sales_by_product_report, local_assigns[:active]) }
+          = link_to sales_by_product_report_path, class: 'card__header' do
+            %span.card__header-text= t('workarea.admin.reports.sales_by_product.title')
+            = inline_svg 'workarea/admin/icons/insights.svg', class: 'card__icon'
+
+          .card__body
+            .card__centered-content
+              %table
+                %tbody
+                  - @dashboard.sales_by_product.results.take(4).each do |result|
+                    %tr
+                      %td= result.product.present? ? result.product.name : result._id
+                      %td.align-right= number_to_currency(result.revenue)
+
+              = link_to sales_by_product_report_path, class: 'card__button' do
+                %span.button.button--small= t('workarea.admin.dashboards.reports.view_full_report')
+
+      .grid__cell
+        .card{ class: card_classes(:sales_by_category_report, local_assigns[:active]) }
+          = link_to sales_by_category_report_path, class: 'card__header' do
+            %span.card__header-text= t('workarea.admin.reports.sales_by_category.title')
+            = inline_svg 'workarea/admin/icons/insights.svg', class: 'card__icon'
+
+          .card__body
+            .card__centered-content
+              %table
+                %tbody
+                  - @dashboard.sales_by_category.results.take(4).each do |result|
+                    %tr
+                      %td= result.category.present? ? result.category.name : t('workarea.admin.reports.unknown')
+                      %td.align-right= number_to_currency(result.revenue)
+
+              = link_to sales_by_category_report_path, class: 'card__button' do
+                %span.button.button--small= t('workarea.admin.dashboards.reports.view_full_report')
+
+      .grid__cell
+        .card{ class: card_classes(:sales_by_sku_report, local_assigns[:active]) }
+          = link_to sales_by_sku_report_path, class: 'card__header' do
+            %span.card__header-text= t('workarea.admin.reports.sales_by_sku.title')
+            = inline_svg 'workarea/admin/icons/insights.svg', class: 'card__icon'
+
+          .card__body
+            .card__centered-content
+              %table
+                %tbody
+                  - @dashboard.sales_by_sku.results.take(4).each do |result|
+                    %tr
+                      %td= result._id
+                      %td.align-right= number_to_currency(result.revenue)
+
+              = link_to sales_by_sku_report_path, class: 'card__button' do
+                %span.button.button--small= t('workarea.admin.dashboards.reports.view_full_report')
+
+      .grid__cell
+        .card{ class: card_classes(:sales_by_discount_report, local_assigns[:active]) }
+          = link_to sales_by_discount_report_path, class: 'card__header' do
+            %span.card__header-text= t('workarea.admin.reports.sales_by_discount.title')
+            = inline_svg 'workarea/admin/icons/insights.svg', class: 'card__icon'
+
+          .card__body
+            .card__centered-content
+              %table
+                %tbody
+                  - @dashboard.sales_by_discount.results.take(4).each do |result|
+                    %tr
+                      %td= result.discount.present? ? result.discount.name : t('workarea.admin.reports.unknown')
+                      %td.align-right= number_to_currency(result.revenue)
+
+              = link_to sales_by_discount_report_path, class: 'card__button' do
+                %span.button.button--small= t('workarea.admin.dashboards.reports.view_full_report')
+
+      .grid__cell
+        .card{ class: card_classes(:sales_by_country_report, local_assigns[:active]) }
+          = link_to sales_by_country_report_path, class: 'card__header' do
+            %span.card__header-text= t('workarea.admin.reports.sales_by_country.title')
+            = inline_svg 'workarea/admin/icons/insights.svg', class: 'card__icon'
+
+          .card__body
+            .card__centered-content
+              = column_chart @dashboard.country_graph_data, Workarea.config.default_chartkick_options.merge(prefix: Money.default_currency.symbol)
+
+            = link_to sales_by_country_report_path, class: 'card__button' do
+              %span.button.button--small= t('workarea.admin.dashboards.reports.view_full_report')
+
+      .grid__cell
+        .card{ class: card_classes(:customers_report, local_assigns[:active]) }
+          = link_to customers_report_path, class: 'card__header' do
+            %span.card__header-text= t('workarea.admin.reports.customers.title')
+            = inline_svg 'workarea/admin/icons/insights.svg', class: 'card__icon'
+
+          .card__body
+            .card__centered-content
+              %table
+                %tbody
+                  - @dashboard.customers.results.take(4).each do |result|
+                    %tr
+                      %td= result._id.truncate(20)
+                      %td.align-right= number_to_currency(result.revenue)
+
+              = link_to customers_report_path, class: 'card__button' do
+                %span.button.button--small= t('workarea.admin.dashboards.reports.view_full_report')
+
+      .grid__cell
+        .card{ class: card_classes(:first_time_vs_returning_sales_report, local_assigns[:active]) }
+          = link_to first_time_vs_returning_sales_report_path, class: 'card__header' do
+            %span.card__header-text= t('workarea.admin.reports.first_time_vs_returning_sales.title')
+            = inline_svg 'workarea/admin/icons/insights.svg', class: 'card__icon'
+
+          .card__body
+            .card__centered-content
+              = area_chart @dashboard.first_time_vs_returning_sales.graph_data, Workarea.config.default_chartkick_options.merge(suffix: '%')
+
+            = link_to first_time_vs_returning_sales_report_path, class: 'card__button' do
+              %span.button.button--small= t('workarea.admin.dashboards.reports.view_full_report')
+
+      .grid__cell
+        .card{ class: card_classes(:searches_report, local_assigns[:active]) }
+          = link_to searches_report_path, class: 'card__header' do
+            %span.card__header-text= t('workarea.admin.reports.searches.title')
+            = inline_svg 'workarea/admin/icons/insights.svg', class: 'card__icon'
+
+          .card__body
+            .card__centered-content
+              %table
+                %tbody
+                  - @dashboard.searches.results.take(4).each do |result|
+                    %tr
+                      %td= result._id
+                      %td.align-right= number_to_currency(result.revenue)
+
+            = link_to searches_report_path, class: 'card__button' do
+              %span.button.button--small= t('workarea.admin.dashboards.reports.view_full_report')
+
+      .grid__cell
+        .card{ class: card_classes(:low_inventory_report, local_assigns[:active]) }
+          = link_to low_inventory_report_path, class: 'card__header' do
+            %span.card__header-text= t('workarea.admin.reports.low_inventory.title')
+            = inline_svg 'workarea/admin/icons/insights.svg', class: 'card__icon'
+
+          .card__body
+            .card__centered-content
+              %table
+                %tbody
+                  - @dashboard.low_inventory.results.take(4).each do |result|
+                    %tr
+                      %td= result._id
+                      %td.align-right= result.available
+
+            = link_to low_inventory_report_path, class: 'card__button' do
+              %span.button.button--small= t('workarea.admin.dashboards.reports.view_full_report')
+
+      = append_partials('admin.reports_dashboard', dashboard: @dashboard)

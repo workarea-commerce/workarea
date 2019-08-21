@@ -1,0 +1,77 @@
+/*------------------------------------*\
+    #HERO-CONTENT-BLOCK
+\*------------------------------------*/
+
+$hero-content-block-position-offset:  ($spacing-unit * 2) !default;
+
+
+/**
+ * 1. provides positioning context for `.hero-content-block__button`
+ */
+.hero-content-block {
+    position: relative; /* [1] */
+}
+
+    /**
+     * 1. height is achieved by adding bottom padding to the element via inline
+     *    styles
+     */
+    .hero-content-block__image-container {
+        height: 0; /* [1] */
+    }
+
+        .hero-content-block__image {
+            display: block;
+            width: 100%;
+        }
+
+    .hero-content-block__button {
+        position: absolute;
+    }
+
+
+    .hero-content-block__button--top-left {
+        top: $hero-content-block-position-offset;
+        left: $hero-content-block-position-offset;
+    }
+
+    .hero-content-block__button--top-center {
+        @include center('horizontal');
+        top: $hero-content-block-position-offset;
+    }
+
+    .hero-content-block__button--top-right {
+        top: $hero-content-block-position-offset;
+        right: $hero-content-block-position-offset;
+    }
+
+
+    .hero-content-block__button--middle-left {
+        @include center('vertical');
+        left: $hero-content-block-position-offset;
+    }
+
+    .hero-content-block__button--middle-center {
+        @include center;
+    }
+
+    .hero-content-block__button--middle-right {
+        @include center('vertical');
+        right: $hero-content-block-position-offset;
+    }
+
+
+    .hero-content-block__button--bottom-left {
+        bottom: $hero-content-block-position-offset;
+        left: $hero-content-block-position-offset;
+    }
+
+    .hero-content-block__button--bottom-center {
+        @include center('horizontal');
+        bottom: $hero-content-block-position-offset;
+    }
+
+    .hero-content-block__button--bottom-right {
+        right: $hero-content-block-position-offset;
+        bottom: $hero-content-block-position-offset;
+    }

@@ -1,0 +1,37 @@
+<div class="datetimepicker">
+  <div class="datepicker datepicker--inline" id="<%= id + fieldSuffixes.picker %>"></div>
+  <div class="grid grid--middle">
+    <div class="grid__cell grid__cell--50-at-medium">
+      <div class='property'>
+        <label for="<%= name + fieldSuffixes.date %>" class='property__name'><%= I18n.t('workarea.admin.js.datetime_picker.date') %></label>
+        <input type="text" name="<%= name + fieldSuffixes.date %>" id="<%= name  + fieldSuffixes.date %>" class="text-box" data-datetimepicker-field-date-input='' placeholder='YYYY-MM-DD' pattern='^\d{4}-\d{2}-\d{2}$' />
+      </div>
+    </div>
+    <div class="grid__cell grid__cell--50-at-medium">
+      <div class='property'>
+        <label for="<%= name + fieldSuffixes.hours %>" class='property__name'><%= I18n.t('workarea.admin.js.datetime_picker.time') %></label>
+        <select id="<%= name  + fieldSuffixes.hours %>" name="<%= name  + fieldSuffixes.hours %>">
+          <% for ( var i = 1; i <= 12; i++ ) {
+            var selected = ( initialDateTime.hours == i ) ? 'selected' : '';
+          %>
+            <option value="<%= i %>" <%= selected %> ><%= i %></option>
+          <% } %>
+        </select>
+
+        <select id="<%= name  + fieldSuffixes.minutes %>" name="<%= name  + fieldSuffixes.minutes %>">
+          <% for ( var i = 0; i < 60; i++ ) {
+            if (i < 10) { i = '0' + i }
+            var selected = ( initialDateTime.minutes == i ) ? 'selected' : '';
+          %>
+            <option value="<%= i %>" <%=selected %> ><%= i %></option>
+          <% } %>
+        </select>
+
+        <select id="<%= name + fieldSuffixes.ampm %>" name="<%= name + fieldSuffixes.ampm %>">
+          <option value="am" <%= initialDateTime.ampm === 'am' ? 'selected' : '' %> >am</option>
+          <option value="pm" <%= initialDateTime.ampm === 'pm' ? 'selected' : '' %> >pm</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>

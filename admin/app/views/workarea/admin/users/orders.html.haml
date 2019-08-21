@@ -1,0 +1,52 @@
+- @page_title = t('workarea.admin.users.orders.title', user: @user.name)
+
+.view
+  .view__header
+    .grid.grid--middle.grid--right
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@user)
+          %h1= link_to @user.name, url_for(@user)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@user)
+
+  .view__container
+    = render_cards_for(@user, :orders)
+
+    .section
+      %h2.view__heading= t('workarea.admin.users.orders.title', user: @user.name)
+
+  .view__container
+    .browsing-controls.browsing-controls--with-divider
+      %p.browsing-controls__count
+        = t('workarea.admin.users.orders.order_pluralize', count: @user.orders.size)
+
+    - if @user.orders.any?
+      %table.index-table
+        %thead
+          %tr
+            %th.index-table__control-cell
+            %th= t('workarea.admin.fields.id')
+            %th= t('workarea.admin.fields.email')
+            %th.align-right= t('workarea.admin.fields.total_price')
+            %th= t('workarea.admin.fields.payment_status')
+            %th= t('workarea.admin.fields.fulfillment_status')
+            %th.align-right= t('workarea.admin.fields.placed_at')
+            %th= t('workarea.admin.fields.updated_at')
+        %tbody
+          - @user.orders.each do |result|
+            %tr.index-table__row
+              %td.index-table__control-cell
+              %td
+                = link_to result.id, order_path(result)
+                = comments_icon_for(result)
+              %td= result.email
+              %td.align-right= number_to_currency result.total_price
+              %td
+                %span.state{ class: state_indicator_class(result.payment.status) }
+                  = result.payment.status.to_s.titleize
+              %td
+                %span.state{ class: state_indicator_class(result.fulfillment.status) }
+                  = result.fulfillment.status.to_s.titleize
+              %td.align-right= local_time_ago(result.placed_at)
+              %td= local_time_ago(result.updated_at)

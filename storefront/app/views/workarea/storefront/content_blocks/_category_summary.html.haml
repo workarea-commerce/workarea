@@ -1,0 +1,15 @@
+- if category.present?
+  .category-summary-content-block{ data: { analytics: product_list_analytics_data(t('workarea.storefront.content_blocks.category_summary.summary_of', name: category.name)).to_json } }
+
+    %span.category-summary-content-block__heading
+      = link_to t('workarea.storefront.content_blocks.category_summary.view_all', name: category.name), category_path(category), class: 'category-summary-content-block__heading-link'
+
+    - if products.empty?
+      %p.category-summary-content-block__empty-message= t('workarea.storefront.content_blocks.category_summary.empty', name: category.name)
+
+    - else
+      .grid
+        - products.each do |product|
+          .grid__cell.grid__cell--50.grid__cell--33-at-medium.grid__cell--16-at-wide
+            %div.product-summary.product-summary--small{ itemscope: true, itemtype: 'http://schema.org/Product' }
+              = render 'workarea/storefront/products/summary', product: product

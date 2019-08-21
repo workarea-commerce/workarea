@@ -1,0 +1,3 @@
+= rule.field.split('.').last.humanize
+is
+= rule.value.split(',').map(&:strip).to_sentence(two_words_connector: ' or ', last_word_connector: ', or ')

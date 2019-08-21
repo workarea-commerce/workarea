@@ -1,0 +1,113 @@
+/*------------------------------------*\
+    #FORMS
+\*------------------------------------*/
+
+$forms-color:              $font-color !default;
+$forms-bg-color:           $white !default;
+$forms-disabled-color:     $gray !default;
+$forms-disabled-bg-color:  $light-gray !default;
+$forms-placeholder-color:  $gray !default;
+
+$forms-disabled-opacity:  0.5 !default; // TODO: v4 Remove
+
+
+/**
+ * Provide default margins for form containment elements.
+ */
+fieldset, legend {
+    margin-bottom: $vertical-margin;
+}
+
+
+/**
+ * Provide consistent padding for fieldsets
+ */
+fieldset {
+    padding: $spacing-unit;
+}
+
+
+/**
+ * Set a larger default font size for basic form controls
+ * For accessibility purposes, all input types are highlighted on focus.
+ */
+select,
+input, textarea {
+    color: $forms-color;
+    font-size: $form-control-font-size;
+    background-color: $forms-bg-color;
+}
+
+label {
+    font-size: $form-control-font-size;
+}
+
+
+/**
+ * Ensure select menus cannot exceed with width of their parents.
+ * We use a trick on mobile to let the select gracefully truncates
+ * his content.
+ *
+ * @url https://stackoverflow.com/a/10795269/1538101
+ */
+select {
+    width: 100%;
+    max-width: 100%;
+    border-radius: 0;
+
+    @include respond-to($medium-breakpoint) {
+        width: auto;
+    }
+}
+
+
+/**
+ * Ensure text within in a `textarea` displays at the top of the element now
+ * that they can be wrapped within a `display: table-cell` element.
+ */
+textarea {
+    vertical-align: baseline;
+}
+
+
+/**
+ * Ensure form controls in OSX will look more consistent with other OSes that do
+ * not utilize sub-pixel anti-aliasing.
+ */
+select,
+button,
+input, textarea {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing:  antialiased;
+}
+
+
+/**
+ * Show clear indication that a form control is not interactive by changing the
+ * cursor:
+ *
+ * 1. if the element itself is disabled or readonly
+ * 2. if the fieldset wrapping the element is disabled
+ */
+button,
+input, textarea,
+select, optgroup, option {
+    &[disabled], &[readonly], /* [1] */
+    fieldset[disabled] & { /* [2] */
+        color: $forms-disabled-color;
+        background-color: $forms-disabled-bg-color;
+        cursor: not-allowed;
+    }
+}
+
+
+/**
+ * Set default color for elements using `[placeholder]` attributes.
+ *
+ * 1. becaue normalize thinks a 54% opacity on placeholders helps, somehow.
+ */
+::placeholder,
+input::placeholder {
+    color: $forms-placeholder-color;
+    opacity: 1; /* [1] */
+}

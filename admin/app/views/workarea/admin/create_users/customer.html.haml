@@ -1,0 +1,76 @@
+- @page_title = t('workarea.admin.create_users.customer.page_title')
+
+.view
+  .view__header
+    .grid.grid--middle.grid--center
+      .grid__cell.grid__cell--50
+        .view__heading
+          %h1= t('workarea.admin.create_users.customer.title')
+
+  .view__container.view__container--narrow
+    - @user.errors.full_messages.each do |message|
+      = render_message 'error', message
+
+    = form_tag create_users_path, method: 'post' do
+      = hidden_field_tag 'user[created_by_id]', current_user.id
+
+      .section
+        .property.property--required
+          = label_tag 'user[email]', t('workarea.admin.fields.email'), class: 'property__name'
+          = email_field_tag 'user[email]', @user.email, class: 'text-box', required: true, autocomplete: 'off'
+
+        .grid.grid--huge
+          .grid__cell.grid__cell--50
+            .property
+              = label_tag 'user[first_name]', t('workarea.admin.fields.first_name'), class: 'property__name'
+              = text_field_tag 'user[first_name]', @user.first_name, class: 'text-box', autocomplete: 'off'
+          .grid__cell.grid__cell--50
+            .property
+              = label_tag 'user[last_name]', t('workarea.admin.fields.last_name'), class: 'property__name'
+              = text_field_tag 'user[last_name]', @user.last_name, class: 'text-box', autocomplete: 'off'
+
+        .property
+          = label_tag 'user[password]', t('workarea.admin.fields.password'), class: 'property__name'
+          = password_field_tag 'user[password]', nil, class: 'text-box', autocomplete: 'off'
+          %span.property__note= t('workarea.admin.create_users.automatic_password_note')
+
+        .grid.grid--huge
+          .grid__cell.grid__cell--20
+            .property
+              = label_tag 'profile[store_credit]', t('workarea.admin.fields.store_credit'), class: 'property__name'
+              = currency_symbol
+              = number_field_tag 'profile[store_credit]', nil, class: 'text-box text-box--small', step: 0.01, min: 0
+
+          .grid__cell.grid__cell--80
+            .property
+              = label_tag 'user[tag_list]', t('workarea.admin.fields.tags'), class: 'property__name'
+              = text_field_tag 'user[tag_list]', @user.tag_list, class: 'text-box'
+              %span.property__note= t('workarea.admin.form.csv_field_note')
+
+
+        .property
+          %span.property__name= t('workarea.admin.fields.send_account_creation_email')
+          = toggle_button_for 'send_account_creation_email', params[:send_account_creation_email].to_s =~ /true/
+
+      .workflow-bar
+        .grid.grid--middle
+          .grid__cell.grid__cell--40
+            - if @user.new_record?
+              = link_to t('workarea.admin.form.cancel'), users_path, class: 'workflow-bar__button workflow-bar__button--delete'
+
+          .grid__cell.grid__cell--20
+            - if current_user.permissions_manager?
+              %ol.workflow-bar__steps
+                %li.workflow-bar__step 1) #{link_to t('workarea.admin.create_users.workflow_bar.select_type'), create_users_path}
+                %li.workflow-bar__step
+                  %strong 2) #{t('workarea.admin.create_users.workflow_bar.setup')}
+
+          .grid__cell.grid__cell--40
+            .grid.grid--auto.grid--right.grid--middle
+              .grid__cell
+                .grid.grid--auto.grid--right.grid--middle
+                  .grid__cell= t('workarea.admin.fields.impersonate_after_create')
+                  .grid__cell= toggle_button_for 'impersonate', false
+
+              .grid__cell
+                = button_tag t('workarea.admin.create_users.customer.create_customer'), value: 'continue', class: 'workflow-bar__button workflow-bar__button--create'

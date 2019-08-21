@@ -1,0 +1,29 @@
+/*------------------------------------*\
+        #Z-INDEXES
+\*------------------------------------*/
+
+/**
+ * z-index values ordered pertaining to their container.
+ *
+ * $components is the base level. Other containers require a position
+ * other than 'static'
+ *
+ * Based upon this article in Smashing Magazine
+ * https://www.smashingmagazine.com/2014/06/sassy-z-index-management-for-complex-layouts/
+ */
+
+$components: (
+    page-container,
+    back-to-top-button,
+    ui-autocomplete,
+    ui-dialog,
+    admin-toolbar,
+    page-messages,
+    mobile-nav,
+    mobile-filters-nav
+) !default;
+
+    $page-container: (
+        page-content,
+        page-header
+    ) !default;

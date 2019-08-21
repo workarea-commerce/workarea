@@ -1,0 +1,10 @@
+/*------------------------------------*\
+    #PRODUCT-LIST-CONTENT-BLOCK
+\*------------------------------------*/
+
+.product-list-content-block {}
+
+    .product-list-content-block__heading {
+        @extend %heading;
+        @extend %heading--2;
+    }

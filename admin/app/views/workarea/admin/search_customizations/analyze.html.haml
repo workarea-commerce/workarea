@@ -1,0 +1,119 @@
+- @page_title = t('workarea.admin.search_customizations.analyze.title')
+
+.view
+  .view__header
+    .grid.grid--middle.grid--right
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@customization)
+          %h1= link_to @customization.name, url_for(@customization)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@customization)
+
+  .view__container
+    = render_cards_for(@customization, :analyze)
+
+    .section
+      %h2.align-center.heading.heading--no-margin= t('workarea.admin.search_customizations.analyze.title')
+      %p.align-center= t('workarea.admin.search_customizations.analyze.description')
+
+      .section
+        %table
+          %thead
+            %tr
+              %th= t('workarea.admin.fields.terms')
+              %th= t('workarea.admin.fields.rewrite')
+              %th= t('workarea.admin.fields.spell_corrections')
+              %th= t('workarea.admin.fields.reset_by')
+              %th.align-center= t('workarea.admin.fields.operator')
+              %th.align-center= t('workarea.admin.fields.pass')
+              %th.align-center= t('workarea.admin.fields.results')
+          %tbody
+            - @analysis.trace.each do |trace|
+              %tr
+                %td
+                  %code= trace.params[:q]
+                %td
+                  %code= trace.query.customization.rewrite.presence || '-'
+                %td
+                  = '-' if trace.query.query_suggestions.blank?
+                  - trace.query.query_suggestions.each do |suggestion|
+                    %code= suggestion
+                %td
+                  - if trace.reset_by.blank?
+                    = '-'
+                  - else
+                    = search_middleware_display_name(trace.reset_by.class)
+
+                %td.align-center= trace.query.default_operator
+                %td.align-center= trace.query.pass + 1
+                %td.align-center= trace.query.total
+
+    .section
+      .grid
+        .grid__cell.grid__cell--50
+          .section
+            %h3.align-center
+              = t('workarea.admin.search_customizations.analyze.tokens')
+              = link_to '#token-info', data: { tooltip: '' } do
+                = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.search_customizations.analyze.tokens'))
+              #token-info.tooltip-content
+                %p= t('workarea.admin.search_customizations.analyze.token_help')
+
+
+            %table
+              %thead
+                %tr
+                  %th= t('workarea.admin.fields.token')
+                  %th.align-center= t('workarea.admin.fields.type')
+              %tbody
+                - @analysis.tokens.each do |token, type|
+                  %tr
+                    %td= token
+                    %td.align-center= type
+
+          .section
+            %h3.align-center
+              = t('workarea.admin.search_customizations.analyze.rendering')
+              = link_to '#rendering-info', data: { tooltip: '' } do
+                = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.search_customizations.analyze.rendering'))
+              #rendering-info.tooltip-content
+                %p= t('workarea.admin.search_customizations.analyze.rendering_help')
+
+            %table
+              %tbody
+                - @analysis.middleware.each do |middleware, status|
+                  %tr
+                    %td= search_middleware_display_name(middleware)
+                    %td.align-center
+                      %span{ title: status.to_s.titleize }= icon_for_search_middleware_status(status)
+
+        .grid__cell.grid__cell--50
+          .section
+            %h3.align-center
+              = t('workarea.admin.search_customizations.analyze.ranking')
+              = link_to '#ranking-info', data: { tooltip: { interactive: true } } do
+                = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.search_customizations.analyze.rendering'))
+              #ranking-info.tooltip-content
+                %p= t('workarea.admin.search_customizations.analyze.ranking_help_html')
+
+            - if @analysis.scores.blank?
+              %p.align-center= t('workarea.admin.search_customizations.analyze.no_results')
+
+            - else
+              %table.index-table
+                %thead
+                  %tr
+                    %th
+                    %th= t('workarea.admin.fields.name')
+                    %th.align-center= t('workarea.admin.fields.featured')
+                    %th.align-center= t('workarea.admin.fields.score')
+                %tbody
+                  - @analysis.scores.each do |product|
+                    %tr.index-table__row
+                      %td
+                        = link_to catalog_product_path(product), class: 'index-table__image-link' do
+                          = image_tag product_image_url(product.primary_image, :medium), alt: product.name, class: 'index-table__image'
+                      %td= link_to product.name, product
+                      %td.align-center= '✓' if product.featured?
+                      %td.align-center= product.score

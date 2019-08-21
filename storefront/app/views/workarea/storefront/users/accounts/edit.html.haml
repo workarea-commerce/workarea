@@ -1,0 +1,42 @@
+- @title = t('workarea.storefront.users.edit_title')
+
+- content_for :breadcrumbs do
+  %p.breadcrumbs__node-group
+    %span.breadcrumbs__node{ itemprop: 'breadcrumb' }
+      = link_to t('workarea.storefront.layouts.home'), root_path, rel: 'home', class: 'breadcrumbs__link'
+    %span.breadcrumbs__node{ itemprop: 'breadcrumb' }
+      = link_to t('workarea.storefront.users.account'), users_account_path, class: 'breadcrumbs__link'
+    %span.breadcrumbs__node{ itemprop: 'breadcrumb' }
+      %span.breadcrumbs__text= t('workarea.storefront.users.edit_title')
+
+.view
+
+  %h1= t('workarea.storefront.users.edit_title')
+
+  = form_tag users_account_path, method: :patch, id: 'info_form' do
+    .property.property--responsive
+      = label_tag :email, nil, class: 'property__name' do
+        %span.property__text= t('workarea.storefront.users.email')
+      .value= email_field_tag :email, @user.email, class: 'text-box', autocapitalize: 'off', autocomplete: 'email', required: true, placeholder: t('workarea.storefront.forms.email_placeholder')
+    .property.property--responsive
+      = label_tag :first_name, nil, class: 'property__name' do
+        %span.property__text= t('workarea.storefront.users.first_name')
+      .value= text_field_tag :first_name, @user.first_name, class: 'text-box', autocomplete: 'given-name'
+    .property.property--responsive
+      = label_tag :last_name, nil, class: 'property__name' do
+        %span.property__text= t('workarea.storefront.users.last_name')
+      .value= text_field_tag :last_name, @user.last_name, class: 'text-box', autocomplete: 'family-name'
+    .property.property--responsive
+      = label_tag :password, nil, class: 'property__name' do
+        %span.property__text= t('workarea.storefront.users.new_password')
+      .value= password_field_tag :password, nil, class: 'text-box', minlength: minimum_password_length, autocomplete: 'off'
+    = append_partials('storefront.edit_account_details', user: @user)
+    .property.property--responsive
+      = label_tag :email_signup, nil, class: 'property__name' do
+        %span.property__text= t('workarea.storefront.users.sign_up_for_email')
+      .value
+        = hidden_field_tag :email_signup, false, id: nil
+        = check_box_tag :email_signup, true, @user.email_signup?
+    .grid.grid--auto
+      %p.grid__cell= button_tag t('workarea.storefront.forms.save'), value: 'save_info', class: 'button'
+      %p.grid__cell= link_to t('workarea.storefront.forms.cancel'), users_account_path, class: "text-button", data: { dialog_close_button: '' }

@@ -1,0 +1,114 @@
+/*------------------------------------*\
+    #LAYOUT
+\*------------------------------------*/
+$email-container-main-bg-color: $white !default;
+
+.email-container {
+    margin: auto;
+    text-align: center;
+}
+
+.email-container--main {
+    & > tr > td {
+        background: $email-container-main-bg-color;
+        text-align: center;
+        vertical-align: top;
+        padding: $spacing-unit;
+    }
+}
+
+.email-header {
+    padding: ($spacing-unit * 2) 0;
+}
+
+.email-footer {
+    padding: ($spacing-unit * 4) $spacing-unit;
+    font-family: $font-family;
+}
+
+
+/*------------------------------------*\
+    #PREHEADER-TEXT
+\*------------------------------------*/
+.preheader-text {
+    display: none;
+    font-size: 1px;
+    line-height: 1px;
+    max-height: 0px;
+    max-width: 0px;
+    opacity: 0;
+    overflow: hidden;
+    mso-hide: all;
+    font-family: sans-serif;
+}
+
+
+/*------------------------------------*\
+    #LOGO
+\*------------------------------------*/
+.logo {
+    text-decoration: none;
+}
+
+    .logo__image {}
+
+
+/*------------------------------------*\
+    #PRODUCT-GRID
+\*------------------------------------*/
+.product-grid {
+    & > tr > td {
+        vertical-align: top;
+    }
+}
+
+    .product-grid__product {
+        text-align: center;
+    }
+
+        .product-grid__image {
+            padding: 0 0 $spacing-unit;
+        }
+
+        .product-grid__info {
+            padding: 0 0 ($spacing-unit * 2);
+            font-size: $font-size - 2px;
+            font-family: $font-family;
+        }
+
+            .product-grid__link {
+                text-decoration: none;
+            }
+
+            .product-grid__name {
+                display: block;
+            }
+
+            .product-grid__price {
+                font-weight: bold;
+            }
+
+
+/*------------------------------------*\
+    #ITEM-TABLE
+\*------------------------------------*/
+$item-table-th-bg-color:  $light-gray !default;
+$item-table-border-color: $light-gray !default;
+
+.item-table {
+    table-layout: fixed;
+    border-collapse: collapse;
+    margin-bottom: $spacing-unit * 2;
+
+    th, td {
+        padding: $spacing-unit;
+        border: 1px solid $item-table-border-color;
+        font-family: $font-family;
+        vertical-align: top;
+    }
+
+    th {
+        background: $item-table-th-bg-color;
+    }
+}
+

@@ -1,0 +1,67 @@
+.grid.grid--auto.grid--flush.grid--center
+  .grid__cell
+    .card{ class: card_classes(:attributes, local_assigns[:active]) }
+      - if model.generation_complete?
+        = link_to edit_pricing_discount_code_list_path(model), class: 'card__header' do
+          %span.card__header-text= t('workarea.admin.cards.attributes.title')
+          = inline_svg 'workarea/admin/icons/attributes.svg', class: 'card__icon'
+      - else
+        .card__header
+          %span.card__header-text= t('workarea.admin.cards.attributes.title')
+          = inline_svg 'workarea/admin/icons/attributes.svg', class: 'card__icon'
+
+      - if local_assigns[:active].blank?
+        .card__body
+          %ul.list-reset
+            %li
+              %strong= t('workarea.admin.fields.prefix')
+              = model.prefix.presence || '-'
+            %li
+              %strong= t('workarea.admin.fields.expires_at')
+              - if model.expires_at.present?
+                #{local_time(model.expires_at, :long)}
+              - else
+                = t('workarea.admin.pricing_discount_code_lists.promo_codes.never')
+
+            %li
+              %strong= t('workarea.admin.fields.updated_at')
+              #{local_time_ago(model.updated_at)}
+            %li
+              %strong= t('workarea.admin.fields.created_at')
+              #{local_time_ago(model.created_at)}
+          - if model.generation_complete?
+            = link_to edit_pricing_discount_code_list_path(model), class: 'card__button' do
+              %span.button.button--small= t('workarea.admin.cards.attributes.button')
+
+  .grid__cell
+    .card{ class: card_classes(:promo_codes, local_assigns[:active]) }
+      = link_to promo_codes_pricing_discount_code_list_path(model), class: 'card__header' do
+        %span.card__header-text= t('workarea.admin.pricing_discount_code_lists.cards.promo_codes.title')
+        = inline_svg 'workarea/admin/icons/pricing_discount.svg', class: 'card__icon'
+
+      - if local_assigns[:active].blank?
+        .card__body
+          - if model.generation_complete?
+            .grid
+              .grid__cell.grid__cell--50
+                .align-center
+                  %h2.heading.heading--no-margin= model.count
+                  %p #{t('workarea.admin.pricing_discount_code_lists.cards.promo_codes.total')}
+              .grid__cell.grid__cell--50
+                .align-center
+                  %h2.heading.heading--no-margin= model.used_count
+                  %p #{t('workarea.admin.pricing_discount_code_lists.cards.promo_codes.used')}
+
+            - if model.last_used_at.present?
+              %p.align-center
+                = t('workarea.admin.pricing_discount_code_lists.cards.promo_codes.last_used_at_html', date: local_time(model.last_used_at))
+
+          - else
+            %p.card__empty-note.align-center
+              = t('workarea.admin.pricing_discount_code_lists.cards.promo_codes.generating')
+
+          = link_to promo_codes_pricing_discount_code_list_path(model), class: 'card__button' do
+            %span.button.button--small= t('workarea.admin.pricing_discount_code_lists.cards.promo_codes.button')
+
+  .grid__cell
+    = render 'workarea/admin/timeline/card', timeline: model.timeline, active: local_assigns[:active]

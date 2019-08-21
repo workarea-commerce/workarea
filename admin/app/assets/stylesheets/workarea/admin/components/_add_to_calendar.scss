@@ -1,0 +1,17 @@
+/*------------------------------------*
+    #ADD-TO-CALENDAR
+*------------------------------------*/
+
+.add-to-calendar {}
+
+    .add-to-calendar__list {
+        @extend %list-reset;
+    }
+
+        .add-to-calendar__item {
+            padding: $spacing-unit ($spacing-unit * 2);
+        }
+
+            .add-to-calendar__link {
+                font-size: 1.25em;
+            }

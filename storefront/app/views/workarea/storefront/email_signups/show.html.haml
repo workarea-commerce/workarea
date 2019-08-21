@@ -1,0 +1,12 @@
+.email-signup
+
+  %h1= @content.title
+
+  - if @content.content_blocks.present?
+    .email-signup__content= render_content_blocks(@content.content_blocks)
+
+  .email-signup__form
+    = form_tag email_signup_path, method: 'post', id: 'dialog_email_signup_form', class: 'inline-form', data: { analytics: email_signup_analytics_data.to_json } do
+      .inline-form__cell
+        .value= email_field_tag :email, nil, id: 'dialog_email_signup_field', class: 'text-box', placeholder: t('workarea.storefront.forms.email_placeholder'), title: t('workarea.storefront.users.email'), required: true, autocomplete: 'email', autocapitalize: 'off', aria: { label: t('workarea.storefront.users.email') }
+      %p.inline-form__cell= button_tag t('workarea.storefront.users.join'), value: 'sign_up', class: 'button'

@@ -1,0 +1,4 @@
+%p.release-changeset__content
+  %span.release-changeset__field= t("workarea.admin.fields.#{field}", default: field.titleize)
+  %span.release-changeset__old= change_display_value(old_value)
+  %span.release-changeset__new= change_display_value(new_value)

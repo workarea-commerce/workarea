@@ -1,0 +1,100 @@
+- @page_title = t('workarea.admin.create_pricing_discounts.setup.title', discount: @discount.name)
+
+.view
+  .view__header
+    .view__heading
+      %h1.heading.heading--no-margin= t('workarea.admin.create_pricing_discounts.setup.setup')
+
+  .view__container
+    = form_tag details_create_pricing_discounts_path, method: 'get', id: 'discount_form' do
+      - if params[:discount].present?
+        = hidden_field_tag 'discount[name]', params[:discount][:name]
+        = hidden_field_tag 'discount[tag_list]', params[:discount][:tag_list]
+
+      - if @discount.persisted?
+        .section.align-center
+          = hidden_field_tag 'type', params[:type]
+          = hidden_field_tag :id, @discount.id
+
+          %p= t('workarea.admin.create_pricing_discounts.setup.persisted_warning', type: params[:type].humanize.titleize)
+
+          = link_to t('workarea.admin.create_pricing_discounts.setup.start_over'), create_pricing_discount_path(@discount), method: :delete, confirm: t('workarea.admin.create_pricing_discounts.setup.start_over_confirmation'), class: 'button'
+
+      - else
+        .section
+          %table.table
+            %thead
+              %tr
+                %th= t('workarea.admin.create_pricing_discounts.setup.type')
+                %th= t('workarea.admin.create_pricing_discounts.setup.example')
+            %tbody
+              %tr
+                %td
+                  %label
+                    = radio_button_tag 'type', 'product', (params[:type] == 'product' || params[:type].nil?)
+                    = t('workarea.admin.create_pricing_discounts.setup.product')
+                %td= t('workarea.admin.create_pricing_discounts.setup.product_example')
+              %tr
+                %td
+                  %label
+                    = radio_button_tag 'type', 'product_attribute', params[:type] == 'product_attribute'
+                    = t('workarea.admin.create_pricing_discounts.setup.product_attribute')
+                %td= t('workarea.admin.create_pricing_discounts.setup.product_attribute_example')
+              %tr
+                %td
+                  %label
+                    = radio_button_tag 'type', 'category', params[:type] == 'category'
+                    = t('workarea.admin.create_pricing_discounts.setup.category')
+                %td= t('workarea.admin.create_pricing_discounts.setup.category_example')
+              %tr
+                %td
+                  %label
+                    = radio_button_tag 'type', 'buy_some_get_some', params[:type] == 'buy_some_get_some'
+                    = t('workarea.admin.create_pricing_discounts.setup.buy_some_get_some')
+                %td= t('workarea.admin.create_pricing_discounts.setup.buy_some_get_some_example')
+              %tr
+                %td
+                  %label
+                    = radio_button_tag 'type', 'quantity_fixed_price', params[:type] == 'quantity_fixed_price'
+                    = t('workarea.admin.create_pricing_discounts.setup.quantity_fixed_price')
+                %td= t('workarea.admin.create_pricing_discounts.setup.quantity_fixed_price_example')
+              %tr
+                %td
+                  %label
+                    = radio_button_tag 'type', 'free_gift', params[:type] == 'free_gift'
+                    = t('workarea.admin.create_pricing_discounts.setup.free_gift')
+                %td= t('workarea.admin.create_pricing_discounts.setup.free_gift_example')
+              %tr
+                %td
+                  %label
+                    = radio_button_tag 'type', 'order_total', params[:type] == 'order_total'
+                    = t('workarea.admin.create_pricing_discounts.setup.order_total')
+                %td= t('workarea.admin.create_pricing_discounts.setup.order_total_example')
+              %tr
+                %td
+                  %label
+                    = radio_button_tag 'type', 'shipping', params[:type] == 'shipping'
+                    = t('workarea.admin.create_pricing_discounts.setup.shipping')
+                %td= t('workarea.admin.create_pricing_discounts.setup.shipping_example')
+
+              = append_partials('admin.create_pricing_discounts.setup')
+
+      .workflow-bar
+        .grid.grid--middle
+          .grid__cell.grid__cell--20
+            - if @discount.new_record?
+              = link_to t('workarea.admin.create_pricing_discounts.workflow.cancel'), pricing_discounts_path, class: 'workflow-bar__button workflow-bar__button--delete'
+            - else
+              = link_to t('workarea.admin.create_pricing_discounts.workflow.cancel'), pricing_discount_path(@discount), class: 'workflow-bar__button workflow-bar__button--delete', data: { method: 'delete', confirm: 'Are you sure? All work on this discount will be lost.' }
+
+          .grid__cell.grid__cell--60
+            %ol.workflow-bar__steps
+              %li.workflow-bar__step
+                %strong 1) #{t('workarea.admin.create_pricing_discounts.workflow.steps.setup')}
+              %li.workflow-bar__step 2) #{t('workarea.admin.create_pricing_discounts.workflow.steps.details')}
+              %li.workflow-bar__step 3) #{t('workarea.admin.create_pricing_discounts.workflow.steps.rules')}
+              %li.workflow-bar__step 4) #{t('workarea.admin.create_pricing_discounts.workflow.steps.publish')}
+
+          .grid__cell.grid__cell--20
+            .grid.grid--auto.grid--right.grid--middle
+              .grid__cell= button_tag t('workarea.admin.create_pricing_discounts.workflow.save_and_continue'), value: 'save_setup', class: 'workflow-bar__button workflow-bar__button--create'

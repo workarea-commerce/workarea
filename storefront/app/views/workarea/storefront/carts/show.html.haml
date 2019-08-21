@@ -1,0 +1,183 @@
+- @title = t('workarea.storefront.carts.title')
+
+.cart.view{ data: { analytics: cart_view_analytics_data(@cart).to_json } }
+
+  %ul.order-help-menu
+    %li.order-help-menu__item
+      = link_to t('workarea.storefront.layouts.contact_us'), contact_path, data: { dialog_button: '' }
+    %li.order-help-menu__item
+      = link_to page_path('shipping-information'), target: '_blank', rel: 'noopener', data: { dialog_button: '' } do
+        = t('workarea.storefront.layouts.shipping_policy')
+    %li.order-help-menu__item
+      = link_to page_path('return-information'), target: '_blank', rel: 'noopener', data: { dialog_button: '' } do
+        = t('workarea.storefront.layouts.returns')
+
+  - if @cart.no_items?
+
+    %h1= t('workarea.storefront.carts.empty')
+
+    %p.cart__continue-shopping
+      = link_to t('workarea.storefront.carts.continue_shopping'), root_path, class: 'button'
+
+  - else
+
+    .grid.grid--middle
+      .grid__cell.grid__cell--80-at-medium
+        %h1= t('workarea.storefront.carts.title')
+
+      .grid__cell.grid__cell--20-at-medium
+        .cart__checkout-action-group
+          %p.cart__checkout-action= link_to t('workarea.storefront.carts.checkout'), checkout_path, class: 'button button--large'
+          = append_partials('storefront.cart_checkout_actions', cart: @cart)
+
+    %ul.product-list{ data: { analytics: product_list_analytics_data('Cart').to_json } }
+      - @cart.items.each_with_index do |item, index|
+        %li.product-list__item
+          .product-list__item-cell
+            .product-list__summary
+              %p.product-list__media= link_to image_tag(product_image_url(item.image, :small_thumb), alt: item.product_name, class: 'product-list__media-image'), product_url(item.product, sku: item.sku), class: 'product-list__media-link'
+              .product-list__info
+                %p.product-list__name= link_to item.product_name, product_path(item.product, sku: item.sku)
+                %p.product-list__id= item.sku_name
+                %p.product-list__inventory-status= item.inventory_status
+                - if item.has_options?
+                  .product-list__option-group
+                    - item.details.each do |name, value|
+                      %p.product-list__option #{name.titleize}: #{value}
+                - item.customizations.each do |name, value|
+                  %p.product-list__customization #{name.titleize}: #{value}
+                = append_partials('storefront.cart_item_details', item: item, index: index)
+            .grid.grid--auto
+              .grid__cell
+                = form_tag cart_item_path(item), method: 'delete', class: 'action-group__item', data: { analytics: remove_from_cart_analytics_data(item).to_json } do
+                  %p= button_tag t('workarea.storefront.carts.remove'), value: 'remove_item', class: 'text-button'
+              = append_partials('storefront.cart_item_actions', item: item)
+          .product-list__item-cell
+            %table.table
+              %thead
+                %tr
+                  %th.table__prices= t('workarea.storefront.orders.price')
+                  %th.table__quantity= t('workarea.storefront.orders.quantity')
+                  %th.table__prices= t('workarea.storefront.orders.total')
+              %tbody
+                %tr
+                  %td.table__prices
+                    = render 'workarea/storefront/carts/pricing', item: item, css_block: 'table'
+                  %td.table__quantity
+                    = form_tag cart_item_path(item), method: :patch, class: 'inline-form', data: { analytics: update_cart_item_analytics_data(item).to_json } do
+                      .inline-form__cell
+                        .value= number_field_tag :quantity, item.quantity, min: 1, required: true, class: 'text-box text-box--x-small', data: { form_submitting_control: '' }, title: t('workarea.storefront.orders.quantity'), id: "quantity_#{index}", aria: { label: t('workarea.storefront.orders.quantity') }
+                      %p.inline-form__cell.hidden-if-js-enabled= button_tag t('workarea.storefront.carts.update'), value: 'change_quantity', class: 'button'
+                  %td.table__prices
+                    - item.total_adjustments.each do |adjustment|
+                      %p.table__price
+                        - if item.total_adjustments.many?
+                          %span.table__price-label= adjustment.description
+
+                        - if adjustment.discount?
+                          %strong.table__price-discount= number_to_currency(adjustment.amount)
+                        - else
+                          %span= number_to_currency(adjustment.amount)
+
+                    - if item.total_adjustments.many?
+                      %p.table__price
+                        %span.table__price-label= t('workarea.storefront.orders.item_total')
+                        %span= number_to_currency(item.total_price)
+      - @cart.free_gifts.each do |item|
+        %li.product-list__item
+          .product-list__item-cell
+            .product-list__summary
+              %p.product-list__media= link_to image_tag(product_image_url(item.image, :small_thumb), alt: item.product_name, class: 'product-list__media-image'), product_url(item.product, sku: item.sku), class: 'product-list__media-link'
+              .product-list__info
+                %p.product-list__name= link_to item.product_name, product_path(item.product, sku: item.sku)
+                %p.product-list__id= item.sku
+          .product-list__item-cell
+            %table.table
+              %thead
+                %tr
+                  %th.table__prices= t('workarea.storefront.orders.price')
+                  %th.table__quantity= t('workarea.storefront.orders.quantity')
+                  %th.table__prices= t('workarea.storefront.orders.total')
+              %tbody
+                %tr
+                  %td.table__prices
+                    %p.table__price
+                      %span= t('workarea.storefront.carts.free_gift')
+                  %td.table__quantity
+                    %p= item.quantity
+                  %td.table__prices
+                    %p.table__price
+                      %span= t('workarea.storefront.carts.free_gift')
+
+    = append_partials('storefront.cart_additional_information', cart: @cart)
+
+    .grid.grid--auto.grid--right
+      .grid__cell
+        = optional_field(t('workarea.storefront.carts.enter_promo_code_prompt'), params[:promo_code]) do
+          .cart__promo-code
+            = form_tag add_promo_code_to_cart_path, id: 'promo_code_form', method: 'post', class: 'inline-form' do
+              .inline-form__cell
+                .value= text_field_tag :promo_code, params[:promo_code], class: 'text-box', autocomplete: 'off', autocorrect: 'off', autocapitalize: 'off', required: true, title: t('workarea.storefront.orders.promo_code'), aria: { label: t('workarea.storefront.orders.promo_code') }
+              %p.inline-form__cell= button_tag t('workarea.storefront.carts.add'), value: 'add_promo_code', class: 'button'
+
+    .grid.grid--right
+      .grid__cell.grid__cell--50-at-medium
+        %table.table.table--totals
+          %tbody
+            %tr
+              %th
+                %span= t('workarea.storefront.orders.subtotal')
+              %td= number_to_currency @cart.subtotal_price
+            - @cart.total_adjustments.each do |adjustment|
+              %tr
+                %th
+                  %span= adjustment.description
+                %td
+                  - if adjustment.discount?
+                    %strong= number_to_currency(adjustment.amount)
+                  - else
+                    %span= number_to_currency(adjustment.amount)
+            - if @cart.requires_shipping?
+              %tr
+                %th
+                  %span= t('workarea.storefront.orders.shipping')
+                %td
+                  - if @cart.show_shipping_services?
+                    #{@cart.shipping_service} - #{number_to_currency(@cart.shipping_total)}
+                  - else
+                    = t('workarea.storefront.carts.calculated_at_checkout')
+            %tr
+              %th
+                %span= t('workarea.storefront.orders.tax')
+              %td
+                - if @cart.show_taxes?
+                  = number_to_currency @cart.tax_total
+                - else
+                  = t('workarea.storefront.carts.calculated_at_checkout')
+            %tr.table__total
+              %th
+                %span= t('workarea.storefront.orders.total')
+              %td= number_to_currency(@cart.total_price)
+
+    .cart__checkout-action-group
+      %p.cart__checkout-action= link_to t('workarea.storefront.carts.checkout'), checkout_path, class: 'button button--large'
+      = append_partials('storefront.cart_checkout_actions', cart: @cart)
+
+  = append_partials('storefront.cart_show', cart: @cart)
+
+  - cache @cart.cache_key, expires_in: Workarea.config.cache_expirations.cart_recommendations_fragment_cache do
+    - if @cart.recommendations.any?
+      .recommendations
+        %h2.recommendations__heading= t('workarea.storefront.recommendations.heading')
+
+        .recommendations__products
+          .grid
+            - @cart.recommendations.each do |product|
+              .grid__cell.grid__cell--50.grid__cell--33-at-medium.grid__cell--16-at-wide
+                .product-summary.product-summary--small{ itemscope: true, itemtype: 'http://schema.org/Product' }
+                  = render 'workarea/storefront/products/summary', product: product
+
+  %div{ data: { recommendations_placeholder: recent_views_path } }
+
+  - if @cart.quantity.zero?
+    %div{ data: { recommendations_placeholder: recommendations_path } }

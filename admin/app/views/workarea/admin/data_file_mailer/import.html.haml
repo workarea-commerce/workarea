@@ -1,0 +1,11 @@
+%tr
+  %td
+    %h1= t('workarea.admin.data_file_mailer.import.message', name: @import.file_name)
+%tr
+  %td
+    %p
+      = t('workarea.admin.data_file_mailer.import.success', count: pluralize(@import.succeeded, @import.format.unit.downcase))
+%tr
+  %td
+    %p
+      = link_to t('workarea.admin.data_file_mailer.import.link_text', name: @import.name.pluralize), index_url_for(@import.model_class, only_path: false)

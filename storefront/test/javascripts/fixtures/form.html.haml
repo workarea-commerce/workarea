@@ -1,0 +1,10 @@
+%form
+  .property#required_property
+    .value= text_field_tag 'required_input', nil, required: true
+  .property#text_box_property
+    .value= text_field_tag 'text_box', nil, required: true, class: 'text-box'
+  .property#preexisting_error
+    .value
+      = text_field_tag 'text_box_with_error', nil, required: true, class: 'text-box'
+      %span.value__error Error
+  = submit_tag

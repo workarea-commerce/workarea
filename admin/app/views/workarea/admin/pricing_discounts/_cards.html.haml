@@ -1,0 +1,122 @@
+.grid.grid--auto.grid--flush.grid--center
+  .grid__cell
+    .card{ class: card_classes(:attributes, local_assigns[:active]) }
+      = link_to edit_pricing_discount_path(model), class: 'card__header' do
+        %span.card__header-text= t('workarea.admin.pricing_discounts.cards.attributes.header')
+        = inline_svg 'workarea/admin/icons/attributes.svg', class: 'card__icon'
+
+      - if local_assigns[:active].blank?
+        .card__body
+          %ul.list-reset
+            - if model.auto_deactivates_at < 1.week.from_now
+              %li
+                %strong #{t('workarea.admin.pricing_discounts.cards.attributes.deactivates')}:
+                = local_time_ago(model.auto_deactivates_at)
+            %li
+              %strong #{t('workarea.admin.fields.active')}:
+              = check_box_tag 'discount', 'active', model.active, disabled: true
+            %li
+              %strong #{t('workarea.admin.fields.redemptions')}:
+              = model.redemptions.size
+            %li
+              %strong #{t('workarea.admin.fields.tags')}:
+              = model.tags.join(', ').presence || '(none)'
+            %li
+              %strong #{t('workarea.admin.fields.updated_at')}:
+              #{local_time_ago(model.updated_at)}
+            %li
+              %strong #{t('workarea.admin.fields.created_at')}:
+              #{local_time_ago(model.created_at)}
+          = link_to edit_pricing_discount_path(model), class: 'card__button' do
+            %span.button.button--small= t('workarea.admin.pricing_discounts.cards.attributes.edit')
+
+  .grid__cell
+    .card{ class: card_classes(:rules, local_assigns[:active]) }
+      = link_to rules_pricing_discount_path(model), class: 'card__header' do
+        %span.card__header-text= t('workarea.admin.pricing_discounts.cards.rules.header')
+        = inline_svg 'workarea/admin/icons/rules.svg', class: 'card__icon'
+
+      - if local_assigns[:active].blank?
+        .card__body
+          %ul.list-reset
+            %li
+              %strong= t('workarea.admin.fields.type')
+              = model.slug.titleize
+            - model.rules_summary.each do |field, value|
+              %li
+                %strong= t("workarea.admin.fields.#{field.systemize}", default: field)
+                = value
+            %li
+              %strong #{t('workarea.admin.fields.single_use')}?
+              = model.single_use?.to_s.titleize
+            %li
+              %strong #{t('workarea.admin.fields.allow_sale_items')}?
+              = model.allow_sale_items?.to_s.titleize
+            %li
+              %strong #{t('workarea.admin.fields.compatible_discounts')}?
+              - if model.compatible_discounts.blank?
+                = t('workarea.admin.pricing_discounts.cards.rules.none')
+              - else
+                - model.compatible_discounts.each do |discount|
+                  = link_to discount.name, pricing_discount_path(discount)
+            %li
+              %strong #{t('workarea.admin.fields.excluded_category_ids')}?
+              - if model.excluded_categories.blank?
+                = t('workarea.admin.pricing_discounts.cards.rules.none')
+              - else
+                - model.excluded_categories.each do |category|
+                  = link_to category.name, catalog_category_path(category)
+            %li
+              %strong #{t('workarea.admin.fields.excluded_product_ids')}?
+              - if model.excluded_products.blank?
+                = t('workarea.admin.pricing_discounts.cards.rules.none')
+              - else
+                - model.excluded_products.each do |product|
+                  = link_to product.name, catalog_product_path(product)
+
+          = link_to rules_pricing_discount_path(model), class: 'card__button' do
+            %span.button.button--small= t('workarea.admin.pricing_discounts.cards.rules.edit')
+
+  .grid__cell
+    .card{ class: card_classes(:insights, local_assigns[:active]) }
+      = link_to insights_pricing_discount_path(model), class: 'card__header' do
+        %span.card__header-text= t('workarea.admin.pricing_discounts.cards.insights.title')
+        = inline_svg 'workarea/admin/icons/insights.svg', class: 'card__icon'
+
+      - if local_assigns[:active].blank?
+        .card__body
+          %p.align-center
+            %span.spark.spark--large{ title: t('workarea.admin.pricing_discounts.index.sparkline_title') }
+              {#{sparkline_analytics_data_for(model.insights.orders_sparkline).join(',')}}
+
+          %span.heading.heading--4.align-center
+            #{number_with_delimiter model.insights.orders}
+            #{t('workarea.admin.pricing_discounts.cards.insights.orders')}
+            #{insights_trend_icon(model.insights.orders_percent_change)}
+
+          .grid
+            .grid__cell.grid__cell--50
+              %p.align-center
+                %strong= number_to_currency model.insights.revenue
+                #{insights_trend_icon(model.insights.revenue_percent_change)}
+                %br
+                #{t('workarea.admin.pricing_discounts.cards.insights.revenue')}
+            .grid__cell.grid__cell--50
+              %p.align-center
+                %strong= number_to_currency model.insights.discounts
+                #{insights_trend_icon(model.insights.discounts_percent_change)}
+                %br
+                #{t('workarea.admin.pricing_discounts.cards.insights.discounts')}
+
+          %p.align-center
+            = distance_of_time_in_words(model.insights.starts_at, model.insights.ends_at)
+            = top_icon_for(model)
+
+          = link_to insights_pricing_discount_path(model), class: 'card__button' do
+            %span.button.button--small= t('workarea.admin.pricing_discounts.cards.insights.button')
+
+  .grid__cell
+    = render 'workarea/admin/timeline/card', timeline: model.timeline, active: local_assigns[:active]
+
+  .grid__cell
+    = render 'workarea/admin/comments/card', commentable: model, active: local_assigns[:active]

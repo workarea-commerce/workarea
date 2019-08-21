@@ -1,0 +1,97 @@
+/*------------------------------------*\
+    #NAVIGATION-BUILDER
+\*------------------------------------*/
+
+$navigation-builder-node-border:  1px solid $border-color !default;
+
+$navigation-builder-node-color:           $gray !default;
+$navigation-builder-node-bg-color:        $white !default;
+$navigation-builder-node-hover-color:     $blue !default;
+$navigation-builder-node-selected-color:    $white !default;
+$navigation-builder-node-selected-bg-color: $off-black !default;
+
+$navigation-builder-node-inactive-opacity: 0.5 !default;
+
+
+.navigation-builder {
+    margin-bottom: $spacing-unit * 3;
+    text-align: center;
+}
+
+    .navigation-builder__node-list {
+        display: inline-block;
+    }
+
+        /**
+         * 1. preserve layout when node is being reordered
+         */
+        .navigation-builder__node {
+            display: inline-block;
+            margin: $spacing-unit ($spacing-unit / 2);
+            padding: ($spacing-unit / 2) $spacing-unit;
+            background-color: $navigation-builder-node-bg-color;
+            border: $navigation-builder-node-border;
+            border-radius: $global-border-radius;
+            vertical-align: middle;
+
+            &.ui-sortable-handle {
+                white-space: nowrap; /* [1] */
+            }
+        }
+
+        .navigation-builder__node--inactive {
+            opacity: $navigation-builder-node-inactive-opacity;
+        }
+
+        .navigation-builder__node--selected {
+            color: $navigation-builder-node-selected-color;
+            background-color: $navigation-builder-node-selected-bg-color;
+        }
+
+            .navigation-builder__node-link {
+                margin-bottom: 0;
+                color: $navigation-builder-node-color;
+                font-weight: bold;
+                background-color: $navigation-builder-node-bg-color;
+
+                &:hover {
+                    color: $navigation-builder-node-hover-color;
+                    text-decoration: none;
+                }
+
+                .navigation-builder__node--selected & {
+                    color: $navigation-builder-node-selected-color;
+                    background-color: $navigation-builder-node-selected-bg-color;
+                }
+            }
+
+            .navigation-builder__node-text {}
+
+            .navigation-builder__node-icon {
+                cursor: move;
+                fill: $navigation-builder-node-color;
+                vertical-align: middle;
+
+                .navigation-builder__node--selected & {
+                    fill: $navigation-builder-node-selected-color;
+                }
+            }
+
+            .navigation-builder__node-tooltip {}
+
+                .navigation-builder__actions {
+                    display: inline-block;
+                    vertical-align: middle;
+                }
+
+                .navigation-builder__action {
+                    margin: 0 $spacing-unit;
+
+                    &:hover {
+                        text-decoration: none;
+                    }
+                }
+
+                .navigation-builder__action-text {
+                    @extend %visually-hidden;
+                }

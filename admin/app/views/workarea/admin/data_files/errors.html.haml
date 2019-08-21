@@ -1,0 +1,38 @@
+- @page_title = t('workarea.admin.data_files.errors.page_title', name: @data_file.name, type: @data_file.type)
+
+.view
+  .view__header
+    .view__heading
+      = link_to "↑ #{t('workarea.admin.data_files.errors.dashboard_link')}", data_files_path(type: params[:type]), class: 'view__dashboard-button'
+      %h1= t('workarea.admin.data_files.errors.title', name: @data_file.name, type: @data_file.type)
+
+
+  .view__container.view__container--narrow
+    .browsing-controls.browsing-controls--with-divider.browsing-controls--center
+      %p.browsing-controls__count
+        = pluralize(@data_file.error_count, t('workarea.admin.data_files.errors.error'))
+
+    - if @data_file.error_count.positive?
+
+      - if @data_file.error_message.present?
+        .align-center
+          %h2= @data_file.error_type.presence || t('workarea.admin.data_files.errors.unknown_type')
+          %p= @data_file.error_message
+
+      - if @data_file.file_errors.present?
+        %table
+          %thead
+            %tr
+              - if @data_file.errors_with_line_numbers?
+                %th= t('workarea.admin.data_files.errors.table.id_or_line')
+              - else
+                %th= t('workarea.admin.fields.id')
+              %th= t('workarea.admin.data_files.errors.table.field')
+              %th= t('workarea.admin.data_files.errors.table.message')
+          %tbody
+            - @data_file.file_errors.each do |key, errors|
+              - errors.each do |field, values|
+                %tr
+                  %td= key
+                  %td= field
+                  %td= values.to_sentence

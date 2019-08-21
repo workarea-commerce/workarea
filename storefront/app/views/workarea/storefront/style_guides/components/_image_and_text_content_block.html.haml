@@ -1,0 +1,28 @@
+#image-and-text-content-block.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'image_and_text_content_block')
+
+  %p A content block that provides layout for an image and accompanying text.
+
+  - %w(left right).each do |image_alignment|
+    %p should display the <strong>image on the #{image_alignment}</strong>:
+    .style-guide__example-block
+      .image-and-text-content-block
+        .image-and-text-content-block__image-container{ class: "image-and-text-content-block__image-container--#{image_alignment}" }
+          = image_tag 'workarea/core/placeholder.png', size: '100x100', class: 'image-and-text-content-block__image'
+        .image-and-text-content-block__text Geodesic tower knife military-grade katana sensory courier fetishism singularity rifle pistol ablative warehouse media table woman. Industrial grade sub-orbital garage franchise futurity hacker corrupted office city military-grade tank-traps-space. Boat assault savant knife kanji convenience store decay. Savant drugs hacker industrial grade digital bicycle ablative dissident monofilament Legba.
+
+    %p should support a <strong>linked image on the #{image_alignment}</strong>:
+    .style-guide__example-block
+      .image-and-text-content-block
+        .image-and-text-content-block__image-container{ class: "image-and-text-content-block__image-container--#{image_alignment}" }
+          = link_to image_tag('workarea/core/placeholder.png', size: '100x100', class: 'image-and-text-content-block__image'), '#', class: 'image-and-text-content-block__image-link'
+        .image-and-text-content-block__text Geodesic tower knife military-grade katana sensory courier fetishism singularity rifle pistol ablative warehouse media table woman. Industrial grade sub-orbital garage franchise futurity hacker corrupted office city military-grade tank-traps-space. Boat assault savant knife kanji convenience store decay. Savant drugs hacker industrial grade digital bicycle ablative dissident monofilament Legba.
+
+    - %w(left right center justify).each do |text_alignment|
+      %p should support <strong>text align #{text_alignment}</strong> when the <strong>image is aligned #{image_alignment}</strong>:
+      .style-guide__example-block
+        .image-and-text-content-block
+          .image-and-text-content-block__image-container{ class: "image-and-text-content-block__image-container--#{image_alignment}" }
+            = link_to image_tag('workarea/core/placeholder.png', size: '100x100', class: 'image-and-text-content-block__image'), '#', class: 'image-and-text-content-block__image-link'
+          .image-and-text-content-block__text{ style: "text-align: #{text_alignment}" } Geodesic tower knife military-grade katana sensory courier fetishism singularity rifle pistol ablative warehouse media table woman. Industrial grade sub-orbital garage franchise futurity hacker corrupted office city military-grade tank-traps-space. Boat assault savant knife kanji convenience store decay. Savant drugs hacker industrial grade digital bicycle ablative dissident monofilament Legba.

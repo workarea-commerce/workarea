@@ -1,0 +1,14 @@
+/*------------------------------------*\
+    #SOCIAL-NETWORKS-CONTENT-BLOCK
+\*------------------------------------*/
+
+.social-networks-content-block {
+    @extend %inline-list;
+    text-align: center;
+}
+
+    .social-networks-content-block__item {
+        margin: 0 ($spacing-unit * 2);
+    }
+
+        .social-networks-content-block__button {}

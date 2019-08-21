@@ -1,0 +1,71 @@
+/*------------------------------------*\
+    #UI-TABS
+\*------------------------------------*/
+
+$tabs-border-color:            $border-color !default;
+$tabs-anchor-color:            $gray !default;
+$tabs-anchor-hover-color:      $off-black !default;
+$tabs-anchor-active-color:     $white !default;
+$tabs-anchor-bg-color:         $white !default;
+$tabs-anchor-active-bg-color:  $off-black !default;
+
+/**
+ * 1. tab menu link containers
+ * 2. active tab menu link
+ */
+.ui-tabs {
+
+    .ui-tabs-nav {
+        @extend %list-reset;
+        display: table;
+        margin-bottom: ($spacing-unit * 2);
+        width: 100%;
+        font-size: 1.16rem;
+        table-layout: fixed;
+    }
+
+
+    /**
+     * 1. ensures `.ui-tabs-anchor` won't peek out of the border radius area.
+     */
+    .ui-tabs-nav > li {
+        display: table-cell;
+        border: 1px solid $tabs-border-color;
+        overflow: hidden; /* [1] */
+
+        + li {
+            border-left: 0;
+        }
+
+        &:first-of-type {
+            border-bottom-left-radius: 5px;
+            border-top-left-radius: 5px;
+        }
+
+        &:last-of-type {
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
+        }
+    }
+
+
+    .ui-tabs-anchor {
+        display: block;
+        padding: $spacing-unit;
+        color: $tabs-anchor-color;
+        text-align: center;
+        background: $tabs-anchor-bg-color;
+
+        &:hover {
+            color: $tabs-anchor-hover-color;
+            text-decoration: none;
+        }
+    }
+
+    .ui-state-active .ui-tabs-anchor {
+        color: $tabs-anchor-active-color;
+        font-weight: bold;
+        background: $tabs-anchor-active-bg-color;
+    }
+}
+

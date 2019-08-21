@@ -1,0 +1,80 @@
+/*------------------------------------*\
+    #DASHBOARD
+    TODO remove in v4, not used >= 3.4
+\*------------------------------------*/
+
+$dashboard-border:             1px solid $border-color !default;
+$dashboard-heading-color:      $off-black !default;
+
+$dashboard-navigation-border:      1px solid $border-color !default;
+$dashboard-navigation-link-color:  $gray !default;
+
+
+/**
+ * External Layout
+ */
+.dashboard {}
+
+    .dashboard__row {
+        margin-bottom: $vertical-margin;
+    }
+
+        /**
+         * Dashboard Navigation
+         */
+
+        .dashboard__navigation {
+            @extend %inline-list;
+            margin-bottom: $vertical-margin;
+            border-bottom: $dashboard-navigation-border;
+
+            @include respond-to($medium-breakpoint) {
+                margin-bottom: $vertical-margin * 2;
+                text-align: center;
+            }
+        }
+
+            .dashboard__navigation-link {
+                display: inline-block;
+                padding: 0 $spacing-unit $vertical-margin;
+                color: $dashboard-navigation-link-color;
+                font-size: $font-size + 2px;
+                font-weight: bold;
+
+                @include respond-to($medium-breakpoint) {
+                    padding: 0 ($spacing-unit * 4) $vertical-margin;
+                }
+            }
+
+        /**
+         * Dashboard Cards
+         */
+
+        .dashboard__card {}
+
+            .dashboard__head {
+                padding: $spacing-unit * 2;
+                border-bottom: $dashboard-border;
+            }
+
+                .dashboard__heading {
+                    display: inline-block;
+                    margin-bottom: 0;
+                    color: $dashboard-heading-color;
+                }
+
+                .dashboard__actions {
+                    float: right;
+                }
+
+            .dashboard__main {
+                padding: $spacing-unit * 2;
+            }
+
+            .dashboard__ledgend {
+                margin-top: $vertical-margin;
+            }
+
+            .dashboard__ledgend--center {
+                text-align: center;
+            }

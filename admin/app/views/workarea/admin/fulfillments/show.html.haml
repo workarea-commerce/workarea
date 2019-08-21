@@ -1,0 +1,100 @@
+- @page_title = t('workarea.admin.fulfillments.show.page_title', name: @order.name)
+
+.view
+  .view__header
+    .grid.grid--middle.grid--right
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@order)
+          %h1= link_to @order.name, url_for(@order)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@order)
+
+  .view__container
+    = render_cards_for(@order, :fulfillment)
+
+  .view__container.view__container--narrow
+    %h2= t('workarea.admin.fulfillments.show.status')
+    .section
+      %span.state{ class: state_indicator_class(@fulfillment.status) }
+        = @fulfillment.status.to_s.titleize
+      = append_partials('admin.fulfillment_status', fulfillment: @fulfillment)
+
+    %h2= t('workarea.admin.fulfillments.show.packages')
+    .section
+      - if @fulfillment.packages.any?
+        - @fulfillment.packages.each do |package|
+          %h4.heading.heading--5
+            = t('workarea.admin.fulfillments.show.shipped')
+            - if package.carrier.present?
+              = t('workarea.admin.fulfillments.show.by_carrier', carrier: package.carrier)
+
+            - if package.tracking_number.present?
+              = t('workarea.admin.fulfillments.show.with_tracking_number_html', tracking_number_link: link_to(package.tracking_number, package.tracking_link, target: '_blank', rel: 'noopener'))
+            - else
+              = t('workarea.admin.fulfillments.show.with_no_tracking_number')
+
+            - if package.created_at.present?
+              = t('workarea.admin.fulfillments.show.on_time_created_html', time: local_time(package.created_at, :long))
+
+          %table
+            %thead
+              %tr
+                %th= t('workarea.admin.fulfillments.show.product')
+                %th.align-center= t('workarea.admin.fulfillments.show.quantity')
+            %tbody
+              - package.items.each do |item|
+                %tr
+                  %td
+                    %p= link_to item.product.name, catalog_product_path(item.product, sku: item.sku)
+                    %p= item.sku
+                  %td.align-center= item.quantity
+      - else
+        %p= t('workarea.admin.fulfillments.show.no_items_marked_shipped')
+
+      = append_partials('admin.orders_edit_packages')
+
+    %h2= t('workarea.admin.fulfillments.show.cancellations')
+    .section
+      - if @fulfillment.cancellations.any?
+        %table
+          %thead
+            %tr
+              %th= t('workarea.admin.fulfillments.show.product')
+              %th.align-center= t('workarea.admin.fulfillments.show.quantity')
+          %tbody
+            - @fulfillment.cancellations.each do |item|
+              %tr
+                %td
+                  %p= link_to item.product.name, catalog_product_path(item.product, sku: item.sku)
+                  %p= item.sku
+                %td.align-center= item.quantity
+      - else
+        %p= t('workarea.admin.fulfillments.show.no_items_marked_cancelled')
+
+      = append_partials('admin.orders_edit_cancellations')
+
+    - if @fulfillment.pending_items.any?
+      %h2= t('workarea.admin.fulfillments.show.pending_items')
+      .section
+        %table
+          %thead
+            %tr
+              %th= t('workarea.admin.fulfillments.show.product')
+              %th.align-center= t('workarea.admin.fulfillments.show.quantity')
+          %tbody
+            - @fulfillment.pending_items.each do |item|
+              %tr
+                %td
+                  %p= link_to item.product.name, catalog_product_path(item.product, sku: item.sku)
+                  %p= item.sku
+                %td.align-center= item.quantity
+
+    = append_partials('admin.orders_edit_fulfillments', order: @order, fulfillment: @fulfillment)
+
+  - if partials_to_append?('admin.fulfillment_show_workflow_bar')
+    .workflow-bar
+      .grid
+        .grid__cell.grid__cell--50
+        .grid__cell.grid__cell--50.align-right
+          = append_partials('admin.fulfillment_show_workflow_bar', order: @order, fulfillment: @fulfillment)

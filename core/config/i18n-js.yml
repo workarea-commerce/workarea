@@ -1,0 +1,2 @@
+translations:
+  - except: ['*.activerecord', '*.mongoid', '*.errors', '*.helpers', '*.views', '*.hello', '*.faker']

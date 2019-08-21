@@ -1,0 +1,6 @@
+- if params[:mobile_nav]
+  = link_to '←', menus_path(return_to: mobile_nav_return_path), class: 'mobile-nav__back-button'
+
+%div{ class: params[:mobile_nav] ? 'mobile-nav__content' : 'primary-nav__content' }
+  = render_content_blocks(@menu.content_blocks)
+

@@ -1,0 +1,14 @@
+- if item.on_sale?
+  %p{class: "#{css_block}__price"}
+    %span{class: "#{css_block}__label"} #{t('workarea.storefront.orders.price_now')}:
+    %strong= number_to_currency(item.original_unit_price)
+  %p{class: "#{css_block}__price"}
+    %span{class: "#{css_block}__label"} #{t('workarea.storefront.orders.price_was')}:
+    %s= number_to_currency(item.original_price)
+- else
+  %p{class:"#{css_block}__price"}
+    %span= number_to_currency(item.original_unit_price)
+- if item.customized?
+  %p{class:"#{css_block}__price"}
+    %span{class: "#{css_block}__label"} #{t('workarea.storefront.orders.customizations')}:
+    %span= number_to_currency(item.customizations_unit_price)

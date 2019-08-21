@@ -1,0 +1,4 @@
+%li.release-changeset__list-item
+  %span.release-changeset__field= field.titleize
+  %span.release-changeset__old!= product_links(old_value).join(', ')
+  %span.release-changeset__new!= product_links(new_value).join(', ')

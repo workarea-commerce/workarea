@@ -1,0 +1,11 @@
+%ul.style-guide__nav
+  %li
+    %p= link_to 'Back to Storefront', storefront.root_path
+  - %w(settings base typography objects components trumps).each do |category|
+    %li
+      %strong= category.titleize
+      %ul
+        - partial_paths_for(category).each do |partial|
+          - name = partial.split('/').last
+          %li= link_to_style_guide(category, name)
+

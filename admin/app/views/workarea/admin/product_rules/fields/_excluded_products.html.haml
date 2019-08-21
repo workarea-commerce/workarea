@@ -1,0 +1,5 @@
+= hidden_field_tag 'product_rule[name]', 'excluded_products', id: nil
+= hidden_field_tag 'product_rule[operator]', 'equals', id: nil
+Exclude
+- products = Workarea::Catalog::Product.any_in(id: rule.terms)
+= select_tag 'product_rule[value]', options_from_collection_for_select(products, 'id', 'name', rule.terms), multiple: true, data: { remote_select: { source: catalog_products_path, options: { placeholder: 'Choose products...' } }.to_json }

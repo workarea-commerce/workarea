@@ -1,0 +1,19 @@
+#payment-icon.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'payment_icon')
+
+  %p Displays a generic payment card icon.
+
+  .style-guide__example-block
+    = credit_card_issuer_icon('undefined')
+
+- Workarea.config.credit_card_issuers.each do |key, value|
+  .style-guide__subsection{ id: "payment-icon--#{value.dasherize}"}
+
+    %h3= link_to_style_guide('components', "payment_icon__#{value.systemize}")
+
+    %p Displays the #{value} icon.
+
+    .style-guide__example-block
+      = credit_card_issuer_icon(value)
+

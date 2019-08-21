@@ -1,0 +1,8 @@
+.product-details
+  %form
+    = hidden_field_tag :via, 'foo_via'
+    .property
+      = label_tag :sku, nil, class: 'property__name', for: "sku_select" do
+        %span.property__text Select Options
+      .value
+        = select_tag :sku, options_for_select(['', ['foo', 'foo', { data: { sku_option_details: { color: ['blue'] }.to_json } }], ['bar', 'bar', { data: { sku_option_details: {}.to_json } }]], 'foo'), required: true, id: "sku_select", data: { product_details_sku_select: 'foo-product' }

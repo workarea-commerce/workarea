@@ -1,0 +1,46 @@
+-# TODO: v4 remove, replaced by empty.html.haml
+
+- add_css(layout_content.css)
+- add_javascript(layout_content.javascript)
+
+- add_css(@content.css)
+- add_javascript(@content.javascript)
+
+!!!
+/
+  Platform: Workarea Ecommerce
+  Web:      http://workarea.com
+  Email:    sales@workarea.com
+  Phone:    215-925-1800
+
+%html{ lang: 'en' }
+  %head
+    %meta{ charset: 'utf-8' }
+    %title= page_title
+    = csrf_meta_tags
+    %meta{ name: 'viewport', content: 'width=device-width, initial-scale=1.0' }
+    %meta{ property: 'locale', content: I18n.locale }
+    %meta{ property: 'environment', content: Rails.env }
+    %meta{ property: 'analytics', content: 'disable' }
+    = alternate_locales_tags
+    = render 'workarea/storefront/favicons/tags'
+    %link{ rel: 'manifest', href: web_manifest_path }
+    %meta{ name: 'theme-color', content: Workarea.config.web_manifest.theme_color }
+
+    :css
+      @-ms-viewport { width: device-width; }
+      @viewport { width: device-width; }
+    = yield :head
+    = stylesheet_link_tag Workarea.config.asset_manifests.storefront_stylesheet, media: 'all'
+    = yield :css
+
+    = append_partials('storefront.document_head')
+    = javascript_include_tag Workarea.config.asset_manifests.storefront_javascript_head
+
+  %body{ data: { disable_admin_toolbar: '' }, class: ('content-preview-visibility' unless params[:disable_visibility_classes].presence) }
+
+    .clearfix{ data: { content_block: '' } }= yield
+
+    = javascript_include_tag Workarea.config.asset_manifests.storefront_javascript
+    = yield :javascript
+    = append_partials('storefront.javascript')

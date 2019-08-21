@@ -1,0 +1,23 @@
+/*------------------------------------*\
+    #SECONDARY-NAV
+\*------------------------------------*/
+
+.secondary-nav {
+    @extend %list-reset;
+    margin-bottom: $vertical-margin;
+}
+
+
+    .secondary-nav__item {}
+
+    .secondary-nav__item--has-children {}
+
+
+        .secondary-nav__link {}
+
+        .secondary-nav__link--selected {
+            font-weight: bold;
+        }
+
+
+        .secondary-nav__children {}

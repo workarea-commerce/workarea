@@ -1,0 +1,106 @@
+<!doctype html>
+<html class='no-js'>
+  <head>
+    <meta charset="utf-8">
+    <title><%= current_page.data.title || "Workarea Documentation" %></title>
+
+    <%= favicon_tag 'images/favicon_180.png', rel: 'apple-touch-icon', type: 'image/x-icon', sizes: '180x180' %>
+    <%= favicon_tag 'images/favicon_32.png', sizes: '32x32' %>
+    <%= favicon_tag 'images/favicon_16.png', sizes: '16x16' %>
+    <meta content='#0060ff' name='msapplication-TileColor'>
+    <meta content='#0060ff' name='theme-color'>
+    <meta content='#0060ff' name='msapplication-navbar-color'>
+    <meta content='#0060ff' name='apple-mobile-web-app-status-bar-style'>
+
+    <meta name='description' content='<%= current_page.data.excerpt || 'Developer Documentation for the Workarea Commerce Platform' %>'>
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%= stylesheet_link_tag "site" %>
+
+    <% if build? %>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-69425367-2"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-69425367-2');
+      </script>
+    <% end %>
+  </head>
+  <body class='<%= body_classes('body--nude') %>'>
+
+    <%= partial 'shared/header' %>
+
+    <div class='view view--full'>
+      <div class='grid grid--huge'>
+        <div class='grid__cell 1/4--lap-and-up 1/5--widescreen'>
+          <aside class='aside'>
+            <% form_tag '/search.html', class: 'aside__search', method: 'get' do %>
+              <button type='submit' class='aside__search-button'>
+                <%= image_tag 'search.svg', class: 'aside__search-button-img' %>
+              </button>
+              <input type='search' name='q' placeholder='Search the Docs' class='aside__search-input' autocomplete='off' id='search'>
+            <% end %>
+
+            <nav class='nav'>
+              <button type='button' class='[ button button--full button--no-arrow ] hide-for-lap-and-up' data-open-nav=''>Table of Contents</button>
+              <ul class='nav__menu hide-for-pocket'>
+                <li class='parent'>
+                  <span class='parent-label'>Recent Articles</span>
+                  <ul>
+                    <% recent_articles.each do |article| %>
+                      <li class='child'>
+                        <%= link_to article.data.title, article.url %>
+                      </li>
+                    <% end %>
+                  </ul>
+                </li>
+                <%= tree_to_html(data.articles) %>
+              </ul>
+            </nav>
+          </aside>
+        </div>
+
+        <article class='grid__cell 3/4--lap-and-up 3/5--widescreen'>
+          <div class='article'>
+            <%= yield %>
+          </div>
+
+          <nav class='pagination'>
+            <ul class='grid'>
+              <li class='grid__cell 1/2'>
+                <% if previous_link(data.articles).present? %>
+                  <p>⟵<%= previous_link(data.articles) %></p>
+                <% end %>
+              </li>
+              <li class='grid__cell 1/2'>
+                <% if next_link(data.articles).present? %>
+                  <p class='align-right'><%= next_link(data.articles) %>⟶</p>
+                <% end %>
+              </li>
+            </ul>
+          </nav>
+
+          <section class='feedback'>
+            <h2>How'd We Do?</h2>
+            <p>If you found this article was missing information or wasn't quite what you were looking for, we are open to any suggestions or feedback on what we could do better.</p>
+            <a><%= link_to 'Help Us Out', config[:feedback_url] + current_page.url, class: 'button', target: '_blank' %></a>
+          </section>
+        </article>
+
+        <div class='grid__cell 1/5--widescreen'>
+          <div class='skip-to'>
+            <aside class='skip-to__menu'>
+              <ul><!-- Contents build via JavaScript --></ul>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <%= javascript_include_tag "jquery" %>
+    <%= javascript_include_tag "vendor/highlight.pack" %>
+    <%= javascript_include_tag "lunr" %>
+    <%= javascript_include_tag "site" %>
+  </body>
+</html>

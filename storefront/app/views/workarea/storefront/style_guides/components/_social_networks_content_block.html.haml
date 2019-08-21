@@ -1,0 +1,20 @@
+#social-networks-content-block.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'social_networks_content_block')
+
+  %p A content block that wraps various social network icons
+
+  .style-guide__example-block
+    %ul.social-networks-content-block
+      %li.social-networks-content-block__item
+        = link_to '#', class: 'social-networks-content-block__button' do
+          = inline_svg('workarea/storefront/icons/facebook.svg', class: 'svg-icon svg-icon--extra-large svg-icon--blue')
+      %li.social-networks-content-block__item
+        = link_to '#', class: 'social-networks-content-block__button' do
+          = inline_svg('workarea/storefront/icons/twitter.svg', class: 'svg-icon svg-icon--extra-large svg-icon--blue')
+      %li.social-networks-content-block__item
+        = link_to '#', class: 'social-networks-content-block__button' do
+          = inline_svg('workarea/storefront/icons/google_plus.svg', class: 'svg-icon svg-icon--extra-large svg-icon--blue')
+      %li.social-networks-content-block__item
+        = link_to '#', class: 'social-networks-content-block__button' do
+          = inline_svg('workarea/storefront/icons/pinterest.svg', class: 'svg-icon svg-icon--extra-large svg-icon--blue')

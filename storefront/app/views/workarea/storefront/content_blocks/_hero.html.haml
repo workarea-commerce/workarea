@@ -1,0 +1,3 @@
+.hero-content-block
+  .hero-content-block__image-container{ style: intrinsic_ratio_frame_styles(view_model.image) }= image_tag view_model.image.url, alt: local_assigns[:alt_text].presence, class: 'hero-content-block__image'
+  .hero-content-block__button{ class: view_model.button_position_class }= link_to text, local_assigns[:url].presence || '#', class: view_model.button_style_class

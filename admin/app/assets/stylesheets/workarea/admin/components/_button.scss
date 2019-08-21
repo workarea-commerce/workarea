@@ -1,0 +1,75 @@
+/*------------------------------------*\
+    #BUTTON
+\*------------------------------------*/
+
+$button-color:            $white !default;
+$button-bg-color:         $blue !default;
+$button-hover-bg-color:   $bright-blue !default;
+$button-disabled-opacity: 0.5 !default;
+
+$button-font-size:        16px !default;
+$button-small-font-size:  14px !default;
+$button-padding:          0.58em 1em !default;
+
+$button-create-bg-color:        $green !default;
+$button-create-hover-bg-color:  $bright-green !default;
+
+$button-destroy-bg-color:        $red !default;
+$button-destroy-hover-bg-color:  $bright-red !default;
+
+
+/**
+ * 1. ensure button text won't receive an underline on hover
+ */
+.button {
+    @extend %button-reset;
+    display: inline-block;
+    padding: $button-padding;
+    color: $button-color;
+    font-size: $button-font-size;
+    font-weight: bold;
+    line-height: 1.25;
+    text-align: center;
+    background: $button-bg-color;
+    border-radius: $global-border-radius;
+    cursor: pointer;
+    transition: background-color $global-transition-speed ease-out;
+
+    &:hover {
+        text-decoration: none; /* [1] */
+        background-color: $button-hover-bg-color;
+    }
+
+    &[disabled] {
+        opacity: $button-disabled-opacity;
+        cursor: not-allowed;
+    }
+
+    .card__button & {
+        @include center;
+    }
+
+    .view__header-actions & {
+        margin-bottom: ($spacing-unit / 2);
+    }
+}
+
+.button--small {
+    font-size: $button-small-font-size;
+}
+
+.button--create {
+    background: $button-create-bg-color;
+
+    &:hover {
+        background-color: $button-create-hover-bg-color;
+    }
+}
+
+.button--destroy {
+    background: $button-destroy-bg-color;
+
+    &:hover {
+        background-color: $button-destroy-hover-bg-color;
+    }
+}

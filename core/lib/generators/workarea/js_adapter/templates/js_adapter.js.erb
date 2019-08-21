@@ -1,0 +1,21 @@
+/**
+ * @namespace WORKAREA.<%= adapter_name %>
+ */
+
+WORKAREA.analytics.registerAdapter('<%= adapter_name %>', function () {
+    'use strict';
+
+    var send = function (event, payload) {
+            // Send data to 3rd party
+        };
+
+    return {
+        'pageView': function () {
+            send('pageView');
+        },
+
+        'categoryView': function (payload) {
+            send('categoryView', payload);
+        }
+    };
+});

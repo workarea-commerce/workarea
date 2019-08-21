@@ -1,0 +1,102 @@
+.checkout-step-summary
+
+  .checkout-step-summary__step.checkout-step-summary__step--hidden-for-small
+
+    - if summary.show_addresses?
+      %h2= t('workarea.storefront.checkouts.addresses')
+
+      .checkout-step-summary__section
+        %h3= t('workarea.storefront.checkouts.email')
+        %p= summary.email
+
+      - if summary.show_shipping_address?
+        .checkout-step-summary__section
+          %h3= t('workarea.storefront.checkouts.shipping_address')
+          %p= formatted_address(summary.shipping_address)
+
+      .checkout-step-summary__section
+        %h3= t('workarea.storefront.checkouts.billing_address')
+        %p= formatted_address(summary.billing_address)
+
+      - unless current_page?(checkout_addresses_path)
+        %p= link_to t('workarea.storefront.forms.edit'), checkout_addresses_path, class: 'button', data: { analytics: checkout_edit_analytics_data('addresses') }
+
+    = append_partials('storefront.checkout_summary_addresses', summary: summary)
+
+  .checkout-step-summary__step.checkout-step-summary__step--hidden-for-small
+
+    - if summary.show_shipping_options?
+      %h2= t('workarea.storefront.checkouts.shipping_options')
+
+      - summary.shippings.each_with_index do |shipping, index|
+        - if shipping.show_options?
+          .checkout-step-summary__section
+            %h3
+              - if shipping.partial?
+                = t('workarea.storefront.checkouts.shipping_service_with_index', index: index + 1)
+              - else
+                = t('workarea.storefront.checkouts.shipping_service')
+            %p #{shipping.shipping_service.name} - #{number_to_currency(shipping.shipping_total)}
+            - if shipping.instructions.present?
+              %p= shipping.instructions
+
+          = append_partials('storefront.checkout_summary_shipping_attributes', summary: summary, shipping: shipping, index: index)
+
+      - unless checkout_shipping_path == request.original_fullpath
+        %p= link_to t('workarea.storefront.forms.edit'), checkout_shipping_path, class: 'button', data: { analytics: checkout_edit_analytics_data('shipping') }
+
+    = append_partials('storefront.checkout_summary_shipping', summary: summary)
+
+  .checkout-step-summary__step
+
+    %h2= t('workarea.storefront.checkouts.totals')
+    %table.table.table--totals
+      %tbody
+        %tr
+          %th
+            %span= t('workarea.storefront.orders.subtotal')
+          %td= number_to_currency(cart.subtotal_price)
+        - if cart.total_adjustments.any?
+          - cart.total_adjustments.each do |adjustment|
+            %tr
+              %th
+                %span= adjustment.description
+              %td
+                - if adjustment.discount?
+                  %strong= number_to_currency(adjustment.amount)
+                - else
+                  %span= number_to_currency(adjustment.amount)
+
+        %tr
+          %th
+            %span= t('workarea.storefront.orders.shipping')
+          %td
+            - if !cart.requires_shipping?
+              = t('workarea.storefront.checkouts.not_applicable')
+            - elsif !summary.shipping_determined?
+              = t('workarea.storefront.checkouts.to_be_determined')
+            - else
+              = number_to_currency(cart.shipping_total)
+
+        %tr
+          %th
+            %span= t('workarea.storefront.orders.tax')
+          %td
+            - if summary.taxes_determined?
+              = number_to_currency(cart.tax_total)
+            - else
+              = t('workarea.storefront.checkouts.to_be_determined')
+
+        - if summary.store_credit?
+          %tr
+            %th
+              %span= t('workarea.storefront.orders.store_credit')
+            %td
+              %strong.table__price-discount −#{number_to_currency(summary.store_credit_amount)}
+
+        = append_partials('storefront.checkout_summary_payment', summary: summary)
+
+        %tr.table__total
+          %th
+            %span= t('workarea.storefront.orders.total')
+          %td= number_to_currency(summary.order_balance)

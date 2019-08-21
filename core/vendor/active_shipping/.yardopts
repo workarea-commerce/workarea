@@ -1,0 +1,13 @@
+--readme README.md
+--title 'ActiveShipping API documentation'
+--charset utf-8
+--hide-void-return
+--protected
+--no-private
+--markup markdown
+--markup-provider redcarpet
+-
+README.md
+CHANGELOG.md
+CONTRIBUTING.md
+MIT-LICENSE

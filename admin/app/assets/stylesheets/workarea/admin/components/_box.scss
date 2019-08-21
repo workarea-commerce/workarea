@@ -1,0 +1,52 @@
+/*------------------------------------*\
+    #BOX
+\*------------------------------------*/
+
+$box-bg-color:       $white !default;
+$box-border-color:   $border-color !default;
+$box-head-bg-color:  $light-gray !default;
+$box-body-color:     $dark-gray !default;
+
+$box-padding:            16px !default;
+$box-heading-font-size:  14px !default;
+
+$box-rounded-border-radius:  $global-border-radius !default;
+
+
+.box {
+    margin-bottom: $vertical-margin;
+    padding: $box-padding;
+    background: $box-bg-color;
+    border: 1px solid $box-border-color;
+}
+
+.box--rounded {
+    border-radius: $box-rounded-border-radius;
+}
+
+.box--no-padding {
+    padding: 0;
+}
+
+
+    .box__head {
+        padding: $box-padding;
+        background: $box-head-bg-color;
+        border-bottom: 1px solid $box-border-color;
+    }
+
+        .box__heading {
+            margin: 0;
+            font-size: $box-heading-font-size;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+
+    .box__body {
+        color: $box-body-color;
+    }
+
+        .box__actions {
+            text-align: right;
+        }

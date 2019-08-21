@@ -1,0 +1,159 @@
+/*------------------------------------*\
+    #TOGGLE-BUTTON
+\*------------------------------------*/
+
+$toggle-button-color:       $white !default;
+$toggle-button-bg-color:    $blue !default;
+$toggle-button-note-color:  $dark-gray !default;
+
+$toggle-button-label-border-color:  $border-color !default;
+
+$toggle-button-status-positive-color:  $green !default;
+$toggle-button-status-negative-color:  $red !default;
+
+
+.toggle-button {
+    display: block;
+}
+
+.toggle-button--inline {
+    display: inline-block;
+}
+
+    /**
+     * 1. provides positiioning context for `.toggle-button__label`
+     * 2. height + vertical margin = `.text-box` height
+     */
+
+    .toggle-button__switch {
+        display: inline-block;
+        position: relative; /* [1] */
+        margin: 4px 0; /* [2] */
+        width:  56px;
+        height: 24px;
+        vertical-align: middle;
+    }
+
+        /**
+         * 1. if `.toggle-button__input` is not checked, hide `.toggle-button__label`
+         * 2. if `.toggle-button__input` is checked, show `.toggle-button__label`
+         * 3. if focused, apply focus ring to the label since the input is visually hidden
+         */
+
+        .toggle-button__input {
+            @extend %visually-hidden;
+
+            &:not(:checked) + .toggle-button__label { /* [1] */
+                visibility: hidden;
+            }
+
+            &:checked + .toggle-button__label { /* [2] */
+                visibility: visible;
+            }
+
+            &:focus + .toggle-button__label { /* [3] */
+                @include focus-ring;
+            }
+        }
+
+        .toggle-button__input--positive {}
+        .toggle-button__input--negative {}
+
+        /**
+         * 1. dimension matches `.toggle-button__switch`
+         * 2. disallow text highlighting
+         * 3. styling for the toggle
+         * 4. moving toggle left to right based on `.toggle-button__input:checked` state
+         */
+
+        .toggle-button__label {
+            position: absolute;
+            top:     0;
+            right:   0;
+            bottom:  0;
+            left:    0;
+            margin:  0;
+            padding: 0 0 0 8px;
+            color: $toggle-button-color;
+            font-size:   12px;
+            font-weight: bold;
+            line-height: 24px; /* [1] */
+            text-transform: uppercase;
+            border: 1px solid $toggle-button-label-border-color;
+            border-radius: 12px;
+            cursor: pointer;
+            user-select: none; /* [2] */
+            -webkit-touch-callout: none; /* [2] */
+
+            &:after { /* [3] */
+                position: absolute;
+                width:  22px;
+                height: 22px;
+                background: $toggle-button-color;
+                border-radius: 100%;
+                content: '';
+                transition: left $global-transition-speed,
+                            transform $global-transition-speed;
+            }
+        }
+
+        .toggle-button__label--positive {
+            background: $toggle-button-status-positive-color;
+
+            &:after { /* [3] */
+                left: 0;
+                transform: translateX(0%);
+
+                .toggle-button__input:checked + & { /* [4] */
+                    left: 100%;
+                    transform: translateX(-100%);
+                }
+            }
+        }
+
+        .toggle-button__label--negative {
+            padding-left: 28px;
+            background: $toggle-button-status-negative-color;
+
+            &:after { /* [3] */
+                left: 100%;
+                transform: translateX(-100%);
+
+                .toggle-button__input:checked + & { /* [4] */
+                    left: 0;
+                    transform: translateX(0);
+                }
+            }
+        }
+
+    /**
+     * 1. hidden by default on page load
+     * 2. placeholder for various other modifiers
+     */
+
+    .toggle-button__more {
+        display: none; /* [1] */
+        margin: 3px 0 0;
+    }
+
+    .toggle-button__more--active {} /* [2] */
+
+    .toggle-button__more--to-right {
+        margin: 0 0 0 8px;
+        vertical-align: middle;
+
+        &.toggle-button__more--active { display: inline-block; }
+    }
+
+    .toggle-button__more--below {
+        &.toggle-button__more--active { display: block; }
+    }
+
+        /**
+         * 1. styling to match `.value__note {}`
+         */
+
+        .toggle-button__note { /* [1] */
+            color: $toggle-button-note-color;
+            font-size: 12px;
+        }

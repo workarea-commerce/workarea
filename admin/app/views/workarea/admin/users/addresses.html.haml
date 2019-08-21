@@ -1,0 +1,22 @@
+- @page_title = t('workarea.admin.users.addresses.title', user: @user.name)
+
+.view
+  .view__header
+    .grid.grid--middle.grid--right
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@user)
+          %h1= link_to @user.name, url_for(@user)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@user)
+
+  .view__container
+    = render_cards_for(@user, :addresses)
+
+    - if @user.addresses.empty?
+      %h2.view__heading= t('workarea.admin.users.addresses.empty')
+    - else
+      - @user.addresses.each do |address|
+        .card
+          .card__body
+            %p= formatted_address(address)

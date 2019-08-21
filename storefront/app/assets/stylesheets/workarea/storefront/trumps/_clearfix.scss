@@ -1,0 +1,13 @@
+/*------------------------------------*\
+    #CLEARFIX
+\*------------------------------------*/
+
+.clearfix,
+%clearfix {
+    &:after {
+        display: table;
+        clear: both;
+        border-spacing: 0;
+        content: '';
+    }
+}

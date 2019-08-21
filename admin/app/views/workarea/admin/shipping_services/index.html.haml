@@ -1,0 +1,61 @@
+- @page_title = t('workarea.admin.shipping_services.index.title')
+
+.view
+  .view__header
+    .grid.grid--middle.grid--center
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to "↑ #{t('workarea.admin.shipping_services.index.dashboard_link')}", settings_dashboards_path, class: 'view__dashboard-button'
+          %h1= t('workarea.admin.shipping_services.index.title')
+
+  .view__container
+
+    .browsing-controls.browsing-controls--with-divider
+      %p.browsing-controls__count{ data: { browsing_controls_count: @services.count } }
+        = t('workarea.admin.shipping_services.index.service_pluralize', count: @services.count)
+
+    - if @services.any?
+      %table.index-table
+        %thead
+          %tr
+            %th.index-table__control-cell
+              .checkbox
+                = check_box_tag 'select_all', nil, false, id: 'select_all', class: 'checkbox__input', data: { bulk_action_select_all: '' }
+                = label_tag 'select_all', t('workarea.admin.bulk_actions.select_all'), class: 'checkbox__label'
+            %th= t('workarea.admin.fields.service')
+            %th= t('workarea.admin.fields.tiered')
+            %th= t('workarea.admin.fields.country')
+            %th= t('workarea.admin.fields.regions')
+            %th.align-center= t('workarea.admin.fields.rate_count')
+            %th= t('workarea.admin.fields.updated_at')
+        %tbody
+          - @services.each do |service|
+            %tr.index-table__row
+              %td.index-table__control-cell
+                .checkbox
+                  = check_box_tag 'global_id', service.to_gid_param, false, class: 'checkbox__input', id: dom_id(service), data: { bulk_action_item: '' }
+                  = label_tag dom_id(service), '', class: 'checkbox__label', title: t('workarea.admin.bulk_actions.add_summary_button')
+              %td= link_to service.name, edit_shipping_service_path(service)
+              %td= t("workarea.admin.#{service.tiered?}")
+              %td
+                - if service.country.blank?
+                  = t('workarea.admin.shipping_services.options.not_specified')
+                - else
+                  = service.country
+              %td
+                - if service.regions.blank?
+                  = t('workarea.admin.shipping_services.options.not_specified')
+                - else
+                  = service.regions_list
+              %td.align-center= service.rates.length
+              %td= local_time(service.updated_at, :long)
+
+    = render 'workarea/admin/shared/pagination', collection: @services
+
+  .workflow-bar
+    .grid
+      .grid__cell.grid__cell--50
+        = render 'workarea/admin/shared/bulk_actions', klass: Workarea::Shipping::Service
+
+      .grid__cell.grid__cell--50.align-right
+        = link_to t('workarea.admin.shipping_services.index.button'), new_shipping_service_path, id: 'add_shipping_service', class: 'workflow-bar__button workflow-bar__button--create'

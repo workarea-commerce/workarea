@@ -1,0 +1,18 @@
+.grid.grid--auto.grid--middle
+  .grid__cell= link_to t('workarea.admin.shared.bulk_actions.import'), new_data_file_import_path(model_type: klass, return_to: index_url_for(klass)), class: 'workflow-bar__button'
+
+  .grid__cell
+    = form_tag new_data_file_export_path, method: :get, data: { bulk_action_form: '' } do
+      = hidden_field_tag 'model_type', klass
+      - if local_assigns[:search].present?
+        = hidden_field_tag 'query_id', search.to_gid_param
+      = hidden_field_tag 'return_to', index_url_for(klass)
+      %button.workflow-bar__button.workflow-bar__button--left-divide{ type: :submit }= t('workarea.admin.shared.bulk_actions.export')
+
+  = yield
+  = append_partials("admin.bulk_actions.#{klass.model_name.route_key}", local_assigns.slice(:klass, :search))
+
+  - unless local_assigns.key?(:bulk_delete) && !bulk_delete
+    = render('workarea/admin/bulk_action_deletions/form', model_type: klass, query_id: local_assigns[:search]&.to_gid_param)
+
+  %div{ data: { bulk_action_count_placeholder: '' } }

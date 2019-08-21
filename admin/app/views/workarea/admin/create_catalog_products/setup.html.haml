@@ -1,0 +1,66 @@
+- @page_title = t('workarea.admin.create_catalog_products.setup.page_title')
+
+.view
+  .view__header
+    .view__heading
+      %h1.heading.heading--no-margin= t('workarea.admin.create_catalog_products.setup.setup')
+      - unless params[:continue]
+        %p
+          = t('workarea.admin.create_catalog_products.setup.copy_a_product')
+          = link_to t('workarea.admin.create_catalog_products.setup.copy_button'), new_catalog_product_copy_path
+
+  .view__container.view__container--narrow
+    - @product.errors.full_messages.each do |message|
+      = render_message 'error', message
+
+    = form_tag create_catalog_products_path, method: 'post' do
+      = hidden_field_tag :id, @product.slug unless @product.new_record?
+      = hidden_field_tag 'product[active]', false
+
+      .section
+        .property.property--required
+          = label_tag 'product[name]', t('workarea.admin.create_catalog_products.setup.product_name'), class: 'property__name'
+          = text_field_tag 'product[name]', @product.name, class: 'text-box text-box--i18n', required: true
+
+        .property
+          = label_tag 'product[slug]', t('workarea.admin.fields.slug'), class: 'property__name'
+          %span= storefront.product_url('')
+          = text_field_tag 'product[slug]', @product.slug, class: 'text-box text-box--medium', placeholder: @product.slug || 'your-slug-here'
+
+        .property
+          = label_tag 'product[tag_list]', t('workarea.admin.fields.tags'), class: 'property__name'
+          = text_field_tag 'product[tag_list]', @product.tag_list, class: 'text-box'
+          %span.property__note= t('workarea.admin.create_catalog_products.setup.tags_note')
+
+        - if @product.templates.many?
+          .property
+            = label_tag 'product_template', t('workarea.admin.fields.template'), class: 'property__name'
+            = select_tag 'product[template]', options_for_select(@product.templates, @product.template)
+
+        - if @product.customization_options.many?
+          .property
+            = label_tag "product_customizations", t('workarea.admin.fields.customizations'), class: 'property__name'
+            = select_tag 'product[customizations]', options_for_select(@product.customization_options, @product.customizations), id: "product_customizations"
+
+      .workflow-bar
+        .grid.grid--middle
+          .grid__cell.grid__cell--20
+            - if @product.new_record?
+              = link_to t('workarea.admin.create_catalog_products.setup.cancel'), catalog_products_path, class: 'workflow-bar__button workflow-bar__button--delete'
+            - else
+              = link_to t('workarea.admin.create_catalog_products.setup.cancel'), catalog_product_path(@product), class: 'workflow-bar__button workflow-bar__button--delete', data: { method: 'delete', confirm: t('workarea.admin.create_catalog_products.are_you_sure_all_work_on_this_product_will_be_lost') }
+
+          .grid__cell.grid__cell--60
+            %ol.workflow-bar__steps
+              %li.workflow-bar__step
+                %strong 1) #{t('workarea.admin.create_catalog_products.steps.setup')}
+              %li.workflow-bar__step 2) #{t('workarea.admin.create_catalog_products.steps.variants')}
+              %li.workflow-bar__step 3) #{t('workarea.admin.create_catalog_products.steps.images')}
+              %li.workflow-bar__step 4) #{t('workarea.admin.create_catalog_products.steps.details')}
+              %li.workflow-bar__step 5) #{t('workarea.admin.create_catalog_products.steps.content')}
+              %li.workflow-bar__step 6) #{t('workarea.admin.create_catalog_products.steps.categorization')}
+              %li.workflow-bar__step 7) #{t('workarea.admin.create_catalog_products.steps.publish')}
+
+          .grid__cell.grid__cell--20
+            .grid.grid--auto.grid--right.grid--middle
+              .grid__cell= button_tag t('workarea.admin.create_catalog_products.setup.save_and_add_variants'), value: 'save_setup', class: 'workflow-bar__button workflow-bar__button--create'

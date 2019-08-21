@@ -1,0 +1,87 @@
+- @page_title = t('workarea.admin.dashboards.orders.orders_dashboard')
+
+.view
+  .view__header
+    .view__heading
+      = link_to "↑ #{t('workarea.admin.dashboards.main_dashboard')}", root_path
+      %h1= t('workarea.admin.dashboards.orders.orders')
+
+  .view__container
+    %ul.secondary-nav
+      %li= link_to t('workarea.admin.dashboards.orders.all_orders'), orders_path
+      %li= link_to t('workarea.admin.dashboards.orders.todays_orders'), todays_orders_path
+      %li= link_to t('workarea.admin.dashboards.orders.yesterdays_orders'), yesterdays_orders_path
+      %li= link_to t('workarea.admin.dashboards.orders.payment_transactions'), payment_transactions_path
+      = append_partials('admin.orders_dashboard_navigation')
+
+  .view__container
+    .browsing-controls.browsing-controls--center.browsing-controls--filters-displayed
+      = form_tag request.path, method: 'get', class: 'browsing-controls__form' do
+        = render 'workarea/admin/shared/date_selector', starts_at: @dashboard.starts_at, ends_at: @dashboard.ends_at
+
+    .grid.grid--huge
+      .grid__cell.grid__cell--25
+        .insight
+          .insight__body
+            %h6.heading.heading--no-margin= t('workarea.admin.dashboards.orders.orders')
+            = link_to sales_over_time_report_path(starts_at: @dashboard.starts_at.to_s(:date_only), ends_at: @dashboard.ends_at.to_s(:date_only), group_by: 'day'), class: 'heading heading--1 heading--no-margin' do
+              = number_with_delimiter @dashboard.orders
+
+            - if @dashboard.orders_percent_change.present?
+              %p
+                = insights_trend_icon(@dashboard.orders_percent_change)
+                = t('workarea.admin.dashboards.orders.from_previous', percentage: insights_number_to_percentage(@dashboard.orders_percent_change))
+
+            = area_chart @dashboard.orders_graph_data, Workarea.config.default_chartkick_options
+
+      .grid__cell.grid__cell--25
+        .insight
+          .insight__body
+            %h6.heading.heading--no-margin= t('workarea.admin.dashboards.orders.revenue')
+            = link_to sales_over_time_report_path(starts_at: @dashboard.starts_at.to_s(:date_only), ends_at: @dashboard.ends_at.to_s(:date_only), group_by: 'day'), class: 'heading heading--1 heading--no-margin' do
+              = number_to_currency @dashboard.revenue
+
+            - if @dashboard.revenue_percent_change.present?
+              %p
+                = insights_trend_icon(@dashboard.revenue_percent_change)
+                = t('workarea.admin.dashboards.orders.from_previous', percentage: insights_number_to_percentage(@dashboard.revenue_percent_change))
+
+            = area_chart @dashboard.revenue_graph_data, Workarea.config.default_chartkick_options.merge(prefix: Money.default_currency.symbol)
+
+      .grid__cell.grid__cell--25
+        .insight
+          .insight__body
+            %h6.heading.heading--no-margin= t('workarea.admin.dashboards.orders.aov')
+            = link_to average_order_value_report_path(starts_at: @dashboard.starts_at.to_s(:date_only), ends_at: @dashboard.ends_at.to_s(:date_only), group_by: 'day'), class: 'heading heading--1 heading--no-margin' do
+              = number_to_currency @dashboard.aov
+
+            - if @dashboard.aov_percent_change.present?
+              %p
+                = insights_trend_icon(@dashboard.aov_percent_change)
+                = t('workarea.admin.dashboards.orders.from_previous', percentage: insights_number_to_percentage(@dashboard.aov_percent_change))
+
+            = area_chart @dashboard.aov_graph_data, Workarea.config.default_chartkick_options.merge(prefix: Money.default_currency.symbol)
+
+      .grid__cell.grid__cell--25
+        .insight
+          .insight__body
+            %h6.heading.heading--no-margin= t('workarea.admin.dashboards.orders.units_sold')
+            = link_to sales_over_time_report_path(starts_at: @dashboard.starts_at.to_s(:date_only), ends_at: @dashboard.ends_at.to_s(:date_only), group_by: 'day'), class: 'heading heading--1 heading--no-margin' do
+              = number_with_delimiter @dashboard.units_sold
+
+            - if @dashboard.units_sold_percent_change.present?
+              %p
+                = insights_trend_icon(@dashboard.units_sold_percent_change)
+                = t('workarea.admin.dashboards.orders.from_previous', percentage: insights_number_to_percentage(@dashboard.units_sold_percent_change))
+
+            = area_chart @dashboard.units_sold_graph_data, Workarea.config.default_chartkick_options
+
+    - if partials_to_append?('admin.orders_dashboard_top_row')
+      .section= append_partials('admin.orders_dashboard_top_row')
+
+  .view__container.view__container--narrow
+    .section
+      - @dashboard.insights.each do |insight|
+        = render "workarea/admin/insights/#{insight.slug}", insight: insight
+
+    = append_partials('admin.orders_dashboard_bottom_row')

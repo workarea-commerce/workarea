@@ -1,0 +1,52 @@
+- @page_title = "#{t('workarea.admin.catalog_product_images.edit.edit_image_for')} #{@product.name}"
+
+.product-images.view
+  .view__header
+    .grid
+      .grid__cell.grid__cell--25
+        = render 'workarea/admin/releases/select'
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@product)
+          %h1= link_to @product.name, url_for(@product)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@product)
+
+  .view__container
+    = render_cards_for(@product, :images)
+
+  .view__container.view__container--narrow
+    .section
+      .product-images__option-group
+        .product-images__option
+          .product-images__option-header
+            .product-images__option-title= @image.option.present? ? "#{@image.option.titleize}  #{t('workarea.admin.catalog_product_images.edit.image')}" : t('workarea.admin.catalog_product_images.edit.without_options')
+
+          .product-images__image-group
+            .product-images__image
+              .product-images__image-summary
+                .product-images__image-summary-container= image_tag product_image_url(@image, :small), alt: "#{@image.option} #{t('workarea.admin.catalog_product_images.edit.image')}", id: @image.option.parameterize, class: 'product-images__image-summary-image'
+
+    .section
+      %h2= t('workarea.admin.catalog_product_images.edit.edit_image')
+
+      = form_tag catalog_product_image_path(@product, @image), method: :patch, multipart: true, data: { unsaved_changes: '' } do
+        .property
+          = label_tag 'image_image', t('workarea.admin.fields.image'), class: 'property__name'
+          = file_field_tag 'image[image]', value: product_image_url(@image, :zoom)
+
+        .property
+          = label_tag 'image_option',  t('workarea.admin.fields.option'), class: 'property__name'
+          = text_field_tag 'image[option]', @image.option, class: 'text-box text-box--medium', data: { autocomplete_field: options_catalog_product_images_path(@product, format: :json) }
+
+        = append_partials('admin.product_image_fields')
+
+        = append_partials('admin.product_images', product: @product)
+
+        .workflow-bar
+          .grid.grid--right.grid--middle
+            .grid__cell.grid__cell--20
+              = link_to t('workarea.admin.form.cancel'), catalog_product_images_path(@product), class: 'workflow-bar__button workflow-bar__button--delete'
+            .grid__cell.grid__cell--80
+              .grid.grid--auto.grid--right.grid--middle
+                .grid__cell= button_tag t('workarea.admin.form.save_changes'), value: 'save_product_image', class: 'workflow-bar__button workflow-bar__button--update'

@@ -1,0 +1,18 @@
+<%
+  # Feature.js
+  require_asset 'featurejs_rails/feature'
+
+  # Allow custom features to be tested
+  append_javascripts('storefront.featurejs')
+
+  # Test Helper
+  require_asset 'workarea/core/feature_test_helper' if Rails.env.test?
+%>
+
+// apply Feature.js classes to the root HTML element
+window.feature.testAll();
+
+<%
+  # Plugin Head Append Point
+  append_javascripts('storefront.head')
+%>

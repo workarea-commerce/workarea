@@ -1,0 +1,74 @@
+/*------------------------------------*\
+    #CHECKBOX
+\*------------------------------------*/
+
+$checkbox-size: $spacing-unit * 2 !default;
+$checkbox-bg-color: $white !default;
+$checkbox-border-color: $off-black !default;
+$checkbox-bg-color-active: $blue !default;
+$checkbox-border-radius: 3px !default;
+$checkbox-icon-color: $white !default;
+$checkbox-icon-size: 16px !default;
+
+
+.checkbox {
+    display: inline-block;
+}
+
+.checkbox--indeterminate {}
+
+    /**
+     * Actual input hidden off page
+     */
+    .checkbox__input {
+        @extend %visually-hidden;
+    }
+
+    /**
+     * Default UI State
+     * 1. Icon
+     */
+    .checkbox__label {
+        position: relative;
+        display: inline-block;
+        width: $checkbox-size;
+        height: $checkbox-size;
+        background-color: $checkbox-bg-color;
+        border-radius: $checkbox-border-radius;
+        box-shadow: 0 0 0 1px $checkbox-border-color;
+        appearance: none;
+        vertical-align: middle;
+        font-size: 0;
+
+        &::after { /* [1] */
+            @include center;
+            display: inline-block;
+            font-weight: bold;
+            font-size: $checkbox-icon-size;
+            color: $checkbox-icon-color;
+        }
+    }
+
+    /**
+     * Checked UI State
+     * 1. Icon
+     */
+    .checkbox__input:checked ~ .checkbox__label {
+        background-color: $checkbox-bg-color-active;
+
+        &::after { /* [1] */
+            content: '✔';
+        }
+    }
+
+    /**
+     * Indeterminate UI State
+     * 1. Icon
+     */
+    .checkbox--indeterminate .checkbox__label {
+        background-color: $checkbox-bg-color-active;
+
+        &::after { /* [1] */
+            content: '–';
+        }
+    }

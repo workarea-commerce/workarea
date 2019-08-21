@@ -1,0 +1,265 @@
+.grid.grid--auto.grid--flush.grid--center{ class: "product-cards product-cards--#{model.template}"}
+  .grid__cell
+    .card{ class: card_classes(:attributes, local_assigns[:active]) }
+      = link_to edit_catalog_product_path(model), class: 'card__header' do
+        %span.card__header-text= t('workarea.admin.cards.attributes.title')
+        = inline_svg 'workarea/admin/icons/attributes.svg', class: 'card__icon'
+
+      - if local_assigns[:active].blank?
+        .card__body
+          %ul.list-reset
+            %li
+              %strong= t('workarea.admin.fields.id')
+              = model.id
+            %li
+              %strong= t('workarea.admin.fields.active')
+              = check_box_tag 'product', 'active', model.active?, disabled: true
+            %li
+              %strong= t('workarea.admin.fields.template')
+              = model.template.try(:titleize)
+            %li
+              %strong= t('workarea.admin.fields.details')
+              = model.details.values.flatten.join(', ').presence || t('workarea.admin.cards.attributes.no_value')
+            %li
+              %strong= t('workarea.admin.fields.filters')
+              = model.filters.values.flatten.join(', ').presence || t('workarea.admin.cards.attributes.no_value')
+            %li
+              %strong= t('workarea.admin.fields.digital')
+              = model.digital?.to_s.titleize
+            %li
+              %strong= t('workarea.admin.fields.customizations')
+              = model.customizations.try(:titleize).presence || t('workarea.admin.cards.attributes.no_value')
+            %li
+              %strong= t('workarea.admin.fields.tags')
+              = model.tags.join(', ').presence || t('workarea.admin.cards.attributes.no_value')
+            %li
+              %strong= t('workarea.admin.fields.updated_at')
+              #{local_time_ago(model.updated_at)}
+            %li
+              %strong= t('workarea.admin.fields.created_at')
+              #{local_time_ago(model.created_at)}
+            - if model.copied_from_id.present?
+              %li
+                %strong= t('workarea.admin.fields.copied_from_id')
+                = model.copied_from_id
+            = append_partials('admin.product_attributes_card', product: model)
+
+          = link_to edit_catalog_product_path(model), class: 'card__button' do
+            %span.button.button--small= t('workarea.admin.cards.attributes.button')
+
+  .grid__cell
+    .card{ class: card_classes(:images, local_assigns[:active]) }
+      = link_to catalog_product_images_path(model), class: 'card__header' do
+        %span.card__header-text= t('workarea.admin.catalog_products.cards.images.title')
+        = inline_svg 'workarea/admin/icons/images.svg', class: 'card__icon'
+
+      - if local_assigns[:active].blank?
+        .card__body
+          - if model.images.empty?
+            %p= t('workarea.admin.catalog_products.cards.images.description')
+            = link_to catalog_product_images_path(model), class: 'card__button' do
+              %span.button.button--small= t('workarea.admin.catalog_products.cards.images.add_images')
+          - else
+            %ul.grid
+              - model.images.take(4).each_with_index do |image, i|
+                %li.grid__cell.grid__cell--50
+                  .card__photo-box
+                    - if i == 3 && model.images.size > 4
+                      %span.card__photo +#{model.images.size - i}
+                    - else
+                      = image_tag product_image_url(image, :medium), alt: image.name, class: 'card__photo'
+            = link_to catalog_product_images_path(model), class: 'card__button' do
+              %span.button.button--small= t('workarea.admin.catalog_products.cards.images.manage_images')
+
+  .grid__cell
+    .card{ class: card_classes(:variants, local_assigns[:active]) }
+      = link_to catalog_product_variants_path(model), class: 'card__header' do
+        %span.card__header-text= t('workarea.admin.catalog_products.cards.variants.title')
+        = inline_svg 'workarea/admin/icons/variants.svg', class: 'card__icon'
+
+      - if local_assigns[:active].blank?
+        .card__body
+          - if model.variants.empty?
+            %p.card__empty-note= t('workarea.admin.catalog_products.cards.variants.no_variants')
+            = link_to catalog_product_variants_path(model), class: 'card__button' do
+              %span.button.button--small= t('workarea.admin.catalog_products.cards.variants.add_variants')
+          - else
+            .section
+              %span.heading.heading--3.heading--no-margin.align-center
+                - if model.one_price?
+                  = number_to_currency model.sell_min_price
+                  - if model.show_sell_range?
+                    \- #{number_to_currency model.sell_max_price}
+                - else
+                  - if model.on_sale?
+                    = number_to_currency model.sell_min_price
+                    - if model.show_sell_range?
+                      \- #{number_to_currency model.sell_max_price}
+                  - else
+                    = number_to_currency model.sell_min_price
+                    - if model.show_sell_range?
+                      \- #{number_to_currency model.sell_max_price}
+              %p.align-center= t('workarea.admin.fields.price')
+
+              %span.heading.heading--3.heading--no-margin.align-center
+                - if model.ignore_inventory?
+                  = t('workarea.admin.catalog_products.index.ignore_inventory', variants: pluralize(model.variants.size, t('workarea.admin.catalog_products.index.variant')))
+                - else
+                  = t('workarea.admin.catalog_products.index.inventory', count: model.available_inventory, variants: pluralize(model.variants.size, t('workarea.admin.catalog_products.index.variant')))
+
+              %p.align-center= t('workarea.admin.fields.inventory')
+
+              %span.heading.heading--3.heading--no-margin.align-center
+                = model.options.keys.to_sentence
+              %p.align-center= t('workarea.admin.fields.options')
+
+              = link_to catalog_product_variants_path(model), class: 'card__button' do
+                %span.button.button--small= t('workarea.admin.catalog_products.cards.variants.manage_variants')
+
+  .grid__cell
+    .card{ class: card_classes(:content, local_assigns[:active]) }
+      = link_to content_catalog_product_path(model), class: 'card__header' do
+        %span.card__header-text= t('workarea.admin.catalog_products.cards.content.title')
+        = inline_svg 'workarea/admin/icons/content.svg', class: 'card__icon'
+
+      - if local_assigns[:active].blank?
+        .card__body
+          %ul.list-reset
+            %li
+              %strong= t('workarea.admin.fields.description')
+              = truncate(model.description.presence || t('workarea.admin.cards.attributes.no_value'))
+            %li
+              %strong= t('workarea.admin.fields.browser_title')
+              = truncate(model.browser_title.presence || t('workarea.admin.cards.attributes.no_value'))
+            %li
+              %strong= t('workarea.admin.fields.meta_description')
+              = truncate(model.meta_description.presence || t('workarea.admin.cards.attributes.no_value'))
+
+          = link_to content_catalog_product_path(model), class: 'card__button' do
+            %span.button.button--small= t('workarea.admin.catalog_products.cards.content.manage_content')
+
+  .grid__cell
+    .card{ class: card_classes(:categories, local_assigns[:active]) }
+      = link_to catalog_product_categorizations_path(model), class: 'card__header' do
+        %span.card__header-text= t('workarea.admin.catalog_products.cards.categories.title')
+        = inline_svg 'workarea/admin/icons/categories.svg', class: 'card__icon'
+
+      - if local_assigns[:active].blank?
+        .card__body
+          - if model.categories.empty?
+            %p.card__empty-note= t('workarea.admin.catalog_products.cards.categories.no_categories')
+            = link_to catalog_product_categorizations_path(model), class: 'card__button' do
+              %span.button.button--small= t('workarea.admin.catalog_products.cards.categories.add_categories')
+          - else
+            - if model.featured_categories.any?
+              %strong= t('workarea.admin.catalog_products.cards.categories.featured')
+
+              %ul.list-reset
+                - model.featured_categories.each do |category|
+                  %li
+                    = category.name
+                    - if category == model.default_category
+                      = t('workarea.admin.catalog_products.cards.categories.default')
+              %br
+            - if model.rules_categories.any?
+              %strong= t('workarea.admin.catalog_products.cards.categories.rules')
+
+              %ul.list-reset
+                - model.rules_categories.each do |category|
+                  %li
+                    = category.name
+                    - if category == model.default_category
+                      = t('workarea.admin.catalog_products.cards.categories.default')
+
+            = link_to catalog_product_categorizations_path(model), class: 'card__button' do
+              %span.button.button--small= t('workarea.admin.catalog_products.cards.categories.manage_categories')
+
+  .grid__cell
+    .card{ class: card_classes(:recommendations, local_assigns[:active]) }
+      = link_to edit_catalog_product_recommendations_path(model), class: 'card__header' do
+        %span.card__header-text= t('workarea.admin.catalog_products.cards.recommendations.title')
+        = inline_svg 'workarea/admin/icons/recommendations.svg', class: 'card__icon'
+
+      - if local_assigns[:active].blank?
+        .card__body
+          - unless model.storefront_recommendations.any?
+            %p.card__empty-note= t('workarea.admin.catalog_products.cards.recommendations.no_recommendations')
+            = link_to edit_catalog_product_recommendations_path(model), class: 'card__button' do
+              %span.button.button--small= t('workarea.admin.catalog_products.cards.recommendations.add_recommendations')
+          - else
+            %ol.grid
+              - model.storefront_recommendations.take(4).each_with_index do |product, i|
+                %li.grid__cell.grid__cell--50
+                  .card__photo-box
+                    - if i == 3 && model.storefront_recommendations.size > 4
+                      %span.card__photo +#{model.storefront_recommendations.size - i}
+                    - else
+                      = image_tag product_image_url(product.primary_image, :medium), alt: product.name, class: 'card__photo'
+            = link_to edit_catalog_product_recommendations_path(model), class: 'card__button' do
+              %span.button.button--small= t('workarea.admin.catalog_products.cards.recommendations.manage_recommendations')
+
+  .grid__cell
+    .card{ class: card_classes(:insights, local_assigns[:active]) }
+      = link_to insights_catalog_product_path(model), class: 'card__header' do
+        %span.card__header-text= t('workarea.admin.catalog_products.cards.insights.title')
+        = inline_svg 'workarea/admin/icons/insights.svg', class: 'card__icon'
+
+      - if local_assigns[:active].blank?
+        .card__body
+          %p.align-center
+            %span.spark.spark--large
+              {#{sparkline_analytics_data_for(model.insights.orders_sparkline).join(',')}}
+
+          %span.heading.heading--4.align-center
+            #{number_with_delimiter model.insights.orders}
+            #{t('workarea.admin.catalog_products.cards.insights.orders')}
+            #{insights_trend_icon(model.insights.orders_percent_change)}
+
+          .grid
+            .grid__cell.grid__cell--50
+              %p.align-center
+                %strong= number_to_currency model.insights.revenue
+                #{insights_trend_icon(model.insights.revenue_percent_change)}
+                %br
+                #{t('workarea.admin.catalog_products.cards.insights.revenue')}
+            .grid__cell.grid__cell--50
+              %p.align-center
+                %strong
+                  - if model.insights.average_price.blank?
+                    \-
+                  - else
+                    = number_to_currency model.insights.average_price
+
+                #{insights_trend_icon(model.insights.average_price_percent_change)}
+                %br
+                #{t('workarea.admin.catalog_products.cards.insights.average_price')}
+
+          .grid
+            .grid__cell.grid__cell--50
+              %p.align-center
+                %strong= number_with_delimiter model.insights.units_sold
+                #{insights_trend_icon(model.insights.units_sold_percent_change)}
+                %br
+                #{t('workarea.admin.catalog_products.cards.insights.units_sold')}
+            .grid__cell.grid__cell--50
+              %p.align-center
+                %strong= number_with_delimiter model.insights.views
+                #{insights_trend_icon(model.insights.views_percent_change)}
+                %br
+                #{t('workarea.admin.catalog_products.cards.insights.views')}
+
+          %p.align-center
+            = distance_of_time_in_words(model.insights.starts_at, model.insights.ends_at)
+            = top_icon_for(model)
+            = trending_icon_for(model)
+
+          = link_to insights_catalog_product_path(model), class: 'card__button' do
+            %span.button.button--small= t('workarea.admin.catalog_products.cards.insights.button')
+
+  = append_partials('admin.catalog_product_cards', model: model, active: local_assigns[:active])
+
+  .grid__cell
+    = render 'workarea/admin/timeline/card', timeline: model.timeline, active: local_assigns[:active]
+
+  .grid__cell
+    = render 'workarea/admin/comments/card', commentable: model, active: local_assigns[:active]

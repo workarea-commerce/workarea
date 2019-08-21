@@ -1,0 +1,38 @@
+- @page_title = t('workarea.admin.create_users.index.page_title')
+
+.view
+  .view__header
+    .view__heading
+      %h1= t('workarea.admin.create_users.index.title')
+
+  .view__container.view__container--narrow
+    = form_tag new_create_user_path, method: 'get' do
+      .section
+        .grid.grid--center
+          .grid__cell.grid__cell--40-at-medium
+            .property.align-center
+              = radio_button_tag 'type', 'customer', params[:type] == 'customer' || params[:type].blank?, title: t('workarea.admin.create_users.index.create_a_customer')
+              = label_tag 'type_customer', t('workarea.admin.create_users.index.create_a_customer'), class: 'text text--bold'
+
+            .property.align-center
+              = radio_button_tag 'type', 'admin', params[:type] == 'admin', title: t('workarea.admin.create_users.index.create_an_administrator')
+              = label_tag 'type_admin', t('workarea.admin.create_users.index.create_an_administrator'), class: 'text text--bold'
+
+      .workflow-bar
+        .grid.grid--middle
+          .grid__cell.grid__cell--20
+            - if @user.new_record?
+              = link_to t('workarea.admin.form.cancel'), users_path, class: 'workflow-bar__button workflow-bar__button--delete'
+
+          .grid__cell.grid__cell--60
+            %ol.workflow-bar__steps
+              %li.workflow-bar__step
+                %strong 1) #{t('workarea.admin.create_users.workflow_bar.select_type')}
+              - if @user.new_record?
+                %li.workflow-bar__step 2) #{t('workarea.admin.create_users.workflow_bar.setup')}
+              - else
+                %li.workflow-bar__step 2) #{link_to t('workarea.admin.create_users.workflow_bar.setup'), new_create_user_path(@user)}
+
+          .grid__cell.grid__cell--20
+            .grid.grid--auto.grid--right.grid--middle
+              .grid__cell= button_tag "#{t('workarea.admin.create_users.index.continue')} →", value: 'continue', class: 'workflow-bar__button'

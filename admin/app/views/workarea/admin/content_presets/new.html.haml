@@ -1,0 +1,7 @@
+.view
+  = form_tag content_presets_path, method: 'post', remote: true, data: { unsaved_changes: '', content_preset_form: '' } do
+    = hidden_field_tag :content_id, params[:content_id]
+    = hidden_field_tag :block_id, params[:block_id]
+    .property.property--inline
+      = text_field_tag 'content_preset[name]', nil, class: 'text-box text-box--medium', title: t('workarea.admin.content_presets.new.name_label'), placeholder: t('workarea.admin.content_presets.new.name_label'), required: true
+      = button_tag t('workarea.admin.content_presets.new.save'), value: 'save_content_preset', class: 'button button--small'

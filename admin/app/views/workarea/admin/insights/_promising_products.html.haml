@@ -1,0 +1,26 @@
+.insight
+  .insight__date
+    %span.insight__period= t('workarea.admin.insights.week_ending', date: insight.reporting_on.end_of_week.to_date.to_s(:long))
+  .insight__heading= t('workarea.admin.insights.promising_products.title')
+  .insight__body
+    %p.insight__note= t('workarea.admin.insights.promising_products.info')
+    .grid.grid--large.grid--center
+      - insight.results.each do |result|
+        .grid__cell.grid__cell--50.grid__cell--25-at-wide.align-center
+          .insight__product
+            - if result.product.blank?
+              = image_tag(product_image_url(Workarea::Catalog::ProductPlaceholderImage.cached, :small), alt: result.product_id, class: 'insight__product-image')
+            - else
+              = link_to catalog_product_path(result.product) do
+                = image_tag(product_image_url(result.product.primary_image, :small), alt: result.product.name, class: 'insight__product-image')
+            .insight__product-name
+              - if result.product.blank?
+                = result.product_id
+              - else
+                = link_to result.product.name, catalog_product_path(result.product)
+            .insight__product-info
+              %strong= insights_number_to_percentage(result.conversion_rate)
+              = t('workarea.admin.insights.promising_products.conversion_rate')
+            .insight__product-info
+              %strong= number_with_delimiter(result.views)
+              = t('workarea.admin.insights.promising_products.views')

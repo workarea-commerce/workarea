@@ -1,0 +1,31 @@
+#datepicker
+  .property
+    = label_tag 'datepicker_field', 'Datepicker with stored iso8601 value', class: 'property__name'
+    = text_field_tag 'datepicker_field', '2016-06-02T05:00:00+00:00', class: 'text-box', data: { datepicker_field: '' }
+
+#inline-datepicker
+  .property
+    = label_tag 'inline_datepicker_field', 'Datepicker with stored iso8601 value', class: 'property__name'
+    = text_field_tag 'inline_datepicker_field', '2016-06-02T05:00:00+00:00', class: 'text-box', data: { datepicker_field: { inline: true } }
+
+#valid-date-datepicker
+  .property
+    = label_tag 'valid_date_field', 'Datepicker with stored iso8601 value', class: 'property__name'
+    = text_field_tag 'valid_date_field', '2016-06-02T05:00:00+00:00', class: 'text-box', id: 'valid_date_field', data: { datepicker_field: '' }
+
+#invalid-date-datepicker
+  .property
+    = label_tag 'invalid_date_field', 'Datepicker with invalid stored or cached value', class: 'property__name'
+    = text_field_tag 'invalid_date_field', 'not a date', class: 'text-box', id: 'invalid_date_field', data: { datepicker_field: '' }
+
+#quick-range-datepicker
+  .browsing-controls__filter-dropdown
+    .property
+      = label_tag 'starts_at', 'Starts At', class: 'property__name'
+      = text_field_tag 'starts_at', nil, class: 'text-box', data: { datepicker_field: { inline: true }, datepicker_field_starts_at: '' }
+    .property
+      = label_tag 'ends_at', 'Ends At', class: 'property__name'
+      = text_field_tag 'ends_at', nil, class: 'text-box', data: { datepicker_field: { inline: true }, datepicker_field_ends_at: '' }
+
+    = label_tag 'quick_range', t('workarea.admin.date_selector.or_choose')
+    = select_tag 'quick_range', options_for_select([['foo'], ['bar', '1984-07-29'], ['baz', '1999-01-01|2018-02-03']])

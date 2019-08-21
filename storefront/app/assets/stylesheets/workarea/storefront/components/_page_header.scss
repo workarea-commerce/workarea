@@ -1,0 +1,79 @@
+/*------------------------------------*\
+    #PAGE-HEADER
+\*------------------------------------*/
+
+$page-header-logo-width:   255px !default;
+$page-header-logo-height:  43px !default;
+
+.page-header {
+    position: relative;
+    z-index: index($page-container, page-header);
+    padding: $spacing-unit 0 ($spacing-unit * 2);
+}
+
+.page-header--checkout {
+    padding-top: ($spacing-unit * 2);
+}
+
+
+    .page-header__locale {}
+
+
+    .page-header__account-link {}
+
+    .page-header__logout-link {
+        &:before { content: '('; }
+        &:after  { content: ')'; }
+    }
+
+
+    .page-header__cart-link {}
+
+        .page-header__cart-count {
+            &:before { content: ' ('; }
+            &:after  { content: ')';  }
+        }
+
+
+    .page-header__logo {
+        display: block;
+        margin: $vertical-margin auto;
+        width:  $page-header-logo-width;
+        height: $page-header-logo-height;
+
+        @include respond-to($medium-breakpoint) {
+            margin: 0;
+        }
+    }
+
+
+    .page-header__search {
+        text-align: center;
+
+        @include respond-to($medium-breakpoint) {
+            text-align: right;
+        }
+    }
+
+        .page-header__search-form {}
+
+            .page-header__search-value {
+                display: inline-block;
+                vertical-align: top;
+            }
+
+            .page-header__search-button {
+                display: inline-block;
+                vertical-align: top;
+            }
+
+
+    /**
+     * 1. make sure no content block can inject `p` tags that will break layout.
+     */
+    .page-header__promo {
+        margin: $vertical-margin 0;
+        text-align: center;
+
+        p { margin: 0; } /* [1] */
+    }

@@ -1,0 +1,50 @@
+/*------------------------------------*\
+    #TABLE
+\*------------------------------------*/
+
+$table-price-discount-color:  $red !default;
+
+
+/**
+ * This component enhances the default styling for tables within
+ * `base/_tables.scss`.
+ *
+ * 1. handle `p` elements differently if found inside a table.
+ */
+
+.table {
+    width: 100%;
+
+    p { /* [1] */
+        margin: 0;
+
+        & + & {
+            margin-top: $spacing-unit;
+        }
+    }
+}
+
+.table--totals {
+    td {
+        text-align: right;
+    }
+}
+
+    .table__price-discount {
+        color: $table-price-discount-color;
+        white-space: nowrap;
+    }
+
+    .table__prices {
+        text-align: right;
+    }
+
+        .table__price {}
+
+            .table__price-label {}
+
+    .table__quantity {
+        text-align: center;
+    }
+
+    .table__total {}

@@ -1,0 +1,16 @@
+Description:
+    Creates files necessary to run your application in a docker environment.
+
+Example:
+    rails generate workarea:docker --webpack --sync
+
+    creates:
+      config/initializers/z_docker.rb
+      .env
+      Dockerfile
+      docker-entrypoint.sh
+      docker-compose.yml
+      docker-sync.yml
+      docker.env
+    modifies:
+      .gitignore

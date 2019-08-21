@@ -1,0 +1,33 @@
+/*------------------------------------*\
+    #RESULT-FILTERS
+\*------------------------------------*/
+
+// TODO v4, remove
+$result-filters-selected-color:  $highlight-color !default;
+
+
+.result-filters {}
+
+.result-filters--color {}
+.result-filters--price {}
+.result-filters--category {}
+
+    .result-filters__section {
+        margin-bottom: $vertical-margin;
+    }
+
+        .result-filters__group {
+            @extend %list-reset;
+        }
+
+            .result-filters__filter {}
+
+            .result-filters__filter--selected {
+                font-weight: bold;
+            }
+
+                .result-filters__link {}
+
+                    .result-filters__remove {}
+
+                    .result-filters__count {}

@@ -1,0 +1,14 @@
+.property{ class: ('property--required' if field.required?), data: field.options[:html_data_attributes] }
+  = label_tag dom_id(block, field.slug), class: 'property__name' do
+    = field.name
+    - if field.tooltip.present?
+      = link_to "##{dom_id(block, field.slug)}_tooltip", data: { tooltip: '' } do
+        = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.content_blocks.tooltips.more_info'))
+
+  - if field.note.present?
+    %span.property__note= field.note
+  = select_tag "block[data][#{field.slug}]", options_for_products(block.data[field.slug]), id: nil, include_blank: true, multiple: field.options[:single] ? false : true, data: { remote_select: { source: catalog_products_path(format: :json), options: { placeholder: t('workarea.admin.content_blocks.products.select_placeholder') } }.to_json }, required: field.required?
+
+- if field.tooltip.present?
+  .tooltip-content{ id: "#{dom_id(block, field.slug)}_tooltip" }
+    %p= field.tooltip

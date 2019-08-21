@@ -1,0 +1,17 @@
+- if @search.applied_filters?
+  .browsing-controls__applied-filters
+    %ul.browsing-controls__applied-filters-list
+      - @search.filters.each do |filter|
+        %li.browsing-controls__applied-filter
+          %span #{filter.display_name}: #{filter.current_value}
+          = link_to facet_path(filter, filter.current_value), class: 'browsing-controls__applied-remove-link' do
+            = inline_svg('workarea/admin/icons/close.svg', class: 'browsing-controls__applied-icon svg-icon svg-icon--small svg-icon--black', title: t('workarea.admin.facets.applied.remove_filter'))
+
+      - @search.facet_selections.each do |facet, values|
+        - values.each do |value|
+          %li.browsing-controls__applied-filter
+            %span= value.titleize
+            = link_to facet_path(facet, value), class: 'browsing-controls__applied-remove-link' do
+              = inline_svg('workarea/admin/icons/close.svg', class: 'browsing-controls__applied-icon svg-icon svg-icon--small svg-icon--black', title: t('workarea.admin.facets.applied.remove_filter'))
+
+    = link_to t('workarea.admin.facets.applied.clear_all'), (reset_path if show_filters_reset?), class: 'browsing-controls__applied-reset'

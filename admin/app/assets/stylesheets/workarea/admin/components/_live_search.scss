@@ -1,0 +1,120 @@
+/*------------------------------------*\
+    #LIVE-SEARCH
+    TODO remove in v4, not used >= 3.4
+\*------------------------------------*/
+
+$live-search-bg-color:             $white !default;
+$live-search-screen-bg-color:      $blue !default;
+$live-search-screen-shadow-color:  rgba($off-black, 0.05) !default;
+$live-search-text-color:           $white !default;
+$live-search-heading-color:        $gray !default;
+$live-search-list-border-color:    $border-color !default;
+$live-search-term-color:           $blue !default;
+$live-search-time-color:           $dark-gray !default;
+
+$live-search-screen-max-width:   576px !default;
+$live-search-screen-max-height:  312px !default;
+
+$live-search-screen-ratio:  $live-search-screen-max-height / $live-search-screen-max-width !default;
+
+
+.live-search {
+    background: $live-search-bg-color;
+
+    @include respond-to($wide-breakpoint) {
+        display: table;
+        width: 100%;
+    }
+}
+
+    /**
+     * 1. designed to contain exactly 2 cells
+     * 2. `.live-search__screen` container
+     */
+
+    .live-search__cell { /* [2] */
+        @include respond-to($wide-breakpoint) {
+            display: table-cell;
+            vertical-align: top;
+        }
+
+        &:first-child { /* [2] */
+            position: relative;
+
+            @include respond-to($wide-breakpoint) {
+                width:  $live-search-screen-max-width;
+                height: $live-search-screen-max-height;
+            }
+        }
+    }
+
+        /**
+         * 1. provides positioning context for `.live-search__text`
+         */
+
+        .live-search__screen {
+            position: relative; /* [1] */
+            padding: 0 0 ($live-search-screen-ratio * 100 * 1%);
+            height: 0;
+            background: $live-search-screen-bg-color;
+            box-shadow: inset 0 0 48px 48px $live-search-screen-shadow-color;
+        }
+
+            /**
+             * 1. ensure focus ring does not appear on this UI
+             */
+
+            .live-search__text {
+                position: absolute;
+                top: 50%;
+                margin: 0 32px;
+                color: $live-search-text-color;
+                font-size: $font-size + 32px;
+                transform: translateY(-50%);
+
+                &:active {
+                    outline: none;
+                }
+
+                &:focus { /* [1] */
+                    border: 0 !important;
+                    box-shadow: none !important;
+                    outline: none !important;
+                }
+            }
+
+        .live-search__recent-searches {
+            height: $live-search-screen-max-height;
+            overflow-y: auto;
+
+            @include respond-to($wide-breakpoint) {
+                padding: 0 8px;
+            }
+        }
+
+            .live-search__list {
+                margin-left: $spacing-unit * 2;
+                padding: 0;
+                list-style: none;
+            }
+
+                .live-search__list-item {
+                    @extend %clearfix;
+                    padding: 8px 0;
+                    border-bottom: 1px solid $live-search-list-border-color;
+                }
+
+                    .live-search__term {
+                        display: block;
+                        float: left;
+                        color: $live-search-term-color;
+                        font-size: $font-size + 2px;
+                    }
+
+                    .live-search__time {
+                        display: block;
+                        padding: 4px 0 0;
+                        float: right;
+                        color: $live-search-time-color;
+                        font-size: $font-size - 2px;
+                    }

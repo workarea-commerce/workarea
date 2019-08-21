@@ -1,0 +1,63 @@
+/*------------------------------------*\
+    #ACTIVITY
+\*------------------------------------*/
+
+$activity-color:         $off-black !default;
+$activity-message-color: $dark-gray !default;
+$activity-time-color:    $dark-gray !default;
+$activity-bg-color:      $white !default;
+$activity-border-color:  $border-color !default;
+
+$activity-avatar-size:  32px !default;
+
+
+.activity {
+    @extend %clearfix;
+    padding: $spacing-unit;
+    width: 100%;
+    color: $activity-color;
+    background: $activity-bg-color;
+
+    & + & {
+        border-top: 1px solid $activity-border-color;
+    }
+}
+
+    .activity__header {
+        @extend %clearfix;
+    }
+
+        .activity__avatar {
+            float: left;
+            height: $activity-avatar-size;
+        }
+
+        .activity__name {
+            @extend %heading;
+            @extend %heading--3;
+            @extend %heading--no-margin;
+            float: left;
+            width: calc(100% - #{$activity-avatar-size});
+            padding-top: $spacing-unit / 2;
+            padding-left: $spacing-unit;
+            line-height: normal;
+        }
+
+        .activity__time {
+            clear: both;
+            display: block;
+            color: $activity-time-color;
+            font-size: 0.8rem;
+            margin-left: $activity-avatar-size + $spacing-unit;
+            margin-bottom: $spacing-unit;
+        }
+
+        .activity__actions {
+            float: right;
+        }
+
+        .activity__message {
+            margin-left: $activity-avatar-size + $spacing-unit;
+            color: $activity-message-color;
+        }
+

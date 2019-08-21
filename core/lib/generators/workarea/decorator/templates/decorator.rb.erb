@@ -1,0 +1,20 @@
+module Workarea
+  decorate <%= class_name %>, with: :<%= app_name.optionize %> do
+    decorated do
+      # Place code to decorate here that would normally go on the class
+      # level, e.g.:
+      #
+      #     field :name, type: String
+    end
+
+    class_methods do
+      # Place methods to define on the class level here. These methods
+      # will be available by calling <%= class_name %>.your_method. Do
+      # not prefix these methods with `self.`
+    end
+
+    # Instance methods can go right in the main definition of the
+    # decorator, as it is a module that gets prepended into the class of
+    # your choice.
+  end
+end

@@ -1,0 +1,4 @@
+= form_tag '/foo/bar', id: 'form-submitting-controls' do
+  = select_tag "test-select", options_for_select([["Z", "1"], ["Y", "2"], ["X", "3"]]), data: { form_submitting_control: '' }
+  = text_field_tag 'test-input', nil, data: { form_submitting_control: '' }
+  = button_tag 'Submit'

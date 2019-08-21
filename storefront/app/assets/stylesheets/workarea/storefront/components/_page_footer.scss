@@ -1,0 +1,57 @@
+/*------------------------------------*\
+    #PAGE-FOOTER
+\*------------------------------------*/
+
+.page-footer {
+    padding: ($spacing-unit * 4) 0 $spacing-unit;
+}
+
+
+    /**
+     * 1. make sure no content block can inject `p` tags that will break layout.
+     */
+    .page-footer__nav {
+        text-align: center;
+
+        @include respond-to($medium-breakpoint) {
+            text-align: left;
+        }
+
+        p { margin: 0; } /* [1] */
+    }
+
+    .page-footer__help {
+        @extend %inline-list;
+    }
+
+        .page-footer__help-item {}
+
+            .page-footer__help-link {}
+
+    .page-footer__email-signup {
+        text-align: center;
+
+        @include respond-to($medium-breakpoint) {
+            text-align: right;
+        }
+    }
+
+        .page-footer__email-signup-form {
+            display: inline-block;
+        }
+
+            .page-footer__email-value {
+                display: inline-block;
+                vertical-align: top;
+            }
+
+            .page-footer__email-button {
+                display: inline-block;
+                vertical-align: top;
+            }
+
+
+    .page-footer__copyright {
+        margin: 0;
+        text-align: center;
+    }

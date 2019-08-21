@@ -1,0 +1,27 @@
+/*------------------------------------*\
+    #OPTION-BUTTON
+\*------------------------------------*/
+
+$option-button-border-color: $gray !default;
+$option-button-active-border-color: $focus-ring-color !default;
+
+.option-button {
+    display: inline-block;
+    margin-bottom: $spacing-unit;
+    padding: $spacing-unit;
+    border: 1px solid $option-button-border-color;
+    vertical-align: top;
+
+    & + & {
+        margin-left: $spacing-unit;
+    }
+}
+
+.option-button--active {
+    font-weight: bold;
+    border-color: $option-button-active-border-color;
+}
+
+    .option-button__text {}
+
+    .option-button__image {}

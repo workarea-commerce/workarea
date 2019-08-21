@@ -1,0 +1,15 @@
+.activity
+  .activity__header
+    .activity__avatar
+      = link_to_modifier(entry) do
+        = avatar_for entry.modifier
+    %h3.activity__name= link_to_modifier(entry)
+    %p.activity__time= activity_time(entry.created_at)
+  .activity__message
+    - if entry.publish?
+      - change = entry.audited.blank? ? t('workarea.admin.activities.change', count: 1) : link_to(t('workarea.admin.activities.change', count: entry.audited.changesets.size), release_changesets_path(entry.audited))
+      - name = entry.audited.blank? ? entry.model_name : link_to(entry.audited.name, release_path(entry.audited))
+      = t('workarea.admin.activities.release_published_html', change: change, name: name)
+    - else
+      - name = entry.audited.blank? ? entry.model_name : link_to(entry.audited.name, release_path(entry.audited))
+      = t('workarea.admin.activities.release_update_html', fields: fields_clause_for(entry.tracked_changes), name: name)

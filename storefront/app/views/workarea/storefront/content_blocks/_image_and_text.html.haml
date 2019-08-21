@@ -1,0 +1,4 @@
+.image-and-text-content-block
+  .image-and-text-content-block__image-container{ class: "image-and-text-content-block__image-container--#{image_position.downcase}" }
+    = render_image_with_link(view_model.find_asset(image).url, image_alt, 'image-and-text-content-block', image_link)
+  .image-and-text-content-block__text{ style: "text-align: #{text_alignment.downcase}" }!= text

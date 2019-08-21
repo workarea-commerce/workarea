@@ -1,0 +1,16 @@
+- @title = @order.id
+
+- content_for :breadcrumbs do
+  %p.breadcrumbs__node-group
+    %span.breadcrumbs__node{ itemprop: 'breadcrumb' }
+      = link_to t('workarea.storefront.layouts.home'), root_path, rel: 'home', class: 'breadcrumbs__link'
+    %span.breadcrumbs__node{ itemprop: 'breadcrumb' }
+      = link_to t('workarea.storefront.orders.order_status'), check_orders_path, class: 'breadcrumbs__link'
+    %span.breadcrumbs__node{ itemprop: 'breadcrumb' }
+      %span.breadcrumbs__text #{t('workarea.storefront.orders.order')} #{@order.id}
+
+.view
+
+  %h1.visually-hidden= @order.id
+
+  = render 'workarea/storefront/orders/summary', order: @order

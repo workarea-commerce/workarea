@@ -1,0 +1,78 @@
+- @page_title = "#{t('workarea.admin.timeline.timeline_for')} #{@timeline.subject.name}"
+
+.view
+  .view__header
+    .grid.grid--middle.grid--right
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@timeline.subject)
+          %h1= link_to @timeline.subject.name, url_for(@timeline.subject)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@timeline.subject)
+
+  .view__container
+    = render_cards_for(@timeline.subject, :timeline)
+
+    - if @timeline.empty?
+      %p.heading--2.align-center= t('workarea.admin.timeline.no_activity')
+    - else
+      .grid.grid--center
+        .grid__cell.grid__cell--80-at-medium
+          .grid
+            - @timeline.upcoming_changesets.each_with_index do |changeset, index|
+              .activity-group.activity-group--bordered
+                .grid__cell.grid__cell--20
+                  .date-marker{ class: ('date-marker--no-date' if changeset.release_date.nil?) }
+                    - if index == 0
+                      .date-marker__annotation= t('workarea.admin.timeline.upcoming_changes')
+                    - if changeset.release_date.present?
+                      .date-marker__month= local_time(changeset.release_date, format: '%b')
+                      .date-marker__day= local_time(changeset.release_date, format: '%e')
+                .grid__cell.grid__cell--80
+                  .activity
+                    .activity__header
+                      = inline_svg('workarea/admin/icons/release_timeline.svg', class: 'activity__avatar')
+                      %h3.activity__name= link_to changeset.release.name, release_path(changeset.release)
+                      %p.activity__time
+                        = changeset.publish_humanized
+                        - if changeset.release_date.present?
+                          = local_time(changeset.release_date, :long)
+                      .activity__actions
+                        .grid.grid--auto
+                          .grid__cell
+                            = form_tag release_session_path, method: :post do
+                              = hidden_field_tag :release_id, changeset.release.id
+                              = hidden_field_tag :return_to, url_for(@timeline.subject)
+                              = button_tag value: 'edit_changes', class: 'text-button' do
+                                %span= t('workarea.admin.timeline.edit')
+                                = inline_svg('workarea/admin/icons/edit.svg', class: 'text-button__icon')
+                          .grid__cell
+                            = form_tag release_changeset_path(changeset.release, changeset), method: :delete, class: 'action-group__item', data: { deletion_form: { message: t('workarea.admin.timeline.delete_confirmation') } } do
+                              = button_tag value: 'delete_changeset', class: 'text-button' do
+                                %span= t('workarea.admin.actions.delete')
+                                = inline_svg('workarea/admin/icons/delete.svg', class: 'text-button__icon')
+                    .activity__message
+                      .release-changeset.release-changeset--activity
+                        - changeset.changed_fields.each do |field|
+                          = render_changeset_field(changeset, field)
+
+            - unless @timeline.today_has_activity
+              .activity-group.activity-group--bordered
+                .grid__cell.grid__cell--20
+                  .date-marker
+                    .date-marker__annotation= t('workarea.admin.timeline.today')
+                    .date-marker__month= local_time(Date.today, format: '%b')
+                    .date-marker__day= local_time(Date.today, format: '%e')
+                .grid__cell.grid__cell--80
+
+            - @timeline.activity_by_day.each_with_index do |(day, entries), index|
+              .activity-group.activity-group--bordered
+                .grid__cell.grid__cell--20
+                  .date-marker
+                    -  if index == 0 && @timeline.today_has_activity
+                      .date-marker__annotation= t('workarea.admin.timeline.today')
+                    .date-marker__month= local_time(day, format: '%b')
+                    .date-marker__day= local_time(day, format: '%e')
+                .grid__cell.grid__cell--80
+                  - entries.each do |entry|
+                    = render_activity_entry(entry)

@@ -1,0 +1,33 @@
+/**
+ * @namespace WORKAREA.<%= module_name %>
+ */
+
+WORKAREA.registerModule('<%= module_name %>', (function () {
+    'use strict';
+
+    var doSomething = function (index, element) {
+            // do something with index or element
+        },
+
+        onEvent = function (event) {
+            // handle event
+        },
+
+        /**
+         * @method
+         * @name init
+         * @memberof WORKAREA.<%= module_name %>
+         */
+
+        init = function ($scope) {
+            $('selector', $scope).each(doSomething);
+
+            // or
+
+            $('selector', $scope).on('event', onEvent);
+        };
+
+    return {
+        init: init
+    };
+}()));

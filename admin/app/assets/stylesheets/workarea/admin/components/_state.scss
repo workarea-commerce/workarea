@@ -1,0 +1,35 @@
+/*------------------------------------*\
+    #STATE
+\*------------------------------------*/
+
+$state-pending-color: $green !default;
+$state-done-color: $gray !default;
+$state-danger-color: $red !default;
+$state-indicator-size: 0.8em !default;
+
+.state {
+    &::before {
+        display: inline-block;
+        margin: 0.2em 0.2em 0 0;
+        width: $state-indicator-size;
+        height: $state-indicator-size;
+        background: none;
+        border-radius: 100%;
+        vertical-align: text-top;
+        content: '';
+    }
+}
+
+.state--pending::before { background-color: $state-pending-color; }
+
+.state--danger::before { background-color: $state-danger-color; }
+
+.state--done {
+    &::before {
+        margin-top: 0;
+        color: $state-done-color;
+        background: none;
+        content: '✓';
+        vertical-align: baseline;
+    }
+}

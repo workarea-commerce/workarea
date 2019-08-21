@@ -1,0 +1,156 @@
+#pagination.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'pagination')
+
+  %p Displays a set of pagination controls. Hidden by default unless JavaScript is enabled.
+
+  .style-guide__example-block
+    %ul.pagination
+      %li.pagination__node
+        %span.pagination__navigation.pagination__navigation--disabled Prev
+      %li.pagination__node
+        %strong 1
+      %li.pagination__node
+        = link_to 2, '#', class: 'pagination__link'
+      %li.pagination__node
+        = link_to 'Next', '#', class: 'pagination__navigation'
+
+  %p should work with 2 pages, the first being selected:
+  .style-guide__example-block
+    %ul.pagination
+      %li.pagination__node
+        %span.pagination__navigation.pagination__navigation--disabled Prev
+      %li.pagination__node
+        %strong 1
+      %li.pagination__node
+        = link_to 2, '#', class: 'pagination__link'
+      %li.pagination__node
+        = link_to 'Next', '#', class: 'pagination__navigation'
+
+  %p should work with 2 pages, the last being selected:
+  .style-guide__example-block
+    %ul.pagination
+      %li.pagination__node
+        = link_to 'Prev', '#', class: 'pagination__navigation'
+      %li.pagination__node
+        = link_to 1, '#', class: 'pagination__link'
+      %li.pagination__node
+        %strong 2
+      %li.pagination__node
+        %span.pagination__navigation.pagination__navigation--disabled Next
+
+  %p should work with 3 pages, the middle being selected:
+  .style-guide__example-block
+    %ul.pagination
+      %li.pagination__node
+        = link_to 'Prev', '#', class: 'pagination__navigation'
+      %li.pagination__node
+        = link_to 1, '#', class: 'pagination__link'
+      %li.pagination__node
+        %strong 2
+      %li.pagination__node
+        = link_to 3, '#', class: 'pagination__link'
+      %li.pagination__node
+        = link_to 'Next', '#', class: 'pagination__navigation'
+
+  %p should work with many pages, the first being selected, with latter placeholder displayed:
+  .style-guide__example-block
+    %ul.pagination
+      %li.pagination__node
+        %span.pagination__navigation.pagination__navigation--disabled Prev
+      %li.pagination__node
+        %strong 1
+      %li.pagination__node
+        = link_to 2, '#', class: 'pagination__link'
+      %li.pagination__node
+        = link_to 3, '#', class: 'pagination__link'
+      %li.pagination__node
+        %span …
+      %li.pagination__node
+        = link_to 288, '#', class: 'pagination__link'
+      %li.pagination__node
+        = link_to 'Next', '#', class: 'pagination__navigation'
+
+  %p should work with many pages, with latter placeholder displayed:
+  .style-guide__example-block
+    %ul.pagination
+      %li.pagination__node
+        %span.pagination__navigation.pagination__navigation--disabled Prev
+      %li.pagination__node
+        = link_to 1, '#', class: 'pagination__link'
+      %li.pagination__node
+        = link_to 2, '#', class: 'pagination__link'
+      %li.pagination__node
+        = link_to 3, '#', class: 'pagination__link'
+      %li.pagination__node
+        %strong 4
+      %li.pagination__node
+        = link_to 5, '#', class: 'pagination__link'
+      %li.pagination__node
+        %span …
+      %li.pagination__node
+        = link_to 288, '#', class: 'pagination__link'
+      %li.pagination__node
+        = link_to 'Next', '#', class: 'pagination__navigation'
+
+  %p should work with many pages, with former and latter placeholder displayed:
+  .style-guide__example-block
+    %ul.pagination
+      %li.pagination__node
+        = link_to 'Prev', '#', class: 'pagination__navigation'
+      %li.pagination__node
+        = link_to 1, '#', class: 'pagination__link'
+      %li.pagination__node
+        %span …
+      %li.pagination__node
+        = link_to 274, '#', class: 'pagination__link'
+      %li.pagination__node
+        %strong 275
+      %li.pagination__node
+        = link_to 276, '#', class: 'pagination__link'
+      %li.pagination__node
+        %span …
+      %li.pagination__node
+        = link_to 288, '#', class: 'pagination__link'
+      %li.pagination__node
+        = link_to 'Next', '#', class: 'pagination__navigation'
+
+  %p shoudl work with many pages, with former placeholder displayed:
+  .style-guide__example-block
+    %ul.pagination
+      %li.pagination__node
+        = link_to 'Prev', '#', class: 'pagination__navigation'
+      %li.pagination__node
+        = link_to 1, '#', class: 'pagination__link'
+      %li.pagination__node
+        %span …
+      %li.pagination__node
+        = link_to 284, '#', class: 'pagination__link'
+      %li.pagination__node
+        %strong 285
+      %li.pagination__node
+        = link_to 286, '#', class: 'pagination__link'
+      %li.pagination__node
+        = link_to 287, '#', class: 'pagination__link'
+      %li.pagination__node
+        = link_to 288, '#', class: 'pagination__link'
+      %li.pagination__node
+        = link_to 'Next', '#', class: 'pagination__navigation'
+
+  %p should work with many pages, the last being selected, with former placeholder displayed:
+  .style-guide__example-block
+    %ul.pagination
+      %li.pagination__node
+        = link_to 'Prev', '#', class: 'pagination__navigation'
+      %li.pagination__node
+        = link_to 1, '#', class: 'pagination__link'
+      %li.pagination__node
+        %span …
+      %li.pagination__node
+        = link_to 286, '#', class: 'pagination__link'
+      %li.pagination__node
+        = link_to 287, '#', class: 'pagination__link'
+      %li.pagination__node
+        %strong 288
+      %li.pagination__node
+        %span.pagination__navigation.pagination__navigation--disabled Next

@@ -1,0 +1,205 @@
+#taxonomy-content-block.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'taxonomy_content_block')
+
+  %p A content block containing taxonomy menus.
+
+  %p should display an <strong>image to the left</strong>:
+  .style-guide__example-block
+    .taxonomy-content-block
+
+      .taxonomy-content-block__container
+        = image_tag 'workarea/core/placeholder.png', size: '150x150', class: 'taxonomy-content-block__image'
+
+      .taxonomy-content-block__container
+        %ul.taxonomy-content-block__menu
+          - (1..5).each do |i|
+            %li.taxonomy-content-block__menu-item
+              - if i.even?
+                Taxon #{i}
+              - else
+                = link_to "Taxon #{i}", '#', class: 'taxonomy-content-block__menu-link'
+
+  %p should display an <strong>image to the right</strong>:
+  .style-guide__example-block
+    .taxonomy-content-block
+
+      .taxonomy-content-block__container
+        %ul.taxonomy-content-block__menu
+          - (1..5).each do |i|
+            %li.taxonomy-content-block__menu-item
+              - if i.even?
+                Taxon #{i}
+              - else
+                = link_to "Taxon #{i}", '#', class: 'taxonomy-content-block__menu-link'
+
+      .taxonomy-content-block__container
+        = image_tag 'workarea/core/placeholder.png', size: '150x150', class: 'taxonomy-content-block__image'
+
+  %p should support <strong>no image</strong>:
+  .style-guide__example-block
+    .taxonomy-content-block
+
+      .taxonomy-content-block__container.taxonomy-content-block__container--without-image
+        %ul.taxonomy-content-block__menu
+          - (1..5).each do |i|
+            %li.taxonomy-content-block__menu-item
+              - if i.even?
+                Taxon #{i}
+              - else
+                = link_to "Taxon #{i}", '#', class: 'taxonomy-content-block__menu-link'
+
+  %p may display a link to the starting taxon:
+  .style-guide__example-block
+    .taxonomy-content-block
+
+      .taxonomy-content-block__container.taxonomy-content-block__container--without-image
+        %li.taxonomy-content-block__menu-item.taxonomy-content-block__menu-item--start
+          = link_to "Starting Taxon", '#', class: 'taxonomy-content-block__menu-link'
+        %ul.taxonomy-content-block__menu
+          - (1..5).each do |i|
+            %li.taxonomy-content-block__menu-item
+              - if i.even?
+                Taxon #{i}
+              - else
+                = link_to "Taxon #{i}", '#', class: 'taxonomy-content-block__menu-link'
+
+#taxonomy-content-block--two-column.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'taxonomy_content_block__two_column')
+
+  %p A content block containing taxonomy menus in a two column layout.
+
+  %p should display an <strong>image to the left</strong>:
+  .style-guide__example-block
+    .taxonomy-content-block.taxonomy-content-block--two-column
+
+      .taxonomy-content-block__container
+        = image_tag 'workarea/core/placeholder.png', size: '150x150', class: 'taxonomy-content-block__image'
+
+      - 2.times do
+        .taxonomy-content-block__container
+          %ul.taxonomy-content-block__menu
+            - (1..5).each do |i|
+              %li.taxonomy-content-block__menu-item
+                - if i.even?
+                  Taxon #{i}
+                - else
+                  = link_to "Taxon #{i}", '#', class: 'taxonomy-content-block__menu-link'
+
+  %p should display an <strong>image to the right</strong>:
+  .style-guide__example-block
+    .taxonomy-content-block.taxonomy-content-block--two-column
+
+      - 2.times do
+        .taxonomy-content-block__container
+          %ul.taxonomy-content-block__menu
+            - (1..5).each do |i|
+              %li.taxonomy-content-block__menu-item
+                - if i.even?
+                  Taxon #{i}
+                - else
+                  = link_to "Taxon #{i}", '#', class: 'taxonomy-content-block__menu-link'
+
+      .taxonomy-content-block__container
+        = image_tag 'workarea/core/placeholder.png', size: '150x150', class: 'taxonomy-content-block__image'
+
+  %p should support <strong>no image</strong>:
+  .style-guide__example-block
+    .taxonomy-content-block.taxonomy-content-block--two-column
+
+      - 2.times do
+        .taxonomy-content-block__container.taxonomy-content-block__container--without-image
+          %ul.taxonomy-content-block__menu
+            - (1..5).each do |i|
+              %li.taxonomy-content-block__menu-item
+                - if i.even?
+                  Taxon #{i}
+                - else
+                  = link_to "Taxon #{i}", '#', class: 'taxonomy-content-block__menu-link'
+
+  %p may display a link to the starting taxon:
+  .style-guide__example-block
+    .taxonomy-content-block.taxonomy-content-block--two-column
+
+      - 2.times do
+        .taxonomy-content-block__container.taxonomy-content-block__container--without-image
+          %ul.taxonomy-content-block__menu
+            %li.taxonomy-content-block__menu-item.taxonomy-content-block__menu-item--start
+              = link_to "Starting Taxon", '#', class: 'taxonomy-content-block__menu-link'
+            - (1..5).each do |i|
+              %li.taxonomy-content-block__menu-item
+                - if i.even?
+                  Taxon #{i}
+                - else
+                  = link_to "Taxon #{i}", '#', class: 'taxonomy-content-block__menu-link'
+
+#taxonomy-content-block--three-column.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'taxonomy_content_block__three_column')
+
+  %p A content block containing taxonomy menus in a three column layout.
+
+  %p should display an <strong>image to the left</strong>:
+  .style-guide__example-block
+    .taxonomy-content-block.taxonomy-content-block--three-column
+
+      .taxonomy-content-block__container
+        = image_tag 'workarea/core/placeholder.png', size: '150x150', class: 'taxonomy-content-block__image'
+
+      - 3.times do
+        .taxonomy-content-block__container
+          %ul.taxonomy-content-block__menu
+            - (1..5).each do |i|
+              %li.taxonomy-content-block__menu-item
+                - if i.even?
+                  Taxon #{i}
+                - else
+                  = link_to "Taxon #{i}", '#', class: 'taxonomy-content-block__menu-link'
+
+  %p should display an <strong>image to the right</strong>:
+  .style-guide__example-block
+    .taxonomy-content-block.taxonomy-content-block--three-column
+
+      - 3.times do
+        .taxonomy-content-block__container
+          %ul.taxonomy-content-block__menu
+            - (1..5).each do |i|
+              %li.taxonomy-content-block__menu-item
+                - if i.even?
+                  Taxon #{i}
+                - else
+                  = link_to "Taxon #{i}", '#', class: 'taxonomy-content-block__menu-link'
+
+      .taxonomy-content-block__container
+        = image_tag 'workarea/core/placeholder.png', size: '150x150', class: 'taxonomy-content-block__image'
+
+  %p should support <strong>no image</strong>:
+  .style-guide__example-block
+    .taxonomy-content-block.taxonomy-content-block--three-column
+
+      - 3.times do
+        .taxonomy-content-block__container.taxonomy-content-block__container--without-image
+          %ul.taxonomy-content-block__menu
+            - (1..5).each do |i|
+              %li.taxonomy-content-block__menu-item
+                - if i.even?
+                  Taxon #{i}
+                - else
+                  = link_to "Taxon #{i}", '#', class: 'taxonomy-content-block__menu-link'
+
+  %p may display a link to the starting taxon:
+  .style-guide__example-block
+    .taxonomy-content-block.taxonomy-content-block--three-column
+
+      - 3.times do
+        .taxonomy-content-block__container.taxonomy-content-block__container--without-image
+          %ul.taxonomy-content-block__menu
+            %li.taxonomy-content-block__menu-item.taxonomy-content-block__menu-item--start
+              = link_to "Starting Taxon", '#', class: 'taxonomy-content-block__menu-link'
+            - (1..5).each do |i|
+              %li.taxonomy-content-block__menu-item
+                - if i.even?
+                  Taxon #{i}
+                - else
+                  = link_to "Taxon #{i}", '#', class: 'taxonomy-content-block__menu-link'

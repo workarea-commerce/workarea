@@ -1,0 +1,17 @@
+/*------------------------------------*\
+    #CHECKOUT-ADDRESSES
+\*------------------------------------*/
+
+.checkout-addresses {}
+
+    .checkout-addresses__section {
+        margin-bottom: $vertical-margin;
+    }
+
+    .checkout-addresses__section--email {}
+    .checkout-addresses__section--shipping {}
+    .checkout-addresses__section--billing {}
+
+        .checkout-addresses__heading {}
+
+        .checkout-addresses__fields {}

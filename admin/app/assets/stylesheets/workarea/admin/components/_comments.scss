@@ -1,0 +1,76 @@
+/*------------------------------------*\
+    #COMMENTS
+\*------------------------------------*/
+
+$comment-avatar-size:      32px !default;
+$comment-avatar-size-card: 32px !default;
+$comment-time-color:  $gray !default;
+$comment-border:      1px solid $border-color !default;
+
+.comments {}
+
+    .comments__comment-group {
+        @extend %list-reset;
+    }
+
+        .comments__comment {
+            @extend %clearfix;
+            position: relative;
+            margin: 0 0 $vertical-margin;
+            border-bottom: $comment-border;
+        }
+
+            .comments__comment-header {}
+
+                .comments__comment-avatar {
+                    margin-right: $horizontal-margin;
+                    margin-bottom: 0;
+                    width: $comment-avatar-size;
+                    height: $comment-avatar-size;
+                    float: left;
+
+                    .card & {
+                        margin-right: 0;
+                        width: $comment-avatar-size-card;
+                        height: $comment-avatar-size-card;
+                    }
+                }
+
+                .comments__comment-author {
+                    margin-bottom: 0;
+                    line-height: 1;
+
+                    .card & {
+                        font-weight: bold;
+                    }
+                }
+
+                .comments__comment-time {
+                    color: $comment-time-color;
+
+                    .card & {
+                        display: block;
+                        padding: ($spacing-unit / 2) 0;
+                    }
+                }
+
+                .comments__comment-actions {
+                    text-align: right;
+
+                    @include respond-to($medium-breakpoint) {
+                        position: absolute;
+                        top: $spacing-unit;
+                        right: $spacing-unit;
+                    }
+                }
+
+            .comments__comment-body {
+                padding-left: $comment-avatar-size + $horizontal-margin; /* [1] */
+
+                .card & {
+                    padding-left: $comment-avatar-size-card + $spacing-unit;
+                }
+            }
+
+
+    .comments__new-comment {}

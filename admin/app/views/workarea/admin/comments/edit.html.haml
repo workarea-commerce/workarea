@@ -1,0 +1,27 @@
+
+.comments.view
+  .view__header
+    .grid.grid--middle.grid--center
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to t('workarea.admin.comments.edit.all', name: @comment.commentable.name), commentable_comments_path(@comment.commentable.to_global_id)
+          %h1= t('workarea.admin.comments.edit.heading')
+
+  .view__container.view__container--narrow
+    - if @comment.errors.present?
+      - @comment.errors.full_messages.each do |message|
+        = render_message 'error', message
+
+    = form_tag commentable_comment_path(@commentable.to_global_id, @comment), method: :patch, id: 'comment_form', data: { unsaved_changes: '' } do
+
+      .property.property--required
+        = label_tag 'comment[body]', t('workarea.admin.fields.body'), class: 'property__name'
+        = text_area_tag 'comment[body]', @comment.body, class: 'text-box text-box--multi-line', required: true
+
+      .workflow-bar
+        .grid
+          .grid__cell.grid__cell--20
+            = link_to t('workarea.admin.actions.delete'), commentable_comment_path(@commentable.to_global_id, @comment), class: 'workflow-bar__button workflow-bar__button--delete', data: { method: 'delete', confirm: t('workarea.admin.actions.delete_confirmation')}
+          .grid__cell.grid__cell--80
+            .grid.grid--auto.grid--right
+              .grid__cell= button_tag t('workarea.admin.comments.edit.save'), value: 'save_comment', class: 'workflow-bar__button workflow-bar__button--update'

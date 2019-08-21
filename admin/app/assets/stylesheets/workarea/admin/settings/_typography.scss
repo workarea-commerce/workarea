@@ -1,0 +1,21 @@
+/*------------------------------------*\
+    #FONTS
+\*------------------------------------*/
+
+/**
+ * Font stacks
+ */
+$font-family:            Helvetica, Arial, sans-serif;
+$retina-font-family:     "Helvetica Neue", "HelveticaNeue", Helvetica, Arial, sans-serif;
+$monospace-font-family:  monospace !default;
+
+$spark-dot-line-family: 'Spark Dot-Line', monospace;
+
+
+/**
+ * Text sizes
+ */
+$font-size:               14px !default;
+$font-weight:             300 !default;
+$form-control-font-size:  $font-size + 2px !default;
+$line-height:             1.5 !default;

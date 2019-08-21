@@ -1,0 +1,25 @@
+// TODO: v4 remove. Replaced by WORKAREA.mobileFilterButtons
+/*------------------------------------*\
+    #MOBILE-FILTERS
+\*------------------------------------*/
+
+.mobile-filters {
+    margin-bottom: $vertical-margin;
+}
+
+    .mobile-filters__control {
+        display: none;
+    }
+
+    .mobile-filters__trigger {
+        margin-bottom: $vertical-margin;
+        text-align: center;
+    }
+
+    .mobile-filters__content {
+        display: none;
+
+        .mobile-filters__control:checked ~ & {
+            display: block;
+        }
+    }

@@ -1,0 +1,61 @@
+- @page_title = t('workarea.admin.product_rules.index.page_title', name: @product_list.name)
+
+.comments.view
+  .view__header
+    .grid.grid--middle.grid--right
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@product_list)
+          %h1= link_to @product_list.name, url_for(@product_list)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@product_list)
+
+  .view__container
+    = render_cards_for(@product_list, :product_rules)
+
+    .section
+      .grid.grid--center
+        .grid__cell.grid__cell--50
+          - if @product_rules.blank? && params[:action] != 'new'
+            %h3.align-center= t('workarea.admin.product_rules.index.no_rules')
+
+          .product-rules
+            - if @preview.base_query.present?
+              .product-rules__row
+                %span.product-rules__base-query= t('workarea.admin.product_rules.index.base_query_rule', query: @preview.base_query)
+
+            - @product_rules.each do |rule|
+              .product-rules__row
+                .product-rules__actions
+                  .grid.grid--auto
+                    - if rule == @product_rule
+                      .grid__cell= link_to t('workarea.admin.actions.cancel'), product_list_product_rules_path(@product_list.to_global_id)
+                    - else
+                      .grid__cell= link_to inline_svg('workarea/admin/icons/edit.svg', class: 'svg-icon svg-icon--small', title: t('workarea.admin.actions.edit')), edit_product_list_product_rule_path(@product_list.to_global_id, rule)
+                      .grid__cell= link_to inline_svg('workarea/admin/icons/delete.svg', class: 'svg-icon svg-icon--small', title: t('workarea.admin.actions.remove')), product_list_product_rule_path(@product_list.to_global_id, rule), data: { method: 'delete' }
+                - if rule == @product_rule
+                  = render 'workarea/admin/product_rules/form', product_list: @product_list, rule: @product_rule
+                - else
+                  = render_product_rule_summary_for(rule)
+
+            .product-rules__row
+              - if params[:action] == 'new'
+                .product-rules__new
+                  .grid.grid--auto.grid--middle
+                    .grid__cell
+                      = render 'workarea/admin/product_rules/form', product_list: @product_list, rule: @product_rule
+                    .grid__cell
+                      = link_to t('workarea.admin.actions.cancel'), product_list_product_rules_path(@product_list.to_global_id)
+              - else
+                = form_tag new_product_list_product_rule_path(@product_list.to_global_id), method: 'get' do
+                  = hidden_field_tag 'show_all', params[:show_all], id: nil
+                  %span= t('workarea.admin.product_rules.index.add_rule')
+                  = select_tag 'product_rule[name]', options_for_select(product_rule_types_options)
+                  .product-rules__actions
+                    = button_tag inline_svg('workarea/admin/icons/add_circle.svg', class: 'svg-icon svg-icon--green', title: t('workarea.admin.product_rules.index.add_rule')), value: 'add_rule', class: 'text-button'
+
+    - if @preview.display_results? || params[:action] == 'new'
+      .section
+        .product-rules-preview
+          #product-rules-preview.product-rules-preview__body
+            = render 'workarea/admin/product_rules/preview', preview: @preview

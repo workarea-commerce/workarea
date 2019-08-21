@@ -1,0 +1,50 @@
+- @page_title = @code_list.name
+
+.view
+  .view__header
+    .grid.grid--middle.grid--right
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to "↑ #{t('workarea.admin.pricing_discount_code_lists.show.index_link')}", pricing_discount_code_lists_path
+          %h1= link_to @code_list.name, pricing_discount_code_list_path(@code_list)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@code_list)
+    - unless @code_list.generation_complete?
+      .grid.grid--center
+        .grid__cell.grid__cell--75
+          = render_message 'info' do
+            = t('workarea.admin.pricing_discount_code_lists.show.generating_codes')
+
+  .view__container.view__container--narrow
+    = render_cards_for(@code_list, :promo_codes)
+    %p.align-center= t('workarea.admin.pricing_discount_code_lists.promo_code', count: @code_list.count)
+
+    %table
+      %thead
+        %tr
+          %th= t('workarea.admin.pricing_discount_code_lists.promo_codes.table.code')
+          %th= t('workarea.admin.pricing_discount_code_lists.promo_codes.table.expires')
+          %th= t('workarea.admin.pricing_discount_code_lists.promo_codes.table.used')
+      %tbody
+        - @code_list.promo_codes.each do |code|
+          %tr
+            %td= code.code
+            %td= code.expires_at ? local_time(code.expires_at, :long) : t('workarea.admin.pricing_discount_code_lists.promo_codes.never')
+            %td= code.used_at ? local_time(code.used_at, :long) : t('workarea.admin.pricing_discount_code_lists.promo_codes.unused')
+
+    - if @code_list.promo_codes.total_pages > 1
+      = render 'workarea/admin/shared/pagination', collection: @code_list.promo_codes
+
+  .workflow-bar
+    .grid
+      .grid__cell.grid__cell--50
+        .grid.grid--auto
+          - if @code_list.generation_complete?
+            .grid__cell= link_to t('workarea.admin.shared.bulk_actions.import'), new_data_file_import_path(model_type: Workarea::Pricing::Discount::GeneratedPromoCode, return_to: pricing_discount_code_list_path(@code_list)), class: 'workflow-bar__button'
+            .grid__cell= link_to t('workarea.admin.shared.bulk_actions.export'), new_data_file_export_path(model_type: Workarea::Pricing::Discount::GeneratedPromoCode, query_id: generic_admin_search_query_id(model_type: Workarea::Pricing::Discount::GeneratedPromoCode, query_params: { code_list_id: @code_list.id }), return_to: pricing_discount_code_list_path(@code_list)), class: 'workflow-bar__button  workflow-bar__button--left-divide'
+          - else
+            .grid__cell= link_to t('workarea.admin.shared.bulk_actions.import'), '#disabled-info', disabled: 'disabled', class: 'workflow-bar__button', data: { tooltip: '' }
+            .grid__cell= link_to t('workarea.admin.shared.bulk_actions.export'), '#disabled-info', disabled: 'disabled', class: 'workflow-bar__button  workflow-bar__button--left-divide', data: { tooltip: '' }
+
+    #disabled-info.tooltip-content
+      %p= t('workarea.admin.pricing_discount_code_lists.show.disabled_info')

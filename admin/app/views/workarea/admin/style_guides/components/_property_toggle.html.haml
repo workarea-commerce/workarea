@@ -1,0 +1,48 @@
+#property-toggle.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'property_toggle')
+
+  %p Wraps a #{link_to_style_guide('components', 'property', true)} or #{link_to_style_guide('components', 'compound_property', true)} component, restyling the default UI to include a checkbox before the component.
+
+  %p The component expects all contained form controls to be disabled. The component appears disabled by default, "activating" itself when the preceeding checkbox is checked.
+
+  %p This component is progressively enhanced by <code>WORKAREA.propertyToggles</code> to ensure that the fields become editable when the component is interacted with.
+
+  .style-guide__example-block
+
+    .property-toggle
+      .property-toggle__checkbox
+        = check_box_tag 'property_toggle_checkbox_1', nil, nil
+      .property-toggle__property
+        .property
+          = label_tag 'property_toggle_text_field_1', 'Label One', class: 'property__name'
+          = text_field_tag 'property_toggle_text_field_1', nil, class: 'text-box', disabled: true
+
+    .property-toggle
+      .property-toggle__checkbox
+        = check_box_tag 'property_toggle_checkbox_2', nil, nil
+      .property-toggle__property
+        .property
+          %span.property__name Label Two
+          .toggle-button
+            .toggle-button__switch
+              = radio_button 'property_toggle_toggle_button', nil, 'yes', class: 'toggle-button__input toggle-button__input--positive', disabled: true
+              = label_tag 'property_toggle_toggle_button__no', 'Yes', class: 'toggle-button__label toggle-button__label--positive'
+              = radio_button 'property_toggle_toggle_button', nil, 'no', checked: true, class: 'toggle-button__input toggle-button__input--negative', disabled: true
+              = label_tag 'property_toggle_toggle_button__yes', 'No', class: 'toggle-button__label toggle-button__label--negative'
+
+    .property-toggle
+      .property-toggle__checkbox
+        = check_box_tag 'property_toggle_checkbox_3', nil, nil
+      .property-toggle__property
+        .property
+          = label_tag 'property_toggle_text_field_2', 'A much longer labels than the others', class: 'property__name'
+          = text_field_tag 'property_toggle_text_field_2', nil, class: 'text-box', disabled: true
+
+    .property-toggle
+      .property-toggle__checkbox
+        = check_box_tag 'property_toggle_checkbox_4', nil, true
+      .property-toggle__property
+        .property
+          = label_tag 'property_toggle_select_1', 'Already Active Label', class: 'property__name'
+          = select_tag 'property_toggle_select_1', options_for_select(%w(One Two Three))

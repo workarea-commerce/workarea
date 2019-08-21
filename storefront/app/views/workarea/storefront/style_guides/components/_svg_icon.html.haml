@@ -1,0 +1,51 @@
+#svg-icon.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'svg_icon')
+
+  %p should resize the icon to a default, medium size:
+  .grid.grid--auto.grid--huge
+    - style_guide_icons.each do |path|
+      .grid__cell
+        .align-center
+          = inline_svg path, title: File.basename(path), class: 'svg-icon'
+          %p= File.basename(path, '.svg')
+
+
+#svg-icon--small.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'svg_icon__small')
+
+  %p should resize the icon to a smaller size:
+  .grid.grid--auto.grid--huge
+    - style_guide_icons.each do |path|
+      .grid__cell
+        .align-center
+          = inline_svg path, title: File.basename(path), class: 'svg-icon svg-icon--small'
+          %p= File.basename(path, '.svg')
+
+
+#svg-icon--large.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'svg_icon__large')
+
+  %p should resize the icon to a larger size:
+  .grid.grid--auto.grid--huge
+    - style_guide_icons.each do |path|
+      .grid__cell
+        .align-center
+          = inline_svg path, title: File.basename(path), class: 'svg-icon svg-icon--large'
+          %p= File.basename(path, '.svg')
+
+
+- %w(blue yellow red green white gray black black-alpha-50 black-alpha-15).each do |color|
+  .style-guide__subsection{ id: "svg-icon--#{color}" }
+
+    %h3= link_to_style_guide('components', "svg_icon__#{color}")
+
+    %p should change the fill color of the icon to <strong>#{color}</strong>:
+    .grid.grid--auto.grid--huge{ style: ('background: #303541; color: white; padding-top: 16px;' if color == 'white') }
+      - style_guide_icons.each do |path|
+        .grid__cell
+          .align-center
+            = inline_svg path, title: File.basename(path), class: "svg-icon svg-icon--#{color}"
+            %p= File.basename(path, '.svg')

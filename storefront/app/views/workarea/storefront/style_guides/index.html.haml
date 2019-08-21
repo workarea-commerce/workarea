@@ -1,0 +1,87 @@
+.style-guide.view
+
+  = render 'navigation'
+
+  .style-guide__main
+
+    %h1 Style Guide
+
+    %p This page is intended to showcase the visual aspects of each layer of the CSS architecture.
+
+
+    #settings.style-guide__section
+
+      %h2 Settings
+
+      %p This layer contains global variables for use throughout the application. These are not the only variables available to use. Be sure to familiarize yourself with the code to see what else might be at your disposal.
+
+      - partial_paths_for('settings').each do |partial|
+        = render partial
+
+      = append_partials('storefront.style_guide_settings')
+
+
+    #base.style-guide__section
+
+      %h2 Base
+
+      %p This layer styles standalone elements.
+
+      - partial_paths_for('base').each do |partial|
+        = render partial
+
+      = append_partials('storefront.style_guide_base')
+
+
+    #typography.style-guide__section
+
+      %h2 Typography
+
+      %p Typography styles define global patterns for paragraphs, headings, links and other generic text elements.
+
+      %p Typography styles provide element selectors as well as <code>%placeholder-selectors</code> and <code>.class-selectors</code>. This allows you to use class selectors to force an element to use type styles for a different element, for example making headings appear larger, or making non-heading elements appear to be headings.
+
+      - partial_paths_for('typography').each.each do |partial|
+        = render partial
+
+      = append_partials('storefront.style_guide_typography')
+
+
+    #objects.style-guide__section
+
+      %h2 Objects
+
+      %p Objects are "design-free" patterns that can be applied throughout the application. If you notice yourself writing the same structural code over and over you'll probably want to abstract it into an object.
+
+      %p Objects are offered as both <code>%placeholder-selectors</code> and <code>.class-selectors</code>. They appear higher in the code code to ensure that, if you use an object, you'll be able to override it's styles contextually, if needed.
+
+      - partial_paths_for('objects').each.each do |partial|
+        = render partial
+
+      = append_partials('storefront.style_guide_objects')
+
+
+    #components.style-guide__section
+
+      %h2 Components
+
+      %p Components are the heavily designed building blocks of the site. They can include specific chunks of the UI (like the <code>page-header</code>) or reusable chunks of the UI (like a <code>button</code>). Below are the reusable patterns defined in the components layer:
+
+      - partial_paths_for('components').each.each do |partial|
+        = render partial
+
+      = append_partials('storefront.style_guide_components')
+
+
+    #trumps.style-guide__section
+
+      %h2 Trumps
+
+      %p Trumps are absolute decisions you make with an element. If you say to yourself "No matter what, this element should always X" then you should make a trump for X.
+
+      %p Trumps are offered as both <code>%placeholder-selectors</code> and as <code>.class-selectors</code>. They appear lower in the code to ensure that, if you use a trump, it will ensure that it's styles take precedence, overriding any other styles applied to that element as needed.
+
+      - partial_paths_for('trumps').each.each do |partial|
+        = render partial
+
+      = append_partials('storefront.style_guide_trumps')

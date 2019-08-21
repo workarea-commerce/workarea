@@ -1,0 +1,118 @@
+- @title = t('workarea.storefront.users.account')
+
+- content_for :breadcrumbs do
+  %p.breadcrumbs__node-group
+    %span.breadcrumbs__node{ itemprop: 'breadcrumb' }
+      = link_to t('workarea.storefront.layouts.home'), root_path, rel: 'home', class: 'breadcrumbs__link'
+    %span.breadcrumbs__node{ itemprop: 'breadcrumb' }
+      %span.breadcrumbs__text= t('workarea.storefront.users.account')
+
+.view
+
+  %h1= t('workarea.storefront.users.account')
+
+  .grid.grid--large
+    .grid__cell.grid__cell--50-at-medium
+      .box
+        .box__header
+          .box__action= link_to t('workarea.storefront.forms.update'), edit_users_account_path, class: 'button', data: { dialog_button: '' }
+          %h2.box__heading= t('workarea.storefront.users.details')
+        .box__body
+          %table.table
+            %tbody
+              %tr
+                %th
+                  %span= t('workarea.storefront.users.email')
+                %td= @user.email
+              %tr
+                %th
+                  %span= t('workarea.storefront.users.name')
+                %td #{@user.first_name} #{@user.last_name}
+              %tr
+                %th
+                  %span= t('workarea.storefront.users.password')
+                %td ********
+              = append_partials('storefront.show_account_details', user: @user)
+
+      .box
+        .box__header
+          .box__action= link_to t('workarea.storefront.users.order_history'), users_orders_path, class: 'button'
+          %h2.box__heading= t('workarea.storefront.users.recent_orders')
+        .box__body
+          - unless @user.recent_orders.any?
+            = t('workarea.storefront.users.no_orders')
+          - else
+            - @user.recent_orders.each do |order|
+              = render 'workarea/storefront/users/orders/summary', order: order
+
+      = append_partials('storefront.account_section_left', user: @user)
+    .grid__cell.grid__cell--50-at-medium
+      .box
+        .box__header
+          .box__action= link_to t('workarea.storefront.users.add_credit_card'), new_users_credit_card_path, class: 'button', data: { dialog_button: '' }
+          %h2.box__heading= t('workarea.storefront.users.credit_cards')
+
+        .box__body
+          - unless @user.has_credit_card?
+            = t('workarea.storefront.users.no_saved_credit_cards')
+          - else
+            .grid.grid--large
+              - @user.credit_cards.each do |credit_card|
+                .grid__cell.grid__cell--50-at-medium
+                  .data-card
+                    .data-card__cell
+                      %p.data-card__line.data-card__credit-card{ class: (credit_card.default?) ? 'data-card__credit-card--default' : nil }
+                        = credit_card_issuer_icon(card_icon_name(credit_card.issuer))
+                        %span.data-card__credit-card-number
+                          = t('workarea.storefront.credit_cards.summary', issuer: nil, number: credit_card.display_number.slice(-4..-1))
+                      %p.data-card__line
+                        %strong= t('workarea.storefront.credit_cards.expires')
+                        %span
+                          = t('workarea.storefront.credit_cards.expiry', month: credit_card.month, year: credit_card.year)
+                          - if credit_card.expired?
+                            %strong= t('workarea.storefront.credit_cards.expired')
+                      %p.data-card__line
+                        %strong= t('workarea.storefront.credit_cards.name_on_card')
+                        %span #{credit_card.first_name} #{credit_card.last_name}
+                    .data-card__cell
+                      .grid.grid--auto
+                        .grid__cell= link_to t('workarea.storefront.forms.edit'), edit_users_credit_card_path(credit_card), class: 'button button--small', data: { dialog_button: '' }
+                        = form_tag users_credit_card_path(credit_card), method: 'delete', class: 'grid__cell' do
+                          = button_tag t('workarea.storefront.forms.delete'), class: 'button button--small'
+
+      .box
+        .box__header
+          .box__action= link_to t('workarea.storefront.users.add_address'), new_users_address_path, class: 'button', data: { dialog_button: '' }
+          %h2.box__heading= t('workarea.storefront.users.addresses')
+        .box__body
+          - unless @user.has_default_addresses?
+            = t('workarea.storefront.users.no_saved_addresses')
+          - else
+            .grid.grid--large
+              - @user.addresses.each do |address|
+                .grid__cell.grid__cell--50-at-medium
+                  .data-card
+                    .data-card__cell
+                      %p.data-card__line= formatted_address(address)
+
+                    .data-card__cell
+                      .grid.grid--auto
+                        .grid__cell= link_to t('workarea.storefront.forms.edit'), edit_users_address_path(address), class: 'button button--small', data: { dialog_button: '' }
+                        = form_tag users_address_path(address), method: 'delete', class: 'grid__cell' do
+                          = button_tag t('workarea.storefront.forms.delete'), class: 'button button--small'
+
+      = append_partials('storefront.account_section_right', user: @user)
+
+    = append_partials('storefront.account_grid_cell', user: @user)
+
+  = append_partials('storefront.account_section', user: @user)
+
+  - if @recommendations.any?
+    .recommendations
+      %h2.recommendations__heading= t('workarea.storefront.users.recommendations')
+      .recommendations__products
+        .grid
+          - @recommendations.each do |product|
+            .grid__cell.grid__cell--50.grid__cell--33-at-medium.grid__cell--16-at-wide
+              .product-summary.product-summary--small{ itemscope: true, itemtype: 'http://schema.org/Product' }
+                = render 'workarea/storefront/products/summary', product: product

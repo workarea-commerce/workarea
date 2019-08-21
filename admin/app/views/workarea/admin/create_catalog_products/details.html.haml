@@ -1,0 +1,90 @@
+- @page_title = t('workarea.admin.create_catalog_products.details.page_title', product_name: @product.name)
+
+.view
+  .view__header
+    .grid.grid--right
+      .grid__cell.grid__cell--50
+        .view__heading
+          %h1.heading.heading--no-margin= t('workarea.admin.create_catalog_products.details.add_details', product_name: @product.name)
+          %p= link_to t('workarea.admin.create_catalog_products.details.or_skip_this'), content_create_catalog_product_path(@product)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@product, html_options: { target: @product.id })
+
+  .view__container.view__container--narrow
+    = form_tag save_details_create_catalog_product_path(@product), method: 'post' do
+      .grid.grid--huge
+        .grid__cell.grid__cell--50-at-medium
+          .section
+            %h2= t('workarea.admin.create_catalog_products.details.filters')
+
+            %table
+              %tbody
+                - @filters.each do |name, value|
+                  %tr
+                    %td
+                      .property
+                        = text_field_tag 'filters[]', name, class: 'text-box text-box--i18n', title: 'New Filter Name', placeholder: 'Name', pattern: Workarea.config.product_filter_input_validation_pattern, id: nil
+                    %td
+                      .property
+                        = text_field_tag 'filters[]', hash_editing_value(value), class: 'text-box text-box--i18n', title: 'New Filter Value', placeholder: 'Value', id: nil
+
+                %tr{ data: { cloneable_row: '' } }
+                  %td
+                    .property
+                      = text_field_tag 'filters[]', nil, class: 'text-box text-box--i18n', title: 'New Filter Name', placeholder: 'Name', pattern: Workarea.config.product_filter_input_validation_pattern, id: nil
+                      %span.property__note= t('workarea.admin.create_catalog_products.details.example_color')
+                  %td
+                    .property
+                      = text_field_tag 'filters[]', nil, class: 'text-box text-box--i18n', title: 'New Filter Value', placeholder: 'Value', id: nil
+                      %span.property__note= t('workarea.admin.create_catalog_products.details.comma_separated_red_green')
+
+        .grid__cell.grid__cell--50-at-medium
+          .section
+            %h2= t('workarea.admin.create_catalog_products.details.details')
+
+            %table
+              %tbody
+                - @product.details.each do |name, value|
+                  %tr
+                    %td
+                      .property
+                        = text_field_tag 'details[]', name, class: 'text-box text-box--i18n', title: 'Name', placeholder: 'Name', id: nil
+                    %td
+                      .property
+                        = text_field_tag 'details[]', hash_editing_value(value), class: 'text-box text-box--i18n', title: 'Value', placeholder: 'Value', id: nil
+                %tr{ data: { cloneable_row: '' } }
+                  %td
+                    .property
+                      = text_field_tag 'details[]', nil, class: 'text-box text-box--i18n', title: 'Name', placeholder: 'Name', id: nil
+                      %span.property__note= t('workarea.admin.create_catalog_products.details.example_manufactured')
+                  %td
+                    .property
+                      = text_field_tag 'details[]', nil, class: 'text-box text-box--i18n', title: 'Value', placeholder: 'Value', id: nil
+                      %span.property__note= t('workarea.admin.create_catalog_products.details.example_usa')
+
+          .workflow-bar
+            .grid.grid--middle
+              .grid__cell.grid__cell--20
+                = link_to t('workarea.admin.create_catalog_products.details.cancel'), catalog_product_path(@product), class: 'workflow-bar__button workflow-bar__button--delete', data: { method: 'delete', confirm: t('workarea.admin.create_catalog_products.are_you_sure_all_work_on_this_product_will_be_lost') }
+
+              .grid__cell.grid__cell--60
+
+                %ol.workflow-bar__steps
+                  %li.workflow-bar__step
+                    1) #{link_to t('workarea.admin.create_catalog_products.steps.setup'), edit_create_catalog_product_path(@product)}
+                  %li.workflow-bar__step
+                    2) #{link_to t('workarea.admin.create_catalog_products.steps.variants'), variants_create_catalog_product_path(@product)}
+                  %li.workflow-bar__step
+                    2) #{link_to t('workarea.admin.create_catalog_products.steps.images'), images_create_catalog_product_path(@product)}
+                  %li.workflow-bar__step
+                    %strong 4) #{t('workarea.admin.create_catalog_products.steps.details')}
+                  %li.workflow-bar__step
+                    5) #{t('workarea.admin.create_catalog_products.steps.content')}
+                  %li.workflow-bar__step
+                    6) #{t('workarea.admin.create_catalog_products.steps.categorization')}
+                  %li.workflow-bar__step
+                    7) #{t('workarea.admin.create_catalog_products.steps.publish')}
+
+              .grid__cell.grid__cell--20
+                .grid.grid--auto.grid--right.grid--middle
+                  = button_tag t('workarea.admin.create_catalog_products.details.save_details_and_continue'), value: 'save_details', class: 'workflow-bar__button workflow-bar__button--create'

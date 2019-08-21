@@ -1,0 +1,28 @@
+#search-form.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'search_form')
+
+  %p Provides a search form UI.
+
+  %p should appear full-width, icon on the left:
+  .style-guide__example-block
+    .search-form
+      = text_field_tag :q, params[:q], class: 'search-form__input', id: 'style-guide-search-form', title: 'Title', placeholder: 'Placeholder'
+      = submit_tag 'search', class: 'search-form__button', id: nil
+
+  %p should support <code>form</code> tags by removing bottom margin:
+  .style-guide__example-block
+    %form.search-form
+      = text_field_tag :q, params[:q], class: 'search-form__input', id: 'style-guide-search-form_form-element', title: 'Title', placeholder: 'Placeholder'
+      = submit_tag 'search', class: 'search-form__button', id: nil
+
+
+#search-form--major.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'search_form__major')
+
+  %p should increase the visual weight of the form, adding a bottom margin.
+  .style-guide__example-block
+    %form.search-form.search-form--major
+      = text_field_tag :q, params[:q], class: 'search-form__input', id: 'style-guide-search-form-major', title: 'Title', placeholder: 'Placeholder'
+      = submit_tag 'search', class: 'search-form__button', id: nil

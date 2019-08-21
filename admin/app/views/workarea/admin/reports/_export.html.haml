@@ -1,0 +1,12 @@
+= form_tag export_report_path, method: 'post', id: 'export-results', class: 'tooltip-content align-center' do
+  = hidden_field_tag 'export[report_type]', @report.slug
+  - params.except(:controller, :action).each do |key, value|
+    = hidden_field_tag "export[report_params][#{key}]", value
+
+  %h2= t('workarea.admin.reports.export.where_will_the_file_go')
+
+  .property
+    = email_field_tag 'export[emails_list]', params.fetch(:export, {})[:emails_list] || current_user.email, class: 'text-box text-box--wide', required: true, placeholder: t('workarea.admin.reports.export.enter_email'), multiple: true
+    %span.property__note
+      = t('workarea.admin.reports.export.emails_note')
+  = button_tag t('workarea.admin.reports.export.start_export'), value: 'create_export', class: 'button button--inline'

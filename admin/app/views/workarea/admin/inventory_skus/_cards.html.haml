@@ -1,0 +1,42 @@
+.grid.grid--auto.grid--flush.grid--center
+  .grid__cell
+    .card{ class: card_classes(:attributes, local_assigns[:active]) }
+      = link_to edit_inventory_sku_path(model), class: 'card__header' do
+        %span.card__header-text= t('workarea.admin.cards.attributes.title')
+        = inline_svg 'workarea/admin/icons/attributes.svg', class: 'card__icon'
+
+      - if local_assigns[:active].blank?
+        .card__body
+          %ul.list-reset
+            %li
+              %strong= t('workarea.admin.fields.policy')
+              = model.policy.titleize.presence
+            %li
+              %strong= t('workarea.admin.fields.available')
+              = model.available
+            %li
+              %strong= t('workarea.admin.fields.backordered')
+              = model.backordered
+            - if model.backordered_until.present?
+              %li
+                %strong= t('workarea.admin.fields.backordered_until')
+                = model.backordered_until.to_s(:date_only)
+            %li
+              %strong= t('workarea.admin.fields.purchased')
+              = model.purchased
+            %li
+              %strong= t('workarea.admin.fields.reserve')
+              = model.reserve
+            %li
+              %strong= t('workarea.admin.fields.updated_at')
+              #{local_time_ago(model.updated_at)}
+            %li
+              %strong= t('workarea.admin.fields.created_at')
+              #{local_time_ago(model.created_at)}
+          = link_to edit_inventory_sku_path(model), class: 'card__button' do
+            %span.button.button--small= t('workarea.admin.cards.attributes.button')
+
+  = append_partials('admin.inventory_sku_cards', model: model, active: local_assigns[:active])
+
+  .grid__cell
+    = render 'workarea/admin/timeline/card', timeline: model.timeline, active: local_assigns[:active]

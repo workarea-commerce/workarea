@@ -1,0 +1,31 @@
+- @page_title = t('workarea.admin.bulk_action_deletions.edit.title', type: @bulk_action.resource_name.pluralize)
+
+= form_tag confirm_bulk_action_deletion_path(@bulk_action), method: 'delete', data: { disable_delete_confirmation: '' } do
+  = hidden_field_tag :return_to, return_to
+
+  .view
+    .view__header
+      .view__heading
+        %h1= t('workarea.admin.bulk_action_deletions.edit.title', type: @bulk_action.resource_name.pluralize)
+
+    .section
+      .bulk-actions
+        .grid.grid--middle.grid--center
+          .grid__cell
+            .align-center
+              %h3.heading.heading--3= t('workarea.admin.bulk_action_deletions.edit.confirmation', count: pluralize(@bulk_action.count, @bulk_action.resource_name))
+              %p= link_to t('workarea.admin.bulk_action_deletions.edit.view_link', type: @bulk_action.resource_name.pluralize), selected_bulk_action_path(@bulk_action)
+
+          .grid__cell
+            .grid.grid--auto.grid--flush.grid--center
+              - @results.each do |model|
+                .grid__cell= render_summary_for(model)
+
+    .workflow-bar
+      .grid.grid--middle
+        .grid__cell.grid__cell--50
+          = link_to t('workarea.admin.form.cancel'), bulk_action_path(@bulk_action, return_to: return_to), class: 'workflow-bar__button workflow-bar__button--delete', data: { method: 'delete' }
+
+        .grid__cell.grid__cell--50
+          .grid.grid--auto.grid--right.grid--middle
+            .grid__cell= button_tag t('workarea.admin.bulk_action_deletions.edit.confirm'), value: 'confirm_bulk_delete', class: 'workflow-bar__button workflow-bar__button--confirm-delete'

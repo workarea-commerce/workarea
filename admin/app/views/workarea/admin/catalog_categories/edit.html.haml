@@ -1,0 +1,85 @@
+- @page_title = t('workarea.admin.catalog_categories.edit.page_title', category: @category.name)
+
+.view
+  .view__header
+    .grid
+      .grid__cell.grid__cell--25
+        = render 'workarea/admin/releases/select'
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@category)
+          %h1= link_to @category.name, url_for(@category)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@category)
+
+  .view__container
+    = render_cards_for(@category, :attributes)
+
+  .view__container.view__container--narrow
+    - if @category.errors.present?
+      - @category.errors.full_messages.each do |message|
+        = render_message 'error', message
+
+    = form_tag catalog_category_path(@category), method: :patch, id: 'category_form', data: { unsaved_changes: '' } do
+
+      .section
+
+        .property.property--required
+          = label_tag 'category_name', t('workarea.admin.fields.name'), class: 'property__name'
+          = text_field_tag 'category[name]', @category.name, class: 'text-box text-box--i18n', required: true
+
+        .property
+          %span.property__name
+            = t('workarea.admin.fields.active')
+            = inline_svg('workarea/admin/i18n.svg', class: 'svg-icon svg-icon--small') if locale_options.many? && Workarea.config.localized_active_fields
+          = toggle_button_for 'category[active]', @category.active?
+
+        .property
+          = label_tag 'category[slug]', nil, class: 'property__name' do
+            %span.property__text= t('workarea.admin.fields.slug')
+          %span= storefront.category_url('')
+          = text_field_tag 'category[slug]', @category.slug, class: 'text-box text-box--medium', placeholder: @category.slug || t('workarea.admin.catalog_categories.edit.slug_placeholder'), disabled: current_release.present?
+          = render 'workarea/admin/shared/release_slug_tooltip'
+        .property
+          = label_tag 'category_tag_list', t('workarea.admin.fields.tags'), class: 'property__name'
+          = text_field_tag 'category[tag_list]', @category.tag_list, class: 'text-box'
+          %span.property__note= t('workarea.admin.catalog_categories.edit.tags_note')
+
+        .property
+          = label_tag 'category[client_id]', t('workarea.admin.fields.client_id'), class: 'property__name'
+          = text_field_tag 'category[client_id]', @category.client_id, class: 'text-box'
+          %span.property__note= t('workarea.admin.catalog_categories.edit.client_id_note')
+
+        .grid
+          .grid__cell.grid__cell--50
+            .property
+              %span.property__name= t('workarea.admin.fields.show_navigation')
+              = toggle_button_for 'category[show_navigation]', @category.show_navigation?, title_true: t('workarea.admin.catalog_categories.edit.show_navigation_true'), title_false: t('workarea.admin.catalog_categories.edit.show_navigation_false')
+
+          .grid__cell.grid__cell--50
+            .property
+              = label_tag 'category_default_sort', t('workarea.admin.fields.default_sort'), class: 'property__name'
+              = select_tag 'category[default_sort]', options_for_select(@category.sort_options, selected: @category.default_sort)
+
+        .property
+          = label_tag 'category_terms_facets_list', t('workarea.admin.fields.terms_facets_list'), class: 'property__name'
+          = text_field_tag 'category[terms_facets_list]', @category.terms_facets_list, class: 'text-box'
+          %span.property__note
+            = t('workarea.admin.catalog_categories.edit.filters_note_html', search_settings_link: link_to(t('workarea.admin.catalog_categories.edit.search_settings'), search_settings_path(anchor: 'filters-tab-panel')))
+
+        = render 'workarea/admin/facets/price_inputs', facet: @category.price_facet
+
+        .grid.grid--huge
+          .grid__cell.grid__cell--50.grid__cell--25-at-medium
+            .property
+              = label_tag 'category_updated_at', t('workarea.admin.fields.updated_at'), class: 'property__name'
+              = local_time(@category.updated_at)
+          .grid__cell.grid__cell--50.grid__cell--25-at-medium
+            .property
+              = label_tag 'category_created_at', t('workarea.admin.fields.created_at'), class: 'property__name'
+              = local_time(@category.created_at)
+
+      .workflow-bar
+        .grid.grid--auto.grid--right.grid--middle
+          .grid__cell= render 'workarea/admin/shared/publishing_select'
+          .grid__cell= button_tag t('workarea.admin.form.save_changes'), value: 'save_category', class: 'workflow-bar__button workflow-bar__button--update'

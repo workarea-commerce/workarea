@@ -1,0 +1,23 @@
+#text.style-guide__subsection
+
+  %h3= link_to_style_guide('typography', 'text')
+
+  %p Provides a set of modifiers to be used on body text.
+
+  %p should provide a bottom margin for <code>p</code>, <code>blockquote</code>, and <code>pre</code> tags:
+  .style-guide__example-block
+    %p I'm a Paragraph
+    %blockquote I'm a Blockquote
+    %pre I'm a Pre
+
+  %p <code>.text</code> should reset text to default, adding <code>letter-spacing</code>:
+  .style-guide__example-block
+    %p.text Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis provident veritatis nam qui fugit incidunt omnis voluptatum officiis, eligendi pariatur nisi deleniti facere quae alias velit illo doloribus, quibusdam aspernatur.
+
+  %p .text--small modifier
+  .style-guide__example-block
+    %p.text.text--small Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis provident veritatis nam qui fugit incidunt omnis voluptatum officiis, eligendi pariatur nisi deleniti facere quae alias velit illo doloribus, quibusdam aspernatur.
+
+  %p .text--large modifier
+  .style-guide__example-block
+    %p.text.text--large Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis provident veritatis nam qui fugit incidunt omnis voluptatum officiis, eligendi pariatur nisi deleniti facere quae alias velit illo doloribus, quibusdam aspernatur.

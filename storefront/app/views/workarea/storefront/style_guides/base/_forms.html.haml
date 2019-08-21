@@ -1,0 +1,82 @@
+#forms-base.style-guide__subsection
+
+  %h3= link_to_style_guide('base', 'forms_base')
+
+  %p Global form & form control styling.
+
+  %p should apply a bottom margin to containment elements:
+  .style-guide__example-block
+    %fieldset Fieldset Element
+  .style-guide__example-block
+    %legend Legend Element
+
+  %p should display a larger font for elements:
+  .style-guide__example-block
+    %p Regular font-size
+    %select
+      %option Larger Font Size
+    %input{ value: 'Larger Font Size' }
+    %textarea Larger Font Size
+
+  %p should not allow selects to exceed the width of their container (100px in this example):
+  .style-guide__example-block
+    %div{ style: 'width: 100px;' }
+      %select
+        %option Supercalifragilisticexpialidocious
+
+  %p should align a label to the with the text of a textarea:
+  .style-guide__example-block
+    %label Label
+    %textarea Textarea
+
+  %p should style readonly form controls:
+  .style-guide__example-block
+    %input{ readonly: true, value: 'Readonly Input' }
+  .style-guide__example-block
+    %textarea{ readonly: true } Readonly Textarea
+
+  %p should style disabled form controls:
+  .style-guide__example-block
+    %button{ disabled: true } Disabled Button
+  .style-guide__example-block
+    %input{ disabled: true, value: 'Disabled Input' }
+  .style-guide__example-block
+    %textarea{ disabled: true } Disabled Textarea
+  .style-guide__example-block
+    %select{ disabled: true }
+      %option Disabled Select
+      %option Disabled Select
+      %option Disabled Select
+
+  %p should style form controls within a disabled fieldset:
+  .style-guide__example-block
+    %fieldset{ disabled: true }
+      %button Disabled Button
+      %input{ value: 'Disabled Input' }
+      %textarea Disabled Textarea
+      %select
+        %option Disabled Option
+
+  %p should support disabled select options:
+  .style-guide__example-block
+    %select
+      %optgroup
+        %option Select Optgroup Option
+      %optgroup{ disabled: true }
+        %option Disabled Select Optgroup Option
+  .style-guide__example-block
+    %select
+      %option Select Option
+      %option{ disabled: true } Disabled Select Option
+      %option Select Option
+
+  %p should set the color of placeholder text:
+  .style-guide__example-block
+    %input{ placeholder: 'Placeholder Text' }
+  .style-guide__example-block
+    %textarea{ placeholder: 'Placeholder Text' }
+
+  %p should properly outline radio buttons:
+  .style-guide__example-block
+    = radio_button('foo', 'bar', 'true', checked: true)
+    = radio_button('foo', 'bar', 'false')

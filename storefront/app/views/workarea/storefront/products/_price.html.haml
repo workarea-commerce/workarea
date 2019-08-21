@@ -1,0 +1,4 @@
+- if price.present?
+  %meta{ itemprop: 'priceCurrency', content: price.currency }
+  %meta{ itemprop: 'price', content: price.to_f }
+  = number_to_currency price

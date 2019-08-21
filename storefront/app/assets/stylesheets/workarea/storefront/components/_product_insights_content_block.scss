@@ -1,0 +1,10 @@
+/*------------------------------------*\
+    #PRODUCT-INSIGHTS-CONTENT-BLOCK
+\*------------------------------------*/
+
+.product-insights-content-block {}
+
+    .product-insights-content-block__heading {
+        @extend %heading;
+        @extend %heading--2;
+    }

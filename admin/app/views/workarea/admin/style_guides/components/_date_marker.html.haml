@@ -1,0 +1,18 @@
+#date_marker.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'date_marker')
+
+  %p A Date Icon showing Day and Month
+
+  .style-guide__example-block
+    .date-marker
+      .date-marker__month= local_time(Date.today, format: '%b')
+      .date-marker__day= local_time(Date.today, format: '%e')
+
+  %p Optionally add an annotation to the date
+
+  .style-guide__example-block
+    .date-marker
+      .date-marker__annotation Today
+      .date-marker__month= local_time(Date.today, format: '%b')
+      .date-marker__day= local_time(Date.today, format: '%e')

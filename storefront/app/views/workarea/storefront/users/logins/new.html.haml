@@ -1,0 +1,51 @@
+- @title = t('workarea.storefront.users.login_or_create_an_account')
+
+.view
+
+  .login
+
+    %h1.visually-hidden= t('workarea.storefront.users.login_or_create_an_account')
+
+    .grid
+
+      .grid__cell.grid__cell--50-at-medium
+        %h2= t('workarea.storefront.users.login')
+        = form_tag login_path, id: 'login_form', method: 'post', data: { analytics: login_analytics_data.to_json }, class: 'login__form' do
+          = hidden_field_tag :return_to, params[:return_to], id: nil
+          .property
+            = label_tag 'log_in_email', nil, class: 'property__name' do
+              %span.property__text= t('workarea.storefront.users.email')
+            .value= email_field_tag :email, params[:email], id: 'log_in_email', class: 'text-box', required: true, placeholder: t('workarea.storefront.forms.email_placeholder')
+          .property
+            = label_tag 'log_in_password', nil, class: 'property__name' do
+              %span.property__text= t('workarea.storefront.users.password')
+            .value= password_field_tag :password, nil, id: 'log_in_password', class: 'text-box', required: true, autocomplete: 'off'
+          .grid.grid--auto
+            %p.grid__cell= button_tag t('workarea.storefront.users.login'), value: 'login', class: 'button'
+            %p.grid__cell= link_to t('workarea.storefront.users.forgot_password'), forgot_password_path, class: 'text-button'
+
+      .grid__cell.grid__cell--50-at-medium
+        %h2= t('workarea.storefront.users.create_account')
+        = form_tag users_account_path, id: 'signup_form', method: :post, data: { analytics: signup_analytics_data.to_json }, class: 'login__form' do
+          = hidden_field_tag :return_to, params[:return_to], id: nil
+          .property
+            = label_tag 'create_account_email', nil, class: 'property__name' do
+              %span.property__text= t('workarea.storefront.users.email')
+            .value
+              = email_field_tag :email, params[:email], id: 'create_account_email', class: 'text-box', required: true, placeholder: t('workarea.storefront.forms.email_placeholder')
+              - if @user.errors[:email].any?
+                %span.value__error= @user.errors[:email].first
+          .property
+            = label_tag 'create_account_password', nil, class: 'property__name' do
+              %span.property__text= t('workarea.storefront.users.password')
+            .value
+              = password_field_tag :password, nil, id: 'create_account_password', class: 'text-box', required: true, minlength: minimum_password_length, autocomplete: 'off'
+              - if @user.errors[:password].present?
+                %span.value__error= @user.errors[:password].first
+          .button-property
+            .value= check_box_tag :email_signup, true, params[:email_signup]
+            = label_tag :email_signup, nil, class: 'button-property__name' do
+              %span.button-property__text= t('workarea.storefront.users.sign_up_for_email')
+          = button_tag t('workarea.storefront.users.create_account'), value: 'create_account', class: 'button', data: { disable_with: loading_indicator(t('workarea.storefront.users.create_account_disabled_text')) }
+
+    = append_partials('storefront.new_login', user: @user)

@@ -1,0 +1,60 @@
+- @page_title = t('workarea.admin.create_catalog_products.images.page_title', product_name: @product.name)
+
+.view
+  .view__header
+    .grid.grid--right
+      .grid__cell.grid__cell--50
+        .view__heading
+          %h1.heading.heading--no-margin= t('workarea.admin.create_catalog_products.images.add_images', product_name: @product.name)
+          %p= link_to t('workarea.admin.create_catalog_products.images.or_skip_this'), details_create_catalog_product_path(@product)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@product, html_options: { target: @product.id })
+
+  .view__container
+    = form_tag save_images_create_catalog_product_path(@product), method: 'post', multipart: true do
+      .grid.grid--center
+        .grid__cell.grid__cell--50-at-medium
+          %table
+            %thead
+              %tr
+                %th
+                %th= t('workarea.admin.create_catalog_products.images.image')
+                %th= t('workarea.admin.create_catalog_products.images.option')
+            %tbody
+              - @product.images.each do |image|
+                %tr
+                  %td= image_tag product_image_url(image, :small)
+                  %td= file_field_tag "updates[#{image.id}][image]", class: 'text-box'
+                  %td= text_field_tag "updates[#{image.id}][option]", image.option, placeholder: 'Blue', class: 'text-box text-box--small text-box--i18n'
+
+              %tr{ data: { cloneable_row: '' } }
+                %td
+                %td= file_field_tag 'images[][image]', class: 'text-box'
+                %td= text_field_tag 'images[][option]', nil, placeholder: 'Blue', class: 'text-box text-box--small text-box--i18n'
+
+      .workflow-bar
+        .grid.grid--middle
+          .grid__cell.grid__cell--20
+            = link_to t('workarea.admin.create_catalog_products.images.cancel'), catalog_product_path(@product), class: 'workflow-bar__button workflow-bar__button--delete', data: { method: 'delete', confirm: t('workarea.admin.create_catalog_products.are_you_sure_all_work_on_this_product_will_be_lost') }
+
+          .grid__cell.grid__cell--60
+
+            %ol.workflow-bar__steps
+              %li.workflow-bar__step
+                1) #{link_to t('workarea.admin.create_catalog_products.steps.setup'), edit_create_catalog_product_path(@product)}
+              %li.workflow-bar__step
+                2) #{link_to t('workarea.admin.create_catalog_products.steps.variants'), variants_create_catalog_product_path(@product)}
+              %li.workflow-bar__step
+                %strong 3) #{t('workarea.admin.create_catalog_products.steps.images')}
+              %li.workflow-bar__step
+                4) #{t('workarea.admin.create_catalog_products.steps.details')}
+              %li.workflow-bar__step
+                5) #{t('workarea.admin.create_catalog_products.steps.content')}
+              %li.workflow-bar__step
+                6) #{t('workarea.admin.create_catalog_products.steps.categorization')}
+              %li.workflow-bar__step
+                7) #{t('workarea.admin.create_catalog_products.steps.publish')}
+
+          .grid__cell.grid__cell--20
+            .grid.grid--auto.grid--right.grid--middle
+              .grid__cell= button_tag t('workarea.admin.create_catalog_products.images.save_images_and_continue'), value: 'save_images', class: 'workflow-bar__button workflow-bar__button--create'

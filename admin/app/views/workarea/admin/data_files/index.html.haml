@@ -1,0 +1,68 @@
+- @page_title = t('workarea.admin.data_files.index.page_title')
+
+.view
+  .view__header
+    .view__heading
+      = link_to "↑ #{t('workarea.admin.data_files.index.dashboard_link')}", settings_dashboards_path, class: 'view__dashboard-button'
+      %h1= t('workarea.admin.data_files.index.title')
+
+      %p
+        = t('workarea.admin.data_files.index.info', duration: @data_files.ttl_in_words)
+
+  .view__container
+
+    .browsing-controls.browsing-controls--with-divider.browsing-controls--center
+      %p.browsing-controls__count
+        - if @data_files.imports?
+          = t('workarea.admin.data_files.index.showing', count: pluralize(@data_files.results.total, t('workarea.admin.data_files.index.import')))
+          = link_to t('workarea.admin.data_files.index.view_exports'), data_files_path(type: 'Workarea::DataFile::Export')
+        - else
+          = t('workarea.admin.data_files.index.showing', count: pluralize(@data_files.results.total, t('workarea.admin.data_files.index.export')))
+          = link_to t('workarea.admin.data_files.index.view_imports'), data_files_path(type: 'Workarea::DataFile::Import')
+
+    - if @data_files.results.any?
+      %table.index-table
+        %thead
+          %tr
+            %th= t('workarea.admin.fields.type')
+            %th= t('workarea.admin.fields.file')
+            - if @data_files.imports?
+              %th= t('workarea.admin.fields.errors')
+            %th= t('workarea.admin.fields.created_by')
+            %th.align-right= t('workarea.admin.fields.created_at')
+            %th.align-right= t('workarea.admin.fields.started_at')
+            %th= t('workarea.admin.fields.completed_at')
+        %tbody
+          - @data_files.results.each do |data_file|
+            %tr
+              %td= link_to data_file.name, index_url_for(data_file.model_class) rescue data_file.name
+              %td
+                - if data_file.file.present?
+                  = link_to data_file.file_name, data_file.file.url, target: '_blank'
+                - else
+                  \-
+              - if @data_files.imports?
+                %td
+                  - if data_file.error_count.positive?
+                    = link_to data_file.error_count, errors_data_file_path(data_file.to_gid_param)
+                  - else
+                    = data_file.error_count
+              %td
+                - if data_file.created_by.present?
+                  = link_to data_file.created_by.name, user_path(data_file.created_by)
+                - else
+                  \-
+              %td.align-right= local_time_ago(data_file.created_at)
+              %td.align-right
+                - if data_file.started_at.present?
+                  = local_time_ago(data_file.started_at)
+                - else
+                  \-
+              %td
+                - if data_file.complete?
+                  = local_time_ago(data_file.completed_at)
+                - else
+                  \-
+
+      - if @data_files.results.total_pages > 1
+        = render 'workarea/admin/shared/pagination', collection: @data_files.results

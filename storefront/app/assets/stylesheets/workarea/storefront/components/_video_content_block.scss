@@ -1,0 +1,21 @@
+/*------------------------------------*\
+    #VIDEO-CONTENT-BLOCK
+\*------------------------------------*/
+
+.video-content-block {}
+
+    /**
+     * 1. height & padding applied via style attribute
+     * 2. element selector required to support pasted embed code
+     */
+    .video-content-block__responsive-frame { /* [1] */
+        position: relative;
+
+        iframe { /* [2] */
+            position: absolute;
+            top:  0;
+            left: 0;
+            width:  100%;
+            height: 100%;
+        }
+    }

@@ -1,0 +1,160 @@
+/*------------------------------------*\
+    #PRODUCT-LIST
+\*------------------------------------*/
+
+$product-list-media-ratio:  2 / 3 !default;
+
+
+.product-list {
+    @extend %list-reset;
+    margin-bottom: $vertical-margin;
+
+    @include respond-to ($medium-breakpoint) {
+        display: table;
+        width: 100%;
+        border-spacing:  0;
+        border-collapse: collapse;
+    }
+}
+
+.product-list--narrow {
+    @include respond-to ($medium-breakpoint) {
+        display: block;
+        width: auto;
+    }
+}
+
+    .product-list__item {
+        @extend %clearfix;
+        padding: 0 0 ($spacing-unit * 2);
+
+        @include respond-to ($medium-breakpoint) {
+            display: table-row;
+        }
+
+        .product-list--narrow & {
+            @include respond-to ($medium-breakpoint) {
+                display: block;
+                width: auto;
+            }
+        }
+    }
+
+        /**
+         * 1. this block is designed to have two cells, maximum
+         */
+
+        .product-list__item-cell {
+            padding: ($spacing-unit * 2) 0;
+
+            @include respond-to ($medium-breakpoint) {
+                display: table-cell;
+                vertical-align: top;
+            }
+
+            .product-list--narrow & {
+                @include respond-to ($medium-breakpoint) {
+                    display: block;
+                    vertical-align: baseline;
+                }
+            }
+
+            & + & { /* [1] */
+                @include respond-to ($medium-breakpoint) {
+                    padding-left: ($spacing-unit * 2);
+                }
+
+                .product-list--narrow & {
+                    @include respond-to ($medium-breakpoint) {
+                        padding-left: 0;
+                    }
+                }
+
+                /**
+                 * Extend `.table {}` in _table.scss.
+                 */
+
+                .table {
+                    margin: 0;
+                }
+            }
+
+            /**
+             * Extend `.property {}` in _property.scss.
+             */
+
+            .property {
+                margin: $vertical-margin 0 0;
+            }
+        }
+
+            .product-list__summary {
+                display: table;
+                width: 100%;
+                border-spacing:  0;
+                border-collapse: collapse;
+            }
+
+                .product-list__media {
+                    display: table-cell;
+                    padding: 0 $spacing-unit 0 0;
+                    width: 60px;
+                    max-width: 60px;
+                    vertical-align: top;
+                }
+
+                    .product-list__media-link {
+                        display: block;
+                        padding: 0 0 ((1 / $product-list-media-ratio) * 100%);
+                        height: 0;
+                    }
+
+                        .product-list__media-image {
+                            display: block;
+                        }
+
+                .product-list__info {
+                    display: table-cell;
+                    text-align: left;
+                    vertical-align: top;
+                }
+
+                    .product-list__name {
+                        margin: ($spacing-unit / 2) 0 0;
+                    }
+
+                    .product-list__id {
+                        margin: ($spacing-unit / 2) 0 0;
+                    }
+
+                    .product-list__price-group {
+                        margin: ($spacing-unit / 2) 0 0;
+                    }
+
+                        .product-list__price {
+                            display: inline-block;
+                            margin: 0 ($spacing-unit / 2) 0 0;
+                            white-space: nowrap;
+                        }
+
+                    .product-list__option-group {
+                        margin: ($spacing-unit / 2) 0 0;
+                    }
+
+                        .product-list__option {
+                            display: inline-block;
+                            margin: 0 ($spacing-unit / 2) 0 0;
+                            white-space: nowrap;
+                        }
+
+                    .product-list__customization {
+                        margin: ($spacing-unit / 2) 0 0;
+                    }
+
+                    .product-list__quantity {
+                        margin: ($spacing-unit / 2) 0 0;
+                    }
+
+                    .product-list__inventory-status {
+                        margin: ($spacing-unit / 2) 0 0;
+                    }

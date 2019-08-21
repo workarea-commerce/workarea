@@ -1,0 +1,184 @@
+- @title = t('workarea.storefront.checkouts.payment_title')
+- @checkout_step = 'payment'
+
+- content_for :page_aside do
+  %h1.visually-hidden= t('workarea.storefront.checkouts.payment_title')
+  = render 'summary', cart: @cart, summary: @summary
+
+.checkout-payment.view{ data: { analytics: checkout_payment_view_analytics_data(@cart).to_json } }
+  = append_partials('storefront.checkout_payment_top', step: @step)
+
+  - unless request.get?
+    - if @step.payment.errors.any?
+      - @step.payment.errors.full_messages.each do |message|
+        = render_message 'error', message, data: { analytics: validation_error_analytics_data('payment').to_json }
+    - if @step.credit_card? && @step.credit_card.errors.any?
+      - @step.credit_card.errors.full_messages.each do |message|
+        = render_message 'error', message, data: { analytics: validation_error_analytics_data('credit_card').to_json }
+    = append_partials('storefront.payment_error', step: @step)
+
+  .checkout-payment__section
+
+    .checkout-payment__secondary.checkout-payment__secondary--promo-code
+
+      = optional_field(t('workarea.storefront.carts.enter_promo_code_prompt'), params[:promo_code]) do
+        .checkout-payment__secondary-method
+          %h2= t('workarea.storefront.orders.promo_code')
+          = form_tag add_promo_code_to_cart_path, id: 'promo_code_form', class: 'inline-form', method: 'post' do
+            .inline-form__cell
+              .value
+                = text_field_tag :promo_code, params[:promo_code], class: 'text-box', autocomplete: 'off', autocorrect: 'off', autocapitalize: 'off', required: true, placeholder: t('workarea.storefront.orders.promo_code'), title: t('workarea.storefront.orders.promo_code'), aria: { label: t('workarea.storefront.orders.promo_code') }
+
+            .inline-form__cell
+              %p= button_tag t('workarea.storefront.carts.add'), value: 'add_promo_code', class: 'button'
+
+      = append_partials('storefront.secondary_payment', step: @step)
+
+  .checkout-payment__section
+    .checkout-payment__primary{ data: { checkout_primary_payment: '' } }
+
+      %h2#aria_payment_radiogroup= t('workarea.storefront.checkouts.payment_method')
+
+      - if @step.store_credit?
+        = render_message 'success' do
+          = t('workarea.storefront.checkouts.store_credit_applied', amount: number_to_currency(@step.store_credit_amount))
+          - if @step.order_covered_by_store_credit?
+            = t('workarea.storefront.checkouts.store_credit_balance', amount: number_to_currency(@step.store_credit_balance))
+
+      = form_tag checkout_place_order_path, method: :patch, id: 'checkout_form', data: { single_submit_form: '' } do
+        - unless @step.order_covered_by_advance_payments?
+          .checkout-payment__primary-method-group
+
+            -# Saved Cards
+            - if @step.credit_cards.present?
+              %div{ role: 'radiogroup', aria: { labelledby: 'aria_payment_radiogroup' } }
+                - @step.credit_cards.each do |card|
+                  .checkout-payment__primary-method.checkout-payment__primary-method--credit_card{ class: card.selected? ? 'checkout-payment__primary-method--selected': nil }
+                    .button-property
+                      .value= radio_button_tag 'payment', card.id, card.selected?, data: { analytics: checkout_payment_selected_analytics_data('saved card').to_json }
+                      = label_tag "payment[#{card.id}]", nil, class: 'button-property__name' do
+                        %span.button-property__text= t('workarea.storefront.credit_cards.summary', issuer: card.issuer, number: card.display_number.slice(-4, 4))
+                    %p.checkout-payment__primary-method-description
+                      = credit_card_issuer_icon(card_icon_name(card.issuer))
+                      %span= t('workarea.storefront.credit_cards.expires')
+                      %span= t('workarea.storefront.credit_cards.expiry', month: card.month, year: card.year)
+
+            -# New Card
+            .checkout-payment__primary-method.checkout-payment__primary-method--credit_card.checkout-payment__primary-method--new{ class: @step.using_new_card? ? 'checkout-payment__primary-method--selected': nil}
+              .button-property
+                .value{ role: 'radiogroup', aria: { labelledby: 'aria_payment_radiogroup' } }
+                  = radio_button_tag 'payment', 'new_card', @step.using_new_card?, data: { analytics: checkout_payment_selected_analytics_data('new card').to_json }
+                = label_tag 'payment[new_card]', nil, class: 'button-property__name' do
+                  %span.button-property__text= t('workarea.storefront.checkouts.new_credit_card')
+              %p.checkout-payment__primary-method-description
+                = all_payment_icons
+              .checkout-payment__primary-method-edit
+                .grid.grid--auto
+                  .grid__cell
+                    .property
+                      = label_tag 'credit_card[number]', nil, class: 'property__name' do
+                        %span.property__requirement.property__requirement--required= t('workarea.storefront.forms.required')
+                        %span.property__text= t('workarea.storefront.credit_cards.card_number')
+                      .value
+                        = text_field_tag 'credit_card[number]', nil, class: 'text-box', inputmode: 'numeric', pattern: '[0-9]*', required: true, autocorrect: 'off', autocomplete: 'cc-number'
+                        - if @step.credit_card? && @step.credit_card.errors[:number].present?
+                          %span.value__error= @step.credit_card.errors[:number].first
+                  .grid__cell
+                    .property
+                      %strong.property__name
+                        %span= t('workarea.storefront.credit_cards.expiration_date')
+                      .value
+                        = select_tag 'credit_card[month]', options_for_select(1..12, @step.credit_card.try(:month)), title: t('workarea.storefront.credit_cards.expiration_month'), aria: { label: t('workarea.storefront.credit_cards.expiration_month') }
+                        = select_tag 'credit_card[year]', options_for_select(Time.current.year..Time.current.year + 10, @step.credit_card.try(:year)), title: t('workarea.storefront.credit_cards.expiration_year'), aria: { label: t('workarea.storefront.credit_cards.expiration_year') }
+                        - if @step.credit_card? && @step.credit_card.errors[:year].present?
+                          %span.value__error= @step.credit_card.errors[:year].first
+                  .grid__cell
+                    .property
+                      = label_tag 'credit_card[cvv]', nil, class: 'property__name' do
+                        %span.property__requirement.property__requirement--required
+                          = t('workarea.storefront.forms.required')
+                        %span.property__text
+                          = t('workarea.storefront.credit_cards.security_code')
+                      .value
+                        = text_field_tag 'credit_card[cvv]', nil, class: 'text-box text-box--small', required: true, inputmode: 'numeric', pattern: '[0-9]*', autocorrect: 'off', autocomplete: 'cc-csc'
+                        - if @step.saved_card_id.blank? && @step.credit_card && @step.credit_card.errors[:cvv].present?
+                          %span.value__error= @step.credit_card.errors[:cvv].first
+                        %span.value__note= link_to t('workarea.storefront.credit_cards.whats_this'), page_path('credit-card-security-code'), data: { dialog_button: '' }
+
+            = append_partials('storefront.payment_method', step: @step)
+
+        .checkout-payment__section
+          .checkout-payment__cart-items
+            %h2= t('workarea.storefront.orders.items')
+            %ul.product-list
+              - @cart.items.each do |item|
+                %li.product-list__item
+                  .product-list__item-cell
+                    .product-list__summary
+                      %p.product-list__media= link_to image_tag(product_image_url(item.image, :small_thumb), alt: item.product_name, class: 'product-list__media-image'), product_url(item.product, sku: item.sku), class: 'product-list__media-link'
+                      .product-list__info
+                        %p.product-list__name= link_to item.product_name, product_path(item.product, sku: item.sku)
+                        %p.product-list__id= item.sku_name
+                        %p.product-list__inventory-status= item.inventory_status
+                        - if item.has_options?
+                          .product-list__option-group
+                            - item.details.each do |name, value|
+                              %p.product-list__option #{name.titleize}: #{value}
+                        = append_partials('storefront.checkout_cart_summary_item_details', item: item)
+                  .product-list__item-cell
+                    %table.table
+                      %thead
+                        %tr
+                          %th.table__prices= t('workarea.storefront.orders.price')
+                          %th.table__quantity= t('workarea.storefront.orders.quantity')
+                          %th.table__prices= t('workarea.storefront.orders.total')
+                      %tbody
+                        %tr
+                          %td.table__prices
+                            = render 'workarea/storefront/carts/pricing', item: item, css_block: 'table'
+                          %td.table__quantity
+                            %p= item.quantity
+                          %td.table__prices
+                            - item.total_adjustments.each do |adjustment|
+                              %p.table__price
+                                - if item.total_adjustments.many?
+                                  %span.table__price-label= adjustment.description
+
+                                - if adjustment.discount?
+                                  %strong.table__price-discount= number_to_currency(adjustment.amount)
+                                - else
+                                  %span= number_to_currency(adjustment.amount)
+
+                            - if item.total_adjustments.many?
+                              %p.table__price
+                                %span.table__price-label= t('workarea.storefront.orders.item_total')
+                                %span= number_to_currency(item.total_price)
+
+              - @cart.free_gifts.each do |item|
+                %li.product-list__item
+                  .product-list__item-cell
+                    .product-list__summary
+                      %p.product-list__media= link_to image_tag(product_image_url(item.image, :small_thumb), alt: item.product_name, class: 'product-list__media-image'), product_url(item.product, sku: item.sku), class: 'product-list__media-link'
+                      .product-list__info
+                        %p.product-list__name= link_to item.product_name, product_path(item.product, sku: item.sku)
+                        %p.product-list__id= item.sku
+                  .product-list__item-cell
+                    %table.table
+                      %thead
+                        %tr
+                          %th.table__prices= t('workarea.storefront.orders.price')
+                          %th.table__quantity= t('workarea.storefront.orders.quantity')
+                          %th.table__prices= t('workarea.storefront.orders.total')
+                      %tbody
+                        %tr
+                          %td.table__prices
+                            %p.table__price
+                              %span= t('workarea.storefront.carts.free_gift')
+                          %td.table__quantity
+                            %p= item.quantity
+                          %td.table__prices
+                            %p.table__price
+                              %span= t('workarea.storefront.carts.free_gift')
+
+        .checkout-payment__section
+          %p.checkout-payment__place-order= button_tag t('workarea.storefront.checkouts.place_order'), value: 'place_order', class: 'button button--large', data: { disable_with: loading_indicator(t('workarea.storefront.checkouts.place_order_disabled_text')) }

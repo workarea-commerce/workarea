@@ -1,0 +1,95 @@
+/*------------------------------------*\
+    #TAKEOVER
+\*------------------------------------*/
+
+$takeover-bg-color:  $background-color !default;
+
+$takeover-content-top-offset:         $global-header-height + ($spacing-unit * 4) !default;
+$takeover-content-horizontal-offset:  ($spacing-unit * 2) !default;
+
+$takeover-content-width:   calc(100vw - #{$takeover-content-horizontal-offset * 2}) !default;
+
+
+@keyframes takeover-fade-in-from-bottom {
+    0% {
+        opacity: 0;
+        transform: translateY(300px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes takeover-fade-out-from-bottom {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(300px);
+    }
+}
+
+@keyframes takeover-fade-in-from-top {
+    0% {
+        opacity: 0;
+        transform: translateY(-100px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes takeover-fade-out-from-top {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-100px);
+    }
+}
+
+
+.takeover {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: index($components, takeover);
+    background: $takeover-bg-color;
+    animation: takeover-fade-in-from-bottom $global-transition-speed;
+}
+
+
+.takeover--removing {
+    animation: takeover-fade-out-from-bottom $global-transition-speed;
+}
+
+.takeover--from-top {
+    animation: takeover-fade-in-from-top $global-transition-speed;
+
+    &.takeover--removing {
+        animation: takeover-fade-out-from-top $global-transition-speed;
+    }
+}
+
+    .takeover__content {
+        position: absolute;
+        top: $takeover-content-top-offset;
+        right: $takeover-content-horizontal-offset;
+        bottom: 0;
+        left: $takeover-content-horizontal-offset;
+        padding-bottom: $spacing-unit * 10;
+        width: $takeover-content-width;
+        overflow: auto;
+    }

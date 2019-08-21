@@ -1,0 +1,29 @@
+/*------------------------------------*\
+    #IMAGES
+\*------------------------------------*/
+
+/**
+ * 1. Makes all images fluid, helping responsiveness
+ * 2. Visually offsets the `alt` text that is displayed if the image fails to
+ *    load.
+ * 3. Removes white-space from the bottom of images. Safer solution to the usual
+ *    `display: block;` fix.
+ */
+
+img {
+    max-width: 100%; /* [1] */
+    font-style: italic; /* [2] */
+    vertical-align: middle; /* [3] */
+}
+
+
+/**
+ * 1. Google Maps hates being told what to do. Remove the max width if an image
+ *    exists within Google's styling pattern.
+ * 2. If an image explicitly defines a width or height attribute, honor it.
+ */
+
+.gm-style img, /* [1] */
+img[width], img[height] { /* [2] */
+    max-width: none;
+}

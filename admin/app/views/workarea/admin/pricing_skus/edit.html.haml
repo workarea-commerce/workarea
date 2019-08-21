@@ -1,0 +1,65 @@
+- @page_title = t('workarea.admin.pricing_skus.edit.title', name: @sku.name)
+
+.view
+  .view__header
+    .grid.grid--right
+      .grid__cell.grid__cell--25
+        = render 'workarea/admin/releases/select'
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@sku)
+          %h1= link_to @sku.name, url_for(@sku)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@sku)
+
+  .view__container
+    = render_cards_for(@sku, :attributes)
+
+  .view__container.view__container--narrow
+    - @sku.errors.full_messages.each do |message|
+      = render_message 'error', message
+
+    = form_tag pricing_sku_path(@sku), method: :patch, id: 'pricing_sku_form', data: { unsaved_changes: '' } do
+      .section
+        .property
+          %span.property__name
+            = t('workarea.admin.fields.active')
+            = inline_svg('workarea/admin/i18n.svg', class: 'svg-icon svg-icon--small') if locale_options.many? && Workarea.config.localized_active_fields
+          = toggle_button_for 'sku[active]', @sku.active?
+
+        .property
+          = label_tag 'sku[tax_code]', t('workarea.admin.fields.tax_code'), class: 'property__name'
+          = text_field_tag 'sku[tax_code]', @sku.tax_code, class: 'text-box'
+
+        .property
+          = label_tag 'sku_msrp', t('workarea.admin.fields.msrp'), class: 'property__name'
+          = currency_symbol
+          = text_field_tag 'sku[msrp]', @sku.msrp, class: 'text-box text-box--small'
+
+        .grid
+          .grid__cell.grid__cell--50.grid__cell--25-at-medium
+            .property
+              %span.property__name= t('workarea.admin.fields.on_sale')
+              = toggle_button_for 'sku[on_sale]', @sku.on_sale?, title_true: t('workarea.admin.pricing_skus.on_sale'), title_false: t('workarea.admin.pricing_skus.not_on_sale')
+
+          .grid__cell.grid__cell--50.grid__cell--25-at-medium
+            .property
+              %span.property__name= t('workarea.admin.fields.discountable')
+              = toggle_button_for 'sku[discountable]', @sku.discountable?, title_true: t('workarea.admin.pricing_skus.allow_discounting'), title_false: t('workarea.admin.pricing_skus.disallow_discounting')
+
+        = append_partials('admin.pricing_sku_fields', sku: @sku)
+
+        .grid.grid--huge
+          .grid__cell.grid__cell--50.grid__cell--25-at-medium
+            .property
+              = label_tag 'sku_updated_at', t('workarea.admin.fields.updated_at'), class: 'property__name'
+              = local_time(@sku.updated_at)
+          .grid__cell.grid__cell--50.grid__cell--25-at-medium
+            .property
+              = label_tag 'sku_created_at', t('workarea.admin.fields.created_at'), class: 'property__name'
+              = local_time(@sku.created_at)
+
+      .workflow-bar
+        .grid.grid--auto.grid--right.grid--middle
+          .grid__cell= render 'workarea/admin/shared/publishing_select'
+          .grid__cell= button_tag t('workarea.admin.form.save_changes'), value: 'save_sku', class: 'workflow-bar__button workflow-bar__button--update'

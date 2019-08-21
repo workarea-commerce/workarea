@@ -1,0 +1,87 @@
+/*------------------------------------*\
+    #RELEASE-CHANGESET
+\*------------------------------------*/
+
+$release-changeset-border-color:  $border-color !default;
+$release-changeset-old-color:     $red !default;
+$release-changeset-new-color:     $green !default;
+$release-changeset-meta-color:    $gray !default;
+
+$release-changeset-icon-size: 32px !default;
+
+$release-changeset-body-padding:  $release-changeset-icon-size + $horizontal-margin !default;
+
+.release-changeset {
+    position: relative;
+    margin: 0 0 $spacing-unit;
+    padding: $spacing-unit;
+    border-bottom: 1px solid $release-changeset-border-color;
+}
+
+.release-changeset--activity {
+    padding: 0;
+    border-bottom: 0;
+}
+
+    .release-changeset__header {}
+
+        .release-changeset__icon {
+            margin-right: $horizontal-margin;
+            margin-bottom: 0;
+            width: $release-changeset-icon-size;
+            height: $release-changeset-icon-size;
+            float: left;
+            vertical-align: middle;
+        }
+
+        .release-changeset__heading {
+            margin-bottom: 0;
+            padding-top: ($spacing-unit / 2);
+            font-size: $font-size + 2px;
+            font-weight: bold;
+        }
+
+        .release-changeset__actions {
+            position: absolute;
+            top: $spacing-unit * 2;
+            right: $spacing-unit;
+        }
+
+    .release-changeset__heading-meta {
+        color: $release-changeset-meta-color;
+        font-size: $font-size - 2px;
+    }
+
+    .release-changeset__body {
+        padding: $spacing-unit;
+        padding-left: $release-changeset-body-padding;
+
+        .release-changeset--activity & {
+            padding-left: 0;
+        }
+    }
+
+        .release-changeset__content {
+            margin-bottom: 0;
+        }
+
+        .release-changeset__list {
+            @extend %list-reset;
+        }
+
+            .release-changeset__field {
+                font-weight: bold;
+
+                &:after {
+                    content: ':';
+                }
+            }
+
+            .release-changeset__old {
+                color: $release-changeset-old-color;
+                text-decoration: line-through;
+            }
+
+            .release-changeset__new {
+                color: $release-changeset-new-color;
+            }

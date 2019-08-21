@@ -1,0 +1,147 @@
+#text-box.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'text_box')
+
+  %p Provides uniform styling for <code>input</code> elements.
+
+  .style-guide__example-block
+    = text_field_tag 'wl_text_box_blank', nil, class: 'text-box'
+  .style-guide__example-block
+    = text_field_tag 'wl_text_box_placeholder', nil, class: 'text-box', placeholder: 'Placeholder'
+  .style-guide__example-block
+    = text_field_tag 'wl_text_box_value', 'Value', class: 'text-box'
+  .style-guide__example-block
+    = number_field_tag 'wl_text_box_number', 99, class: 'text-box'
+
+  %p should style the disabled state:
+  .style-guide__example-block
+    = text_field_tag 'wl_disabled_text_box_blank', nil, class: 'text-box', disabled: true
+  .style-guide__example-block
+    = text_field_tag 'wl_disabled_text_box_placeholder', nil, class: 'text-box', placeholder: 'Placeholder', disabled: true
+  .style-guide__example-block
+    = text_field_tag 'wl_disabled_text_box_value', 'Value', class: 'text-box', disabled: true
+  .style-guide__example-block
+    = number_field_tag 'wl_disabled_text_box_number', 99, class: 'text-box', disabled: true
+
+#text-box--small.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'text_box__small')
+
+  %p Reduces width of a #{link_to_style_guide('components', 'text_box', true)}. Used mostly for sort numerical values.  When <code>.text-box--small</code> is used with a number input, some extra width will be added to account for the number spinners.
+
+  %p Should work with <code>input type="text"</code> fields:
+  .style-guide__example-block
+    = text_field_tag 'wl_text_box_small', 'text', class: 'text-box text-box--small'
+
+  %p Should increase the width to accommodate for browser-supplied spinner UI of <code>input type="number"</code> fields:
+  .style-guide__example-block
+    = number_field_tag 'wl_text_box_small_number', 99, class: 'text-box text-box--small'
+
+
+#text-box--medium.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'text_box__medium')
+
+  %p Reduces width of a #{link_to_style_guide('components', 'text_box', true)}. Used mostly for short strings of text, or longer numerical values.
+
+  .style-guide__example-block
+    = text_field_tag 'wl_text_box_medium', 19106, class: 'text-box text-box--medium'
+
+
+#text-box--wide.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'text_box__wide')
+
+  %p Increases width of a #{link_to_style_guide('components', 'text_box', true)}. Frequently used with #{link_to_style_guide('components', 'text_box__code', true)} and #{link_to_style_guide('components', 'text_box__multi_line', true)}.
+
+  .style-guide__example-block
+    = text_field_tag 'wl_text_box_wide', 'Value', class: 'text-box text-box--wide'
+
+
+#text-box--multi-line.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'text_box__multi-line')
+
+  %p Increases the height of a #{link_to_style_guide('components', 'text_box', true)}. Typically used with <code>textarea</code> elements, and frequently conjoined with the #{link_to_style_guide('components', 'text_box__code', true)} class.
+
+  .style-guide__example-block
+    = text_area_tag 'wl_text_box_multi_line_blank', nil, class: 'text-box text-box--multi-line'
+  .style-guide__example-block
+    = text_area_tag 'wl_text_box_multi_line_placeholder', nil, class: 'text-box text-box--multi-line', placeholder: 'Placeholder'
+  .style-guide__example-block
+    = text_area_tag 'wl_text_box_multi_line_value', "Value line 1\nValue line 2\nValue line 3\nValue line 4\nValue line 5\nValue line 6", class: 'text-box text-box--multi-line'
+
+
+#text-box--code.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'text_box__code')
+
+  %p Changes the #{link_to_style_guide('components', 'text_box', true)} to display a monospaced font. Typically used with <code>textarea</code> elements for displaying or editing blocks of code.
+
+  .style-guide__example-block
+    = text_area_tag 'wl_text_box_code_blank', nil, class: 'text-box text-box--code'
+  .style-guide__example-block
+    = text_area_tag 'wl_text_box_code_placeholder', nil, class: 'text-box text-box--code', placeholder: 'Placeholder'
+  .style-guide__example-block
+    = text_area_tag 'wl_text_box_code_value', "Value line 1\nValue line 2\nValue line 3\nValue line 4\nValue line 5\nValue line 6", class: 'text-box text-box--code'
+
+
+#text-box--i18n.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'text_box__i18n')
+
+  %p Adds a internationalization icon to the left of the #{link_to_style_guide('components', 'text_box', true)}.
+
+  %p These styles are conditionally output, based on if a class of <code>i18n</code> has been found within this class's ancestor tree.
+
+  .style-guide__example-block
+    .i18n
+      = text_field_tag 'wl_text_box_blank_i18n', nil, class: 'text-box text-box--i18n'
+
+  .style-guide__example-block
+    .i18n
+      = text_area_tag 'wl_text_box_multi_line_blank_i18n', nil, class: 'text-box text-box--multi-line text-box--i18n'
+
+  .style-guide__example-block
+    .i18n
+      .wysiwyg{ data: { wysiwyg: '' } }=text_area_tag 'wysiwyg', nil, id: nil, class: 'text-box text-box--multi-line text-box--i18n'
+
+  %p The modifiers <code>textbox--small</code>, <code>textbox--medium</code>, <code>textbox--large</code> are getting a bigger width to keep the same fillable size.
+
+  .style-guide__example-block
+    .i18n
+      = text_field_tag 'wl_text_box_i18n_small_blank', '1999,99', class: 'text-box text-box--small text-box--i18n'
+      = text_field_tag 'wl_text_box_small_blank', '1999,99', class: 'text-box text-box--small'
+      = number_field_tag 'wl_text_box_number_i18_small_blank', '12345678', class: 'text-box text-box--small text-box--i18n'
+      = number_field_tag 'wl_text_box_number_small_blank', '12345678', class: 'text-box text-box--small'
+
+  .style-guide__example-block
+    .i18n
+      = text_field_tag 'wl_text_box_i18n_medium_blank', 'sku-56789-1234567', class: 'text-box text-box--medium text-box--i18n'
+      = text_field_tag 'wl_text_box_medium_blank', 'sku-56789-1234567', class: 'text-box text-box--medium'
+
+  .style-guide__example-block
+    .i18n
+      = text_field_tag 'wl_text_box_i18n_wide_blank', 'sku-Z2lkOi8vZHVtbXktYXBwL1dvcmthcmVhil', class: 'text-box text-box--wide text-box--i18n'
+      = text_field_tag 'wl_text_box_wide_blank', 'sku-Z2lkOi8vZHVtbXktYXBwL1dvcmthcmVhil', class: 'text-box text-box--wide'
+
+#text-box--valid.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'text_box__valid')
+
+  %p Indicates that the text box is in a valid state.
+
+  %p should add a green check to the right of the text box:
+  .style-guide__example-block
+    = text_field_tag 'wl_text_box_blank_valid', nil, class: 'text-box text-box--valid'
+
+
+#text-box--invalid.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'text_box__invalid')
+
+  %p Indicates that the text box is in an invalid state.
+
+  %p should make it clear the text-box is invalid.
+  .style-guide__example-block
+    = text_field_tag 'wl_text_box_blank_invalid', nil, class: 'text-box text-box--invalid'

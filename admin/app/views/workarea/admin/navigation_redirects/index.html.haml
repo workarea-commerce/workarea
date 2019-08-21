@@ -1,0 +1,72 @@
+- @page_title = t('workarea.admin.navigation_redirects.index.page_title')
+
+.view
+  .view__header
+    .view__heading
+      = link_to "↑ #{t('workarea.admin.navigation_redirects.index.dashboard_link')}", settings_dashboards_path, class: 'view__dashboard-button'
+      %h1= t('workarea.admin.navigation_redirects.index.title')
+
+  .view__container
+
+    .browsing-controls.browsing-controls--with-divider.browsing-controls--center
+      = form_tag navigation_redirects_path, method: :get, id: 'redirect_sort_form', class: 'browsing-controls__form' do
+        .browsing-controls__sort
+          .property.property--inline
+            = label_tag 'sort', t('workarea.admin.search.sort_by'), class: 'property__name'
+            = select_tag 'sort', options_for_select(sort_options(@redirects), params[:sort]), data: { form_submitting_control: '' }
+        .browsing-controls__search
+          .search-form.search-form--large
+            = text_field_tag :q, params[:q], class: 'search-form__input', id: 'search_redirects', title: t('workarea.admin.navigation_redirects.index.search_placeholder'), placeholder: t('workarea.admin.navigation_redirects.index.search_placeholder')
+            = button_tag t('workarea.admin.search.go'), value: 'search_redirects', class: 'search-form__button'
+
+      %p.browsing-controls__count{ data: { browsing_controls_count: @redirects.total_count } }
+        = t('workarea.admin.navigation_redirects.index.redirects', count: @redirects.total_count)
+
+    - if @redirects.any?
+      %table.index-table
+        %thead
+          %tr
+            %th.index-table__control-cell
+              .checkbox
+                = check_box_tag 'select_all', nil, false, id: 'select_all', class: 'checkbox__input', data: { bulk_action_select_all: '' }
+                = label_tag 'select_all', t('workarea.admin.bulk_actions.select_all'), class: 'checkbox__label'
+            %th= t('workarea.admin.fields.from')
+            %th= t('workarea.admin.fields.to')
+            %th= t('workarea.admin.fields.updated_at')
+            %th
+        %tbody
+          - @redirects.each do |redirect|
+            %tr
+              %td.index-table__control-cell
+                .checkbox
+                  = check_box_tag 'global_id', redirect.to_gid_param, false, class: 'checkbox__input', id: dom_id(redirect), data: { bulk_action_item: '' }
+                  = label_tag dom_id(redirect), '', class: 'checkbox__label', title: t('workarea.admin.bulk_actions.add_summary_button')
+              %td= redirect.path
+              %td= redirect.destination
+              %td= local_time(redirect.updated_at, :long)
+              %td
+                = link_to navigation_redirect_path(redirect), class: 'text-button text-button--destroy', data: { method: 'delete', confirm: t('workarea.admin.actions.delete_confirmation') } do
+                  = t('workarea.admin.actions.delete')
+                  = inline_svg('workarea/admin/icons/delete.svg', class: 'text-button__icon', title: t('workarea.admin.actions.delete'))
+
+      - if @redirects.total_pages > 1
+        = render 'workarea/admin/shared/pagination', collection: @redirects
+
+  .workflow-bar
+    .grid
+      .grid__cell.grid__cell--50
+        = render 'workarea/admin/shared/bulk_actions', klass: Workarea::Navigation::Redirect
+
+      .grid__cell.grid__cell--50.align-right
+        = button_tag t('workarea.admin.navigation_redirects.index.add_new'), id: 'add_redirect', class: 'workflow-bar__button workflow-bar__button--create', type: 'button', data: { tooltip: { content_id: '#add-new-release', interactive: true, trigger: 'click', minWidth: 350 }.to_json }
+
+  #add-new-release.tooltip-content
+    = form_tag navigation_redirects_path, method: 'post', id: 'redirect_form', data: { unsaved_changes: '' }, class: 'align-center' do
+      .property
+        = label_tag 'redirect[path]', t('workarea.admin.fields.path'), class: 'property__name'
+        = text_field_tag 'redirect[path]', @redirect.path, class: 'text-box', placeholder: t('workarea.admin.navigation_redirects.index.path_placeholder')
+      .property
+        = label_tag 'redirect[destination]', t('workarea.admin.fields.destination'), class: 'property__name'
+        = text_field_tag 'redirect[destination]', @redirect.destination, class: 'text-box', placeholder: t('workarea.admin.navigation_redirects.index.destination_placeholder')
+        %span.property__note= t('workarea.admin.navigation_redirects.index.destination_note')
+      %p= button_tag t('workarea.admin.navigation_redirects.index.add'), value: 'save_redirect', class: 'button button--create'

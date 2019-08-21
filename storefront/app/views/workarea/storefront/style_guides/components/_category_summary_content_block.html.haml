@@ -1,0 +1,29 @@
+#category-summary-content-block.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'category_summary_content_block')
+
+  %p Displays a heading followed by a #{link_to_style_guide('components', 'product_grid', true)}, unless the products are empty. Produced by the content editor in the admin.
+
+  %p Category with products:
+  .style-guide__example-block
+    .category-summary-content-block
+      %h2.category-summary-content-block__heading Category Name
+      .grid
+        - 4.times do
+          .grid__cell.grid__cell--50.grid__cell--33-at-medium.grid__cell--16-at-wide
+            .product-summary
+              %p.product-summary__media
+                = link_to('#', class: 'product-summary__media-link') do
+                  = image_tag('workarea/storefront/style_guide_product.jpg', alt: 'Product Name', class: 'product-summary__media-image')
+              .product-summary__info
+                %p.product-summary__name= link_to('Product Name', '#')
+                .product-prices.product-prices--summary
+                  %p.product-prices__price
+                    %span= number_to_currency(109.99)
+
+  %p Empty category:
+  .style-guide__example-block
+    .category-summary-content-block
+      %h2 Category Name
+      %p Category Name is empty.
+

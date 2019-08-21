@@ -1,0 +1,47 @@
+- @page_title = t('workarea.admin.create_pricing_discounts.details.title')
+
+.discount.view
+  .view__header
+    .view__heading
+      %h1.heading.heading--no-margin= t('workarea.admin.create_pricing_discounts.details.details', discount_type: params[:type].humanize.capitalize)
+
+  .view__container.view__container--narrow
+
+    - if @discount.errors.present?
+      - @discount.errors.full_messages.each do |message|
+        = render_message 'error', message
+
+    = form_tag rules_create_pricing_discounts_path, method: 'get', id: 'discount_form' do
+      = hidden_field_tag 'type', params[:type]
+      = hidden_field_tag :id, @discount.id unless @discount.new_record?
+
+      .section
+        .property.property--required
+          = label_tag 'discount[name]', t('workarea.admin.fields.name'), class: 'property__name'
+          = text_field_tag 'discount[name]', @discount.name, class: 'text-box text-box--i18n', required: true
+          %span.property__note= t('workarea.admin.create_pricing_discounts.details.name_note')
+
+        .property
+          = label_tag 'discount_tag_list', t('workarea.admin.fields.tags'), class: 'property__name'
+          = text_field_tag 'discount[tag_list]', @discount.tag_list, class: 'text-box'
+          %span.property__note= t('workarea.admin.create_pricing_discounts.details.tags_note')
+
+      .workflow-bar
+        .grid.grid--middle
+          .grid__cell.grid__cell--20
+            - if @discount.new_record?
+              = link_to t('workarea.admin.form.cancel'), pricing_discounts_path, class: 'workflow-bar__button workflow-bar__button--delete'
+            - else
+              = link_to t('workarea.admin.form.cancel'), pricing_discount_path(@discount), class: 'workflow-bar__button workflow-bar__button--delete', data: { method: 'delete', confirm: 'Are you sure? All work on this discount will be lost.' }
+
+          .grid__cell.grid__cell--60
+            %ol.workflow-bar__steps
+              %li.workflow-bar__step 1) #{link_to t('workarea.admin.create_pricing_discounts.workflow.steps.setup'), create_pricing_discounts_path(@discount.workflow_params)}
+              %li.workflow-bar__step
+                %strong 2) #{t('workarea.admin.create_pricing_discounts.workflow.steps.details')}
+              %li.workflow-bar__step 3) #{t('workarea.admin.create_pricing_discounts.workflow.steps.rules')}
+              %li.workflow-bar__step 4) #{t('workarea.admin.create_pricing_discounts.workflow.steps.publish')}
+
+          .grid__cell.grid__cell--20
+            .grid.grid--auto.grid--right.grid--middle
+              .grid__cell= button_tag t('workarea.admin.create_pricing_discounts.workflow.save_and_continue'), value: 'save_details', class: 'workflow-bar__button workflow-bar__button--create'

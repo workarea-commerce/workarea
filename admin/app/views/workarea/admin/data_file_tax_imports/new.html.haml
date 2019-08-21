@@ -1,0 +1,59 @@
+- @page_title = t('workarea.admin.data_file_tax_imports.new.title')
+
+.view
+  .view__header
+    .grid.grid--middle.grid--center
+      .grid__cell.grid__cell--50
+        .view__heading
+          - if @tax_category.present?
+            = link_to "↑ #{@tax_category.name}", tax_category_path(@tax_category)
+          - else
+            = link_to "↑ #{t('workarea.admin.data_file_tax_imports.new.index_link')}", tax_categories_path
+
+          %h1
+            = t('workarea.admin.data_file_tax_imports.new.title')
+            = link_to '#import-tooltip', data: { tooltip: { side: 'bottom' }.to_json } do
+              = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.data_file_imports.more_info_link'))
+          #import-tooltip.tooltip-content
+            %p= t('workarea.admin.data_file_imports.more_info_tooltip')
+
+  .view__container
+    = form_tag data_file_tax_imports_path, method: 'post', id: 'import_form', multipart: true, data: { unsaved_changes: '' } do
+      .grid
+        .grid__cell.grid__cell--50
+          - @import.errors.full_messages.each do |message|
+            = render_message 'error', message
+
+          .section
+            .property
+              = label_tag 'import_file', t('workarea.admin.fields.file'), class: 'property__name'
+              = file_field_tag 'import[file]', class: 'text-box', required: true
+              %span.property__note
+                %strong= t('workarea.admin.data_file_tax_imports.new.warning')
+                =  link_to t('workarea.admin.data_file_imports.example_file_link'), '/workarea/import_samples/tax_rates.csv'
+
+            .property
+              = label_tag 'import_tax_category_id', t('workarea.admin.fields.tax_category'), class: 'property__name'
+              = select_tag 'import[tax_category_id]', options_from_collection_for_select(Workarea::Tax::Category.all, 'id', 'name', @tax_category&.id)
+
+        .grid__cell.grid__cell--50
+          .box
+            .box__head
+              %span.box__heading= t('workarea.admin.data_file_imports.usage.title')
+            .box__body
+              %ol
+                %li.box__list-element
+                  = t('workarea.admin.data_file_imports.usage.download_step_html', link: link_to(t('workarea.admin.data_file_tax_imports.new.example_link'), '/workarea/import_samples/tax_rates.csv'))
+                  %br
+                  %strong= t('workarea.admin.data_file_tax_imports.new.avalara_info')
+                %li.box__list-element= t('workarea.admin.data_file_imports.usage.open_step')
+                %li.box__list-element= t('workarea.admin.data_file_imports.usage.edit_step')
+                %li.box__list-element= t('workarea.admin.data_file_imports.usage.export_step')
+                %li.box__list-element= t('workarea.admin.data_file_imports.usage.upload_step')
+
+              .box__actions
+                = link_to "#{t('workarea.admin.data_file_imports.usage.more_link')} »", help_path('import-tax-rates'), class: 'text-button'
+
+      .workflow-bar
+        .grid.grid--auto.grid--right.grid--middle
+          .grid__cell= button_tag t('workarea.admin.data_file_imports.create_import'), value: 'create_import', class: 'workflow-bar__button workflow-bar__button--create'

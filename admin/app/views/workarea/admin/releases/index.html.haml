@@ -1,0 +1,100 @@
+- @page_title = t('workarea.admin.releases.index.page_title')
+
+.view
+  .view__header
+    .grid.grid--center
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to "↑ #{t('workarea.admin.releases.index.dashboard_link')}", root_path
+          %h1.heading--no-margin= t('workarea.admin.releases.index.title')
+
+  .view__container
+    .browsing-controls.browsing-controls--with-divider.browsing-controls--center{ class: ('browsing-controls--filters-displayed' unless @search.toggle_facets?) }
+      = form_tag releases_path, method: 'get', id: 'release_search_form', class: 'browsing-controls__form' do
+        = facet_hidden_inputs(@search.facets)
+        .browsing-controls__sort
+          .property.property--inline
+            = label_tag 'sort', t('workarea.admin.search.sort_by'), class: 'property__name'
+            = select_tag :sort, options_for_select(@search.sorts, selected: @search.sort), data: { form_submitting_control: '' }
+
+        .browsing-controls__search
+          .search-form
+            = text_field_tag :q, params[:q], class: 'search-form__input', id: 'search_releases', title: t('workarea.admin.search.keywords'), placeholder: t('workarea.admin.search.keywords')
+            = submit_tag 'search_releases', class: 'search-form__button'
+
+        = render 'workarea/admin/shared/creation_date', search: @search, form_path: releases_path
+
+        - if @search.facets.present?
+          - @search.facets.each do |facet|
+            = render "workarea/admin/facets/#{facet.type}", facet: facet
+
+        - if @search.toggle_facets?
+          .browsing-controls__toggle-filters
+            %button.text-button{ type: 'button', data: { toggle_filters: '' } }= t('workarea.admin.search.show_filters')
+
+      = render 'workarea/admin/facets/applied', search: @search, reset_path: releases_path
+
+      %p.browsing-controls__count= pluralize(@search.total, 'release')
+
+    - if @search.results.any?
+      %table.index-table
+        %thead
+          %tr
+            %th= t('workarea.admin.fields.name')
+            %th.align-center= t('workarea.admin.fields.publishes')
+            %th.align-center= t('workarea.admin.fields.undo_at')
+            %th.align-center= t('workarea.admin.fields.changes')
+            %th= t('workarea.admin.fields.last_published')
+            %th= t('workarea.admin.fields.updated_at')
+        %tbody
+          - @search.results.each do |result|
+            %tr.index-table__row{ class: ('index-table__row--inactive' unless result.upcoming?) }
+              %td
+                = link_to result.name, result
+                = comments_icon_for(result)
+              %td.align-center
+                - if result.publish_at.present?
+                  #{local_time_ago(result.publish_at)}
+                - else
+                  = t('workarea.admin.releases.index.unscheduled')
+              %td.align-center
+                - if result.undo_at.present?
+                  #{local_time_ago(result.undo_at)}
+                - else
+                  = t('workarea.admin.releases.index.unscheduled')
+              %td.align-center= result.changesets_with_releasable.count || 0
+              %td
+                - if result.published_at.present?
+                  = local_time_ago(result.published_at)
+                - else
+                  = t('workarea.admin.releases.index.never')
+              %td= local_time_ago(result.updated_at)
+
+    - if @search.results.total_pages > 1
+      = render 'workarea/admin/shared/pagination', collection: @search.results
+
+    .workflow-bar
+      .grid.grid--auto.grid--right
+        - calendar_feed_url = calendar_feed_releases_url(token: current_user.token, protocol: 'webcal')
+        .grid__cell= button_tag t('workarea.admin.releases.index.add_to_calendar.link_text'), class: 'workflow-bar__button', data: { add_to_calendar_button: { initial: '#calendar-tooltip', moreInfo: '#google-calendar-info' }.as_json }
+        .grid__cell= link_to t('workarea.admin.releases.index.add_new_release'), create_releases_path, id: 'add_release', class: 'workflow-bar__button workflow-bar__button--create'
+      #calendar-tooltip.tooltip-content.tooltip-content--no-padding
+        .add-to-calendar
+          %ul.add-to-calendar__list
+            %li.add-to-calendar__item
+              = link_to calendar_feed_url, class: 'grid grid--auto grid--middle grid--large', data: { add_to_calendar_button_toggle: '' } do
+                %span.grid__cell= image_tag 'workarea/admin/icons/google_calendar.svg', size: '24x24'
+                %span.grid__cell
+                  %span.add-to-calendar__link= t('workarea.admin.releases.index.add_to_calendar.tooltip.google_calendar')
+            %li.add-to-calendar__item
+              = link_to calendar_feed_url, class: 'grid grid--auto grid--middle grid--large' do
+                %span.grid__cell= image_tag 'workarea/admin/icons/apple_calendar.svg', size: '24x24'
+                %span.grid__cell
+                  %span.add-to-calendar__link= t('workarea.admin.releases.index.add_to_calendar.tooltip.apple_calendar')
+            %li.add-to-calendar__item
+              = link_to calendar_feed_url, class: 'grid grid--auto grid--middle grid--large' do
+                %span.grid__cell= image_tag 'workarea/admin/icons/outlook.svg', size: '24x24'
+                %span.grid__cell
+                  %span.add-to-calendar__link= t('workarea.admin.releases.index.add_to_calendar.tooltip.outlook')
+        .hidden
+          #google-calendar-info= t('workarea.admin.releases.index.add_to_calendar.tooltip.google_calendar_instructions_html', calendar_feed_url: calendar_feed_url)

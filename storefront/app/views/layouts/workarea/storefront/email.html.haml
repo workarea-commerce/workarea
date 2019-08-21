@@ -1,0 +1,193 @@
+!!!
+-# From https://github.com/TedGoas/Cerberus/blob/master/cerberus-hybrid.html
+-# Run through html2haml and cleaned up
+%html{ lang: 'en', xmlns: 'http://www.w3.org/1999/xhtml', 'xmlns:o' => 'urn:schemas-microsoft-com:office:office', 'xmlns:v' => 'urn:schemas-microsoft-com:vml' }
+
+  %head
+    %meta{ charset: 'utf-8' }
+    %meta{ name: 'viewport', content: 'width=device-width' }
+    %meta{ 'http-equiv' => 'X-UA-Compatible', content: 'IE=edge' }
+
+    -# Disable auto-scale in iOS 10 Mail entirely
+    %meta{ name: 'x-apple-disable-message-reformatting' }
+
+    -# The title tag shows in email notifications, like Android 4.4.
+    %title= t('workarea.storefront.email.title', host: Workarea.config.host)
+
+
+    -# BEGIN: web font / @font-face
+    -# You're able to load the webfont from your build here, if you so desire.
+    -# This is commented out, by default, since it's something you'll have to
+    -# customize:
+    -#
+      -# Desktop Outlook chokes on web font references and defaults to Times New
+      -# Roman, so we force a safe fallback font.
+      /[if mso]
+        :css
+          * { font-family: 'Helvetica, Arial, sans-serif'; }
+
+      -# All other clients get the webfont reference; some will render the font
+      -# and others will silently fail to the fallbacks. More on that here:
+      -# http://stylecampaign.com/blog/2015/02/webfont-support-in-email/
+      /[if !mso]
+        :css
+          -# You should replace the following with relevant sections from
+          -# `app/assets/stylesheets/workarea/storefront/generic/_fonts.scss`
+          @font-face {
+            font-family: 'Font';
+            src: font-url('workarea/storefront/font.woff2') format('woff2');
+          }
+    -# END: web font / @font-face
+
+
+    -# BEGIN: CSS Reset
+    -# This `style` element carries a `data-premailer='ignore'` attribute, since
+    -# these will work directly from here.
+    %style{ data: { premailer: 'ignore' } }
+      :preserve
+        /* Remove spaces around the email design added by some email clients. */
+        /* Beware: It can remove the padding / margin and add a background color to the compose a reply window. */
+        html,
+        body {
+            margin: 0 auto !important;
+            padding: 0 !important;
+            height: 100% !important;
+            width: 100% !important;
+        }
+
+        /* Stops email clients resizing small text. */
+        * {
+            -ms-text-size-adjust: 100%;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        /* Centers email on Android 4.4 */
+        div[style*="margin: 16px 0"] {
+            margin: 0 !important;
+        }
+
+        /* Stops Outlook from adding extra spacing to tables. */
+        table,
+        td {
+            mso-table-lspace: 0pt !important;
+            mso-table-rspace: 0pt !important;
+        }
+
+        /* Fixes webkit padding issue. Fix for Yahoo mail table alignment bug. Applies table-layout to the first 2 tables then removes for anything nested deeper. */
+        table {
+            border-spacing: 0 !important;
+            border-collapse: collapse !important;
+            table-layout: fixed !important;
+            margin-top: 0 !important;
+            margin-right: auto !important;
+            margin-left: auto !important;
+        }
+        table table table {
+            table-layout: auto;
+        }
+
+        /* Uses a better rendering method when resizing images in IE. */
+        img {
+            -ms-interpolation-mode:bicubic;
+        }
+
+        /* A work-around for email clients meddling in triggered links. */
+        *[x-apple-data-detectors],  /* iOS */
+        .x-gmail-data-detectors,    /* Gmail */
+        .x-gmail-data-detectors *,
+        .aBn {
+            border-bottom: 0 !important;
+            cursor: default !important;
+            color: inherit !important;
+            text-decoration: none !important;
+            font-size: inherit !important;
+            font-family: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+        }
+
+        /* Prevents Gmail from displaying an download button on large, non-linked images. */
+        .a6S {
+            display: none !important;
+            opacity: 0.01 !important;
+        }
+        /* If the above doesn't work, add a .g-img class to any image in question. */
+        img.g-img + div {
+            display: none !important;
+        }
+
+        /* Prevents underlining the button text in Windows 10 */
+        .button-link {
+            text-decoration: none !important;
+        }
+
+        /* Removes right gutter in Gmail iOS app: https://github.com/TedGoas/Cerberus/issues/89  */
+        /* Create one of these media queries for each additional viewport size you'd like to fix */
+
+        /* iPhone 4, 4S, 5, 5S, 5C, and 5SE */
+        @media only screen and (min-device-width: 320px) and (max-device-width: 374px) {
+            .email-container {
+                min-width: 320px !important;
+            }
+        }
+        /* iPhone 6, 6S, 7, 8, and X */
+        @media only screen and (min-device-width: 375px) and (max-device-width: 413px) {
+            .email-container {
+                min-width: 375px !important;
+            }
+        }
+        /* iPhone 6+, 7+, and 8+ */
+        @media only screen and (min-device-width: 414px) {
+            .email-container {
+                min-width: 414px !important;
+            }
+        }
+    -# END: CSS Reset
+
+    -# The rest of the styles are loaded from the email manifest and will be
+    -# applied to each element via premailer.
+    = stylesheet_link_tag Workarea.config.asset_manifests.storefront_email_stylesheet
+
+    -# Makes background images in 72ppi Outlook render at correct size.
+    /[if gte mso 9]
+      :preserve
+        <xml>
+        <o:OfficeDocumentSettings>
+        <o:AllowPNG/>
+        <o:PixelsPerInch>96</o:PixelsPerInch>
+        </o:OfficeDocumentSettings>
+        </xml>
+
+  %body{ style: 'mso-line-height-rule: exactly;', width: '100%' }
+    %center
+      /[if mso | IE]
+        <table role="presentation" width="100%"><tr><td>
+
+      -# Preheader Text
+      -# A preheader (otherwise known as a ‘Johnson Box’) is the short summary
+      -# that follows the subject line when an email is viewed in the inbox.
+      - if content_for?(:preheader_text)
+        .preheader-text= yield :preheader_text
+
+      %table.email-container{ role: 'presentation', width: 600 }
+        %tr
+          %td.email-header
+            = link_to "http://#{Workarea.config.host}/", class: 'logo' do
+              = image_tag url_to_image('workarea/storefront/email/banner.png'), alt: t('workarea.storefront.layouts.logo'), class: 'logo__image', border: 0, size: '200x50'
+
+      %table.email-container.email-container--main{ role: 'presentation', width: 600 }
+        = yield
+
+      %table.email-container{ role: 'presentation', width: 600 }
+        %tr
+          %td.email-footer
+            = Workarea.config.site_name
+            %br
+            = link_to t('workarea.storefront.layouts.home'), root_url
+            |
+            = link_to t('workarea.storefront.orders.order_status'), check_orders_url
+            |
+            = link_to t('workarea.storefront.layouts.customer_service'), contact_url
+
+      /[if mso | IE]
+        </td></tr></table>

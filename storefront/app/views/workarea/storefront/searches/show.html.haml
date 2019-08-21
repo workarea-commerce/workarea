@@ -1,0 +1,99 @@
+- @title = t('workarea.storefront.searches.title')
+
+- content_for :head do
+  %meta{ property: 'recent-view', content: recent_view_content(search: @search.query_string) }
+  %meta{ name: 'robots', content: 'noindex' }
+  = append_partials('storefront.search_head', search: @search)
+
+  %meta{ property: 'og:url', content: url_for(only_path: false) }
+  %meta{ property: 'og:title', content: page_title }
+  %meta{ property: 'og:type', content: 'website' }
+  %meta{ property: 'og:image', content: @search.open_graph_asset.url }
+  %meta{ property: 'og:image:secure_url', content: @search.open_graph_asset.url }
+
+- content_for :breadcrumbs do
+  %p.breadcrumbs__node-group
+    %span.breadcrumbs__node{ itemprop: 'breadcrumb' }
+      = link_to t('workarea.storefront.layouts.home'), root_path, rel: 'home', class: 'breadcrumbs__link'
+    %span.breadcrumbs__node{ itemprop: 'breadcrumb' }
+      %span.breadcrumbs__text= t('workarea.storefront.searches.title')
+    %span.breadcrumbs__node{ itemprop: 'breadcrumb' }
+      %span.breadcrumbs__text= @search.query_string
+
+- content_for :page_aside do
+  - if @search.facets.any?
+    .result-filters
+      - @search.facets.each do |facet|
+        - unless @search.autoselected_filter?(facet.system_name)
+          = render "workarea/storefront/facets/#{facet.type}", facet: facet
+
+.view{ data: { analytics: search_results_view_analytics_data(@search).to_json } }
+
+  .search-results
+
+    - if @search.results_content.present?
+      .search-results__content= render_content_blocks(@search.results_content)
+
+    - if @search.customization_content_blocks_for('above_results').present?
+      .search-results__content= render_content_blocks(@search.customization_content_blocks_for('above_results'))
+
+    %h1= pluralize(@search.total, t('workarea.storefront.searches.result'))
+
+    - if @search.message.present?
+      = render_message 'info', @search.message
+
+    = append_partials('storefront.above_search_results', search: @search)
+
+    - if @search.query_suggestions.any?
+      .search-results__related
+        %span.search-results__related-title= t('workarea.storefront.searches.suggestions')
+
+        .grid.grid--auto
+          - @search.query_suggestions.each do |search|
+            .grid__cell
+              %span.search-results__related-term= link_to search, search_path(q: search), class: 'search-results__related-link'
+
+  - if @search.total.zero?
+    %p
+      = t('workarea.storefront.products.none_found')
+      = link_to t('workarea.storefront.products.reset_filters'), search_path(q: @search.query_string)
+
+  - else
+
+    .grid.grid--auto.grid--middle
+      .grid__cell
+        = form_tag search_path, method: 'get' do
+          = facet_hidden_inputs(@search.facets)
+          = hidden_field_tag :q, @search.query_string
+          .property.property--responsive
+            = label_tag 'sort_top', nil, class: 'property__name' do
+              %span.property__text= t('workarea.storefront.searches.sort_by')
+            %span.value= select_tag :sort, options_for_select(@search.sorts, selected: @search.sort), id: 'sort_top', data: { form_submitting_control: '' }
+          .hidden-if-js-enabled= button_tag t('workarea.storefront.searches.sort'), value: 'sort_products_top', class: 'button'
+
+      = append_partials('storefront.search_browse_controls', search: @search)
+
+    - if @search.facets.any?
+      .visible.visible--for-small-only
+        .mobile-filters
+          = check_box_tag 'toggle_mobile_filters', nil, false, class: 'mobile-filters__control'
+          .mobile-filters__trigger
+            = label_tag 'toggle_mobile_filters', t('workarea.storefront.products.filter_results'), class: 'button button--large', data: { mobile_filter_button: '' }
+          .mobile-filters__content
+            - if @search.facets.any?
+              .result-filters
+                - @search.facets.each do |facet|
+                  - unless @search.autoselected_filter?(facet.system_name)
+                    = render "workarea/storefront/facets/#{facet.type}", facet: facet
+
+    .pagination{ data: { analytics: product_list_analytics_data("Search Results for \"#{@search.query_string}\"").to_json, pagination: pagination_data(@search.products),  back_to_top_button: '' } }
+      .grid
+        - @search.products.each_with_index do |product, position|
+          = append_partials('storefront.search_grid_item', product: product, position: position)
+
+          .grid__cell.grid__cell--50.grid__cell--25-at-medium.grid__cell--20-at-wide{ data: { pagination_item: '' } }
+            .product-summary{ itemscope: true, itemtype: 'http://schema.org/Product', data: { search_results_product_grid_summary: { id: product.catalog_id, position: position }.to_json } }
+              = render 'workarea/storefront/products/summary', product: product
+      - if show_pagination?(@search.products)
+        .pagination__button
+          = link_to t('workarea.storefront.pagination.next_page'), pagination_path_for(page: @search.next_page), class: 'button button--large', data: { pagination_button: '' }

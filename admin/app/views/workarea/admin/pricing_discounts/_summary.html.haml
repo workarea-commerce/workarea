@@ -1,0 +1,10 @@
+= link_to pricing_discount_path(model), class: (model.active? ? 'summary' : 'summary summary--inactive') do
+  %span.summary__name= model.name
+  .summary__info-container
+    %span.summary__info
+      - if model.active?
+        #{local_time_ago(model.updated_at)}
+      - else
+        %span.summary__info-text-inactive= t('workarea.admin.catalog_products.summary.inactive')
+    %span.summary__info= t('workarea.admin.pricing_discounts.summary.redemption', count: model.redemptions.size)
+  %span.summary__type{ title: t('workarea.admin.pricing_discounts.summary.type') }= t('workarea.admin.pricing_discounts.summary.type')

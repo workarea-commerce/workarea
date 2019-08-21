@@ -1,0 +1,22 @@
+.insight
+  .insight__date
+    %span.insight__period= insight.reporting_on.strftime('%B %Y')
+  .insight__heading= t('workarea.admin.insights.top_categories.title')
+  .insight__body
+    %p.insight__note= t('workarea.admin.insights.top_categories.info')
+    %table
+      %thead
+        %tr
+          %th= t('workarea.admin.insights.top_categories.category')
+          %th.align-center= t('workarea.admin.insights.top_categories.of_revenue')
+          %th.align-right= t('workarea.admin.insights.top_categories.revenue')
+      %tbody
+        - insight.results.each do |result|
+          %tr
+            %td
+              - if result.category.blank?
+                \-
+              - else
+                = link_to result.category.name, catalog_category_path(result.category)
+            %td.align-center= insights_number_to_percentage result.percent_of_total
+            %td.align-right= number_to_currency result.revenue

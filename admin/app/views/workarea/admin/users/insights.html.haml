@@ -1,0 +1,128 @@
+- @page_title = t('workarea.admin.users.insights.title', user: @user.name)
+
+.view
+  .view__header
+    .grid.grid--middle.grid--right
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@user)
+          %h1= link_to @user.name, url_for(@user)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@user)
+
+  .view__container
+    = render_cards_for(@user, :insights)
+
+    .section
+      - if @user.insights.new_record?
+        %h2.align-center= t('workarea.admin.users.insights.empty')
+      - else
+        .grid.grid--center.grid--huge
+          .grid__cell.grid__cell--25
+            %span.heading.heading--2.align-center= t('workarea.admin.users.insights.value')
+            %table.data-pairs
+              %tbody
+                %tr
+                  %th
+                    %span.data-pairs__name= t('workarea.admin.users.insights.total_spent')
+                  %td= number_to_currency @user.insights.revenue
+                %tr
+                  %th
+                    %span.data-pairs__name= t('workarea.admin.users.insights.average_order_value')
+                  %td= number_to_currency @user.insights.average_order_value
+                %tr
+                  %th
+                    %span.data-pairs__name= t('workarea.admin.users.insights.discounts')
+                  %td= number_to_currency @user.insights.discounts
+
+
+          .grid__cell.grid__cell--25
+            %span.heading.heading--2.align-center= t('workarea.admin.users.insights.frequency')
+            %table.data-pairs
+              %tbody
+                %tr
+                  %th
+                    %span.data-pairs__name= t('workarea.admin.users.insights.total_orders')
+                  %td= number_with_delimiter @user.insights.orders
+                %tr
+                  %th
+                    %span.data-pairs__name= t('workarea.admin.users.insights.first_order_at')
+                  %td
+                    - if @user.insights.first_order_at.blank?
+                      \-
+                    - else
+                      = local_time(@user.insights.first_order_at, :date_only)
+                %tr
+                  %th
+                    %span.data-pairs__name= t('workarea.admin.users.insights.last_order_at')
+                  %td
+                    - if @user.insights.last_order_at.blank?
+                      \-
+                    - else
+                      = local_time(@user.insights.last_order_at, :date_only)
+
+          .grid__cell.grid__cell--25
+            %span.heading.heading--2.align-center= t('workarea.admin.users.insights.ranking')
+            %table.data-pairs
+              %tbody
+                %tr
+                  %th
+                    %span.data-pairs__name= t('workarea.admin.users.insights.orders')
+                  %td
+                    = @user.insights.orders_percentile.ordinalize
+                    = t('workarea.admin.users.insights.percentile')
+                %tr
+                  %th
+                    %span.data-pairs__name= t('workarea.admin.users.insights.revenue')
+                  %td
+                    = @user.insights.revenue_percentile.ordinalize
+                    = t('workarea.admin.users.insights.percentile')
+                %tr
+                  %th
+                    %span.data-pairs__name= t('workarea.admin.users.insights.frequency')
+                  %td
+                    = @user.insights.frequency_percentile.ordinalize
+                    = t('workarea.admin.users.insights.percentile')
+                %tr
+                  %th
+                    %span.data-pairs__name= t('workarea.admin.users.insights.aov')
+                  %td
+                    = @user.insights.average_order_value_percentile.ordinalize
+                    = t('workarea.admin.users.insights.percentile')
+
+    .section
+      %h2.align-center= t('workarea.admin.users.insights.recently_viewed.title')
+      .grid.grid--center
+        .grid__cell.grid__cell--20
+          %h3.align-center= t('workarea.admin.users.insights.recently_viewed.products')
+          - if @user.recent_products.blank?
+            %p.align-center= t('workarea.admin.users.insights.recently_viewed.none')
+
+          %ul
+            - @user.recent_products.each do |product|
+              %li= link_to product.name, url_for(product)
+
+        .grid__cell.grid__cell--20
+          %h3.align-center= t('workarea.admin.users.insights.recently_viewed.categories')
+          - if @user.recent_categories.blank?
+            %p.align-center= t('workarea.admin.users.insights.recently_viewed.none')
+
+          %ul
+            - @user.recent_categories.each do |category|
+              %li= link_to category.name, url_for(category)
+
+        .grid__cell.grid__cell--20
+          %h3.align-center= t('workarea.admin.users.insights.recently_viewed.searches')
+          - if @user.recent_searches.blank?
+            %p.align-center= t('workarea.admin.users.insights.recently_viewed.none')
+
+          %ul
+            - @user.recent_searches.each do |search|
+              %li= link_to search, storefront.search_path(q: search)
+
+  - if @insights.any?
+    .view__container.view__container--narrow
+      .section
+        %h2.align-center= t('workarea.admin.users.insights.insights_for_this_customer')
+        - @insights.each do |insight|
+          = render "workarea/admin/insights/#{insight.slug}", insight: insight

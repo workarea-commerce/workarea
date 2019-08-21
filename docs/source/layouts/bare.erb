@@ -1,0 +1,46 @@
+<!doctype html>
+<html class='no-js'>
+  <head>
+    <meta charset="utf-8">
+    <title><%= current_page.data.title || "Workarea Documentation" %></title>
+
+    <%= favicon_tag 'images/favicon_180.png', rel: 'apple-touch-icon', type: 'image/x-icon', sizes: '180x180' %>
+    <%= favicon_tag 'images/favicon_32.png', sizes: '32x32' %>
+    <%= favicon_tag 'images/favicon_16.png', sizes: '16x16' %>
+    <meta content='#0060ff' name='msapplication-TileColor'>
+    <meta content='#0060ff' name='theme-color'>
+    <meta content='#0060ff' name='msapplication-navbar-color'>
+    <meta content='#0060ff' name='apple-mobile-web-app-status-bar-style'>
+
+    <meta name='description' content='<%= current_page.data.excerpt || 'Developer Documentation for the Workarea Commerce Platform' %>'>
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%= stylesheet_link_tag "site" %>
+
+    <% if build? %>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-69425367-2"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-69425367-2');
+      </script>
+    <% end %>
+  </head>
+  <body class='<%= body_classes('body--nude') %>'>
+
+    <%= partial 'shared/header' %>
+
+    <article class='view'>
+      <div class='article'>
+        <%= yield %>
+      </div>
+    </article>
+
+    <%= javascript_include_tag "jquery" %>
+    <%= javascript_include_tag "vendor/highlight.pack" %>
+    <%= javascript_include_tag "lunr" %>
+    <%= javascript_include_tag "site" %>
+  </body>
+</html>
+

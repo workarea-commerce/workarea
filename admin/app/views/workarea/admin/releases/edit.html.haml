@@ -1,0 +1,83 @@
+- @page_title = t('workarea.admin.releases.edit.page_title', name: @release.name)
+
+.view
+  .view__header
+    .grid.grid--middle.grid--right
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to "↑ #{t('workarea.admin.releases.edit.index_link')}", releases_path
+          %h1= link_to @release.name, url_for(@release)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@release)
+
+  .view__container
+    = render_cards_for(@release, :attributes)
+
+    - @release.errors.full_messages.each do |message|
+      = render_message 'error', message
+
+  .view__container.view__container--narrow
+    = form_tag release_path(@release), method: :patch, id: 'release_form', data: { unsaved_changes: '' } do
+
+      .section
+
+        .property.property--required
+          = label_tag 'release[name]', t('workarea.admin.releases.edit.name'), class: 'property__name'
+          = text_field_tag 'release[name]', @release.name, class: 'text-box', required: true
+
+        .grid.grid--huge
+          .grid__cell.grid__cell--50-at-medium
+            .property
+              = label_tag 'release_publish_at', t('workarea.admin.fields.publish_at'), class: 'property__name'
+
+              - if current_user.can_publish_now?
+                .box.box--rounded= hidden_field_tag 'release[publish_at]', @release.publish_at, data: { datetimepicker_field: { inline: true } }
+              - elsif @release.publish_at.present?
+                = local_time(@release.publish_at)
+              - else
+                = t('workarea.admin.releases.edit.none')
+
+            .property.align-center
+              = label_tag 'release_published_at', t('workarea.admin.releases.edit.last_published_at'), class: 'property__name'
+              - if @release.published_at.present?
+                = local_time(@release.published_at)
+              - else
+                = t('workarea.admin.releases.edit.none')
+
+          .grid__cell.grid__cell--50-at-medium
+            .property
+              = label_tag 'release_undo_at', t('workarea.admin.fields.undo_at'), class: 'property__name'
+
+              - if current_user.can_publish_now?
+                .box.box--rounded= hidden_field_tag 'release[undo_at]', @release.undo_at, data: { datetimepicker_field: { inline: true } }
+              - elsif @release.undo_at.present?
+                = local_time(@release.undo_at)
+              - else
+                = t('workarea.admin.releases.edit.none')
+
+            .property.align-center
+              = label_tag 'release_undone_at', t('workarea.admin.releases.edit.last_undone_at'), class: 'property__name'
+              - if @release.undone_at.present?
+                = local_time(@release.undone_at)
+              - else
+                = t('workarea.admin.releases.edit.none')
+
+        .property
+          = label_tag 'release_tag_list', t('workarea.admin.fields.tags'), class: 'property__name'
+          = text_field_tag 'release[tag_list]', @release.tag_list, class: 'text-box'
+          %span.property__note= t('workarea.admin.releases.edit.tags_note')
+
+        .grid
+          .grid__cell.grid__cell--50.grid__cell--25-at-medium
+            .property
+              = label_tag 'release_updated_at', t('workarea.admin.fields.updated_at'), class: 'property__name'
+              = local_time(@release.updated_at)
+          .grid__cell.grid__cell--50.grid__cell--25-at-medium
+            .property
+              = label_tag 'release_created_at', t('workarea.admin.fields.created_at'), class: 'property__name'
+              = local_time(@release.created_at)
+
+
+      .workflow-bar
+        .grid.grid--auto.grid--right.grid--middle
+          .grid__cell= button_tag t('workarea.admin.releases.edit.save_changes'), value: 'save_release', class: 'workflow-bar__button workflow-bar__button--update'

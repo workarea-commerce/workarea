@@ -1,0 +1,119 @@
+.grid.grid--auto.grid--flush.grid--center
+  .grid__cell
+    .card{ class: card_classes(:attributes, local_assigns[:active]) }
+      = link_to edit_catalog_category_path(model), class: 'card__header' do
+        %span.card__header-text= t('workarea.admin.cards.attributes.title')
+        = inline_svg 'workarea/admin/icons/attributes.svg', class: 'card__icon'
+
+      - if local_assigns[:active].blank?
+        .card__body
+          %ul.list-reset
+            %li
+              %strong= t('workarea.admin.fields.active')
+              = check_box_tag 'category', 'active', model.active, disabled: true
+            %li
+              %strong #{t('workarea.admin.fields.client_id')}:
+              = model.client_id.presence || t('workarea.admin.cards.attributes.no_value')
+            %li
+              %strong #{t('workarea.admin.fields.show_left_navigation')}:
+              = check_box_tag 'model', 'show_left_navigation', model.show_navigation?, disabled: true
+            %li
+              %strong #{t('workarea.admin.fields.default_sort')}:
+              = model.default_sort.try(:titleize).presence || t('workarea.admin.cards.attributes.no_value')
+            %li
+              %strong #{t('workarea.admin.fields.filters')}:
+              = model.terms_facets_list.presence || t('workarea.admin.catalog_categories.cards.attributes.defaults')
+            %li
+              %strong #{t('workarea.admin.fields.tags')}:
+              = model.tags.join(', ').presence || t('workarea.admin.cards.attributes.no_value')
+            %li
+              %strong= t('workarea.admin.fields.updated_at')
+              #{local_time_ago(model.updated_at)}
+            %li
+              %strong= t('workarea.admin.fields.created_at')
+              #{local_time_ago(model.created_at)}
+
+          = link_to edit_catalog_category_path(model), class: 'card__button' do
+            %span.button.button--small= t('workarea.admin.cards.attributes.button')
+
+  .grid__cell
+    .card{ class: card_classes(:featured_products, local_assigns[:active]) }
+      = link_to select_featured_product_path(model.to_global_id), class: 'card__header' do
+        %span.card__header-text= t('workarea.admin.catalog_categories.cards.featured_products.title')
+        = inline_svg 'workarea/admin/icons/featured_products.svg', class: 'card__icon'
+
+      - if local_assigns[:active].blank?
+        .card__body
+          - if model.featured_products.empty?
+            .card__empty-note
+              %p= t('workarea.admin.catalog_categories.cards.featured_products.empty')
+            %p= t('workarea.admin.catalog_categories.cards.featured_products.description')
+            = link_to select_featured_product_path(model.to_global_id), class: 'card__button' do
+              %span.button.button--small= t('workarea.admin.catalog_categories.cards.featured_products.empty_button')
+          - else
+            %ol.grid
+              - model.featured_products.take(4).each_with_index do |product, i|
+                %li.grid__cell.grid__cell--50
+                  .card__photo-box
+                    - if i == 3 && model.featured_products.size > 4
+                      %span.card__photo +#{model.featured_products.size - i}
+                    - else
+                      = image_tag product_image_url(product.primary_image, :medium), alt: product.name, class: 'card__photo'
+            = link_to edit_featured_product_path(model.to_global_id), class: 'card__button' do
+              %span.button.button--small= t('workarea.admin.catalog_categories.cards.featured_products.button')
+
+  .grid__cell
+    = render 'workarea/admin/product_rules/card', product_list: model, active: local_assigns[:active]
+
+  .grid__cell
+    = render 'workarea/admin/content/card', content: model.content, active: local_assigns[:active]
+
+  .grid__cell
+    .card{ class: card_classes(:insights, local_assigns[:active]) }
+      = link_to insights_catalog_category_path(model), class: 'card__header' do
+        %span.card__header-text= t('workarea.admin.catalog_categories.cards.insights.title')
+        = inline_svg 'workarea/admin/icons/insights.svg', class: 'card__icon'
+
+      - if local_assigns[:active].blank?
+        .card__body
+          %p.align-center
+            %span.spark.spark--large
+              {#{sparkline_analytics_data_for(model.insights.orders_sparkline).join(',')}}
+
+          %span.heading.heading--4.align-center
+            #{number_with_delimiter model.insights.orders}
+            #{t('workarea.admin.catalog_categories.cards.insights.orders')}
+            #{insights_trend_icon(model.insights.orders_percent_change)}
+
+          .grid.grid--center
+            .grid__cell.grid__cell--50
+              %p.align-center
+                %strong= number_with_delimiter model.insights.views
+                #{insights_trend_icon(model.insights.views_percent_change)}
+                %br
+                #{t('workarea.admin.catalog_categories.cards.insights.views')}
+            .grid__cell.grid__cell--50
+              %p.align-center
+                %strong= number_to_currency model.insights.revenue
+                #{insights_trend_icon(model.insights.revenue_percent_change)}
+                %br
+                #{t('workarea.admin.catalog_categories.cards.insights.revenue')}
+            .grid__cell.grid__cell--50
+              %p.align-center
+                %strong= number_with_delimiter model.insights.units_sold
+                #{insights_trend_icon(model.insights.units_sold_percent_change)}
+                %br
+                #{t('workarea.admin.catalog_categories.cards.insights.units_sold')}
+
+          %p.align-center
+            = distance_of_time_in_words(model.insights.starts_at, model.insights.ends_at)
+            = top_icon_for(model)
+
+          = link_to insights_catalog_category_path(model), class: 'card__button' do
+            %span.button.button--small= t('workarea.admin.catalog_categories.cards.insights.button')
+
+  .grid__cell
+    = render 'workarea/admin/timeline/card', timeline: model.timeline, active: local_assigns[:active]
+
+  .grid__cell
+    = render 'workarea/admin/comments/card', commentable: model, active: local_assigns[:active]

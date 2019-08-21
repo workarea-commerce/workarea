@@ -1,0 +1,21 @@
+.browsing-controls__filter.browsing-controls__filter--date
+  %button.browsing-controls__filter-button{ type: 'button', data: { filter_dropdown: "#filters-dropdown-date" } }
+    = t('workarea.admin.search.creation_date')
+    = inline_svg('workarea/admin/icons/calendar.svg', class: 'browsing-controls__filter-button-icon svg-icon svg-icon--small')
+
+  #filters-dropdown-date.browsing-controls__filter-dropdown
+    .grid
+      .grid__cell.grid__cell--50
+        .property.property--inline
+          -# TODO v4 rename to created_at_starts_at, unify globally with partial
+          = label_tag 'created_at_greater_than', t('workarea.admin.search.creation_date_filter'), class: 'property__name'
+          = datetime_picker_tag 'created_at_greater_than', params[:created_at_greater_than], class: 'text-box', placeholder: t('workarea.admin.search.start_date'), data: { datepicker_field: { inline: true }, datepicker_field_starts_at: '' }
+      .grid__cell.grid__cell--50
+        .property.property--inline
+          = datetime_picker_tag 'created_at_less_than', params[:created_at_less_than], class: 'text-box', placeholder: t('workarea.admin.search.end_date'), data: { datepicker_field: { inline: true }, datepicker_field_ends_at: '' }
+    .browsing-controls__filter-dropdown-submit
+      .grid.grid--auto.grid--middle.grid--center
+        .grid__cell= label_tag 'quick_range', t('workarea.admin.date_selector.or_choose')
+        .grid__cell= select_tag 'quick_range', options_for_select(date_selector_quick_range_options)
+        .grid__cell= t('workarea.admin.date_selector.and')
+        .grid__cell= submit_tag t('workarea.admin.search.submit'), name: 'filter_by_creation_date', class: 'button button--small'

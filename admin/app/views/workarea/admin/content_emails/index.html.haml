@@ -1,0 +1,26 @@
+- @page_title = t('workarea.admin.content_emails.email_content')
+
+.view
+  .view__header
+    .view__heading
+      = link_to "↑ #{t('workarea.admin.content_emails.marketing_dashboard')}", marketing_dashboards_path, class: 'view__dashboard-button'
+      %h1= t('workarea.admin.content_emails.transactional_email_content')
+
+  .view__container
+    .browsing-controls.browsing-controls--with-divider
+      .browsing-controls__count
+        = t('workarea.admin.content_emails.transactional_email', count: @emails.count)
+
+    - if @emails.any?
+      %table.index-table
+        %thead
+          %tr
+            %th= t('workarea.admin.content_emails.type')
+            %th= t('workarea.admin.content_emails.email_content')
+            %th.align-right= t('workarea.admin.content_emails.updated_at')
+        %tbody
+          - @emails.each do |email|
+            %tr.index-table__row
+              %td= link_to email.type.titleize, edit_content_email_path(email)
+              %td= strip_tags(email.content)
+              %td.align-right= local_time_ago(email.updated_at)

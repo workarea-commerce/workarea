@@ -1,0 +1,16 @@
+.property{ class: ('property--required' if field.required?), data: field.options[:html_data_attributes] }
+  = label_tag dom_id(block, field.slug), class: 'property__name' do
+    = field.name
+    - if field.tooltip.present?
+      = link_to "##{dom_id(block, field.slug)}_tooltip", data: { tooltip: '' } do
+        = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.content_blocks.tooltips.more_info'))
+
+  - if field.note.present?
+    %span.property__note= field.note
+  .range-field{ data: { range_field:'' } }
+    = range_field_tag "block[data][#{field.slug}]", block.data[field.slug], id: dom_id(block, field.slug), class: 'range-field__input', value: block.data[field.slug], max: field.max, min: field.min, step: field.step
+    = number_field_tag "block[data][#{field.slug}]", block.data[field.slug], class: 'text-box text-box--small text-box--i18n', max: field.max, min: field.min, step: field.step
+
+- if field.tooltip.present?
+  .tooltip-content{ id: "#{dom_id(block, field.slug)}_tooltip" }
+    %p= field.tooltip

@@ -1,0 +1,5 @@
+.button-content-block{ class: "button-content-block--#{align.downcase}" }
+  - if size == 'Regular'
+    = link_to text, link, class: 'button'
+  - else
+    = link_to text, link, class: "button button--#{size.downcase}"

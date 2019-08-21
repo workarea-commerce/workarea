@@ -1,0 +1,57 @@
+.grid.grid--auto.grid--flush.grid--center
+  .grid__cell
+    .card{ class: card_classes(:attributes, local_assigns[:active]) }
+      = link_to edit_tax_category_path(model), class: 'card__header' do
+        %span.card__header-text= t('workarea.admin.cards.attributes.title')
+        = inline_svg 'workarea/admin/icons/attributes.svg', class: 'card__icon'
+
+      - if local_assigns[:active].blank?
+        .card__body
+          %ul.list-reset
+            %li
+              %strong= t('workarea.admin.fields.code')
+              = model.code.presence
+            %li
+              %strong= t('workarea.admin.fields.updated_at')
+              #{local_time_ago(model.updated_at)}
+            %li
+              %strong= t('workarea.admin.fields.created_at')
+              #{local_time_ago(model.created_at)}
+          = link_to edit_tax_category_path(model), class: 'card__button' do
+            %span.button.button--small= t('workarea.admin.cards.attributes.button')
+
+  .grid__cell
+    .card{ class: card_classes(:rates, local_assigns[:active]) }
+      = link_to tax_category_rates_path(model), class: 'card__header' do
+        %span.card__header-text= t('workarea.admin.tax_categories.cards.rates.title')
+        = inline_svg 'workarea/admin/icons/rates.svg', class: 'card__icon'
+
+      - if local_assigns[:active].blank?
+        .card__body
+          - unless model.newest_rates.present?
+            %p.card__empty-note
+              = t('workarea.admin.tax_categories.cards.rates.empty')
+              = link_to tax_category_rates_path(model), class: 'card__button' do
+                %span.button.button--small= t('workarea.admin.tax_categories.cards.rates.empty_button')
+          - else
+            %ul.list-reset
+              - model.newest_rates.each do |rate|
+                %li
+                  %strong= number_to_percentage(rate.percentage * 100, precision: 1)
+
+                  - if rate.tier_min.present? && rate.tier_max.present?
+                    #{number_to_currency(rate.tier_min)} - #{number_to_currency(rate.tier_max)},
+                  - elsif rate.tier_min.present?
+                    = t('workarea.admin.tax_categories.cards.rates.from_minimum', rate: number_to_currency(rate.tier_min))
+                  - elsif rate.tier_max.present?
+                    = t('workarea.admin.tax_categories.cards.rates.to_maximum', rate: number_to_currency(rate.tier_max))
+
+                  - if rate.country.present?
+                    #{rate.country},
+                  = rate.region
+                  = rate.postal_code
+            = link_to tax_category_rates_path(model), class: 'card__button' do
+              %span.button.button--small= t('workarea.admin.tax_categories.cards.rates.button')
+
+  .grid__cell
+    = render 'workarea/admin/timeline/card', timeline: model.timeline, active: local_assigns[:active]

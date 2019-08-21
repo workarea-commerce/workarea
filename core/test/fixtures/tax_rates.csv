@@ -1,0 +1,3 @@
+state,zip_code,tax_region_name,tax_region_code,estimated_combined_rate,state_rate,county_rate,city_rate,special_rate,country,tier_min,tier_max,charge_on_shipping
+PA,19106,PHILADELPHIA COUNTY,BMWV,0.080000,0.060000,0.020000,0,0,US,0,10000.00,FALSE
+PA,19021,,,0.060000,,,,,,,

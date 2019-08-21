@@ -1,0 +1,57 @@
+- @page_title = t('workarea.admin.shipping_services.new.title')
+
+.view
+  .view__header
+    .grid.grid--middle.grid--center
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@service)
+          %h1= t('workarea.admin.shipping_services.new.title')
+
+  .view__container
+    - if @service.errors.present?
+      - @service.errors.full_messages.each do |message|
+        = render_message 'error', message
+
+    = form_tag shipping_services_path(@service), method: :post, id: 'shipping_service_form', data: { unsaved_changes: '' } do
+
+      .section
+
+        .property.property--required
+          = label_tag 'service_name', t('workarea.admin.fields.name'), class: 'property__name'
+          = text_field_tag 'service[name]', @service.name, class: 'text-box text-box--i18n', required: true
+
+        .property
+          = label_tag 'service_tax_code', t('workarea.admin.fields.tax_code'), class: 'property__name'
+          = text_field_tag 'service[tax_code]', @service.tax_code, class: 'text-box'
+
+        .property
+          = label_tag 'service_country', t('workarea.admin.fields.country'), class: 'property__name'
+          = select_tag "service[country]", options_for_select(country_options, @service.country.try(:alpha2)), prompt: t('workarea.admin.shipping_services.options.not_specified')
+
+        .property
+          = label_tag 'service_regions', t('workarea.admin.fields.regions'), class: 'property__name'
+          = text_field_tag "service[regions_list]", @service.regions_list, class: 'text-box'
+          %span.property__note= t('workarea.admin.shipping_services.regions_note')
+
+        = append_partials('admin.shipping_service_fields', service: @service)
+
+      .section
+
+        %h2= t('workarea.admin.shipping_services.shipping_rates.title')
+
+        %table
+          %thead
+            %tr
+              %th= t('workarea.admin.shipping_services.shipping_rates.price')
+              %th= t('workarea.admin.shipping_services.shipping_rates.min_value')
+              %th= t('workarea.admin.shipping_services.shipping_rates.max_value')
+          %tbody
+            %tr{ data: { cloneable_row: '' } }
+              %td= text_field_tag 'new_rates[][price]', '', placeholder: 'New Price Tier', class: 'text-box', title: 'New Price Tier'
+              %td= text_field_tag 'new_rates[][tier_min]', '', placeholder: 'Min Value', class: 'text-box', title: 'Min Value'
+              %td= text_field_tag 'new_rates[][tier_max]', '', placeholder: 'Max Value', class: 'text-box', title: 'Max Value'
+
+      .workflow-bar
+        .grid.grid--auto.grid--right.grid--middle
+          .grid__cell= button_tag t('workarea.admin.shipping_services.new.create_shipping_service'), value: 'create_shipping_service', class: 'workflow-bar__button workflow-bar__button--create'

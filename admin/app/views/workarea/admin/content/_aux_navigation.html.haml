@@ -1,0 +1,4 @@
+.grid.grid--auto.grid--right.grid--middle
+  .grid__cell
+    - if model == current_system_page_content_for(:home_page)
+      = link_to t('workarea.admin.actions.view_on_storefront'), storefront.root_path, local_assigns[:html_options]

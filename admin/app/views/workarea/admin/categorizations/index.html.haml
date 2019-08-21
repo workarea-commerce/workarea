@@ -1,0 +1,75 @@
+- @page_title = t('workarea.admin.categorizations.index.page_title', name: @product.name)
+
+.view
+  .view__header
+    .grid
+      .grid__cell.grid__cell--25
+        = render 'workarea/admin/releases/select'
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@product)
+          %h1= link_to @product.name, url_for(@product)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@product)
+
+  .view__container
+    = render_cards_for(@product, :categories)
+
+    .section
+      .grid.grid--center
+        .grid__cell.grid__cell--33
+          %h2.align-center
+            = t('workarea.admin.categorizations.index.by_matching_category_rules')
+            = link_to '#rules-info', data: { tooltip: '' } do
+              = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue')
+          #rules-info.tooltip-content
+            %p= t('workarea.admin.categorizations.index.rules_help')
+
+          - if @product.rules_categories.blank?
+            %p.align-center= t('workarea.admin.categorizations.index.doesnt_match_any_categorys_rules')
+          - else
+            %ul.list-reset.align-center
+              - @product.rules_categories.each do |category|
+                %li
+                  %strong= link_to category.name, catalog_category_path(category), title: category.breadcrumb_string
+
+        .grid__cell.grid__cell--33
+          %h2.align-center
+            = t('workarea.admin.categorizations.index.by_being_featured')
+            = link_to '#featured-info', data: { tooltip: '' } do
+              = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue')
+          #featured-info.tooltip-content
+            %p= t('workarea.admin.categorizations.index.featured_help')
+
+          - if @product.featured_categories.blank?
+            %p.align-center= t('workarea.admin.categorizations.index.not_featured_in_any_categories')
+          - else
+            %ul.list-reset.align-center
+              - @product.featured_categories.each do |category|
+                %li
+                  %strong= link_to category.name, catalog_category_path(category), title: category.breadcrumb_string
+                  = link_to catalog_product_categorization_path(@product, category), data: { remote: true, method: 'delete', dom_remove: 'li' } do
+                    = inline_svg('workarea/admin/icons/delete.svg', class: 'svg-icon svg-icon--small svg-icon--red', title: t('workarea.admin.actions.remove'))
+
+          .section
+            = form_tag catalog_product_categorizations_path(@product), method: 'post', class: 'align-center', data: { unsaved_changes: '' } do
+              = select_tag 'category_ids[]', nil, multiple: true, data: { remote_select: { source: catalog_categories_path(format: :json), options: { placeholder: t('workarea.admin.categorizations.index.featured_placeholder')} }.to_json }
+              = button_tag t('workarea.admin.actions.save'), value: 'add_categories', class: 'button button--small'
+
+        .grid__cell.grid__cell--33
+          %h2.align-center
+            = t('workarea.admin.fields.default_category')
+            = link_to '#default-category-info', data: { tooltip: '' } do
+              = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue')
+          #default-category-info.tooltip-content
+            %p= t('workarea.admin.categorizations.index.default_category_info')
+
+          %p.align-center
+            - if @product.default_category.present?
+              %strong= link_to @product.default_category.name, catalog_category_path(@product.default_category), title: @product.default_category.breadcrumb_string
+            - else
+              = t('workarea.admin.categorizations.index.no_default_category')
+
+          = form_tag catalog_product_path(@product), method: :patch, id: 'default_category_form', class: 'align-center', data: { unsaved_changes: '' } do
+            = select_tag 'product[default_category_id]', nil, data: { remote_select: { source: catalog_product_categorizations_path(@product, format: :json), options: { placeholder: t('workarea.admin.categorizations.index.update_default_category')} }.to_json }
+            = button_tag t('workarea.admin.actions.save'), value: 'update_default_category', class: 'button button--small'

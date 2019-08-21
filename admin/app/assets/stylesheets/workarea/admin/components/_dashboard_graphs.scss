@@ -1,0 +1,23 @@
+/*------------------------------------*\
+    #DASHBOARD-GRAPHS
+\*------------------------------------*/
+
+$dashboard-graphs-border-color: $light-gray !default;
+
+.dashboard-graphs {
+    padding-bottom: $spacing-unit * 4;
+    border-bottom: 2px solid $dashboard-graphs-border-color;
+}
+
+    .dashboard-graphs__box {
+        border: 1px solid $shadow-color;
+        border-radius: $global-border-radius;
+        padding: $spacing-unit;
+    }
+
+        .dashboard-graphs__info {
+            height: $spacing-unit * 10;
+            text-align: center;
+        }
+
+        .dashboard-graphs__chart {}

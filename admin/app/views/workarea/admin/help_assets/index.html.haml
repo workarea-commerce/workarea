@@ -1,0 +1,36 @@
+- @page_title = t('workarea.admin.help_assets.index.title')
+
+.view
+  .view__header
+    .view__heading
+      = link_to "↑ #{t('workarea.admin.help_assets.index.all_help')}", help_index_path, class: 'view__dashboard-button'
+      %h1= t('workarea.admin.help_assets.index.title')
+      %strong= t('workarea.admin.help_assets.index.assets', count: @help_assets.total_count)
+
+  .view__container
+    = form_tag help_assets_path, method: 'post', multipart: true, data: { unsaved_changes: '' } do
+      .property
+        = label_tag 'help_asset[file]', t('workarea.admin.help_assets.index.add_an_asset'), class: 'property__name'
+        = file_field_tag 'help_asset[file]', required: true
+        = button_tag t('workarea.admin.actions.save'), value: 'save_help_asset', class: 'button'
+
+    %table
+      %thead
+        %tr
+          %th= t('workarea.admin.help_assets.index.preview')
+          %th= t('workarea.admin.help_assets.index.file')
+          %th= t('workarea.admin.help_assets.index.link_copy_and_paste')
+      %tbody
+        - @help_assets.each do |asset|
+          %tr
+            %td
+              - if !asset.image?
+                = t('workarea.admin.help_assets.index.not_applicable')
+              - else
+                = link_to asset.url do
+                  = image_tag asset.url
+            %td= asset.file.name
+            %td= link_to asset.url, asset.url
+
+    - if @help_assets.total_pages > 1
+      = render 'workarea/admin/shared/pagination', collection: @help_assets

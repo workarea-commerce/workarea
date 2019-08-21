@@ -1,0 +1,150 @@
+<%= "@import 'workarea/core/feature_test_helper';" if Rails.env.test? %>
+<%= "@import 'workarea/admin/feature_test_helper';" if Rails.env.test? %>
+<%= append_stylesheets('admin.feature_test_helpers') %>
+
+@import 'workarea/admin/settings/colors';
+@import 'workarea/admin/settings/typography';
+@import 'workarea/admin/settings/global';
+@import 'workarea/admin/settings/breakpoints';
+@import 'workarea/admin/settings/grid';
+@import 'workarea/admin/settings/z_indexes';
+<%= append_stylesheets('admin.settings') %>
+
+@import 'workarea/admin/tools/center';
+@import 'workarea/admin/tools/focus_ring';
+@import 'workarea/admin/tools/respond_to';
+@import 'workarea/admin/tools/text_box_image';
+@import 'workarea/admin/tools/global_box_shadow';
+@import 'workarea/admin/tools/svg';
+<%= append_stylesheets('admin.tools') %>
+
+@import 'normalize-rails';
+@import 'workarea/admin/generic/reset';
+@import 'workarea/admin/generic/box_sizing';
+@import 'workarea/admin/generic/fonts';
+<%= append_stylesheets('admin.generic') %>
+
+@import 'workarea/admin/base/page';
+@import 'workarea/admin/base/images';
+@import 'workarea/admin/base/tables';
+@import 'workarea/admin/base/forms';
+@import 'workarea/admin/base/lists';
+@import 'workarea/admin/base/links';
+<%= append_stylesheets('admin.base') %>
+
+@import 'workarea/admin/objects/inline_list';
+@import 'workarea/admin/objects/list_reset';
+@import 'workarea/admin/objects/text_field_reset';
+@import 'workarea/admin/objects/button_reset';
+@import 'workarea/admin/objects/tooltip_content';
+@import 'workarea/admin/objects/section';
+<%= append_stylesheets('admin.objects') %>
+
+@import 'workarea/admin/typography/align';
+@import 'workarea/admin/typography/links';
+@import 'workarea/admin/typography/text';
+@import 'workarea/admin/typography/headings';
+@import 'workarea/admin/typography/spark';
+<%= append_stylesheets('admin.typography') %>
+
+@import 'avalanche';
+@import 'tooltipster.bundle';
+@import 'tooltipster/admin/tooltipster_workarea_admin';
+@import 'select2';
+@import 'jquery_select2/admin/theme/workarea';
+@import 'jquery_ui/admin/ui_autocomplete';
+@import 'jquery_ui/admin/ui_datepicker';
+@import 'jquery_ui/admin/ui_helper_hidden_accessible';
+@import 'jquery_ui/admin/ui_menu';
+@import 'jquery_ui/admin/ui_state_focus';
+@import 'jquery_ui/admin/ui_tabs';
+@import 'jquery_ui/admin/ui_accordion';
+@import 'jquery_ui/admin/ui_accordion_header';
+@import 'jquery_ui/admin/ui_accordion_content';
+@import 'jquery_ui/admin/ui_sortable';
+@import 'turbolinks/admin/progress_bar';
+@import 'spectrum';
+<%= append_stylesheets('admin.dependencies') %>
+
+@import 'workarea/admin/components/asset_picker_field';
+@import 'workarea/admin/components/box';
+@import 'workarea/admin/components/button';
+@import 'workarea/admin/components/product_rules_preview';
+@import 'workarea/admin/components/comments';
+@import 'workarea/admin/components/content_editor';
+@import 'workarea/admin/components/content_preview';
+@import 'workarea/admin/components/color_picker';
+@import 'workarea/admin/components/data_pairs';
+@import 'workarea/admin/components/discount';
+@import 'workarea/admin/components/workflow_bar';
+@import 'workarea/admin/components/svg_icon';
+@import 'workarea/admin/components/loading';
+@import 'workarea/admin/components/menu_editor';
+@import 'workarea/admin/components/message';
+@import 'workarea/admin/components/new_navigation_link';
+@import 'workarea/admin/components/page_messages';
+@import 'workarea/admin/components/page_container';
+@import 'workarea/admin/components/header';
+@import 'workarea/admin/components/page_content';
+@import 'workarea/admin/components/pagination';
+@import 'workarea/admin/components/product_images';
+@import 'workarea/admin/components/product_summary';
+@import 'workarea/admin/components/property';
+@import 'workarea/admin/components/release_changeset';
+@import 'workarea/admin/components/search_form';
+@import 'workarea/admin/components/state';
+@import 'workarea/admin/components/style_guide';
+@import 'workarea/admin/components/tabs';
+@import 'workarea/admin/components/text_box';
+@import 'workarea/admin/components/text_button';
+@import 'workarea/admin/components/toggle_button';
+@import 'workarea/admin/components/view';
+@import 'workarea/admin/components/wysiwyg';
+@import 'workarea/admin/components/calendar';
+@import 'workarea/admin/components/payment_icon';
+@import 'workarea/admin/components/property_toggle';
+@import 'workarea/admin/components/top_help_articles';
+@import 'workarea/admin/components/help_article_summary';
+@import 'workarea/admin/components/help_article';
+@import 'workarea/admin/components/help_helper';
+@import 'workarea/admin/components/avatar';
+@import 'workarea/admin/components/activity_group';
+@import 'workarea/admin/components/activity';
+@import 'workarea/admin/components/menu';
+@import 'workarea/admin/components/summary';
+@import 'workarea/admin/components/takeover';
+@import 'workarea/admin/components/primary_nav';
+@import 'workarea/admin/components/card';
+@import 'workarea/admin/components/browsing_controls';
+@import 'workarea/admin/components/new_block_button';
+@import 'workarea/admin/components/content_block';
+@import 'workarea/admin/components/content_block_list';
+@import 'workarea/admin/components/release_select';
+@import 'workarea/admin/components/bulk_actions';
+@import 'workarea/admin/components/date_marker';
+@import 'workarea/admin/components/navigation_builder';
+@import 'workarea/admin/components/release_creatable';
+@import 'workarea/admin/components/admin_toolbar';
+@import 'workarea/admin/components/checkbox';
+@import 'workarea/admin/components/index_table';
+@import 'workarea/admin/components/add_to_calendar';
+@import 'workarea/admin/components/range_input';
+@import 'workarea/admin/components/data_file_sample';
+@import 'workarea/admin/components/direct_upload';
+@import 'workarea/admin/components/pricing_overrides';
+@import 'workarea/admin/components/product_rules';
+@import 'workarea/admin/components/chartkick';
+@import 'workarea/admin/components/expandable';
+@import 'workarea/admin/components/insight';
+@import 'workarea/admin/components/secondary_nav';
+@import 'workarea/admin/components/dashboard_graphs';
+<%= append_stylesheets('admin.components') %>
+
+@import 'workarea/admin/trumps/break_word';
+@import 'workarea/admin/trumps/clearfix';
+@import 'workarea/admin/trumps/hidden';
+@import 'workarea/admin/trumps/image_replacement';
+@import 'workarea/admin/trumps/truncate';
+@import 'workarea/admin/trumps/visually_hidden';
+@import 'workarea/admin/trumps/visible';
+<%= append_stylesheets('admin.trumps') %>

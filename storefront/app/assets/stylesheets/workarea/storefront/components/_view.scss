@@ -1,0 +1,12 @@
+/*------------------------------------*\
+    #VIEW
+\*------------------------------------*/
+
+.view {
+    @extend %clearfix;
+
+    .ui-dialog & {
+        max-width: $dialog-content-max-width;
+        min-width: $dialog-content-min-width;
+    }
+}

@@ -1,0 +1,19 @@
+.summary{ class: "#{'summary--inactive' unless model.active?}" }
+  = link_to catalog_product_path(model) do
+    .summary__image-container
+      = image_tag(product_image_url(model.primary_image, :medium), alt: model.name, class: 'summary__image') if model.primary_image.present?
+    %span.summary__name= model.name
+    .summary__info-container.summary__info-container--multi-line
+      .summary__info
+        - if model.active?
+          #{local_time_ago(model.updated_at)}
+        - else
+          %span.summary__info-text-inactive= t('workarea.admin.catalog_products.summary.inactive')
+      .summary__info
+        %p #{t('workarea.admin.fields.id')} #{model.id}
+        %span= t('workarea.admin.catalog_products.summary.sold_available', sold: model.sales, available: model.available_inventory)
+    %span.summary__type #{t('workarea.admin.catalog_products.summary.type')} (#{model.template.humanize})
+    %span.summary__type.summary__type--template= model.template.humanize
+  .checkbox.summary__checkbox.hidden
+    = check_box_tag 'product_id', model.to_global_id.to_param, false, class: 'checkbox__input summary__checkbox-input', id: dom_id(model)
+    = label_tag dom_id(model), t('workarea.admin.bulk_actions.add_summary_button'), class: 'checkbox__label summary__checkbox-label'

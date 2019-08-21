@@ -1,0 +1,24 @@
+- @title = t('workarea.storefront.users.forgot_password')
+
+- content_for :breadcrumbs do
+  %p.breadcrumbs__node-group
+    %span.breadcrumbs__node{ itemprop: 'breadcrumb' }
+      = link_to t('workarea.storefront.layouts.home'), root_path, rel: 'home', class: 'breadcrumbs__link'
+    %span.breadcrumbs__node{ itemprop: 'breadcrumb' }
+      = link_to t('workarea.storefront.users.login'), login_path, class: 'breadcrumbs__link'
+    %span.breadcrumbs__node{ itemprop: 'breadcrumb' }
+      %span.breadcrumbs__text= t('workarea.storefront.users.forgot_password')
+
+.view
+
+  %h1= t('workarea.storefront.users.forgot_password')
+  %p= t('workarea.storefront.users.forgot_password_instructions')
+
+  = form_tag forgot_password_path, id: 'forgot_password_form', method: 'post', data: { analytics: forgot_password_analytics_data.to_json } do
+
+    .property
+      = label_tag :email, nil, class: 'property__name' do
+        %span.property__text= t('workarea.storefront.users.email')
+      .value= email_field_tag :email, nil, class: 'text-box', required: true, placeholder: t('workarea.storefront.forms.email_placeholder')
+
+    %p= button_tag t('workarea.storefront.forms.send'), value: 'forgot_password', class: 'button'

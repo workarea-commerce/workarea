@@ -1,0 +1,8 @@
+= hidden_field_tag 'product_rule[name]', rule.name, id: nil
+= hidden_field_tag 'product_rule[operator]', 'equals'
+= rule.name.titleize
+is
+= text_field_tag 'product_rule[value]', rule.value, class: 'text-box text-box--i18n text-box--medium'
+= inline_svg 'workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', data: { tooltip: { content_id: '#value-info' }.to_json }
+#value-info.tooltip-content
+  %p Separating values with commas will allow products that match any to be included. So using <code>Red, Green, Blue</code> would include Red products, Green products, or Blue products.

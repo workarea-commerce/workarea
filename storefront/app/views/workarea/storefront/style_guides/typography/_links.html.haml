@@ -1,0 +1,13 @@
+#links.style-guide__subsection
+
+  %h3= link_to_style_guide('typography', 'links')
+
+  %p Provides styles for link elements as well as a .link selector which is designed to be a baseline for any link modifiers you may need in your project.
+
+  %p should style <code>a</code> elements.
+  .style-guide__example-block
+    = link_to('A link', 'www.example.com')
+
+  %p should style <code>link</code> classes.
+  .style-guide__example-block
+    %span.link Not really a link

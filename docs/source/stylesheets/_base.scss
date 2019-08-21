@@ -1,0 +1,125 @@
+/**
+ * Border-Box The Planet
+ */
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+
+
+/**
+ * Images
+ */
+img {
+  max-width: 100%;
+
+  .article & {
+    display: block;
+    border: 1px solid $light-gray;
+    box-shadow: $box-shadow;
+  }
+}
+
+
+
+/**
+ * HLJS Tweaks
+ */
+.hljs {
+  box-shadow: $box-shadow;
+}
+
+
+
+/**
+ * Tables
+ */
+
+table {
+  width: 100%;
+  border: 1px solid $light-gray;
+  border-collapse: collapse;
+  background: $off-white;
+}
+
+  thead th, thead td {
+    text-align: left;
+    border-bottom: 1px solid $light-gray;
+    background-color: $gray-alpha-5;
+  }
+
+  th, td {
+    padding: $spacing-unit;
+  }
+
+  tr:nth-child(even) {
+    background-color: $gray-alpha-5;
+  }
+
+
+
+/**
+ * Bold elements
+ */
+b, strong { font-weight: bold; }
+
+
+
+/**
+ * Page styles
+ */
+.body {
+  background: image-url('oval.svg') no-repeat;
+  background-position: center -504px;
+  background-size: 1600px;
+  background-color: $off-white;
+}
+
+
+.body--flat {
+  background: linear-gradient(to bottom, $blue 290px, $white 291px, $white 100%);
+}
+
+.body--nude {
+  background: $white;
+}
+
+
+
+/**
+ * View wrapper
+ */
+.view {
+  padding: $spacing-unit ($spacing-unit * 2) ($spacing-unit * 4);
+  max-width: 1200px;
+  margin: 0 auto;
+
+  @include av-mq(lap-and-up) {
+    position: relative;
+    top: $header-height;
+  }
+}
+
+.view--full {
+  max-width: none;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+
+
+/**
+ * Forms
+ */
+input[type=email], input[type=text] {
+  display: inline-block;
+  font-size: 0.889em;
+  padding: $spacing-unit;
+  border: 1px solid $light-gray;
+  border-radius: 7px;
+  line-height: 1;
+}

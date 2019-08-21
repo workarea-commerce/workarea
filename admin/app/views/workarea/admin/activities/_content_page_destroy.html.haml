@@ -1,0 +1,10 @@
+.activity
+  .activity__header
+    .activity__avatar
+      = link_to_modifier(entry) do
+        = avatar_for entry.modifier
+    %h3.activity__name= link_to_modifier(entry)
+    %p.activity__time= activity_time(entry.created_at)
+  .activity__message
+    = t('workarea.admin.activities.content_page_destroy_html', name: entry.model_name)
+    = link_to_restore_for(entry)

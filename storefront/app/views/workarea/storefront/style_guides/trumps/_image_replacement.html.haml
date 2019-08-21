@@ -1,0 +1,13 @@
+#image-replacement.style-guide__subsection
+
+  %h3= link_to_style_guide('trumps', 'image_replacement')
+
+  %p Implements a CSS image replacement technique to hide the element's content and show a background image.
+
+  %p without <code>image-replacement</code>:
+  .style-guide__example-block
+    %div{ style: "background: url('#{asset_url('workarea/core/placeholder.png')}') center / 100% 100%; width: 250px; height: 100px;" } I'm some text
+
+  %p with <code>image-replacement</code>:
+  .style-guide__example-block
+    .image-replacement{ style: "background: url('#{asset_url('workarea/core/placeholder.png')}') center / 100% 100%; width: 250px; height: 100px;" } I'm some text

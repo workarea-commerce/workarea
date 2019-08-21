@@ -1,0 +1,14 @@
+.activity
+  .activity__header
+    .activity__avatar
+      = link_to_modifier(entry) do
+        = avatar_for entry.modifier
+    %h3.activity__name= link_to_modifier(entry)
+    %p.activity__time= activity_time(entry.created_at)
+  .activity__message
+    - if entry.audited.blank? || entry.audited.category.blank?
+      - name = t('workarea.admin.activities.a_tax_rate')
+    - else
+      - name = link_to("#{entry.audited.postal_code} #{entry.audited.region} #{entry.audited.country}", edit_tax_category_path(entry.audited.category))
+
+    = t('workarea.admin.activities.tax_rate_update_html', name: name, fields: fields_clause_for(entry.tracked_changes))

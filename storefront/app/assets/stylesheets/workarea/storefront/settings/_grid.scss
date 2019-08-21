@@ -1,0 +1,36 @@
+/*------------------------------------*\
+    #GRID
+\*------------------------------------*/
+
+/**
+ * We use the Avalanche CSS grid system to achieve layout. These settings
+ * override the default settings of the library. A list of all configurable
+ * settings can be found here: https://github.com/colourgarden/avalanche
+ */
+
+$av-gutter:  $spacing-unit;
+$av-widths:  (2, 3, 4, 5, 6);
+
+$av-breakpoint-class-chain:  '-at-';
+$av-width-class-style:       'percent';
+$av-width-class-namespace:   'grid__cell--';
+
+$av-enable-grid-right:   true;
+$av-enable-grid-flush:   true;
+$av-enable-grid-middle:  true;
+$av-enable-grid-auto:    true;
+$av-enable-grid-rev:     true;
+$av-enable-grid-center:  true;
+$av-enable-grid-large:   true;
+$av-enable-grid-bottom:  true;
+
+
+/**
+ * The following is required to ensure the grid's breakpoints stay up to date
+ * when changed in the project.
+ */
+$av-breakpoints: (
+    'medium':  "screen and (min-width: #{$medium-breakpoint})",
+    'wide':    "screen and (min-width: #{$wide-breakpoint})",
+    'x-wide':  "screen and (min-width: #{$x-wide-breakpoint})",
+);

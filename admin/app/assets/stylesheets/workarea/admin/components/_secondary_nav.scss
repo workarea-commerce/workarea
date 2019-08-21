@@ -1,0 +1,16 @@
+/*------------------------------------*\
+    #SECONDARY-NAV
+\*------------------------------------*/
+
+$secondary-nav-border-color: $light-gray !default;
+
+.secondary-nav {
+    @extend %list-reset;
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+    font-size: 1.25rem;
+    margin-bottom: $spacing-unit * 4;
+    border-bottom: 2px solid $secondary-nav-border-color;
+    padding-bottom: $spacing-unit;
+}

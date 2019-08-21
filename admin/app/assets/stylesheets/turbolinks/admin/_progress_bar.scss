@@ -1,0 +1,11 @@
+/*------------------------------------*\
+    #TURBOLINKS-PROGRESS-BAR
+\*------------------------------------*/
+
+.turbolinks-progress-bar {
+    @include global-box-shadow($lighting: top);
+    position: fixed;
+    top: 0;
+    z-index: index($components, turbolinks-progress-bar);
+    background-color: $blue;
+}

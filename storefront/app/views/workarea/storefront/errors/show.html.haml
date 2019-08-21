@@ -1,0 +1,12 @@
+- @title = @content.browser_title
+
+- add_css(@content.css)
+- add_javascript(@content.javascript)
+
+- content_for :head do
+  %meta{ property: 'global-id', content: @content.to_global_id.to_param }
+  %meta{ name: 'robots', content: 'noindex' }
+
+.view
+  %h1= @content.name
+  = render_content_blocks(@content.content_blocks)

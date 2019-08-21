@@ -1,0 +1,22 @@
+-# TODO v4 consolidate all date filters UI to use this partial
+.browsing-controls__filter.browsing-controls__filter--date
+  %button.browsing-controls__filter-button{ type: 'button', data: { filter_dropdown: '#filters-dropdown-date' } }
+    = t('workarea.admin.date_selector.date_range', starts_at: starts_at.to_s(:date_only), ends_at: ends_at.to_s(:date_only))
+    = inline_svg('workarea/admin/icons/calendar.svg', class: 'browsing-controls__filter-button-icon svg-icon svg-icon--small')
+
+  #filters-dropdown-date.browsing-controls__filter-dropdown.tooltip-content
+    .grid
+      .grid__cell.grid__cell--50
+        .property.property--inline
+          = label_tag 'starts_at', t('workarea.admin.fields.starts_at'), class: 'property__name'
+          = datetime_picker_tag 'starts_at', starts_at.to_s(:date_only), class: 'text-box', placeholder: t('workarea.admin.fields.starts_at'), data: { datepicker_field: { inline: true }, datepicker_field_starts_at: '' }
+      .grid__cell.grid__cell--50
+        .property.property--inline
+          = datetime_picker_tag 'ends_at', ends_at.to_s(:date_only), class: 'text-box', placeholder: t('workarea.admin.fields.ends_at'), data: { datepicker_field: { inline: true }, datepicker_field_ends_at: '' }
+
+    .browsing-controls__filter-dropdown-submit
+      .grid.grid--auto.grid--middle.grid--center
+        .grid__cell= label_tag 'quick_range', t('workarea.admin.date_selector.or_choose')
+        .grid__cell= select_tag 'quick_range', options_for_select(date_selector_quick_range_options)
+        .grid__cell= t('workarea.admin.date_selector.and')
+        .grid__cell= submit_tag t('workarea.admin.search.submit'), class: 'button button--small'

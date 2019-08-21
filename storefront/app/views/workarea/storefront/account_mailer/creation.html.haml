@@ -1,0 +1,15 @@
+= append_partials('storefront.account_creation_mailer.top')
+
+- content_for :preheader_text do
+  = @content
+
+%tr
+  %td
+    = @content
+    %p= t('workarea.storefront.email.account_created.thanks_html', email: @user.email)
+    %p
+      = t('workarea.storefront.email.account_created.info_html')
+      = link_to users_account_url, users_account_url
+    %p= t('workarea.storefront.email.account_created.closing_html')
+
+= append_partials('storefront.account_creation_mailer.bottom')

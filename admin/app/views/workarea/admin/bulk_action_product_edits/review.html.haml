@@ -1,0 +1,113 @@
+- @page_title = t('workarea.admin.bulk_action_product_edits.title')
+
+.view
+  .view__header
+    .view__heading
+      %h1= t('workarea.admin.bulk_action_product_edits.review.title')
+
+  = form_tag publish_bulk_action_product_edit_path(@bulk_action), method: 'post', data: { unsaved_changes: '' } do
+    .section
+      .bulk-actions
+        .grid
+          .grid__cell.grid__cell--50
+            .bulk-actions__section
+              %h2.bulk-actions__section-heading= t('workarea.admin.bulk_action_product_edits.settings.title')
+              .bulk-actions__sub-section
+                - if @bulk_action.settings.present?
+                  - @bulk_action.settings.each do |name, value|
+                    %p <strong>#{name.humanize.titleize}</strong>: #{value}
+                - else
+                  %p= t('workarea.admin.bulk_action_product_edits.review.no_change')
+
+            .bulk-actions__section
+              %h2.bulk-actions__section-heading= t('workarea.admin.fields.tags')
+              .bulk-actions__sub-section
+                - if @bulk_action.remove_tags_list.present? || @bulk_action.add_tags_list.present?
+                  - if @bulk_action.remove_tags_list.present?
+                    %h3.bulk-actions__sub-heading= t('workarea.admin.bulk_action_product_edits.tags.remove')
+                    %p= @bulk_action.remove_tags_list
+
+                  - if @bulk_action.add_tags_list.present?
+                    %h3.bulk-actions__sub-heading= t('workarea.admin.bulk_action_product_edits.tags.add')
+                    %p= @bulk_action.add_tags_list
+                - else
+                  %p= t('workarea.admin.bulk_action_product_edits.review.no_change')
+
+            .bulk-actions__section
+              %h2.bulk-actions__section-heading= t('workarea.admin.fields.filters')
+              .bulk-actions__sub-section
+                - if @bulk_action.add_filters.present? || @bulk_action.remove_filters.present?
+                  - if @bulk_action.remove_filters.present?
+                    %h3.bulk-actions__sub-heading= t('workarea.admin.bulk_action_product_edits.filters.remove')
+                    %p= @bulk_action.remove_filters_list
+
+                  - if @bulk_action.add_filters.present?
+                    %h3.bulk-actions__sub-heading= t('workarea.admin.bulk_action_product_edits.filters.add')
+                    - @bulk_action.add_filters.each_slice(2) do |name, value|
+                      %p <strong>#{name}</strong>: #{value}
+                - else
+                  %p= t('workarea.admin.bulk_action_product_edits.review.no_change')
+
+            .bulk-actions__section
+              %h2.bulk-actions__section-heading= t('workarea.admin.fields.details')
+              .bulk-actions__sub-section
+                - if @bulk_action.add_details.present? || @bulk_action.remove_details.present?
+                  - if @bulk_action.remove_details.present?
+                    %h3.bulk-actions__sub-heading= t('workarea.admin.bulk_action_product_edits.details.remove')
+                    %p= @bulk_action.remove_details_list
+
+                  - if @bulk_action.add_details.present?
+                    %h3.bulk-actions__sub-heading= t('workarea.admin.bulk_action_product_edits.details.add')
+                    - @bulk_action.add_details.each_slice(2) do |name, value|
+                      %p <strong>#{name}</strong>: #{value}
+                - else
+                  %p= t('workarea.admin.bulk_action_product_edits.review.no_change')
+
+            .bulk-actions__section
+              %h2.bulk-actions__section-heading= t('workarea.admin.bulk_action_product_edits.pricing.title')
+              .bulk-actions__sub-section
+                - if @bulk_action.pricing.present?
+                  - @bulk_action.pricing.except('prices').each do |name, value|
+                    %p <strong>#{t("workarea.admin.fields.#{name}", default: name.titleize)}</strong>: #{bulk_actions_display_value_for(value)}
+                  - if @bulk_action.pricing['prices'].present?
+                    - @bulk_action.pricing['prices'].first.each do |name, value|
+                      %p <strong>#{t("workarea.admin.fields.#{name}", default: name.titleize)}</strong>: #{value}
+                - else
+                  %p= t('workarea.admin.bulk_action_product_edits.review.no_change')
+
+            .bulk-actions__section
+              %h2.bulk-actions__section-heading= t('workarea.admin.bulk_action_product_edits.inventory.title')
+              .bulk-actions__sub-section
+                - if @bulk_action.inventory.present?
+                  - @bulk_action.inventory.each do |name, value|
+                    %p <strong>#{t("workarea.admin.fields.#{name}", default: name.titleize)}</strong>: #{value}
+                - else
+                  %p= t('workarea.admin.bulk_action_product_edits.review.no_change')
+
+          .grid__cell.grid__cell--50.grid--center
+            %h2.heading= t('workarea.admin.releases.publish.subtitle')
+
+            .grid__cell.grid__cell--60-at-medium
+              - if @bulk_action.inventory.present?
+                = render_message 'warning' do
+                  = t('workarea.admin.bulk_action_product_edits.inventory.warning_message')
+
+              = render 'workarea/admin/releases/publish'
+
+    .workflow-bar
+      .grid.grid--middle
+        .grid__cell.grid__cell--33
+          .grid.grid--auto.grid--middle
+            .grid__cell
+              = link_to t('workarea.admin.form.cancel'), bulk_action_path(@bulk_action, return_to: catalog_products_path), class: 'workflow-bar__button workflow-bar__button--delete', data: { method: 'delete' }
+            .grid__cell
+              = t('workarea.admin.bulk_action_product_edits.worflow.selected', label: pluralize(@bulk_action.count, t('workarea.admin.bulk_action_product_edits.label')))
+              = link_to t('workarea.admin.bulk_action_product_edits.worflow.view_products_link'), selected_bulk_action_path(@bulk_action)
+        .grid__cell.grid__cell--33
+          %ol.workflow-bar__steps
+            %li.workflow-bar__step= link_to "1) #{t('workarea.admin.bulk_action_product_edits.worflow.edit_step')}", edit_bulk_action_product_edit_path(@bulk_action)
+            %li.workflow-bar__step
+              %strong 2) #{t('workarea.admin.bulk_action_product_edits.worflow.publish_step')}
+        .grid__cell.grid__cell--33
+          .grid.grid--auto.grid--right.grid--middle
+            .grid__cell= button_tag t('workarea.admin.bulk_action_product_edits.review.save_and_finish'), value: 'create_changes', class: 'workflow-bar__button workflow-bar__button--create'

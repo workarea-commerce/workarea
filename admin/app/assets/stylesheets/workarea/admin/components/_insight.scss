@@ -1,0 +1,93 @@
+/*------------------------------------*\
+    #INSIGHT
+\*------------------------------------*/
+
+$insight-heading-color: $off-black !default;
+$insight-period-color: $white !default;
+$insight-period-bg-color: $bright-green !default;
+$insight-box-shadow-color: $gray !default;
+$insight-bg-color: $white !default;
+$insight-note-color: $dark-gray !default;
+$insight-vertical-gutter: $spacing-unit * 4 !default;
+
+.insight {
+    background: $insight-bg-color;
+    padding: $spacing-unit * 2;
+    border: 1px solid $shadow-color;
+    border-radius: $global-border-radius;
+
+    & + & {
+        margin-top: $insight-vertical-gutter;
+    }
+}
+
+.insight--with-gutter {
+    margin-bottom: $insight-vertical-gutter;
+}
+
+
+    .insight__date {
+        text-align: center;
+        margin-bottom: $spacing-unit * 2;
+    }
+
+        .insight__period {
+            display: inline-block;
+            padding: ($spacing-unit / 4) $spacing-unit;
+            color: $insight-period-color;
+            background: $insight-period-bg-color;
+            border-radius: $global-border-radius * 2;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            font-weight: bold;
+            line-height: 1.2;
+        }
+
+
+    .insight__heading {
+        @extend %heading;
+        @extend %heading--3;
+        @extend %heading--no-margin;
+        margin-bottom: $spacing-unit / 2;
+        color: $insight-heading-color;
+        text-align: center;
+    }
+
+
+    .insight__body {
+        font-size: 1.15rem;
+        border-radius: $global-border-radius;
+        text-align: center;
+        padding: 0 ($spacing-unit * 2);
+    }
+
+        .insight__note {
+            color: $insight-note-color;
+            line-height: 1.1;
+        }
+
+
+        .insight__product {
+            text-align: center;
+            margin: $spacing-unit 0;
+        }
+
+            .insight__product-image {
+                display: inline-block;
+                margin-bottom: $spacing-unit;
+            }
+
+            .insight__product-name {
+                @extend %truncate;
+            }
+
+            .insight__product-info {
+                font-size: 0.85rem;
+            }
+
+
+        .insight__section {
+            & + & {
+                margin-top: $spacing-unit * 4;
+            }
+        }

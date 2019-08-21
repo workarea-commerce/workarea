@@ -1,0 +1,23 @@
+- @page_title = @help_article.name
+
+.view
+  .view__header
+    .grid.grid--middle.grid--right
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to "↑ #{t('workarea.admin.help.show.index_link')}", help_index_path
+          %h1= @help_article.name
+      .grid__cell.grid__cell--25
+        - if current_user.help_admin?
+          .grid.grid--auto.grid--right
+            .grid__cell
+              = link_to edit_help_path(@help_article), title: t('workarea.admin.help.show.edit_name', name: @help_article.name) do
+                = inline_svg('workarea/admin/icons/edit.svg', class: 'svg-icon', title: t('workarea.admin.help.show.edit'))
+            .grid__cell
+              = form_tag help_path(@help_article), method: 'delete' do
+                = button_tag class: 'button-reset', title: t('workarea.admin.actions.delete') do
+                  = inline_svg('workarea/admin/icons/delete.svg', class: 'svg-icon svg-icon--red', title: t('workarea.admin.actions.delete'))
+
+  .view__container
+    .help-article
+      != @article_body

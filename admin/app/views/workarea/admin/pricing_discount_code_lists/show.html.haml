@@ -1,0 +1,31 @@
+- @page_title = @code_list.name
+
+.view
+  .view__header
+    .grid.grid--middle.grid--right
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to "↑ #{t('workarea.admin.pricing_discount_code_lists.show.index_link')}", pricing_discount_code_lists_path
+          %h1= @code_list.name
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@code_list)
+    - unless @code_list.generation_complete?
+      .grid.grid--center
+        .grid__cell.grid__cell--75
+          = render_message 'info' do
+            = t('workarea.admin.pricing_discount_code_lists.show.generating_codes')
+
+  .view__container
+    = render_cards_for(@code_list)
+
+    .workflow-bar
+      .grid
+        .grid__cell.grid__cell--50
+          .grid.grid--auto
+            - if @code_list.generation_complete?
+              .grid__cell= link_to t('workarea.admin.actions.delete'), pricing_discount_code_list_path(@code_list), class: 'workflow-bar__button workflow-bar__button--delete', data: { method: 'delete', confirm: t('workarea.admin.actions.delete_confirmation') }
+            - else
+              .grid__cell= link_to t('workarea.admin.actions.delete'), '#disabled-info', disabled: 'disabled', class: 'workflow-bar__button  workflow-bar__button--delete', data: { tooltip: '' }
+
+      #disabled-info.tooltip-content
+        %p= t('workarea.admin.pricing_discount_code_lists.show.disabled_info')

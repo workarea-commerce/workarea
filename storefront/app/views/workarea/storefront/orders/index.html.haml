@@ -1,0 +1,40 @@
+- @title = t('workarea.storefront.orders.order_status')
+
+.view
+
+  %h1.visually-hidden= t('workarea.storefront.orders.order_status')
+
+  .grid
+
+    .grid__cell.grid__cell--50-at-medium
+
+      %h2= t('workarea.storefront.orders.status_login')
+
+      = form_tag login_path, id: 'login_form', method: 'post', class: 'login__form' do
+        = hidden_field_tag :return_to, users_orders_path
+        .property
+          = label_tag :email, nil, class: 'property__name' do
+            %span.property__text= t('workarea.storefront.users.email')
+          .value= email_field_tag :email, params[:email], class: 'text-box', autocapitalize: 'off', autocomplete: 'email', required: true, placeholder: t('workarea.storefront.forms.email_placeholder')
+        .property
+          = label_tag :password, nil, class: 'property__name' do
+            %span.property__text= t('workarea.storefront.users.password')
+          .value= password_field_tag :password, nil, class: 'text-box', required: true, autocomplete: 'off'
+        .grid.grid--auto
+          %p.grid__cell= button_tag t('workarea.storefront.users.login'), value: 'login', class: 'button'
+          %p.grid__cell= link_to t('workarea.storefront.users.forgot_password'), forgot_password_path, class: 'text-button'
+
+    .grid__cell.grid__cell--50-at-medium
+
+      %h2= t('workarea.storefront.orders.status_lookup')
+
+      = form_tag lookup_orders_path, id: 'single_order_lookup_form', method: 'post' do
+        .property
+          = label_tag :order_id, nil, class: 'property__name' do
+            %span.property__text= t('workarea.storefront.orders.id')
+          .value= text_field_tag :order_id, params[:order_id], class: 'text-box', required: true, autocomplete: 'off', autocapitalize: 'off', autocorrect: 'off'
+        .property
+          = label_tag :postal_code, nil, class: 'property__name' do
+            %span.property__text= t('workarea.storefront.orders.billing_address_postal_code')
+          .value= text_field_tag :postal_code, params[:postal_code], class: 'text-box', required: true, autocomplete: 'postal-code'
+        = button_tag t('workarea.storefront.orders.lookup_order'), value: 'lookup_order', class: 'button'

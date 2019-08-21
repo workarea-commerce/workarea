@@ -1,0 +1,31 @@
+/*------------------------------------*\
+    #MOBILE-FILTERS-NAV
+\*------------------------------------*/
+
+$mobile-filters-nav-bg-color:   $white !default;
+$mobile-filters-nav-box-shadow: -8px 0 8px rgba($black, 0.5);
+
+$mobile-filters-nav-width:  90% !default;
+
+
+.mobile-filters-nav {
+    display: none;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: index($components, mobile-filters-nav);
+    padding: $spacing-unit * 2;
+    width: $mobile-filters-nav-width;
+    background: $mobile-filters-nav-bg-color;
+    box-shadow: $mobile-filters-nav-box-shadow;
+}
+
+.mobile-filters-nav--active {
+    display: block;
+}
+
+
+    .mobile-filters-nav__close-button {}
+
+

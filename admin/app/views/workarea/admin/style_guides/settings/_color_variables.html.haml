@@ -1,0 +1,21 @@
+#color-variables.style-guide__subsection
+
+  %h3= link_to_style_guide('settings', 'color_variables')
+
+  %p The main color palette for the admin.
+
+  .grid.grid--auto
+    - colors = %w(black off-black blue bright-blue green bright-green red dark-gray gray light-gray off-white white orange)
+    - colors.each do |color|
+      .grid__cell
+        .style-guide__color
+          .style-guide__color-swatch{ class: "style-guide__color-swatch--#{color}" }
+        $#{color}
+
+  .grid.grid--auto
+    - colors = %w(transparent font-color background-color border-color focus-ring-color shadow-color)
+    - colors.each do |color|
+      .grid__cell
+        .style-guide__color
+          .style-guide__color-swatch{ class: "style-guide__color-swatch--#{color}" }
+        $#{color}

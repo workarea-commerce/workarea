@@ -1,0 +1,157 @@
+#card.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'card')
+
+  %p A card UI designed for show pages.
+
+  %p should support text content:
+  .style-guide__example-block
+    .card
+      = link_to '#', class: 'card__header' do
+        %span.card__header-text Card Header
+        = inline_svg 'workarea/admin/icons/tmp.svg', class: 'card__icon'
+      .card__body
+        %ul.list-reset
+          - 10.times do
+            %li
+              %strong Property:
+              Value
+        = link_to '#', class: 'card__button' do
+          %span.button.button--small Edit card
+
+  %p should have a horizontal rule separating chunks of data:
+  .style-guide__example-block
+    .card
+      = link_to '#', class: 'card__header' do
+        %span.card__header-text Card Header
+        = inline_svg 'workarea/admin/icons/tmp.svg', class: 'card__icon'
+      .card__body
+        %ul.list-reset
+          - 10.times do
+            %li
+              %strong Property 1:
+              Value 1
+            %li
+              %strong Property 2:
+              Value 2
+            %hr.card__hr
+        = link_to '#', class: 'card__button' do
+          %span.button.button--small Edit card
+
+  %p should hide vertical overflow in body:
+  .style-guide__example-block
+    .card
+      = link_to '#', class: 'card__header' do
+        %span.card__header-text Card Header
+        = inline_svg 'workarea/admin/icons/tmp.svg', class: 'card__icon'
+      .card__body
+        %p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ut vestibulum turpis. Sed placerat sem ac odio molestie, id pellentesque lorem pharetra. Aliquam et est sapien. Pellentesque eu nunc non lectus semper tempus. Aenean placerat finibus elit, sed dignissim dolor ullamcorper iaculis. Praesent et elit sed augue imperdiet malesuada. Vivamus vehicula dui non erat pharetra, non tempus neque cursus. Morbi pulvinar, arcu sit amet aliquet ultrices, odio mi luctus dui, vel pretium nisl augue vitae augue. Integer aliquet ex orci. Quisque faucibus id eros quis aliquam. Sed neque ex, viverra quis ullamcorper non, varius nec lectus. Etiam commodo nibh eu lectus tristique porttitor. Vivamus iaculis justo id nibh faucibus eleifend. In eu enim eget odio venenatis congue vel vitae tortor. Aenean imperdiet egestas ante viverra rhoncus.
+        = link_to '#', class: 'card__button' do
+          %span.button.button--small Edit card
+
+  %p should truncate long headers:
+  .style-guide__example-block
+    .card
+      = link_to '#', class: 'card__header' do
+        %span.card__header-text Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ut vestibulum turpis.
+        = inline_svg 'workarea/admin/icons/tmp.svg', class: 'card__icon'
+      .card__body
+        Card Body
+        = link_to '#', class: 'card__button' do
+          %span.button.button--small Edit card
+
+  %p should support empty card body. Centers an element contained within <code>card__empty-note</code>:
+  .style-guide__example-block
+    .card
+      = link_to '#', class: 'card__header' do
+        %span.card__header-text Card Header
+        = inline_svg 'workarea/admin/icons/tmp.svg', class: 'card__icon'
+      .card__body
+        %p.card__empty-note Empty Card Body
+        = link_to '#', class: 'card__button' do
+          %span.button.button--small Edit card
+
+  %p should support a single image in card body:
+  .style-guide__example-block
+    .card
+      = link_to '#', class: 'card__header' do
+        %span.card__header-text Card Header
+        = inline_svg 'workarea/admin/icons/tmp.svg', class: 'card__icon'
+      .card__body
+        = image_tag 'workarea/core/placeholder.png', size: '600x900', class: 'card__photo'
+        = link_to '#', class: 'card__button' do
+          %span.button.button--small Edit card
+
+  %p should support an image grid. Each card is wrapped in a grid cell for convenience:
+  .style-guide__example-block
+    .grid.grid--auto.grid--large
+      - (1..10).each do |total_images|
+        .grid__cell
+          .card
+            = link_to '#', class: 'card__header' do
+              %span.card__header-text with #{pluralize(total_images, 'Images')}
+              = inline_svg 'workarea/admin/icons/tmp.svg', class: 'card__icon'
+            .card__body
+              %ul.grid
+                - total_images.times do |current_index|
+                  %li.grid__cell.grid__cell--50
+                    .card__photo-box
+                      - if current_index < 4
+                        - if current_index == 3 && total_images > 4
+                          %span.card__photo +#{total_images - current_index}
+                        - else
+                          = image_tag 'workarea/core/placeholder.png', size: '300x500', class: 'card__photo'
+              = link_to '#', class: 'card__button' do
+                %span.button.button--small Edit card
+
+  %p should provide type-based color coding. Each card is wrapped in a grid cell for convenience:
+  .style-guide__example-block
+    - types = %w(attributes products images variants content categories recommendations original items payment rates imports comments pricing prices shipping fulfillment timeline planned-changes)
+    .grid.grid--auto.grid--large
+      - types.each do |type|
+        .grid__cell
+          .card{ class: "card--#{type}" }
+            = link_to '#', class: 'card__header' do
+              %span.card__header-text= type
+              = inline_svg "workarea/admin/icons/#{type.underscore}.svg", class: 'card__icon'
+            .card__body
+              Card Body
+              = link_to '#', class: 'card__button' do
+                %span.button.button--small Edit card
+
+  %p should support vertically centered content:
+  .style-guide__example-block
+    .card
+      = link_to '#', class: 'card__header' do
+        %span.card__header-text Card Header
+        = inline_svg 'workarea/admin/icons/tmp.svg', class: 'card__icon'
+      .card__body
+        .card__centered-content
+          CENTAUR
+
+#card--button.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'card__button')
+
+  %p Buttonizes the card, for use on object edit pages.
+  .style-guide__example-block
+    .grid.grid--auto.grid--large
+      .grid__cell
+        .card.card--button.card--attributes
+          = link_to '#', class: 'card__header' do
+            %span.card__header-text Card Header
+            = inline_svg 'workarea/admin/icons/tmp.svg', class: 'card__icon'
+
+#card--active.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'card__active')
+
+  %p Intended to be used in conjunction with <code>card--button</code> to indicate that the current navigation card is active.
+
+  .style-guide__example-block
+    .grid.grid--auto.grid--large
+      .grid__cell
+        .card.card--button.card--active.card--attributes
+          = link_to '#', class: 'card__header' do
+            %span.card__header-text Card Header
+            = inline_svg 'workarea/admin/icons/tmp.svg', class: 'card__icon'

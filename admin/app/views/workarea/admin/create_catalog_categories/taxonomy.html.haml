@@ -1,0 +1,35 @@
+- @page_title = t('workarea.admin.create_catalog_categories.taxonomy.page_title', category_name: @category.name)
+
+.view
+  .view__header
+    .grid.grid--right
+      .grid__cell.grid__cell--50
+        .view__heading
+          %h1.heading.heading--no-margin= t('workarea.admin.create_catalog_categories.taxonomy.title', category_name: @category.name)
+          %p= link_to t('workarea.admin.create_catalog_categories.workflow.skip_this'), publish_create_catalog_category_path(@category)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@category, html_options: { target: @category.id })
+
+  .view__container.view__container--narrow
+    = form_tag save_taxonomy_create_catalog_category_path(@category), method: 'post' do
+      .grid.grid--center
+        .grid__cell
+          = taxonomy_insert @category.taxon
+
+      .workflow-bar
+        .grid.grid--middle
+          .grid__cell.grid__cell--20
+            = link_to t('workarea.admin.form.cancel'), catalog_category_path(@category), class: 'workflow-bar__button workflow-bar__button--delete', data: { method: 'delete', confirm: t('workarea.admin.create_catalog_categories.workflow.cancel_message') }
+
+          .grid__cell.grid__cell--60
+            %ol.workflow-bar__steps
+              %li.workflow-bar__step 1) #{link_to t('workarea.admin.create_catalog_categories.workflow.steps.setup'), edit_create_catalog_category_path(@category)}
+              %li.workflow-bar__step 2) #{link_to t('workarea.admin.create_catalog_categories.workflow.steps.products'), products_create_catalog_category_path(@category)}
+              %li.workflow-bar__step 3) #{link_to t('workarea.admin.create_catalog_categories.workflow.steps.content'), content_create_catalog_category_path(@category)}
+              %li.workflow-bar__step
+                %strong 4) #{t('workarea.admin.create_catalog_categories.workflow.steps.taxonomy')}
+              %li.workflow-bar__step= "5) #{t('workarea.admin.create_catalog_categories.workflow.steps.publish')}"
+
+          .grid__cell.grid__cell--20
+            .grid.grid--auto.grid--right.grid--middle
+              .grid__cell= button_tag t('workarea.admin.create_catalog_categories.navigation.save_and_continue'), value: 'save_taxonomy', class: 'workflow-bar__button workflow-bar__button--create'

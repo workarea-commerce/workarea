@@ -1,0 +1,11 @@
+#text-field-reset-object.style-guide__subsection
+
+  %h3= link_to_style_guide('objects', 'text_field_reset')
+
+  %p Resets browser-default text-field styling.
+
+  %p should work with a <code>input</code> element
+  .style-guide__example-block
+    = text_field_tag 'Text Field 1', nil, placeholder: 'Text Field'
+  .style-guide__example-block
+    = text_field_tag 'Text Field 2', nil, placeholder: 'Unstyled Text Field', class: 'text-field-reset'

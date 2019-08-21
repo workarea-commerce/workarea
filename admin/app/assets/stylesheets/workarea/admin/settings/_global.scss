@@ -1,0 +1,35 @@
+/*------------------------------------*\
+    #GLOBAL
+\*------------------------------------*/
+
+/**
+ * Default global spacing units
+ */
+$spacing-unit:  8px !default;
+
+$vertical-margin:    $spacing-unit * 2 !default;
+$horizontal-margin:  $spacing-unit * 2 !default;
+
+
+/**
+ * Help Lookup Size & Positioning
+ *
+ * Shared by components/_help_lookup_buttons.css & components/_style_guide.scss
+ */
+$help-lookup-button-offset-x:  16px !default;
+$help-lookup-button-offset-y:  32px !default;
+$help-lookup-button-size:      48px !default;
+
+
+/**
+ * Heights
+ */
+$global-header-height:           $spacing-unit * 8 !default;
+$global-workflow-bar-height:     $spacing-unit * 8 !default;
+
+
+/**
+ * Miscellaneous
+ */
+$global-transition-speed:  0.2s !default;
+$global-border-radius:     5px !default;

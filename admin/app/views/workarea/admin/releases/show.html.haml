@@ -1,0 +1,65 @@
+- @page_title = @release.name
+
+.view
+  .view__header
+    .grid.grid--middle.grid--right
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to "↑ #{t('workarea.admin.releases.show.index_link')}", releases_path
+          %h1= @release.name
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@release)
+
+  .view__container
+    = render_cards_for(@release)
+
+    .workflow-bar
+      .grid
+        .grid__cell.grid__cell--20
+          = link_to t('workarea.admin.actions.delete'), release_path(@release), class: 'workflow-bar__button workflow-bar__button--delete', data: { method: 'delete', confirm: t('workarea.admin.actions.delete_confirmation') }
+        .grid__cell.grid__cell--80
+          .grid.grid--auto.grid--right
+            - if !@release.has_changes?
+              .grid__cell
+                = link_to t('workarea.admin.releases.show.start_preview_in_storefront'), '#no-changes-to-preview-info', disabled: 'disabled', data: { tooltip: '' }, class: 'workflow-bar__button workflow-bar__button--update'
+                #no-changes-to-preview-info.tooltip-content
+                  %p= t('workarea.admin.releases.show.no_changes_to_preview')
+
+              .grid__cell
+                = link_to t('workarea.admin.releases.show.publish_now'), '#no-changes-to-publish-info', disabled: 'disabled', data: { tooltip: '' }, class: 'workflow-bar__button workflow-bar__button--update'
+                #no-changes-to-publish-info.tooltip-content
+                  %p= t('workarea.admin.releases.show.no_changes_to_publish')
+
+              .grid__cell
+                = link_to t('workarea.admin.releases.show.undo'), '#no-changes-to-undo-info', disabled: 'disabled', data: { tooltip: '' }, class: 'workflow-bar__button workflow-bar__button--update'
+                #no-changes-to-undo-info.tooltip-content
+                  %p= t('workarea.admin.releases.show.no_changes_to_undo')
+
+            - else
+              .grid__cell
+                - if current_release.try(:id) == @release.id
+                  = link_to t('workarea.admin.releases.show.visit_storefront_to_preview'), storefront.root_path, class: 'workflow-bar__button workflow-bar__button--update'
+                - else
+                  = form_tag release_session_path, method: :post do
+                    = hidden_field_tag :release_id, @release.id
+                    = hidden_field_tag :return_to, storefront.root_path
+                    = button_tag t('workarea.admin.releases.show.start_preview_in_storefront'), value: 'browse', class: 'workflow-bar__button workflow-bar__button--update'
+
+              .grid__cell
+                - publish_text = @release.published? ? t('workarea.admin.releases.show.republish_now') : t('workarea.admin.releases.show.publish_now')
+                - if current_user.can_publish_now?
+                  = form_tag publish_release_path(@release), method: :patch, class: 'grid__cell' do
+                    = button_tag publish_text, value: 'publish', class: 'workflow-bar__button workflow-bar__button--update'
+                - else
+                  = link_to publish_text, '#cannot-publish-info', disabled: 'disabled', data: { tooltip: '' }, class: 'workflow-bar__button workflow-bar__button--update'
+                  #cannot-publish-info.tooltip-content
+                    %p= t('workarea.admin.releases.show.user_cannot_publish_info')
+
+              .grid__cell
+                - if @release.can_undo? && current_user.can_publish_now?
+                  = form_tag undo_release_path(@release), method: :patch do
+                    = button_tag t('workarea.admin.releases.show.undo'), value: 'undo', class: 'workflow-bar__button workflow-bar__button--update'
+                - else
+                  = link_to t('workarea.admin.releases.show.undo'), '#cannot-undo-info', disabled: 'disabled', data: { tooltip: '' }, class: 'workflow-bar__button workflow-bar__button--update'
+                  #cannot-undo-info.tooltip-content
+                    %p= !@release.can_undo? ? t('workarea.admin.releases.show.cannot_undo_info') : t('workarea.admin.releases.show.user_cannot_undo_info')

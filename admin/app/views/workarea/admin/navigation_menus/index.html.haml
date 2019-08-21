@@ -1,0 +1,57 @@
+- @page_title = t('workarea.admin.content_pages.index.page_title')
+
+
+.view
+  .view__header
+    .grid
+      .grid__cell.grid__cell--25
+        = render 'workarea/admin/releases/select'
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to "↑ #{t('workarea.admin.navigation_menus.index.dashboard_link')}", store_dashboards_path, class: 'view__dashboard-button'
+          %h1.heading--no-margin= t('workarea.admin.navigation_menus.index.title')
+          %p
+            = t('workarea.admin.navigation_menus.index.order_by.instruction_1')
+            = link_to t('workarea.admin.navigation_menus.index.order_by.sort_by_orders'), '#order-preview-tooltip', data: { tooltip: { interactive: true }.to_json }
+            = link_to '#sorting-by-orders-tooltip', data: { tooltip: { side: 'bottom' }.to_json } do
+              = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.navigation_menus.index.order_by.more_info'))
+            = t('workarea.admin.navigation_menus.index.order_by.instruction_2_html', taxonomy_link: link_to('taxonomy', navigation_taxons_path) )
+            #order-preview-tooltip.tooltip-content
+              %p= t('workarea.admin.navigation_menus.index.order_by.preview.description')
+              %ol.navigation-builder__node-list
+                - @menus_sorted.each do |menu|
+                  %li.navigation-builder__node
+                    %span.navigation-builder__node-text= menu.name
+              %p= link_to t('workarea.admin.navigation_menus.index.order_by.preview.button'), sort_navigation_menus_path, data: { method: 'post' }
+            #sorting-by-orders-tooltip.tooltip-content
+              %p= t('workarea.admin.navigation_menus.index.order_by.tooltip.we_recommend')
+              %p= t('workarea.admin.navigation_menus.index.order_by.tooltip.research_shows')
+
+
+  .view__container
+    .navigation-builder
+      - if @menus.empty?
+        %p= t('workarea.admin.navigation_menus.index.empty')
+        = link_to t('workarea.admin.navigation_menus.index.add_a_menu'), new_navigation_menu_path
+      - else
+        .navigation-builder__node-list{ data: { sort_navigation_menu: '' } }
+          - @menus.each do |menu|
+            .navigation-builder__node{ class: navigation_menu_classes(menu, @menu), data: { sort_navigation_menu_id: menu.id } }
+              = link_to navigation_menus_path(menu_id: menu), class: 'navigation-builder__node-link', data: { tooltip: { content_id: "#navigation-builder__tooltip-#{menu.id}", interactive: true, allow_click: true }.to_json } do
+                = inline_svg("workarea/admin/icons/grip.svg", title: t('workarea.admin.navigation_menus.index.drag_to_rearrange'), class: 'navigation-builder__node-icon svg-icon svg-icon--small')
+                %span.navigation-builder__node-text= menu.name
+              .tooltip-content{ id: "navigation-builder__tooltip-#{menu.id}" }
+                .navigation-builder__actions
+                  = link_to edit_navigation_menu_path(menu), class: 'navigation-builder__action' do
+                    %span.navigation-builder__action-text= t('workarea.admin.actions.edit')
+                    = inline_svg('workarea/admin/icons/edit.svg', class: 'svg-icon')
+                  = link_to navigation_menu_path(menu), class: 'navigation-builder__action', data: { method: 'delete', confirm: t('workarea.admin.actions.delete_confirmation') } do
+                    %span.navigation-builder__action-text= t('workarea.admin.actions.delete')
+                    = inline_svg('workarea/admin/icons/delete.svg', class: 'svg-icon svg-icon--red')
+
+          = link_to new_navigation_menu_path(menu: { position: @menus.size }), class: 'navigation-builder__add-button' do
+            = inline_svg 'workarea/admin/icons/add_circle.svg', class: 'svg-icon svg-icon--green', title: t('workarea.admin.navigation_menus.index.add_new')
+
+
+  - if @content.present?
+    = render 'workarea/admin/content/edit', content: @content

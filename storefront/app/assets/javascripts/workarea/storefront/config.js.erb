@@ -1,0 +1,153 @@
+/**
+ * @namespace WORKAREA
+ */
+
+(function () {
+    'use strict';
+
+    /**
+     * @namespace WORKAREA.config
+     * @property {object} breakPoints
+     * @property {object} dialog
+     * @property {object} loading
+     * @property {object} searchFieldsAutocomplete
+     * @property {object} popupButtons
+     * @property {object} deletionForms
+     * @property {object} creditCardNumberWhiteList
+     * @property {object} messages
+     * @property {object} scrollToButtons
+     * @property {object} pagination
+     * @property {object} forms
+     * @property {object} backToTopButton
+     */
+    WORKAREA.config.storefrontBreakPoints = {
+        // Store front breakpoints are configured in workarea/core/configuration.rb
+        sizes: {
+            <% Workarea.config.storefront_break_points.each do |name, size| %>
+                '<%= name %>':  <%= size %>,
+            <% end %>
+        },
+
+        ie9Matches: [
+            'small',
+            'medium',
+            'wide'
+        ]
+    };
+
+    WORKAREA.config.dialog = {
+        options: {
+            initModules: true,
+
+            uiDialogOptions: {
+                width: 'auto'
+            }
+        },
+
+        viewportBuffer: 5,
+
+        errorTemplate: {
+            path: 'workarea/storefront/templates/message',
+            data: {
+                messageModifier: 'error',
+                messageType: I18n.t('workarea.messages.error'),
+                messageText: I18n.t('workarea.messages.generic_error_text')
+            }
+        }
+    };
+
+    WORKAREA.config.loading = {
+        loadingDialogTemplate: {
+            path: 'workarea/storefront/templates/loading',
+            data: {
+                cssModifiers: ''
+            }
+        },
+
+        loadingDialogOptions: {
+            uiDialogOptions: {
+                width: 200,
+                minHeight: 10,
+                dialogClass: 'ui-dialog-loading'
+            }
+        },
+
+        loadingIndicatorTemplate: 'workarea/storefront/templates/loading',
+
+        loadingIndicatorOptions: {
+            delay: 300,
+            container: document.body,
+            insertionMethod: 'appendTo',
+            cssModifiers: ''
+        }
+    };
+
+    WORKAREA.config.searchFieldsAutocomplete = {
+        minLength: 2
+    };
+
+    WORKAREA.config.popupButtons = {
+        width: 768,
+        height: 480
+    };
+
+    WORKAREA.config.deletionForms = {
+        message: I18n.t('workarea.storefront.forms.confirmation_alert')
+    };
+
+    WORKAREA.config.creditCardNumberWhiteList = ['1', '2', '3'];
+
+    WORKAREA.config.messages = {
+        delay: 4000
+    };
+
+    WORKAREA.config.scrollToButtons = {
+        animationSpeed: 500,
+        topOffset: 40
+    };
+
+    WORKAREA.config.pagination = {
+        pagesToLoad: 5
+    };
+
+    WORKAREA.config.forms = {
+        errorLabelClasses: 'value__error'
+    };
+
+    WORKAREA.config.backToTopButton = {
+        waypointOffset: '-50%'
+    };
+
+    WORKAREA.config.checkoutShippingServices = {
+      requestTimeout: <%= Rails.env.test? ? '0' : '1' %>
+    }
+
+    /**
+    * jQuery Validation
+    */
+
+    $.validator.setDefaults({
+       meta: 'validation',
+       ignoreTitle: true,
+       errorClass: 'jquery-validation-error',
+       validClass: 'jquery-validation-valid',
+    });
+
+    $.extend($.validator.messages, I18n.t('validate'));
+
+    WORKAREA.config.validationErrorAnalyticsThrottle = 1000;
+
+    $.validator.addMethod('extendedCreditCard', function (value, element) {
+        if (_.includes(WORKAREA.config.creditCardNumberWhiteList, value)) {
+            return true;
+        } else {
+            return $.validator.methods.creditcard.call(this, value, element);
+        }
+    });
+
+    $.validator.addMethod('email', function (value, element) {
+        var re = /^[A-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[A-Z0-9-]+(\.[A-Z0-9-]+)+$/gi;
+
+        return this.optional(element) || re.test(value);
+    });
+})();

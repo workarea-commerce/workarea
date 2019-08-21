@@ -1,0 +1,266 @@
+- @page_title = t('workarea.admin.bulk_action_product_edits.title')
+
+= form_tag bulk_action_product_edit_path(@bulk_action), method: 'patch', data: { unsaved_changes: '' } do
+  .view
+    .view__header
+      .view__heading
+        %h1= t('workarea.admin.bulk_action_product_edits.edit.title')
+
+    .section
+      .bulk-actions
+        .grid.grid--middle.grid--center
+          .grid__cell.grid__cell--50
+            .bulk-actions__section
+              %h2.bulk-actions__section-heading= t('workarea.admin.bulk_action_product_edits.settings.title')
+
+              .bulk-actions__sub-section
+                .property-toggle
+                  .property-toggle__checkbox
+                    = check_box_tag 'toggle_active', nil, @bulk_action.selected?('settings', 'active'), class: 'property-toggle__checkbox-input'
+                  .property-toggle__property
+                    .property
+                      %span.property__name
+                        = t('workarea.admin.fields.active')
+                        = inline_svg('workarea/admin/i18n.svg', class: 'svg-icon svg-icon--small') if locale_options.many? && Workarea.config.localized_active_fields
+                      = toggle_button_for 'bulk_action[settings][active]', @bulk_action.selected_true?('settings', 'active'), disabled: !@bulk_action.selected?('settings', 'active')
+
+              .bulk-actions__sub-section
+                .grid
+                  .grid__cell
+                    .property-toggle
+                      .property-toggle__checkbox
+                        = check_box_tag 'toggle_purchasable', nil, @bulk_action.selected?('settings', 'purchasable'), class: 'property-toggle__checkbox-input'
+                      .property-toggle__property
+                        .property
+                          %span.property__name= t('workarea.admin.fields.purchasable')
+                          = toggle_button_for 'bulk_action[settings][purchasable]', @bulk_action.selected_true?('settings', 'purchasable'), disabled: !@bulk_action.selected?('settings', 'purchasable')
+
+
+              .bulk-actions__sub-section
+                .property-toggle
+                  .property-toggle__checkbox
+                    = check_box_tag 'toggle_template', nil, @bulk_action.selected?('settings', 'template'), class: 'property-toggle__checkbox-input'
+                  .property-toggle__property
+                    .property
+                      = label_tag 'bulk_action[settings][template]', t('workarea.admin.fields.template'), class: 'property__name'
+                      = select_tag 'bulk_action[settings][template]', options_for_select(@bulk_action.template_options), disabled: !@bulk_action.selected?('settings', 'template')
+
+              = append_partials('admin.product_bulk_update_settings', bulk_action: @bulk_action)
+
+            .bulk-actions__section
+              %h2.bulk-actions__section-heading= t('workarea.admin.fields.tags')
+
+              .bulk-actions__sub-section
+                %h3.bulk-actions__sub-heading= t('workarea.admin.bulk_action_product_edits.tags.remove')
+                .property
+                  = label_tag 'bulk_action[remove_tags_list]', t('workarea.admin.catalog_products.edit.tags_label'), class: 'property__name'
+                  = text_field_tag 'bulk_action[remove_tags_list]', @bulk_action.remove_tags_list, class: 'text-box'
+                  %span.property__note= t('workarea.admin.bulk_action_product_edits.tags.tags_note')
+
+              .bulk-actions__sub-section
+                %h3.bulk-actions__sub-heading= t('workarea.admin.bulk_action_product_edits.tags.add')
+                .property
+                  = label_tag 'bulk_action[add_tags_list]', t('workarea.admin.catalog_products.edit.tags_label'), class: 'property__name'
+                  = text_field_tag 'bulk_action[add_tags_list]', @bulk_action.add_tags_list, class: 'text-box'
+                  %span.property__note= t('workarea.admin.bulk_action_product_edits.tags.tags_note')
+
+            .bulk-actions__section
+              %h2.bulk-actions__section-heading= t('workarea.admin.fields.filters')
+
+              .bulk-actions__sub-section
+                %h3.bulk-actions__sub-heading= t('workarea.admin.bulk_action_product_edits.filters.remove')
+                .property
+                  = label_tag 'bulk_action[remove_filters_list]', t('workarea.admin.bulk_action_product_edits.filters.names'), class: 'property__name'
+                  = text_field_tag 'bulk_action[remove_filters_list]', @bulk_action.remove_filters_list, class: 'text-box'
+
+              .bulk-actions__sub-section
+                %h3.bulk-actions__sub-heading= t('workarea.admin.bulk_action_product_edits.filters.add')
+                %table
+                  %thead
+                    %tr
+                      %th= t('workarea.admin.catalog_products.edit.filters.name')
+                      %th= t('workarea.admin.catalog_products.edit.filters.values')
+                  %tbody
+                    - @bulk_action.add_filters.in_groups_of(2).each do |name, value|
+                      %tr
+                        %td
+                          = text_field_tag 'bulk_action[add_filters][]', name, class: 'text-box', title: 'New Filter Name', placeholder: 'Name Example: Material', id: "#{name}_filter_name"
+                        %td
+                          = text_field_tag 'bulk_action[add_filters][]', value, class: 'text-box', title: 'New Filter Value', placeholder: 'Value Example: Cotton, Wool', id: "#{value}_filter_name"
+
+                    %tr{ data: { cloneable_row: '' } }
+                      %td
+                        = text_field_tag 'bulk_action[add_filters][]', nil, class: 'text-box', title: 'New Filter Name', placeholder: 'Name Example: Material', id: 'filter_name'
+                      %td
+                        = text_field_tag 'bulk_action[add_filters][]', nil, class: 'text-box', title: 'New Filter Value', placeholder: 'Value Example: Cotton, Wool', id: 'filter_value'
+
+            .bulk-actions__section
+              %h2.bulk-actions__section-heading= t('workarea.admin.fields.details')
+
+              .bulk-actions__sub-section
+                %h3.bulk-actions__sub-heading= t('workarea.admin.bulk_action_product_edits.details.remove')
+                .property
+                  = label_tag 'bulk_action[remove_details_list]', t('workarea.admin.bulk_action_product_edits.details.names'), class: 'property__name'
+                  = text_field_tag 'bulk_action[remove_details_list]', @bulk_action.remove_details_list, class: 'text-box'
+
+              .bulk-actions__sub-section
+                %h3.bulk-actions__sub-heading= t('workarea.admin.bulk_action_product_edits.details.add')
+                %table
+                  %thead
+                    %tr
+                      %th= t('workarea.admin.catalog_products.edit.details.name')
+                      %th= t('workarea.admin.catalog_products.edit.details.values')
+                  %tbody
+                    - @bulk_action.add_details.in_groups_of(2).each do |name, value|
+                      %tr
+                        %td
+                          = text_field_tag 'bulk_action[add_details][]', name, class: 'text-box', title: 'New Detail Name', placeholder: 'Name Example: Origin', id: "#{name}_attribute_name"
+                        %td
+                          = text_field_tag 'bulk_action[add_details][]', value, class: 'text-box', title: 'New Detail Value', placeholder: 'Value Example: USA', id: "#{value}_attribute_value"
+
+                    %tr{ data: { cloneable_row: '' } }
+                      %td
+                        = text_field_tag 'bulk_action[add_details][]', nil, class: 'text-box', title: 'New Detail Name', placeholder: 'Name Example: Origin', id: 'attribute_name'
+                      %td
+                        = text_field_tag 'bulk_action[add_details][]', nil, class: 'text-box', title: 'New Detail Value', placeholder: 'Value Example: USA', id: 'attribute_value'
+
+            .bulk-actions__section
+              %h2.bulk-actions__section-heading= t('workarea.admin.bulk_action_product_edits.pricing.title')
+
+              .bulk-actions__sub-section
+                %h3.bulk-actions__sub-heading= t('workarea.admin.bulk_action_product_edits.pricing.settings')
+                .grid
+                  .grid__cell.grid__cell--50
+                    .property-toggle
+                      .property-toggle__checkbox
+                        = check_box_tag 'toggle_on_sale', nil, @bulk_action.selected?('pricing', 'on_sale'), class: 'property-toggle__checkbox-input'
+                      .property-toggle__property
+                        .property
+                          %span.property__name #{t('workarea.admin.fields.on_sale')}?
+                          = toggle_button_for 'bulk_action[pricing][on_sale]', @bulk_action.selected_true?('pricing', 'on_sale'), disabled: !@bulk_action.selected?('pricing', 'on_sale')
+                  .grid__cell.grid__cell--50
+                    .property-toggle
+                      .property-toggle__checkbox
+                        = check_box_tag 'toggle_discountable', nil, @bulk_action.selected?('pricing', 'discountable'), class: 'property-toggle__checkbox-input'
+                      .property-toggle__property
+                        .property
+                          %span.property__name= t('workarea.admin.fields.discountable')
+                          = toggle_button_for 'bulk_action[pricing][discountable]', @bulk_action.selected_true?('pricing', 'discountable'), disabled: !@bulk_action.selected?('pricing', 'discountable')
+
+              .bulk-actions__sub-section
+                .property-toggle
+                  .property-toggle__checkbox
+                    = check_box_tag 'toggle_tax_code', nil, @bulk_action.selected?('pricing', 'tax_code'), class: 'property-toggle__checkbox-input'
+                  .property-toggle__property
+                    .property
+                      = label_tag 'bulk_action[pricing][tax_code]', t('workarea.admin.fields.tax_code'), class: 'property__name'
+                      = text_field_tag 'bulk_action[pricing][tax_code]', @bulk_action.pricing['tax_code'], class: 'text-box', title: t('workarea.admin.pricing_skus.tax_code')
+
+              .bulk-actions__sub-section
+                %h3.bulk-actions__sub-heading
+                  = t('workarea.admin.bulk_action_product_edits.pricing.prices')
+                  = link_to '#prices-warning', data: { tooltip: '' } do
+                    = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.bulk_action_product_edits.pricing.info'))
+                #prices-warning.tooltip-content
+                  %p= t('workarea.admin.bulk_action_product_edits.pricing.info_message')
+                .grid
+                  .grid__cell.grid__cell--33
+                    .property-toggle
+                      .property-toggle__checkbox
+                        = check_box_tag 'toggle_msrp', nil, @bulk_action.selected?('pricing', 'msrp'), class: 'property-toggle__checkbox-input'
+                      .property-toggle__property
+                        .property
+                          = label_tag 'bulk_action[pricing][msrp]', t('workarea.admin.fields.msrp'), class: 'property__name'
+                          = currency_symbol
+                          = text_field_tag 'bulk_action[pricing][msrp]', @bulk_action.pricing['msrp'], class: 'text-box text-box--small'
+                  .grid__cell.grid__cell--33
+                    .property-toggle
+                      .property-toggle__checkbox
+                        = check_box_tag 'toggle_regular_price', nil, @bulk_action.pricing_prices['regular'].present?, class: 'property-toggle__checkbox-input'
+                      .property-toggle__property
+                        .property
+                          = label_tag 'bulk_action[pricing][prices][][regular]', t('workarea.admin.fields.regular'), class: 'property__name'
+                          = currency_symbol
+                          = text_field_tag 'bulk_action[pricing][prices][][regular]', @bulk_action.pricing_prices['regular'], class: 'text-box text-box--small'
+                  .grid__cell.grid__cell--33
+                    .property-toggle
+                      .property-toggle__checkbox
+                        = check_box_tag 'toggle_sale_price', nil, @bulk_action.pricing_prices['sale'].present?, class: 'property-toggle__checkbox-input'
+                      .property-toggle__property
+                        .property
+                          = label_tag 'bulk_action[pricing][prices][][sale]', t('workarea.admin.fields.sale'), class: 'property__name'
+                          = currency_symbol
+                          = text_field_tag 'bulk_action[pricing][prices][][sale]', @bulk_action.pricing_prices['sale'], class: 'text-box text-box--small'
+
+
+            .bulk-actions__section
+              %h2.bulk-actions__section-heading
+                = t('workarea.admin.bulk_action_product_edits.inventory.title')
+
+                = link_to '#inventory-warning', data: { tooltip: '' } do
+                  = inline_svg('workarea/admin/icons/alert.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.bulk_action_product_edits.inventory.warning'))
+              #inventory-warning.tooltip-content
+                %p= t('workarea.admin.bulk_action_product_edits.inventory.warning_message')
+
+              .bulk-actions__sub-section
+                %h3.bulk-actions__sub-heading= t('workarea.admin.bulk_action_product_edits.inventory.update')
+
+                .property-toggle
+                  .property-toggle__checkbox
+                    = check_box_tag 'toggle_inventory_policy', nil, @bulk_action.selected?('inventory', 'policy'), class: 'property-toggle__checkbox-input'
+                  .property-toggle__property
+                    .property
+                      = label_tag 'bulk_action[inventory][policy]', t('workarea.admin.fields.policy'), class: 'property__name'
+                      = select_tag 'bulk_action[inventory][policy]', options_for_select(inventory_policies, @bulk_action.inventory['policy']), prompt: t('workarea.admin.bulk_action_product_edits.inventory.prompt')
+                .grid
+                  .grid__cell.grid__cell--50
+                    .property-toggle
+                      .property-toggle__checkbox
+                        = check_box_tag 'toggle_inventory_available', nil, @bulk_action.selected?('inventory', 'available'), class: 'property-toggle__checkbox-input'
+                      .property-toggle__property
+                        .property
+                          = label_tag 'bulk_action[inventory][available]', t('workarea.admin.fields.available'), class: 'property__name'
+                          = number_field_tag 'bulk_action[inventory][available]', @bulk_action.inventory['available'], class: 'text-box text-box--small', min: '0'
+                  .grid__cell.grid__cell--50
+                    .property-toggle
+                      .property-toggle__checkbox
+                        = check_box_tag 'toggle_inventory_reserve', nil, @bulk_action.selected?('inventory', 'reserve'), class: 'property-toggle__checkbox-input'
+                      .property-toggle__property
+                        .property
+                          = label_tag 'bulk_action[inventory][reserve]', t('workarea.admin.fields.reserve'), class: 'property__name'
+                          = number_field_tag 'bulk_action[inventory][reserve]', @bulk_action.inventory['reserve'], class: 'text-box text-box--small', min: '0'
+                  .grid__cell.grid__cell--50
+                    .property-toggle
+                      .property-toggle__checkbox
+                        = check_box_tag 'toggle_inventory_backordered', nil, @bulk_action.selected?('inventory', 'backordered'), class: 'property-toggle__checkbox-input'
+                      .property-toggle__property
+                        .property
+                          = label_tag 'bulk_action[inventory][backordered]', t('workarea.admin.fields.backordered'), class: 'property__name'
+                          = number_field_tag 'bulk_action[inventory][backordered]', @bulk_action.inventory['backordered'], class: 'text-box text-box--small', min: '0'
+                  .grid__cell.grid__cell--50
+                    .property-toggle
+                      .property-toggle__checkbox
+                        = check_box_tag 'toggle_inventory_backordered_until', nil, @bulk_action.selected?('inventory', 'backordered_until'), class: 'property-toggle__checkbox-input'
+                      .property-toggle__property
+                        .property
+                          = label_tag 'bulk_action[inventory][backordered_until]', t('workarea.admin.fields.backordered_until'), class: 'property__name'
+                          = datetime_picker_tag 'bulk_action[inventory][backordered_until]', @bulk_action.inventory['backordered_until'], class: 'text-box', data: { datepicker_field: { } }
+
+
+    .workflow-bar
+      .grid.grid--middle
+        .grid__cell.grid__cell--33
+          .grid.grid--middle.grid--auto
+            .grid__cell
+              = link_to t('workarea.admin.form.cancel'), bulk_action_path(@bulk_action, return_to: catalog_products_path), class: 'workflow-bar__button workflow-bar__button--delete', data: { method: 'delete' }
+            .grid__cell
+              = t('workarea.admin.bulk_action_product_edits.worflow.selected', label: pluralize(@bulk_action.count, t('workarea.admin.bulk_action_product_edits.label')))
+              = link_to t('workarea.admin.bulk_action_product_edits.worflow.view_products_link'), selected_bulk_action_path(@bulk_action)
+        .grid__cell.grid__cell--33
+          %ol.workflow-bar__steps
+            %li.workflow-bar__step
+              %strong 1) #{t('workarea.admin.bulk_action_product_edits.worflow.edit_step')}
+            %li.workflow-bar__step 2) #{t('workarea.admin.bulk_action_product_edits.worflow.publish_step')}
+        .grid__cell.grid__cell--33
+          .grid.grid--auto.grid--right.grid--middle
+            .grid__cell= button_tag t('workarea.admin.bulk_action_product_edits.edit.review_changes'), value: 'create_review', class: 'workflow-bar__button workflow-bar__button--update'

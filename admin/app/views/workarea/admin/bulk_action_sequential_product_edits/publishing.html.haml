@@ -1,0 +1,29 @@
+- @page_title = t('workarea.admin.bulk_action_sequential_product_edits.publishing.title')
+
+.view
+  .view__header
+    .view__heading
+      %h1= t('workarea.admin.bulk_action_sequential_product_edits.publishing.title')
+
+      = form_tag publish_bulk_action_sequential_product_edit_path(@bulk_action), method: 'post', data: { unsaved_changes: '' } do
+        .grid.grid--middle
+          .grid__cell.grid__cell--50.align-center
+            = render 'workarea/admin/releases/publish'
+
+        .workflow-bar
+          .grid.grid--middle
+            .grid__cell.grid__cell--33
+              .grid.grid--middle.grid--auto
+                .grid__cell
+                  = link_to t('workarea.admin.form.cancel'), bulk_action_path(@bulk_action, return_to: catalog_products_path), class: 'workflow-bar__button workflow-bar__button--delete', data: { method: 'delete' }
+                .grid__cell
+                  = t('workarea.admin.bulk_action_sequential_product_edits.workflow_bar.selected', label: pluralize(@bulk_action.count, t('workarea.admin.bulk_action_sequential_product_edits.label')))
+                  = link_to t('workarea.admin.bulk_action_sequential_product_edits.workflow_bar.view_products_link'), selected_bulk_action_path(@bulk_action)
+            .grid__cell.grid__cell--33
+              %ol.workflow-bar__steps
+                %li.workflow-bar__step
+                  %strong 1) #{t('workarea.admin.bulk_action_sequential_product_edits.workflow_bar.publishing')}
+                %li.workflow-bar__step 2) #{t('workarea.admin.bulk_action_sequential_product_edits.workflow_bar.editing')}
+            .grid__cell.grid__cell--33
+              .grid.grid--auto.grid--right.grid--middle
+                .grid__cell= button_tag "#{t('workarea.admin.bulk_action_sequential_product_edits.publishing.make_changes')} →", value: 'make_changes', class: 'workflow-bar__button'

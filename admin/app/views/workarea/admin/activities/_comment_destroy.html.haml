@@ -1,0 +1,14 @@
+.activity
+  .activity__header
+    .activity__avatar
+      = link_to_modifier(entry) do
+        = avatar_for entry.modifier
+    %h3.activity__name= link_to_modifier(entry)
+    %p.activity__time= activity_time(entry.created_at)
+  .activity__message
+    - if entry.audited.try(:commentable).present?
+      = link_to t('workarea.admin.activities.comment_destroy_html'), commentable_comments_path(entry.audited.commentable.to_global_id)
+    - else
+      = t('workarea.admin.activities.comment_destroy_html')
+
+    = link_to_restore_for(entry)

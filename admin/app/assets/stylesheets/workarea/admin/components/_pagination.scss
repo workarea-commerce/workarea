@@ -1,0 +1,27 @@
+/*------------------------------------*\
+    #PAGINATION
+\*------------------------------------*/
+
+$pagination-navigation-disabled-color:  $gray !default;
+
+
+.pagination {
+    @extend %inline-list;
+    margin: $vertical-margin 0;
+    font-size: $font-size + 4px;
+    text-align: center;
+}
+
+    .pagination__node {
+        margin: 0 $spacing-unit;
+    }
+
+        .pagination__link {}
+
+        .pagination__navigation {
+            font-weight: bold;
+        }
+
+        .pagination__navigation--disabled {
+            color: $pagination-navigation-disabled-color;
+        }

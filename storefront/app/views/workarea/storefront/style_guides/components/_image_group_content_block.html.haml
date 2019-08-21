@@ -1,0 +1,17 @@
+#image-group-content-block.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'image_group_content_block')
+
+  %p A content block responsible for the tiled layout of up to 6 images.
+
+  %p A red border has been added to the following examples in order to give clearer distinction between images.
+
+  - (1..6).each do |i|
+    %p should support <strong>#{pluralize(i, 'image')}</strong>:
+    .style-guide__example-block
+      .image-group-content-block
+        .grid.grid--flush.grid--center
+          - i.times do
+            .grid__cell.grid__cell--50-at-medium
+              = link_to '#', class: 'image-group-content-block__link' do
+                = image_tag 'workarea/core/placeholder.png', class: 'image-group-content-block__image', style: 'width: 960px; height: 360px; border: 1px solid red'

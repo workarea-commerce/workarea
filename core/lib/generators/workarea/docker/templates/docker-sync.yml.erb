@@ -1,0 +1,8 @@
+version: "2"
+options:
+  verbose: false
+syncs:
+  <%= app_name %>-sync:
+    notify_terminal: true
+    src: '.'
+    sync_excludes: ['tmp/*', 'public/*', 'log/*']

@@ -1,0 +1,7 @@
+= hidden_field_tag 'product_rule[name]', 'on_sale', id: nil
+= hidden_field_tag 'product_rule[operator]', 'equals'
+Only products that are
+= select_tag 'product_rule[value]', options_for_select([['on sale', true], ['not on sale', false]], rule.value)
+= inline_svg 'workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', data: { tooltip: { content_id: '#on-sale-info', interactive: true }.to_json }
+#on-sale-info.tooltip-content
+  %p A product is considered "on sale" if any of its #{link_to 'pricing SKUs', pricing_skus_path} are on sale.

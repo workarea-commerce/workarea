@@ -1,0 +1,21 @@
+<div class="property">
+    <label for="saved_addresses_<%= counter %>" class="property__name">
+        <span><%= I18n.t('workarea.storefront.checkouts.saved_addresses') %></span>
+    </label>
+    <div class="value">
+        <select id="saved_addresses_<%= counter %>" name="saved_addresses_<%= counter %>">
+            <option value="" selected><%= I18n.t('workarea.storefront.checkouts.select_an_address') %></option>
+            <% _.forEach(addresses, function(address) { %>
+                <option value="<%= address._id %>">
+                    <%= address.first_name %>
+                    <%= address.last_name %>
+                    <%= address.street %>
+                    <%= address.street_2 %>
+                    <%= address.city %>
+                    <%= address.region %>
+                    <%= address.postal_code %>
+                </option>
+            <% }); %>
+        </select>
+    </div>
+</div>

@@ -1,0 +1,10 @@
+.image-group-content-block
+  .grid.grid--flush.grid--center
+    - view_model.series.each_with_index do |image, i|
+      - unless image.asset.image_placeholder?
+        .grid__cell.grid__cell--50-at-medium
+          - if image.link.present?
+            = link_to image.link, class: 'image-group-content-block__link' do
+              = image_tag image.asset.url, alt: image.alt, class: 'image-group-content-block__image'
+          - else
+            = image_tag image.asset.url, alt: image.alt, class: 'image-group-content-block__image'

@@ -1,0 +1,12 @@
+= link_to 'X', mobile_nav_return_path, class: 'mobile-nav__close-button'
+
+%ul.mobile-nav__menu{ role: 'navigation' }
+  - @menus.each do |menu|
+    - styles = link_selected?(menu.taxon) ? 'mobile-nav__link mobile-nav__link--selected' : 'mobile-nav__link'
+    %li.mobile-nav__item{ class: ('mobile-nav__item--has-children' if menu.content_blocks.present?)}
+      - if menu.content_blocks.present?
+        = link_to menu.name, menu_path(menu, return_to: mobile_nav_return_path, mobile_nav: true), class: styles
+      - elsif menu.taxon.present?
+        = link_to menu.taxon.name, storefront_path_for(menu.taxon), class: styles
+      - else
+        %span{ class: styles }= menu.name

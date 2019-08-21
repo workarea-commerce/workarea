@@ -1,0 +1,38 @@
+- @page_title = t('workarea.admin.navigation_taxons.index.page_title')
+
+- content_for :head do
+  %meta{ name: 'turbolinks-cache-control', content: 'no-cache' }
+
+.view
+  .view__header
+    .view__heading
+      = link_to "↑ #{t('workarea.admin.navigation_taxons.index.dashboard_link')}", store_dashboards_path
+      %h1.heading--no-margin= t('workarea.admin.navigation_taxons.index.title')
+      %p= t('workarea.admin.navigation_taxons.index.description_html', primary_nav_link: link_to('primary navigation', navigation_menus_path))
+
+  .menu-editor
+    - @roots.each do |root|
+      .menu-editor__menu{ data: { menu_editor_parent_id: root.id } }
+
+        .menu-editor__head
+          - if root.root?
+            %span= inline_svg 'workarea/admin/icons/home.svg', class: 'menu-editor__icon menu-editor__icon--head'
+            %span.menu-editor__head-label= t('workarea.admin.navigation_taxons.index.home')
+          - else
+            = taxon_icon(root, class: 'menu-editor__icon menu-editor__icon--head')
+            %span.menu-editor__head-label= root.name
+            .menu-editor__head-actions
+              = link_to edit_navigation_taxon_path(root), title: t('workarea.admin.navigation_taxons.index.edit_name_navigation', name: root.name), class: 'menu-editor__head-link' do
+                %span.menu-editor__head-link-text= t('workarea.admin.navigation_taxons.index.navigation')
+                = inline_svg 'workarea/admin/icons/edit.svg', class: 'menu-editor__icon'
+
+        %ul.menu-editor__menu-list
+          - root.children.each_with_index do |taxon, index|
+            = render 'workarea/admin/navigation_taxons/taxon', taxon: taxon, position: index
+
+          %li.menu-editor__list-item.menu-editor__list-item--placeholder{ class: ('hidden' if root.has_children?) }
+            .menu-editor__list-item-cell= t('workarea.admin.navigation_taxons.index.drag_items_here')
+
+        = link_to new_navigation_taxon_path(parent_id: root.id), title: t('workarea.admin.navigation_taxons.index.add_new_item'), class: 'menu-editor__add-item-button menu-editor__add-item-button--last-position' do
+          = inline_svg 'workarea/admin/icons/add_circle.svg', class: 'menu-editor__icon menu-editor__icon--add'
+          %span.menu-editor__add-item-button-text= t('workarea.admin.navigation_taxons.index.add_new_item')

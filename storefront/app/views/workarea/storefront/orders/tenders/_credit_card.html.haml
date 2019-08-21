@@ -1,0 +1,9 @@
+.data-card
+  .data-card__cell
+    %p.data-card__line.data-card__credit-card
+      = credit_card_issuer_icon(card_icon_name(tender.issuer))
+      %span.data-card__credit-card-number
+        = t('workarea.storefront.credit_cards.summary', issuer: tender.issuer, number: tender.display_number.slice(-4..-1))
+    %p.data-card__line
+      %strong
+        #{t('workarea.storefront.orders.amount')}: #{number_to_currency(tender.amount)}

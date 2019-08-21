@@ -1,0 +1,254 @@
+- @page_title = t('workarea.admin.bulk_action_sequential_product_edits.product.title', product: @product.name)
+
+.view
+  .view__header
+    .view__heading
+      %h1= t('workarea.admin.bulk_action_sequential_product_edits.product.title', product: @product.name)
+
+  .view__container.view__container
+    .grid.grid--center
+      .grid__cell.grid__cell--25
+        - unless @bulk_action.first?
+          = link_to "← #{t('workarea.admin.bulk_action_sequential_product_edits.product.previous')}", product_bulk_action_sequential_product_edit_path(index: @bulk_action.previous)
+      .grid__cell.grid__cell--50
+        %p.align-center= t('workarea.admin.bulk_action_sequential_product_edits.product.description')
+      .grid__cell.grid__cell--25
+        - unless @bulk_action.last?
+          .align-right
+            = link_to "#{t('workarea.admin.bulk_action_sequential_product_edits.product.next')} →", product_bulk_action_sequential_product_edit_path(index: @bulk_action.next)
+
+  .view__container
+    = form_tag product_bulk_action_sequential_product_edit_path(@bulk_action, index: @bulk_action.index), method: 'patch', multipart: true, data: { unsaved_changes: '' } do
+      .section
+        %h2= t('workarea.admin.bulk_action_sequential_product_edits.product.attributes')
+
+        .property
+          = label_tag "product_name", t('workarea.admin.catalog_products.edit.name_label'), class: 'property__name'
+          = text_field_tag 'product[name]', @product.name, class: 'text-box text-box--i18n', id: "product_name", required: true
+        .property
+          = label_tag 'product[slug]', t('workarea.admin.catalog_products.edit.slug_label'), class: 'property__name'
+          %span= storefront.product_url('')
+          = text_field_tag 'product[slug]', @product.slug, class: 'text-box text-box--medium', placeholder: @product.slug || t('workarea.admin.catalog_products.edit.slug_placeholder')
+          %span.property__note= t('workarea.admin.catalog_products.edit.slug_note')
+        .property
+          = label_tag 'product_tag_list', t('workarea.admin.catalog_products.edit.tags_label'), class: 'property__name'
+          = text_field_tag 'product[tag_list]', @product.tag_list, class: 'text-box'
+          %span.property__note
+            = t('workarea.admin.catalog_products.edit.tags_note')
+            = link_to '#csv-help', data: { tooltip: '' } do
+              = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.catalog_products.edit.learn_more'))
+
+        .grid
+          .grid__cell.grid__cell--25
+            .property
+              %span.property__name
+                = t('workarea.admin.catalog_products.edit.active_title')
+                = inline_svg('workarea/admin/i18n.svg', class: 'svg-icon svg-icon--small') if locale_options.many? && Workarea.config.localized_active_fields
+              = toggle_button_for 'product[active]', @product.active?
+
+          .grid__cell.grid__cell--25
+            .property
+              %span.property__name= t('workarea.admin.catalog_products.edit.purchasable_label')
+              =  toggle_button_for 'product[purchasable]', @product.purchasable, title_true: t('workarea.admin.catalog_products.edit.purchasable'), title_false: t('workarea.admin.catalog_products.edit.not_purchasable')
+
+          .grid__cell.grid__cell--25
+            .property
+              = label_tag "product_template", t('workarea.admin.catalog_products.edit.template_label'), class: 'property__name'
+              = select_tag 'product[template]', options_for_select(@product.templates, @product.template), id: "product_template"
+
+          .grid__cell.grid__cell--25
+            .property
+              = label_tag "product_customizations", t('workarea.admin.catalog_products.edit.customization_label'), class: 'property__name'
+              = select_tag 'product[customizations]', options_for_select(@product.customization_options, @product.customizations), id: "product_customizations"
+
+        = append_partials('admin.product_fields', product: @product)
+
+      .section
+        %h2= t('workarea.admin.bulk_action_sequential_product_edits.product.content')
+
+        .property
+          = label_tag "product[browser_title]", t('workarea.admin.fields.browser_title'), class: 'property__name'
+          = text_field_tag 'product[browser_title]', @product.browser_title, class: 'text-box text-box--i18n', id: "product_browser_title"
+
+        .property
+          = label_tag "product[meta_description]", t('workarea.admin.fields.meta_description'), class: 'property__name'
+          = text_field_tag 'product[meta_description]', @product.meta_description, class: 'text-box text-box--i18n', id: "product_meta_description"
+
+        .property
+          .wysiwyg{ data: { wysiwyg: '' } }= text_area_tag 'product[description]', @product.description, class: 'text-box text-box--multi-line text-box--i18n', id: "product_description"
+
+      .section
+
+        %h2= t('workarea.admin.catalog_products.edit.details.label')
+
+        %table
+          %thead
+            %tr
+              %th= t('workarea.admin.catalog_products.edit.details.name')
+              %th= t('workarea.admin.catalog_products.edit.details.values')
+              %th.align-center= t('workarea.admin.actions.delete')
+          %tbody
+            - @product.details.each do |name, value|
+              %tr
+                %td
+                  .property
+                    = label_tag "details_#{name}" do
+                      #{name}
+                %td
+                  .property
+                    = hidden_field_tag 'details[]', name, id: nil
+                    = text_field_tag 'details[]', hash_editing_value(value), class: 'text-box text-box--i18n', id: "details_#{name}"
+                %td.align-center= check_box_tag 'details_to_remove[]', name, false, id: "remove_attribute_#{name}_#{value}", title: "#{t('workarea.admin.actions.delete')}: #{name} #{value}"
+            %tr{ data: { cloneable_row: '' } }
+              %td
+                .property
+                  = text_field_tag 'new_details[]', nil, id: "new_detail_name", class: 'text-box text-box--i18n', title: t('workarea.admin.catalog_products.edit.details.new_attribute_name'), placeholder: t('workarea.admin.catalog_products.edit.details.new_attribute_name_placeholder')
+                  %span.property__note= t('workarea.admin.catalog_products.edit.details.new_attribute_name_note')
+              %td
+                .property
+                  = text_field_tag 'new_details[]', nil, id: 'new_detail_value', class: 'text-box text-box--i18n', title: t('workarea.admin.catalog_products.edit.details.new_attribute_value'), placeholder: t('workarea.admin.catalog_products.edit.details.new_attribute_value_placeholder')
+                  %span.property__note= t('workarea.admin.catalog_products.edit.details.new_attribute_value_note')
+                  %span.property__note
+                    = t('workarea.admin.catalog_products.edit.details.new_attribute_value_csv')
+                    = link_to '#csv-help', data: { tooltip: '' } do
+                      = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.catalog_products.edit.details.learn_more'))
+              %td.align-center -
+
+      .section
+
+        %h2= t('workarea.admin.catalog_products.edit.filters.label')
+
+        %table
+          %thead
+            %tr
+              %th= t('workarea.admin.catalog_products.edit.filters.name')
+              %th= t('workarea.admin.catalog_products.edit.filters.values')
+              %th.align-center= t('workarea.admin.actions.delete')
+          %tbody
+            - @product.filters.each do |name, value|
+              %tr
+                %td
+                  .property
+                    = label_tag "filter_#{name}" do
+                      #{name}
+                %td
+                  .property
+                    = hidden_field_tag 'filters[]', name, id: nil
+                    = text_field_tag 'filters[]', hash_editing_value(value), class: 'text-box text-box--i18n', placeholder: t('workarea.admin.catalog_products.edit.filters.new_filter_value'), id: "filter_#{name}"
+                %td.align-center= check_box_tag 'filters_to_remove[]', name, false, id: "remove_attribute_#{name}_#{value}", title: "#{t('workarea.admin.actions.delete')}: #{name} #{value}"
+            %tr{ data: { cloneable_row: '' } }
+              %td
+                .property
+                  = text_field_tag 'new_filters[]', nil, id: "new_filter_name", class: 'text-box text-box--i18n', title: t('workarea.admin.catalog_products.edit.filters.new_filter_name'), placeholder: t('workarea.admin.catalog_products.edit.filters.new_filter_name'), pattern: Workarea.config.product_filter_input_validation_pattern
+                  %span.property__note= t('workarea.admin.catalog_products.edit.filters.new_filter_name_note')
+              %td
+                .property
+                  = text_field_tag 'new_filters[]', nil, id: 'new_filter_value', class: 'text-box text-box--i18n', title: t('workarea.admin.catalog_products.edit.filters.new_filter_value'), placeholder: t('workarea.admin.catalog_products.edit.filters.new_filter_value')
+                  %span.property__note= t('workarea.admin.catalog_products.edit.filters.new_fiter_value_note')
+                  %span.property__note
+                    = t('workarea.admin.catalog_products.edit.filters.new_filter_value_csv')
+                    = link_to '#csv-help', data: { tooltip: '' } do
+                      = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.catalog_products.edit.filters.learn_more'))
+              %td.align-center -
+
+      .section
+        %h2= t('workarea.admin.bulk_action_sequential_product_edits.product.images')
+        %table
+          %thead
+            %tr
+              %th
+              %th= t('workarea.admin.create_catalog_products.images.image')
+              %th= t('workarea.admin.create_catalog_products.images.option')
+          %tbody
+            - @product.images.each do |image|
+              %tr
+                %td= image_tag product_image_url(image, :small)
+                %td= file_field_tag "image_updates[#{image.id}][image]", class: 'text-box'
+                %td= text_field_tag "image_updates[#{image.id}][option]", image.option, placeholder: 'Blue', class: 'text-box text-box--small text-box--i18n'
+
+            %tr{ data: { cloneable_row: '' } }
+              %td
+              %td= file_field_tag 'new_images[][image]', class: 'text-box'
+              %td= text_field_tag 'new_images[][option]', nil, placeholder: 'Blue', class: 'text-box text-box--small text-box--i18n'
+
+      .section
+        %h2= t('workarea.admin.bulk_action_sequential_product_edits.product.variants')
+
+        %table
+          %thead
+            %tr
+              %th= t('workarea.admin.create_catalog_products.variants.sku')
+              %th= t('workarea.admin.create_catalog_products.variants.option_1')
+              %th= t('workarea.admin.create_catalog_products.variants.option_2')
+              %th= t('workarea.admin.create_catalog_products.variants.option_3')
+              %th= t('workarea.admin.create_catalog_products.variants.price')
+              %th= t('workarea.admin.create_catalog_products.variants.tax_code')
+              %th= t('workarea.admin.create_catalog_products.variants.inventory')
+          %tbody
+            - @variants.each do |variant|
+              %tr
+                = hidden_field_tag 'variants[][id]', variant.id
+
+                %td
+                  = text_field_tag 'variants[][sku]', variant.sku, placeholder: 'SKU123', class: 'text-box text-box--small', id: dom_id(variant, 'variant_sku')
+                %td
+                  = text_field_tag 'variants[][detail_1_name]', variant.detail_1_name, placeholder: 'Color', class: 'text-box text-box--small text-box--i18n', id: dom_id(variant, 'variant_detail_1_name')
+                  = text_field_tag 'variants[][detail_1_value]', variant.detail_1_value, placeholder: 'Blue', class: 'text-box text-box--small text-box--i18n', id: dom_id(variant, 'variant_detail_1_value')
+                %td
+                  = text_field_tag 'variants[][detail_2_name]', variant.detail_2_name, placeholder: 'Size', class: 'text-box text-box--small text-box--i18n', id: dom_id(variant, 'variant_detail_2_name')
+                  = text_field_tag 'variants[][detail_2_value]', variant.detail_2_value, placeholder: 'Large', class: 'text-box text-box--small text-box--i18n', id: dom_id(variant, 'variant_detail_2_value')
+                %td
+                  = text_field_tag 'variants[][detail_3_name]', variant.detail_3_name, placeholder: 'Width', class: 'text-box text-box--small text-box--i18n', id: dom_id(variant, 'variant_detail_3_name')
+                  = text_field_tag 'variants[][detail_3_value]', variant.detail_3_value, placeholder: 'Narrow', class: 'text-box text-box--small text-box--i18n', id: dom_id(variant, 'variant_detail_3_value')
+                %td
+                  = label_tag dom_id(variant, 'variant_price'), '$', class: 'property__name property__name--inline'
+                  = text_field_tag 'variants[][price]', variant.sell_price, placeholder: '0.00', class: 'text-box text-box--small', id: dom_id(variant, 'variant_price')
+                %td
+                  = text_field_tag 'variants[][tax_code]', variant.tax_code, placeholder: 'Tax Code', class: 'text-box text-box--small', autocomplete: 'off', id: dom_id(variant, 'variant_tax_code')
+                %td
+                  = number_field_tag 'variants[][inventory]', variant.available_inventory, placeholder: '0', class: 'text-box text-box--small', id: dom_id(variant, 'variant_inventory')
+
+            %tr{ data: { cloneable_row: '' } }
+              %td
+                = text_field_tag 'variants[][sku]', nil, placeholder: 'SKU123', class: 'text-box text-box--small'
+              %td
+                = text_field_tag 'variants[][detail_1_name]', nil, placeholder: 'Color', class: 'text-box text-box--small text-box--i18n'
+                = text_field_tag 'variants[][detail_1_value]', nil, placeholder: 'Blue', class: 'text-box text-box--small text-box--i18n'
+              %td
+                = text_field_tag 'variants[][detail_2_name]', nil, placeholder: 'Size', class: 'text-box text-box--small text-box--i18n'
+                = text_field_tag 'variants[][detail_2_value]', nil, placeholder: 'Large', class: 'text-box text-box--small text-box--i18n'
+              %td
+                = text_field_tag 'variants[][detail_3_name]', nil, placeholder: 'Width', class: 'text-box text-box--small text-box--i18n'
+                = text_field_tag 'variants[][detail_3_value]', nil, placeholder: 'Narrow', class: 'text-box text-box--small text-box--i18n'
+              %td
+                = label_tag 'variants[][price]', '$', class: 'property__name property__name--inline'
+                = text_field_tag 'variants[][price]', nil, placeholder: '0.00', class: 'text-box text-box--small'
+              %td
+                = text_field_tag 'variants[][tax_code]', nil, placeholder: 'Tax Code', class: 'text-box text-box--small', autocomplete: 'off'
+              %td
+                = number_field_tag 'variants[][inventory]', nil, placeholder: '0', class: 'text-box text-box--small'
+
+      .workflow-bar
+        .grid.grid--middle
+          .grid__cell.grid__cell--33
+            .grid.grid--middle.grid--auto
+              .grid__cell
+                = link_to t('workarea.admin.form.cancel'), bulk_action_path(@bulk_action, return_to: catalog_products_path), class: 'workflow-bar__button workflow-bar__button--delete', data: { method: 'delete' }
+              .grid__cell
+                = t('workarea.admin.bulk_action_sequential_product_edits.workflow_bar.selected', label: pluralize(@bulk_action.count, t('workarea.admin.bulk_action_sequential_product_edits.label')))
+                = link_to t('workarea.admin.bulk_action_sequential_product_edits.workflow_bar.view_products_link'), selected_bulk_action_path(@bulk_action)
+          .grid__cell.grid__cell--33
+            %ol.workflow-bar__steps
+              %li.workflow-bar__step
+                1) #{link_to t('workarea.admin.bulk_action_sequential_product_edits.workflow_bar.publishing'), edit_bulk_action_sequential_product_edit_path(@bulk_action)}
+              %li.workflow-bar__step
+                %strong 2) #{t('workarea.admin.bulk_action_sequential_product_edits.workflow_bar.editing_with_count', current: @bulk_action.index + 1, total: @bulk_action.count)}
+          .grid__cell.grid__cell--33
+            .grid.grid--auto.grid--right.grid--middle
+              .grid__cell
+                - if @bulk_action.last?
+                  = button_tag t('workarea.admin.bulk_action_sequential_product_edits.product.save_and_finish'), value: 'make_changes', class: 'workflow-bar__button workflow-bar__button--update'
+                - else
+                  = button_tag "#{t('workarea.admin.bulk_action_sequential_product_edits.product.save_and_continue')} →", value: 'make_changes', class: 'workflow-bar__button workflow-bar__button--update'
+
+    = render 'workarea/admin/shared/csv_formatting_tooltip'

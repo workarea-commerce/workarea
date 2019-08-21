@@ -1,0 +1,9 @@
+.grid.grid--auto.grid--flush.grid--center
+  .grid__cell
+    = render 'workarea/admin/content/card', content: model, active: local_assigns[:active]
+
+  .grid__cell
+    = render 'workarea/admin/timeline/card', timeline: model.timeline, active: local_assigns[:active]
+
+  .grid__cell
+    = render 'workarea/admin/comments/card', commentable: model, active: local_assigns[:active]

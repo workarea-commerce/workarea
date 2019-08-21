@@ -1,0 +1,13 @@
+#section.style-guide__subsection
+
+  %h3= link_to_style_guide('objects', 'section')
+
+  %p Visually separates an element from it's siblings.
+
+  %p should apply top and bottom margin to the element:
+
+  .style-guide__example-block
+    %span.heading.heading--1 Above Section
+    .section
+      %span.heading.heading--1 Inside Section
+    %span.heading.heading--1 Below Section

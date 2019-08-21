@@ -1,0 +1,85 @@
+/*------------------------------------*\
+    #PRIMARY-NAV
+\*------------------------------------*/
+
+$primary-nav-border-color:  $border-color !default;
+
+$primary-nav-link-color:       $dark-gray !default;
+$primary-nav-link-color-main:  $blue !default;
+
+$primary-nav-logo-bg-color:     $white !default;
+$primary-nav-logo-image-width:  200px !default;
+$primary-nav-logo-image-color:  $light-gray !default;
+
+
+/**
+ * 1. doesn't cut off the focus ring on `.search-form__input`.
+ */
+.primary-nav {
+    margin: 0 auto;
+    padding: $spacing-unit; /* [1] */
+    width: 80%;
+
+    .admin-toolbar & {
+        max-height: calc(100vh - #{$global-header-height});
+        overflow-y: auto;
+    }
+}
+
+
+    .primary-nav__home-link {
+        display: inline-block;
+        margin-bottom: $vertical-margin;
+    }
+
+    .primary-nav__home-link--hidden {
+        visibility: hidden;
+    }
+
+
+    .primary-nav__menu {
+        display: flex;
+        padding: ($spacing-unit * 2) 0;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        align-content: center;
+    }
+
+        .primary-nav__section {
+            padding: ($spacing-unit * 2);
+            width: 50%;
+
+            @include respond-to($medium-breakpoint) {
+                width: 20%;
+            }
+        }
+
+            .primary-nav__heading {
+                @extend %heading;
+                @extend %heading--3;
+                margin-bottom: $spacing-unit;
+                border-bottom: 1px solid $primary-nav-border-color;
+            }
+
+                .primary-nav__heading-link {
+                    display: inline-block;
+                    padding-bottom: $spacing-unit;
+                }
+
+
+                .primary-nav__children {
+                    @extend %list-reset;
+                }
+
+                    .primary-nav__item {
+                        margin-bottom: $spacing-unit;
+                    }
+
+                    .primary-nav__link {
+                        @extend %link;
+                        @extend %link--secondary;
+                    }
+
+                    .primary-nav__link--active {
+                        font-weight: bold;
+                    }

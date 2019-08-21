@@ -1,0 +1,7 @@
+<ul class="tabs__menu">
+    <% _.forEach(tabs, function(tab) { %>
+        <li class="tabs__menu-item">
+            <a class="tabs__menu-link" href="#<%= tab[1] %>-tab-panel-<%= tabIndex %>"><%= tab[0] %></a>
+        </li>
+    <% }); %>
+</ul>

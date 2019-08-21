@@ -1,0 +1,23 @@
+.property
+  = label_tag 'range_facets', t('workarea.admin.facets.price_inputs.price_ranges_label'), class: 'property__name'
+  %table
+    %thead
+      %tr
+        %th= t('workarea.admin.facets.price_inputs.from')
+        %th= t('workarea.admin.facets.price_inputs.to')
+    %tbody
+      - facet.each_with_index do |range, index|
+        %tr
+          %td
+            = currency_symbol
+            = text_field_tag 'range_facets[price][][from]', range['from'], title: t('workarea.admin.facets.price_inputs.from'), class: 'text-box text-box--small', id: "range_facets[price][][from][#{index}]"
+          %td
+            = currency_symbol
+            = text_field_tag 'range_facets[price][][to]', range['to'], title: t('workarea.admin.facets.price_inputs.to'), class: 'text-box text-box--small', id: "range_facets[price][][to][#{index}]"
+      %tr{ data: { cloneable_row: '' } }
+        %td
+          = currency_symbol
+          = text_field_tag 'range_facets[price][][from]', nil, title: t('workarea.admin.facets.price_inputs.from'), class: 'text-box text-box--small'
+        %td
+          = currency_symbol
+          = text_field_tag 'range_facets[price][][to]', nil, title: t('workarea.admin.facets.price_inputs.to'), class: 'text-box text-box--small'

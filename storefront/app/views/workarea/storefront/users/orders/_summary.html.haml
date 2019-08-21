@@ -1,0 +1,23 @@
+.data-card.data-card--row
+  .data-card__cell
+    %p.data-card__line
+      %strong= t('workarea.storefront.orders.placed_at')
+      %span= local_time(order.placed_at, :long)
+    %p.data-card__line
+      %strong= t('workarea.storefront.orders.id')
+      %span= order.id
+    %p.data-card__line
+      %strong= t('workarea.storefront.orders.status')
+      %span= order.fulfillment_status || order.status
+    %p.data-card__line
+      %strong= t('workarea.storefront.orders.items')
+      %span #{order.quantity} - #{number_to_currency(order.total_price)}
+  .data-card__cell
+    .grid.grid--auto
+      %p.grid__cell= link_to t('workarea.storefront.orders.view'), users_order_path(order), class: 'button button--small'
+
+      = append_partials('storefront.order_summary_actions', order: order)
+
+      - order.packages.each_with_index do |package|
+        - if package.tracking_number.present?
+          %p.grid__cell= link_to t('workarea.storefront.orders.track_package'), package.tracking_link, target: '_blank', rel: 'noopener'

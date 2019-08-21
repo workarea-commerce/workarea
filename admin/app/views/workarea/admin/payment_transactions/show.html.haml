@@ -1,0 +1,80 @@
+- @page_title = t('workarea.admin.payment_transactions.show.title', type:@transaction.payment_type.titleize, order_id: @transaction.order_id)
+
+.view
+  .view__header
+    .grid.grid--middle.grid--right
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@transaction)
+          %h1= t('workarea.admin.payment_transactions.show.heading', type:@transaction.payment_type.titleize)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@transaction)
+
+  .view__container
+    .section
+      %h2= t('workarea.admin.payment_transactions.show.tender.title')
+      %ul.list-reset
+        = render "workarea/admin/orders/tenders/#{@transaction.payment_type}", tender: @transaction.tender
+
+    .section
+      %h2= t('workarea.admin.payment_transactions.show.transaction.title')
+      %table.data-pairs
+        %tbody
+          %tr
+            %th
+              %span.data-pairs__name= t('workarea.admin.payment_transactions.show.transaction.action')
+            %td= @transaction.action.titleize
+          %tr
+            %th
+              %span.data-pairs__name= t('workarea.admin.payment_transactions.show.transaction.status')
+            %td= @transaction.status.titleize
+          %tr
+            %th
+              %span.data-pairs__name= t('workarea.admin.payment_transactions.show.transaction.amount')
+            %td= number_to_currency(@transaction.amount)
+          %tr
+            %th
+              %span.data-pairs__name= t('workarea.admin.payment_transactions.show.transaction.message')
+            %td= @transaction.message
+          %tr
+            %th
+              %span.data-pairs__name= t('workarea.admin.payment_transactions.show.transaction.response_parameters')
+            %td
+              = @transaction.response.params
+              = link_to '#params-help', data: { tooltip: '' } do
+                = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.payment_transactions.show.transaction.more_link'))
+              #params-help.tooltip-content
+                %p= t('workarea.admin.payment_transactions.show.transaction.response_tooltip')
+          %tr
+            %th
+              %span.data-pairs__name= t('workarea.admin.payment_transactions.show.transaction.created_at')
+            %td= local_time(@transaction.created_at, :long)
+          %tr
+            %th
+              %span.data-pairs__name= t('workarea.admin.payment_transactions.show.transaction.canceled')
+            %td= @transaction.canceled? ? 'Yes' : 'No'
+          - if @transaction.canceled?
+            %tr
+              %th
+                %span.data-pairs__name= t('workarea.admin.payment_transactions.show.transaction.canceled_at')
+              %td= local_time(@transaction.canceled_at, :long)
+
+    - if @transaction.can_be_captured?
+      .section
+        %h2= t('workarea.admin.payment_transactions.show.capture.title')
+        %table.data-pairs
+          %tbody
+            %tr
+              %th
+                %span.data-pairs__name= t('workarea.admin.payment_transactions.show.capture.captured_amount')
+              %td= number_to_currency(@transaction.captured_amount)
+            %tr
+              %th
+                %span.data-pairs__name= t('workarea.admin.payment_transactions.show.capture.transactions')
+              %td
+                - if @transaction.captures.blank?
+                  = t('workarea.admin.payment_transactions.show.capture.none')
+                - else
+                  %ul
+                    - @transaction.captures.each do |transaction|
+                      %li= link_to transaction.amount, payment_transaction_path(transaction)

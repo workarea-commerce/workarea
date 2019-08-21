@@ -1,0 +1,18 @@
+#inline-form.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'inline_form')
+
+  %p Handles the layout of a form as a simple grid, displaying the form control with a submit button to the left side.
+
+  %p Expects two children with a class of <code>inline-form__cell</code>, which wrap the form control and submit button.
+
+  %p Expects a #{link_to_style_guide('components', 'value', true)} component as a child, to handle the layout of the form control, errors, and notes.
+
+  .style-guide__example-block
+    = form_tag '#', class: 'inline-form' do
+      .inline-form__cell
+        .value
+          = text_field_tag 'wl_inline_form_field', nil, class: 'text-box'
+          %span.value__error Error Message Text
+      %p.inline-form__cell= button_tag 'Submit', class: 'button'
+

@@ -1,0 +1,413 @@
+/*------------------------------------*\
+    #SELECT2-CONTAINER--WORKAREA
+\*------------------------------------*/
+
+/* stylelint-disable no-duplicate-selectors */
+
+$select2-min-width:                 300px !default;
+$select2-color:                     $off-black !default;
+$select2-placeholder-color:         $gray !default;
+$select2-bg-color:                  $white !default;
+$select2-border-color:              $border-color !default;
+$select2-dropdown-bg-color:         $white !default;
+$select2-option-disabled-color:     $light-gray !default;
+$select2-option-hilite-color:       $white !default;
+$select2-option-hilite-bg-color:    $blue !default;
+$select2-option-selected-color:     $white !default;
+$select2-option-selected-bg-color:  $blue !default;
+$select2-focus-border-color:        $blue !default;
+$select2-multiple-choice-bg-color:  $light-gray !default;
+$select2-remove-color:              $blue !default;
+$select2-remove-bg-color:           $white !default;
+
+
+/**
+ * This is the "workarea" theme for select2. It's added as part of the theme
+ * layer on top of the default settings for the library. Everything in this
+ * file should be wrapped inside a `.select2-container--workarea` modifier to
+ * ensure proper themeing.
+ *
+ * This first section handles the global theming.
+ */
+
+.select2-container--workarea {
+    min-width: $select2-min-width;
+
+    table & {
+        width: auto;
+    }
+
+
+    .product-rules & {
+        vertical-align: bottom;
+    }
+
+
+    /**
+     * Search field styling
+     *
+     * 1. required to display placeholder correctly
+     * 2. fix for multiselect placeholder bug
+     */
+
+    .select2-search--dropdown {
+        .select2-search__field {
+            border: 1px solid $select2-border-color;
+            box-shadow: none;
+            outline: 0;
+        }
+    }
+
+    .select2-search--inline {
+        .select2-search__field {
+            margin-top: $spacing-unit;
+            max-width: 188px; /* [2] */
+            min-width: 188px; /* [2] */
+            box-shadow: none;
+            outline: 0;
+            line-height: 1.2;
+        }
+    }
+
+    .select2-selection__choice ~ .select2-search--inline .select2-search__field {
+        max-width: none; /* [2] */
+        min-width: 0; /* [2] */
+    }
+
+    /**
+     * Dropdown styling
+     */
+
+    .select2-dropdown {
+        background-color: $select2-dropdown-bg-color;
+        border: 1px solid transparent;
+    }
+
+    .select2-dropdown--above {
+        border-bottom: 0;
+    }
+
+    .select2-dropdown--below {
+        border-top: 0;
+    }
+
+    /**
+     * Dropdown result styling
+     *
+     * 1. grouped options
+     * 2. disabled options
+     * 3. highlighted option state
+     * 4. focused option state
+     */
+
+    .select2-results > .select2-results__options {
+        max-height: 200px;
+        overflow-y: auto;
+    }
+
+    .select2-results__group { /* [1] */
+        display: block;
+        padding: 6px;
+        cursor: default;
+    }
+
+    .select2-results__option {
+        &[role=group] { /* [1] */
+            padding: 0;
+        }
+
+        &[aria-disabled=true] { /* [2] */
+            color: $select2-option-disabled-color;
+            fill: $select2-option-disabled-color;
+        }
+
+        &[aria-selected=true] {
+            color: $select2-option-selected-color;
+            background-color: $select2-option-selected-bg-color;
+            fill: $select2-option-selected-color;
+        }
+    }
+
+    .select2-results__option--highlighted[aria-selected] { /* [3] */
+        color: $select2-option-hilite-color;
+        background-color: $select2-option-hilite-bg-color;
+        fill: $select2-option-hilite-color;
+    }
+
+    &.select2-container--open .select2-dropdown { /* [4] */
+        border-color: $select2-focus-border-color;
+    }
+
+    .select2-results__option-content {
+        @extend %clearfix;
+        display: block;
+    }
+
+    .select2-results__option-graph {
+        float: right;
+    }
+
+    .select2-results__option-icon {
+        float: right;
+    }
+
+
+
+
+
+    /**
+     * This section handles styling of single select boxes.
+     *
+     * Default, closed state
+     *
+     * 1. focused state
+     * 2. container for chosen text
+     * 3. placeholder text
+     * 4. icon container
+     * 5. icon
+     * 6. close icon for the `allowClear: true` option
+     */
+
+    .select2-selection--single {
+        height: 31px;
+        background: $select2-bg-color;
+        border: 1px solid $select2-border-color;
+        border-radius: $global-border-radius;
+        outline: 0;
+
+        &:focus { /* [1] */
+            border: 1px solid $select2-focus-border-color;
+        }
+
+        .select2-selection__rendered { /* [2] */
+            padding-right: 41px;
+            color: $select2-color;
+            line-height: 29px;
+        }
+
+        .select2-selection__placeholder { /* [3] */
+            color: $select2-placeholder-color;
+        }
+
+        .select2-selection__arrow { /* [4] */
+            position: absolute;
+            top:   1px;
+            right: 1px;
+            width:  32px;
+            height: 29px;
+            background-color: $select2-bg-color;
+            border: 0;
+            border-left: 1px solid $select2-border-color;
+            border-top-right-radius:    $global-border-radius;
+            border-bottom-right-radius: $global-border-radius;
+        }
+
+        .select2-selection__arrow b::after { /* [5] */
+            @include center;
+            content: '▼';
+        }
+
+        .select2-selection__clear { /* [6] */
+            float: right;
+            font-size: 0;
+            cursor: pointer;
+
+            &::after {
+                font-size: 1rem;
+                content: '✖';
+            }
+        }
+
+        .select2-selection__clear.select2-selection__clear {
+            color: $select2-remove-color;
+        }
+    }
+
+    /**
+     * Open state
+     *
+     * 1. icon
+     * 2. if the options appear above select
+     * 3. if the options appear below select
+     */
+
+    &.select2-container--open {
+        .select2-selection--single {
+            border: 1px solid $select2-focus-border-color;
+
+            .select2-selection__arrow b::after { /* [1] */
+                @include center;
+                content: '▲';
+            }
+        }
+
+        &.select2-container--above { /* [2] */
+            .select2-selection--single {
+                border-top-right-radius: 0;
+                border-top-left-radius:  0;
+            }
+        }
+
+        &.select2-container--below { /* [3] */
+            .select2-selection--single {
+                border-bottom-right-radius: 0;
+                border-bottom-left-radius:  0;
+            }
+        }
+    }
+
+    /**
+     * RTL overrides
+     */
+
+    &[dir="rtl"] {
+        .select2-selection--single {
+            .select2-selection__clear {
+                float: left;
+            }
+
+            .select2-selection__arrow {
+                right: auto;
+                left:  1px;
+                border: 0;
+                border-right: 1px solid $select2-border-color;
+                border-radius: 0;
+                border-bottom-left-radius: $global-border-radius;
+                border-top-left-radius:    $global-border-radius;
+            }
+        }
+    }
+
+
+
+
+
+    /**
+     * This section handles styling of "multiple" select boxes.
+     *
+     * Default, closed state
+     *
+     * 1. focused state
+     * 2. container for chosen text
+     * 3. choice "pill" UI
+     * 4. icon
+     * 5. close icon for the `allowClear: true` option
+     */
+
+    .select2-selection {
+        background-color: $select2-bg-color;
+        border: 1px solid $select2-border-color;
+        border-radius: $global-border-radius;
+        cursor: text;
+        text-align: left;
+
+        &:focus { /* [1] */
+            @include focus-ring;
+        }
+    }
+
+    /**
+     * This section handles styling of "multiple" select boxes.
+     *
+     * Default, closed state
+     *
+     * 1. focused state
+     * 2. container for chosen text
+     * 3. choice "pill" UI
+     * 4. icon
+     * 5. close icon for the `allowClear: true` option
+     */
+
+    .select2-selection--multiple {
+
+        .select2-selection__rendered { /* [2] */
+            margin:  0;
+            padding: 0 5px;
+            font-weight: bold;
+            list-style: none;
+        }
+
+        .select2-selection__choice { /* [3] */
+            @extend %truncate;
+            position: relative;
+            margin-top:   8px;
+            margin-right: 8px;
+            padding: 2px 28px 0 12px;
+            height: 24px;
+            float: left;
+            background-color: $select2-multiple-choice-bg-color;
+            border-radius: 12px;
+            cursor: default;
+        }
+
+        .select2-selection__choice__remove { /* [4] */
+            font-size: 0;
+            cursor: pointer;
+
+            &::after {
+                font-size: 1rem;
+                content: '✖';
+            }
+        }
+
+        .select2-selection__choice__remove.select2-selection__choice__remove { /* [4] */
+            position: absolute;
+            top:   2px;
+            right: $spacing-unit;
+            color: $select2-remove-color;
+        }
+
+        .select2-selection__clear { /* [5] */
+            display: none;
+        }
+    }
+
+    /**
+     * Open state
+     *
+     * 1. if the options appear above select
+     * 2. if the options appear below select
+     */
+
+    &.select2-container--open {
+        .select2-selection {
+            @include focus-ring;
+        }
+
+        &.select2-container--above { /* [1] */
+            .select2-selection--multiple {
+                border-top-right-radius: 0;
+                border-top-left-radius:  0;
+            }
+        }
+
+        &.select2-container--below { /* [2] */
+            .select2-selection--multiple {
+                border-bottom-right-radius: 0;
+                border-bottom-left-radius:  0;
+            }
+        }
+    }
+
+    /**
+     * RTL overrides
+     */
+
+    &[dir="rtl"] {
+        .select2-selection--multiple {
+            .select2-selection__choice {
+                float: right;
+            }
+
+            .select2-selection__choice {
+                margin-right: auto;
+                margin-left:  5px;
+            }
+
+            .select2-selection__choice__remove {
+                margin-right: auto;
+                margin-left:  2px;
+            }
+        }
+    }
+}

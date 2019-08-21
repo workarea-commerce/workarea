@@ -1,0 +1,35 @@
+{
+    "extends": "eslint:recommended",
+    "rules": {
+      "semi": ["error", "always"],
+      "eqeqeq": ["error", "always"]
+    },
+    "globals": {
+      "window": true,
+      "document": true,
+      "WORKAREA": true,
+      "$": true,
+      "jQuery": true,
+      "_": true,
+      "feature": true,
+      "JST": true,
+      "Turbolinks": true,
+      "I18n": true,
+      "Chart": true,
+      "Dropzone": true,
+      "strftime": true,
+      "Waypoint": true,
+      "wysihtml": true,
+      "LocalTime": true,
+      "describe": true,
+      "after": true,
+      "afterEach": true,
+      "before": true,
+      "beforeEach": true,
+      "it": true,
+      "expect": true,
+      "sinon": true,
+      "fixture": true,
+      "chai": true
+    }
+}

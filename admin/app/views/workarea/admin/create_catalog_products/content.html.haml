@@ -1,0 +1,58 @@
+- @page_title = t('workarea.admin.create_catalog_products.content.page_title', product_name: @product.name)
+
+.view
+  .view__header
+    .grid.grid--right
+      .grid__cell.grid__cell--50
+        .view__heading
+          %h1.heading.heading--no-margin= t('workarea.admin.create_catalog_products.content.add_content', product_name: @product.name)
+          %p= link_to t('workarea.admin.create_catalog_products.content.or_skip_this'), categorization_create_catalog_product_path(@product)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@product, html_options: { target: @product.id })
+
+  .view__container.view__container--narrow
+    = form_tag save_content_create_catalog_product_path(@product), method: 'post' do
+      .section
+        %h2= t('workarea.admin.create_catalog_products.content.description')
+
+        .property
+          .wysiwyg{ data: { wysiwyg: '' } }= text_area_tag 'product[description]', @product.description, class: 'text-box text-box--multi-line text-box--i18n', id: "product_description"
+
+      .section
+        %h2= t('workarea.admin.create_catalog_products.content.seo')
+
+        .property
+          = label_tag 'product[browser_title]', t('workarea.admin.create_catalog_products.content.browser_title'), class: 'property__name'
+          = text_field_tag 'product[browser_title]', @product.browser_title, class: 'text-box text-box--i18n', placeholder: '(defaults to the product name)'
+          %span.property__note= t('workarea.admin.create_catalog_products.content.appears_in_the_browser_and_is_shown_in_search_engine_results')
+
+        .property
+          = label_tag 'product[meta_description]', t('workarea.admin.create_catalog_products.content.meta_description'), class: 'property__name'
+          = text_field_tag 'product[meta_description]', @product.meta_description, class: 'text-box text-box--i18n', placeholder: t('workarea.admin.create_catalog_products.content.defaults_to_a_truncated_description')
+          %span.property__note= t('workarea.admin.create_catalog_products.content.provides_a_summary_that_is_displayed_on_search_engine_result_pages')
+
+      .workflow-bar
+        .grid.grid--middle
+          .grid__cell.grid__cell--20
+            = link_to t('workarea.admin.create_catalog_products.content.cancel'), catalog_product_path(@product), class: 'workflow-bar__button workflow-bar__button--delete', data: { method: 'delete', confirm: t('workarea.admin.create_catalog_products.are_you_sure_all_work_on_this_product_will_be_lost') }
+
+          .grid__cell.grid__cell--60
+            %ol.workflow-bar__steps
+              %li.workflow-bar__step
+                1) #{link_to t('workarea.admin.create_catalog_products.steps.setup'), edit_create_catalog_product_path(@product)}
+              %li.workflow-bar__step
+                2) #{link_to t('workarea.admin.create_catalog_products.steps.variants'), variants_create_catalog_product_path(@product)}
+              %li.workflow-bar__step
+                3) #{link_to t('workarea.admin.create_catalog_products.steps.images'), images_create_catalog_product_path(@product)}
+              %li.workflow-bar__step
+                4) #{link_to t('workarea.admin.create_catalog_products.steps.details'), details_create_catalog_product_path(@product)}
+              %li.workflow-bar__step
+                %strong 5) #{t('workarea.admin.create_catalog_products.steps.content')}
+              %li.workflow-bar__step
+                6) #{t('workarea.admin.create_catalog_products.steps.categorization')}
+              %li.workflow-bar__step
+                7) #{t('workarea.admin.create_catalog_products.steps.publish')}
+
+          .grid__cell.grid__cell--20
+            .grid.grid--auto.grid--right.grid--middle
+              .grid__cell= button_tag t('workarea.admin.create_catalog_products.content.save_and_categorize'), value: 'save_content', class: 'workflow-bar__button workflow-bar__button--create'

@@ -1,0 +1,64 @@
+- @page_title = t('workarea.admin.create_catalog_categories.products.page_title', category_name: @category.name)
+
+.view
+  .view__header
+    .grid.grid--right
+      .grid__cell.grid__cell--50
+        .view__heading
+          %h1.heading.heading--no-margin= t('workarea.admin.create_catalog_categories.products.title', category_name: @category.name)
+          %p= link_to t('workarea.admin.create_catalog_categories.workflow.skip_this'), content_create_catalog_category_path(@category)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@category, html_options: { target: @category.id })
+
+  .view__container
+    .section
+      %p.align-center= t('workarea.admin.create_catalog_categories.products.instructions')
+      .grid.grid--auto.grid--flush.grid--center.grid--middle
+        .grid__cell
+          .card
+            = link_to rules_create_catalog_category_path(@category), class: 'card__header' do
+              %span.card__header-text.link= t('workarea.admin.create_catalog_categories.products.create_rules')
+              = inline_svg 'workarea/admin/icons/rules.svg', class: 'card__icon'
+
+            .card__body
+              %p= t('workarea.admin.create_catalog_categories.products.rules_description')
+              %ul
+                %li= t('workarea.admin.create_catalog_categories.products.rules_example_1')
+                %li= t('workarea.admin.create_catalog_categories.products.rules_example_2')
+                %li= t('workarea.admin.create_catalog_categories.products.rules_example_3')
+
+              = link_to rules_create_catalog_category_path(@category), class: 'card__button' do
+                %span.button.button--small= t('workarea.admin.create_catalog_categories.products.create_rules')
+
+
+        .grid__cell
+          %span.heading.heading--3= t('workarea.admin.create_catalog_categories.products.or')
+
+        .grid__cell
+          .card
+            = link_to featured_products_create_catalog_category_path(@category), class: 'card__header' do
+              %span.card__header-text= t('workarea.admin.create_catalog_categories.products.pick_products')
+              = inline_svg 'workarea/admin/icons/featured_products.svg', class: 'card__icon'
+
+            .card__body
+              %p= t('workarea.admin.create_catalog_categories.products.featured_description')
+              = link_to featured_products_create_catalog_category_path(@category), class: 'card__button' do
+                %span.button.button--small= t('workarea.admin.create_catalog_categories.products.pick_products')
+
+    .workflow-bar
+      .grid.grid--middle
+        .grid__cell.grid__cell--20
+          = link_to t('workarea.admin.form.cancel'), catalog_category_path(@category), class: 'workflow-bar__button workflow-bar__button--delete', data: { method: 'delete', confirm: t('workarea.admin.create_catalog_categories.workflow.cancel_message') }
+
+        .grid__cell.grid__cell--60
+          %ol.workflow-bar__steps
+            %li.workflow-bar__step 1) #{link_to t('workarea.admin.create_catalog_categories.workflow.steps.setup'), edit_create_catalog_category_path(@category)}
+            %li.workflow-bar__step
+              %strong 2) #{t('workarea.admin.create_catalog_categories.workflow.steps.products')}
+            %li.workflow-bar__step 3) #{link_to t('workarea.admin.create_catalog_categories.workflow.steps.content'), content_create_catalog_category_path(@category)}
+            %li.workflow-bar__step 4) #{link_to t('workarea.admin.create_catalog_categories.workflow.steps.taxonomy'), taxonomy_create_catalog_category_path(@category)}
+            %li.workflow-bar__step 5) #{link_to t('workarea.admin.create_catalog_categories.workflow.steps.publish'), publish_create_catalog_category_path(@category)}
+
+        .grid__cell.grid__cell--20
+          .grid.grid--auto.grid--right.grid--middle
+            .grid__cell= link_to "#{t('workarea.admin.create_catalog_categories.products.continue_to_content')} →", content_create_catalog_category_path(@category), class: 'workflow-bar__button'

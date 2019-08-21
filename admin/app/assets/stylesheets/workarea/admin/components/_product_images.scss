@@ -1,0 +1,83 @@
+/*------------------------------------*\
+    #PRODUCT-IMAGES
+\*------------------------------------*/
+
+$product-images-hover-bg-color:          $white !default;
+$product-images-border-color:            $border-color !default;
+$product-images-active-border-color:     $off-black !default;
+$product-images-header-bg-color:         $light-gray !default;
+$product-images-action-border-color:     $border-color !default;
+$product-images-action-arrow-size:       6px !default;
+$product-images-action-icon-hover-color: $off-black !default;
+
+
+/**
+ * 1. auto-width of product image options with each option displaying on new line
+ */
+
+.product-images {}
+
+    .product-images__option-group {
+        @extend %clearfix;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+        .product-images__option {
+            margin: 0 0 12px;
+            float: left;
+            clear: left; /* [1] */
+            background: $background-color;
+            border: 1px solid $product-images-border-color;
+            border-radius: $global-border-radius;
+
+            &:active {
+                border-color: $product-images-active-border-color;
+            }
+        }
+
+            .product-images__option-header {
+                position: relative;
+                padding: $spacing-unit ($spacing-unit * 2);
+                background: $product-images-header-bg-color;
+                cursor: move;
+            }
+
+                .product-images__option-title {
+                    margin: 0;
+                    font-size:   12px;
+                    font-weight: bold;
+                    text-transform: uppercase;
+                }
+
+            .product-images__image-group {
+                margin:  0;
+                padding: $spacing-unit ($spacing-unit * 2);
+                list-style: none;
+            }
+
+                .product-images__image {
+                    display: inline-block;
+                    position: relative;
+                    margin: 0;
+                    text-align: center;
+                    vertical-align: bottom;
+                    cursor: move;
+                }
+
+                    .product-images__image-summary {
+                        position: relative;
+                    }
+
+                        .product-images__image-summary-container {
+                            vertical-align: top;
+                        }
+
+                            .product-images__image-summary-image {
+                                border: 1px solid $transparent;
+
+                                .product-images__image:hover & {
+                                    border-color: $product-images-active-border-color;
+                                }
+                            }

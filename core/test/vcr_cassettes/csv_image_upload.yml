@@ -1,0 +1,49 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://via.placeholder.com/350x150
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.6.2
+      Date:
+      - Tue, 10 Jul 2018 17:49:14 GMT
+      Content-Type:
+      - image/png
+      Content-Length:
+      - '912'
+      Last-Modified:
+      - Thu, 24 May 2018 07:00:05 GMT
+      Connection:
+      - keep-alive
+      Etag:
+      - '"5b0662f5-390"'
+      Expires:
+      - Tue, 17 Jul 2018 17:49:14 GMT
+      Cache-Control:
+      - max-age=604800
+      X-Cache:
+      - L1
+      Accept-Ranges:
+      - bytes
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        iVBORw0KGgoAAAANSUhEUgAAAV4AAACWBAMAAABkyf1EAAAAG1BMVEXMzMyWlpbFxcWqqqqcnJyxsbG3t7e+vr6jo6OVuynYAAAACXBIWXMAAA7EAAAOxAGVKw4bAAADG0lEQVR4nO2YzW/aQBDFF2PjHBkwCUfTSOEKUaRecRpFPeKqX0eo1KZHnFx6xFWV/tud2V3DsiJEPdi+vN/BC/aL9mV2PDuLUgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgP/jMkuueYhIWPCn4CZ5+4I2Jj3kIk1OS+tC+1wq1d35LXhcvSTWw7zye0JaF2uZe6TUWeU3lvH8uDg0fkvr95S0LrLk8SqjVIXjH8xGPP2dlkl6VJwbv9kzSx9OS2uiR1uZd6k6VZzWiQR7eUQb/CLjt8qBl6W10aWNrOtWTS7snZI/BDqRfTIyfgP5m9PS2tAZKXMWA3uH+uJkcERL1m/M6fOKtDY6uixxfNd9cyOmGV9zkx0TWflIUkb4c5dpvz06Im2I3oOdOF+YG5FOzmJovyzE9KZSm/oQJUekTXLGE8+3X5NnZRNaTcb6QZBxpZvvDRm/3XFUvl950gaZljxlecfZeSvexUTHhnBNaUD7BDV+zxJ+87iMHUobg3er3+blNyZSx0RIM7dgGb+h3lpuPWmTfq/l5f8wnXMeGxPh7pUaFI4fc7tDozdPNPSkTfrluMqq9/hShdA+LIel8/5XflOdKZ60MTiuC/VJcrEc+UGbkLsf2PrwRel9raX4yqrbGBZjPym5bdvshY433hNbyl8mtyWL5/Ze+oDccuXGkhYt1Qel41r58Ypqj9z+y/Wb9duovx/v5bovX/6mFZLbfx36bWN/W4/kOhn3Pusx0b2a0xTkibNdWL/fV0r3SJ60EUx0iqF5d+TbQdMV0EXpxM/41Q+l52ijP9M+y3OztlJrD5raLs2cdsf61RGVnqOF/rcr6RnRIJZlj+RycGiYUNqt2smd30L+x5wvLZwvYho+XpU8Z5Z8i+cytz6UVR05J0PgnCirHe0+fZIz6oG0IfTZfGyO5rrWuodeHfV8X2BDe74Qtu2cj/U5fiaF1ozmhL+q/M0kJ3YrbuuZKIaetDF+ZuY3mks7uj/arGWxo31Fs36DG3q38aQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA4FX+AcL6c1W3I+QxAAAAAElFTkSuQmCC
+    http_version: 
+  recorded_at: Tue, 10 Jul 2018 17:49:14 GMT
+recorded_with: VCR 2.9.3

@@ -1,0 +1,8 @@
+Description:
+    Generates a new Workarea JavaScript analytics adapter at the following location:
+
+    app/assets/javascripts/workarea/ENGINE/adapters/name_of_adapter.js
+
+Example:
+    rails g workarea:js_adapter nameOfAdapter
+    rails g workarea:js_adapter nameOfAdapter --engine=admin

@@ -1,0 +1,25 @@
+.view
+  .calendar
+
+    = link_to 'Back', '#', class: 'calendar__control calendar__control--prev'
+
+    %table.calendar__table
+      %tbody
+        %tr
+          %td.calendar__day
+          %td.calendar__day
+            = link_to 'Foo Release 1', '/foo/bar/1', class: 'calendar__release', data: { calendar_release_id: '1' }
+          %td.calendar__day
+            = link_to 'Foo Release 1', '/foo/bar/1', class: 'calendar__release', data: { calendar_release_id: '1' }
+            = link_to 'Foo Release 2', '/foo/bar/2', class: 'calendar__release', data: { calendar_release_id: '2' }
+          %td.calendar__day
+            = link_to 'Foo Release 2', '/foo/bar/2', class: 'calendar__release', data: { calendar_release_id: '2' }, id: 'vertically-offset'
+          %td.calendar__day
+          %td.calendar__day
+          %td.calendar__day#tallest-day
+            = link_to 'Foo Release 3', '/foo/bar/3', class: 'calendar__release', data: { calendar_release_id: '3' }
+            = link_to 'Foo Release 4', '/foo/bar/4', class: 'calendar__release', data: { calendar_release_id: '4' }
+            = link_to 'Foo Release 5', '/foo/bar/5', class: 'calendar__release', data: { calendar_release_id: '5' }
+            = link_to 'Foo Release 6', '/foo/bar/6', class: 'calendar__release', data: { calendar_release_id: '6' }
+
+    = link_to 'Next', '#', class: 'calendar__control calendar__control--next'

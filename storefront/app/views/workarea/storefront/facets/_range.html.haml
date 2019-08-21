@@ -1,0 +1,11 @@
+.result-filters__section.result-filters__section--price
+  %h2= t('workarea.storefront.products.filter_title', name: t('workarea.storefront.products.price'))
+  %ul.result-filters__group
+    - facet.results.each do |range, count|
+      %li.result-filters__filter{ class: ('result-filters__filter--selected' if facet.selected?(range)) }
+        = link_to facet_path(facet, range), rel: 'nofollow', class: 'result-filters__link' do
+          = price_range_facet_text(range)
+          - if facet.selected?(range)
+            %strong.result-filters__remove= t('workarea.storefront.products.remove_filter')
+          - else
+            %span.result-filters__count (#{count})

@@ -1,0 +1,30 @@
+- @page_title = "#{t('workarea.admin.create_content_pages.content.content_for', title: @page.name)}"
+
+.view
+  .view__header
+    .grid.grid--right
+      .grid__cell.grid__cell--50
+        .view__heading
+          %h1.heading.heading--no-margin= t('workarea.admin.create_content_pages.content.add_content', page_name: @page.name)
+          %p= link_to t('workarea.admin.create_content_pages.workflow.or_skip_this'), taxonomy_create_content_page_path(@page)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@page, html_options: { target: @page.id })
+
+  = render 'workarea/admin/content/edit', content: @content, workflow: true
+
+  .workflow-bar
+    .grid.grid--middle
+      .grid__cell.grid__cell--20
+        = link_to t('workarea.admin.form.cancel'), content_page_path(@page), class: 'workflow-bar__button workflow-bar__button--delete', data: { method: 'delete', confirm: t('workarea.admin.create_content_pages.workflow.delete_confirmation') }
+
+      .grid__cell.grid__cell--60
+        %ol.workflow-bar__steps
+          %li.workflow-bar__step 1) #{link_to t('workarea.admin.create_content_pages.workflow.setup'), edit_create_content_page_path(@page)}
+          %li.workflow-bar__step
+            %strong 2) #{t('workarea.admin.create_content_pages.workflow.content')}
+          %li.workflow-bar__step 3) #{t('workarea.admin.create_content_pages.workflow.taxonomy')}
+          %li.workflow-bar__step 4) #{t('workarea.admin.create_content_pages.workflow.publishing')}
+
+      .grid__cell.grid__cell--20
+        .grid.grid--auto.grid--right.grid--middle
+          .grid__cell= link_to "#{t('workarea.admin.create_content_pages.content.continue_to_taxonomy')} →", taxonomy_create_content_page_path(@page), class: 'workflow-bar__button'

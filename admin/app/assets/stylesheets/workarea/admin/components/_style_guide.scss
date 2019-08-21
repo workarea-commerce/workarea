@@ -1,0 +1,134 @@
+/*------------------------------------*\
+    #STYLE-GUIDE
+\*------------------------------------*/
+
+$style-guide-nav-width:  20% !default;
+
+$style-guide-menu-button-shadow:  0 0 8px $shadow-color !default;
+
+$style-guide-grid-dark:           $off-black !default;
+$style-guide-grid-light:          darken($white, 5%) !default;
+$style-guide-grid-bg-color:       $white !default;
+
+$style-guide-color-outline:       1px solid $off-black !default;
+
+%style-guide-bg-grid {
+    background-size:     8px 8px;
+    background-color:    $style-guide-grid-bg-color;
+    background-image:    linear-gradient(45deg, $style-guide-grid-light 25%, transparent 25%, transparent 75%, $style-guide-grid-light 75%, $style-guide-grid-light 100%), linear-gradient(45deg, $style-guide-grid-light 25%, transparent 25%, transparent 75%, $style-guide-grid-light 75%, $style-guide-grid-light 100%);
+    background-position: 0 0, 4px 4px;
+}
+
+/**
+ * 1. due to the way placeholder images work, we must negate this rule set up
+ *    in `base/_images.scss`
+ */
+.style-guide {
+    @extend %clearfix;
+    padding: ($spacing-unit * 2) $spacing-unit;
+
+    code {
+        font-weight: bold;
+    }
+
+    img[width], img[height] { /* [1] */
+        max-width: 100%;
+    }
+}
+
+    .style-guide__nav {
+        position: fixed;
+        margin: 0;
+        width: $style-guide-nav-width;
+        height: 100vh;
+        float: left;
+        overflow-y: auto;
+    }
+
+        .style-guide__link {}
+
+        .style-guide__link--active {
+            font-weight: bold;
+        }
+
+
+    .style-guide__main {
+        margin-left: $style-guide-nav-width;
+        padding-left: $spacing-unit * 2;
+    }
+
+        .style-guide__section {
+            margin:  $vertical-margin 0;
+            padding: ($spacing-unit * 2) 0;
+        }
+
+            .style-guide__subsection {
+                margin:  $vertical-margin 0;
+                padding: $spacing-unit * 2;
+            }
+
+
+                /**
+                 * 1. allows components with margins to be clearly shown
+                 */
+
+                .style-guide__example-block {
+                    @extend %style-guide-bg-grid;
+                    display: inline-block; /* [1] */
+                    margin-bottom: $vertical-margin;
+                    width: 100%; /* [1] */
+                }
+
+                .style-guide__code-block {
+                    display: block;
+                    margin-bottom: $vertical-margin;
+
+                    > code { /* [3] */
+                        display: block;
+                        padding: 16px;
+                        font-weight: normal;
+                        overflow: auto;
+                    }
+                }
+
+
+                .style-guide__color {
+                    @extend %style-guide-bg-grid;
+                    display: block;
+                    position: relative;
+                    width:  100px;
+                    height: 100px;
+                }
+
+                    .style-guide__color-swatch {
+                        position: absolute;
+                        top:    0;
+                        right:  0;
+                        bottom: 0;
+                        left:   0;
+                        outline: $style-guide-color-outline;
+                    }
+
+                    .style-guide__color-swatch--black { background: $black; }
+                    .style-guide__color-swatch--off-black { background: $off-black; }
+                    .style-guide__color-swatch--blue { background: $blue; }
+                    .style-guide__color-swatch--bright-blue { background: $bright-blue; }
+                    .style-guide__color-swatch--green { background: $green; }
+                    .style-guide__color-swatch--bright-green { background: $bright-green; }
+                    .style-guide__color-swatch--red { background: $red; }
+                    .style-guide__color-swatch--dark-gray { background: $dark-gray; }
+                    .style-guide__color-swatch--gray { background: $gray; }
+                    .style-guide__color-swatch--light-gray { background: $light-gray; }
+                    .style-guide__color-swatch--off-white { background: $off-white; }
+                    .style-guide__color-swatch--white { background: $white; }
+                    .style-guide__color-swatch--orange { background: $orange; }
+
+                    .style-guide__color-swatch--transparent { background: $transparent; }
+                    .style-guide__color-swatch--font-color { background: $font-color; }
+                    .style-guide__color-swatch--background-color { background: $background-color; }
+                    .style-guide__color-swatch--border-color { background: $border-color; }
+                    .style-guide__color-swatch--focus-ring-color { background: $focus-ring-color; }
+                    .style-guide__color-swatch--shadow-color { background: $shadow-color; }
+
+
+            .style-guide__unit-test {}

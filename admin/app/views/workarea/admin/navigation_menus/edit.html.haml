@@ -1,0 +1,42 @@
+- @page_title = t('workarea.admin.navigation_menus.edit.page_title', menu: @menu.name)
+
+.view
+  .view__header
+    .grid
+      .grid__cell.grid__cell--25
+        = render 'workarea/admin/releases/select'
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to "↑ #{t('workarea.admin.navigation_menus.edit.index_link')}", navigation_menus_path
+          %h1= t('workarea.admin.navigation_menus.edit.title', name: @menu.name)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@menu)
+
+  .view__container
+    - if @menu.errors.present?
+      = render 'workarea/admin/shared/errors', errors: @menu.errors
+
+  .view__container.view__container--narrow
+    = form_tag navigation_menu_path(@menu), method: :patch, data: { unsaved_changes: '' } do
+      .property
+        = label_tag 'menu[name]', t('workarea.admin.fields.name'), class: 'property__name'
+        = text_field_tag 'menu[name]', @menu.name, class: 'text-box text-box--i18n', placeholder: t('workarea.admin.navigation_menus.edit.name_placeholder')
+
+      .property
+        = label_tag 'menu[taxon_id]', t('workarea.admin.fields.taxon_id'), class: 'property__name'
+        = select_tag 'menu[taxon_id]', options_from_collection_for_select(@taxons, :id, :name, @menu.taxon_id), required: true
+
+      .property
+        %span.property__name
+          = t('workarea.admin.fields.active')
+          = inline_svg('workarea/admin/i18n.svg', class: 'svg-icon svg-icon--small') if locale_options.many? && Workarea.config.localized_active_fields
+        = toggle_button_for 'menu[active]', @menu.active?
+
+      .workflow-bar
+        .grid.grid--middle
+          .grid__cell.grid__cell--20
+            = link_to t('workarea.admin.form.cancel'), navigation_menus_path, class: 'workflow-bar__button workflow-bar__button--delete'
+          .grid__cell.grid__cell--80
+            .grid.grid--auto.grid--right.grid--middle
+              .grid__cell= render 'workarea/admin/shared/publishing_select'
+              .grid__cell= button_tag t('workarea.admin.form.save_changes'), value: 'save_menu', class: 'workflow-bar__button workflow-bar__button--update'

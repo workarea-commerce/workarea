@@ -1,0 +1,10 @@
+/*------------------------------------*\
+    #HIDDEN-IF-JS-ENABLED
+\*------------------------------------*/
+
+.hidden-if-js-enabled,
+%hidden-if-js-enabled {
+    .js & {
+        display: none;
+    }
+}

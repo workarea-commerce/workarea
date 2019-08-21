@@ -1,0 +1,234 @@
+/*------------------------------------*\
+    #BROWSING-CONTROLS
+    // TODO v4 destroy and rebuild
+\*------------------------------------*/
+
+$browsing-controls-bg-color:         $background-color !default;
+$browsing-controls-border-color:     $border-color !default;
+
+$browsing-controls-filter-min-width:    115px !default;
+
+$browsing-controls-filter-button-padding: 11px 2em 11px $spacing-unit !default;
+$browsing-controls-button-min-width:      150px !default;
+$browsing-controls-button-color:          $gray !default;
+$browsing-controls-button-border-color:   $border-color !default;
+
+$browsing-controls-dropdown-bg-color:     $white !default;
+$browsing-controls-dropdown-max-height:   200px !default;
+$browsing-controls-dropdown-border-color: $border-color !default;
+
+$browsing-controls-dropdown-price-width: 285px !default;
+$browsing-controls-dropdown-date-width:  630px !default;
+
+$browsing-controls-toggle-filter-btn-padding:  12px !default;
+
+$browsing-controls-active-filter-color-hover:       $white !default;
+$browsing-controls-active-filter-bg-color:          $light-gray !default;
+$browsing-controls-active-filter-bg-color-hover:    $off-black !default;
+
+
+.browsing-controls {
+    position: relative;
+    z-index: index($components, browsing-controls);
+    padding-bottom: $spacing-unit * 2;
+    background: $browsing-controls-bg-color;
+}
+
+.browsing-controls--center {
+    text-align: center;
+}
+
+.browsing-controls--with-divider {
+    border-top: 1px solid $browsing-controls-border-color;
+    border-bottom: 1px solid $browsing-controls-border-color;
+    padding-top: $spacing-unit * 2;
+}
+
+.browsing-controls--filters-displayed {}
+
+
+    .browsing-controls form, // TODO v4 update plugins to use element selector
+    .browsing-controls__form {
+        margin-bottom: $vertical-margin;
+    }
+
+
+    .browsing-controls__sort {
+        display: inline-block;
+        padding-right: $spacing-unit;
+        border-right: 1px solid $browsing-controls-border-color;
+    }
+
+    .browsing-controls__search {
+        display: inline-block;
+        padding: 0 $spacing-unit;
+    }
+
+
+    /**
+     * 1. Positioning context for .browsing-controls__filter-dropdown
+     */
+    .browsing-controls__filter {
+        display: none;
+        position: relative; /* [1] */
+        min-width: $browsing-controls-filter-min-width;
+        max-width: 100%;
+        vertical-align: baseline;
+
+        .browsing-controls--filters-displayed & {
+            display: inline-block;
+        }
+
+        & + & {
+            padding-left: $spacing-unit;
+        }
+    }
+
+    .browsing-controls__filter--date {}
+    .browsing-controls__filter--price {}
+
+        .browsing-controls__filter-button {
+            @extend %button-reset;
+            @extend %truncate;
+            position: relative;
+            padding: $browsing-controls-filter-button-padding;
+            min-width: $browsing-controls-button-min-width;
+            max-width: 100%;
+            color: $browsing-controls-button-color;
+            font-weight: bold;
+            text-align: left;
+            border: 1px solid $browsing-controls-button-border-color;
+            border-radius: $global-border-radius;
+
+            .browsing-controls__filter--date & {
+                padding-right: 2em;
+            }
+        }
+
+            .browsing-controls__filter-button-icon {
+                @include center($to: vertical);
+                right: $spacing-unit;
+                vertical-align: middle;
+                transform: translate(0, -50%) rotate(90deg);
+                transition: transform $global-transition-speed ease-in-out;
+
+                .browsing-controls__filter--open & {
+                    transform: translate(0, -50%) rotate(-90deg);
+                }
+
+                //Reset rotation for price and date filters
+                .browsing-controls__filter--date & ,
+                .browsing-controls__filter--price & {
+                    transform: translate(0, -50%) rotate(0deg);
+                }
+            }
+
+        .browsing-controls__filter-dropdown {
+            @include global-box-shadow($lighting: top);
+            display: none;
+            position: absolute;
+            z-index: index($components, browsing-controls-dropdown);
+            padding: ($spacing-unit * 2) $spacing-unit;
+            min-width: 100%;
+            background-color: $browsing-controls-dropdown-bg-color;
+            border: 1px solid $browsing-controls-dropdown-border-color;
+            border-radius: $global-border-radius;
+
+            .browsing-controls__filter--open & {
+                display: block;
+                max-height: 200px;
+                overflow-y: auto;
+            }
+
+            .browsing-controls__filter--date & {
+                max-height: none;
+                min-width: $browsing-controls-dropdown-date-width;
+                transform: translateX(-50%);
+            }
+
+            .browsing-controls__filter--price & {
+                max-height: none;
+                min-width: $browsing-controls-dropdown-price-width;
+            }
+        }
+
+            .browsing-controls__filter-dropdown-submit {
+                text-align: center;
+                margin-top: $vertical-margin;
+            }
+
+    .browsing-controls__filter-list {
+        @extend %list-reset;
+        padding: 0 $spacing-unit;
+        text-align: left;
+    }
+
+        .browsing-controls__filter-item {
+            padding: $spacing-unit 0;
+            padding-bottom: $spacing-unit;
+            font-size: $font-size + 2px;
+            white-space: nowrap;
+        }
+
+            .browsing-controls__filter-link {
+                cursor: pointer;
+            }
+
+    .browsing-controls__toggle-filters {
+        display: inline-block;
+        padding: $browsing-controls-toggle-filter-btn-padding;
+    }
+
+    .browsing-controls__applied-filters {
+        text-align: center;
+        margin-bottom: $spacing-unit * 2;
+    }
+
+        .browsing-controls__applied-filters-list {
+            @extend %inline-list;
+            display: inline-block;
+        }
+
+            .browsing-controls__applied-filter {
+                padding: ($spacing-unit / 2) $spacing-unit;
+                background-color: $browsing-controls-active-filter-bg-color;
+                border-radius: $global-border-radius;
+                line-height: 1;
+
+                &:hover {
+                    color: $browsing-controls-active-filter-color-hover;
+                    background-color: $browsing-controls-active-filter-bg-color-hover;
+                }
+
+                & + & {
+                    margin-left: $spacing-unit;
+                }
+            }
+
+            .browsing-controls__applied-remove-link {
+                display: inline-block;
+                line-height: 1;
+                cursor: pointer;
+                vertical-align: text-bottom;
+            }
+
+            .browsing-controls__applied-icon {
+                .browsing-controls__applied-filter:hover & {
+                    fill: $browsing-controls-active-filter-color-hover;
+                }
+            }
+
+        .browsing-controls__applied-reset {
+            display: inline-block;
+            margin-left: $spacing-unit;
+        }
+
+    .browsing-controls__count {
+        text-align: center;
+        margin-bottom: 0;
+        font-weight: bold;
+    }
+
+    .browsing-controls__chart {
+        margin-top: $vertical-margin;
+    }

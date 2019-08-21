@@ -1,0 +1,85 @@
+#loading.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'loading')
+
+  %p Displays a loading indicator.
+
+  .style-guide__example-block
+    .loading Loading...
+
+  .style-guide__unit-test
+
+    %h4 Unit Test
+
+    %p should work with <code>div</code> (block-level) elements
+    .style-guide__example-block
+      .loading Loading...
+
+    %p should work with <code>p</code> (block-level) elements
+    .style-guide__example-block
+      %p.loading Loading...
+
+    %p should work with <code>span</code> (inline) elements
+    .style-guide__example-block
+      %span.loading Loading...
+
+
+#loading--large.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'loading__large')
+
+  %p Displays a larger loading indicator.
+
+  .style-guide__example-block
+    .loading.loading--large Loading...
+
+  .style-guide__unit-test
+
+    %h4 Unit Test
+
+    %p should work with <code>div</code> (block-level) elements
+    .style-guide__example-block
+      .loading.loading--large Loading...
+
+    %p should work with <code>p</code> (block-level) elements
+    .style-guide__example-block
+      %p.loading.loading--large Loading...
+
+    %p should work with <code>span</code> (inline) elements
+    .style-guide__example-block
+      %span.loading.loading--large Loading...
+
+
+#loading--fill-parent.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'loading__fill_parent')
+
+  %p Displays a loading indicator that is centered inside of its parent. The parent element must provide a positioning context.
+
+  - relative_styles = 'position: relative; height: 200px;'
+
+  %p The example containers below have the following styles applied: <code>#{relative_styles}</code>
+
+  .style-guide__example-block{ style: relative_styles }
+    .loading.loading--fill-parent
+
+  .style-guide__unit-test
+
+    %h4 Unit Test
+
+    %p should work with <code>div</code> (block-level) elements
+    .style-guide__example-block{ style: relative_styles }
+      .loading.loading--fill-parent
+
+    %p should work with <code>p</code> (block-level) elements
+    .style-guide__example-block{ style: relative_styles }
+      %p.loading.loading--fill-parent
+
+    %p should work with <code>span</code> (inline) elements
+    .style-guide__example-block{ style: relative_styles }
+      %span.loading.loading--fill-parent
+
+    %p should work with the <code>.loading--large</code> modifier
+    .style-guide__example-block{ style: relative_styles }
+      %p.loading.loading--fill-parent.loading--large
+

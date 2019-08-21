@@ -1,0 +1,25 @@
+- @page_title = t('workarea.admin.content.edit.title', content: @content.name)
+
+.view
+  .view__header
+    .grid
+      .grid__cell.grid__cell--25
+        = render 'workarea/admin/releases/select'
+      .grid__cell.grid__cell--50
+        .view__heading
+          - if @content.system?
+            = link_to "↑ #{t('workarea.admin.content.all_system_pages')}", content_index_path
+            %h1= link_to @content.name, url_for(@content)
+          - else
+            = link_to_index_for(@content.contentable)
+            %h1= link_to @content.name, url_for(@content.contentable)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@content.contentable) unless @content.system?
+
+  .view__container
+    - if @content.system?
+      = render_cards_for(@content, :content)
+    - else
+      = render_cards_for(@content.contentable, :content)
+
+  = render 'workarea/admin/content/edit', content: @content

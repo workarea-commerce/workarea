@@ -1,0 +1,78 @@
+- @page_title = t('workarea.admin.help.index.page_title')
+
+.view
+  .view__header
+    .grid.grid--right
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to "↑ #{t('workarea.admin.help.index.dashboard_link')}", root_path, class: 'view__dashboard-button'
+          %h1.heading.heading--no-margin= t('workarea.admin.help.index.title')
+          = render_message 'info' do
+            = t('workarea.admin.help.index.community_forum_info_html')
+
+      .grid__cell.grid__cell--25
+        .grid.grid--auto.grid--right.grid--middle
+          .grid__cell= link_to t('workarea.admin.help.index.manage_help_assets'), help_assets_path
+
+  .view__container
+    = form_tag help_index_path, method: 'get' do
+      = facet_hidden_inputs(@search.facets)
+      .search-form.search-form--major.search-form--with-margin
+        = text_field_tag :q, params[:q], class: 'search-form__input', id: 'search_help', title: t('workarea.admin.help.index.search_placeholder'), placeholder: t('workarea.admin.help.index.search_placeholder')
+        = submit_tag 'search_help', class: 'search-form__button'
+
+    - if params[:q].blank? && params[:category].blank?
+      .top-help-articles
+        - @search.top_articles_by_category.each do |category, help_articles|
+          .top-help-articles__category
+            = link_to category, help_index_path(category: [category]), class: 'top-help-articles__category-name'
+            %ul.top-help-articles__list
+              - help_articles.each do |help_article|
+                %li.top-help-articles__item
+                  = link_to help_article.name, help_path(help_article), class:'top-help-articles__item-name'
+                  - if current_user.help_admin?
+                    %span.top-help-articles__item-actions
+                      %span.top-help-articles__item-action
+                        = link_to edit_help_path(help_article), title: t('workarea.admin.help.index.edit_name', name: help_article.name) do
+                          = inline_svg('workarea/admin/icons/edit.svg', class: 'svg-icon svg-icon--small', title: t('workarea.admin.help.index.edit'))
+                      %span.top-help-articles__item-action
+                        = form_tag help_path(help_article), method: 'delete' do
+                          = button_tag title: t('workarea.admin.actions.delete'), class: 'button-reset' do
+                            = inline_svg('workarea/admin/icons/delete.svg', class: 'svg-icon svg-icon--small svg-icon--red', title: t('workarea.admin.actions.delete'))
+
+    .browsing-controls.browsing-controls--with-divider
+      .grid.grid--middle
+        .grid__cell.grid__cell--50
+          %strong= t('workarea.admin.help.index.article', count: @search.total)
+        .grid__cell.grid__cell--50
+          = form_tag help_index_path, method: 'get', class: 'browsing-controls__form' do
+            = facet_hidden_inputs(@search.facets)
+            .grid.grid--right.grid--auto.grid--middle
+              .grid__cell= label_tag 'sort', t('workarea.admin.search.sort_by')
+              .grid__cell
+                = select_tag :sort, options_for_select(@search.sorts, selected: @search.sort), data: { form_submitting_control: '' }
+
+    - @search.results.each do |help_article|
+      .help-article-summary
+        .help-article-summary__cell.help-article-summary__cell--full
+          .help-article-summary__category
+            = link_to help_article.category, help_index_path(category: [help_article.category]), target: '_blank', rel: 'noopener', class: 'button button--small'
+          = link_to help_article.name, help_path(help_article), class: 'help-article-summary__name'
+          %p.help-article-summary__text= help_article.summary
+        - if current_user.help_admin?
+          .help-article-summary__cell.help-article-summary__cell--nowrap
+            %span.help-article-summary__action
+              = link_to edit_help_path(help_article), title: t('workarea.admin.help.index.edit_name', name: help_article.name) do
+                = inline_svg('workarea/admin/icons/edit.svg', class: 'svg-icon svg-icon--small', title: t('workarea.admin.help.index.edit'))
+            %span.help-article-summary__action
+              = form_tag help_path(help_article), method: 'delete' do
+                = button_tag class: 'button-reset', title: t('workarea.admin.actions.delete') do
+                  = inline_svg('workarea/admin/icons/delete.svg', class: 'svg-icon svg-icon--small svg-icon--red', title: t('workarea.admin.actions.delete'))
+
+    - if @search.results.total_pages > 1
+      = render 'workarea/admin/shared/pagination', collection: @search.results
+
+  .workflow-bar
+    .grid.grid--auto.grid--right.grid--middle
+      - if current_user.help_admin?
+        .grid__cell= link_to t('workarea.admin.help.index.add_new_article'), new_help_path, id: 'add_article', class: 'workflow-bar__button workflow-bar__button--create'

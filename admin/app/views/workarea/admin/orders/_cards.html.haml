@@ -1,0 +1,181 @@
+.grid.grid--auto.grid--flush.grid--center
+  .grid__cell
+    .card{ class: card_classes(:attributes, local_assigns[:active]) }
+      = link_to attributes_order_path(model), class: 'card__header' do
+        %span.card__header-text= t('workarea.admin.cards.attributes.title')
+        = inline_svg 'workarea/admin/icons/attributes.svg', class: 'card__icon'
+
+      - if local_assigns[:active].blank?
+        .card__body
+          %ul.list-reset
+          - if model.user.present? || model.email.present?
+            %li
+              %strong= t('workarea.admin.orders.attributes.checkout.customer')
+              - if model.user.present?
+                = link_to model.user.name, user_path(model.user)
+              - else
+                = model.email
+            - if model.checkout_by.present? && model.checkout_by != model.user
+              %li
+                %strong
+                  = t('workarea.admin.orders.attributes.checkout.placed_by')
+                = link_to model.checkout_by.name, user_path(model.checkout_by)
+            - if model.source.present?
+              %li
+                %strong
+                  = t('workarea.admin.orders.attributes.checkout.source')
+                = model.source.titleize
+            - if model.copied_from.present?
+              %li
+                %strong
+                  = t('workarea.admin.fields.copied_from_id')
+                = link_to model.copied_from.name, order_path(model.copied_from)
+            %li
+              %strong= t('workarea.admin.orders.attributes.checkout.title')
+              = model.model.status.to_s.titleize
+            %li
+              %strong= t('workarea.admin.orders.attributes.checkout.placed')
+              - if model.placed?
+                = local_time_ago(model.placed_at)
+            %li
+              %strong= t('workarea.admin.orders.cards.attributes.total_price')
+              = number_to_currency model.total_price
+            %li
+              %strong= t('workarea.admin.orders.cards.attributes.total_value')
+              = number_to_currency model.total_value
+            %li
+              %strong= t('workarea.admin.orders.attributes.checkout.ip_address')
+              = model.ip_address.presence || t('workarea.admin.cards.attributes.no_value')
+            %li
+              %strong= t('workarea.admin.orders.attributes.checkout.traffic_referrer')
+              = model.traffic_referrer&.medium.presence || t('workarea.admin.cards.attributes.no_value')
+            %li
+              %strong= t('workarea.admin.orders.attributes.checkout.traffic_referrer_url')
+              = model.traffic_referrer&.uri.presence || t('workarea.admin.cards.attributes.no_value')
+            %li
+              %strong= t('workarea.admin.fields.updated_at')
+              #{local_time_ago(model.updated_at)}
+            %li
+              %strong= t('workarea.admin.fields.created_at')
+              #{local_time_ago(model.created_at)}
+          = link_to attributes_order_path(model), class: 'card__button' do
+            %span.button.button--small= t('workarea.admin.orders.cards.attributes.button')
+
+  .grid__cell
+    .card{ class: card_classes(:shipping, local_assigns[:active]) }
+      = link_to order_shippings_path(model), class: 'card__header' do
+        %span.card__header-text= t('workarea.admin.orders.attributes.shipping.title')
+        = inline_svg 'workarea/admin/icons/shipping.svg', class: 'card__icon'
+
+      - if local_assigns[:active].blank?
+        .card__body
+          - if model.shipping.blank?
+            %p.card__empty-note= t('workarea.admin.orders.attributes.shipping.empty')
+          - else
+            - model.shippings.each do |shipping|
+              %strong= t('workarea.admin.orders.attributes.shipping.address')
+
+              - if shipping.address.blank?
+                %p= t('workarea.admin.orders.attributes.shipping.none')
+              - else
+                %p= formatted_address(shipping.address)
+
+              - if shipping.shipping_service.present?
+                %strong= t('workarea.admin.orders.attributes.shipping.shipping_service')
+                %p
+                  = shipping.shipping_service.carrier
+                  = shipping.shipping_service.name
+
+            = link_to order_shippings_path(model), class: 'card__button' do
+              %span.button.button--small= t('workarea.admin.orders.cards.shipping.button')
+
+  - if model.payment.persisted?
+    .grid__cell
+      .card{ class: card_classes(:payment, local_assigns[:active]) }
+        = link_to payment_path(model.payment), class: 'card__header' do
+          %span.card__header-text= t('workarea.admin.orders.attributes.payment.title')
+          = inline_svg 'workarea/admin/icons/payment.svg', class: 'card__icon'
+
+        - if local_assigns[:active].blank?
+          .card__body
+            %p
+              %span.state{ class: state_indicator_class(model.payment.status) }
+                = model.payment.status.to_s.titleize
+
+            - if model.billing_address.present?
+              %strong= t('workarea.admin.orders.attributes.payment.address')
+              %p= formatted_address(model.billing_address)
+
+            %strong= t('workarea.admin.orders.attributes.payment.payment_tenders')
+            - if model.payment.tenders.blank?
+              %p= t('workarea.admin.orders.attributes.payment.empty')
+            - else
+              %ul.list-reset
+                - model.payment.tenders.first(3).each do |tender|
+                  = render "workarea/admin/orders/tenders/#{tender.slug}", tender: tender
+            = link_to payment_path(model.payment), class: 'card__button' do
+              %span.button.button--small= t('workarea.admin.orders.cards.payment.button')
+
+  .grid__cell
+    .card{ class: card_classes(:fulfillment, local_assigns[:active]) }
+      - if model.fulfillment.persisted?
+        = link_to fulfillment_path(model.fulfillment), class: 'card__header' do
+          %span.card__header-text= t('workarea.admin.orders.cards.fulfillment.title')
+          = inline_svg 'workarea/admin/icons/fulfillment.svg', class: 'card__icon'
+      - else
+        .card__header
+          %span.card__header-text= t('workarea.admin.orders.cards.fulfillment.title')
+          = inline_svg 'workarea/admin/icons/fulfillment.svg', class: 'card__icon'
+
+      - if local_assigns[:active].blank?
+        .card__body
+          - if model.fulfillment.persisted?
+            %p
+              %span.state{ class: state_indicator_class(model.fulfillment.status) }
+                = model.fulfillment.status.to_s.titleize
+              = append_partials('admin.fulfillment_status', fulfillment: model.fulfillment)
+
+            %ul.list-reset
+              - tracking_numbers = model.packages.map(&:tracking_number).join(', ')
+              - if tracking_numbers.present?
+                %li
+                  %strong= t('workarea.admin.orders.cards.fulfillment.tracking_numbers')
+                  = tracking_numbers
+
+              %li
+                %strong= t('workarea.admin.orders.cards.fulfillment.packages')
+                = model.packages.size
+              %li
+                %strong= t('workarea.admin.orders.cards.fulfillment.cancellations')
+                = model.cancellations.size
+              %li
+                %strong= t('workarea.admin.orders.cards.fulfillment.pending')
+                = model.pending_items.size
+
+            = link_to fulfillment_path(model.fulfillment), class: 'card__button' do
+              %span.button.button--small= t('workarea.admin.orders.cards.fulfillment.button')
+          - else
+            %p= t('workarea.admin.orders.cards.fulfillment.not_available')
+
+  = append_partials('admin.order_cards', order: model, active: local_assigns[:active])
+
+  .grid__cell
+    .card{ class: card_classes(:timeline, local_assigns[:active]) }
+      = link_to timeline_order_path(model), class: 'card__header' do
+        %span.card__header-text= t('workarea.admin.timeline.card.title')
+        = inline_svg 'workarea/admin/icons/timeline.svg', class: 'card__icon'
+
+      - if local_assigns[:active].blank?
+        .card__body
+          - if model.timeline.empty?
+            %p.card__empty-note= t('workarea.admin.timeline.card.description')
+            = link_to timeline_order_path(model), class: 'card__button' do
+              %span.button.button--small= t('workarea.admin.timeline.card.button')
+          - else
+            - model.timeline.take(3).each do |entry|
+              = render_order_timeline_entry(entry)
+            = link_to timeline_order_path(model), class: 'card__button' do
+              %span.button.button--small= t('workarea.admin.timeline.card.button')
+
+  .grid__cell
+    = render 'workarea/admin/comments/card', commentable: model, active: local_assigns[:active]

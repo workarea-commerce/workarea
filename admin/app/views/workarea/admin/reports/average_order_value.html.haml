@@ -1,0 +1,39 @@
+- @page_title = t('workarea.admin.reports.average_order_value.title')
+
+.view
+  .view__header
+    .view__heading
+      = link_to "↑ #{t('workarea.admin.reports.all_reports')}", reports_dashboards_path
+      %h1.heading.heading--no-margin= t('workarea.admin.reports.average_order_value.title')
+      %p= t('workarea.admin.reports.reference_link_html', path: reference_report_path)
+
+  .view__container
+    .browsing-controls.browsing-controls--with-divider.browsing-controls--center.browsing-controls--filters-displayed
+      = form_tag average_order_value_report_path, method: 'get', class: 'browsing-controls__form' do
+        .grid.grid--center.grid--auto.grid--middle
+          .grid__cell= render 'workarea/admin/shared/date_selector', starts_at: @report.starts_at, ends_at: @report.ends_at
+          .grid__cell
+            .property.property--inline
+              = label_tag 'group_by', t('workarea.admin.reports.first_time_vs_returning_sales.by')
+              = select_tag 'group_by', options_for_select(@report.group_by_options, @report.group_by), data: { form_submitting_control: '' }
+
+      .browsing-controls__count
+        = render_reports_results_message(@report)
+        = render 'workarea/admin/reports/export', report: @report
+
+      .browsing-controls__chart= render 'workarea/admin/reports/group_by_time', report: @report, prefix: Money.default_currency.symbol
+
+    %table
+      %thead
+        %tr
+          %th= link_to_reports_sorting t('workarea.admin.fields.period'), report: @report, sort_by: '_id'
+          %th.align-center= link_to_reports_sorting t('workarea.admin.fields.orders'), report: @report, sort_by: 'orders'
+          %th.align-right= link_to_reports_sorting t('workarea.admin.fields.revenue'), report: @report, sort_by: 'revenue'
+          %th.align-right= link_to_reports_sorting t('workarea.admin.fields.average_order_value'), report: @report, sort_by: 'average_order_value'
+      %tbody
+        - @report.results.each do |result|
+          %tr
+            %td= result.period
+            %td.align-center= number_with_delimiter result.orders
+            %td.align-right= number_to_currency(result.revenue)
+            %td.align-right= number_to_currency(result.average_order_value)

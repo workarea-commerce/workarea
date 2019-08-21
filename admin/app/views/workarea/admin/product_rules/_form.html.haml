@@ -1,0 +1,12 @@
+- if rule.persisted?
+  = form_tag product_list_product_rule_path(product_list.to_global_id, rule), method: 'patch', data: { product_rules_preview: '', product_list_id: product_list.to_global_id.to_param, rule_id: rule.id.to_s, unsaved_changes: '' } do
+    = hidden_field_tag 'return_to', local_assigns[:return_to]
+    = hidden_field_tag 'show_all', params[:show_all], id: nil
+    = render_product_rule_fields_for(rule)
+    = button_tag t('workarea.admin.actions.save'), class: 'button button--small'
+- else
+  = form_tag product_list_product_rules_path(product_list.to_global_id), method: 'post', data: { product_rules_preview: '', product_list_id: product_list.to_global_id.to_param, rule_id: rule.id.to_s, unsaved_changes: '' } do
+    = hidden_field_tag 'return_to', local_assigns[:return_to]
+    = hidden_field_tag 'show_all', params[:show_all], id: nil
+    = render_product_rule_fields_for(rule)
+    = button_tag t('workarea.admin.actions.save'), class: 'button button--small'

@@ -1,0 +1,14 @@
+/*------------------------------------*\
+    #CATEGORY-SUMMARY-CONTENT-BLOCK
+\*------------------------------------*/
+
+.category-summary-content-block {}
+
+    .category-summary-content-block__heading {
+        @extend %heading;
+        @extend %heading--2;
+    }
+
+        .category-summary-content-block__heading-link {}
+
+    .category-summary-content-block__empty-message {}
