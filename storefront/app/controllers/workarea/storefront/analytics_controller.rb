@@ -1,44 +1,59 @@
 module Workarea
   module Storefront
-    class AnalyticsController < ActionController::Metal
-      include ActionController::Instrumentation
+    class AnalyticsController < Storefront::ApplicationController
+      skip_before_action :verify_authenticity_token
+      before_action :ignore_bots
+
+      def new_session
+        Metrics::SalesByDay.inc(sessions: 1)
+
+        current_segments.each do |segment|
+          Metrics::SegmentByDay.inc(key: { segment_id: segment.id }, sessions: 1)
+        end
+      end
 
       def category_view
-        unless robot?
+        if params[:category_id].present?
           Metrics::CategoryByDay.inc(key: { category_id: params[:category_id] }, views: 1)
+          Metrics::User.save_affinity(
+            id: current_metrics_id,
+            action: 'viewed',
+            category_ids: params[:category_id]
+          )
         end
       end
 
       def product_view
-        unless robot?
+        if params[:product_id].present?
           Metrics::ProductByDay.inc(key: { product_id: params[:product_id] }, views: 1)
+          Metrics::User.save_affinity(
+            id: current_metrics_id,
+            action: 'viewed',
+            product_ids: params[:product_id]
+          )
         end
       end
 
       def search
-        unless robot?
+        query_string = QueryString.new(params[:q])
+
+        if query_string.present? && !query_string.short?
           Metrics::SearchByDay.save_search(params[:q], params[:total_results])
+          Metrics::User.save_affinity(
+            id: current_metrics_id,
+            action: 'viewed',
+            search_ids: query_string.id
+          )
         end
-      end
-
-      def search_abandonment
-      warn <<~eos
-DEPRECATION WARNING: Search abandonment tracking is deprecated and will be removed \
-in Workarea 3.5.
-      eos
-      end
-
-      def filters
-      warn <<~eos
-DEPRECATION WARNING: Filter analytics tracking is deprecated and will be removed \
-in Workarea 3.5.
-      eos
       end
 
       private
 
-      def robot?
-        Robots.is_robot?(request.user_agent)
+      def ignore_bots
+        if Robots.is_robot?(request.user_agent)
+          head(:forbidden)
+          return false
+        end
       end
     end
   end

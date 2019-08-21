@@ -1,5 +1,6 @@
 ---
 title: Configuration
+created_at: 2018/11/07
 excerpt: Every Workarea application has Ruby and JavaScript configurations, which consist of customizable named values that provide designed extension points for the application and its installed plugins. Configuration, as an extension technique, is the proces
 ---
 

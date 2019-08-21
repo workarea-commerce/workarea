@@ -151,6 +151,7 @@ module Workarea
       end
 
       def test_updating_metrics
+        create_life_cycle_segments
         create_user(email: 'bcrouse@workarea.com', password: 'W3bl1nc!')
         create_tax_category(code: '001', rates: [{ percentage: 0.06, country: 'US' }])
         create_order_total_discount(amount_type: 'percent', amount: 10)
@@ -208,6 +209,19 @@ module Workarea
         assert_equal(-1, user.discounts)
         assert_kind_of(Time, user.first_order_at)
         assert_kind_of(Time, user.last_order_at)
+        assert_equal(1, user.purchased.product_ids.size)
+
+        segment = Metrics::SegmentByDay.first
+        assert_equal(1, segment.orders)
+        assert_equal(0, segment.returning_orders)
+        assert_equal(1, segment.customers)
+        assert_equal(2, segment.units_sold)
+        assert_equal(2, segment.discounted_units_sold)
+        assert_equal(10, segment.merchandise)
+        assert_equal(-1, segment.discounts)
+        assert_equal(7, segment.shipping)
+        assert_equal(0.96, segment.tax)
+        assert_equal(16.96, segment.revenue)
       end
     end
   end

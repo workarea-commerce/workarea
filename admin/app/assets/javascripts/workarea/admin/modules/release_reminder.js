@@ -82,6 +82,7 @@ WORKAREA.registerModule('releaseReminder', (function () {
          */
         init = function ($scope) {
             $('.release-select--emphasize', $scope)
+                .has('.tooltip-content')
                 .find('.release-select__container')
                 .tooltipster(getTooltipsterConfig());
 

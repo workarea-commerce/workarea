@@ -1,5 +1,6 @@
 ---
 title: JavaScript Coding Standards
+created_at: 2018/07/31
 excerpt: In addition to using a standard module structure, modules generally follow the coding style of Douglas Crockford.
 ---
 

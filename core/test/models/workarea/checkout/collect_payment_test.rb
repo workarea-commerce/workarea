@@ -38,13 +38,21 @@ module Workarea
       end
 
       def test_action
-        Workarea.with_config do |config|
-          config.auto_capture = false
-          assert_equal('authorize!', collect_payment.action)
+        Workarea.config.checkout_payment_action = {
+          not_shipped: 'foo!',
+          shipped: 'bar!',
+          mixed: 'baz!'
+        }
 
-          config.auto_capture = true
-          assert_equal('purchase!', collect_payment.action)
-        end
+        order.items.build(requires_shipping: false)
+        assert_equal('foo!', collect_payment.action)
+
+        order.items.build(requires_shipping: true)
+        assert_equal('baz!', collect_payment.action)
+
+        order.items.clear
+        order.items.build(requires_shipping: true)
+        assert_equal('bar!', collect_payment.action)
       end
     end
   end

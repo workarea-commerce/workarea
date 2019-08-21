@@ -20,7 +20,7 @@ module Workarea
         product1 = create_product(name: 'PL Product 1')
         product2 = create_product(name: 'PL Product 2')
 
-        asset = create_asset
+        asset = create_asset(alt_text: 'Foobarbq')
 
         content = Content.for(@content_page)
         content.blocks.build(
@@ -34,6 +34,13 @@ module Workarea
         content.blocks.build(
           type: :image,
           data: { image: asset.id }
+        )
+        content.blocks.build(
+          type: :image,
+          data: {
+             image: asset.id,
+             alt: 'Corgenator'
+          }
         )
         content.blocks.build(
           type: :hero,
@@ -65,6 +72,8 @@ module Workarea
         assert(page.has_content?('test html'))
         assert(page.has_content?('text'))
         assert(page.has_content?('foo headline'))
+        assert_match(/alt.*Foobarbq/, page.html)
+        assert_match(/alt.*Corgenator/, page.html)
         assert_match(/iframe/, page.html)
         assert(page.has_content?('Test Standard Category'))
         page.all(:css, '.category-summary-content-block').each do |el|

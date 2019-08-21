@@ -1,0 +1,17 @@
+- field_name = "configuration[#{field.key}]"
+
+%table
+  %tbody
+    - value.each do |name, value|
+      %tr
+        %td= name
+        %td
+          = hidden_field_tag "#{field_name}[]", name, id: nil
+          = text_field_tag "#{field_name}[]", hash_editing_value(value), id: nil, class: 'text-box text-box--i18n', placeholder: value
+    %tr{ data: { cloneable_row: '' } }
+      %td
+        .property
+          = text_field_tag "#{field_name}[]", nil, id: nil, class: 'text-box text-box--i18n', title: "New #{field.name} Name", placeholder: "Name"
+      %td
+        .property
+          = text_field_tag "#{field_name}[]", nil, id: nil, class: 'text-box text-box--i18n', title: "New #{field.name} Value", placeholder: "Value"

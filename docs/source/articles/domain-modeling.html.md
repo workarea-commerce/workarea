@@ -1,5 +1,6 @@
 ---
 title: Domain Modeling
+created_at: 2018/09/17
 excerpt: Here are a few key concepts related to domain modeling and how they are applied within the platform.
 ---
 

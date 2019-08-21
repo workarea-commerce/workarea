@@ -1,5 +1,6 @@
 ---
 title: Integrate a Payment Gateway
+created_at: 2018/09/17
 excerpt: Workarea uses the ActiveMerchant gem for integration with payment gateways. This gem consolidates gateway functionalities under a common interface.
 ---
 

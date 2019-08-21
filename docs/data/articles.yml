@@ -39,6 +39,7 @@ application-architecture:
     decoration.html.md: /articles/decoration.html.md
     overriding.html.md: /articles/overriding.html.md
     configuration.html.md: /articles/configuration.html.md
+    configuration-fields.html.md: articles/configuration-fields.html.md
   misc:
     application-document.html.md: /articles/application-document.html.md
     releasable.html.md: /articles/releasable.html.md
@@ -67,6 +68,7 @@ cart-and-checkout:
   configure-a-payment-gateway.html.md: /articles/configure-a-payment-gateway.html.md
   integrate-a-payment-gateway.html.md: /articles/integrate-a-payment-gateway.html.md
   test-a-credit-card-transaction.html.md: /articles/test-a-credit-card-transaction.html.md
+  add-a-fraud-analyzer.html.md: /articles/add-a-fraud-analyzer.html.md
 orders:
   orders.html.md: /articles/orders.html.md
   orders-and-items.html.md: /articles/orders-and-items.html.md
@@ -88,6 +90,7 @@ themes:
   create-a-theme.html.md: /articles/create-a-theme.html.md
 pricing:
   order-pricing.html.md: /articles/order-pricing.html.md
+  taxes.html.md: /articles/taxes.html.md
   add-or-replace-a-pricing-calculator.html.md: /articles/add-or-replace-a-pricing-calculator.html.md
   change-the-storefront-product-pricing-ui.html.md: /articles/change-the-storefront-product-pricing-ui.html.md
   create-a-custom-discount.html.md: /articles/create-a-custom-discount.html.md

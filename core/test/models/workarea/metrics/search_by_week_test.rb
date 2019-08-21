@@ -48,31 +48,29 @@ module Workarea
       end
 
       def test_append_last_week!
-        Workarea.with_config do |config|
-          config.insights_aggregation_per_page = 1
+        Workarea.config.insights_aggregation_per_page = 1
 
-          SearchForLastWeek.create!(query_id: 'foo', orders: 1)
-          SearchByWeek.append_last_week!
-          assert_equal(1, SearchByWeek.count)
+        SearchForLastWeek.create!(query_id: 'foo', orders: 1)
+        SearchByWeek.append_last_week!
+        assert_equal(1, SearchByWeek.count)
 
-          search = SearchByWeek.find_by(query_id: 'foo')
-          assert_equal('foo', search.query_id)
-          assert_equal(1, search.orders)
+        search = SearchByWeek.find_by(query_id: 'foo')
+        assert_equal('foo', search.query_id)
+        assert_equal(1, search.orders)
 
-          SearchForLastWeek.delete_all
-          SearchForLastWeek.create!(query_id: 'foo', orders: 1)
-          SearchForLastWeek.create!(query_id: 'bar', orders: 2)
-          SearchByWeek.append_last_week!
-          assert_equal(3, SearchByWeek.count)
+        SearchForLastWeek.delete_all
+        SearchForLastWeek.create!(query_id: 'foo', orders: 1)
+        SearchForLastWeek.create!(query_id: 'bar', orders: 2)
+        SearchByWeek.append_last_week!
+        assert_equal(3, SearchByWeek.count)
 
-          foo = SearchByWeek.find_by(query_id: 'foo')
-          assert_equal('foo', foo.query_id)
-          assert_equal(1, foo.orders)
+        foo = SearchByWeek.find_by(query_id: 'foo')
+        assert_equal('foo', foo.query_id)
+        assert_equal(1, foo.orders)
 
-          bar = SearchByWeek.find_by(query_id: 'bar')
-          assert_equal('bar', bar.query_id)
-          assert_equal(2, bar.orders)
-        end
+        bar = SearchByWeek.find_by(query_id: 'bar')
+        assert_equal('bar', bar.query_id)
+        assert_equal(2, bar.orders)
       end
 
       def test_revenue_change_median
@@ -109,13 +107,11 @@ module Workarea
 
         travel_to Time.zone.local(2018, 12, 5)
 
-        Workarea.with_config do |config|
-          config.score_decay = 0.5
+        Workarea.config.score_decay = 0.5
 
-          assert_equal(3, this_week.score(:orders))
-          assert_equal(1, last_week.score(:orders))
-          assert_equal(0.25, two_weeks_ago.score(:orders))
-        end
+        assert_equal(3, this_week.score(:orders))
+        assert_equal(1, last_week.score(:orders))
+        assert_equal(0.25, two_weeks_ago.score(:orders))
       end
 
       def test_weeks_ago

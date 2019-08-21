@@ -7,7 +7,7 @@ module Workarea
       return unless referrer.present?
 
       @current_referrer ||= TrafficReferrer.new(
-        RefererParser::Parser.new.parse(referrer).slice(:source, :medium, :uri)
+        Workarea.referrer_parser.parse(referrer).slice(:source, :medium, :uri)
       )
     end
   end

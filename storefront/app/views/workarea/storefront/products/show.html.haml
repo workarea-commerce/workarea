@@ -3,7 +3,6 @@
 
 - content_for :head do
   - cache "#{@product.cache_key}/head", expires_in: Workarea.config.cache_expirations.product_show_fragment_cache do
-    %meta{ property: 'recent-view', content: recent_view_content(product_id: @product.id) }
     %meta{ property: 'global-id', content: @product.to_global_id.to_param }
     = append_partials('storefront.product_head', product: @product)
 
@@ -20,8 +19,11 @@
     %meta{ property: 'og:description', content: strip_tags(@product.meta_description) }
 
 - cache "#{@product.cache_key}/show", expires_in: Workarea.config.cache_expirations.product_show_fragment_cache do
+
+  = render_schema_org(product_schema(@product, related_products: @product.recommendations))
+
   .view
-    .product-detail-container{ itemscope: true, itemtype: 'http://schema.org/Product', data: { analytics: product_view_analytics_data(@product).to_json } }
+    .product-detail-container{ data: { analytics: product_view_analytics_data(@product).to_json } }
 
       .product-details{ class: "product-details--#{@product.template}" }
         = render "workarea/storefront/products/templates/#{@product.template}", product: @product
@@ -29,7 +31,7 @@
       - if @product.description.present?
         .product-detail-container__description#description
           %h2.product-detail-container__description-heading= t('workarea.storefront.products.description')
-          .product-detail-container__description-body{ itemprop: 'description' }!= @product.description
+          .product-detail-container__description-body!= @product.description
 
       = append_partials('storefront.product_description', product: @product)
 
@@ -40,7 +42,7 @@
             .grid{ data: { analytics: product_list_analytics_data('Product Recommendations').to_json } }
               - @product.recommendations.each do |product|
                 .grid__cell.grid__cell--50.grid__cell--33-at-medium.grid__cell--16-at-wide
-                  .product-summary.product-summary--small{ itemprop: 'isRelatedTo', itemscope: true, itemtype: 'http://schema.org/Product' }
+                  .product-summary.product-summary--small
                     = render 'workarea/storefront/products/summary', product: product
 
       %div{ data: { recommendations_placeholder: recent_views_path } }

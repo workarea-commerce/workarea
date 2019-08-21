@@ -4,7 +4,7 @@ module Workarea
     include Sidekiq::CallbacksWorker
 
     sidekiq_options(
-      enqueue_on: { Catalog::Category => :save, with: -> { [changes] } },
+      enqueue_on: { Catalog::Category => [:save, :save_release_changes], with: -> { [changes] } },
       ignore_if: -> { changes['product_ids'].blank? },
       lock: :until_executing
     )
@@ -15,11 +15,15 @@ module Workarea
       ids = require_index_ids(*changes['product_ids'])
 
       if ids.size > max_count
-        ids.each_slice(max_count) do |ids|
-          BulkIndexProducts.perform_async(ids)
-        end
+        ids.each { |id| IndexProduct.perform_async(id) }
       else
-        BulkIndexProducts.perform(ids)
+        Catalog::Product.in(id: ids).each do |product|
+          begin
+            IndexProduct.perform(product)
+          rescue
+            IndexProduct.perform_async(product.id)
+          end
+        end
       end
     end
 

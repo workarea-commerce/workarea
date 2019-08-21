@@ -14,13 +14,6 @@ unless Workarea.config.skip_service_connections
   )
 
   Sidekiq::Cron::Job.create(
-    name: 'Workarea::CleanUserActivity',
-    klass: 'Workarea::CleanUserActivity',
-    cron: "0 0 * * * #{Time.zone.tzinfo.identifier}",
-    queue: 'low'
-  )
-
-  Sidekiq::Cron::Job.create(
     name: 'Workarea::ProcessProductRecommendations',
     klass: 'Workarea::ProcessProductRecommendations',
     cron: "30 1 * * 6 #{Time.zone.tzinfo.identifier}",

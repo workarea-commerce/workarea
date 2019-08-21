@@ -14,7 +14,6 @@
     -# The title tag shows in email notifications, like Android 4.4.
     %title= t('workarea.admin.layout.mailer.title', host: @host)
 
-
     -# BEGIN: web font / @font-face
     -# You're able to load the webfont from your build here, if you so desire.
     -# This is commented out, by default, since it's something you'll have to
@@ -24,19 +23,7 @@
       -# Roman, so we force a safe fallback font.
       /[if mso]
         :css
-          * { font-family: 'Helvetica, Arial, sans-serif'; }
-
-      -# All other clients get the webfont reference; some will render the font
-      -# and others will silently fail to the fallbacks. More on that here:
-      -# http://stylecampaign.com/blog/2015/02/webfont-support-in-email/
-      /[if !mso]
-        :css
-          -# You should replace the following with relevant sections from
-          -# `app/assets/stylesheets/workarea/admin/generic/_fonts.scss`
-          @font-face {
-            font-family: 'Font';
-            src: url('#{font_url('workarea/admin/font.woff2')}') format('woff2')
-          }
+          * { font-family: Helvetica, Arial, sans-serif; }
     -# END: web font / @font-face
 
 
@@ -73,15 +60,12 @@
             mso-table-rspace: 0pt !important;
         }
 
-        /* Fixes webkit padding issue. Fix for Yahoo mail table alignment bug. Applies table-layout to the first 2 tables then removes for anything nested deeper. */
+        /* Fixes webkit padding issue. */
         table {
             border-spacing: 0 !important;
             border-collapse: collapse !important;
             table-layout: fixed !important;
             margin: 0 auto !important;
-        }
-        table table table {
-            table-layout: auto;
         }
 
         /* Uses a better rendering method when resizing images in IE. */
@@ -89,10 +73,14 @@
             -ms-interpolation-mode:bicubic;
         }
 
+        /* What it does: Prevents Windows 10 Mail from underlining links despite inline CSS. Styles for underlined links should be inline. */
+        a {
+            text-decoration: none;
+        }
+
         /* A work-around for email clients meddling in triggered links. */
-        *[x-apple-data-detectors],  /* iOS */
-        .x-gmail-data-detectors,    /* Gmail */
-        .x-gmail-data-detectors *,
+        a[x-apple-data-detectors],  /* iOS */
+        .unstyle-auto-detected-links a,
         .aBn {
             border-bottom: 0 !important;
             cursor: default !important;
@@ -104,7 +92,12 @@
             line-height: inherit !important;
         }
 
-        /* Prevents Gmail from displaying an download button on large, non-linked images. */
+        /* What it does: Prevents Gmail from changing the text color in conversation threads. */
+        .im {
+            color: inherit !important;
+        }
+
+        /* Prevents Gmail from displaying a download button on large, non-linked images. */
         .a6S {
             display: none !important;
             opacity: 0.01 !important;
@@ -114,37 +107,27 @@
             display: none !important;
         }
 
-        /* Prevents underlining the button text in Windows 10 */
-        .button-link {
-            text-decoration: none !important;
-        }
-
         /* Removes right gutter in Gmail iOS app: https://github.com/TedGoas/Cerberus/issues/89  */
         /* Create one of these media queries for each additional viewport size you'd like to fix */
 
         /* iPhone 4, 4S, 5, 5S, 5C, and 5SE */
         @media only screen and (min-device-width: 320px) and (max-device-width: 374px) {
-            .email-container {
+            u ~ div .email-container {
                 min-width: 320px !important;
             }
         }
         /* iPhone 6, 6S, 7, 8, and X */
         @media only screen and (min-device-width: 375px) and (max-device-width: 413px) {
-            .email-container {
+            u ~ div .email-container {
                 min-width: 375px !important;
             }
         }
         /* iPhone 6+, 7+, and 8+ */
         @media only screen and (min-device-width: 414px) {
-            .email-container {
+            u ~ div .email-container {
                 min-width: 414px !important;
             }
         }
-    -# END: CSS Reset
-
-    -# The rest of the styles are loaded from the email manifest and will be
-    -# applied to each element via premailer.
-    = stylesheet_link_tag 'workarea/admin/email'
 
     -# Makes background images in 72ppi Outlook render at correct size.
     /[if gte mso 9]
@@ -155,11 +138,16 @@
         <o:PixelsPerInch>96</o:PixelsPerInch>
         </o:OfficeDocumentSettings>
         </xml>
+    -# END: CSS Reset
+
+    -# The rest of the styles are loaded from the email manifest and will be
+    -# applied to each element via premailer.
+    = stylesheet_link_tag 'workarea/admin/email'
 
   %body{ style: 'mso-line-height-rule: exactly;', width: '100%' }
     %center
       /[if mso | IE]
-        <table role="presentation" width="100%"><tr><td>
+        <table class='mso-wrapper' role="presentation" width="100%" align="center"><tr><td>
 
       -# Preheader Text
       -# A preheader (otherwise known as a ‘Johnson Box’) is the short summary
@@ -167,19 +155,25 @@
       - if content_for?(:preheader_text)
         .preheader-text= yield :preheader_text
 
-      %table.email-container{ role: 'presentation', width: 600 }
+      -# Preview Text Spacing Hack
+      -# Create white space after the desired preview text so email clients
+      -# don’t pull other distracting text into the inbox preview. Extend as
+      -# necessary.
+      .hidden!= '&zwnj;&nbsp;' * 18
+
+      %table.email-container{ role: 'presentation', width: Workarea.config.admin_email_width }
         %tr
           %td.email-header
             = link_to "http://#{Workarea.config.host}/", class: 'logo' do
-              = image_tag url_to_image('workarea/admin/logo.svg'), alt: t('workarea.admin.layout.mailer.homepage_link'), class: 'logo__image', border: 0, size: '227x50'
+              = image_tag url_to_image('workarea/admin/email_logo.png'), alt: t('workarea.admin.layout.mailer.homepage_link'), class: 'logo__image', border: 0, width: 220
 
-      %table.email-container.email-container--main{ role: 'presentation', width: 600 }
+      %table.email-container.email-container--main{ role: 'presentation', width: Workarea.config.admin_email_width }
         = yield
 
-      %table.email-container{ role: 'presentation', width: 600 }
+      %table.email-container{ role: 'presentation', width: Workarea.config.admin_email_width }
         %tr
           %td.email-footer
-            = Workarea.config.site_name
+            Workarea<br>22 S 3rd St, Philadelphia, PA 19106
 
       /[if mso | IE]
         </td></tr></table>

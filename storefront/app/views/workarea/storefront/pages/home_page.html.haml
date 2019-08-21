@@ -3,6 +3,9 @@
 - add_css(@page.css)
 - add_javascript(@page.javascript)
 
+- content_for :breadcrumbs do
+  = render_schema_org(breadcrumb_list_schema([[t('workarea.storefront.layouts.home'), root_url]]))
+
 - content_for :head do
   %meta{ property: 'global-id', content: @page.to_global_id.to_param }
 

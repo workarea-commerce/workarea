@@ -4,16 +4,12 @@ module Workarea
     include Sidekiq::CallbacksWorker
 
     sidekiq_options(
-      enqueue_on: { Catalog::Category => :save },
+      enqueue_on: { Catalog::Category => [:save, :save_release_changes] },
       lock: :until_executing
     )
 
     def self.perform(category)
-      Search::Storefront::Product.delete_category(category.id)
-
-      return unless category.product_rules.present?
-
-      Search::Storefront::Product.add_category(category)
+      Search::Storefront::CategoryQuery.new(category).update
     end
 
     def perform(id)

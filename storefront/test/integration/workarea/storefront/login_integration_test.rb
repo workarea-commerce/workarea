@@ -12,12 +12,6 @@ module Workarea
         )
       end
 
-      def response_cookies
-        ActionDispatch::Cookies::CookieJar
-          .build(request, response.cookies)
-          .signed
-      end
-
       def test_can_login_a_user
         post storefront.login_path,
           params: {
@@ -26,7 +20,7 @@ module Workarea
           }
 
         assert_redirected_to(storefront.users_account_path)
-        assert(response_cookies[:user_id].present?)
+        assert(session[:user_id].present?)
 
         @user.reload
         assert(@user.last_login_at.present?)
@@ -39,7 +33,7 @@ module Workarea
             password: 'foo'
           }
 
-        assert(response_cookies[:user_id].blank?)
+        assert(session[:user_id].blank?)
 
         @user.reload
         assert(@user.last_login_at.blank?)
@@ -146,7 +140,7 @@ module Workarea
         delete storefront.logout_path
 
         assert_redirected_to(storefront.login_path)
-        assert(response_cookies[:user_id].blank?)
+        assert(session[:user_id].blank?)
 
         get storefront.current_user_path(format: 'json')
         results = JSON.parse(response.body)

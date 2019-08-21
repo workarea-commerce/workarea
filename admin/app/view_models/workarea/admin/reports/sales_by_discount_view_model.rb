@@ -4,15 +4,12 @@ module Workarea
       class SalesByDiscountViewModel < ApplicationViewModel
         def results
           @results ||= model.results.map do |result|
-            discount = discounts.detect { |p| p.id.to_s == result['_id'] }
-            OpenStruct.new({ discount: discount }.merge(result))
+            OpenStruct.new({ discount: discounts[result['_id']] }.merge(result))
           end
         end
 
         def discounts
-          @discounts ||= Pricing::Discount.any_in(
-            id: model.results.map { |r| r['_id'] }
-          ).to_a
+          @discounts ||= Pricing::Discount.any_in(id: model.results.map { |r| r['_id'] }).to_lookup_hash
         end
       end
     end

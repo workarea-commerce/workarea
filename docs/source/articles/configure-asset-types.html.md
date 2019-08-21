@@ -1,5 +1,6 @@
 ---
 title: Configure Asset Types
+created_at: 2018/07/31
 excerpt: You can configure the different types of available Content::Assets.
 ---
 

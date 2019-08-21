@@ -1,5 +1,6 @@
 ---
 title: Translate or Customize Static Content
+created_at: 2019/03/14
 excerpt: All static, user-facing text in Workarea UIs (including messages and emails) is translated through Rails' t helper. Use of this helper is explained in the Rails Internationalization (I18n) API guide.
 ---
 
@@ -27,4 +28,5 @@ workarea-storefront/app/views/layouts/workarea/storefront/application.html.haml:
 
 ```
 .value= email_field_tag :email, nil, id: 'footer_email_signup_field', class: 'text-box', placeholder: t('workarea.storefront.forms.email_placeholder'), title: t('workarea.storefront.users.email'), required: true
+created_at: 2019/03/14
 ```

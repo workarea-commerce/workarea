@@ -14,7 +14,7 @@ module Workarea
         Metrics::User.save_order(email: 'bcrouse4@workarea.com', revenue: 30.to_m, at: 6.months.ago)
         Metrics::User.save_order(email: 'bcrouse4@workarea.com', revenue: 30.to_m, at: 6.months.ago)
 
-        Metrics::User.update_aggregations!
+        Metrics::UpdateUserAggregations.update!
         CustomersAtRisk.generate_monthly!
         assert_equal(1, CustomersAtRisk.count)
         at_risk = CustomersAtRisk.first

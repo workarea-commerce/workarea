@@ -1,0 +1,8 @@
+- if rule.medium.present?
+  %span #{t('workarea.admin.fields.medium')}:
+  %strong= rule.medium.titleize
+  ,
+
+- if rule.source.present?
+  %span #{t('workarea.admin.fields.source')}:
+  %strong= rule.source

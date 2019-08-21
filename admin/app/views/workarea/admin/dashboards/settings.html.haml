@@ -8,6 +8,7 @@
 
   .view__container
     %ul.secondary-nav
+      %li= link_to t('workarea.admin.dashboards.settings.configuration'), configuration_path
       %li= link_to t('workarea.admin.dashboards.settings.search'), search_settings_path
       %li= link_to t('workarea.admin.dashboards.settings.tax_categories'), tax_categories_path
       %li= link_to t('workarea.admin.dashboards.settings.shipping_services'), shipping_services_path
@@ -15,11 +16,29 @@
       = append_partials('admin.settings_dashboard_navigation')
       %li= link_to t('workarea.admin.dashboards.settings.trash'), trash_index_path
 
-  .view__container
+  .view__container{ data: { jump_to_menu: '' } }
+    - @configuration.definition.fieldsets.each do |fieldset|
+      - next if fieldset.fields.none?
+
+      .insight
+        .insight__heading{ data: { jump_to_menu_heading: 1 }, id: fieldset.name.systemize }= t('workarea.admin.dashboards.settings.fieldset_name', fieldset: fieldset.name)
+        .insight__body.insight__body--pad-sides
+          - fieldset.fields.each do |field|
+            - value = field.encrypted? ? ("•" * 10) : @configuration.send(field.key)
+            - sanitized = sanitize_config_value(value)
+            - if sanitized.present?
+              .align-left
+                %h2.heading.heading--4
+                  - if field.overridden?
+                    = link_to '#overridden-field', data: { tooltip: '' } do
+                      = inline_svg('workarea/admin/icons/alert.svg', class: 'svg-icon svg-icon--small svg-icon--red', title: t('workarea.admin.configurations.show.field_overridden'))
+                  #{field.name}:
+                %p= sanitized
+
     .insight
-      .insight__heading= t('workarea.admin.dashboards.settings.current_configuration')
+      .insight__heading{ data: { jump_to_menu_heading: 1 }, id: 'static' }= t('workarea.admin.dashboards.settings.static_configuration')
       .insight__body.insight__body--pad-sides
-        %p.insight__note= t('workarea.admin.dashboards.settings.times_in_seconds')
+        %p.insight__note= t('workarea.admin.dashboards.settings.static_note')
         - @settings.each do |key, value|
           - sanitized = sanitize_config_value(value)
           - if sanitized.present?
@@ -27,3 +46,4 @@
               %h2.heading.heading--4 #{key.to_s.titleize}:
               %p= sanitized
 
+    = render 'workarea/admin/configurations/overridden'

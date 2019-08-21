@@ -11,7 +11,7 @@
       %li= link_to t('workarea.admin.dashboards.people.all_people'), users_path
       %li= link_to t('workarea.admin.dashboards.people.customers'), users_path(role: %w(Customer))
       %li= link_to t('workarea.admin.dashboards.people.administrators'), users_path(role: %w(Administrator))
-      %li= link_to t('workarea.admin.dashboards.people.todays_signups'), todays_signups_path
+      %li= link_to t('workarea.admin.dashboards.people.segments'), segments_path
       = append_partials('admin.people_dashboard_navigation')
 
   .view__container

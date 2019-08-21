@@ -1,5 +1,6 @@
 ---
 title: View Models
+created_at: 2019/03/14
 excerpt: Workarea adds a view model layer to the standard controller/model/view/helper architecture provided by Rails. View models are concerned with database reads and logic related to those reads. Each view model instance "wraps" a model instance in order to
 ---
 
@@ -493,6 +494,7 @@ module Workarea
           issuer,
           class: credit_card_issuer_icon_class(issuer),
           title: issuer
+created_at: 2019/03/14
         )
       end
 

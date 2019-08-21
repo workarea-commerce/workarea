@@ -1,7 +1,7 @@
 module Workarea
   class ReleaseSession
-    def initialize(cookies)
-      @cookies = cookies
+    def initialize(session)
+      @session = session
     end
 
     def remind?
@@ -9,8 +9,8 @@ module Workarea
     end
 
     def expired_by_time?
-      @cookies.permanent[:release_changed_at].present? &&
-        Time.zone.parse(@cookies.permanent[:release_changed_at]) < timeout
+      @session[:release_changed_at].present? &&
+        Time.zone.parse(@session[:release_changed_at]) < timeout
     end
 
     def timeout
@@ -18,8 +18,8 @@ module Workarea
     end
 
     def expired_by_page_views?
-      @cookies.permanent[:release_page_views].present? &&
-        @cookies.permanent[:release_page_views].to_i > max_page_views
+      @session[:release_page_views].present? &&
+        @session[:release_page_views].to_i > max_page_views
     end
 
     def max_page_views
@@ -27,19 +27,19 @@ module Workarea
     end
 
     def save_page_view
-      incremented = @cookies.permanent[:release_page_views].to_i + 1
-      @cookies.permanent[:release_page_views] = incremented
+      incremented = @session[:release_page_views].to_i + 1
+      @session[:release_page_views] = incremented
     end
 
     def save_release_change
       reset!
-      @cookies.permanent[:release_changed_at] = Time.current.to_s
+      @session[:release_changed_at] = Time.current.to_s
     end
     alias_method :touch, :save_release_change
 
     def reset!
-      @cookies.permanent[:release_page_views] = nil
-      @cookies.permanent[:release_changed_at] = nil
+      @session.delete(:release_page_views)
+      @session.delete(:release_changed_at)
     end
   end
 end

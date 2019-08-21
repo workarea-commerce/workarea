@@ -29,6 +29,10 @@ module Workarea
       end
 
       def reference
+        @terms =
+          t('workarea.admin.reports.reference.terms')
+            .sort_by(&:first)
+            .map { |_key, term| OpenStruct.new(term) }
       end
 
       def sales_by_category
@@ -73,6 +77,13 @@ module Workarea
         )
       end
 
+      def sales_by_tender
+        @report = Reports::SalesByTenderViewModel.wrap(
+          Workarea::Reports::SalesByTender.new(params),
+          view_model_options
+        )
+      end
+
       def sales_over_time
         @report = Reports::SalesOverTimeViewModel.wrap(
           Workarea::Reports::SalesOverTime.new(params),
@@ -83,6 +94,13 @@ module Workarea
       def searches
         @report = Reports::SearchesViewModel.wrap(
           Workarea::Reports::Searches.new(params),
+          view_model_options
+        )
+      end
+
+      def timeline
+        @report = Reports::TimelineViewModel.wrap(
+          Workarea::Reports::SalesOverTime.new(params.merge(group_by: 'day')),
           view_model_options
         )
       end

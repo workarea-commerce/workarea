@@ -10,16 +10,14 @@ module Workarea
       end
 
       def test_ignored_fields
-        Workarea.with_config do |config|
-          config.data_file_ignored_fields = %w(ignore)
+        Workarea.config.data_file_ignored_fields = %w(ignore)
 
-          model = Foo.create!(name: 'foo', ignore: 3)
-          results = JSON.parse(Json.new.serialize(model))
+        model = Foo.create!(name: 'foo', ignore: 3)
+        results = JSON.parse(Json.new.serialize(model))
 
-          assert_equal(1, results.size)
-          assert_equal(model.id.to_s, results.first['_id'])
-          refute(results.first.key?('ignore'))
-        end
+        assert_equal(1, results.size)
+        assert_equal(model.id.to_s, results.first['_id'])
+        refute(results.first.key?('ignore'))
       end
 
       def test_assign_password_when_provided

@@ -1,5 +1,6 @@
 ---
 title: Help & Support
+created_at: 2018/09/17
 excerpt: In addition to these guides, Workarea provides the following resources for help and support.
 ---
 

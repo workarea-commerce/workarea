@@ -135,7 +135,6 @@ module Workarea
               phone_number: '2159251800'
             }
           }
-
         get storefront.checkout_shipping_path
         patch storefront.checkout_shipping_path
 
@@ -144,6 +143,8 @@ module Workarea
         assert_equal(1, Order.count)
         assert_equal('bcrouse@workarea.com', Order.first.email)
         assert_equal(0, Payment::Profile.count)
+        assert(cookies[:email].present?)
+        original_email_cookie = cookies[:email]
 
         get storefront.checkout_addresses_path
         patch storefront.checkout_addresses_path,
@@ -193,6 +194,8 @@ module Workarea
         assert_equal(1, Payment::Profile.count)
         assert_equal('bcrouse@weblinc.com', payment_profile.email)
         assert_includes(payment_profile.reference, order.id)
+        assert(cookies[:email].present?)
+        refute_equal(original_email_cookie, cookies[:email])
       end
 
       def test_setting_traffic_referrer
@@ -221,6 +224,86 @@ module Workarea
         assert_nil(order.traffic_referrer.source)
         assert_nil(order.traffic_referrer.medium)
         assert_equal('https://www.workarea.com/', order.traffic_referrer.uri)
+      end
+
+      def test_saving_segment_ids
+        create_life_cycle_segments
+        product = create_product
+
+        post storefront.cart_items_path,
+          params: { product_id: product.id, sku: product.skus.first }
+
+        get storefront.checkout_addresses_path
+        assert_equal(
+          [Segment::FirstTimeVisitor.instance.id],
+          Order.desc(:updated_at).first.segment_ids
+        )
+      end
+
+      def test_saving_fraud_decision
+        complete_checkout
+        order = Order.desc(:created_at).first
+
+        assert(order.fraud_decision.present?)
+        assert(order.placed?)
+        refute(order.fraud_suspected_at.present?)
+        assert(order.fraud_decided_at.present?)
+        assert_equal(:no_decision, order.fraud_decision.decision)
+
+        post storefront.cart_items_path,
+          params: {
+            product_id: product.id,
+            sku: product.skus.first,
+            quantity: 1
+          }
+
+        get storefront.checkout_addresses_path
+        patch storefront.checkout_addresses_path,
+          params: {
+            email: 'decline@workarea.com',
+            billing_address: {
+              first_name:   'Ben',
+              last_name:    'Crouse',
+              street:       '12 N. 3rd St.',
+              city:         'Philadelphia',
+              region:       'PA',
+              postal_code:  '19106',
+              country:      'US',
+              phone_number: '2159251800'
+            },
+            shipping_address: {
+              first_name:   'Ben',
+              last_name:    'Crouse',
+              street:       '22 S. 3rd St.',
+              city:         'Philadelphia',
+              region:       'PA',
+              postal_code:  '19106',
+              country:      'US',
+              phone_number: '2159251800'
+            }
+          }
+        get storefront.checkout_shipping_path
+        patch storefront.checkout_shipping_path
+
+        get storefront.checkout_payment_path
+
+        patch storefront.checkout_place_order_path,
+          params: {
+            payment: 'new_card',
+            credit_card: {
+              number: '2',
+              month:  1,
+              year:   2020,
+              cvv:    '999'
+            }
+          }
+
+        order = Order.desc(:created_at).first
+
+        assert_equal(:declined, order.fraud_decision.decision)
+        assert(order.fraud_suspected_at.present?)
+        assert(order.fraud_decided_at.present?)
+        refute(order.placed?)
       end
 
       def test_no_valid_shipping_options

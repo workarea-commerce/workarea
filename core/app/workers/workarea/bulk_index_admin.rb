@@ -6,7 +6,7 @@ module Workarea
 
     class << self
       def perform(klass, ids)
-        ids.each_slice(100) do |group|
+        ids.each_slice(Workarea.config.bulk_index_batch_size) do |group|
           perform_by_models(klass.constantize.in(id: group).to_a)
         end
       end

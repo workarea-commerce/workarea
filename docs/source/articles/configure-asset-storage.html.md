@@ -1,5 +1,6 @@
 ---
 title: Configure Asset Storage
+created_at: 2018/07/31
 excerpt: Asset storage configuration determines where product images, content images, admin uploads, etc are stored.
 ---
 

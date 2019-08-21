@@ -47,6 +47,8 @@ module Workarea
 
       payment_profile = Payment::Profile.lookup(PaymentReference.new(user))
 
+      payment_profile.update(store_credit: [0, 10].sample.to_m)
+
       saved_card = payment_profile.credit_cards.first
 
       saved_card ||= payment_profile.credit_cards.create!(

@@ -1,5 +1,6 @@
 ---
 title: JavaScript Modules
+created_at: 2018/07/31
 excerpt: Workarea JavaScript modules are used to solve the problems of code organization and asynchronous initialization. First let's look at the issue of code organization so I can explain what I mean by "module".
 ---
 

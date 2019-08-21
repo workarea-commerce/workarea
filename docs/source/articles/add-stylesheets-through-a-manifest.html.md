@@ -1,5 +1,6 @@
 ---
 title: Add Stylesheets through a Manifest
+created_at: 2018/07/31
 excerpt: Stylesheet manifests are the preferred solution for adding stylesheets to and removing stylesheets from a Workarea application. The Workarea Admin and Storefront each include a single manifest named 'application', which is introduced in the Stylesheet
 ---
 

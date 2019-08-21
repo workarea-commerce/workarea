@@ -174,6 +174,20 @@ module Workarea
       refute(@order.reload.placed?)
     end
 
+    def test_place_order_fails_for_fraud
+      @order.email = 'decline@workarea.com'
+      checkout = Checkout.new(@order)
+
+      checkout.expects(:complete?).returns(true)
+      checkout.expects(:shippable?).returns(true)
+      checkout.expects(:payable?).returns(true)
+      checkout.inventory.expects(:purchase).never
+      checkout.payment_collection.expects(:purchase).never
+
+      refute(checkout.place_order)
+      refute(@order.reload.placed?)
+    end
+
     def test_place_order_fails_if_inventory_fails
       checkout = Checkout.new(@order)
 
@@ -257,6 +271,23 @@ module Workarea
       checkout.payment.expects(:valid?).returns(true)
       checkout.payment_collection.expects(:valid?).returns(true)
       assert(checkout.payable?)
+    end
+
+    def test_adjust_tender_amounts!
+      checkout = Checkout.new(@order, @user)
+      assert_nil(checkout.adjust_tender_amounts!)
+
+      checkout.start_as(@user)
+      checkout.payment_profile.update(store_credit: 5.to_m)
+      checkout.payment.save!
+
+      @order.total_price = 2.to_m
+      assert(checkout.adjust_tender_amounts!)
+      assert_equal(2.to_m, checkout.payment.store_credit.amount)
+
+      @order.total_price = 3.to_m
+      assert(checkout.adjust_tender_amounts!)
+      assert_equal(3.to_m, checkout.payment.store_credit.amount)
     end
   end
 end

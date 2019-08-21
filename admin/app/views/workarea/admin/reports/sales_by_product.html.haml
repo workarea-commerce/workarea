@@ -21,10 +21,13 @@
         %tr
           %th= t('workarea.admin.fields.product')
           %th.align-center= link_to_reports_sorting t('workarea.admin.fields.units_sold'), report: @report, sort_by: 'units_sold'
+          %th.align-center= link_to_reports_sorting t('workarea.admin.fields.units_canceled'), report: @report, sort_by: 'units_canceled'
           %th.align-center= link_to_reports_sorting t('workarea.admin.fields.orders'), report: @report, sort_by: 'orders'
+          %th.align-right= link_to_reports_sorting t('workarea.admin.fields.average_price'), report: @report, sort_by: 'average_price'
           %th.align-right= link_to_reports_sorting t('workarea.admin.fields.merchandise'), report: @report, sort_by: 'merchandise'
           %th.align-right= link_to_reports_sorting t('workarea.admin.fields.discounts'), report: @report, sort_by: 'discounts'
           %th.align-right= link_to_reports_sorting t('workarea.admin.fields.tax'), report: @report, sort_by: 'tax'
+          %th.align-right= link_to_reports_sorting t('workarea.admin.fields.refund'), report: @report, sort_by: 'refund'
           %th.align-right= link_to_reports_sorting t('workarea.admin.fields.revenue'), report: @report, sort_by: 'revenue'
       %tbody
         - @report.results.each do |result|
@@ -35,8 +38,11 @@
               - else
                 = result._id
             %td.align-center= number_with_delimiter result.units_sold
+            %td.align-center= number_with_delimiter result.units_canceled
             %td.align-center= number_with_delimiter result.orders
+            %td.align-right= number_to_currency(result.average_price)
             %td.align-right= number_to_currency(result.merchandise)
             %td.align-right= number_to_currency(result.discounts)
             %td.align-right= number_to_currency(result.tax)
+            %td.align-right= number_to_currency(result.refund)
             %td.align-right= number_to_currency(result.revenue)

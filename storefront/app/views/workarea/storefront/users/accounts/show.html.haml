@@ -1,10 +1,12 @@
 - @title = t('workarea.storefront.users.account')
 
 - content_for :breadcrumbs do
+  = render_schema_org(breadcrumb_list_schema([[t('workarea.storefront.layouts.home'), root_url], [t('workarea.storefront.users.account'), users_account_url]]))
+
   %p.breadcrumbs__node-group
-    %span.breadcrumbs__node{ itemprop: 'breadcrumb' }
+    %span.breadcrumbs__node
       = link_to t('workarea.storefront.layouts.home'), root_path, rel: 'home', class: 'breadcrumbs__link'
-    %span.breadcrumbs__node{ itemprop: 'breadcrumb' }
+    %span.breadcrumbs__node
       %span.breadcrumbs__text= t('workarea.storefront.users.account')
 
 .view
@@ -113,6 +115,7 @@
       .recommendations__products
         .grid
           - @recommendations.each do |product|
+            = render_schema_org(product_schema(product))
             .grid__cell.grid__cell--50.grid__cell--33-at-medium.grid__cell--16-at-wide
-              .product-summary.product-summary--small{ itemscope: true, itemtype: 'http://schema.org/Product' }
+              .product-summary.product-summary--small
                 = render 'workarea/storefront/products/summary', product: product

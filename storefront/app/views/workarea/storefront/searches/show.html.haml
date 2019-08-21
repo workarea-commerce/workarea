@@ -1,7 +1,6 @@
 - @title = t('workarea.storefront.searches.title')
 
 - content_for :head do
-  %meta{ property: 'recent-view', content: recent_view_content(search: @search.query_string) }
   %meta{ name: 'robots', content: 'noindex' }
   = append_partials('storefront.search_head', search: @search)
 
@@ -12,12 +11,14 @@
   %meta{ property: 'og:image:secure_url', content: @search.open_graph_asset.url }
 
 - content_for :breadcrumbs do
+  = render_schema_org(breadcrumb_list_schema([[t('workarea.storefront.layouts.home'), root_url], [t('workarea.storefront.searches.title'), search_url], [@search.query_string, search_url(q: params[:q])]]))
+
   %p.breadcrumbs__node-group
-    %span.breadcrumbs__node{ itemprop: 'breadcrumb' }
+    %span.breadcrumbs__node
       = link_to t('workarea.storefront.layouts.home'), root_path, rel: 'home', class: 'breadcrumbs__link'
-    %span.breadcrumbs__node{ itemprop: 'breadcrumb' }
+    %span.breadcrumbs__node
       %span.breadcrumbs__text= t('workarea.storefront.searches.title')
-    %span.breadcrumbs__node{ itemprop: 'breadcrumb' }
+    %span.breadcrumbs__node
       %span.breadcrumbs__text= @search.query_string
 
 - content_for :page_aside do
@@ -89,10 +90,11 @@
     .pagination{ data: { analytics: product_list_analytics_data("Search Results for \"#{@search.query_string}\"").to_json, pagination: pagination_data(@search.products),  back_to_top_button: '' } }
       .grid
         - @search.products.each_with_index do |product, position|
+          = render_schema_org(product_schema(product))
           = append_partials('storefront.search_grid_item', product: product, position: position)
 
           .grid__cell.grid__cell--50.grid__cell--25-at-medium.grid__cell--20-at-wide{ data: { pagination_item: '' } }
-            .product-summary{ itemscope: true, itemtype: 'http://schema.org/Product', data: { search_results_product_grid_summary: { id: product.catalog_id, position: position }.to_json } }
+            .product-summary{ data: { search_results_product_grid_summary: { id: product.catalog_id, position: position }.to_json } }
               = render 'workarea/storefront/products/summary', product: product
       - if show_pagination?(@search.products)
         .pagination__button

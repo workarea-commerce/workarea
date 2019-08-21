@@ -1,5 +1,7 @@
 = append_partials('storefront.account_creation_mailer.top')
 
+= render_schema_org(email_action_schema(users_account_url, t('workarea.storefront.email.account_created.email_action.name')))
+
 - content_for :preheader_text do
   = @content
 

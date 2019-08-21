@@ -35,30 +35,28 @@ module Workarea
       end
 
       def test_comparison_operator # <==>
-        Workarea.with_config do |config|
-          config.discount_application_order = %w(
-              Workarea::Pricing::Discount::Product
-              Workarea::Pricing::Discount::ProductAttribute
-              Workarea::Pricing::Discount::Category
-              Workarea::Pricing::Discount::BuySomeGetSome
-              Workarea::Pricing::Discount::QuantityFixedPrice
-              Workarea::Pricing::Discount::FreeGift
-              Workarea::Pricing::Discount::Shipping
-              Workarea::Pricing::Discount::OrderTotal
-          )
+        Workarea.config.discount_application_order = %w(
+            Workarea::Pricing::Discount::Product
+            Workarea::Pricing::Discount::ProductAttribute
+            Workarea::Pricing::Discount::Category
+            Workarea::Pricing::Discount::BuySomeGetSome
+            Workarea::Pricing::Discount::QuantityFixedPrice
+            Workarea::Pricing::Discount::FreeGift
+            Workarea::Pricing::Discount::Shipping
+            Workarea::Pricing::Discount::OrderTotal
+        )
 
-          product = create_product_discount
-          product_attribute = create_product_attribute_discount
+        product = create_product_discount
+        product_attribute = create_product_attribute_discount
 
-          assert_equal(-1, product <=> product_attribute)
-          assert_equal(1, product_attribute <=> product)
-          assert_equal(0, product <=> product)
+        assert_equal(-1, product <=> product_attribute)
+        assert_equal(1, product_attribute <=> product)
+        assert_equal(0, product <=> product)
 
-          product_1 = create_product_discount(id: 1)
-          product_2 = create_product_discount(id: 2)
+        product_1 = create_product_discount(id: 1)
+        product_2 = create_product_discount(id: 2)
 
-          assert_equal(-1, product_1 <=> product_2)
-        end
+        assert_equal(-1, product_1 <=> product_2)
       end
 
       def test_qualifies?

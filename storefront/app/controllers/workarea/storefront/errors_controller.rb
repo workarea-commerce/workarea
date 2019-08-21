@@ -1,6 +1,8 @@
 module Workarea
   module Storefront
     class ErrorsController < Storefront::ApplicationController
+      after_action :skip_session
+
       def not_found
         redirect_url = Navigation::Redirect.find_destination(
           request.env['action_dispatch.original_path']
@@ -52,6 +54,10 @@ module Workarea
             end
           end
         end
+      end
+
+      def skip_session
+        request.session_options[:skip] = true
       end
     end
   end

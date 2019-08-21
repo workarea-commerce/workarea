@@ -83,7 +83,7 @@ module Workarea
 
       # Define a fieldset on the block type. The block will be evaluated in the
       # {Workarea::Content::Fieldset} to provide the DSL. See more info on the
-      # block type DSL at {Workarea::Content.define_block_types}
+      # block type DSL at {Workarea.define_content_block_types}.
       #
       # @param name [String]
       # @yield evaluated in the {Workarea::Content::Fieldset} for DSL
@@ -130,7 +130,7 @@ module Workarea
       # Define a {Workarea::Content::Field} on this block type. Given that this
       # is being declared without a {Workarea::Content::Fieldset}, this will be
       # added to a default {Workarea::Content::Fieldset} called 'Settings'. See
-      # more info on the block type DSL at {Workarea::Content.define_block_types}
+      # more info on the block type DSL at {Workarea.define_content_block_types}
       #
       # @param name [String]
       # @param type [Symbol] a slug version of a {Workarea::Content::Field} subclass

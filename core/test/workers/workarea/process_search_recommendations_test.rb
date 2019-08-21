@@ -3,9 +3,8 @@ require 'test_helper'
 module Workarea
   class ProcessSearchRecommendationsTest < Workarea::TestCase
     def test_processing_user_activity
-      Recommendation::UserActivity.create!(searches: %w(foo bars))
-      Recommendation::UserActivity.create!(searches: %w(foo @#$%))
-      2.times { Recommendation::UserActivity.create!(searches: %w(foos baz)) }
+      Metrics::User.create!(viewed: { search_ids: %w(foo bar) })
+      2.times { Metrics::User.create!(viewed: { search_ids: %w(foo baz) }) }
 
       ProcessSearchRecommendations.new.perform
 
@@ -14,9 +13,9 @@ module Workarea
     end
 
     def test_within_expiration
-      Recommendation::UserActivity.create!(searches: %w(1 2))
+      Metrics::User.create!(viewed: { search_ids: %w(1 2) })
       travel_to((Workarea.config.recommendation_expiration + 1.day).from_now)
-      2.times { Recommendation::UserActivity.create!(searches: %w(1 3)) }
+      2.times { Metrics::User.create!(viewed: { search_ids: %w(1 3) }) }
 
       ProcessSearchRecommendations.new.perform
 

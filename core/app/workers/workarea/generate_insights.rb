@@ -25,7 +25,7 @@ module Workarea
         Metrics::ProductByWeek.append_last_week!
         Metrics::SearchForLastWeek.aggregate!
         Metrics::SearchByWeek.append_last_week!
-        Metrics::User.update_aggregations!
+        Metrics::UpdateUserAggregations.update!
         Insights::Base.subclasses.each(&:generate_weekly!)
       end
 

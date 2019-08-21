@@ -1,5 +1,6 @@
 ---
 title: Feature Test Helper Stylesheet
+created_at: 2018/07/31
 excerpt: 'In a test environment, the application stylesheet manifest includes the following style rules:'
 ---
 

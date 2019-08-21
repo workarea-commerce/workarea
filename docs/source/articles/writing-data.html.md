@@ -1,5 +1,6 @@
 ---
 title: Writing Data
+created_at: 2018/07/31
 excerpt: A diagram to illustrate how data coming into the system from HTTP requests ends up as persisted in the various data stores.
 ---
 

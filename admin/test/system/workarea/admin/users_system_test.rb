@@ -136,6 +136,21 @@ module Workarea
         assert(page.has_content?('11'))
         assert(page.has_content?('55'))
       end
+
+      def test_user_locked
+        @user.update(
+          failed_login_count: Workarea.config.allowed_login_attempts + 1,
+          last_login_attempt_at: Time.current
+        )
+
+        visit admin.user_path(@user)
+        assert(page.has_content?(t('workarea.admin.users.show.locked')))
+
+        click_link t('workarea.admin.users.show.unlock')
+
+        assert(page.has_content?('Success'))
+        assert(page.has_no_content?(t('workarea.admin.users.show.locked')))
+      end
     end
   end
 end

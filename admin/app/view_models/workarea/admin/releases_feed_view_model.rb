@@ -14,8 +14,8 @@ module Workarea
 
           releases.each do |release|
             calendar.event do |event|
-              event.dtstart = format_date(release.starts_at, release.all_day_event?)
-              event.dtend = format_date(release.ends_at, release.all_day_event?)
+              event.dtstart = format_date(release.starts_at)
+              event.dtend = format_date(release.ends_at)
               event.summary = release.name
               event.description = release.description
             end
@@ -37,21 +37,13 @@ module Workarea
 
       def releases
         @releases ||= Admin::ReleaseEventViewModel.wrap(
-          (
-            Release.published_within(Time.current, 1.year.from_now) +
-            Release.undone_within(Time.current, 1.year.from_now)
-          ).uniq
+          Release.published_within(Time.current, 1.year.from_now)
         )
       end
 
-      def format_date(time, date_only = false)
+      def format_date(time)
         return unless time.present?
-
-        if date_only
-          Icalendar::Values::Date.new(time.to_date, tzid: timezone_id)
-        else
-          Icalendar::Values::DateTime.new(time, tzid: timezone_id)
-        end
+        Icalendar::Values::DateTime.new(time, tzid: timezone_id)
       end
     end
   end

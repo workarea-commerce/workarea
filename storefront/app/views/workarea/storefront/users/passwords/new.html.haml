@@ -1,12 +1,14 @@
 - @title = t('workarea.storefront.users.forgot_password')
 
 - content_for :breadcrumbs do
+  = render_schema_org(breadcrumb_list_schema([[t('workarea.storefront.layouts.home'), root_url], [t('workarea.storefront.users.login'), login_url], [t('workarea.storefront.users.forgot_password'), forgot_password_url]]))
+
   %p.breadcrumbs__node-group
-    %span.breadcrumbs__node{ itemprop: 'breadcrumb' }
+    %span.breadcrumbs__node
       = link_to t('workarea.storefront.layouts.home'), root_path, rel: 'home', class: 'breadcrumbs__link'
-    %span.breadcrumbs__node{ itemprop: 'breadcrumb' }
+    %span.breadcrumbs__node
       = link_to t('workarea.storefront.users.login'), login_path, class: 'breadcrumbs__link'
-    %span.breadcrumbs__node{ itemprop: 'breadcrumb' }
+    %span.breadcrumbs__node
       %span.breadcrumbs__text= t('workarea.storefront.users.forgot_password')
 
 .view

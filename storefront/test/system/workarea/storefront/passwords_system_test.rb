@@ -102,56 +102,54 @@ module Workarea
       end
 
       def test_admin_forcing_password_resets
-        Workarea.with_config do |config|
-          config.password_lifetime = 1.second
-          sleep(1)
+        Workarea.config.password_lifetime = 1.second
+        sleep(1)
 
-          # sign in for the first time
-          visit storefront.login_path
+        # sign in for the first time
+        visit storefront.login_path
 
-          within '#login_form' do
-            fill_in 'email', with: @admin_email
-            fill_in 'password', with: 'W3bl1nc!'
-            click_button t('workarea.storefront.users.login')
-          end
-
-          assert_current_path(storefront.change_password_path)
-
-          # sign out
-          reset_session!
-
-          visit storefront.login_path
-
-          # sign in again
-          within '#login_form' do
-            fill_in 'email', with: @admin_email
-            fill_in 'password', with: 'W3bl1nc!'
-            click_button t('workarea.storefront.users.login')
-          end
-
-          assert_current_path(storefront.change_password_path)
-
-          # disallow all other page movement
-          visit storefront.root_path
-          assert_current_path(storefront.change_password_path)
-
-          config.password_lifetime = 1.hour
-          fill_in 'old_password', with: 'W3bl1nc!'
-          fill_in 'password', with: @password
-          click_button t('workarea.storefront.users.change_password')
-
-          assert_current_path(storefront.users_account_path)
-
-          click_link t('workarea.storefront.users.logout')
-          visit storefront.login_path
-
-          within '#login_form' do
-            fill_in 'email', with: @admin_email
-            fill_in 'password', with: @password
-            click_button t('workarea.storefront.users.login')
-          end
-          assert_current_path(admin.root_path)
+        within '#login_form' do
+          fill_in 'email', with: @admin_email
+          fill_in 'password', with: 'W3bl1nc!'
+          click_button t('workarea.storefront.users.login')
         end
+
+        assert_current_path(storefront.change_password_path)
+
+        # sign out
+        reset_session!
+
+        visit storefront.login_path
+
+        # sign in again
+        within '#login_form' do
+          fill_in 'email', with: @admin_email
+          fill_in 'password', with: 'W3bl1nc!'
+          click_button t('workarea.storefront.users.login')
+        end
+
+        assert_current_path(storefront.change_password_path)
+
+        # disallow all other page movement
+        visit storefront.root_path
+        assert_current_path(storefront.change_password_path)
+
+        Workarea.config.password_lifetime = 1.hour
+        fill_in 'old_password', with: 'W3bl1nc!'
+        fill_in 'password', with: @password
+        click_button t('workarea.storefront.users.change_password')
+
+        assert_current_path(storefront.users_account_path)
+
+        click_link t('workarea.storefront.users.logout')
+        visit storefront.login_path
+
+        within '#login_form' do
+          fill_in 'email', with: @admin_email
+          fill_in 'password', with: @password
+          click_button t('workarea.storefront.users.login')
+        end
+        assert_current_path(admin.root_path)
       end
     end
   end

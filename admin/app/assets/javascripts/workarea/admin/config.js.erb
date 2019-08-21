@@ -22,6 +22,7 @@
      * @property {object} forms
      * @property {object} directUploads
      * @property {object} expandable
+     * @property {object} timelineReportChart
      */
 
     WORKAREA.config.datetimepickerFields = {
@@ -671,6 +672,95 @@
 
     WORKAREA.config.expandable = {
         threshold: 350
+    };
+
+    WORKAREA.config.impersonationNotification = {
+        excludedPaths: [
+            'pricing_overrides'
+        ]
+    };
+
+    WORKAREA.config.timelineReportChart = {
+        initiallyActive: {
+            'Revenue': true,
+            'Releases': true
+        },
+
+        datasets: {
+            fill: false,
+            borderWidth: 2
+        },
+
+        colors: {
+            revenue: '#00b144',
+            orders: '#011eff',
+            units_sold: '#ff4070',
+            customers: '#ff8100',
+            releases: '#303541'
+        },
+
+        options: {
+            responsive: true,
+            title: {
+                display: false,
+            },
+            labels: {
+                usePointStyle: true
+            },
+            legend: {
+                display: false
+            },
+            tooltips: {
+                mode: 'index',
+                filter: function (item, data) {
+                    var label = data.datasets[item.datasetIndex].label;
+                    return label !== I18n.t('workarea.admin.reports.timeline.releases');
+                }
+            },
+            scales: {
+                xAxes: [
+                    {
+                        type: 'time',
+                        time: {
+                            parser: 'MM/DD/YYYY',
+                            tooltipFormat: 'll'
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: I18n.t('workarea.admin.reports.timeline.date')
+                        },
+                    }
+                ],
+                yAxes: [
+                    {
+                        type: 'linear',
+                        position: 'left',
+                        id: 'money-axis',
+                        gridLines: {
+                            display: false
+                        },
+                        ticks: {
+                            beginAtZero: true,
+                            callback: function (value, index, values) {
+                                return '$' + value;
+                            }
+                        }
+                    },
+                    {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        id: 'unit-axis',
+                        gridLines: {
+                            display: false
+                        },
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }
+                ]
+            }
+        }
     };
 
 

@@ -4,7 +4,6 @@ module Workarea
       include Turbolinks::Controller
       include Authentication
       include Authorization
-      include AdminGuestBrowsing
       include Impersonation
       include CurrentRelease
       include Visiting
@@ -17,7 +16,6 @@ module Workarea
       before_action :require_login
       before_action :require_admin
       before_action :check_authorization, except: :dashboard
-      before_action :touch_auth_cookie, unless: -> { impersonating? || admin_browsing_as_guest? }
       before_action :set_variant
       before_action :setup_alerts, if: :current_layout
       around_action :audit_log

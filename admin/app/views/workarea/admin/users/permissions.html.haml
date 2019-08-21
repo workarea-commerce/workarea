@@ -24,7 +24,7 @@
       = form_tag user_path(@user), method: :patch, id: 'user_form', data: { unsaved_changes: '' } do
         .grid.grid--center
           .grid__cell.grid__cell--33
-            %h3.align-center= t('workarea.admin.users.permissions.admin_access')
+            %h3.align-center= t('workarea.admin.users.permissions.admin_capabilities')
             .property
               = check_box :user, :admin, disabled: @user.super_admin?
               = label_tag 'user[admin]', t('workarea.admin.users.permissions.access_to_administration'), class: 'property__name'
@@ -41,6 +41,15 @@
 
               #can-publish-warning.tooltip-content
                 %p= t('workarea.admin.users.permissions.can_publish_now_message')
+
+            .property
+              = check_box :user, :orders_management_access, disabled: @user.super_admin?
+              = label_tag 'user[orders_management_access]', t('workarea.admin.users.permissions.can_manage_orders'), class: 'property__name'
+              = link_to '#can-manage-orders', data: { tooltip: '' } do
+                = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.users.permissions.can_publish_now_info'))
+
+              #can-manage-orders.tooltip-content
+                %p= t('workarea.admin.users.permissions.can_manage_orders_message')
 
             .property
               = check_box :user, :can_restore, disabled: @user.super_admin?

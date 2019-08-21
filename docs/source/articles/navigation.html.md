@@ -1,5 +1,6 @@
 ---
 title: Navigation
+created_at: 2018/07/31
 excerpt: Within a Workarea application, navigables and other nodes are organized into a tree of taxons, which is then used to build tree-based navigation, such as breadcrumbs, and content-based navigation, such as menus.
 ---
 

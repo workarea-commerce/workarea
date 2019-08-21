@@ -1,5 +1,6 @@
 ---
 title: Progressive Web Application (PWA) Support 
+created_at: 2018/11/09
 excerpt: Learn how to modify and extend the out-of-the-box solution for asset precaching provided by the platform
 ---
 

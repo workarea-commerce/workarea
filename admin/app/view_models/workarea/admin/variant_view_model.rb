@@ -15,6 +15,14 @@ module Workarea
       inventory.available
     end
 
+    def fulfillment
+      @fulfillment ||= Fulfillment::Sku.find_or_create_by(id: sku)
+    end
+
+    def fulfillment_policy
+      fulfillment.policy.titleize
+    end
+
     def detail_1_name
       details_array.first.try(:first)
     end

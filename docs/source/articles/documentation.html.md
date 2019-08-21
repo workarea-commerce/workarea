@@ -1,5 +1,6 @@
 ---
 title: Documentation
+created_at: 2018/12/10
 excerpt: Workarea documentation is managed and versioned with the platform source code
 ---
 
@@ -49,6 +50,6 @@ Words within filenames are separated with paths since the filenames are used in 
 
 The format of these documents is proprietary to the build system.
 
-Each file begins with [YAML frontmatter](https://middlemanapp.com/basics/frontmatter/#yaml-frontmatter), which declares a title and excerpt used for search functionality.
+Each file begins with [YAML frontmatter](https://middlemanapp.com/basics/frontmatter/#yaml-frontmatter), which declares a title and excerpt used for search functionality. Adding a `created_at` entry to the frontmatter will allow the article to display within the Recent Articles section of the main documentation navigation. This date should be in `YYYY/MM/DD` format. 
 
 Following the frontmatter is [Redcarpet](https://github.com/vmg/redcarpet) markdown with the `:tables`, `:no_intra_emphasis`, and `:fenced_code_blocks` extensions enabled.

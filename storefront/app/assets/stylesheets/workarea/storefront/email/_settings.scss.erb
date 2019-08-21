@@ -1,0 +1,22 @@
+/*------------------------------------*\
+    #SETTINGS
+\*------------------------------------*/
+
+/**
+ * In this file you can override a variables !default value before it is
+ * imported, effectively adjusting the theme of the site for the site's emails.
+ */
+
+$font-size: 16px !default;
+
+@import '../settings/colors';
+@import '../settings/global';
+@import '../settings/typography';
+
+
+/**
+ * Email-specific variables are defined separately.
+ */
+
+$email-max-width: <%= Workarea.config.storefront_email_width %>px !default;
+$email-background-color: $light-gray !default;

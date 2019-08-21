@@ -39,8 +39,13 @@ module Workarea
       end
 
       def old_value_for(field)
-        return get_localized_value(field, undo[field]) if undo.present?
-        current_releasable.send(field)
+        if release.previous.present?
+          old_value_from_release_for(release.previous, field)
+        elsif release.undoes?
+          old_value_from_release_for(release.undoes, field)
+        else
+          current_releasable.send(field)
+        end
       end
 
       def release_date
@@ -75,6 +80,12 @@ module Workarea
 
       def current_releasable
         @current_releasable ||= Release.with_current(nil) { releasable.reload }
+      end
+
+      def old_value_from_release_for(release, field)
+        release.as_current { current_releasable.reload.send(field) }
+      ensure
+        current_releasable.reload
       end
     end
   end

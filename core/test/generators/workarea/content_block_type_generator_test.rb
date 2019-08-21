@@ -40,7 +40,7 @@ module Workarea
 
     def test_update_configuration
       assert_file 'config/initializers/workarea_content_block_types.rb' do |config|
-        assert_match("Workarea::Content.define_block_types", config)
+        assert_match("Workarea.define_content_block_types", config)
         assert_match("block_type 'Code Snippet'", config)
       end
     end

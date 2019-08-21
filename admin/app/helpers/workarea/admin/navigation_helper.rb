@@ -31,6 +31,7 @@ module Workarea
         users_path(role: %w(Administrator))
       end
 
+      # TODO remove in v3.6, no longer used
       def todays_signups_path
         users_path(
           created_at_greater_than: Time.current.to_s(:date_only),

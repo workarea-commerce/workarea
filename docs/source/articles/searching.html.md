@@ -1,5 +1,6 @@
 ---
 title: Search
+created_at: 2018/09/17
 excerpt: Workarea applications persist model data to MongoDB, using it as the database of record. However, to provide near-real-time search, Workarea persists many of the same models to Elasticsearch, after first transforming them into a format suitable for se
 ---
 

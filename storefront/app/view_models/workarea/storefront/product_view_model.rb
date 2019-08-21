@@ -178,6 +178,26 @@ module Workarea
           model.description
         end
       end
+
+      #
+      # Fulfillment
+      #
+      #
+
+      def fulfillment_skus
+        @fulfillment_skus ||=
+          Fulfillment::Sku.find_or_initialize_all(variants.map(&:sku))
+      end
+
+      def requires_shipping?
+        if current_variant.present?
+          fulfillment_skus
+            .detect { |sku| sku.id == current_variant.sku }
+            .requires_shipping?
+        else
+          fulfillment_skus.any?(&:requires_shipping?)
+        end
+      end
     end
   end
 end

@@ -99,12 +99,12 @@ module Workarea
         assert_equal(-10, facebook['discounts'])
         assert_equal(53, facebook['revenue'])
 
-        tumblr = report.results.detect { |r| r['_id']['source'] == 'Twitter' }
-        assert_equal(3, tumblr['orders'])
-        assert_equal(3, tumblr['units_sold'])
-        assert_equal(30, tumblr['merchandise'])
-        assert_equal(0, tumblr['discounts'])
-        assert_equal(30, tumblr['revenue'])
+        twitter = report.results.detect { |r| r['_id']['source'] == 'Twitter' }
+        assert_equal(3, twitter['orders'])
+        assert_equal(3, twitter['units_sold'])
+        assert_equal(30, twitter['merchandise'])
+        assert_equal(0, twitter['discounts'])
+        assert_equal(30, twitter['revenue'])
       end
 
       def test_date_ranges

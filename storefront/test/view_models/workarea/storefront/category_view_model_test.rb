@@ -46,6 +46,26 @@ module Workarea
         )
       end
 
+      def test_rules
+        @category.product_rules.create!(
+          name: 'search',
+          operator: 'equals',
+          value: 'foo'
+        )
+        @category.product_rules.create!(
+          name: 'search',
+          operator: 'equals',
+          value: 'bar',
+          active: false
+        )
+
+        view_model = CategoryViewModel.new(@category)
+        assert_equal(
+          @category.product_rules.take(1),
+          view_model.search_query.params[:rules]
+        )
+      end
+
       def test_sorts
         view_model = CategoryViewModel.new(@category)
         refute_includes(view_model.sorts.map(&:last), :featured)

@@ -33,6 +33,7 @@
       .property
         = label_tag 'user[password]', t('workarea.admin.fields.password'), class: 'property__name'
         = password_field_tag 'user[password]', nil, class: 'text-box', autocomplete: 'off'
+        %span.property__note= link_to t('workarea.admin.users.edit.send_password_reset'), send_password_reset_user_path(@user), data: { method: :post }
       .property
         = label_tag 'user[avatar]', class: 'property__name' do
           = t('workarea.admin.fields.avatar')

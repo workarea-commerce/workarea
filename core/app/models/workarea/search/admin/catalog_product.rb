@@ -80,8 +80,7 @@ module Workarea
         end
 
         def low_inventory?
-          available = Inventory::Sku.in(id: model.skus).sum(&:available_to_sell)
-          available < Workarea.config.low_inventory_threshold
+          Inventory::Collection.new(model.skus).low_inventory?
         end
 
         def variant_missing_details?

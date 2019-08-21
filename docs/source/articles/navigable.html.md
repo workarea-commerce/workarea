@@ -1,5 +1,6 @@
 ---
 title: Navigable
+created_at: 2018/07/31
 excerpt: A navigable is an application document that includes the Workarea::Navigable module, and thereby has a slug attribute and a 1:1 relationship with a taxon.
 ---
 

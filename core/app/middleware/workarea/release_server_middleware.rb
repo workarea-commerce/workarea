@@ -5,7 +5,7 @@ module Workarea
     end
 
     def call(worker, msg, queue)
-      Release.with_current(nil) { yield }
+      Release.without_current { yield }
     end
   end
 end

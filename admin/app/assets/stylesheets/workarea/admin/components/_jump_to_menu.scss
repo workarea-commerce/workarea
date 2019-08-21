@@ -1,0 +1,57 @@
+/*------------------------------------*\
+    #JUMP-TO-MENU
+\*------------------------------------*/
+
+$jump-to-menu-bg-color: $white !default;
+$jump-to-menu-border-color: $light-gray !default;
+
+.jump-to-menu {
+    display: none;
+
+    @include respond-to($wide-breakpoint) {
+        display: block;
+    }
+}
+
+.jump-to-menu--with-workflow-bar {}
+
+
+    .jump-to-menu__container {
+        @include global-box-shadow;
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        width: inherit;
+        max-height: calc(100vh - #{$global-header-height} - #{$spacing-unit * 2});
+        margin-right: $spacing-unit;
+        background: $jump-to-menu-bg-color;
+        border: 1px solid $jump-to-menu-border-color;
+        border-radius: 5px 5px 0 0;
+        overflow-y: auto;
+
+        .jump-to-menu--with-workflow-bar & {
+            bottom: $global-workflow-bar-height;
+            max-height: calc(100vh - #{$global-header-height} - #{$global-workflow-bar-height} - #{$spacing-unit * 2});
+        }
+    }
+
+
+        .jump-to-menu__list {
+            margin: 0;
+            padding: ($spacing-unit / 2) ($spacing-unit * 2);
+            list-style: none;
+        }
+
+            .jump-to-menu__list-item { margin: $spacing-unit 0; }
+
+
+                .jump-to-menu__link {
+                    display: inline-block;
+                    text-decoration: none;
+                    line-height: 1.25;
+
+                    &:hover { text-decoration: underline; }
+                }
+
+                .jump-to-menu__link--1 {}
+                .jump-to-menu__link--2 { padding-left: 1em; font-size: 0.9rem; }

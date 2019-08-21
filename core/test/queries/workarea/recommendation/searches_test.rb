@@ -4,9 +4,9 @@ module Workarea
   module Recommendation
     class SearchesTest < TestCase
       def test_find
-        Recommendation::UserActivity.create!(searches: %w(foo bars))
-        Recommendation::UserActivity.create!(searches: %w(foo @#$%))
-        2.times { Recommendation::UserActivity.create!(searches: %w(foos baz)) }
+        Metrics::User.create!(viewed: { search_ids: %w(foo bar) })
+        Metrics::User.create!(viewed: { search_ids: %w(foo) })
+        2.times { Metrics::User.create!(viewed: { search_ids: %w(foo baz) }) }
 
         ProcessSearchRecommendations.new.perform
 

@@ -13,19 +13,50 @@ module Workarea
       end
 
       def locals
-        @locals ||= model.data.merge(
-          hidden_breakpoints: model.hidden_breakpoints,
-          view_model: self
-        )
+        @locals ||= model
+          .data
+          .merge(hidden_breakpoints: model.hidden_breakpoints, view_model: self)
+          .merge(asset_alt_text) do |_, block_alt, asset_alt|
+            block_alt.presence || asset_alt
+          end
       end
 
-      # This ensures memoization happens
       def find_asset(id)
-        @assets ||= {}
-        return @assets[id.to_s] if @assets[id.to_s].present?
+        return Content::Asset.image_placeholder if id.blank?
+        return assets[id.to_s] if assets[id.to_s].present?
 
-        @assets[id.to_s] = Content::Asset.find(id) rescue
-                           Content::Asset.image_placeholder
+        assets[id.to_s] = Content::Asset.find(id)
+      rescue Mongoid::Errors::DocumentNotFound
+        assets[id.to_s] = Content::Asset.image_placeholder
+      end
+
+      def assets
+        @assets ||= begin
+          asset_ids = model
+            .type
+            .fields
+            .select { |field, _memo| field.type == :asset }
+            .map { |field| model.data[field.slug] }
+            .reject(&:blank?)
+            .map(&:to_s)
+
+          assets = Content::Asset.in(id: asset_ids)
+
+          asset_ids.each_with_object({}) do |id, memo|
+            memo[id] = assets.detect { |a| a.id.to_s == id } ||
+                       Content::Asset.image_placeholder
+          end
+        end
+      end
+
+      def asset_alt_text
+        @asset_alt_texts ||= model.type
+          .fields
+          .select { |f| f.options[:alt_field].present? }
+          .each_with_object({}) do |field, memo|
+            key = field.options[:alt_field].systemize.to_sym
+            memo[key] = find_asset(model.data[field.slug])&.alt_text
+          end
       end
 
       def series

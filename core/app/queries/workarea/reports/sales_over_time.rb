@@ -5,7 +5,7 @@ module Workarea
       include GroupByTime
 
       self.reporting_class = Metrics::SalesByDay
-      self.sort_fields = %w(_id units_sold orders customers merchandise discounts shipping tax revenue)
+      self.sort_fields = %w(_id units_sold orders cancellations customers merchandise discounts shipping tax refund revenue)
 
       def aggregation
         [filter, project_used_fields, group_by_time, add_aov]
@@ -25,6 +25,7 @@ module Workarea
           '$project' => {
             'reporting_on' => 1,
             'orders' => 1,
+            'cancellations' => 1,
             'returning_orders' => 1,
             'customers' => 1,
             'units_sold' => 1,
@@ -32,6 +33,7 @@ module Workarea
             'shipping' => 1,
             'discounts' => 1,
             'tax' => 1,
+            'refund' => 1,
             'revenue' => 1
           }
         }
@@ -43,6 +45,7 @@ module Workarea
             '_id' => time_group_id,
             'starts_at' => { '$min' => '$reporting_on' },
             'orders' => { '$sum' => '$orders' },
+            'cancellations' => { '$sum' => '$cancellations' },
             'returning_orders' => { '$sum' => '$returning_orders' },
             'customers' => { '$sum' => '$customers' },
             'units_sold' => { '$sum' => '$units_sold' },
@@ -50,6 +53,7 @@ module Workarea
             'shipping' => { '$sum' => '$shipping' },
             'discounts' => { '$sum' => '$discounts' },
             'tax' => { '$sum' => '$tax' },
+            'refund' => { '$sum' => '$refund' },
             'revenue' => { '$sum' => '$revenue' }
           }
         }

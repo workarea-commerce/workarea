@@ -1,5 +1,6 @@
 ---
 title: Low-Level Caching
+created_at: 2018/07/31
 excerpt: Certain slow or frequently running queries or processing are cached from the classes defining them. The Workarea system follows the Rails convention in how this is handled.
 ---
 

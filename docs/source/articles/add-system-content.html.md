@@ -1,5 +1,6 @@
 ---
 title: Add System Content
+created_at: 2018/07/31
 excerpt: In this guide, I outline the steps required to add administrable content to a system page in the Storefront. I use the example of adding content to the cart, as shown below.
 ---
 

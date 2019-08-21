@@ -1,5 +1,6 @@
 ---
 title: Translate Administrable Content
+created_at: 2019/03/06
 excerpt: Many fields available through the Admin UI can be localized. These fields are indicated by a localization icon.
 ---
 

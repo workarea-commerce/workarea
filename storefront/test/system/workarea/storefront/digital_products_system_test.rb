@@ -2,6 +2,8 @@ require 'test_helper'
 
 module Workarea
   module Storefront
+    # TODO: delete this for v3.6
+    # Leaving this in v3.5 for compatibility with existing builds
     class DigitalProductsSystemTest < Workarea::SystemTest
       include Storefront::SystemTest
 

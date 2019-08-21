@@ -11,10 +11,12 @@ module Workarea
     def perform
       @order.items.each do |item|
         next if fulfillment.items.detect { |i| i.order_item_id == item.id.to_s }
+        fulfillment.items.build(order_item_id: item.id, quantity: item.quantity)
 
-        fulfillment.items.build(
-          order_item_id: item.id,
-          quantity: item.quantity
+        Fulfillment::Sku.process!(
+          item.sku,
+          order_item: item,
+          fulfillment: fulfillment
         )
       end
 

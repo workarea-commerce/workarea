@@ -1,5 +1,6 @@
 ---
 title: Change Product Placeholder Image
+created_at: 2018/08/14
 excerpt: Learn how to change the default placeholder image for catalog products.
 ---
 

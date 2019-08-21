@@ -96,7 +96,7 @@ module Workarea
 
       def queues
         ENV['WORKAREA_SIDEKIQ_QUEUES'].to_s.split(',').presence ||
-          %w(high default low mailers)
+          %w(releases high default low mailers)
       end
 
       def pool_size

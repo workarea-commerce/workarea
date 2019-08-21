@@ -29,7 +29,7 @@ module Workarea
         end
 
         def should_be_indexed?
-          model.placed?
+          model.placed? || model.fraud_suspected?
         end
 
         def facets

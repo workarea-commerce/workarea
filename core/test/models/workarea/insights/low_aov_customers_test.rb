@@ -16,7 +16,7 @@ module Workarea
         Metrics::User.save_order(email: 'bcrouse5@workarea.com', revenue: 5.to_m, at: 60.days.ago)
         Metrics::User.save_order(email: 'bcrouse5@workarea.com', revenue: 5.to_m, at: 60.days.ago)
 
-        Metrics::User.update_aggregations!
+        Metrics::UpdateUserAggregations.update!
 
         LowAovCustomers.generate_monthly!
         assert_equal(1, LowAovCustomers.count)

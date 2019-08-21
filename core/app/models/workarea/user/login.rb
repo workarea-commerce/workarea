@@ -50,6 +50,10 @@ module Workarea
           last_login_attempt_at >= Workarea.config.lockout_period.ago
       end
 
+      def unlock_login!
+        update!(failed_login_count: 0)
+      end
+
       def update_login!(request)
         update_attributes!(
           ip_address: request.ip,

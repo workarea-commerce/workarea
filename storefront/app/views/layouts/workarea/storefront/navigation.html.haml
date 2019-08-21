@@ -32,7 +32,7 @@
     = append_partials('storefront.document_head')
     = javascript_include_tag Workarea.config.asset_manifests.storefront_javascript_head
 
-  %body{ itemscope: true, itemtype: 'http://schema.org/WebPage' }
+  %body
 
     %ul.accessibility-nav.visually-hidden
       %li= link_to t('workarea.storefront.layouts.accessibility_info'), accessibility_path

@@ -50,7 +50,7 @@ module Workarea
     end
 
     def current_release_session
-      @current_release_session ||= ReleaseSession.new(cookies)
+      @current_release_session ||= ReleaseSession.new(session)
     end
   end
 end

@@ -10,17 +10,17 @@ module Workarea
         model.update_attributes!(active: true)
         assert(Storefront.new(model).active[:now])
 
-        model.update_attributes!(active: false)
-        release = create_release
+        release_one = create_release
+        release_one.as_current { model.update_attributes!(active: false) }
 
-        Release.with_current(release.id) do
-          model.update_attributes!(active: true)
-        end
+        release_two = create_release
+        release_two.as_current { model.update_attributes!(name: 'Foo bar') }
 
         model.reload
         results = Storefront.new(model).active
-        refute(results[:now])
-        assert(results[release.id.to_s])
+        assert(results[:now])
+        refute(results[release_one.id.to_s])
+        assert(results[release_two.id.to_s])
       end
     end
   end

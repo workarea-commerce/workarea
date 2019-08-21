@@ -33,6 +33,12 @@
             .property
               = label_tag 'asset[file]', t('workarea.admin.fields.file'), class: 'property__name'
               = file_field_tag 'asset[file]'
+
+            .property
+              = label_tag 'asset[alt_text]', t('workarea.admin.fields.alt_text'), class: 'property__name'
+              = text_field_tag 'asset[alt_text]', @asset.alt_text, class: 'text-box'
+              %span.property__note= t('workarea.admin.content_assets.edit.alt_text_note')
+
             .property
               = label_tag 'asset_type', t('workarea.admin.content_assets.edit.type_label'), class: 'property__name'
               = @asset.type.titleize

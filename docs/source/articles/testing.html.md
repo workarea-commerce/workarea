@@ -1,5 +1,6 @@
 ---
 title: Testing
+created_at: 2018/10/23
 excerpt: Workarea applications include an automated test suite. Tests are written using Minitest and follow the conventions for testing Rails applications, with some extensions. I don't cover Minitest and Rails testing in this guide since those topics are cove
 ---
 

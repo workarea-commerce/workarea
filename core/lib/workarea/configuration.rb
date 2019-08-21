@@ -4,8 +4,25 @@ module Workarea
       Rails.configuration.workarea
     end
 
+    def self.define_fields(&block)
+      config.admin_definition.instance_eval(&block)
+    end
+
     def self.setup_defaults
-      Rails.configuration.workarea = ActiveSupport::Configurable::Configuration.new
+      Rails.configuration.workarea = AdministrableOptions.new(
+        admin_definition: Administrable::Definition.new
+      )
+
+      config.configurable_field_types = {
+        string: 'String',
+        symbol: 'Symbol',
+        integer: 'Integer',
+        float: 'Float',
+        boolean: 'Boolean',
+        array: 'Array',
+        hash: 'HashWithIndifferentAccess',
+        duration: 'ActiveSupport::Duration'
+      }
 
       config.site_name = 'Workarea'
       config.host = 'www.example.com'
@@ -25,24 +42,15 @@ module Workarea
       config.gateways = ActiveSupport::Configurable::Configuration.new
       config.gateways.shipping = ActiveShipping::Workarea.new
 
-      # Whether or not to allow po box addresses for shipping/payment
-      config.allow_shipping_address_po_box = false
-      config.allow_payment_address_po_box = true
-
       # How to validate whether an address is a PO Box
       config.po_box_regex = /(?:P(?:ost(?:al)?)?[\.\-\s]*(?:(?:O(?:ffice)?[\.\-\s]*)?B(?:ox|in|\b|\d)|o(?:ffice|\b)(?:[-\s]*\d)|code)|box[-\s\b]*\d)/i
-
-      # How long a user stays logged in
-      config.admin_session_timeout = 1.hour
-      config.customer_session_timeout = 10.minutes
 
       # How long the completed order cookie lasts, i.e. how long they have to
       # sign up for an account after placing the order and have the order
       # details copied to the account. Be careful changing this.
+      #
+      # TODO deprecated, remove in 3.6
       config.completed_order_timeout = 10.minutes
-
-      # How long a password reset stays valid
-      config.password_reset_timeout = 2.hours
 
       # How long the built-in HTTP cache lasts TODO remove in v4
       config.page_cache_ttl = 15.minutes
@@ -62,28 +70,13 @@ module Workarea
       # How many times to retry image importing on failure
       config.images_import_retries = 2
 
-      # How long an order is considered active before considering it abandoned
-      config.order_active_period = 2.hours
-
       # How long to lock an order when an attempt to place it is being made
       # @deprecated as of v3.2 locking is handled via Workarea::Lock
       config.order_lock_period = 10.seconds
 
-      # How long a checkout can be idle before the user is forced to restart
-      config.checkout_expiration = 15.minutes
-
-      # How long to wait until abandoned orders are deleted from the database
-      config.order_expiration_period = 6.months
-
-      # Number of orders to display on the user order history page
-      config.storefront_user_order_display_count = 50
-
       # The available tender types for purchase/refund, used in order to
       # determine purchase precedence and in reverse for refund precedence.
       config.tender_types = [:store_credit, :credit_card]
-
-      # How many failed login attempts before marking the user locked out
-      config.allowed_login_attempts = 6
 
       # How long an account is locked out after making too many
       # failed login attempts
@@ -95,24 +88,12 @@ module Workarea
       # How many passwords to keep and validate against
       config.password_history_length = 4
 
-      # Password requirement level: :weak, :medium, or :strong
-      config.password_strength = :weak
-
       # Default page size for products
       config.per_page = 20
 
       # The multiplier used to decay views and sales scores.
       # This decay is applied weekly.
       config.score_decay = 0.9
-
-      # How many search suggestions should be shown in the
-      # autocomplete searches
-      config.search_suggestions = 5
-
-      # The minimum number of search results required to consider the results
-      # sufficient. If a search result set is not sufficient, the search will
-      # try another pass with looser options to bring in more matches.
-      config.search_sufficient_results = 2
 
       # Default values for search boosts
       config.default_search_boosts = {
@@ -123,23 +104,8 @@ module Workarea
         facets: 2
       }
 
-      # How long logged search queries are stored
-      config.search_query_expiration = 30.days
-
       # How many products to consider stale in a reindexing batch for freshness.
       config.stale_products_size = 100
-
-      # Minimum number of words for content to be searchable on the storefront
-      config.minimum_content_search_words = 5
-
-      # Subjects list for the contact form { 'slug' => 'description' }
-      config.inquiry_subjects = {
-        'orders' => 'Orders',
-        'returns' => 'Returns and Exchanges',
-        'products' => 'Product Information',
-        'feedback' => 'Feedback',
-        'general' => 'General Inquiry'
-      }
 
       # Attributes used when copying addresses or comparing them
       config.address_attributes = [
@@ -196,19 +162,19 @@ module Workarea
       # admin.
       config.discount_staleness_ttl = 30.days
 
-      # Number of orders to show in account summary dashboard
-      config.recent_order_count = 3
-
       # How many products show in a category summary content block
       config.category_summary_product_count = 6
 
       # How many products show in product insights content block
       config.product_insights_count = 6
 
+      # Email Widths
+      config.admin_email_width = 600
+      config.storefront_email_width = 600
+
       # Colors and theming for customer-facing emails
       # TODO: v4 remove
       config.email_theme = ActiveSupport::OrderedOptions.new
-      config.email_theme.width = 600
       config.email_theme.background_color = '#ffffff'
       config.email_theme.layout_link_color = '#000000'
       config.email_theme.layout_separator_color = '#dddddd'
@@ -251,27 +217,11 @@ module Workarea
       # Can be configured independantly of all site breakpoints
       config.content_preview_breakpoints = ['small', 'medium', 'wide']
 
-      # Origin location for calculating shipping costs
-      config.shipping_origin = {
-        country: 'US',
-        state: 'PA',
-        city: 'Philadelphia',
-        zip: '19106'
-      }
-
       # Global options for calculating shipping costs
       config.shipping_options = { units: :imperial }
 
-      # Default package dimensions to use for calculating shipping costs.
-      # It's recommended to set these to your average or standard box size when
-      # using shipping rates from a carrier.
-      #
-      # Dimensions on a specific Shipping::Sku will override these.
-      #
-      config.shipping_dimensions = [1, 1, 1]
-
       # The content block types currently available. Most easily customized by
-      # calling Workarea::Content.define_block_types
+      # calling Workarea.define_content_block_types
       config.content_block_types = SwappableList.new
 
       # Field mappings for category rules
@@ -319,6 +269,7 @@ module Workarea
         'Taxonomy' => :navigation_taxons_path,
         'Navigation' => :navigation_menus_path,
         'Pricing' => :pricing_skus_path,
+        'Segments' => :segments_path,
         'Orders dashboard' => :orders_dashboards_path,
         'Catalog dashboard' => :catalog_dashboards_path,
         'Store dashboard' => :store_dashboards_path,
@@ -342,10 +293,13 @@ module Workarea
         'Sales by SKU Report' => :sales_by_sku_report_path,
         'Sales by Discount Report' => :sales_by_discount_report_path,
         'Sales by Country Report' => :sales_by_country_report_path,
+        'Sales by Tender Report' => :sales_by_tender_report_path,
         'Customers Report' => :customers_report_path,
         'First-time vs Returning Sales Report' => :first_time_vs_returning_sales_report_path,
         'Searches Report' => :searches_report_path,
-        'Low Inventory Report' => :low_inventory_report_path
+        'Low Inventory Report' => :low_inventory_report_path,
+        'Configuration' => :configuration_path,
+        'Fulfillment SKUs' => :fulfillment_skus_path
       }
 
       # Params to permit when creating URLs on browse pages for facet links
@@ -375,9 +329,6 @@ module Workarea
 
       # Fields to be skipped when storing changesets for releases
       config.untracked_release_changes_fields = %w(created_at updated_at slug)
-
-      # Placeholder text used for content block default data.
-      config.placeholder_text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sagittis faucibus augue, sit amet mattis leo tincidunt ac. Nullam vulputate eleifend enim. Nunc eu lorem semper, convallis ipsum pharetra, pretium metus. Donec lobortis dolor ac metus vulputate vulputate nec at nulla. Suspendisse potenti. Praesent placerat elementum justo quis malesuada. Donec sollicitudin ligula augue, rutrum vestibulum ex rutrum in. Integer id orci eu nisl accumsan suscipit a ut sapien. Nam non justo at nibh laoreet tempus. Sed sagittis velit eu tellus imperdiet, et ultricies justo aliquet. Fusce id felis sem.'
 
       # Maximum number of most visited to show for admin shortcuts
       config.admin_max_most_visited = 3
@@ -413,6 +364,7 @@ module Workarea
           Workarea::CustomerServiceNavigationSeeds
           Workarea::SystemContentSeeds
 
+          Workarea::SegmentsSeeds
           Workarea::AdminsSeeds
           Workarea::CustomersSeeds
           Workarea::OrdersSeeds
@@ -446,16 +398,6 @@ module Workarea
       # query, post_filter, and aggregations are always included.
       config.search_query_options = %w(sort size from suggest)
 
-      # The number of filter results returned for each filter type. As of
-      # ElasticSearch 5, 0 no longer denotes returning all values. A value
-      # greater than 0 must be defined.
-      config.default_search_facet_result_sizes = 10
-
-      # The number of filter results returned for any specified filter type.
-      # If no size is defined for a filter type, the default will be
-      # what's specified in the default config above.
-      config.search_facet_result_sizes = { color: 10, size: 10 }
-
       # Define how facet values should be sorted when displayed on the
       # storefront. You can provide a symbol for elasticsearch supported order
       # options - :count, :alphabetical_asc, or :alphabetical_desc. You can also
@@ -472,21 +414,11 @@ module Workarea
         size: 'Workarea::Search::FacetSorting::Size'
       }
 
-      # The default sorting of facet types not defined in
-      # Workarea.config.search_facet_sorts. See search_facet_sorts for
-      # valid options.
-      config.search_facet_default_sort = :count
-
       # The size to use for a facet aggregation when being ordered dynamically
       # through a proc or class. We do this to return all values so the facets
       # returned can be sorted before being narrowed to the size defined
       # in Workarea.config.search_facet_result_sizes
       config.search_facet_dynamic_sorting_size = 100
-
-      # The order the size facets will be rendered in on storefront search
-      # results and category browse.
-      config.search_facet_size_sort =
-        ['Extra Small', 'Small', 'Medium', 'Large', 'Extra Large']
 
       # Countries available for use
       config.countries = [Country['US'], Country['CA']]
@@ -755,10 +687,6 @@ module Workarea
       # The paths to exclude from logged admin page visits
       config.admin_visit_excluded_paths = %w(root_path toolbar_path)
 
-      # Minimum available quantity for a sku before
-      # low inventory status is displayed.
-      config.low_inventory_threshold = 5
-
       # Maximum number of similar products to store with each product.
       # See https://github.com/Pathgather/predictor#limiting-similarities
       config.max_recommendation_similarities = 64
@@ -818,6 +746,7 @@ module Workarea
           Workarea::Order::Status::Cart
           Workarea::Order::Status::Canceled
           Workarea::Order::Status::Placed
+          Workarea::Order::Status::SuspectedFraud
           Workarea::Order::Status::Checkout
           Workarea::Order::Status::Abandoned
         )
@@ -833,6 +762,16 @@ module Workarea
           Workarea::Payment::Status::Refunded
           Workarea::Payment::Status::PartiallyCaptured
           Workarea::Payment::Status::PartiallyRefunded
+        )
+      )
+
+      # Classes used to determine the status of a Workarea::Inventory::Collection
+      config.inventory_status_calculators = SwappableList.new(
+        %w(
+          Workarea::Inventory::CollectionStatus::Backordered
+          Workarea::Inventory::CollectionStatus::LowInventory
+          Workarea::Inventory::CollectionStatus::OutOfStock
+          Workarea::Inventory::CollectionStatus::Available
         )
       )
 
@@ -859,8 +798,6 @@ module Workarea
           Workarea::Release::Status::Unscheduled
           Workarea::Release::Status::Scheduled
           Workarea::Release::Status::Published
-          Workarea::Release::Status::Undone
-          Workarea::Release::Status::ScheduledUndo
         )
       )
 
@@ -876,6 +813,18 @@ module Workarea
           Workarea::Inventory::Policies::Standard
           Workarea::Inventory::Policies::DisplayableWhenOutOfStock
           Workarea::Inventory::Policies::AllowBackorder
+        )
+      )
+
+      # Classes used to dictate how an item is fulfilled. Must inherit from
+      # Workarea::Fulfillment::Policies::Base. The first in this list will be
+      # used as the default. Ship is a no op, but requires shipping,  and highly
+      # recommended as the default policy.
+      config.fulfillment_policies = SwappableList.new(
+        %w(
+          Workarea::Fulfillment::Policies::Ship
+          Workarea::Fulfillment::Policies::Ignore
+          Workarea::Fulfillment::Policies::Download
         )
       )
 
@@ -1001,11 +950,11 @@ module Workarea
       # migration.
       config.localized_active_fields = true
 
-      # Options passed to headless chrome driver at initialization
-      #
-      # This will be renamed in an upcoming minor to allow for more flexibility
-      # in how Chrome gets configured.
-      config.headless_chrome_options = [
+      # Options passed to the Selenium driver's capabilities
+      config.headless_chrome_options = { w3c: false }
+
+      # Arguments passed to headless Chrome for running system tests
+      config.headless_chrome_args = [
         'headless',
         'disable-gpu',
         'disable-popup-blocking',
@@ -1034,7 +983,7 @@ module Workarea
       config.permissions_fields = %i(admin releases_access store_access
         catalog_access search_access orders_access people_access reports_access
         settings_access marketing_access help_admin permissions_manager
-        can_publish_now can_restore)
+        can_publish_now can_restore orders_management_access)
 
       # Whitelist of sizes that will be processed with AssetEndpoints::Favicons
       # Used for favicons_path(size)
@@ -1223,7 +1172,12 @@ module Workarea
       }
 
       # Configuration keys to hide from Settings Dashboard
-      config.hide_from_settings = %i(gateways)
+      config.hide_from_settings = %i(
+        hide_from_settings
+        gateways
+        admin_definition
+        email_theme
+      )
 
       # The default length of time to tell elasticsearch to keep the scroll
       # context alive.
@@ -1238,7 +1192,7 @@ module Workarea
       config.admin_sparkline_size = 10
 
       # The maximum number of categories that are returned by
-      # +Search::Storefront::Product::Categories.find_categories!+ when
+      # +Search::Storefront::CategoryQuery.find!+ when
       # a user attempts to view all categories by rules for a given
       # product in the admin.
       config.product_categories_by_rules_max_count = 100
@@ -1255,6 +1209,38 @@ module Workarea
         pass
       )
 
+<<<<<<< HEAD
+      # The maximum amount of time an order might be expected to be in transit
+      # to a customer. For use in Schema.org JSON-LD entry of the Fulfillment
+      # Shipped mailer. Setting this to `nil` will effectively render the entry
+      # invalid, so it should be defined for the app by using ActiveShipping and
+      # set to an accurate value via the carrier's API.
+      config.order_expected_arrival = ->(order, package) { nil }
+
+      # How long release publish events show as in the calendar feed.
+      config.release_publish_calendar_event_size = 15.minutes
+
+      # How many documents to bulk index in a batch.
+      config.bulk_index_batch_size = 1000
+
+      # How many orders someone has to have to fall into the "Loyal Customer"
+      # life cycle segment.
+      config.loyal_customers_min_orders = 3
+
+      # How recently someone needs to have purchased to be in the "Loyal Customer"
+      # life cycle segment.
+      config.loyal_customers_last_order_days_ago = 180
+
+      # The list of types of rules for setting up custom segments in the admin
+      config.segment_rule_types = %w(
+        Workarea::Segment::Rules::Geolocation
+        Workarea::Segment::Rules::Orders
+        Workarea::Segment::Rules::Revenue
+        Workarea::Segment::Rules::TrafficReferrer
+        Workarea::Segment::Rules::Sessions
+        Workarea::Segment::Rules::LastOrder
+      )
+
       # Taxonomy for default seeds
       config.default_seeds_taxonomy = {
         'Clothing' => ['T-Shirts', 'Shoes', 'Loungewear'],
@@ -1263,11 +1249,25 @@ module Workarea
         'Toys' => ['Puzzles', 'Board Games', 'Outdoor']
       }
 
+      # How many products/categories/searches to return by default in {Metrics::Affinity}
+      config.affinity_default_recent_size = 3
+
       # Options for reading and decoding CSV import data. Use this
       # setting to configure the `:encoding` options for `CSV.foreach`
       # if your CSV files are failing to import with a UTF-8 encoding
       # error.
       config.csv_import_options = {}
+
+      # Determines what payment action happens when "place order" is submitted.
+      # These correspond to methods on the {Checkout}'s instance of {Payment}
+      config.checkout_payment_action = {
+        shipped: 'authorize!',
+        not_shipped: 'purchase!',
+        mixed: 'purchase!'
+      }
+
+      # Class used to determine if an order is fraudlent
+      config.fraud_analyzer = 'Workarea::Checkout::Fraud::NoDecisionAnalyzer'
     end
   end
 end

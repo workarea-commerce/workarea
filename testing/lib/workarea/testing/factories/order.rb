@@ -72,6 +72,40 @@ module Workarea
 
         checkout.place_order
       end
+
+      def create_fraudulent_order(overrides = {})
+        attributes = factory_defaults(:fraudulent_order).merge(overrides)
+        decision_attributes = attributes.slice(:fraud_decision)
+
+        decision = create_fraud_decision(decision_attributes[:fraud_decision])
+
+        shipping_service = create_shipping_service
+        sku = 'SKU'
+        create_product(variants: [{ sku: sku, regular: 5.to_m }])
+        details = OrderItemDetails.find(sku)
+        order = Workarea::Order.new(attributes)
+
+        item = { sku: sku, quantity: 2 }.merge(details.to_h)
+
+        order.add_item(item)
+
+        checkout = Checkout.new(order)
+        checkout.update(
+          factory_defaults(:checkout_payment).merge(
+            shipping_address: factory_defaults(:shipping_address),
+            billing_address: factory_defaults(:billing_address),
+            shipping_service: shipping_service.name,
+          )
+        )
+
+        order.set_fraud_decision!(decision)
+        order
+      end
+
+      def create_fraud_decision(overrides = {})
+        attributes = factory_defaults(:fraud_decision).merge(overrides)
+        Workarea::Order::FraudDecision.new(attributes)
+      end
     end
   end
 end

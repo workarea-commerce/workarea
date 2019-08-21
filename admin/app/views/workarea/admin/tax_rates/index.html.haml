@@ -10,43 +10,85 @@
 
   .view__container
     = render_cards_for(@category, :rates)
-    %h2.view__heading= pluralize(@rates.count, 'Rate')
 
+    .browsing-controls.browsing-controls--with-divider.browsing-controls--center
+      = form_tag tax_category_rates_path, method: :get, id: 'rates_search_form', class: 'browsing-controls__form' do
+        .browsing-controls__sort
+          .property.property--inline
+            = label_tag 'sort', t('workarea.admin.search.sort_by'), class: 'property__name'
+            = select_tag 'sort', options_for_select(sort_options(@rates), params[:sort]), data: { form_submitting_control: '' }
+        .browsing-controls__search
+          .search-form.search-form--large
+            = text_field_tag :q, params[:q], class: 'search-form__input', id: 'search_rates', title: t('workarea.admin.tax_rates.index.search_placeholder'), placeholder: t('workarea.admin.tax_rates.index.search_placeholder')
+            = button_tag t('workarea.admin.search.go'), value: 'search_rates', class: 'search-form__button'
+
+      %p.browsing-controls__count{ data: { browsing_controls_count: @rates.total_count } }
+        = t('workarea.admin.tax_rates.index.rates', count: @rates.total_count)
+
+  .view__container
     - if @rates.blank?
-      = link_to t('workarea.admin.tax_rates.index.empty_button'), new_data_file_tax_import_path(tax_category_id: @category.id), class: 'align-center'
+      %p.align-center= t('workarea.admin.tax_rates.index.empty_message')
     - else
-      %table
+      %table.index-table
         %thead
           %tr
-            %th= t('workarea.admin.tax_rates.index.table.percentage')
-            %th
+            %th.align-center= t('workarea.admin.tax_rates.index.table.country')
+            %th.align-center= t('workarea.admin.tax_rates.index.table.region')
+            %th.align-center= t('workarea.admin.tax_rates.index.table.postal_code')
+            %th.align-center= t('workarea.admin.tax_rates.index.table.country_percentage')
+            %th.align-center= t('workarea.admin.tax_rates.index.table.region_percentage')
+            %th.align-center= t('workarea.admin.tax_rates.index.table.postal_code_percentage')
+            %th.align-center= t('workarea.admin.tax_rates.index.table.combined_percentage')
+            %th.align-center
               = t('workarea.admin.tax_rates.index.table.min_value')
               = link_to '#min-value-tooltip', data: { tooltip: '' } do
                 = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.tax_rates.index.table.min_value_link'))
               %span#min-value-tooltip.tooltip-content= t('workarea.admin.tax_rates.index.table.min_value_tooltip')
-            %th
+            %th.align-center
               = t('workarea.admin.tax_rates.index.table.max_value')
               = link_to '#max-value-tooltip', data: { tooltip: '' } do
                 = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.tax_rates.index.table.max_value_link'))
               %span#max-value-tooltip.tooltip-content= t('workarea.admin.tax_rates.index.table.max_value_tooltip')
-            %th= t('workarea.admin.tax_rates.index.table.country')
-            %th= t('workarea.admin.tax_rates.index.table.region')
-            %th= t('workarea.admin.tax_rates.index.table.postal_code')
-            %th= t('workarea.admin.tax_rates.index.table.charge_on_shipping')
+            %th.align-center= t('workarea.admin.tax_rates.index.table.charge_on_shipping')
+            %th.align-right= t('workarea.admin.tax_rates.index.table.actions')
         %tbody
           - @rates.each do |rate|
-            %tr
-              %td= number_to_percentage(rate.percentage * 100, precision: 1)
-              %td= rate.tier_min.present? ? number_to_currency(rate.tier_min) : t('workarea.admin.tax_rates.index.not_applicable')
-              %td= rate.tier_max.present? ? number_to_currency(rate.tier_max) : t('workarea.admin.tax_rates.index.not_applicable')
-              %td= rate.country.alpha2
-              %td= rate.region
-              %td= rate.postal_code
-              %td= rate.charge_on_shipping ? t('workarea.admin.true') : t('workarea.admin.false')
+            %tr.index-table__row
+              %td.align-center= rate.country.try(&:alpha2) || '-'
+              %td.align-center= rate.region || '-'
+              %td.align-center= rate.postal_code.presence || '-'
+              %td.align-center= number_to_percentage(rate.country_percentage * 100, precision: 1)
+              %td.align-center= number_to_percentage(rate.region_percentage * 100, precision: 1)
+              %td.align-center= number_to_percentage(rate.postal_code_percentage * 100, precision: 1)
+              %td.align-center
+                %strong= number_to_percentage(rate.percentage * 100, precision: 1)
+              %td.align-center= rate.tier_min.present? ? number_to_currency(rate.tier_min) : t('workarea.admin.tax_rates.index.not_applicable')
+              %td.align-center= rate.tier_max.present? ? number_to_currency(rate.tier_max) : t('workarea.admin.tax_rates.index.not_applicable')
+              %td.align-center= rate.charge_on_shipping ? t('workarea.admin.true') : t('workarea.admin.false')
+              %td
+                .grid.grid--auto.grid--right
+                  .grid__cell
+                    = link_to edit_tax_category_rate_path(@category, rate), class: 'text-button' do
+                      %span.grid.grid--auto.grid--middle.grid--flush
+                        %span.grid__cell= t('workarea.admin.actions.edit')
+                        %span.grid__cell= inline_svg('workarea/admin/icons/edit.svg', class: 'text-button__icon')
+                  .grid__cell
+                    = link_to tax_category_rate_path(@category, rate), class: 'text-button text-button--destroy', data: { method: 'delete', confirm: t('workarea.admin.actions.delete_confirmation') } do
+                      %span.grid.grid--auto.grid--middle.grid--flush
+                        %span.grid__cell= t('workarea.admin.actions.delete')
+                        %span.grid__cell= inline_svg('workarea/admin/icons/delete.svg', class: 'text-button__icon')
+
 
     - if @rates.total_pages > 1
       = render 'workarea/admin/shared/pagination', collection: @rates
 
     .workflow-bar
-      .grid.grid--auto.grid--right.grid--middle
-        .grid__cell= link_to t('workarea.admin.tax_rates.index.button'), new_data_file_tax_import_path(tax_category_id: @category.id), id: 'bulk_import', class: 'workflow-bar__button workflow-bar__button--update'
+      .grid
+        .grid__cell.grid__cell--50
+          .grid.grid--auto.grid--middle
+            .grid__cell= link_to t('workarea.admin.tax_rates.index.import_button'), new_data_file_tax_import_path(tax_category_id: @category.id), id: 'bulk_import', class: 'workflow-bar__button'
+        .grid__cell.grid__cell--50
+          .grid.grid--auto.grid--right.grid--middle
+            .grid__cell
+              = link_to t('workarea.admin.tax_rates.index.new_button'), new_tax_category_rate_path, id: 'add_tax_category_rate', class: 'workflow-bar__button workflow-bar__button--create'
+

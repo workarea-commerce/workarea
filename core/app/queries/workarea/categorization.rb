@@ -30,7 +30,7 @@ module Workarea
 
     def queries
       return [] if @product.blank?
-      @queries ||= Search::Storefront::Product.find_categories(@product)
+      @queries ||= Search::Storefront::CategoryQuery.find_by_product(@product)
     end
 
     def to_models
@@ -57,7 +57,7 @@ module Workarea
 
     def manual_models
       return [] if @product.blank?
-      @manual_models ||= Catalog::Category.by_product(@product.id).to_a
+      @manual_models ||= FeaturedCategorization.new(@product).to_a
     end
   end
 end

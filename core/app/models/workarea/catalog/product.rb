@@ -12,7 +12,6 @@ module Workarea
       field :name, type: String, localize: true
       field :filters, type: Hash, default: {}, localize: true
       field :template, type: String, default: 'generic'
-      field :digital, type: Boolean, default: false
       field :customizations, type: String
       field :browser_title, type: String, localize: true
       field :meta_description, type: String, localize: true
@@ -20,6 +19,14 @@ module Workarea
       field :last_indexed_at, type: Time
       field :purchasable, type: Boolean, default: true
       field :default_category_id, type: String
+
+      # DEPRECATED. This field will be remove in v3.6 in favor of using
+      # Fulfillment::SKU to determine behavior in checkout for items not
+      # requiring phsyical fulfillment.
+      #
+      # TODO: remove in v3.6
+      #
+      field :digital, type: Boolean, default: false
 
       index({ 'variants.sku': 1 })
       index({ last_indexed_at: 1 })

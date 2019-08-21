@@ -1,0 +1,41 @@
+- @page_title = t('workarea.admin.fulfillment_skus.new.page_title')
+
+.view
+  .view__header
+    .grid.grid--middle.grid--center
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@sku)
+          %h1= t('workarea.admin.fulfillment_skus.new.heading')
+
+  .view__container.view__container--narrow
+    - if @sku.errors.present?
+      - @sku.errors.full_messages.each do |message|
+        = render_message 'error', message
+
+    = form_tag fulfillment_skus_path(@sku), method: 'post', id: 'sku_form', multipart: true, data: { unsaved_changes: '' } do
+      = hidden_field_tag 'return_to', request.referrer
+
+      .section
+
+        .property.property--required
+          = label_tag 'sku[id]', t('workarea.admin.fields.sku'), class: 'property__name'
+          = text_field_tag 'sku[id]', @sku.id, class: 'text-box', required: true, placeholder: t('workarea.admin.fulfillment_skus.new.sku_placeholder')
+
+        .property
+          = label_tag 'sku[policy]', class: 'property__name' do
+            %span.property__text= t('workarea.admin.fields.policy')
+            = link_to '#policy-info', data: { tooltip: '' } do
+              = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.fields.policy'))
+
+          #policy-info.tooltip-content
+            %p= t('workarea.admin.fulfillment_skus.edit.policy_info_html')
+          = select_tag 'sku[policy]', options_for_select(fulfillment_policies, @sku.policy.optionize)
+
+        .property
+          = label_tag 'sku[file]', t('workarea.admin.fields.file'), class: 'property__name'
+          = file_field_tag 'sku[file]'
+
+      .workflow-bar
+        .grid.grid--auto.grid--right.grid--middle
+          .grid__cell= button_tag t('workarea.admin.fulfillment_skus.new.create_sku'), value: 'create_sku', class: 'workflow-bar__button workflow-bar__button--create'

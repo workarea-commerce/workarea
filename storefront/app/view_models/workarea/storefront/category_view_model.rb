@@ -29,7 +29,7 @@ module Workarea
         @search_query ||= Search::CategoryBrowse.new(
           options.merge(
             category_ids: [model.id],
-            rules: model.product_rules,
+            rules: model.product_rules.usable,
             terms_facets: terms_facets - %w(category),
             range_facets: range_facets,
             sort: current_sorts

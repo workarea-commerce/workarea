@@ -20,14 +20,14 @@ module Workarea
       end
 
       def test_using_popular_products_if_blank
-        activity = UserActivity.new
-        query = UserActivityBased.new(activity)
+        metrics = Metrics::User.new
+        query = UserActivityBased.new(metrics)
         assert_equal(%w(1 2 3), query.results)
       end
 
       def test_using_related_products
-        activity = UserActivity.new(product_ids: %w(1))
-        query = UserActivityBased.new(activity)
+        metrics = Metrics::User.new(viewed: { product_ids: %w(1) })
+        query = UserActivityBased.new(metrics)
         assert_equal(2, query.results.size)
         assert_includes(query.results, '2')
         assert_includes(query.results, '3')

@@ -13,7 +13,9 @@ module Workarea
 
       def create_the_release
         visit admin.releases_path
-        click_link 'add_release'
+        within '.calendar__day--today' do
+          click_link t('workarea.admin.releases.calendar.add_new_release')
+        end
 
         fill_in 'release[name]', with: 'Foo Release'
         click_button 'save_setup'
@@ -21,19 +23,17 @@ module Workarea
 
       def make_page_change
         visit admin.content_page_path(@content_page)
-        click_link 'Attributes'
+        click_link t('workarea.admin.cards.attributes.title')
         fill_in 'page[name]', with: 'Foo Bar'
         click_button 'save'
       end
 
-      def test_search
+      def test_list_search
         create_release(name: 'Scheduled Release', publish_at: 1.week.from_now)
         create_release(name: 'Unscheduled Release')
         create_release(name: 'Published Release', published_at: 1.week.ago)
-        create_release(name: 'Undone Release', published_at: 2.week.ago, undone_at: 1.day.ago)
-        create_release(name: 'Scheduled Undo Release', published_at: 3.week.ago, undo_at: 1.day.from_now)
 
-        visit admin.releases_path
+        visit admin.list_releases_path
 
         within '#release_search_form' do
           fill_in 'q', with: 'release'
@@ -43,19 +43,15 @@ module Workarea
         assert(page.has_content?('Scheduled Release'))
         assert(page.has_content?('Unscheduled Release'))
         assert(page.has_content?('Published Release'))
-        assert(page.has_content?('Undone Release'))
-        assert(page.has_content?('Scheduled Undo Release'))
 
         within '.browsing-controls' do
           click_button 'Publishing'
-          click_link 'Published (3)'
+          click_link 'Published (1)'
         end
 
         refute(page.has_content?('Scheduled Release'))
         refute(page.has_content?('Unscheduled Release'))
         assert(page.has_content?('Published Release'))
-        assert(page.has_content?('Undone Release'))
-        assert(page.has_content?('Scheduled Undo Release'))
       end
 
       def test_saving_changes_for_a_release
@@ -67,7 +63,7 @@ module Workarea
         assert(page.has_content?('Foo Release'))
         assert(page.has_content?('Foo Bar'))
 
-        select 'the live site', from: 'release_id'
+        select t('workarea.admin.releases.select.live_site'), from: 'release_id'
 
         wait_for_xhr
 
@@ -86,26 +82,25 @@ module Workarea
         make_page_change
 
         #
-        # Set publishing
+        # Set Publishing, through Calendar
         #
         #
         visit admin.releases_path
-        click_link 'Foo Release'
+        find('.calendar__release', text: 'Foo Release').click
 
-        click_link 'Attributes'
-        fill_in 'release_publish_at_date', with: (Time.current + 1.day).strftime('%Y-%m-%d')
-        fill_in 'release_undo_at_date', with: (Time.current + 1.week).strftime('%Y-%m-%d')
+        click_link t('workarea.admin.cards.attributes.title')
+        fill_in 'release_publish_at_date', with: 1.day.from_now.strftime('%Y-%m-%d')
         click_button 'save_release'
         assert(page.has_content?('Success'))
 
         #
-        # Delete
+        # Delete, through Releases List
         #
         #
-        visit admin.releases_path
+        visit admin.list_releases_path
         click_link 'Foo Release'
 
-        click_on 'Delete'
+        click_on t('workarea.admin.actions.delete')
         assert(page.has_current_path?(admin.releases_path))
         assert(page.has_content?('Success'))
         assert(page.has_no_content?('Foo Release'))
@@ -129,7 +124,7 @@ module Workarea
         end
 
         visit admin.release_path(Release.first)
-        click_link 'Planned Changes'
+        click_link t('workarea.admin.releases.cards.planned_changes.planned')
         assert(page.has_content?('Test Page'))
         assert(page.has_content?('Foo Bar'))
         assert(page.has_content?('Test Product'))
@@ -142,14 +137,14 @@ module Workarea
         assert(page.has_content?('Test Product - SKU1'))
 
         visit admin.content_page_path(@content_page)
-        click_link 'Timeline'
+        click_link t('workarea.admin.timeline.card.title')
 
         assert(page.has_content?('Test Page'))
         assert(page.has_content?('Foo Bar'))
 
-        click_button 'Edit'
+        click_button t('workarea.admin.timeline.edit')
         assert_current_path(admin.content_page_path(@content_page))
-        click_link 'Attributes'
+        click_link t('workarea.admin.cards.attributes.title')
         assert_equal('Foo Bar', find_field('page[name]').value)
       end
 
@@ -158,27 +153,18 @@ module Workarea
         make_page_change
 
         visit admin.releases_path
-        click_link 'Foo Release'
+        find('.calendar__release', text: 'Foo Release').click
 
-        click_button 'Publish Now'
+        click_button t('workarea.admin.releases.show.publish_now')
         assert(page.has_content?('Success'))
 
         visit admin.edit_content_page_path(@content_page)
         assert_equal('Foo Bar', find_field('page[name]').value)
-
-        visit admin.releases_path
-        click_link 'Foo Release'
-
-        click_button 'Undo'
-        assert(page.has_content?('Success'))
-
-        visit admin.edit_content_page_path(@content_page)
-        assert_equal('Test Page', find_field('page[name]').value)
       end
 
       def test_inline_release_creation
         visit admin.edit_content_page_path(@content_page)
-        select 'a new release', from: 'release_id'
+        select t('workarea.admin.js.publish_with_release_menus.a_new_release'), from: 'release_id'
 
         within '#release_form' do
           fill_in 'release[name]', with: 'Foo Release'
@@ -206,7 +192,7 @@ module Workarea
 
         fill_in 'page[name]', with: 'Bar Page'
 
-        select 'a new release', from: 'publishing'
+        select t('workarea.admin.js.publish_with_release_menus.a_new_release'), from: 'publishing'
         within '#release_form' do
           fill_in 'release[name]', with: 'Bar Release'
           click_button 'save_release'
@@ -226,6 +212,134 @@ module Workarea
         wait_for_xhr
 
         assert(page.has_content?('Foo Page'))
+      end
+
+      def test_creating_a_release_undo
+        visit admin.edit_content_page_path(@content_page)
+        select t('workarea.admin.js.publish_with_release_menus.a_new_release'), from: 'release_id'
+
+        within '#release_form' do
+          fill_in 'release[name]', with: 'Foo Release'
+          click_button 'save_release'
+        end
+
+        wait_for_xhr
+        make_page_change
+
+        visit admin.list_releases_path
+        click_link 'Foo Release'
+        click_link t('workarea.admin.releases.cards.undo.title')
+
+        assert(page.has_content?(t('workarea.admin.releases.undo.undoing')))
+        click_link "#{t('workarea.admin.releases.undo.build_an_undo_now')} →"
+
+        fill_in 'release[name]', with: 'Foo Bar Undo'
+        click_button t('workarea.admin.create_release_undos.workflow.create_undo')
+        assert(page.has_content?('Test Page'))
+        assert(page.has_content?('Foo Bar'))
+
+        click_link "#{t('workarea.admin.create_release_undos.workflow.done')} →"
+        assert(page.has_content?('Foo Bar Undo'))
+
+        click_link t('workarea.admin.releases.cards.original.title')
+        assert(page.has_content?('Foo Release'))
+        assert(page.has_content?('Test Page'))
+        assert(page.has_content?('Foo Bar'))
+
+        within('.text.text--large', match: :first) { click_link 'Foo Release' }
+        assert(page.has_content?('Foo Release'))
+        assert(page.has_content?('Test Page'))
+        assert(page.has_content?('Foo Bar'))
+
+        click_link t('workarea.admin.releases.cards.undo.title')
+        assert(page.has_content?('Foo Bar Undo'))
+        assert(page.has_content?('Test Page'))
+        assert(page.has_content?('Foo Bar'))
+      end
+
+      def test_release_calendar
+        create_the_release
+        make_page_change
+
+        visit admin.releases_path
+        find('.calendar__release', text: 'Foo Release').click
+
+        click_button t('workarea.admin.releases.show.publish_now')
+        assert(page.has_content?('Success'))
+
+        visit admin.releases_path
+
+        assert(find('.calendar').has_content?('Foo Release'))
+
+        click_link t('workarea.admin.releases.calendar.next_week')
+        wait_for_xhr
+        assert(find('.calendar').has_content?('Foo Release'))
+
+        click_link t('workarea.admin.releases.calendar.next_week')
+        wait_for_xhr
+        refute(find('.calendar').has_content?('Foo Release'))
+
+        click_link t('workarea.admin.releases.calendar.previous_week')
+        wait_for_xhr
+        assert(find('.calendar').has_content?('Foo Release'))
+
+        click_link t('workarea.admin.releases.calendar.next_week')
+        wait_for_xhr
+        refute(find('.calendar').has_content?('Foo Release'))
+
+        click_button t('workarea.admin.releases.calendar.today')
+        wait_for_xhr
+        assert(find('.calendar').has_content?('Foo Release'))
+      end
+
+      def test_release_overflow
+        #
+        # Test maximum releases per day
+        #
+        #
+        current_time = Time.current
+
+        create_release(name: 'Release One', published_at: current_time)
+        create_release(name: 'Release Two', published_at: current_time)
+        create_release(name: 'Release Three', published_at: current_time)
+        create_release(name: 'Release Four', published_at: current_time)
+        create_release(name: 'Release Five', published_at: current_time)
+
+        visit admin.releases_path
+
+        assert(page.has_content?('Release One'))
+        assert(page.has_content?('Release Two'))
+        assert(page.has_content?('Release Three'))
+        assert(page.has_content?('Release Four'))
+        assert(page.has_content?('Release Five'))
+
+        #
+        # Test Overflow UI
+        #
+        #
+        create_release(name: 'Release Six', published_at: current_time)
+
+        visit admin.releases_path
+
+        refute(page.has_content?('Release Five'))
+        refute(page.has_content?('Release Six'))
+
+        assert(
+          page.has_content?(
+            t('workarea.admin.releases.calendar.plus_more_releases', count: 2)
+          )
+        )
+
+        find('.calendar__release[data-tooltip]').hover
+
+        within '.tooltipster-content' do
+          assert(page.has_content?('Release One'))
+          assert(page.has_content?('Release Two'))
+          assert(page.has_content?('Release Three'))
+          assert(page.has_content?('Release Four'))
+          assert(page.has_content?('Release Five'))
+          assert(page.has_content?('Release Six'))
+        end
       end
     end
   end

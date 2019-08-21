@@ -1,5 +1,6 @@
 ---
 title: Orders & Items
+created_at: 2018/08/07
 excerpt: Orders are transactions between consumers and the retailer. Consumers create orders in the Storefront, as carts, to which they add items (and optionally promo codes). Consumers complete checkouts, thereby placing their orders. The placed orders, which
 ---
 
@@ -12,7 +13,7 @@ The `Order` class (which is also a module/namespace) is the primary model repres
 The `Order` model and its embedded items identify the consumer and the items that make up the transaction and their prices. More specifically, a placed order is composed of the following data:
 
 - The identity of the consumer and their environment
-- One or more items, each composed of: 
+- One or more items, each composed of:
   - A SKU, quantity, and additional details to identify and price the item
   - One or more price adjustments representing granular pricing details
   - The calculated item-level price totals
@@ -43,13 +44,10 @@ order.source
 # => "storefront"
 ```
 
-Orders placed by users, admins impersonating users, and admins guest browsing will additionally store the IDs of both users as the `user_id` and `checkout_by_id`. These values are foreign keys that relate the order to `User` models. Similarly, orders placed through a web browser store the `user_activity_id`, which relates the order to a `UserActivity` model<sup><a href="#notes" id="note-1-context">[1]</a></sup>.
+Orders placed by users, admins impersonating users, and admins guest browsing will additionally store the IDs of both users as the `user_id` and `checkout_by_id`.
 
 ```
 order.user_id
-# => "5ab2b5b3eefbfe12dbb4b44b"
-
-order.user_activity_id
 # => "5ab2b5b3eefbfe12dbb4b44b"
 
 order.checkout_by_id
@@ -148,7 +146,7 @@ While the details of order pricing and price adjustments are outside the scope o
 
 ### Item Totals
 
-Additionally, each time an order is priced, the total price and value<sup><a href="#notes" id="note-2-context">[2]</a></sup> of each item are written onto the item as fields. These values provide a snapshot of the “agreed upon” price of the item, as calculated by the pricing module. The consumer can metaphorically “negotiate” this price by shopping at a different time (during a sale or promotion) or applying promo codes to the order.
+Additionally, each time an order is priced, the total price and value<sup><a href="#notes" id="note-2-context">[1]</a></sup> of each item are written onto the item as fields. These values provide a snapshot of the “agreed upon” price of the item, as calculated by the pricing module. The consumer can metaphorically “negotiate” this price by shopping at a different time (during a sale or promotion) or applying promo codes to the order.
 
 In the case of a cart, these values may change before the order is placed. The values are displayed to the consumer when viewing the cart and throughout checkout. In the case of a placed order, these represent the price at which the item sold, which may differ for another consumer purchasing the same item or the same consumer when placing a different order.
 
@@ -203,8 +201,4 @@ While the full details of pricing are outside the scope of this guide, note that
 
 ## Notes
 
-[1] User activity is an aspect of the Workarea recommendations subsystem that will be covered in more detail in future documentation.
-
-[2] Upcoming pricing documentation will describe the concept of price vs value.
-
-
+[1] Upcoming pricing documentation will describe the concept of price vs value.

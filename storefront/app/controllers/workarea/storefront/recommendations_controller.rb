@@ -1,9 +1,9 @@
 module Workarea
   class Storefront::RecommendationsController < Storefront::ApplicationController
     def show
-      fresh_when(etag: user_activity, last_modified: user_activity.updated_at)
+      fresh_when(etag: current_metrics, last_modified: current_metrics.updated_at)
       @recommendations = Storefront::PersonalizedRecommendationsViewModel.new(
-        user_activity,
+        current_metrics,
         view_model_options
       )
     end

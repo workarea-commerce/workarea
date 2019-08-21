@@ -7,6 +7,7 @@ module Workarea
 
       add_template_helper ActionView::Helpers::AssetUrlHelper
       add_template_helper Workarea::DetailsHelper
+      add_template_helper Workarea::Storefront::SchemaOrgHelper
 
       def path_to_url(path)
         protocol = Rails.application.config.force_ssl ? 'https' : 'http'

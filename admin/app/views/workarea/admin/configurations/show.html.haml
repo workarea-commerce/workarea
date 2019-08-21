@@ -1,0 +1,49 @@
+- @page_title = t('workarea.admin.configurations.show.title')
+
+.view
+  .view__header
+    .grid.grid--middle.grid--center
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to "↑ #{t('workarea.admin.configurations.show.dashboard_link')}", settings_dashboards_path, class: 'view__dashboard-button'
+          %h1.heading--no-margin= t('workarea.admin.configurations.show.title')
+          %p= t('workarea.admin.configurations.show.description')
+
+
+  .view__container.view__container--narrow{ data: { jump_to_menu: '' } }
+    = form_tag configuration_path, method: :patch do
+      - @configuration.definition.fieldsets.each do |fieldset|
+        - next if fieldset.fields.none?
+
+        .box.box--rounded
+          - unless fieldset.id == :application
+            .box__head
+              %h2.box__heading{ data: { jump_to_menu_heading: 1 }, id: fieldset.name.systemize  }= t('workarea.admin.dashboards.settings.fieldset_name', fieldset: fieldset.name)
+          .box__body.box__body--pad-top
+            - fieldset.fields.each do |field|
+              .box__section
+                .grid.grid--huge
+                  .grid__cell.grid__cell--50
+                    %strong
+                      - if field.overridden?
+                        = link_to '#overridden-field', data: { tooltip: '' } do
+                          = inline_svg('workarea/admin/icons/alert.svg', class: 'svg-icon svg-icon--small svg-icon--red', title: t('workarea.admin.configurations.show.field_overridden'))
+                      = field.name
+                    - if field.description.present?
+                      %br
+                      = field.description
+                  .grid__cell.grid__cell--50
+                    - if field.values.present?
+                      = render 'workarea/admin/configurations/types/select', field: field, value: @configuration.send(field.key)
+                    - elsif field.encrypted?
+                      = render 'workarea/admin/configurations/types/encrypted', field: field, value: @configuration.send(field.key)
+                    - else
+                      = render "workarea/admin/configurations/types/#{field.type}", field: field, value: @configuration.send(field.key)
+
+
+      .workflow-bar
+        .grid.grid--auto.grid--right.grid--middle
+          .grid__cell= button_tag t('workarea.admin.configurations.show.save'), value: 'save_configuration', class: 'workflow-bar__button workflow-bar__button--update'
+
+    = render 'workarea/admin/shared/csv_formatting_tooltip'
+    = render 'workarea/admin/configurations/overridden'

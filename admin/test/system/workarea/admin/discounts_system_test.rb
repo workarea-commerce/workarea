@@ -101,6 +101,24 @@ module Workarea
         assert(page.has_content?('444'))
         assert(page.has_content?('555'))
       end
+
+      def test_discount_redemptions
+        discount = create_category_discount
+        7.times { |i| discount.log_redemption("foo-#{i}@workarea.com") }
+        order = create_placed_order(email: 'foo-1@workarea.com')
+
+        visit admin.pricing_discount_path(discount)
+        within '.card--redemptions' do
+          assert(page.has_content?(7))
+        end
+
+        click_link t('workarea.admin.pricing_discounts.cards.redemptions.header')
+        assert(page.has_content?(7))
+        7.times { |i| assert(page.has_content?("foo-#{i}@workarea.com")) }
+
+        click_link 'foo-1@workarea.com'
+        assert(page.has_content?(order.id))
+      end
     end
   end
 end

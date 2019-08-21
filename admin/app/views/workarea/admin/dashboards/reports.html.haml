@@ -151,6 +151,19 @@
               %span.button.button--small= t('workarea.admin.dashboards.reports.view_full_report')
 
       .grid__cell
+        .card{ class: card_classes(:sales_by_country_report, local_assigns[:active]) }
+          = link_to sales_by_tender_report_path, class: 'card__header' do
+            %span.card__header-text= t('workarea.admin.reports.sales_by_tender.title')
+            = inline_svg 'workarea/admin/icons/insights.svg', class: 'card__icon'
+
+          .card__body
+            .card__centered-content
+              = column_chart @dashboard.tender_graph_data, Workarea.config.default_chartkick_options.merge(prefix: Money.default_currency.symbol)
+
+            = link_to sales_by_tender_report_path, class: 'card__button' do
+              %span.button.button--small= t('workarea.admin.dashboards.reports.view_full_report')
+
+      .grid__cell
         .card{ class: card_classes(:customers_report, local_assigns[:active]) }
           = link_to customers_report_path, class: 'card__header' do
             %span.card__header-text= t('workarea.admin.reports.customers.title')
@@ -215,6 +228,24 @@
                       %td.align-right= result.available
 
             = link_to low_inventory_report_path, class: 'card__button' do
+              %span.button.button--small= t('workarea.admin.dashboards.reports.view_full_report')
+
+      .grid__cell
+        .card{ class: card_classes(:timeline_report, local_assigns[:active]) }
+          = link_to timeline_report_path, class: 'card__header' do
+            %span.card__header-text= t('workarea.admin.reports.timeline.title')
+            = inline_svg 'workarea/admin/icons/insights.svg', class: 'card__icon'
+
+          .card__body
+            .card__centered-content
+              %p= t('workarea.admin.reports.timeline.summary.intro_html', count: @dashboard.timeline.summary[:releases])
+              %ul
+                %li= t('workarea.admin.reports.timeline.summary.revenue_html', revenue: number_to_currency(@dashboard.timeline.summary[:revenue]))
+                %li= t('workarea.admin.reports.timeline.summary.orders_html', orders: @dashboard.timeline.summary[:orders])
+                %li= t('workarea.admin.reports.timeline.summary.units_sold_html', units_sold: @dashboard.timeline.summary[:units_sold])
+                %li= t('workarea.admin.reports.timeline.summary.customers_html', customers: @dashboard.timeline.summary[:customers])
+
+            = link_to timeline_report_path(starts_at: 3.months.ago), class: 'card__button' do
               %span.button.button--small= t('workarea.admin.dashboards.reports.view_full_report')
 
       = append_partials('admin.reports_dashboard', dashboard: @dashboard)

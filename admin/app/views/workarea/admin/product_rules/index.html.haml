@@ -3,6 +3,8 @@
 .comments.view
   .view__header
     .grid.grid--middle.grid--right
+      .grid__cell.grid__cell--25
+        = render 'workarea/admin/releases/select'
       .grid__cell.grid__cell--50
         .view__heading
           = link_to_index_for(@product_list)

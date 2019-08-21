@@ -73,6 +73,7 @@
               %th= t('workarea.admin.fields.sku')
               %th.align-center= t('workarea.admin.fields.orders')
               %th.align-center= t('workarea.admin.fields.units_sold')
+              %th.align-center= t('workarea.admin.fields.units_canceled')
               %th.align-right= t('workarea.admin.fields.revenue')
           %tbody
             - @product.insights.skus.each do |sku|
@@ -80,6 +81,7 @@
                 %td= sku._id
                 %td.align-center= number_with_delimiter sku.orders
                 %td.align-center= number_with_delimiter sku.units_sold
+                %td.align-center= number_with_delimiter sku.units_canceled
                 %td.align-right= number_to_currency sku.revenue
 
     - if @product.insights.feed.any?

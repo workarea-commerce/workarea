@@ -65,7 +65,7 @@ module Workarea
     end
 
     def tenders
-      Workarea.config.tender_types.map do |type|
+      Workarea.config.tender_types.flat_map do |type|
         send(type)
       end.compact
     end

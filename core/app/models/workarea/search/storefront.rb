@@ -21,7 +21,8 @@ module Workarea
       end
 
       def id
-        CGI.escape("#{type}-#{model.id}")
+        pieces = [type, model.id, model.try(:release_id)].reject(&:blank?)
+        CGI.escape(pieces.join('-'))
       end
 
       def type
@@ -32,15 +33,24 @@ module Workarea
         model.slug
       end
 
+      def release_id
+        model.try(:release_id).presence || 'live'
+      end
+
       # Whether the product is active for a given release state. Storing
       # active per-release allows accurate previewing of products in releases
       # on the storefront.
+      #
+      # TODO this is completely unnecessary now that we are storing a document
+      # per-release. Left in for upgrades for now.
       #
       # return [Hash]
       #
       def active
         model.changesets.inject(now: model.active?) do |memo, changeset|
-          active = if changeset.changeset['active'].respond_to?(:[])
+          active = if !changeset.changeset.key?('active')
+            model.active?
+          elsif changeset.changeset['active'].respond_to?(:[])
             changeset.changeset['active'][I18n.locale]
           else
             !!changeset.changeset['active']
@@ -80,21 +90,25 @@ module Workarea
       end
 
       def as_document
-        {
-          id: id,
-          type: type,
-          slug: slug,
-          active: active,
-          suggestion_content: suggestion_content,
-          created_at: model.created_at,
-          updated_at: model.updated_at,
-          facets: facets,
-          numeric: numeric,
-          keywords: keywords,
-          sorts: sorts,
-          content: content,
-          cache: cache
-        }
+        Release.with_current(release_id) do
+          {
+            id: id,
+            type: type,
+            slug: slug,
+            active: active,
+            release_id: release_id,
+            changeset_release_ids: Array.wrap(model.try(:changesets)).map(&:release_id),
+            suggestion_content: suggestion_content,
+            created_at: model.created_at,
+            updated_at: model.updated_at,
+            facets: facets,
+            numeric: numeric,
+            keywords: keywords,
+            sorts: sorts,
+            content: content,
+            cache: cache
+          }
+        end
       end
     end
   end

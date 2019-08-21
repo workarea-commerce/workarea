@@ -31,6 +31,7 @@
             %th= t('workarea.admin.fields.sku')
             %th= t('workarea.admin.fields.display_name')
             %th= t('workarea.admin.fields.options')
+            %th= t('workarea.admin.fields.fulfillment')
             %th.align-center= t('workarea.admin.fields.inventory')
             %th.align-right= t('workarea.admin.fields.pricing')
             %th
@@ -41,6 +42,7 @@
               %td= link_to variant.sku, edit_catalog_product_variant_path(@product, variant)
               %td= variant.name
               %td= format_variant_options(variant.details)
+              %td= link_to variant.fulfillment_policy, fulfillment_sku_path(variant.sku)
               %td.align-center
                 = link_to inventory_sku_path(variant.sku) do
                   = variant.available_inventory

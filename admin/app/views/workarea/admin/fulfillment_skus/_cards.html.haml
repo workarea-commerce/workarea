@@ -1,0 +1,57 @@
+.grid.grid--auto.grid--flush.grid--center
+  .grid__cell
+    .card{ class: card_classes(:attributes, local_assigns[:active]) }
+      = link_to edit_fulfillment_sku_path(model), class: 'card__header' do
+        %span.card__header-text= t('workarea.admin.cards.attributes.title')
+        = inline_svg 'workarea/admin/icons/attributes.svg', class: 'card__icon'
+
+      - if local_assigns[:active].blank?
+        .card__body
+          %ul.list-reset
+            %li
+              %strong= t('workarea.admin.fields.policy')
+              = model.policy.titleize.presence
+            %li
+              %strong= t('workarea.admin.fields.file')
+              = model.download? ? model.file_name : t('workarea.admin.application_helper.not_applicable')
+            %li
+              %strong= t('workarea.admin.fields.updated_at')
+              #{local_time_ago(model.updated_at)}
+            %li
+              %strong= t('workarea.admin.fields.created_at')
+              #{local_time_ago(model.created_at)}
+          = link_to edit_fulfillment_sku_path(model), class: 'card__button' do
+            %span.button.button--small= t('workarea.admin.cards.attributes.button')
+
+  .grid__cell
+    .card{ class: card_classes(:tokens, local_assigns[:active]) }
+      = link_to fulfillment_sku_tokens_path(model), class: 'card__header' do
+        %span.card__header-text= t('workarea.admin.fulfillment_tokens.card.header')
+        = inline_svg 'workarea/admin/icons/variants.svg', class: 'card__icon'
+
+      - if local_assigns[:active].blank?
+        .card__body
+          - if model.downloadable?
+            .grid
+              .grid__cell.align-center
+                %span.heading.heading--1.heading--no-margin.align-center
+                  #{number_with_delimiter model.tokens.size}
+                %p.align-center
+                  = t('workarea.admin.fulfillment_tokens.card.pluralize', count: model.tokens.size)
+
+              .grid__cell.align-center
+                %span.heading.heading--1.heading--no-margin.align-center
+                  #{number_with_delimiter model.tokens.sum(&:downloads)}
+                %p.align-center
+                  = t('workarea.admin.fulfillment_tokens.card.download_pluralize', count: model.tokens.sum(&:downloads))
+
+          - else
+            %p= t('workarea.admin.fulfillment_tokens.card.not_available')
+
+          = link_to fulfillment_sku_tokens_path(model), class: 'card__button' do
+            %span.button.button--small= t('workarea.admin.fulfillment_tokens.card.button')
+
+  = append_partials('admin.fulfillment_sku_cards', model: model, active: local_assigns[:active])
+
+  .grid__cell
+    = render 'workarea/admin/timeline/card', timeline: model.timeline, active: local_assigns[:active]

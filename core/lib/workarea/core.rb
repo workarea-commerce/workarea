@@ -106,6 +106,7 @@ require 'dragonfly/s3_data_store'
 require 'serviceworker-rails'
 require 'chartkick'
 require 'logstasher' if ENV['WORKAREA_LOGSTASH'] =~ /true/i
+require 'mongoid/encrypted'
 
 #
 # Extensions
@@ -126,12 +127,15 @@ require 'workarea/ext/freedom_patches/country'
 require 'workarea/ext/freedom_patches/net_http_ssl_connection'
 require 'workarea/ext/freedom_patches/dragonfly_job_fetch_url'
 require 'workarea/ext/freedom_patches/dragonfly_callable_url_host'
+require 'workarea/ext/freedom_patches/active_support_duration'
+require 'workarea/ext/freedom_patches/premailer'
 require 'workarea/ext/mongoid/list_field'
 require 'workarea/ext/mongoid/each_by'
 require 'workarea/ext/mongoid/except'
 require 'workarea/ext/mongoid/moped_bson'
 require 'workarea/ext/mongoid/timestamps_timeless'
 require 'workarea/ext/mongoid/error'
+require 'workarea/ext/mongoid/lookup_hash'
 require 'workarea/ext/active_shipping/workarea'
 require 'workarea/ext/mongoid/audit_log_entry.decorator'
 require 'workarea/ext/mongoid/find_ordered'
@@ -153,6 +157,10 @@ end
 #
 
 require 'workarea/configuration'
+require 'workarea/configuration/administrable/field'
+require 'workarea/configuration/administrable/fieldset'
+require 'workarea/configuration/administrable/definition'
+require 'workarea/configuration/administrable_options'
 require 'workarea/configuration/mongoid_client'
 require 'workarea/configuration/mongoid'
 require 'workarea/configuration/elasticsearch'
@@ -167,7 +175,7 @@ require 'workarea/configuration/action_mailer'
 require 'workarea/configuration/logstasher'
 require 'workarea/configuration/error_handling'
 require 'workarea/configuration/i18n'
-require 'workarea/configuration/headless_chrome'
+require 'workarea/configuration/session'
 require 'workarea/elasticsearch/index'
 require 'workarea/elasticsearch/document'
 require 'workarea/elasticsearch/query_cache'
@@ -206,6 +214,8 @@ require 'workarea/cache'
 require 'workarea/scheduled_jobs'
 require 'workarea/string_id'
 require 'workarea/mail_interceptor'
+require 'workarea/visit'
+require 'workarea/warnings'
 
 #
 # Core

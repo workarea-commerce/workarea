@@ -1,5 +1,6 @@
 ---
 title: Views
+created_at: 2018/09/17
 excerpt: Workarea views are written in Haml, but are otherwise no different from vanilla Rails views.
 ---
 

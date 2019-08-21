@@ -34,6 +34,10 @@ module Workarea
       new(I18n.t('workarea.sorts.end'),               :end,           :active_ends_at,        :desc)
     end
 
+    def self.downloads
+      new(I18n.t('workarea.sorts.downloads'),        :downloads,     :downloads,              :desc)
+    end
+
     def self.last_updated
       new(I18n.t('workarea.sorts.last_updated'),      :last_updated,  :updated_at,            :desc)
     end
@@ -146,8 +150,16 @@ module Workarea
       new(I18n.t('workarea.sorts.published_date'),    :published_date, :published_at,         :desc)
     end
 
-    def self.undo_date
-      new(I18n.t('workarea.sorts.undo_date'),         :undo_date,     :undo_at,               :asc)
+    def self.country
+      new(I18n.t('workarea.sorts.country'),           :country, :country,       :asc)
+    end
+
+    def self.postal_code
+      new(I18n.t('workarea.sorts.postal_code'),       :postal_code, :postal_code,   :asc)
+    end
+
+    def self.region
+      new(I18n.t('workarea.sorts.region'),            :region, :region,        :asc)
     end
   end
 end

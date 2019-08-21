@@ -59,6 +59,20 @@ module Workarea
         @insights = InsightViewModel.wrap(models, view_model_options)
       end
 
+      def send_password_reset
+        password_reset = User::PasswordReset.create!(user: @user.model)
+        Storefront::AccountMailer.password_reset(password_reset.id.to_s).deliver_later
+
+        flash[:success] = t('workarea.admin.users.flash_messages.password_reset')
+        redirect_to user_path(@user)
+      end
+
+      def unlock
+        @user.unlock_login!
+        flash[:success] = t('workarea.admin.users.flash_messages.unlocked')
+        redirect_to user_path(@user)
+      end
+
       private
 
       def update_email_signup

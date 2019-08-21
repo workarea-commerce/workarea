@@ -25,7 +25,7 @@ module Workarea
       #
       def search
         @search ||= Search::CategoryBrowse.new(
-          rules: model.product_rules.select(&:valid?),
+          rules: model.product_rules.usable,
           sort: model.default_sort,
           page: options[:page] || 1,
           show_all: show_all?
@@ -52,7 +52,7 @@ module Workarea
       end
 
       def display_results?
-        model.product_rules.select(&:valid?).present?
+        model.product_rules.usable.present?
       end
 
       def base_query

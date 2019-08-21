@@ -1,5 +1,6 @@
 ---
 title: Documentation Style Guide
+created_at: 2018/07/31
 excerpt: Documentation contributions should uphold the following style rules
 ---
 

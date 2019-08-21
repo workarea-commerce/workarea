@@ -2,12 +2,12 @@
   .grid__cell.grid__cell--60-at-medium
 
     .product-details__name
-      %h1.product-details__heading{ itemprop: 'name' }= product.name
+      %h1.product-details__heading= product.name
 
       %p.product-details__id
-        %span{ itemprop: 'productID' }= product.id
+        %span= product.id
 
-    .product-prices.product-prices--details{ itemprop: 'offers', itemscope: true, itemtype: 'http://schema.org/Offer' }
+    .product-prices.product-prices--details
       = render 'workarea/storefront/products/pricing', product: product
 
     - if product.description.present?
@@ -50,13 +50,13 @@
 
     = append_partials('storefront.product_details', product: product)
 
-    %p.product-details__full-details=link_to t('workarea.storefront.products.view_full_details'), product_path(product, color: params[:color]), class: 'text-button', itemprop: 'url'
+    %p.product-details__full-details=link_to t('workarea.storefront.products.view_full_details'), product_path(product, color: params[:color]), class: 'text-button'
 
   .grid__cell.grid__cell--40-at-medium
 
     .product-details__primary-image
       = link_to(product_image_url(product.primary_image, :zoom), target: '_blank', rel: 'noopener', class: 'product-details__primary-image-link', style: intrinsic_ratio_product_image_styles(product.primary_image), data: { dialog_button: '' }) do
-        = image_tag product_image_url(product.primary_image, :detail), alt: t('workarea.storefront.products.image_alt_attribute', name: product.name), itemprop: 'image', class: 'product-details__primary-image-link-image'
+        = image_tag product_image_url(product.primary_image, :detail), alt: t('workarea.storefront.products.image_alt_attribute', name: product.name), class: 'product-details__primary-image-link-image'
 
     - if product.images.length > 1
       .product-details__alt-images

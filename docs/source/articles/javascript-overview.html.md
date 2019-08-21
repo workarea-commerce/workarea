@@ -1,5 +1,6 @@
 ---
 title: JavaScript Overview
+created_at: 2018/07/31
 excerpt: A new Workarea application includes no JavaScript of its own. Create one to see for yourself. However, the Workarea platform adds an Admin and a Storefront to the application, and each of those includes its own JavaScript files that are fully custom
 ---
 

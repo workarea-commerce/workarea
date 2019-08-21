@@ -12,7 +12,7 @@ insert_final_newline = true
 indent_size = 2
 indent_style = space
 
-[{*.js,*.jst,*.ejs,*.scss}]
+[{*.js,*.jst,*.ejs,*.scss,*.js.erb}]
 indent_size = 4
 
 [*.md]

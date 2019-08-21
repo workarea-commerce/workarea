@@ -1,5 +1,6 @@
 ---
 title: Releasable
+created_at: 2018/07/31
 excerpt: A releasable is an application document that includes the Workarea::Releasable module, and thereby has a boolean active field and many changesets (Workarea::Release::Changeset).
 ---
 

@@ -8,12 +8,15 @@ module Workarea
       def test_managing_featured_products
         create_product(name: 'Foo')
         create_product(name: 'Bar')
+        create_product(name: 'Baz', active: false)
         category = create_category
         visit admin.catalog_category_path(category)
 
         click_link t('workarea.admin.catalog_categories.cards.featured_products.title')
         assert(page.has_content?('Foo'))
         assert(page.has_content?('Bar'))
+        assert(page.has_content?('Baz'))
+        assert(page.has_content?(t('workarea.admin.featured_products.statuses.inactive')))
 
         click_link 'Foo'
         assert(page.has_content?('Success'))

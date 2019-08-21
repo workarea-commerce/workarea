@@ -101,6 +101,37 @@ module Workarea
         assert(import.failure?)
         refute(import.successful?)
       end
+
+      def test_successful_process_for_a_release
+        sample = create_product(name: 'Test Product')
+        sample.name = 'Test Product Changed'
+        file = create_tempfile([sample].to_json, extension: 'json')
+        release = create_release
+
+        import = create_import(
+          model_type: Workarea::Catalog::Product,
+          file: file,
+          release_id: release.id
+        )
+
+        assert_equal('json', import.file_type)
+        assert_nothing_raised { import.process! }
+
+        sample.reload
+        assert_equal('Test Product', sample.name)
+
+        Release.with_current(release) do
+          assert_equal('Test Product Changed', sample.reload.name)
+        end
+
+        import.reload
+        assert_equal(1, import.total)
+        assert_equal(1, import.succeeded)
+        assert_equal(0, import.failed)
+        assert(import.complete?)
+        refute(import.error?)
+        assert(import.successful?)
+      end
     end
   end
 end

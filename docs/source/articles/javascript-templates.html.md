@@ -1,5 +1,6 @@
 ---
 title: JavaScript Templates
+created_at: 2018/07/31
 excerpt: Templates are client-side view files used to generate HTML strings for use within modules.
 ---
 
@@ -40,6 +41,7 @@ The Workarea platform uses the `inline_svg` Rails helper for the Admin's WYSIWYG
 
   <a class='wysiwyg__toolbar-button' data-wysihtml-command='bold'>
     #{ inline_svg('workarea/admin/icons/wysiwyg/bold.svg', class: 'wysiwyg__toolbar-button-icon svg-icon', title: I18n.t('workarea.admin.js.wysiwyg.bold')) }
+created_at: 2018/07/31
   </a>
 
   ...

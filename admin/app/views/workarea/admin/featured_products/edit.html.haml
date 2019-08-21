@@ -26,15 +26,13 @@
 
       %p.align-center= link_to '← ' + t('workarea.admin.featured_products.edit.browse_link'), select_featured_product_path(@featurable.to_global_id)
 
-      = render 'workarea/admin/featured_products/release_preview_warning'
-
       = form_tag featured_product_path(@featurable.to_global_id), method: 'patch' do
         .section
           .product-rules-preview__products
             .grid.grid--auto.grid--flush.grid--center{ data: { featured_products_sort: true } }
               - @featurable.featured_products.each do |product|
                 .grid__cell
-                  .product-summary
+                  .product-summary{ class: summary_inventory_status_css_classes(product) }
                     = hidden_field_tag 'product_ids[]', product.id, id: nil
                     .product-summary__media
                       .product-summary__image-wrapper
@@ -44,3 +42,5 @@
                     %span.product-summary__graph
                       %span.spark{ title: t('workarea.admin.catalog_categories.cards.featured_products.sparkline_title') }
                         {#{sparkline_analytics_data_for(product.insights.orders_sparkline).join(',')}}
+                    - if product.inventory_message.present?
+                      .product-summary__status= product.inventory_message

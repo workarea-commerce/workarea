@@ -41,6 +41,8 @@ module Workarea
       @settings = configuration.reject do |key, _value|
         Workarea.config.hide_from_settings.include?(key)
       end
+
+      @configuration = Configuration::Admin.instance
     end
 
     # Override to provide permissions per-dashboard

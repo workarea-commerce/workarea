@@ -63,6 +63,8 @@
                   - item.customizations.each do |name, value|
                     #{name.titleize}: #{value}
                     %br
+                  - if item.token&.enabled?
+                    = link_to t('workarea.storefront.orders.download'), download_path(item.token)
                   = append_partials('storefront.order_summary_item_details', item: item)
 
         .grid__cell.grid__cell--25-at-medium
@@ -259,8 +261,9 @@
         .recommendations__products
           .grid
             - recommendations.each do |product|
+              = render_schema_org(product_schema(product))
               .grid__cell.grid__cell--50.grid__cell--33-at-medium.grid__cell--16-at-wide
-                .product-summary.product-summary--small{ itemscope: true, itemtype: 'http://schema.org/Product' }
+                .product-summary.product-summary--small
                   = render 'workarea/storefront/products/summary', product: product
 
   %ul.order-help-menu

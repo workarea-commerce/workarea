@@ -1,5 +1,6 @@
 ---
 title: Add a Content Area
+created_at: 2018/08/07
 excerpt: In this guide, I outline the steps for adding an additional content area and displaying it within the Storefront. My examples will use the Layout content instance. For context, search for this system page in the Admin and then choose to edit its conte
 ---
 

@@ -1,5 +1,6 @@
 ---
 title: Contentable
+created_at: 2018/07/31
 excerpt: A contentable is an application document that includes the Workarea::Contentable module, and thereby has a 1:1 relationship with a content.
 ---
 

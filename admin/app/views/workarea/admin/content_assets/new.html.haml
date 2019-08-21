@@ -22,9 +22,16 @@
           = label_tag 'asset_name', t('workarea.admin.fields.name'), class: 'property__name'
           = text_field_tag 'asset[name]', @asset.name, class: 'text-box'
 
-        .property
-          = label_tag 'asset[file]', t('workarea.admin.fields.file'), class: 'property__name'
-          = file_field_tag 'asset[file]', required: true
+        .grid
+          .grid__cell.grid__cell--50-at-medium
+            .property
+              = label_tag 'asset[file]', t('workarea.admin.fields.file'), class: 'property__name'
+              = file_field_tag 'asset[file]', required: true
+          .grid__cell.grid__cell--50-at-medium
+            .property
+              = label_tag 'asset[alt_text]', t('workarea.admin.fields.alt_text'), class: 'property__name'
+              = text_field_tag 'asset[alt_text]', @asset.alt_text, class: 'text-box'
+              %span.property__note= t('workarea.admin.content_assets.new.alt_text_note')
 
         .property
           = label_tag 'asset_tag_list', t('workarea.admin.fields.tags'), class: 'property__name'

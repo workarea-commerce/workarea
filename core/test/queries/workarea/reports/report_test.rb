@@ -76,13 +76,11 @@ module Workarea
       end
 
       def test_results
-        Workarea.with_config do |config|
-          config.reports_max_results = 1
-          report = TestReport.new
+        Workarea.config.reports_max_results = 1
+        report = TestReport.new
 
-          assert_equal(1, report.count)
-          assert_equal(1, report.results.size)
-        end
+        assert_equal(1, report.count)
+        assert_equal(1, report.results.size)
       end
 
       def test_cache_key

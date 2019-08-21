@@ -1,5 +1,6 @@
 ---
 title: Overriding
+created_at: 2018/08/07
 excerpt: Overriding is a UI extension technique where an application replaces views and assets from the platform with its own customized copies of the files. The replacement files—called overrides—allow HTML, CSS, and JavaScript sent to the browser to be exten
 ---
 

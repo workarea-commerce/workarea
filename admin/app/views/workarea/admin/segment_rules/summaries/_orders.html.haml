@@ -1,0 +1,6 @@
+%span
+  - minimum = rule.minimum.presence || 0
+  - if minimum == rule.maximum
+    = t('workarea.admin.segment_rules.summaries.orders.single_value_description_html', count: minimum)
+  - else
+    = t('workarea.admin.segment_rules.summaries.orders.description_html', minimum: minimum, maximum: rule.maximum.presence || '∞')

@@ -134,6 +134,24 @@ module Workarea
         active? && inventory.any?(&:displayable?)
       end
 
+      def inventory_message
+        @inventory_message ||=
+          if !active?
+            t('workarea.admin.featured_products.statuses.inactive')
+          elsif inventory.backordered?
+            t('workarea.admin.featured_products.statuses.backordered')
+          elsif inventory.out_of_stock?
+            t('workarea.admin.featured_products.statuses.out_of_stock')
+          elsif inventory.low_inventory?
+            t(
+              'workarea.admin.featured_products.statuses.low_inventory',
+              count: inventory.available_to_sell
+            )
+          else
+            ''
+          end
+      end
+
       private
 
       def default_customization_options

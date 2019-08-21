@@ -98,55 +98,6 @@ module Workarea
         assert(classes.include?('calendar__day--today'))
         assert_equal(start_of_week, classes.include?('calendar__day--start-of-week'))
       end
-
-      def test_calendar_release_classes
-        today = Time.zone.today
-        day = today.strftime('%Y-%m-%d')
-
-        release = create_release({ published_at: today })
-        view_model = ReleaseViewModel.new(release)
-
-        classes = calendar_release_classes(day, view_model)
-
-        assert(classes.include?('calendar__release'))
-        assert(classes.include?('calendar__release--start'))
-        assert(classes.include?('calendar__release--end'))
-        assert(classes.include?('calendar__release--content'))
-
-        today = Time.zone.today
-        day = today.strftime('%Y-%m-%d')
-
-        release = create_release({ published_at: today, undo_at: today + 1.day })
-        view_model = ReleaseViewModel.new(release)
-
-        classes = calendar_release_classes(day, view_model)
-
-        assert(classes.include?('calendar__release'))
-        assert(classes.include?('calendar__release--start'))
-        refute(classes.include?('calendar__release--end'))
-        refute(classes.include?('calendar__release--content'))
-      end
-
-      def test_calendar_release_styles
-        release = ReleaseViewModel.new(create_release(published_at: Time.zone.today))
-
-        assert_nil(calendar_release_styles(release))
-
-        dark_release = ReleaseViewModel.new(create_release(
-          name: "Foo",
-          published_at: Time.zone.today,
-          undo_at: Time.zone.today + 1.day
-        ))
-
-        light_release = ReleaseViewModel.new(create_release(
-          name: "Bar",
-          published_at: Time.zone.today + 1.week,
-          undo_at: Time.zone.today + 2.weeks
-        ))
-
-        assert_match(/; color: #ffffff/, calendar_release_styles(dark_release))
-        assert_match(/; color: #000000/, calendar_release_styles(light_release))
-      end
     end
   end
 end

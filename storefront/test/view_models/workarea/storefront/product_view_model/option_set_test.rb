@@ -315,14 +315,13 @@ module Workarea
             ]
           )
 
-          Workarea.with_config do |config|
-            config.option_selections_sort = ->(p, o) { o.sort_by(&:name) }
-            set = OptionSet.new(product)
-            assert_equal(
-              %w(color material size),
-              set.options_for_selection.map(&:slug)
-            )
-          end
+          Workarea.config.option_selections_sort = ->(p, o) { o.sort_by(&:name) }
+
+          set = OptionSet.new(product)
+          assert_equal(
+            %w(color material size),
+            set.options_for_selection.map(&:slug)
+          )
         end
 
         def test_not_losing_formatting_with_titleize

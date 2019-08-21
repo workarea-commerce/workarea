@@ -47,9 +47,18 @@ $activity-avatar-size:  32px !default;
             clear: both;
             display: block;
             color: $activity-time-color;
-            font-size: 0.8rem;
-            margin-left: $activity-avatar-size + $spacing-unit;
-            margin-bottom: $spacing-unit;
+
+            .card & {
+                display: block;
+                font-size: 0.8rem;
+                margin-left: $activity-avatar-size + $spacing-unit;
+                margin-bottom: $spacing-unit;
+            }
+
+            time { // injected via JS
+                display: inline-block;
+                vertical-align: middle;
+            }
         }
 
         .activity__actions {

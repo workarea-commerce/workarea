@@ -44,6 +44,16 @@ module Workarea
       end
     end
 
+    def test_scheduled
+      blank = create_release(publish_at: nil)
+      first = create_release(publish_at: 1.day.from_now)
+      second = create_release(publish_at: 2.days.from_now)
+      third = create_release(publish_at: 3.days.from_now)
+
+      assert_equal([first, second, third], Release.scheduled.desc(:publish_at))
+      assert_equal([first], Release.scheduled(before: 2.days.from_now))
+    end
+
     def test_unscheduled_does_not_return_scheduled_or_published_releases
       create_release(publish_at: Time.current + 1.week, published_at: nil)
       create_release(publish_at: nil, published_at: Time.current - 1.week)
@@ -100,55 +110,22 @@ module Workarea
       assert_equal([release_1, release_2, release_3], result)
     end
 
-    def test_undone_within_includes_releases_within_a_specified_range
-      create_release(publish_at: 1.month.from_now, undo_at: 2.months.from_now)
-      release_2 = create_release(publish_at: 1.day.from_now, undo_at: 1.day.from_now)
+    def test_sort_by_publish
+      first = create_release(publish_at: 1.day.from_now)
+      second = create_release(publish_at: 2.days.from_now)
+      third = create_release(publish_at: 3.days.from_now)
 
-      result = Release.undone_within(Time.current, 2.days.from_now)
-      assert_equal([release_2], result)
-    end
+      assert_equal([first, second, third], Release.all.sort_by_publish)
 
-    def test_is_sorted_by_undone_undo_time
-      release_3 = create_release(published_at: 1.hour.ago, undo_at: 1.hour.from_now)
-      release_2 = create_release(published_at: 2.days.ago, undone_at: 1.day.ago)
-      release_1 = create_release(published_at: 1.week.ago, undone_at: 2.days.ago)
-
-      result = Release.undone_within(3.days.ago, 3.days.from_now)
-      assert_equal([release_1, release_2, release_3], result)
+      fourth = create_release(publish_at: first.publish_at)
+      assert_equal([first, fourth, second, third], Release.all.sort_by_publish)
     end
 
     def test_publish_sets_publish_at_to_nil
-      release = create_release(
-        publish_at: 1.week.from_now,
-        undone_at: 1.week.ago
-      )
+      release = create_release(publish_at: 1.week.from_now)
       release.publish!
       release.reload
       assert(release.publish_at.blank?)
-    end
-
-    def test_publish_sets_undone_at_to_nil
-      release = create_release(
-        publish_at: 1.week.from_now,
-        undone_at: 1.week.ago
-      )
-      release.publish!
-      release.reload
-      assert(release.undone_at.blank?)
-    end
-
-    def test_undo_sets_undo_at_to_nil_if_in_the_future
-      release = create_release(undo_at: 1.week.from_now)
-      release.undo!
-      release.reload
-      assert(release.undo_at.blank?)
-    end
-
-    def test_undo_sets_undone_at
-      release = create_release
-      release.undo!
-      release.reload
-      assert(release.undone_at.present?)
     end
 
     def test_scheduled
@@ -183,105 +160,62 @@ module Workarea
       assert(release.published?)
     end
 
-    def test_cannot_undo_without_scheduled_publish
-      release = Release.new(name: 'Foo', undo_at: 2.hours.from_now)
+    def test_scheduled_before
+      one_week_from_now = 1.week.from_now
 
-      refute(release.valid?, 'Release is valid with no publish date')
-      assert_includes(release.errors.full_messages.to_sentence, I18n.t('workarea.errors.messages.undo_unpublished_release'))
+      one = create_release(publish_at: one_week_from_now)
+      two = create_release(publish_at: nil)
+      three = create_release(publish_at: 8.days.from_now)
+      four = create_release(publish_at: 6.days.from_now)
+      five = create_release(publish_at: one_week_from_now)
+      six = create_release(publish_at: 4.days.from_now)
 
-      release.publish_at = 1.hour.from_now
-
-      assert(release.valid?)
-      assert(release.save!)
-
-      release.publish_at = nil
-      release.published_at = 1.hour.ago
-
-      assert(release.save!)
-
-      release.published_at = nil
-
-      refute(release.valid?)
-      assert_includes(release.errors.full_messages.to_sentence, I18n.t('workarea.errors.messages.undo_unpublished_release'))
-    end
-  end
-
-  class ReleaseJobsTest < TestCase
-    setup :setup_sidekiq
-    teardown :teardown_sidekiq
-
-    def setup_sidekiq
-      Sidekiq::Testing.disable!
-
-      @scheduled_set = Sidekiq::ScheduledSet.new
-      @scheduled_set.clear
+      assert_equal([six, four, five], one.scheduled_before)
+      assert_equal([], two.scheduled_before)
+      assert_equal([six, four, one, five], three.scheduled_before)
+      assert_equal([six], four.scheduled_before)
+      assert_equal([six, four, one], five.scheduled_before)
+      assert_equal([], six.scheduled_before)
     end
 
-    def teardown_sidekiq
-      Sidekiq::Testing.inline!
+    def test_scheduled_after
+      one_week_from_now = 1.week.from_now
+
+      one = create_release(name: '1', publish_at: one_week_from_now)
+      two = create_release(name: '2', publish_at: nil)
+      three = create_release(name: '3', publish_at: 8.days.from_now)
+      four = create_release(name: '4', publish_at: 6.days.from_now)
+      five = create_release(name: '5', publish_at: one_week_from_now)
+      six = create_release(name: '6', publish_at: 4.days.from_now)
+
+      assert_equal([five, three], one.scheduled_after)
+      assert_equal([], two.scheduled_after)
+      assert_equal([], three.scheduled_after)
+      assert_equal([one, five, three], four.scheduled_after)
+      assert_equal([one, three], five.scheduled_after)
+      assert_equal([four, one, five, three], six.scheduled_after)
     end
 
-    def test_save_updates_the_publish_job
+    def test_previous
       release = create_release
-      release.publish_at = Time.current + 1.month
+      assert_nil(release.previous)
 
-      release.save
-      release.reload
+      release.update_attributes!(publish_at: 1.week.from_now)
+      assert_nil(release.previous)
 
-      assert(release.publish_job_id.present?)
+      first = create_release(publish_at: 1.day.from_now)
+      assert_equal(first, release.previous)
+
+      third = create_release(publish_at: 2.days.from_now)
+      assert_equal(third, release.previous)
     end
 
-    def test_save_does_not_save_the_publish_job_id_when_not_changing_publish_date
+    def test_build_undo
       release = create_release
-      assert(release.publish_job_id.blank?)
-      assert_equal(0, @scheduled_set.size)
-    end
-
-    def test_removing_publish_at_removes_job
-      release = create_release(publish_at: 1.week.from_now)
-      assert(release.publish_job_id.present?)
-      assert_equal(1, @scheduled_set.size)
-
-      release.update_attributes!(publish_at: nil)
-      release.reload
-      assert(release.publish_job_id.blank?)
-      assert_equal(0, @scheduled_set.size)
-    end
-
-    def test_save_updates_the_undo_job
-      release = create_release(publish_at: 2.weeks.from_now, undo_at: 1.month.from_now)
-
-      assert(release.undo_job_id.present?)
-    end
-
-    def test_save_does_not_save_the_undo_job_id_when_not_changing_undo_date
-      release = create_release
-      release.save
-      assert(release.undo_job_id.blank?)
-      assert_equal(0, @scheduled_set.size)
-    end
-
-    def test_removing_undo_at_removes_job
-      release = create_release(publish_at: 1.week.from_now, undo_at: 2.weeks.from_now)
-      assert(release.undo_job_id.present?)
-      assert_equal(2, @scheduled_set.size)
-
-      release.update_attributes!(undo_at: nil)
-      release.reload
-      assert(release.undo_job_id.blank?)
-      assert_equal(1, @scheduled_set.size)
-    end
-
-    def test_destroy_deletes_the_publish_job
-      release = create_release(publish_job_id: '1234')
-      release.destroy
-      assert_equal(0, @scheduled_set.size)
-    end
-
-    def test_destroy_deletes_the_undo_job
-      release = create_release(undo_job_id: '1234')
-      release.destroy
-      assert_equal(0, @scheduled_set.size)
+      undo = release.build_undo
+      assert(undo.name.present?)
+      assert_equal(undo, release.undo)
+      assert_equal(release, undo.undoes)
     end
   end
 end

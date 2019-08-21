@@ -1,0 +1,41 @@
+- @page_title = t('workarea.admin.segments.edit.page_title', name: @segment.name)
+
+.segment.view
+  .view__header
+    .grid.grid--center
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@segment)
+          %h1= link_to @segment.name, url_for(@segment)
+
+  .view__container
+    = render_cards_for(@segment, :attributes)
+
+  .view__container.view__container--narrow
+    - @segment.errors.full_messages.each do |message|
+      = render_message 'error', message
+
+    = form_tag segment_path(@segment), method: 'patch', data: { unsaved_changes: '' } do
+      .section
+        .property.property--required
+          = label_tag 'segment[name]', t('workarea.admin.fields.name'), class: 'property__name'
+          = text_field_tag 'segment[name]', @segment.name, class: 'text-box', required: true
+
+        .property
+          = label_tag 'segment_tag_list', t('workarea.admin.fields.tags'), class: 'property__name'
+          = text_field_tag  'segment[tag_list]', @segment.tag_list, class: 'text-box'
+          %span.property__note= t('workarea.admin.form.csv_field_note')
+
+        .grid
+          .grid__cell.grid__cell--33.grid__cell--25-at-medium
+            .property
+              = label_tag 'segment_updated_at', t('workarea.admin.fields.updated_at'), class: 'property__name'
+              = local_time(@segment.updated_at)
+          .grid__cell.grid__cell--33.grid__cell--25-at-medium
+            .property
+              = label_tag 'segment_created_at', t('workarea.admin.fields.created_at'), class: 'property__name'
+              = local_time(@segment.created_at)
+
+      .workflow-bar
+        .grid.grid--auto.grid--right.grid--middle
+          .grid__cell= button_tag t('workarea.admin.form.save_changes'), value: 'save_segment', class: 'workflow-bar__button workflow-bar__button--update'

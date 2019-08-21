@@ -1,5 +1,6 @@
 ---
 title: Rails Asset View Helpers
+created_at: 2018/07/31
 excerpt: Each Rails view that ships with Workarea uses view helpers provided by Rails to link to assets and construct asset tags, such as script tags that include JavaScript on the page.
 ---
 

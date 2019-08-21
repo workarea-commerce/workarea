@@ -3,24 +3,28 @@ module Workarea
     class InventoryStatusViewModel < ApplicationViewModel
       def message
         return '' if model.nil?
-        if purchasable?(Workarea.config.low_inventory_threshold) &&
-          !backordered?
+
+        if inventory.available?
           ::I18n.t('workarea.storefront.products.in_stock')
-        elsif purchasable? && !backordered?
+        elsif inventory.low_inventory?
           ::I18n.t(
             'workarea.storefront.products.few_left',
             quantity: available_to_sell
           )
-        elsif backordered? && backordered_until.present?
+        elsif inventory.backordered? && backordered_until.present?
           ::I18n.t(
             'workarea.storefront.products.ships_on',
             date: backordered_until.to_date.to_s(:short)
           )
-        elsif backordered?
+        elsif inventory.backordered?
           ::I18n.t('workarea.storefront.products.backordered')
-        else
+        elsif inventory.out_of_stock?
           ::I18n.t('workarea.storefront.products.out_of_stock')
         end
+      end
+
+      def inventory
+        @inventory ||= Inventory::Collection.new(model.id, [model])
       end
     end
   end

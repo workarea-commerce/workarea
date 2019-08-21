@@ -24,9 +24,6 @@
               %strong= t('workarea.admin.fields.filters')
               = model.filters.values.flatten.join(', ').presence || t('workarea.admin.cards.attributes.no_value')
             %li
-              %strong= t('workarea.admin.fields.digital')
-              = model.digital?.to_s.titleize
-            %li
               %strong= t('workarea.admin.fields.customizations')
               = model.customizations.try(:titleize).presence || t('workarea.admin.cards.attributes.no_value')
             %li

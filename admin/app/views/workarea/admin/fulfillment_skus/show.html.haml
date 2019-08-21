@@ -1,0 +1,17 @@
+- @page_title = t('workarea.admin.fulfillment_skus.show.page_title', sku: @sku.id)
+
+.view
+  .view__header
+    .grid.grid--middle.grid--right
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@sku)
+          %h1= @sku.name
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@sku)
+
+  .view__container
+    = render_cards_for(@sku)
+
+    .workflow-bar
+      = link_to t('workarea.admin.actions.delete'), fulfillment_sku_path(@sku), class: 'workflow-bar__button workflow-bar__button--delete', data: { method: 'delete', confirm: t('workarea.admin.actions.delete_confirmation') }

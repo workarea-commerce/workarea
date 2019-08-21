@@ -60,31 +60,27 @@ module Workarea
     def test_scroll
       50.times { |i| create_redirect(path: "/#{i}", destination: '/bar') }
 
-      Workarea.with_config do |config|
-        config.per_page = 5
+      query = AdminSearchQueryWrapper.new(
+        model_type: 'Workarea::Navigation::Redirect',
+        per_page: 5
+      )
 
-        query = AdminSearchQueryWrapper.new(
-          model_type: 'Workarea::Navigation::Redirect'
-        )
+      count = 0
+      passes = 0
+      query.scroll { |results| count += results.size; passes += 1 }
+      assert_equal(50, count)
+      assert_equal(10, passes)
 
-        count = 0
-        passes = 0
-        query.scroll { |results| count += results.size; passes += 1 }
-        assert_equal(50, count)
-        assert_equal(10, passes)
+      query = AdminSearchQueryWrapper.new(
+        model_type: 'Workarea::Navigation::Redirect',
+        per_page: 500
+      )
 
-        config.per_page = 500
-
-        query = AdminSearchQueryWrapper.new(
-          model_type: 'Workarea::Navigation::Redirect'
-        )
-
-        count = 0
-        passes = 0
-        query.scroll { |results| count += results.size; passes += 1 }
-        assert_equal(50, count)
-        assert_equal(1, passes)
-      end
+      count = 0
+      passes = 0
+      query.scroll { |results| count += results.size; passes += 1 }
+      assert_equal(50, count)
+      assert_equal(1, passes)
     end
   end
 end

@@ -31,6 +31,9 @@ module Workarea
             country: row[:country] || 'US',
             postal_code: row[:zip_code],
             percentage: row[:estimated_combined_rate],
+            country_percentage: row[:federal_rate],
+            region_percentage: row[:state_rate],
+            postal_code_percentage: row[:county_rate],
             charge_on_shipping: row[:charge_on_shipping] !~ /false/i
           )
       end

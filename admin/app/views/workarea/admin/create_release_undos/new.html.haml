@@ -1,0 +1,45 @@
+- @page_title = t('workarea.admin.create_release_undos.new.title', name: @release.name)
+
+.view
+  .view__header
+    .view__heading
+      %h1= t('workarea.admin.create_release_undos.new.title', name: @release.name)
+
+  .view__container.view__container--narrow
+    - @undo_release.errors.full_messages.each do |message|
+      = render_message 'error', message
+
+    = form_tag release_undo_path(@release), method: 'post' do
+      .section
+        .property.property--required
+          = label_tag 'release_name', t('workarea.admin.fields.name'), class: 'property__name'
+          = text_field_tag 'release[name]', @undo_release.name, class: 'text-box text-box--i18n', required: true, placeholder: t('workarea.admin.create_release_undos.new.release_name_placeholder', year: Time.current.year)
+
+        .property
+          = label_tag 'release[tag_list]', t('workarea.admin.fields.tags'), class: 'property__name'
+          = text_field_tag 'release[tag_list]', @undo_release.tag_list, class: 'text-box'
+          %span.property__note= t('workarea.admin.create_release_undos.new.tags_note')
+
+        - if current_user.can_publish_now?
+          .align-center
+            .grid.grid--huge
+              .grid__cell.grid__cell--50-at-medium
+                .property
+                  = label_tag 'release_publish_at', t('workarea.admin.fields.undo_at'), class: 'property__name'
+                  .box.box--rounded= hidden_field_tag 'release[publish_at]', @undo_release.publish_at, data: { datetimepicker_field: { inline: true } }
+
+      .workflow-bar
+        .grid.grid--middle
+          .grid__cell.grid__cell--20
+            = link_to t('workarea.admin.form.cancel'), undo_release_path(@release), class: 'workflow-bar__button workflow-bar__button--delete'
+
+          .grid__cell.grid__cell--60
+            %ol.workflow-bar__steps
+              %li.workflow-bar__step
+                %strong 1) #{t('workarea.admin.create_release_undos.workflow.setup')}
+              %li.workflow-bar__step
+                2) #{t('workarea.admin.create_release_undos.workflow.review')}
+
+          .grid__cell.grid__cell--20
+            .grid.grid--auto.grid--right.grid--middle
+              .grid__cell= button_tag t('workarea.admin.create_release_undos.workflow.create_undo'), value: 'create_undo', class: 'workflow-bar__button workflow-bar__button--create'

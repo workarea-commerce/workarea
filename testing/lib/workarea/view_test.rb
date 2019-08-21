@@ -16,6 +16,7 @@ end
 module Workarea
   class ViewTest < ActionView::TestCase
     extend TestCase::Decoration
+    include TestCase::Configuration
     include TestCase::RunnerLocation
     include Factories
     include TestCase::Workers

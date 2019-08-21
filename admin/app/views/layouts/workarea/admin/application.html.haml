@@ -143,7 +143,7 @@
                   %strong
                     = link_to current_impersonation.email, user_path(current_impersonation)
                   %br
-                  = form_tag impersonations_path, method: 'delete', data: { disable_delete_confirmation: '' } do
+                  = form_tag impersonations_path, method: 'delete', data: { disable_delete_confirmation: '', impersonation_notification: current_impersonation.name } do
                     = button_tag t('workarea.admin.toolbar.stop_impersonation'), class: 'text-button text-button--destroy'
           - else
             .header__action

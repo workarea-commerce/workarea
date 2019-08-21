@@ -1,100 +1,89 @@
-- @page_title = t('workarea.admin.releases.index.page_title')
+- @page_title = t('workarea.admin.releases.calendar.title')
 
 .view
   .view__header
-    .grid.grid--center
+    .grid.grid--middle.grid--right
       .grid__cell.grid__cell--50
         .view__heading
           = link_to "↑ #{t('workarea.admin.releases.index.dashboard_link')}", root_path
-          %h1.heading--no-margin= t('workarea.admin.releases.index.title')
+          %h1.heading.heading--no-margin= t('workarea.admin.releases.calendar.title')
+          %p
+            - if @calendar.unscheduled.any?
+              = t('workarea.admin.releases.index.there_are_unscheduled', count: @calendar.unscheduled.count)
+              = link_to t('workarea.admin.releases.index.view_all'), list_releases_path
+
+      .grid__cell.grid__cell--25
+        .grid.grid--auto.grid--right.grid--middle
+          .grid__cell= link_to t('workarea.admin.releases.index.view_all_releases'), list_releases_path
 
   .view__container
-    .browsing-controls.browsing-controls--with-divider.browsing-controls--center{ class: ('browsing-controls--filters-displayed' unless @search.toggle_facets?) }
-      = form_tag releases_path, method: 'get', id: 'release_search_form', class: 'browsing-controls__form' do
-        = facet_hidden_inputs(@search.facets)
-        .browsing-controls__sort
-          .property.property--inline
-            = label_tag 'sort', t('workarea.admin.search.sort_by'), class: 'property__name'
-            = select_tag :sort, options_for_select(@search.sorts, selected: @search.sort), data: { form_submitting_control: '' }
+    .section
+      .calendar
 
-        .browsing-controls__search
-          .search-form
-            = text_field_tag :q, params[:q], class: 'search-form__input', id: 'search_releases', title: t('workarea.admin.search.keywords'), placeholder: t('workarea.admin.search.keywords')
-            = submit_tag 'search_releases', class: 'search-form__button'
+        = link_to inline_svg('workarea/admin/icons/arrow_up.svg', title: t('workarea.admin.releases.calendar.previous_week'), class: 'calendar__control-icon'), releases_path(start_date: @calendar.prev_week), class: 'calendar__control calendar__control--prev'
 
-        = render 'workarea/admin/shared/creation_date', search: @search, form_path: releases_path
+        .calendar__today-button
+          = button_tag t('workarea.admin.releases.calendar.today'), type: 'button', class: 'button button--small', data: { calendar_today_button: '' }
 
-        - if @search.facets.present?
-          - @search.facets.each do |facet|
-            = render "workarea/admin/facets/#{facet.type}", facet: facet
+        %table.calendar__table
+          %thead
+            %tr
+              - @calendar.weekdays.each do |weekday|
+                %th.calendar__weekday
+                  %span.calendar__weekday-name= weekday
 
-        - if @search.toggle_facets?
-          .browsing-controls__toggle-filters
-            %button.text-button{ type: 'button', data: { toggle_filters: '' } }= t('workarea.admin.search.show_filters')
+          %tbody
+            - @calendar.days.each_slice(7).with_index do |week, i|
+              %tr
+                - week.each do |day|
+                  %td.calendar__header= month_name_needed?(day.first, @calendar.days) ?  month_and_year_from_date(day.first.to_date) : '&nbsp;'.html_safe
+              %tr
+                - week.each do |day, releases|
+                  %td{ class: calendar_day_classes(day) }
+                    .calendar__day-header
+                      .calendar__day-header-cell
+                        .calendar__day-number= calendar_day_number(day)
 
-      = render 'workarea/admin/facets/applied', search: @search, reset_path: releases_path
+                      .calendar__day-header-cell
+                        - if current_user.can_publish_now?
+                          - if Date.parse(day).today?
+                            = link_to create_releases_path(release: { publish_at: Time.current.end_of_day - 4.minutes }), class: 'calendar__new-release' do
+                              %span.calendar__new-release-text= t('workarea.admin.releases.calendar.add_new_release')
+                              = inline_svg('workarea/admin/icons/add.svg', title: t('workarea.admin.releases.calendar.add_new_release'), class: 'calendar__new-release-icon')
 
-      %p.browsing-controls__count= pluralize(@search.total, 'release')
+                          - elsif Time.zone.parse(day).future?
+                            = link_to create_releases_path(release: { publish_at: Time.parse(day) }), class: 'calendar__new-release' do
+                              %span.calendar__new-release-text= t('workarea.admin.releases.calendar.add_new_release')
+                              = inline_svg('workarea/admin/icons/add.svg', title: t('workarea.admin.releases.calendar.add_new_release'), class: 'calendar__new-release-icon')
 
-    - if @search.results.any?
-      %table.index-table
-        %thead
-          %tr
-            %th= t('workarea.admin.fields.name')
-            %th.align-center= t('workarea.admin.fields.publishes')
-            %th.align-center= t('workarea.admin.fields.undo_at')
-            %th.align-center= t('workarea.admin.fields.changes')
-            %th= t('workarea.admin.fields.last_published')
-            %th= t('workarea.admin.fields.updated_at')
-        %tbody
-          - @search.results.each do |result|
-            %tr.index-table__row{ class: ('index-table__row--inactive' unless result.upcoming?) }
-              %td
-                = link_to result.name, result
-                = comments_icon_for(result)
-              %td.align-center
-                - if result.publish_at.present?
-                  #{local_time_ago(result.publish_at)}
-                - else
-                  = t('workarea.admin.releases.index.unscheduled')
-              %td.align-center
-                - if result.undo_at.present?
-                  #{local_time_ago(result.undo_at)}
-                - else
-                  = t('workarea.admin.releases.index.unscheduled')
-              %td.align-center= result.changesets_with_releasable.count || 0
-              %td
-                - if result.published_at.present?
-                  = local_time_ago(result.published_at)
-                - else
-                  = t('workarea.admin.releases.index.never')
-              %td= local_time_ago(result.updated_at)
+                    - if releases.size > 5
+                      - releases.take(4).each do |release|
+                        = link_to release_path(release), class: 'calendar__release', title: release.name, data: { calendar_release_id: release.id } do
+                          %span.calendar__release-text
+                            %span.calendar__release-time= local_time(release.calendar_at, '%l:%M%P')
+                            %span.calendar__release-name= release.name
 
-    - if @search.results.total_pages > 1
-      = render 'workarea/admin/shared/pagination', collection: @search.results
+                      = link_to "#more-releases-#{day.to_s}", data: { tooltip: { interactive: true }.to_json }, class: 'calendar__release' do
+                        %span.calendar__release-text
+                          %strong= t('workarea.admin.releases.calendar.plus_more_releases', count: releases.size - 4)
 
-    .workflow-bar
-      .grid.grid--auto.grid--right
-        - calendar_feed_url = calendar_feed_releases_url(token: current_user.token, protocol: 'webcal')
-        .grid__cell= button_tag t('workarea.admin.releases.index.add_to_calendar.link_text'), class: 'workflow-bar__button', data: { add_to_calendar_button: { initial: '#calendar-tooltip', moreInfo: '#google-calendar-info' }.as_json }
-        .grid__cell= link_to t('workarea.admin.releases.index.add_new_release'), create_releases_path, id: 'add_release', class: 'workflow-bar__button workflow-bar__button--create'
-      #calendar-tooltip.tooltip-content.tooltip-content--no-padding
-        .add-to-calendar
-          %ul.add-to-calendar__list
-            %li.add-to-calendar__item
-              = link_to calendar_feed_url, class: 'grid grid--auto grid--middle grid--large', data: { add_to_calendar_button_toggle: '' } do
-                %span.grid__cell= image_tag 'workarea/admin/icons/google_calendar.svg', size: '24x24'
-                %span.grid__cell
-                  %span.add-to-calendar__link= t('workarea.admin.releases.index.add_to_calendar.tooltip.google_calendar')
-            %li.add-to-calendar__item
-              = link_to calendar_feed_url, class: 'grid grid--auto grid--middle grid--large' do
-                %span.grid__cell= image_tag 'workarea/admin/icons/apple_calendar.svg', size: '24x24'
-                %span.grid__cell
-                  %span.add-to-calendar__link= t('workarea.admin.releases.index.add_to_calendar.tooltip.apple_calendar')
-            %li.add-to-calendar__item
-              = link_to calendar_feed_url, class: 'grid grid--auto grid--middle grid--large' do
-                %span.grid__cell= image_tag 'workarea/admin/icons/outlook.svg', size: '24x24'
-                %span.grid__cell
-                  %span.add-to-calendar__link= t('workarea.admin.releases.index.add_to_calendar.tooltip.outlook')
-        .hidden
-          #google-calendar-info= t('workarea.admin.releases.index.add_to_calendar.tooltip.google_calendar_instructions_html', calendar_feed_url: calendar_feed_url)
+                      .tooltip-content{ id: "more-releases-#{day.to_s}" }
+                        %div{ class: calendar_day_classes(day) }
+                          .calendar__day-header
+                            %span.calendar__day-number= calendar_day_number(day)
+
+                          - releases.each do |release|
+                            = link_to release_path(release), class: 'calendar__release', title: release.name, data: { calendar_release_id: release.id } do
+                              %span.calendar__release-text
+                                %span.calendar__release-time= local_time(release.calendar_at, '%l:%M%P')
+                                %span.calendar__release-name= release.name
+
+                    - else
+                      - releases.each do |release|
+                        = link_to release_path(release), class: 'calendar__release', title: release.name, data: { calendar_release_id: release.id } do
+                          %span.calendar__release-text
+                            %span.calendar__release-time= local_time(release.calendar_at, '%l:%M%P')
+                            %span.calendar__release-name= release.name
+
+
+        = link_to inline_svg('workarea/admin/icons/arrow_down.svg', title: t('workarea.admin.releases.calendar.next_week'), class: 'calendar__control-icon'), releases_path(start_date: @calendar.next_week), class: 'calendar__control calendar__control--next'

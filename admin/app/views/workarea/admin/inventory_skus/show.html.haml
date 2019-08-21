@@ -14,4 +14,4 @@
     = render_cards_for(@sku)
 
     .workflow-bar
-      = link_to t('workarea.admin.actions.delete'), inventory_sku_path(@sku), class: 'workflow-bar__button workflow-bar__button--delete', data: { method: 'delete', confirm: 'Are you sure you want to delete?' }
+      = link_to t('workarea.admin.actions.delete'), inventory_sku_path(@sku), class: 'workflow-bar__button workflow-bar__button--delete', data: { method: 'delete', confirm: t('workarea.admin.actions.delete_confirmation') }

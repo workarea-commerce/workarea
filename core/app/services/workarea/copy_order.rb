@@ -34,6 +34,12 @@ module Workarea
       cancel_original if cancel_original?
     end
 
+    def anonymize!
+      new_order.update!(user_id: nil, email: nil)
+      new_payment.destroy!
+      new_shippings.each(&:destroy!)
+    end
+
     def save_new_order
       Workarea.config.copy_order_ignored_fields.each do |field|
         new_order.send("#{field}=", nil)

@@ -1,20 +1,15 @@
 require 'test_helper'
 
-# TODO: Factor out remaining calls to this service and then remove
-# Plugins call Order#cancel directly and no longer go through this service
 module Workarea
-  class CancelOrderTest < IntegrationTest
-    setup :stub_mailers
+  class CancelOrderTest < TestCase
+    setup :build_order
 
-    # We don't care to test mailers here, they're tested as part of other
-    # integration and/or system tests.
-    def stub_mailers
-      Storefront::FulfillmentMailer.stubs(:shipped).returns(stub_everything)
-      Storefront::FulfillmentMailer.stubs(:canceled).returns(stub_everything)
-    end
+    def build_order
+      create_product(id: 'PROD1', variants: [{ sku: 'SKU1', regular: 5.to_m }])
+      create_product(id: 'PROD2', variants: [{ sku: 'SKU2', regular: 3.to_m }])
 
-    setup do
       @order = Order.new(
+        email: 'test@workarea.com',
         items: [
           { product_id: 'PROD1', sku: 'SKU1', quantity: 2 },
           { product_id: 'PROD2', sku: 'SKU2', quantity: 3 }
@@ -106,13 +101,32 @@ module Workarea
     end
 
     def test_marking_the_order_canceled
-      @order.save!(validate: false)
+      complete_checkout(@order)
+
+      SaveOrderMetrics.perform(@order)
+
+      assert_equal(1, Metrics::User.first.orders)
+
+      product_metric = Metrics::ProductByDay.by_product('PROD1').first
+      assert_equal(2, product_metric.units_sold)
+
+      travel_to 1.week.from_now
 
       cancel = CancelOrder.new(@order)
       cancel.perform
 
       @order.reload
       assert(@order.canceled?)
+
+      assert_equal(1, Metrics::User.first.cancellations)
+
+      product_metric.reload
+      assert_equal(2, product_metric.units_sold)
+      assert_equal(0, product_metric.units_canceled)
+
+      product_metric = Metrics::ProductByDay.by_product('PROD1').last
+      assert_equal(0, product_metric.units_sold)
+      assert_equal(2, product_metric.units_canceled)
     end
   end
 end

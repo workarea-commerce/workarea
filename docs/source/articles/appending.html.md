@@ -1,5 +1,6 @@
 ---
 title: Appending
+created_at: 2018/12/05
 excerpt: Appending is an extension technique whereby plugins and applications inject their own partials, stylesheets, and JavaScript into designated areas within Workarea UIs.
 ---
 

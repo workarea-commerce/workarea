@@ -31,21 +31,10 @@
     = append_partials('storefront.document_head')
     = javascript_include_tag Workarea.config.asset_manifests.storefront_javascript_head
 
-    %script{ type: 'application/ld+json' }
-      :plain
-        {
-          "@context": "http://schema.org",
-          "@type": "WebSite",
-          "url": "#{root_url}",
-          "potentialAction": {
-            "@type": "SearchAction",
-            "target": "#{search_url}?q={search_term_string}",
-            "query-input": "required name=search_term_string"
-          }
-        }
+    = render_schema_org(web_site_schema)
+    = render_schema_org(web_page_schema)
 
-
-  %body{ itemscope: true, itemtype: 'http://schema.org/WebPage' }
+  %body
     = append_partials('storefront.body_top')
 
     %nav.accessibility-nav.visually-hidden
@@ -112,10 +101,12 @@
             .breadcrumbs{ role: 'navigation' }
               = yield :breadcrumbs
           - elsif @breadcrumbs.present?
+            = render_schema_org(breadcrumb_list_schema(@breadcrumbs.map { |t| [t.name, storefront_url_for(t)] }))
+
             .breadcrumbs{ role: 'navigation' }
               %p.breadcrumbs__node-group
                 - @breadcrumbs.each do |taxon|
-                  %span.breadcrumbs__node{ itemprop: 'breadcrumb' }
+                  %span.breadcrumbs__node
                     - if taxon.navigable.present?
                       - if @breadcrumbs.last == taxon
                         %span.breadcrumbs__text= taxon.name

@@ -6,14 +6,12 @@ module Workarea
       required_permissions :releases
 
       before_action :find_release, except: :changes
-      before_action :find_calendar, only: [:calendar, :update]
+      before_action :find_calendar, only: [:index, :update]
       before_action :authenticate_user_by_token, only: :calendar_feed
       skip_before_action :require_login, :require_admin, only: :calendar_feed
-      around_action :set_time_zone, only: :calendar
+      around_action :set_time_zone, only: :index
 
       def index
-        search = Search::AdminReleases.new(params)
-        @search = Admin::ReleaseSearchViewModel.new(search, view_model_options)
       end
 
       def show
@@ -28,7 +26,9 @@ module Workarea
         render json: { release: @release.model }
       end
 
-      def calendar
+      def list
+        search = Search::AdminReleases.new(params)
+        @search = Admin::ReleaseSearchViewModel.new(search, view_model_options)
       end
 
       def new
@@ -44,19 +44,17 @@ module Workarea
         end
       end
 
+      def undo
+      end
+
+      def original
+      end
+
       def publish
         self.current_release = nil
         @release.publish!
 
         flash[:success] = t('workarea.admin.releases.flash_messages.published')
-        redirect_to return_to || release_path(@release)
-      end
-
-      def undo
-        self.current_release = nil
-        @release.undo!
-
-        flash[:success] = t('workarea.admin.releases.flash_messages.reverted')
         redirect_to return_to || release_path(@release)
       end
 

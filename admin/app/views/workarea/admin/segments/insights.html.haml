@@ -1,0 +1,52 @@
+- @page_title = t('workarea.admin.segments.insights.page_title', segment: @segment.name)
+
+.view
+  .view__header
+    .grid.grid--middle.grid--right
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@segment)
+          %h1= link_to @segment.name, url_for(@segment)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@segment)
+  .view__container
+    = render_cards_for(@segment, :insights)
+
+    .section
+      .browsing-controls.browsing-controls--center.browsing-controls--filters-displayed
+        = form_tag request.path, method: 'get', class: 'browsing-controls__form' do
+          = render 'workarea/admin/shared/date_selector', starts_at: @segment.insights.starts_at, ends_at: @segment.insights.ends_at
+
+      .grid.grid--auto.grid--center
+        .grid__cell
+          .card
+            .card__body.align-center
+              %h6.heading.heading--no-margin= t('workarea.admin.segments.insights.orders')
+              %span.heading.heading--1.heading--no-margin= number_with_delimiter @segment.insights.orders
+              %p
+                - if @segment.insights.orders_percent_change.present?
+                  = insights_trend_icon(@segment.insights.orders_percent_change)
+                  = t('workarea.admin.segments.insights.from_previous', percentage: insights_number_to_percentage(@segment.insights.orders_percent_change))
+              = area_chart @segment.insights.orders_graph_data, Workarea.config.default_chartkick_options
+
+        .grid__cell
+          .card
+            .card__body.align-center
+              %h6.heading.heading--no-margin= t('workarea.admin.segments.insights.revenue')
+              %span.heading.heading--1.heading--no-margin= number_to_currency @segment.insights.revenue
+              %p
+                - if @segment.insights.revenue_percent_change.present?
+                  = insights_trend_icon(@segment.insights.revenue_percent_change)
+                  = t('workarea.admin.segments.insights.from_previous', percentage: insights_number_to_percentage(@segment.insights.revenue_percent_change))
+              = area_chart @segment.insights.revenue_graph_data, Workarea.config.default_chartkick_options.merge(prefix: Money.default_currency.symbol)
+
+        .grid__cell
+          .card
+            .card__body.align-center
+              %h6.heading.heading--no-margin= t('workarea.admin.segments.insights.average_order_value')
+              %span.heading.heading--1.heading--no-margin= number_to_currency @segment.insights.average_order_value
+              %p
+                - if @segment.insights.average_order_value_percent_change.present?
+                  = insights_trend_icon(@segment.insights.average_order_value_percent_change)
+                  = t('workarea.admin.segments.insights.from_previous', percentage: insights_number_to_percentage(@segment.insights.average_order_value_percent_change))
+              = area_chart @segment.insights.average_order_value_graph_data, Workarea.config.default_chartkick_options

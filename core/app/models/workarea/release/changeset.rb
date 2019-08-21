@@ -4,28 +4,17 @@ module Workarea
       include ApplicationDocument
 
       field :changeset, type: Hash, default: {}
-      field :undo, type: Hash, default: {}
+      field :original, type: Hash, default: {}
+      field :undo, type: Hash, default: {} # TODO deprecated, remove in v3.6
 
       embeds_many :document_path, class_name: 'Mongoid::DocumentPath::Node'
 
       belongs_to :release, class_name: 'Workarea::Release', index: true
       belongs_to :releasable, polymorphic: true, index: true, optional: true
 
-      index({ 'document_path.type' => 1, 'document_path.document_id' => 1})
-
-      # Whether these value changes to this field should be included when
-      # saving a changeset. Used in building changeset hashes.
-      #
-      # @param attribute [String]
-      # @param old_value [Object]
-      # @param new_value [Object]
-      #
-      # @return [Boolean]
-      #
-      def self.track_change?(attribute, old_value, new_value)
-        !attribute.in?(Workarea.config.untracked_release_changes_fields) &&
-          (old_value.present? || new_value.present?)
-      end
+      index({ 'document_path.type' => 1, 'document_path.document_id' => 1 })
+      index('changeset.product_ids' => 1)
+      index('original.product_ids' => 1)
 
       # Finds changeset by whether the passed document is in the document
       # path of the changeset. Useful for showing embedded changes in the
@@ -58,6 +47,10 @@ module Workarea
         changeset.keys
       end
 
+      def includes_change?(key, new_value)
+        changed_fields.include?(key) && changeset[key] == new_value
+      end
+
       # Apply (but do not save) the changes represented by this changeset to
       # the model passed in.
       #
@@ -70,34 +63,44 @@ module Workarea
       # Make the changes represented by this changeset live. Used when
       # publishing a release.
       #
-      # Builds and saves the undo in case that's desired later.
-      #
       # @return [Boolean]
       #
       def publish!
         return false if releasable_from_document_path.blank?
 
-        build_undo
         apply_to(releasable_from_document_path)
 
         releasable_from_document_path.skip_changeset do
           releasable_from_document_path.save!
         end
 
-        save! # saves undo
+        save!
       end
 
-      # Apply the changes in the undo hash on this changeset and save to make
-      # them live. Used when undoing a release.
-      #
-      # @return [Boolean]
-      #
-      def undo!
-        apply_changeset(releasable_from_document_path, undo)
+      def build_undo(attributes = {})
+        # Ensure the appropriate Release.current for building the undo
+        # This can be nil, which is essential if there is some other arbitrary
+        # release as Release.current.
+        Release.with_current(release.previous) do
+          releasable_from_document_path.reload
 
-        releasable_from_document_path.skip_changeset do
-          releasable_from_document_path.save!
+          Changeset.new(
+            attributes.reverse_merge(
+              releasable: releasable,
+              document_path: document_path,
+              changeset: changeset.keys.inject({}) do |memo, key|
+                old_value = releasable_from_document_path.attributes[key]
+                new_value = changeset[key]
+
+                memo[key] = old_value if Changes.tracked_change?(key, old_value, new_value)
+                memo
+              end
+            )
+          )
         end
+
+      ensure
+        releasable_from_document_path.reload
       end
 
       private
@@ -118,19 +121,6 @@ module Workarea
           rescue Mongoid::Errors::DocumentNotFound
             nil
           end
-      end
-
-      def build_undo(model = releasable_from_document_path)
-        self.undo = changeset.keys.inject({}) do |memo, key|
-          old_value = model.attributes[key]
-          new_value = changeset[key]
-
-          if self.class.track_change?(key, old_value, new_value)
-            memo[key] = old_value
-          end
-
-          memo
-        end
       end
     end
   end

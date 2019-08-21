@@ -16,7 +16,7 @@ module Workarea
 
       def test_creates_a_new_tax_category
         post admin.tax_categories_path,
-          params: { category: @tax_category, new_rates: [{ percentage: 0.07 }] }
+          params: { category: @tax_category }
 
         assert_equal(1, Tax::Category.count)
 

@@ -39,24 +39,22 @@ module Workarea
         BulkIndexProducts.perform
         view_model = SearchAnalysisViewModel.wrap(customization)
 
-        Workarea.with_config do |config|
-          config.storefront_search_middleware = SwappableList.new(
-            %w(
-              Workarea::Search::StorefrontSearch::Redirect
-              Workarea::Search::StorefrontSearch::ExactMatches
-              Workarea::Search::StorefrontSearch::ProductMultipass
-              Workarea::Search::StorefrontSearch::SpellingCorrection
-              Workarea::Search::StorefrontSearch::Template
-            )
+        Workarea.config.storefront_search_middleware = SwappableList.new(
+          %w(
+            Workarea::Search::StorefrontSearch::Redirect
+            Workarea::Search::StorefrontSearch::ExactMatches
+            Workarea::Search::StorefrontSearch::ProductMultipass
+            Workarea::Search::StorefrontSearch::SpellingCorrection
+            Workarea::Search::StorefrontSearch::Template
           )
+        )
 
-          assert_equal(5, view_model.middleware.size)
-          assert_equal(:pass, view_model.middleware[Search::StorefrontSearch::Redirect])
-          assert_equal(:last, view_model.middleware[Search::StorefrontSearch::ExactMatches])
-          assert_equal(:ignore, view_model.middleware[Search::StorefrontSearch::ProductMultipass])
-          assert_equal(:ignore, view_model.middleware[Search::StorefrontSearch::SpellingCorrection])
-          assert_equal(:ignore, view_model.middleware[Search::StorefrontSearch::Template])
-        end
+        assert_equal(5, view_model.middleware.size)
+        assert_equal(:pass, view_model.middleware[Search::StorefrontSearch::Redirect])
+        assert_equal(:last, view_model.middleware[Search::StorefrontSearch::ExactMatches])
+        assert_equal(:ignore, view_model.middleware[Search::StorefrontSearch::ProductMultipass])
+        assert_equal(:ignore, view_model.middleware[Search::StorefrontSearch::SpellingCorrection])
+        assert_equal(:ignore, view_model.middleware[Search::StorefrontSearch::Template])
       end
 
       def test_tokens

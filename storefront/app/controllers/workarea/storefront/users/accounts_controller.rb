@@ -60,7 +60,7 @@ module Workarea
 
     def find_recommendations
       @recommendations = Storefront::PersonalizedRecommendationsViewModel.new(
-        user_activity,
+        current_metrics,
         view_model_options
       )
     end
@@ -74,18 +74,13 @@ module Workarea
       )
     end
 
-    def completed_order
-      return unless cookies.signed[:completed_order].present?
-      Order.find(cookies.signed[:completed_order])
-    end
-
     def save_completed_order_details(user)
       if user.email == completed_order.email
         completed_order.update_attributes!(user_id: user.id)
         SaveUserOrderDetails.new.perform(completed_order.id)
       end
 
-      cookies.delete(:completed_order)
+      self.completed_order = nil
     end
   end
 end

@@ -44,7 +44,7 @@ module Workarea
 
     def password
       if Rails.env.development?
-        'W3bl1nc!'
+        'w0rkArea!'
       else
         "#{SecureRandom.hex(10)}_aA1"
       end

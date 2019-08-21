@@ -1,5 +1,6 @@
 ---
 title: Translate JavaScript Content
+created_at: 2019/03/14
 excerpt: Translate text within JavaScript templates and modules using the I18n.t() method provided by i18n-js (bundled with Workarea).
 ---
 

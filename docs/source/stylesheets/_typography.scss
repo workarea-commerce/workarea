@@ -115,5 +115,12 @@ hr {
 /**
  * Text
  */
- .text { font-size: 1rem; }
- .text--small { font-size: 0.889rem }
+.text { font-size: 1rem; }
+.text--small { font-size: 0.889rem }
+
+
+
+/**
+ * Bolded elements
+ */
+b, strong { font-weight: bold; }

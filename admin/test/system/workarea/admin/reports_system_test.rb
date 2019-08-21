@@ -295,6 +295,27 @@ module Workarea
         assert(page.has_ordered_text?('Social', 'Search'))
       end
 
+      def test_sales_by_tender
+        Metrics::TenderByDay.inc(key: { tender: 'credit_card' }, orders: 1, revenue: 100)
+        Metrics::TenderByDay.inc(key: { tender: 'store_credit' }, orders: 2, revenue: 24)
+
+        visit admin.sales_by_tender_report_path
+        assert(page.has_content?('Credit Card'))
+        assert(page.has_content?('Store Credit'))
+        assert(page.has_content?('1'))
+        assert(page.has_content?('$100.00'))
+        assert(page.has_content?('2'))
+        assert(page.has_content?('$24.00'))
+
+        click_link t('workarea.admin.fields.revenue')
+        assert(page.has_content?("#{t('workarea.admin.fields.revenue')} ↓"))
+        assert(page.has_ordered_text?('Credit Card', 'Store Credit'))
+
+        click_link t('workarea.admin.fields.revenue')
+        assert(page.has_content?("#{t('workarea.admin.fields.revenue')} ↑"))
+        assert(page.has_ordered_text?('Store Credit', 'Credit Card'))
+      end
+
       def test_sales_over_time
         Metrics::SalesByDay.inc(
           at: Time.zone.local(2018, 11, 14),
@@ -449,6 +470,14 @@ module Workarea
         assert(page.has_content?('standard_ok'))
         assert(page.has_content?('standard_low'))
         assert(page.has_content?('backordered_low'))
+      end
+
+      def test_reports_chart
+        # Since we don't explicitly depend on Chart.js, but rather depend on
+        # ChartKick which depends on Chart.js, we want to make sure the library
+        # still works as we upgrade ChartKick.
+        visit admin.timeline_report_path
+        assert_match(/class=('|")chartjs-render-monitor/, page.body)
       end
     end
   end

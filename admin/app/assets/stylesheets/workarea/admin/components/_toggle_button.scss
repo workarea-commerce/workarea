@@ -78,6 +78,7 @@ $toggle-button-status-negative-color:  $red !default;
             font-size:   12px;
             font-weight: bold;
             line-height: 24px; /* [1] */
+            text-align: left;
             text-transform: uppercase;
             border: 1px solid $toggle-button-label-border-color;
             border-radius: 12px;

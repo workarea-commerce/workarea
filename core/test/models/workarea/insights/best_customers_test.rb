@@ -14,8 +14,11 @@ module Workarea
         Metrics::User.save_order(email: 'bcrouse3@workarea.com', revenue: 20.to_m, at: 4.days.ago)
         Metrics::User.save_order(email: 'bcrouse4@workarea.com', revenue: 30.to_m, at: 1.days.ago)
         Metrics::User.save_order(email: 'bcrouse4@workarea.com', revenue: 30.to_m, at: 2.days.ago)
+        5.times do |i|
+          Metrics::User.save_order(email: "#{i + 5}@workarea.com", revenue: 10.to_m, at: 3.days.ago)
+        end
 
-        Metrics::User.update_aggregations!
+        Metrics::UpdateUserAggregations.update!
         BestCustomers.generate_monthly!
         assert_equal(1, BestCustomers.count)
 
@@ -37,7 +40,7 @@ module Workarea
         Metrics::User.save_order(email: 'bcrouse4@workarea.com', revenue: 30.to_m, at: 31.days.ago)
         Metrics::User.save_order(email: 'bcrouse4@workarea.com', revenue: 30.to_m, at: 32.days.ago)
 
-        Metrics::User.update_aggregations!
+        Metrics::UpdateUserAggregations.update!
         BestCustomers.generate_monthly!
         assert_equal(1, BestCustomers.count)
 

@@ -1,0 +1,72 @@
+- @page_title = t('workarea.admin.fulfillment_tokens.index.page_title', sku: @sku.id)
+
+.view
+  .view__header
+    .grid.grid--middle.grid--right
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@sku)
+          %h1= link_to @sku.name, url_for(@sku)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@sku)
+
+  .view__container
+    = render_cards_for(@sku, :tokens)
+
+    .section
+      %h2.view__heading= t('workarea.admin.fulfillment_tokens.index.heading')
+
+  .view__container
+    - if @sku.download?
+
+      .browsing-controls.browsing-controls--with-divider.browsing-controls--center
+        = form_tag fulfillment_sku_tokens_path, method: :get, id: 'token_sort_form', class: 'browsing-controls__form' do
+          .property.property--inline
+            = label_tag 'sort', t('workarea.admin.search.sort_by'), class: 'property__name'
+            = select_tag 'sort', options_for_select(sort_options(@tokens), params[:sort]), data: { form_submitting_control: '' }
+
+        %p.browsing-controls__count
+          = t('workarea.admin.fulfillment_tokens.index.pluralize', count: @tokens.count)
+
+      - if @tokens.any?
+        %table.index-table
+          %thead
+            %tr
+              %th
+              %th= t('workarea.admin.fields.id')
+              %th= t('workarea.admin.fields.order')
+              %th.align-center= t('workarea.admin.fields.downloads')
+              %th= t('workarea.admin.fields.enabled')
+              %th.align-right= t('workarea.admin.fields.created_at')
+              %th
+          %tbody
+            - @tokens.each do |token|
+              %tr.index-table__row{ class: ('index-table__row--highlight' if params[:new_token].present? && params[:new_token] == token.id) }
+                %td
+                  = link_to "#token-tooltip-#{token.id}", data: { tooltip: { width: '600', interactive: true }.to_json } do
+                    = inline_svg('workarea/admin/icons/link.svg', class: 'svg-icon svg-icon--blue', title: t('workarea.admin.fulfillment_tokens.index.copy_title'))
+                  .tooltip-content{ id: "token-tooltip-#{token.id}" }
+                    .property.property--inline= text_field_tag 'url', storefront.download_url(token), class: 'text-box text-box--wide', id: "url-#{token.id}"
+                    = button_tag t('workarea.admin.fulfillment_tokens.index.copy_button'), class: 'button button--small', data: { copy_to_clipboard: "#url-#{token.id}" }
+                %td
+                  = token.id
+                %td
+                  - if token.order_id.present?
+                    = link_to token.order_id, order_path(token.order_id)
+                  - else
+                    \-
+                %td.align-center= number_with_delimiter(token.downloads)
+                %td
+                  = form_tag fulfillment_sku_token_path(@sku, token), method: 'patch', class: 'text-button text-button--update' do
+                    = toggle_button_for 'token[enabled]', token.enabled?, id: token.id, data: { form_submitting_control: '' }
+                %td.align-right= local_time_ago(token.updated_at)
+
+        - if @tokens.total_pages > 1
+          = render 'workarea/admin/shared/pagination', collection: @tokens
+
+      .workflow-bar
+        .grid__cell.align-right
+          = link_to t('workarea.admin.fulfillment_tokens.index.add_new'), fulfillment_sku_tokens_path, id: 'add_token', class: 'workflow-bar__button workflow-bar__button--create', data: { method: 'post' }
+    - else
+      .view__container.view__container--narrow
+        %p.align-center= t('workarea.admin.fulfillment_tokens.index.tokens_unavailable')

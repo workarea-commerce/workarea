@@ -23,6 +23,10 @@ WORKAREA.analytics.registerAdapter('workarea', function () {
         };
 
     return {
+        'newSession': function () {
+            $.post(WORKAREA.routes.storefront.analyticsNewSessionPath());
+        },
+
         'categoryView': function (payload) {
             if (payload.id && _.isEmpty(payload.filters) && payload.page === 1) {
                 $.ajax({

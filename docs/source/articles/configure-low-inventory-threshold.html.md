@@ -1,5 +1,6 @@
 ---
 title: Configure Low Inventory Threshold
+created_at: 2018/07/31
 excerpt: config.low_inventory_threshold determines the minimum available quantity for a sku before low inventory status is displayed. Configure the value in an initializer.
 ---
 

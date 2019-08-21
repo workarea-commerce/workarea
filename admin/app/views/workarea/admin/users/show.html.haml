@@ -11,6 +11,13 @@
         = render_aux_navigation_for(@user)
 
   .view__container
+    - if @user.login_locked?
+      .grid.grid--center
+        .grid__cell.grid__cell--75
+          = render_message 'warn' do
+            %span= t('workarea.admin.users.show.locked')
+            = link_to t('workarea.admin.users.show.unlock'), unlock_user_path(@user), data: { method: :patch }
+
     = render_cards_for(@user)
 
     .workflow-bar

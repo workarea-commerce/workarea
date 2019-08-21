@@ -7,6 +7,7 @@ module Workarea
 
     field :name, type: String
     field :type, type: String
+    field :alt_text, type: String
 
     #
     # The values for the following fields are automatically populated via

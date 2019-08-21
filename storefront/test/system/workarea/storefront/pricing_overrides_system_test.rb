@@ -1,8 +1,8 @@
 require 'test_helper'
 
 module Workarea
-  module Admin
-    class PricingOverridesSystemTest < SystemTest
+  module Storefront
+    class PricingOverridesSystemTest < Workarea::SystemTest
       include Admin::IntegrationTest
       include Storefront::SystemTest
 
@@ -39,6 +39,17 @@ module Workarea
         assert_current_path(admin.order_path(Order.placed.desc(:placed_at).first))
         assert(page.has_content?('Success'))
         assert(page.has_content?('$10.70')) # total w/ shipping
+      end
+
+      def test_not_having_permission_to_override
+        admin_user.update(super_admin: false, orders_management_access: false)
+
+        visit storefront.cart_path
+
+        wait_for_xhr
+        within_frame find('.admin-toolbar') do
+          assert(page.has_no_content?(t('workarea.admin.toolbar.adjust_order_pricing')))
+        end
       end
     end
   end

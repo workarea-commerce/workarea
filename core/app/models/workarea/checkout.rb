@@ -187,6 +187,9 @@ module Workarea
       return false unless shippable?
       return false unless payable?
 
+      fraud_analyzer.decide!
+      return false if fraud_analyzer.fraud_suspected?
+
       inventory.purchase
       return false unless inventory.captured?
 
@@ -217,6 +220,15 @@ module Workarea
       payment.valid? && payment_collection.valid?
     end
 
+    # Recalculate the amounts on tenders if payment is persisted.
+    #
+    # @return [Boolean, nil]
+    #
+    def adjust_tender_amounts!
+      return unless payment.persisted?
+      payment.adjust_tender_amounts(order.total_price)
+    end
+
     private
 
     def auto_complete
@@ -229,6 +241,10 @@ module Workarea
 
     def place_order_side_effects
       CreateFulfillment.new(order).perform
+    end
+
+    def fraud_analyzer
+      @fraud_analyzer ||= Workarea.config.fraud_analyzer.constantize.new(self)
     end
   end
 end

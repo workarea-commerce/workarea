@@ -1,0 +1,3 @@
+= text_field_tag 'rule[city]', rule.city, class: 'text-box text-box--medium', placeholder: t('workarea.admin.fields.city')
+= select_tag 'rule[region]', grouped_options_for_select(region_options, rule.region)
+= select_tag 'rule[country]', options_for_select(country_options, rule.country)

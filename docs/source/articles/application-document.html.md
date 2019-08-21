@@ -1,5 +1,6 @@
 ---
 title: Application Document
+created_at: 2018/07/31
 excerpt: An application document is a persistable model with a global id, timestamps, an audit log, and life cycle callbacks providing hooks for callbacks workers. An application document cleans some of its data before validation and before create.
 ---
 

@@ -39,6 +39,7 @@ namespace :workarea do
       Workarea::Metrics::SearchByWeek.delete_all
       Workarea::Metrics::SearchForLastWeek.delete_all
       Workarea::Metrics::SkuByDay.delete_all
+      Workarea::Metrics::TenderByDay.delete_all
       Workarea::Metrics::TrafficReferrerByDay.delete_all
       Workarea::Metrics::User.delete_all
       Workarea::Insights::Base.delete_all

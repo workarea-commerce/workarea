@@ -1,6 +1,7 @@
 module Workarea
   class PublishRelease
     include Sidekiq::Worker
+    sidekiq_options queue: 'releases'
 
     def perform(release_id)
       release = Release.find(release_id)

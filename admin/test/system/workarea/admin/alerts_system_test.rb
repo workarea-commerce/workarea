@@ -17,6 +17,7 @@ module Workarea
         )
         create_category(product_ids: [], product_rules: [])
         create_release(name: 'Foo', publish_at: 1.hour.from_now)
+        create_inventory(id: 'NODETAILS', policy: :standard, available: 1)
 
         visit admin.root_path
         assert(page.has_content?('9 Alerts'))
@@ -28,7 +29,7 @@ module Workarea
           assert(page.has_content?('3 products missing descriptions'))
           assert(page.has_content?('1 product missing variants'))
           assert(page.has_content?('3 products missing categories'))
-          assert(page.has_content?('4 products with low inventory'))
+          assert(page.has_content?('1 product with low inventory'))
           assert(page.has_content?('2 products with variants missing details'))
           assert(page.has_content?('1 product with inconsistent variant details'))
           assert_match(/Foo publishes on/, page.text)

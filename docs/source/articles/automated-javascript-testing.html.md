@@ -1,5 +1,6 @@
 ---
 title: Automated JavaScript Testing
+created_at: 2018/09/17
 excerpt: The Workarea platform uses Teaspoon to unit test JavaScript modules.
 ---
 

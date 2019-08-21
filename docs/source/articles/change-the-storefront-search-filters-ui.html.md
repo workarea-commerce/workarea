@@ -1,5 +1,6 @@
 ---
 title: Change the Storefront Search Filters UI
+created_at: 2018/10/01
 excerpt: Learn the steps to style and adjust a frequently customized area of the Storefront
 ---
 

@@ -1,5 +1,6 @@
 ---
 title: Access Routes in JavaScript
+created_at: 2018/09/17
 excerpt: Who likes hard coding paths into an application only to see them change? Not me. That's why Rails provides routing helpers for use in Rails views and controllers. To get access to these in JavaScript templates and modules, Workarea provides WORKAREA.ro
 ---
 

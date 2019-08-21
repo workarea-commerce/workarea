@@ -5,9 +5,7 @@ module Workarea
         include StatusCalculator::Status
 
         def in_status?
-          model.publish_at.blank? &&
-          model.published_at.blank? &&
-          model.undo_at.blank?
+          model.publish_at.blank? && model.published_at.blank?
         end
       end
 
@@ -24,27 +22,7 @@ module Workarea
         include StatusCalculator::Status
 
         def in_status?
-          model.published_at.present? &&
-          model.publish_at.blank?
-        end
-      end
-
-      class Undone
-        include StatusCalculator::Status
-
-        def in_status?
-          model.published_at.present? &&
-          model.undone_at.present?
-        end
-      end
-
-      class ScheduledUndo
-        include StatusCalculator::Status
-
-        def in_status?
-          return false unless model.undo_at.present?
-          model.published_at.present? &&
-          model.undo_at >= Time.current
+          model.published_at.present? && model.publish_at.blank?
         end
       end
     end

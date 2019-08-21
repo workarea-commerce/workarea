@@ -113,44 +113,19 @@ module Workarea
       assert_equal(1, model.changesets.length)
       assert_equal(@release.id, model.changesets.first.release_id)
       assert_equal('Changed', model.changesets.first.changeset['name'])
+      assert_equal('Test', model.changesets.first.original['name'])
 
       assert_equal('Bar', model.bars.first.name)
       assert_equal(1, model.bars.first.changesets.length)
       assert_equal(@release.id, model.bars.first.changesets.first.release_id)
       assert_equal('Bar Changed', model.bars.first.changesets.first.changeset['name'])
+      assert_equal('Bar', model.bars.first.changesets.first.original['name'])
 
       assert_equal('Baz', model.baz.name)
       assert_equal(1, model.baz.changesets.length)
       assert_equal(@release.id, model.baz.changesets.first.release_id)
       assert_equal('Baz Changed', model.baz.changesets.first.changeset['name'])
-    end
-
-    def test_save_does_not_log_undone_changes
-      model = Foo.create!(
-        name: 'Test',
-        blank_field: 'test'
-      )
-
-      Release.with_current(@release.id) do
-        model.name = 'Changed'
-        model.blank_field = 'changed'
-        model.save!
-
-        model.name = 'Test'
-        model.blank_field = 'changed'
-        model.save!
-      end
-
-      assert(model.changesets.first.present?)
-      assert_equal('changed', model.changesets.first.changeset['blank_field'])
-      assert_nil(model.changesets.first.changeset['name'])
-
-      Release.with_current(@release.id) do
-        model.blank_field = 'test'
-        model.save!
-      end
-
-      assert(model.changesets.empty?)
+      assert_equal('Baz', model.baz.changesets.first.original['name'])
     end
 
     def test_save_does_not_log_release_changes_if_invalid
@@ -215,16 +190,19 @@ module Workarea
       assert_equal(1, model.changesets.length)
       assert_equal(@release.id, model.changesets.first.release_id)
       assert_equal('Changed', model.changesets.first.changeset['name'])
+      assert_equal('Test', model.changesets.first.original['name'])
 
       assert_equal('Bar', model.bars.first.name)
       assert_equal(1, model.bars.first.changesets.length)
       assert_equal(@release.id, model.bars.first.changesets.first.release_id)
       assert_equal('Bar Changed', model.bars.first.changesets.first.changeset['name'])
+      assert_equal('Bar', model.bars.first.changesets.first.original['name'])
 
       assert_equal('Baz', model.baz.name)
       assert_equal(1, model.baz.changesets.length)
       assert_equal(@release.id, model.baz.changesets.first.release_id)
       assert_equal('Baz Changed', model.baz.changesets.first.changeset['name'])
+      assert_equal('Baz', model.baz.changesets.first.original['name'])
     end
 
     def test_save_does_not_save_timestamp_changes
@@ -236,6 +214,9 @@ module Workarea
 
       fields_in_change = model.changesets.first.changeset.keys
       refute_includes(fields_in_change, 'updated_at')
+
+      fields_in_original = model.changesets.first.original.keys
+      refute_includes(fields_in_original, 'updated_at')
     end
 
     def test_save_does_not_save_slug_changes
@@ -261,6 +242,9 @@ module Workarea
 
       fields_in_change = model.changesets.first.changeset.keys
       refute_includes(fields_in_change, 'blank_field')
+
+      fields_in_original = model.changesets.first.original.keys
+      refute_includes(fields_in_original, 'blank_field')
     end
 
     def test_save_can_schedule_activation
@@ -276,6 +260,7 @@ module Workarea
       assert_equal(1, model.changesets.length)
       assert_equal(@release.id, model.changesets.first.release_id)
       assert(model.changesets.first.changeset['active'])
+      refute(model.changesets.first.original['active'])
     end
 
     def test_save_ignores_illegal_values
@@ -312,11 +297,13 @@ module Workarea
       assert_equal(1, embedded_1.changesets.length)
       assert_equal(@release.id, embedded_1.changesets.first.release_id)
       assert(embedded_1.changesets.first.changeset['active'])
+      refute(embedded_1.changesets.first.original['active'])
 
       refute(embedded_2.active)
       assert_equal(1, embedded_2.changesets.length)
       assert_equal(@release.id, embedded_2.changesets.first.release_id)
       assert(embedded_2.changesets.first.changeset['active'])
+      refute(embedded_2.changesets.first.original['active'])
     end
 
     def test_destroys_related_changesets
@@ -361,6 +348,7 @@ module Workarea
       assert_equal(1, model.changesets.length)
       assert_equal(@release.id, model.changesets.first.release_id)
       assert_equal('Changed', model.changesets.first.changeset['name'])
+      assert_equal('Test', model.changesets.first.original['name'])
     end
 
     def test_destroys_a_changeset_where_it_is_the_only_change_if_embedded
@@ -407,55 +395,6 @@ module Workarea
       assert_equal('Baz Changed', model.baz.name)
     end
 
-    def test_undo
-      model = Foo.create!(
-        name: 'Test',
-        bars: [{ name: 'Bar' }],
-        baz: { name: 'Baz' }
-      )
-
-      Release.with_current(@release.id) do
-        model.name = 'Changed'
-        model.save!
-
-        model.bars.first.name = 'Bar Changed'
-        model.bars.first.save!
-
-        model.baz.name = 'Baz Changed'
-        model.baz.save!
-      end
-
-      @release.changesets.each(&:publish!)
-      model.reload
-
-      assert_equal('Changed', model.name)
-      assert_equal('Bar Changed', model.bars.first.name)
-      assert_equal('Baz Changed', model.baz.name)
-
-      @release.changesets.each(&:undo!)
-      model.reload
-
-      assert_equal('Test', model.name)
-      assert_equal('Bar', model.bars.first.name)
-      assert_equal('Baz', model.baz.name)
-    end
-
-    def test_activates_with_current_release
-      model = Foo.create!(name: 'Test', active: false)
-      refute(model.activates_with_current_release?)
-
-      Release.with_current(@release.id) do
-        model.active = true
-        model.save!
-
-        model.reload
-        assert(model.activates_with_current_release?)
-      end
-
-      model.reload
-      refute(model.activates_with_current_release?)
-    end
-
     def test_creating_and_activating_embedded
       model = Foo.create!(name: 'Foo')
 
@@ -473,7 +412,84 @@ module Workarea
       assert_equal(1, embedded.changesets.length)
       assert_equal(@release.id, embedded.changesets.first.release_id)
       assert(embedded.changesets.first.changeset['active'])
+      refute(embedded.changesets.first.original['active'])
       assert(embedded.changesets.first.document_path.present?)
+    end
+
+    def test_deleting_embedded
+      model = Foo.create!(name: 'Foo', bars: [{ name: 'Test' }])
+      @release.as_current { model.bars.first.destroy }
+
+      model.reload
+      assert(model.bars.first.active?)
+
+      @release.as_current do
+        model.reload
+        refute(model.bars.first.active?)
+      end
+    end
+
+    def test_in_release
+      model = Foo.create!(name: 'Foo')
+      @release.as_current { model.update!(name: 'Bar') }
+
+      model.reload
+      in_release = model.in_release(@release)
+      assert_equal('Bar', in_release.name)
+      refute_equal(in_release.object_id, model.object_id)
+
+      @release.as_current { model.reload }
+      in_release = model.in_release(nil)
+      assert_equal('Foo', in_release.name)
+      refute_equal(in_release.object_id, model.object_id)
+    end
+
+    def test_skip_changeset
+      model = Foo.create!(name: 'Foo')
+
+      @release.as_current do
+        model.skip_changeset { model.update!(name: 'Bar') }
+      end
+
+      assert_equal('Bar', model.reload.name)
+      assert_equal(0, model.changesets.count)
+
+      assert_raises do
+        @release.as_current do
+          model.skip_changeset do
+            model.update!(name: 'Baz')
+            raise 'test'
+          end
+        end
+      end
+
+      @release.as_current { model.update!(name: 'Qoo') }
+      assert_equal('Baz', model.reload.name)
+      assert_equal(1, model.changesets.count)
+    end
+
+    def test_changesets_with_children
+      model = Foo.create!(
+        name: 'Test',
+        bars: [{ name: 'Bar' }],
+        baz: { name: 'Baz' }
+      )
+
+      assert_empty(model.changesets_with_children)
+
+      @release.as_current { model.update!(name: 'Test 2') }
+      assert_equal(model.changesets, model.changesets_with_children)
+
+      @release.as_current { model.bars.first.update!(name: 'Bar 2') }
+      assert_equal(2, model.changesets_with_children.size)
+      assert_includes(model.changesets_with_children, model.changesets.first)
+      assert_includes(model.changesets_with_children, model.bars.first.changesets.first)
+
+      @release.as_current { model.baz.update!(name: 'Baz 2') }
+      assert_equal(3, model.changesets_with_children.size)
+      assert_includes(model.changesets_with_children, model.changesets.first)
+      assert_includes(model.changesets_with_children, model.bars.first.changesets.first)
+      assert_includes(model.changesets_with_children, model.baz.changesets.first)
     end
   end
 end

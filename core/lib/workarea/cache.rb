@@ -7,10 +7,8 @@ module Workarea
     end
 
     class Varies
-      class UnsupportedSessionAccess < RuntimeError; end
-
-      attr_reader :env
-      delegate_missing_to :request
+      attr_reader :visit
+      delegate_missing_to :visit
 
       # This allows varying the HTTP and fragment caching on cookies, session or
       # other request-based info (like headers). This is useful when you'd like
@@ -66,40 +64,15 @@ module Workarea
         Workarea.config.cache_varies << block
       end
 
-      def initialize(env, varies = Workarea.config.cache_varies)
-        @env = env
-        @varies = Array.wrap(varies)
+      def initialize(visit, varies = Workarea.config.cache_varies)
+        @visit = visit
+        @varies = Array.wrap(varies) + [
+          lambda { Digest::SHA1.hexdigest(visit.segments.map(&:id).map(&:to_s).sort.join) }
+        ]
       end
 
       def to_s
-        @to_s ||= @varies.map { |v| instance_exec(&v).to_s }.join(':')
-      end
-
-      def cookies
-        request.cookie_jar
-      end
-
-      def session
-        raise UnsupportedSessionAccess unless session_cookie_store?
-        @session ||= (cookies.signed_or_encrypted[session_key] || {}).with_indifferent_access
-      end
-
-      def request
-        @request ||= ActionDispatch::Request.new(env)
-      end
-
-      def geolocation
-        @geolocation ||= Workarea::Geolocation.new(env, request.remote_ip)
-      end
-
-      private
-
-      def session_key
-        Rails.application.config.session_options[:key]
-      end
-
-      def session_cookie_store?
-        Rails.application.config.session_store == ActionDispatch::Session::CookieStore
+        @to_s ||= @varies.map { |v| visit.instance_exec(&v).to_s }.join(':')
       end
     end
   end

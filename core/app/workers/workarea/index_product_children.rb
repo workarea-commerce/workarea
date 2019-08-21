@@ -5,8 +5,8 @@ module Workarea
 
     sidekiq_options(
       enqueue_on: {
-        Catalog::Variant => [:save, :destroy],
-        Catalog::ProductImage => [:save, :destroy],
+        Catalog::Variant => [:save, :save_release_changes, :destroy],
+        Catalog::ProductImage => [:save, :save_release_changes, :destroy],
         with: -> { [_parent.id.to_s] }
       },
       lock: :until_executing

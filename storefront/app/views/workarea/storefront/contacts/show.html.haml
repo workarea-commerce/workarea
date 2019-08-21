@@ -5,10 +5,12 @@
   %meta{ name: :description, content: @inquiry.meta_description }
 
 - content_for :breadcrumbs do
+  = render_schema_org(breadcrumb_list_schema([[t('workarea.storefront.layouts.home'), root_url], [@inquiry.title, page_url('inquiry')]]))
+
   %p.breadcrumbs__node-group
-    %span.breadcrumbs__node{ itemprop: 'breadcrumb' }
+    %span.breadcrumbs__node
       = link_to t('workarea.storefront.layouts.home'), root_path, rel: 'home', class: 'breadcrumbs__link'
-    %span.breadcrumbs__node{ itemprop: 'breadcrumb' }
+    %span.breadcrumbs__node
       %span.breadcrumbs__text= @inquiry.title
 
 .view

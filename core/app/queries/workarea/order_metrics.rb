@@ -7,6 +7,10 @@ module Workarea
       @order = order
     end
 
+    def occured_at
+      order.placed_at
+    end
+
     def user
       @user ||= Metrics::User.find_or_initialize_by(id: email)
     end
@@ -36,6 +40,14 @@ module Workarea
           revenue: total_price
         }
       end
+    end
+
+    def user_data
+      {
+        email: email,
+        revenue: total_price,
+        discounts: sales_data[:discounts],
+      }
     end
 
     def shipping_before_discounts
@@ -85,7 +97,7 @@ module Workarea
 
     def menus
       @menus ||= categories.reduce({}) do |memo, (category_id, data)|
-        category = category_models.detect { |c| c.id.to_s == category_id.to_s }
+        category = category_models[category_id]
         taxon_ids = [category&.taxon&.id, category&.taxon&.parent_ids].flatten.reject(&:blank?)
 
         Navigation::Menu.any_in(taxon_id: taxon_ids).pluck(:id).map(&:to_s).each do |menu_id|
@@ -104,8 +116,12 @@ module Workarea
       end
     end
 
+    def payment
+      @payment ||= Payment.find_or_initialize_by(id: order.id)
+    end
+
     def country
-      Payment.find(order.id).address.country.alpha2 rescue nil
+      payment.address&.country&.alpha2
     end
 
     def shippings
@@ -135,6 +151,19 @@ module Workarea
             revenue: sales_data[:revenue]
           }
         end
+      end
+    end
+
+    def tenders
+      @tenders ||= payment.tenders.each_with_object({}) do |tender, data|
+        data[tender.slug] ||= { orders: 1, revenue: 0 }
+        data[tender.slug][:revenue] += tender.amount
+      end
+    end
+
+    def segments
+      @segments ||= order.segment_ids.each_with_object({}) do |segment_id, data|
+        data[segment_id] = sales_data
       end
     end
 
@@ -197,7 +226,7 @@ module Workarea
     end
 
     def category_models
-      @category_models ||= Catalog::Category.any_in(id: categories.keys).to_a
+      @category_models ||= Catalog::Category.any_in(id: categories.keys).to_lookup_hash
     end
   end
 end

@@ -12,6 +12,9 @@
               %strong= t('workarea.admin.fields.file_name')
               = link_to model.file_name, model.url, target: '_blank', rel: 'noopener'
             %li
+              %strong= t('workarea.admin.fields.alt_text')
+              = model.alt_text
+            %li
               %strong= t('workarea.admin.fields.type')
               = model.type.titleize
             %li

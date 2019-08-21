@@ -1,5 +1,6 @@
 ---
 title: Add, Remove, Sort, and Group Storefront Search Filters
+created_at: 2019/02/27
 excerpt: Learn how to programmatically manipulate and customize rendering filters on the storefront
 ---
 
@@ -188,20 +189,28 @@ This Haml template includes code specific to filtering by price, so you'll need 
            %td
 -            = currency_symbol
 -            = text_field_tag 'range_facets[height][][from]', range['from'], title: t('workarea.admin.facets.price_inputs.from'), class: 'text-box text-box--small', id: "range_facets[height][][from][#{index}]"
+created_at: 2019/02/27
 +            = text_field_tag 'range_facets[price][][from]', range['from'], title: t('workarea.admin.facets.price_inputs.from'), class: 'text-box text-box--small', id: "range_facets[price][][from][#{index}]"
+created_at: 2019/02/27
            %td
 -            = currency_symbol
 -            = text_field_tag 'range_facets[height][][to]', range['to'], title: t('workarea.admin.facets.price_inputs.to'), class: 'text-box text-box--small', id: "range_facets[height][][to][#{index}]"
+created_at: 2019/02/27
 +            = text_field_tag 'range_facets[price][][to]', range['to'], title: t('workarea.admin.facets.price_inputs.to'), class: 'text-box text-box--small', id: "range_facets[price][][to][#{index}]"
+created_at: 2019/02/27
        %tr{ data: { cloneable_row: '' } }
          %td
 -          = currency_symbol
 -          = text_field_tag 'range_facets[height][][from]', nil, title: t('workarea.admin.facets.price_inputs.from'), class: 'text-box text-box--small'
+created_at: 2019/02/27
 +          = text_field_tag 'range_facets[price][][from]', nil, title: t('workarea.admin.facets.price_inputs.from'), class: 'text-box text-box--small'
+created_at: 2019/02/27
          %td
 -          = currency_symbol
 -          = text_field_tag 'range_facets[height][][to]', nil, title: t('workarea.admin.facets.price_inputs.to'), class: 'text-box text-box--small'
+created_at: 2019/02/27
 +          = text_field_tag 'range_facets[price][][to]', nil, title: t('workarea.admin.facets.price_inputs.to'), class: 'text-box text-box--small'
+created_at: 2019/02/27
 ```
 
 To display this new markup on the search settings page, override the **workarea/admin/search_settings/show.html.haml** partial to render your new range filter:

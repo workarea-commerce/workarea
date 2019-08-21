@@ -210,19 +210,17 @@ module Workarea
       end
 
       def test_ignored_fields
-        Workarea.with_config do |config|
-          config.data_file_ignored_fields = %w(ignore)
+        Workarea.config.data_file_ignored_fields = %w(ignore)
 
-          model = Foo.create!(
-            bars: [{ name: '1', ignore: 1 }, { name: '2', ignore: 2 }]
-          )
+        model = Foo.create!(
+          bars: [{ name: '1', ignore: 1 }, { name: '2', ignore: 2 }]
+        )
 
-          csv = Csv.new.serialize(model)
-          results = CSV.parse(csv, headers: :first_row).map(&:to_h)
+        csv = Csv.new.serialize(model)
+        results = CSV.parse(csv, headers: :first_row).map(&:to_h)
 
-          assert_equal(2, results.size)
-          results.each { |r| refute(r.key?('bars_ignore')) }
-        end
+        assert_equal(2, results.size)
+        results.each { |r| refute(r.key?('bars_ignore')) }
       end
 
       def test_active_merchant_responses

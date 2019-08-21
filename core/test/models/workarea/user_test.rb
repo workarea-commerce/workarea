@@ -280,18 +280,16 @@ module Workarea
     end
 
     def test_admins_have_more_advanced_password_requirements
-      Workarea.with_config do |config|
-        config.password_strength = :weak
+      Workarea.config.password_strength = :weak
 
-        user = User.new(admin: false, password: 'password').tap(&:valid?)
-        assert(user.errors[:password].blank?)
+      user = User.new(admin: false, password: 'password').tap(&:valid?)
+      assert(user.errors[:password].blank?)
 
-        user = User.new(admin: true, password: 'password').tap(&:valid?)
-        assert(user.errors[:password].present?)
+      user = User.new(admin: true, password: 'password').tap(&:valid?)
+      assert(user.errors[:password].present?)
 
-        user = User.new(admin: true, password: 'xykrDQXT]9Ai7XEXfe').tap(&:valid?)
-        assert(user.errors[:password].blank?)
-      end
+      user = User.new(admin: true, password: 'xykrDQXT]9Ai7XEXfe').tap(&:valid?)
+      assert(user.errors[:password].blank?)
     end
 
     def test_admin_permissions_revoked_when_no_longer_admin

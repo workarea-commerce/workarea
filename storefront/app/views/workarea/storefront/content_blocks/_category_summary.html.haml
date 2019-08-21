@@ -10,6 +10,7 @@
     - else
       .grid
         - products.each do |product|
+          = render_schema_org(product_schema(product))
           .grid__cell.grid__cell--50.grid__cell--33-at-medium.grid__cell--16-at-wide
-            %div.product-summary.product-summary--small{ itemscope: true, itemtype: 'http://schema.org/Product' }
+            %div.product-summary.product-summary--small
               = render 'workarea/storefront/products/summary', product: product

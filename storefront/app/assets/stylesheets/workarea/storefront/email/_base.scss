@@ -1,8 +1,10 @@
 /*------------------------------------*\
     #BASE
 \*------------------------------------*/
+
 body {
     margin: 0;
+    padding: 0 !important;
 }
 
 body > center {
@@ -11,8 +13,14 @@ body > center {
 
 body > center,
 body > center > table {
-    background: $email-background-color;
     text-align: left;
+}
+
+// Required to ensure background is properly displayed across clients
+body,
+body > center,
+.mso-wrapper {
+    background: $email-background-color;
 }
 
 table {

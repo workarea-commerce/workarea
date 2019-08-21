@@ -1,6 +1,7 @@
 module Workarea
   module Admin
     class DataFileImportsController < Admin::ApplicationController
+      before_action :check_publishing_authorization
       before_action :set_import
 
       def new
@@ -28,7 +29,11 @@ module Workarea
 
       def import_params
         base = params.select { |k, v| k.in?(DataFile::Import.fields.keys) }
-        base.merge(params[:import] || {}).merge(created_by_id: current_user.id)
+        base.merge(params[:import] || {})
+            .merge(
+              created_by_id: current_user.id,
+              release_id: params[:publishing]
+            )
       end
     end
   end

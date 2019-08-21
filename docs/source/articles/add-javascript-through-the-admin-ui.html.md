@@ -1,5 +1,6 @@
 ---
 title: Add JavaScript through the Admin UI
+created_at: 2018/10/11
 excerpt: JavaScript can be added on a page by page basis through the Admin UI. To do so, visit a content edit page in the Admin, such as the home page edit screen.
 ---
 

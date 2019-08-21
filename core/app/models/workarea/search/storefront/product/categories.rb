@@ -5,59 +5,36 @@ module Workarea
         module Categories
           extend ActiveSupport::Concern
 
+          # TODO remove these in v3.6
           class_methods do
             def add_category(category)
-              I18n.for_each_locale do
-                category.reload
-
-                if category.product_rules.present?
-                  document = {
-                    id: category.id,
-                    query: Categorization.new(rules: category.product_rules).query
-                  }
-
-                  Storefront.current_index.save(document, type: 'category')
-                end
-              end
+              warn <<~eos
+                [DEPRECATION] Use `Workarea::Search::Storefront::CategoryQuery.new(category).create`
+                for adding category queries for percolation.
+                `Workarea::Search::Storefront::Product::Categories.add_category`
+                will be removed in v3.6.
+              eos
+              CategoryQuery.new(category).create
             end
 
             def delete_category(category_id)
-              I18n.for_each_locale do
-                current_index.delete(category_id, type: 'category')
-              end
-
-            rescue ::Elasticsearch::Transport::Transport::Errors::NotFound
-              # doesn't matter we want it deleted
+              warn <<~eos
+                [DEPRECATION] Use `Workarea::Search::Storefront::CategoryQuery.new(category).delete`
+                for working with category queries for percolation.
+                `Workarea::Search::Storefront::Product::Categories.delete_category`
+                will be removed in v3.6.
+              eos
+              CategoryQuery.new(category_id).delete
             end
 
             def find_categories(product)
-              search_model = Product.new(product, skip_categorization: true)
-
-              begin
-                find_categories!(id: search_model.id)
-              rescue
-                begin
-                  find_categories!(document: search_model.as_document)
-                rescue ::Elasticsearch::Transport::Transport::ServerError
-                  []
-                end
-              end
-            end
-
-            def find_categories!(options)
-              results = current_index.search(
-                size: Workarea.config.product_categories_by_rules_max_count,
-                query: {
-                  percolate: options.merge(
-                    field: 'query',
-                    index: current_index.name,
-                    type: Storefront.type,
-                    document_type: 'category'
-                  )
-                }
-              )
-
-              results['hits']['hits'].map { |h| h['_id'] }
+              warn <<~eos
+                [DEPRECATION] Use `Workarea::Search::Storefront::CategoryQuery.find_by_product`
+                for working with category queries for percolation.
+                `Workarea::Search::Storefront::Product::Categories.find_categories`
+                will be removed in v3.6.
+              eos
+              CategoryQuery.find_by_product(product)
             end
           end
 

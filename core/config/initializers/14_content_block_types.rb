@@ -1,4 +1,4 @@
-Workarea::Content.define_block_types do
+Workarea.define_content_block_types do
   #
   # Columnar Blocks
   #
@@ -8,7 +8,7 @@ Workarea::Content.define_block_types do
     description 'Positionable button over a background image.'
 
     fieldset 'Image' do
-      field 'Asset', :asset, required: true, file_types: 'image', default: find_asset_id_by_file_name('960x470_light.png')
+      field 'Asset', :asset, required: true, file_types: 'image', default: find_asset_id_by_file_name('960x470_light.png'), alt_field: 'Alt Text'
       field 'Alt Text', :string, default: 'An Image'
     end
 
@@ -38,7 +38,7 @@ Workarea::Content.define_block_types do
     tags %w(image)
     description 'An image with an optional link.'
 
-    field 'Image', :asset, required: true, file_types: 'image', default: find_asset_id_by_file_name('960x470_light.png')
+    field 'Image', :asset, required: true, file_types: 'image', default: find_asset_id_by_file_name('960x470_light.png'), alt_field: 'Alt'
     field 'Alt', :string, default: 'An Image'
     field 'Link', :url, default: '/'
     field 'Align', :options, values: %w(Left Center Right), default: 'Center'
@@ -77,7 +77,7 @@ Workarea::Content.define_block_types do
     end
 
     fieldset 'Image' do
-      field 'Image', :asset, file_types: 'image', default: find_asset_id_by_file_name('100x100.png')
+      field 'Image', :asset, file_types: 'image', default: find_asset_id_by_file_name('100x100.png'), alt_field: 'Image Alt'
       field 'Image Alt', :string, default: 'An Image'
       field 'Image Link', :url, default: '/'
       field 'Image Position', :options, values: %w(Right Left), default: 'Left'
@@ -96,7 +96,7 @@ Workarea::Content.define_block_types do
     end
 
     fieldset 'Image' do
-      field 'Image', :asset, file_types: 'image', default: find_asset_id_by_file_name('100x100.png')
+      field 'Image', :asset, file_types: 'image', default: find_asset_id_by_file_name('100x100.png'), alt_field: 'Image Alt'
       field 'Image Alt', :string, default: 'An Image'
       field 'Image Link', :url, default: '/'
       field 'Image Position', :options, values: %w(Right Left), default: 'Left'
@@ -115,7 +115,7 @@ Workarea::Content.define_block_types do
     end
 
     fieldset 'Image' do
-      field 'Image', :asset, file_types: 'image', default: find_asset_id_by_file_name('100x100.png')
+      field 'Image', :asset, file_types: 'image', default: find_asset_id_by_file_name('100x100.png'), alt_field: 'Image Alt'
       field 'Image Alt', :string, default: 'An Image'
       field 'Image Link', :url, default: '/'
       field 'Image Position', :options, values: %w(Right Left), default: 'Left'
@@ -126,7 +126,7 @@ Workarea::Content.define_block_types do
     tags %w(quote)
     description 'A block of text styled like a quote.'
 
-    field 'Quote', :text, required: true, default: Workarea.config.placeholder_text
+    field 'Quote', :text, required: true, default: -> { Workarea.config.placeholder_text }
     field 'Author', :string, default: ''
   end
 
@@ -140,7 +140,7 @@ Workarea::Content.define_block_types do
     description 'A group of images.'
 
     series 6 do
-      field 'Image', :asset, default: find_asset_id_by_file_name('960x470_dark.png')
+      field 'Image', :asset, default: find_asset_id_by_file_name('960x470_dark.png'), alt_field: 'Alt'
       field 'Alt', :string, default: 'An Image'
       field 'Link', :url, default: '/'
     end
@@ -151,7 +151,7 @@ Workarea::Content.define_block_types do
     description 'Image and formatted text including headings, lists, bold, and italic.'
 
     fieldset 'Image' do
-      field 'Image', :asset, required: true, file_types: 'image', default: find_asset_id_by_file_name('100x100.png')
+      field 'Image', :asset, required: true, file_types: 'image', default: find_asset_id_by_file_name('100x100.png'), alt_field: 'Image Alt'
       field 'Image Alt', :string, default: 'An Image'
       field 'Image Link', :url, default: '/'
       field 'Image Position', :options, values: %w(Right Left), default: 'Left'

@@ -1,5 +1,6 @@
 ---
 title: Maintain a Plugin
+created_at: 2018/09/17
 excerpt: If you've created a plugin for your team to re-use across projects or to share with other teams, you will want to maintain the plugin to respond to bug reports and keep the plugin in sync with supported versions of the Workarea platform. While how you
 ---
 

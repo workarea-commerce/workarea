@@ -14,13 +14,11 @@ module Workarea
       end
 
       def test_templates_includes_template_options_without_test
-        Workarea.with_config do |config|
-          config.product_templates = [:foo, :test]
-          assert_equal(
-            [['Generic', 'generic'], ['Foo', 'foo']],
-            @view_model.templates
-          )
-        end
+        Workarea.config.product_templates = [:foo, :test]
+        assert_equal(
+          [['Generic', 'generic'], ['Foo', 'foo']],
+          @view_model.templates
+        )
       end
 
       def test_options
@@ -60,16 +58,12 @@ module Workarea
       end
 
       def test_customization_options
-        Workarea.with_config do |config|
-          config.customization_types = []
-          assert_equal([['None', nil]], @view_model.customization_options)
-        end
+        Workarea.config.customization_types = []
+        assert_equal([['None', nil]], @view_model.customization_options)
 
-        Workarea.with_config do |config|
-          config.customization_types = [FooBar]
-          customizations = @view_model.customization_options
-          assert_equal([['None', nil], ['Foo Bar', 'foo_bar']], customizations)
-        end
+        Workarea.config.customization_types = [FooBar]
+        customizations = @view_model.customization_options
+        assert_equal([['None', nil], ['Foo Bar', 'foo_bar']], customizations)
       end
 
       def test_pricing

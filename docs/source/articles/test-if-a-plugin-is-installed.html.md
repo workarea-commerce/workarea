@@ -1,5 +1,6 @@
 ---
 title: Test if a Plugin is Installed
+created_at: 2018/07/31
 excerpt: It may be necessary to enable certain plugin functionality based on the presence of other plugins. The Workarea::Plugin.installed? method may be used to test if a plugin is installed.
 ---
 

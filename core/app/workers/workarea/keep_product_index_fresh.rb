@@ -9,10 +9,7 @@ module Workarea
 
     def perform(*args)
       all = never_indexed + stale
-
-      all.take(Workarea.config.stale_products_size).each do |product|
-        IndexProduct.perform(product)
-      end
+      BulkIndexProducts.perform_by_models(all.take(Workarea.config.stale_products_size))
     end
 
     def never_indexed

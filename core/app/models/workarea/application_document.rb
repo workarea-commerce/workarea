@@ -14,7 +14,7 @@ module Workarea
     end
 
     def releasable?
-      false
+      is_a?(Releasable)
     end
 
     private

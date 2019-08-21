@@ -79,5 +79,22 @@ module Workarea
         @placed_order.checkout_started_at
       )
     end
+
+    def test_anonymize!
+      user = create_user
+      placed_order = create_placed_order(id: '2356', user_id: user.id, email: user.email)
+
+      copy = CopyOrder.new(placed_order).tap(&:perform)
+      assert(copy.new_order.email.present?)
+      assert(copy.new_order.user_id.present?)
+      assert(copy.new_payment.persisted?)
+      assert(copy.new_shippings.all?(&:persisted?))
+
+      copy.anonymize!
+      refute(copy.new_order.email.present?)
+      refute(copy.new_order.user_id.present?)
+      refute(copy.new_payment.persisted?)
+      assert(copy.new_shippings.none?(&:persisted?))
+    end
   end
 end

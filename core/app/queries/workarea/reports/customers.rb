@@ -4,7 +4,7 @@ module Workarea
       include Report
 
       self.reporting_class = Metrics::User
-      self.sort_fields = %w(revenue first_order_at last_order_at orders average_order_value)
+      self.sort_fields = %w(revenue refund first_order_at last_order_at orders average_order_value cancellations)
 
       def aggregation
         result = [add_returning]
@@ -36,7 +36,9 @@ module Workarea
             'first_order_at' => 1,
             'last_order_at' => 1,
             'orders' => 1,
+            'cancellations' => 1,
             'revenue' => 1,
+            'refund' => 1,
             'average_order_value' => { '$divide': ['$revenue', '$orders'] }
           }
         }

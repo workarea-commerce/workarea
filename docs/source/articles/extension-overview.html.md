@@ -1,5 +1,6 @@
 ---
 title: Extension
+created_at: 2018/08/07
 excerpt: Extension is the process of adding, modifying, or even removing Workarea platform functionality from within a Workarea application or plugin. Workarea plugins extend the platform in ways that are re-usable across applications, while individual applica
 ---
 

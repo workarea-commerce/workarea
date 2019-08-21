@@ -1,0 +1,3 @@
+.grid.grid--auto.grid--right.grid--middle
+  - if model.product.present?
+    .grid__cell= link_to t('workarea.admin.fulfillment_skus.aux_navigation.view_product'), url_for(model.product), local_assigns[:html_options]

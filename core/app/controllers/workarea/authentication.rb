@@ -12,41 +12,48 @@ module Workarea
 
     def current_user
       return @current_user if defined?(@current_user)
-      @current_user = User.find(cookies.signed[:user_id]) rescue nil
+      @current_user = User.find(session[:user_id]) rescue nil
     end
 
     def login(user)
       @current_user = user
+      session[:user_id] = user.id.to_s
+      cookies.permanent[:cache] = false if user.admin?
+
       user.update_login!(request)
-      touch_auth_cookie
+      update_tracking!
       user
     end
 
     def logout
-      cookies.delete(:user_id)
+      reset_session
       cookies.delete(:cache)
-      cookies.delete(:completed_order)
       @current_user = nil
+      update_tracking!
     end
 
+    # TODO deprecated, remove in v3.6
     def touch_auth_cookie
-      return if current_user.blank?
-
-      cookies.signed[:user_id] = { value: current_user.id, expires: auth_expiry }
-
-      if current_user.admin?
-        cookies[:cache] = { value: 'false', expires: auth_expiry }
-      end
+      warn <<~eos
+        [DEPRECATION] `touch_auth_cookie` and `keep_auth_alive` are deprecated
+        and will be removed in version 3.6.0. Since session is handled with
+        Rails sessions now, you won't need either of these methods.
+      eos
     end
     alias_method :keep_auth_alive, :touch_auth_cookie
 
     def logged_in?
-      current_user.present? && current_user.valid_logged_in_request?(request)
+      current_user.present? && valid_logged_in_request?
+    end
+
+    def valid_logged_in_request?
+      !!current_user&.valid_logged_in_request?(request)
     end
 
     def require_login(should_remember_location = true)
       return if logged_in?
 
+      logout if !valid_logged_in_request?
       flash[:info] = t('workarea.authentication.login')
       remember_location if request.get? && should_remember_location
       redirect_to storefront.login_path, turbolinks: false
@@ -102,16 +109,6 @@ module Workarea
       remembered = return_to.presence || session[:return_to].presence
       session.delete(:return_to)
       redirect_to remembered || default
-    end
-
-    private
-
-    def auth_expiry
-      if current_user.admin?
-        Workarea.config.admin_session_timeout.from_now
-      else
-        Workarea.config.customer_session_timeout.from_now
-      end
     end
   end
 end

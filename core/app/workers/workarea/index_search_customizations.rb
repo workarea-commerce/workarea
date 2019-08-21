@@ -5,7 +5,7 @@ module Workarea
 
     sidekiq_options(
       enqueue_on: {
-        Search::Customization => [:save, :destroy],
+        Search::Customization => [:save, :save_release_changes, :destroy],
         with: -> { [product_ids] }
       },
       lock: :until_executing

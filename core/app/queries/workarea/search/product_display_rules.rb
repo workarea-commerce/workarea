@@ -1,6 +1,9 @@
 module Workarea
   module Search
     module ProductDisplayRules
+      extend ActiveSupport::Concern
+      include ReleaseDisplayRules
+
       def product_display_query_clauses(allow_displayable_when_out_of_stock: true)
         [
           { term: { type: 'product' } },
@@ -8,7 +11,8 @@ module Workarea
           inventory_display_clause(
             allow_displayable_when_out_of_stock: allow_displayable_when_out_of_stock
           ),
-          active_for_release_clause
+          active_for_release_clause,
+          include_current_release_clause
         ]
       end
 
@@ -34,34 +38,6 @@ module Workarea
         end
 
         result
-      end
-
-      def active_for_release_clause
-        if Release.current.blank?
-          { term: { 'active.now' => true } }
-        else
-          {
-            bool: {
-              should: [
-                { term: { "active.#{Release.current.id}" => true } },
-                {
-                  bool: {
-                    must: [
-                      { term: { 'active.now' => true } },
-                      {
-                        bool: {
-                          must_not: {
-                            exists: { field: "active.#{Release.current.id}" }
-                          }
-                        }
-                      }
-                    ]
-                  }
-                }
-              ]
-            }
-          }
-        end
       end
     end
   end

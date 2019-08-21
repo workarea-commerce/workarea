@@ -31,15 +31,10 @@ module Workarea
       private
 
       def find_releases_for_date(date)
-        releases_in_range.map{ |r| ReleaseViewModel.new(r, options) }
-                         .select { |r| date_within_range?(date, r) }
-      end
-
-      def date_within_range?(date, release)
-        return true if date == release.publish_time.to_date
-        return false if release.undo_at.blank?
-
-        date.to_time.to_i.between?(release.publish_time.to_i, release.undo_at.to_i)
+        releases_in_range
+          .map { |r| ReleaseViewModel.new(r, options) }
+          .select { |r| r.calendar_on == date }
+          .sort_by(&:calendar_at)
       end
 
       def releases_in_range

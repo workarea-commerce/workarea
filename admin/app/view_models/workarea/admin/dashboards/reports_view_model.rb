@@ -8,6 +8,12 @@ module Workarea
           end
         end
 
+        def tender_graph_data
+          sales_by_tender.results.take(5).reduce({}) do |memo, result|
+            memo.merge(result.name => result.revenue)
+          end
+        end
+
         def insights
           @insights ||= Reports::InsightsViewModel.wrap(nil, options).feed
         end
@@ -65,6 +71,13 @@ module Workarea
           )
         end
 
+        def sales_by_tender
+          @sales_by_tender ||= Reports::SalesByTenderViewModel.wrap(
+            Workarea::Reports::SalesByTender.new(options),
+            options
+          )
+        end
+
         def one_time_customers
           @one_time_customers ||= Reports::OneTimeCustomersViewModel.wrap(
             Workarea::Reports::OneTimeCustomers.new(options),
@@ -96,6 +109,18 @@ module Workarea
         def low_inventory
           @low_inventory ||= Reports::LowInventoryViewModel.wrap(
             Workarea::Reports::LowInventory.new(options),
+            options
+          )
+        end
+
+        def timeline
+          @timeline ||= Reports::TimelineViewModel.wrap(
+            Workarea::Reports::SalesOverTime.new(
+              options.merge(
+                starts_at: 3.months.ago,
+                group_by: 'day'
+              )
+            ),
             options
           )
         end

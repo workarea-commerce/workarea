@@ -161,7 +161,7 @@ module Workarea
 
       def mock_s3
         Fog.mock!
-        Workarea.s3.directories.create(key: Configuration::S3.bucket)
+        Workarea.s3.directories.create(key: Workarea::Configuration::S3.bucket)
       end
 
       def reset_s3
@@ -169,13 +169,51 @@ module Workarea
       end
     end
 
+    module Configuration
+      extend ActiveSupport::Concern
+
+      included do
+        setup :store_config_state
+        teardown :reset_config_state
+      end
+
+      def store_config_state
+        @original_config = Rails.configuration.workarea.deep_dup
+      end
+
+      def reset_config_state
+        Rails.configuration.workarea = @original_config
+      end
+    end
+
+    module Encryption
+      extend ActiveSupport::Concern
+
+      included do
+        setup :ensure_encryption_key
+        teardown :reset_encryption_key
+      end
+
+      def ensure_encryption_key(key: ActiveSupport::EncryptedFile.generate_key)
+        env_key = Mongoid::Encrypted.configuration.env_key
+        @original_key = ENV[env_key]
+        ENV[env_key] ||= key
+      end
+
+      def reset_encryption_key
+        ENV[Mongoid::Encrypted.configuration.env_key] = @original_key
+      end
+    end
+
     extend Decoration
     extend RunnerLocation
+    include Configuration
     include Factories
     include Workers
     include RunnerLocation
     include Locales
     include S3
+    include Encryption
 
     setup do
       Mongoid.truncate!

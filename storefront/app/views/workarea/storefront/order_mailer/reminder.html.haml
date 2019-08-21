@@ -1,5 +1,8 @@
 = append_partials('storefront.order_reminder_mailer.top')
 
+= render_schema_org(email_action_schema(resume_cart_url(@order.token), t('workarea.storefront.email.order_reminder.email_action.name'), t('workarea.storefront.email.order_reminder.email_action.description')))
+= render_schema_org(order_email_schema(@order))
+
 - content_for :preheader_text do
   = @content
 

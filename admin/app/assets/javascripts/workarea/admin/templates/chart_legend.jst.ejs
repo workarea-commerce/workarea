@@ -1,9 +1,17 @@
-<!-- TODO remove in v4, not used >= 3.4 -->
-<ul class="chart-legend">
-    <% _.forEach(datasets, function (dataset) { %>
-        <li class="chart-legend__item">
-            <span class="chart-legend__color-dot" style="background: <%= dataset.legendColor %>"></span>
-            <span class="chart-legend__label"><%= dataset.label %></span>
-        </li>
-    <% }); %>
-</ul>
+<div class="chart-legend">
+    <ul class="chart-legend__list">
+        <% _.forEach(datasets, function (dataset, index) { %>
+            <li class="chart-legend__list-item" style="color: <%= dataset.backgroundColor %>">
+                <span class="checkbox">
+                    <% checked = !!enabled[dataset.label] %>
+                    <input type="checkbox" value="<%= index %>" class="checkbox__input" id="chart_dataset_<%= index %>"<% if (checked) { %> checked="checked"<% } %>>
+                    <label for="chart_dataset_<%= index %>" class="checkbox__label">
+                        <strong>
+                            <%= dataset.label %>
+                        </strong>
+                    </label>
+                </span>
+            </li>
+        <% }); %>
+    </ul>
+</div>

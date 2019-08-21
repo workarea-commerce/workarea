@@ -12,63 +12,89 @@ $checkbox-icon-size: 16px !default;
 
 
 .checkbox {
+    position: relative;
     display: inline-block;
+    cursor: pointer;
 }
+
+.checkbox--no-label {}
 
 .checkbox--indeterminate {}
 
     /**
-     * Actual input hidden off page
+     * Hide the input off-page
      */
     .checkbox__input {
         @extend %visually-hidden;
     }
 
     /**
-     * Default UI State
-     * 1. Icon
+     * Checkbox UI
+     * 1. Required for backwards compatibility
      */
     .checkbox__label {
-        position: relative;
         display: inline-block;
-        width: $checkbox-size;
-        height: $checkbox-size;
-        background-color: $checkbox-bg-color;
-        border-radius: $checkbox-border-radius;
-        box-shadow: 0 0 0 1px $checkbox-border-color;
-        appearance: none;
-        vertical-align: middle;
-        font-size: 0;
+        line-height: 1;
 
-        &::after { /* [1] */
-            @include center;
+        .index-table &, /* [1] */
+        .checkbox--no-label & {
+            max-width: $checkbox-size + 1px;
+            max-height: $checkbox-size + 1px;
+            overflow: hidden;
+        }
+
+        &::before {
+            position: relative;
+            display: inline-block;
+            width: $checkbox-size;
+            height: $checkbox-size;
+            background-color: $checkbox-bg-color;
+            border-radius: $checkbox-border-radius;
+            border: 1px solid $checkbox-border-color;
+            appearance: none;
+            vertical-align: middle;
+            font-size: 0;
+            margin-right: $spacing-unit;
+            content: '';
+        }
+
+        &::after {
+            position: absolute;
+            left: 0;
+            top: 2px;
             display: inline-block;
             font-weight: bold;
+            width: $checkbox-icon-size;
+            text-align: center;
             font-size: $checkbox-icon-size;
             color: $checkbox-icon-color;
         }
     }
 
     /**
-     * Checked UI State
-     * 1. Icon
+     * State management
+     * 1. Checked
+     * 2. Indeterminate
      */
-    .checkbox__input:checked ~ .checkbox__label {
-        background-color: $checkbox-bg-color-active;
+    .checkbox__input:checked ~ .checkbox__label { /* [1] */
+        &::before {
+            background-color: $checkbox-bg-color-active;
+        }
 
-        &::after { /* [1] */
+        &::after {
             content: '✔';
         }
     }
 
     /**
      * Indeterminate UI State
-     * 1. Icon
      */
-    .checkbox--indeterminate .checkbox__label {
-        background-color: $checkbox-bg-color-active;
+    .checkbox--indeterminate .checkbox__label { /* [2] */
+        &::before {
+            background-color: $checkbox-bg-color-active;
+        }
 
-        &::after { /* [1] */
+        &::after {
             content: '–';
         }
     }

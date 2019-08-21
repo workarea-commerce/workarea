@@ -46,24 +46,35 @@ module Workarea
       end
 
       def test_payment
-        Workarea.with_config do |config|
-          config.auto_capture = false
+        Workarea.config.checkout_payment_action = {
+          not_shipped: 'authorize!',
+          shipped: 'authorize!',
+          mixed: 'authorize!'
+        }
 
-          order = create_placed_order
-          visit admin.order_path(order)
-          click_link t('workarea.admin.orders.attributes.payment.title')
+        order = create_placed_order
+        visit admin.order_path(order)
+        click_link t('workarea.admin.orders.attributes.payment.title')
 
-          assert(page.has_content?('Ben Crouse'))
-          assert(page.has_content?('22 S. 3rd St.'))
-          assert(page.has_content?('Philadelphia'))
-          assert(page.has_content?('PA'))
-          assert(page.has_content?('19106'))
-          assert(page.has_content?('Credit Card'))
-          assert(page.has_content?('-1')) # Card Number
-          assert(page.has_content?('Authorize'))
-          assert(page.has_content?('Success'))
-          assert(page.has_content?("#{Money.default_currency.symbol}11.00")) # Auth Amount
-        end
+        assert(page.has_content?('Ben Crouse'))
+        assert(page.has_content?('22 S. 3rd St.'))
+        assert(page.has_content?('Philadelphia'))
+        assert(page.has_content?('PA'))
+        assert(page.has_content?('19106'))
+        assert(page.has_content?('Credit Card'))
+        assert(page.has_content?('-1')) # Card Number
+        assert(page.has_content?('Authorize'))
+        assert(page.has_content?('Success'))
+        assert(page.has_content?("#{Money.default_currency.symbol}11.00")) # Auth Amount
+      end
+
+      def test_fraud
+        order = create_fraudulent_order
+        visit admin.order_path(order)
+        click_link t('workarea.admin.orders.attributes.fraud.title')
+        assert(page.has_content?('Declined')) # decision
+        assert(page.has_content?(order.fraud_decision.message))
+        assert(page.has_content?(order.fraud_decision.response))
       end
 
       def test_timeline

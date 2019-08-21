@@ -19,6 +19,9 @@ module Workarea
     def timeline
     end
 
+    def fraud
+    end
+
     private
 
     def find_order

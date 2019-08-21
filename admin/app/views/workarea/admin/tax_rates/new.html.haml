@@ -1,0 +1,62 @@
+- @page_title = t('workarea.admin.tax_rates.new.title', category: @category.name)
+
+.view
+  .view__header
+    .grid.grid--middle.grid--center
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@rate)
+          %h1= @page_title
+
+  .view__container.view__container--narrow
+    = form_tag tax_category_rates_path(@category), method: :post, id: 'tax_category_form', data: { unsaved_changes: '' } do
+      .grid.grid--huge
+        .grid__cell.grid__cell--50
+          .property
+            = label_tag 'rate_country', t('workarea.admin.tax_rates.index.table.country'), class: 'property__name'
+            = text_field_tag 'rate[country]', @rate.country.try(&:alpha2), class: 'text-box'
+
+        .grid__cell.grid__cell--50
+          .property
+            = label_tag 'rate_country_percentage', t('workarea.admin.tax_rates.index.table.country_percentage'), class: 'property__name'
+            = number_field_tag 'rate[country_percentage]', @rate.country_percentage * 100, min: 0, max: 100, step: 0.01, class: 'text-box'
+
+        .grid__cell.grid__cell--50
+          .property
+            = label_tag 'rate_region', t('workarea.admin.tax_rates.index.table.region'), class: 'property__name'
+            = text_field_tag 'rate[region]', @rate.region, class: 'text-box'
+
+        .grid__cell.grid__cell--50
+          .property
+            = label_tag 'rate_region_percentage', t('workarea.admin.tax_rates.index.table.region_percentage'), class: 'property__name'
+            = number_field_tag 'rate[region_percentage]', @rate.region_percentage * 100, min: 0, max: 100, step: 0.01, class: 'text-box'
+
+        .grid__cell.grid__cell--50
+          .property
+            = label_tag 'rate_postal_code', t('workarea.admin.tax_rates.index.table.postal_code'), class: 'property__name'
+            = text_field_tag 'rate[postal_code]', @rate.postal_code, class: 'text-box'
+
+        .grid__cell.grid__cell--50
+          .property
+            = label_tag 'rate_postal_code_percentage', t('workarea.admin.tax_rates.index.table.postal_code_percentage'), class: 'property__name'
+            = number_field_tag 'rate[postal_code_percentage]', @rate.postal_code_percentage * 100, min: 0, max: 100, step: 0.01, class: 'text-box'
+
+        .grid__cell.grid__cell--33
+          .property
+            = label_tag 'rate_tier_min', t('workarea.admin.tax_rates.index.table.min_value'), class: 'property__name'
+            = text_field_tag 'rate[tier_min]', @rate.tier_min, class: 'text-box'
+
+        .grid__cell.grid__cell--33
+          .property
+            = label_tag 'rate_tier_max', t('workarea.admin.tax_rates.index.table.max_value'), class: 'property__name'
+            = text_field_tag 'rate[tier_max]', @rate.tier_max, class: 'text-box'
+
+        .grid__cell.grid__cell--33
+          .property
+            = label_tag 'rate_charge_on_shipping', t('workarea.admin.tax_rates.index.table.charge_on_shipping'), class: 'property__name'
+            = toggle_button_for 'rate[charge_on_shipping]', @rate.charge_on_shipping
+
+      .workflow-bar
+        .grid.grid--auto.grid--right.grid--middle
+          .grid__cell
+            = button_tag t('workarea.admin.tax_rates.new.create_button'), value: 'create_tax_rate', class: 'workflow-bar__button workflow-bar__button--create'

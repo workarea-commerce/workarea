@@ -4,6 +4,7 @@ module Workarea
 
     add_template_helper Workarea::PluginsHelper
     add_template_helper Workarea::ApplicationHelper
+    add_template_helper Workarea::SchemaOrgHelper
     default from: -> (*) { Workarea.config.email_from }
 
     def default_url_options(options = {})

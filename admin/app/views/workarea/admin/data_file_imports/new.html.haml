@@ -15,11 +15,13 @@
 
       .section
         .grid.grid--center
-          .grid__cell.grid__cell--50
+          .grid__cell.grid__cell--75
             - @import.errors.full_messages.each do |message|
               = render_message 'error', message
 
             .property.align-center
+              - if @import.releasable?
+                = render 'workarea/admin/shared/publishing_select'
               = file_field_tag 'import[file]', class: 'text-box text-box--wide', required: true
               = button_tag t('workarea.admin.data_file_imports.new.start_import'), value: 'create_import', class: 'button button--inline'
               %span.property__note= t('workarea.admin.data_file_imports.new.note')

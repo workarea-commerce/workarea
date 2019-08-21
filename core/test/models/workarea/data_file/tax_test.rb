@@ -22,6 +22,7 @@ module Workarea
         assert_equal(Country['US'], rate.country)
         assert_equal('19021', rate.postal_code)
         assert_equal(0.06, rate.percentage)
+        assert_equal(0.06, rate.region_percentage)
         assert_equal(true, rate.charge_on_shipping)
 
         rate = tax_category.rates.find_by(postal_code: '19106')
@@ -29,6 +30,8 @@ module Workarea
         assert_equal(Country['US'], rate.country)
         assert_equal('19106', rate.postal_code)
         assert_equal(0.08, rate.percentage)
+        assert_equal(0.06, rate.region_percentage)
+        assert_equal(0.02, rate.postal_code_percentage)
         assert_equal(0.to_m, rate.tier_min)
         assert_equal(10_000.to_m, rate.tier_max)
         assert_equal(false, rate.charge_on_shipping)

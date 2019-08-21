@@ -64,47 +64,43 @@ module Workarea
       end
 
       def test_keeps_track_of_middleware
-        Workarea.with_config do |config|
-          config.storefront_search_middleware = SwappableList.new(
-            %w(
-              Workarea::Search::StorefrontSearch::Redirect
-              Workarea::Search::StorefrontSearch::ExactMatches
-              Workarea::Search::StorefrontSearch::ProductMultipass
-              Workarea::Search::StorefrontSearch::SpellingCorrection
-              Workarea::Search::StorefrontSearch::Template
-            )
+        Workarea.config.storefront_search_middleware = SwappableList.new(
+          %w(
+            Workarea::Search::StorefrontSearch::Redirect
+            Workarea::Search::StorefrontSearch::ExactMatches
+            Workarea::Search::StorefrontSearch::ProductMultipass
+            Workarea::Search::StorefrontSearch::SpellingCorrection
+            Workarea::Search::StorefrontSearch::Template
           )
+        )
 
-          assert_equal(5, StorefrontSearch.new(q: '*').used_middleware.size)
+        assert_equal(5, StorefrontSearch.new(q: '*').used_middleware.size)
 
-          product = create_product(name: 'Foo Product')
-          IndexProduct.perform(product)
+        product = create_product(name: 'Foo Product')
+        IndexProduct.perform(product)
 
-          exact_match = StorefrontSearch.new(q: product.id)
-          assert_equal(2, exact_match.used_middleware.size)
-          assert_kind_of(StorefrontSearch::ExactMatches, exact_match.used_middleware.last)
-        end
+        exact_match = StorefrontSearch.new(q: product.id)
+        assert_equal(2, exact_match.used_middleware.size)
+        assert_kind_of(StorefrontSearch::ExactMatches, exact_match.used_middleware.last)
       end
 
       def test_tracing
-        Workarea.with_config do |config|
-          config.storefront_search_middleware = SwappableList.new(
-            %w(
-              Workarea::Search::StorefrontSearch::Redirect
-              Workarea::Search::StorefrontSearch::ExactMatches
-              Workarea::Search::StorefrontSearch::ProductMultipass
-              Workarea::Search::StorefrontSearch::SpellingCorrection
-              Workarea::Search::StorefrontSearch::Template
-            )
+        Workarea.config.storefront_search_middleware = SwappableList.new(
+          %w(
+            Workarea::Search::StorefrontSearch::Redirect
+            Workarea::Search::StorefrontSearch::ExactMatches
+            Workarea::Search::StorefrontSearch::ProductMultipass
+            Workarea::Search::StorefrontSearch::SpellingCorrection
+            Workarea::Search::StorefrontSearch::Template
           )
+        )
 
-          trace = StorefrontSearch.new(q: '*').response.trace
+        trace = StorefrontSearch.new(q: '*').response.trace
 
-          assert_equal(3, trace.size)
-          assert_nil(trace.first.reset_by)
-          assert_kind_of(StorefrontSearch::ProductMultipass, trace.second.reset_by)
-          assert_kind_of(StorefrontSearch::ProductMultipass, trace.third.reset_by)
-        end
+        assert_equal(3, trace.size)
+        assert_nil(trace.first.reset_by)
+        assert_kind_of(StorefrontSearch::ProductMultipass, trace.second.reset_by)
+        assert_kind_of(StorefrontSearch::ProductMultipass, trace.third.reset_by)
       end
     end
   end

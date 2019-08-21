@@ -101,7 +101,7 @@ module Workarea
           }
 
         # simulate expiration of admin session.
-        cookies.delete('user_id')
+        reset!
 
         # Cart should be empty now that admin is logged out
         get storefront.checkout_path

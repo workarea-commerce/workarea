@@ -32,8 +32,9 @@ module Workarea
 
       def test_starting_checkout_as_guest
         travel(30.minutes) do
-          # Simulates the browser expiring the cookie
-          page.driver.browser.manage.delete_cookie('user_id')
+          # Simulates the browser expiring the session cookie
+          session_cookie = Rails.application.config.session_options[:key]
+          page.driver.browser.manage.delete_cookie(session_cookie)
 
           visit storefront.checkout_path
 
@@ -57,42 +58,40 @@ module Workarea
       end
 
       def test_preselecting_addresses_from_saved_addresses
-        Workarea.with_config do |config|
-          config.countries = [Country['US'], Country['CA']]
+        Workarea.config.countries = [Country['US'], Country['CA']]
 
-          add_user_data
+        add_user_data
 
-          user = User.find_by_email('bcrouse@workarea.com')
-          user.auto_save_shipping_address(
-            first_name: 'Ben',
-            last_name: 'Crouse',
-            street: '1525 Robson St.',
-            city: 'Vancouver',
-            region: 'BC',
-            postal_code: 'V6G 1C3',
-            country: 'CA',
-            phone_number: '18444710783'
-          )
+        user = User.find_by_email('bcrouse@workarea.com')
+        user.auto_save_shipping_address(
+          first_name: 'Ben',
+          last_name: 'Crouse',
+          street: '1525 Robson St.',
+          city: 'Vancouver',
+          region: 'BC',
+          postal_code: 'V6G 1C3',
+          country: 'CA',
+          phone_number: '18444710783'
+        )
 
-          visit storefront.checkout_addresses_path
+        visit storefront.checkout_addresses_path
 
-          select 'Ben Crouse 1019 S. 47th St. Philadelphia PA 19143', from: 'saved_addresses_0'
-          assert_equal(find('select[name="shipping_address[country]"]').value, 'US')
-          assert_equal(find('#shipping_address_region_select').value, 'PA')
+        select 'Ben Crouse 1019 S. 47th St. Philadelphia PA 19143', from: 'saved_addresses_0'
+        assert_equal(find('select[name="shipping_address[country]"]').value, 'US')
+        assert_equal(find('#shipping_address_region_select').value, 'PA')
 
-          select 'Ben Crouse 1525 Robson St. Vancouver BC V6G 1C3', from: 'saved_addresses_0'
-          assert_equal(find('select[name="shipping_address[country]"]').value, 'CA')
-          assert_equal(find('#shipping_address_region_select').value, 'BC')
+        select 'Ben Crouse 1525 Robson St. Vancouver BC V6G 1C3', from: 'saved_addresses_0'
+        assert_equal(find('select[name="shipping_address[country]"]').value, 'CA')
+        assert_equal(find('#shipping_address_region_select').value, 'BC')
 
-          select 'Ben Crouse 1019 S. 47th St. Philadelphia PA 19143', from: 'saved_addresses_1'
-          assert_equal(find('select[name="billing_address[country]"]').value, 'US')
-          assert_equal(find('#billing_address_region_select').value, 'PA')
+        select 'Ben Crouse 1019 S. 47th St. Philadelphia PA 19143', from: 'saved_addresses_1'
+        assert_equal(find('select[name="billing_address[country]"]').value, 'US')
+        assert_equal(find('#billing_address_region_select').value, 'PA')
 
-          click_button t('workarea.storefront.checkouts.continue_to_shipping')
+        click_button t('workarea.storefront.checkouts.continue_to_shipping')
 
-          assert(page.has_content?('1019 S. 47th St.'))
-          assert(page.has_no_content?('22 S. 3rd St.'))
-        end
+        assert(page.has_content?('1019 S. 47th St.'))
+        assert(page.has_no_content?('22 S. 3rd St.'))
       end
 
       def test_express_checkout

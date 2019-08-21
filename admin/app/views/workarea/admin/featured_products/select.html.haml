@@ -21,7 +21,6 @@
     .section
       %h2.view__heading= t('workarea.admin.featured_products.select.instruction')
       %p.align-center= t('workarea.admin.featured_products.select.details_html', link: link_to(t('workarea.admin.featured_products.select.sort_now_link'), edit_featured_product_path(@featurable.to_global_id)))
-      = render 'workarea/admin/featured_products/release_preview_warning'
 
       .browsing-controls.browsing-controls--with-divider.browsing-controls--center{ class: ('browsing-controls--filters-displayed' unless @search.toggle_facets?) }
         = form_tag select_featured_product_path(@featurable.to_global_id), method: 'get', id: 'product_search_form', class: 'browsing-controls__form' do

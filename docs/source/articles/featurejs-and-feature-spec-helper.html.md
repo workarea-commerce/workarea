@@ -1,5 +1,6 @@
 ---
 title: Feature.js & Feature Test Helper
+created_at: 2018/07/31
 excerpt: Feature.js provides browser feature detection for developers. It is loaded in its entirety in the Storefront's head manifest. Out of the box it provides JavaScript methods and root HTML element classes that represent which features are available to th
 ---
 

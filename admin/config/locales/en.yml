@@ -5,6 +5,7 @@ en:
         cancel: Cancel
         delete: Delete
         delete_confirmation: Are you sure you want to delete?
+        impersonation_confirmation: You are currently impersonating %{name}. Would you like to continue as this user?
         drag: Drag
         edit: Edit
         remove: Remove
@@ -58,6 +59,9 @@ en:
         filters:
           all_types: all types of
           everyone: everyone
+        fulfillment_sku_create_html: created %{name}
+        fulfillment_sku_destroy_html: removed %{name}
+        fulfillment_sku_update_html: updated %{fields} on %{name}
         help_article_create_html: created the %{name} help article
         help_article_destroy_html: removed the %{name} help article
         help_article_update_html: updated %{fields} on the %{name} help article
@@ -101,6 +105,9 @@ en:
         search_customization_update_html: updated %{fields} on the %{name} search customizations
         search_settings: search settings
         search_settings_update_html: updated %{fields} on %{link}
+        segment_create_html: created the %{name} segment
+        segment_update_html: updated %{fields} on the %{name} segment
+        segment_destroy_html: removed the %{name} shipping segment
         shipping_service_create_html: created the %{name} shipping service
         shipping_service_destroy_html: removed the %{name} shipping service
         shipping_service_update_html: updated %{fields} on the %{name} shipping service
@@ -123,6 +130,9 @@ en:
         not_applicable: N/A
         today: Today
         yesterday: Yesterday
+      authorization:
+        unauthorized_action: You are not authorized to perform this action
+        unauthorized_area: You are not authorized to access this area
       date_selector:
         date_range: "%{starts_at} to %{ends_at}"
         or_choose: Or choose
@@ -582,12 +592,14 @@ en:
         notify:
           by: by
           discussion_history: 'Discussion History:'
+          new_comment_about: New comment about
           post_a_comment: Post a comment
           posted_a_comment_about: posted a comment about
           posted_at: Posted at
           reply_here: 'Reply here:'
-          reply_to_this_comment: Reply to this comment
+          reply_to_this_comment: Reply
           subject: 'Re: %{commentable} Discussion'
+          title: Hey %{site} Team,
           unsubscribe_from_notifications: 'Unsubscribe from notifications on %{commentable_name}'
       comments:
         card:
@@ -621,11 +633,23 @@ en:
         icon:
           viewed: Comments
           unviewed: Unread Comments
+      configurations:
+        flash_messages:
+          configuration_updated: Configuration updated.
+          configuration_error: Configuration could not be saved.
+        show:
+          dashboard_link: Settings Dashboard
+          title: Configuration
+          description: Change configuration of your site.
+          save: Update Configuration
+          field_overridden: This field is overridden by static configuration
+          field_overridden_message: This field is overridden by static configuration. The value of this field will not apply until a developer removes the static value.
       content:
         advanced:
           automate: Automate
           automate_metadata: Automate Metadata
           automation_help_content: The system will automatically generate browser title and meta description. These fields will be updated monthly.
+          automation_note_content: Disable this setting to manually edit the title and meta description for this page
           browser_title: Browser Title
           browser_title_note: The title appears in the top bar of a web browser and is shown in search engine results.
           browser_title_placeholder: "(defaults to content name)"
@@ -695,6 +719,7 @@ en:
             button: View Original
             title: Original
         edit:
+          alt_text_note: Used as default Alt text in Content
           file_label: Choose File
           name_label: Name
           page_title: Attributes for %{asset}
@@ -721,6 +746,7 @@ en:
           page_title: Choose an Asset
           title: Select Asset
         new:
+          alt_text_note: Used as default Alt text in Content
           create_asset: Create Asset
           create_asset_disabled_text: Creating Asset...
           file_label: Choose File
@@ -737,6 +763,7 @@ en:
           clear_asset: Clear asset
           name_missing: "(none)"
           select_an_asset: Select an asset
+          alt_text_note_html: "Leave alt text blank to default to the asset's alt text: <strong>%{alt}</strong>"
         category:
           select_placeholder: Choose a category...
         flash_messages:
@@ -1140,6 +1167,38 @@ en:
           save_and_plan_changes: Save and Plan Changes
           setup: Setup
           skip_and_finish: Skip and Finish
+      create_release_undos:
+        flash_messages:
+          saved: Your undo release has been saved.
+        new:
+          title: Setup Undo for %{name}
+          release_name_placeholder: My Release Undo
+          tags_note: 'Comma separated: just, like, this'
+        review:
+          title: Review Undo Changes for %{name}
+          changes_description_html: These changes have been saved on the %{undo} release. They are the opposite of the changes in the %{original} release. You can view, edit, or delete these changes like changes in a normal release.
+        workflow:
+          setup: Setup
+          review: Review
+          create_undo: Create Undo
+          done: I'm done
+          or_skip_this: or skip this
+          delete_confirmation: Are you sure you want to delete this?
+      create_segments:
+        flash_messages:
+          saved: Your custom segment has been saved.
+        setup:
+          title: Setup a Custom Segment
+          save_and_add_rules: Save and Add Rules
+        rules:
+          title: Add Rules to %{name}
+          complete: I'm all done
+          add_rule: Add rule
+        workflow:
+          cancel_message: Are you sure you want to delete this?
+          steps:
+            setup: Setup
+            rules: Rules
       create_users:
         admin:
           page_title: Create an Account
@@ -1170,6 +1229,7 @@ en:
           catalog: Catalog
           catalog_dashboards: Catalog dashboards
           categories: Categories
+          fulfillment: Fulfillment
           imports: Create Import
           inventory: Inventory
           pricing: Pricing
@@ -1331,6 +1391,7 @@ en:
           new_vs_returning: New vs Returning
           new: New
           returning: Returning
+          segments: Segments
           last_seven_days: Last 7 Days
         percent_orders_discounted:
           percent_orders_discounted: Percent Orders Discounted
@@ -1387,14 +1448,16 @@ en:
           searches_to_improve_info: Searches to Improve Info
           searches_to_improve_info_tooltip_html: "<p>Your top 3% most searched over the last four weeks, sorted by worst abandonment rate. Suggestions for improvement:</p><ul><li>Select and sort featured products to improve results<li>Rewrite the query string to match customer expectations</li><li>Redirect to a curated category or page</li></ul>"
         settings:
-          current_configuration: Current Configuration
+          fieldset_name: '%{fieldset} Configuration'
+          configuration: Configuration
           redirects: Redirects
           search: Search
           settings_dashboard: Settings dashboard
           shipping_services: Shipping services
+          static_configuration: Static Configuration
+          static_note: These values cannot be changed in the admin.
           tax_categories: Tax categories
           time_zone: Time Zone
-          times_in_seconds: assume all time values are in seconds
           title: Settings
           trash: Trash
         store:
@@ -1474,6 +1537,11 @@ en:
           to: To
       'false': 'No'
       featured_products:
+        statuses:
+          inactive: Inactive
+          out_of_stock: Out Of Stock
+          low_inventory: Only %{count} left
+          backordered: Backordered
         edit:
           browse_link: Browse products to add
           drag_instructions: Drag to sort products
@@ -1490,7 +1558,6 @@ en:
           sort_link: I'm done, go sort
           sort_now_link: Go sort now
           title: Select products for %{featurable}
-        release_preview_warning: Changes to featured products for a release will not be reflected in release previewing. Changes will still apply at the time of publishing.
       fields:
         action: Action
         active: Active
@@ -1498,21 +1565,27 @@ en:
         allow_discounting: Allow Discounting
         allow_sale_items: Allow Sale Items
         allow_sale_items: Allow Sale Items
+        alt_text: Alt Text
         amount: Amount
+        aov: AOV
         automate_metadata: Automate Metadata
         available: Available Units
         avatar: Avatar
         average_order_value: Average Order Value
+        average_price: Average Price
         backordered: Backordered Units
         backordered_units: Backordered Units
         backordered_until: Backordered Until
         body: Body
         breadcrumbs: Breadcrumbs
         browser_title: Browser Title
+        cancellations: Cancellations
+        categories: Categories
         category: Category
         category_id: Category
         category_ids: Categories
         changes: Changes
+        city: City
         client_id: Client ID
         code: Code
         compatible_discount_ids: Compatible Discounts
@@ -1523,6 +1596,7 @@ en:
         copied_from_id: Copied From
         count: Count
         country: Country
+        country_percentage: Country %
         created_at: Created
         created_by: Created By
         css: CSS
@@ -1535,13 +1609,15 @@ en:
         description: Description
         destination: Destination
         details: Details
-        digital: Digital
+        digital: Digital # TODO: remove in v3.6
         dimensions: Dimensions
         discountable: Allow Discounting
         discount: Discount
         discounts: Discounts
         display_name: Display Name
+        downloads: Downloads
         email: Email
+        enabled: Enabled
         ends_at: Ends At
         errors: Errors
         excluded_category_ids: Excluded Categories
@@ -1556,7 +1632,9 @@ en:
         first_order_at: First Order At
         first_time_orders: First-time Orders
         from: From
+        fulfillment: Fulfillment
         fulfillment_status: Fulfillment Status
+        geolocation: Geolocation
         merchandise: Merchandise
         hidden_breakpoints: Hidden Breakpoints
         id: ID
@@ -1569,6 +1647,7 @@ en:
         last_impersonated_at: Last Impersonated At
         last_impersonated_by: Last Impersonated By
         last_name: Last Name
+        last_order: Last Order
         last_order_at: Last Order At
         last_published: Last Published
         last_purchase: Last Purchase
@@ -1603,7 +1682,7 @@ en:
         period: Period
         permissions_manager: Permissions Manager
         placed_at: Placed
-        policy: Tracking Policy
+        policy: Policy
         prefix: Prefix
         price: Price
         pricing: Pricing
@@ -1622,7 +1701,9 @@ en:
         rates_file: Rates File
         redemptions: Redemptions
         redirect: Redirect
+        refund: Refund
         region: Region
+        region_percentage: Region %
         regions: Regions
         regular: Regular Price
         related_product: Related Product
@@ -1643,6 +1724,7 @@ en:
         send_account_creation_email: Notify Them by Email
         service: Service
         services_file: Services File
+        sessions: Sessions
         shipping: Shipping
         shipping_service_id: Shipping Service
         show_left_navigation: Show Left Navigation
@@ -1659,6 +1741,7 @@ en:
         starts_at: Starts At
         status: Status
         status_email_recipient: Status Email Recipient
+        strength: Stength
         store_credit: Store Credit
         subscribed_user_ids: Notified Admins
         summary: Summary
@@ -1668,6 +1751,7 @@ en:
         tax_code: Tax Code
         taxon_id: Taxonomy
         template: Template
+        tender: Tender
         terms: Terms
         terms_facets_list: Filters
         thumbnail: Thumbnail
@@ -1681,8 +1765,10 @@ en:
         total_price: Total Price
         total_results: Total Results
         tracking_policy: Tracking Policy
+        traffic_referrer: Traffic Referrer
         type: Type
         undo_at: Undo At
+        units_canceled: Units Canceled
         units_sold: Units Sold
         updated_at: Updated
         url: URL
@@ -1693,6 +1779,63 @@ en:
         csv_field_note: 'Comma separated: just, like, this'
         save_changes: Save Changes
         unsaved_changed_message: You have unsaved changes, do you want to continue?
+      fulfillment_tokens:
+        card:
+          header: Tokens
+          button: View tokens
+          not_available: Tokens are not available for this sku.
+          download_pluralize:
+            one: download
+            other: downloads
+          pluralize:
+            one: token
+            other: tokens
+        flash_messages:
+          created: Token successfully created
+          disabled: Token has been disabled
+          enabled: Token has been enabled
+          error: There was a problem creating a new download. Try again.
+          update_failed: Token could not be updated
+        index:
+          add_new: Create New Token
+          copy_button: Copy URL
+          copy_title: Copy Token URL
+          heading: Tokens
+          page_title: Fulfillment SKU %{sku} Downloads
+          pluralize:
+            one: '%{count} Token'
+            other: '%{count} Tokens'
+          tokens_unavailable: Tokens are not available for this SKU's policy. They are used for generating unique URLs for the download policy.
+      fulfillment_skus:
+        aux_navigation:
+          view_product: View Product
+        cards:
+          policy: 'Policy:'
+          file: 'File:'
+        edit:
+          policy_info_html: "<p><strong>Ship:</strong> Item requires shipping. System does nothing automatically for this SKU.</p> <p><strong>Ignore:</strong> Item does not require shipping. System does nothing automatically for this SKU.</p> <p><strong>Download:</strong> Generates a unique URL token that grants the customer access to attached file through a download link in the order summary.</p>"
+          page_title: Edit Fulfillment SKU %{sku}
+          save_sku: Save SKU
+        flash_messages:
+          created: "%{id} has been created."
+          removed: This fulfillment SKU has been removed
+          saved: "%{id} has been saved."
+        index:
+          heading: Fulfillment SKUs
+          new_button: Add New Fulfillment SKU
+          page_title: Fulfillment SKUs
+          sku_pluralize:
+            one: "%{count} SKU"
+            other: "%{count} SKUs"
+        new:
+          create_sku: Create SKU
+          heading: New Fulfillment SKU
+          page_title: New Fulfillment SKU
+          sku_placeholder: SKU123
+        show:
+          page_title: Fulfillment SKU %{sku}
+        summary:
+          type: Fulfillment SKU
       fulfillments:
         show:
           by_carrier: by %{carrier}
@@ -1796,6 +1939,9 @@ en:
           download_html: "%{link} your %{name} %{type} export."
           download_link: Download
           subject: Here's your Workarea %{name} export
+          email_action:
+            name: Download
+            description: Download your exported items
         import_error:
           subject: Your Workarea %{type} import of %{file} was a failure!
           message: Your import of %{name} could not complete.
@@ -1810,11 +1956,17 @@ en:
           unknown: Unknown
           id: ID
           link_text: View %{name}
+          email_action:
+            name: View Import
+            description: View successfully imported items
         import:
           subject: Your Workarea %{type} import of %{file} has completed successfully
           message: Your import of %{name} has completed!
           success: '%{count} imported successfully.'
           link_text: View %{name}
+          email_action:
+            name: View Import
+            description: View all imported items
       data_file_tax_imports:
         flash_messages:
           processing: Your tax rates import is being processed. You will receive an email when the import completes.
@@ -2328,6 +2480,7 @@ en:
           home: Home
           navigation: Navigation
           page_title: Taxonomy
+          releasable_note_html: Note that you can't change taxonomy in a release. If you're looking to make changes to your primary navigation, changes in the <a href="%{url}">navigation</a> admin can be made in a release.
           title: Manage Taxonomy
         insert:
           heading_step_1: Pick breadcrumbs
@@ -2383,6 +2536,8 @@ en:
             empty: There are no tenders on this order.
             payment_tenders: Payment Tenders
             title: Payment
+          fraud:
+            title: Fraud
           shipping:
             address: Address
             empty: No shipping info for this order
@@ -2411,11 +2566,24 @@ en:
             title: Fulfillment
             tracking_numbers: 'Tracking Numbers:'
             not_available: Fulfillment is not yet available for this order.
+          fraud:
+            button: View Fraud
+            decision: Decision
+            no_fraud_decision: This order has not been evaluated for fraud.
+            suspected_fraud: Declined for fraud
           payment:
             status: Status
             button: View Payment
           shipping:
             button: View Shipping
+        fraud:
+          decision: Decision
+          title: Fraud Decision
+          message: Message
+          more_link: Learn More
+          no_fraud_decision_available: No fraud decision available
+          response: Response
+          response_tooltip: The response received from a 3rd party fraud processor if implemented.
         index:
           dashboard_link: Orders Dashboard
           filters:
@@ -2649,6 +2817,12 @@ en:
             young_label: This week,
             past_three_months: Past 3 Months
             discounts: discounts
+          redemptions:
+            header: Redemptions
+            order_pluralize:
+              one: order
+              other: orders
+            view: View Redemptions
         conditions:
           promo_code:
             list_help: You can allow more than one promo code for this discount by separating them with commas, e.g. SAVE20, SAVETWENTY. Or, select "is from" in the menu on the left to pick a list of generated promo codes.
@@ -2713,6 +2887,15 @@ en:
           date_range: "%{starts_at} to %{ends_at}"
           insights_featuring_this_discount: Insights Featuring this Discount
           discounts: Discounts
+      pricing_discount_redemptions:
+        index:
+          title: Redemptions
+          most_recent_redemptions: Most Recent Redemptions
+          redeemed: Redeemed
+          view_orders: View orders that have redeemed this discount
+          redemption_pluralize:
+            one: 1 redemption
+            other: "%{count} redemptions"
       pricing_overrides:
         adjusted_unit_price: Adjusted Unit Price
         adjustment: Adjustment
@@ -2822,10 +3005,13 @@ en:
       releases:
         calendar:
           title: Release Calendar
-          add_new_release: Add New Release
+          add_new_release: New Release
           next_week: Next Week
           previous_week: Previous Week
           today: Today
+          plus_more_releases:
+            one: +1 More Release
+            other: +%{count} More Releases
         cards:
           attributes:
             button: Edit Attributes
@@ -2851,6 +3037,19 @@ en:
             changes: Changes
             empty_note: You can view and manage changes for this release once they are planned.
             planned: Planned
+          undo:
+            title: Undo
+            not_setup: This release doesn't have an undo setup.
+            build_an_undo: Build an Undo
+            set_to_publish_html: "%{link} is set to publish at <strong>%{at}</strong>."
+            published_html: "%{link} published at <strong>%{at}</strong>."
+            unscheduled_html: "%{link} is unscheduled."
+            undo_html: The %{link} release was created <strong>%{at}</strong> to undo this release.
+            learn_more: Learn More
+          original:
+            title: Original Release
+            undoes_html: This release undoes the %{link} release.
+            learn_more: Learn More
         edit:
           index_link: All releases
           last_published_at: Last Published at
@@ -2872,13 +3071,19 @@ en:
         index:
           add_new_release: Add New Release
           dashboard_link: Main dashboard
+          displaying_releases: Displaying %{count} of %{total} releases.
+          index_link: Release calendar
           instruction: Use releases to plan upcoming changes for your site. Click on a day to begin planning. Releases are managed and published in the %{time_zone} time zone.
           never: "(never)"
           page_title: Releases
+          there_are_unscheduled:
+            one: There is also %{count} unscheduled release.
+            other: There are also %{count} unscheduled releases.
           title: Releases
           unscheduled_releases: Unscheduled releases
           unscheduled: Unscheduled
-          view_calendar: View Calendar
+          view_all_releases: View All Releases
+          view_all: View all?
           add_to_calendar:
             link_text: Add to Calendar
             tooltip:
@@ -2916,7 +3121,7 @@ en:
           republish_now: Republish Now
           start_preview_in_storefront: Start preview in storefront
           undo: Undo
-          visit_storefront_to_preview: Visit storefront to preview
+          visit_storefront_to_preview: Preview
           no_changes_to_preview: There are no changes to preview. Click on the Plan Changes card to start!
           no_changes_to_publish: There are no changes to publish for this release. Click on the Plan Changes card to start!
           no_changes_to_undo: There are no changes to undo for this release. Click on the Plan Changes card to start!
@@ -2947,124 +3152,169 @@ en:
           starts_on: Starts on %{date}
           ends_on: Ends on %{date}
           no_undo_date: There is no undo date set for this release.
+        undo:
+          page_title: Undo %{name}
+          index_link: All releases
+          plan_changes: Plan Changes
+          no_changes_html: There are no changes to undo for this release! Head to %{plan_changes} to make some.
+          undoing: Undoing a Release
+          description: You can setup an undo to automatically revert the changes in this release at a future point in time. After being setup, this "undo release" will behave like any other release. You'll be able to edit, reschdule, or modify the changes as you please.
+          build_an_undo_now: Build an Undo Now
+          created_description_html: "%{undo} was created %{at} to undo the %{original} release."
+          no_changes_for_this_release: No changes for this release now.
+          view_the_undo_release: View the Undo Release
+        original:
+          page_title: Original Release for %{name}
+          index_link: All releases
+          title: Original Release
+          created_description_html: "%{undo} was created %{at} to undo the %{original} release."
+          no_changes_for_this_release: No changes for this release now.
+          view_the_original_release: View the Original Release
       reports:
         all_reports: View All Reports
         average_order_value:
           title: Average Order Value
-          date_range: "%{starts_at} to %{ends_at}"
-          by: by
-          export_results: Export All Results
         back: Back
+        by: by
+        customers:
+          filters:
+            all: All Customers
+            one_time: One-Time Customers
+            returning: Returning Customers
+          results_filter: Results Filter
+          title: Customers
+        export_results: Export results
+        export:
+          emails_note: 'Comma separated: developer@example.com, manager@example.com'
+          enter_email: Enter email
+          start_export: Start Export
+          where_will_the_file_go: Where will the file go?
+        first_time_vs_returning_sales:
+          title: First-time vs Returning Sales
+        flash_messages:
+          success: Your export is being generated, and will be emailed as soon as it's done.
         full_results_html: "Showing all %{count} results. %{export_link}"
         group_by_time:
           uneven_day_distribution: Some days may show more or less than others, since your date range isn't an even number of weeks.
-        partial_results_html: "Showing first %{count} results. To see all, %{export_link}"
-        export_results: Export results
-        unknown: Unknown
-        export:
-          where_will_the_file_go: Where will the file go?
-          enter_email: Enter email
-          start_export: Start Export
-          emails_note: 'Comma separated: developer@example.com, manager@example.com'
-        first_time_vs_returning_sales:
-          title: First-time vs Returning Sales
-          date_range: "%{starts_at} to %{ends_at}"
-          by: by
-          export_results: Export All Results
-        flash_messages:
-          success: Your export is being generated, and will be emailed as soon as it's done.
         insights:
-          title: Insights
           all_insights: All Insights
+          title: Insights
         low_inventory:
           title: Low Inventory
+        partial_results_html: "Showing first %{count} results. To see all, %{export_link}"
         reference:
           title: Reports Reference
           intro: This page serves as a reference for terms and ideas used throughout the reporting area.
-          terms: Terms
-          units_sold: Units Sold
-          units_sold_description: The number of individual quantity of order items, summed
-          orders: Orders
-          orders_description: The total number of placed orders
-          merchandise: Merchandise
-          merchandise_description: The total cost of items (including customization fees), before discounting, shipping, or taxes
-          discounts: Discounts
-          discounts_description: The total of all discounts, including item discounts, shipping discounts, and order level discounts
-          shipping: Shipping
-          shipping_description: The total shipping charges, before shipping discounts have been applied.
-          tax: Tax
-          tax_description: The total tax collected.
-          revenue: Revenue
-          revenue_description: Total money collected - on orders, this includes merchandise, discounts, shipping and taxes. For item level reports, this is the merchandise and tax.
-          average_order_value: Average Order Value
-          average_order_value_description: The revenue dividing by the number of orders
-          first_time_orders: First-time Orders
-          first_time_orders_description: Orders placed with an email address matching no previous orders
-          returning_orders: Returning Orders
-          returning_orders_description: Orders placed with an email address that also has at least one previous order
-          searches: Searches
-          searches_description: The number of times these terms have been searched
-          search_id: Search ID
-          search_id_description: The unique ID of a set of search terms. The terms are stemmed to remove endings. This ensures different search terms with slight language variations (e.g. different tense, plurals) are counted the same.
-          discrepancies: Discrepancies
+          terms_title: Terms
+          terms:
+            average_order_value:
+              name: Average Order Value
+              description: The revenue dividing by the number of orders.
+            average_price:
+              name: Average Price
+              description: The average price per unit after factoring in discounts, quantity pricing, and pricing overrides.
+            cancellations:
+              name: Cancellations
+              description: The total number of times items have been canceled or returned.
+            discounts:
+              name: Discounts
+              description: The total of all discounts, including item discounts, shipping discounts, and order level discounts.
+            first_time_orders:
+              name: First-time Orders
+              description: Orders placed with an email address matching no previous orders.
+            merchandise:
+              name: Merchandise
+              description: The total cost of items (including customization fees), before discounting, shipping, or taxes.
+            orders:
+              name: Orders
+              description: The total number of placed orders.
+            refund:
+              name: Refund
+              description: The total amount of revenue lost by canceled or returned items. This includes merchandise, shipping, and taxes.
+            returning_orders:
+              name: Returning Orders
+              description: Orders placed with an email address that also has at least one previous order.
+            revenue:
+              name: Revenue
+              description: Total money collected - on orders, this includes merchandise, discounts, shipping and taxes. For item level reports, this is the merchandise and tax.
+            search_id:
+              name: Search ID
+              description: The unique ID of a set of search terms. The terms are stemmed to remove endings. This ensures different search terms with slight language variations (e.g. different tense, plurals) are counted the same.
+            searches:
+              name: Searches
+              description: The number of times these terms have been searched.
+            shipping:
+              name: Shipping
+              description: The total shipping charges, before shipping discounts have been applied.
+            tax:
+              name: Tax
+              description: The total tax collected.
+            units_canceled:
+              name: Units Canceled
+              description: The number of individual quantity of order items canceled or returned, summed.
+            units_sold:
+              name: Units Sold
+              description: The number of individual quantity of order items, summed.
+          discrepancies_title: Discrepancies
           discrepancies_description: Often times, retailers will contact their implementer wondering why Workarea reports and insights may not exactly match a third-party analytics system like Google Analytics, Omniture, Coremetrics, etc. Some of the major causes of this below.
-          definitions: Definitions
-          definitions_description: Differences in the way terms are defined, like "sessions" and "uniques".
-          browser_configuration: Browser Configuration
-          browser_configuration_description: Users can disable JavaScript and cookies, both of which are used by most major analytics software (Workarea uses both for tracking too).
-          time_delay: Time Delay
-          time_delay_description_html: Report data display is refreshed no more than once per hour in Workarea. Other platforms (looking at you, Google Analytics) may have a longer or shorter time delay when displaying data.
-          time_zones: Time Zones
-          time_zones_description_html: All Workarea reports and insights are tracked in the time zone configured by the implementer. The current time zone configured for this admin is <code>%{time_zone}</code>.
-          insights: Insights
-          insights_description: Insights are generated on a daily, weekly, and monthly basis (depending on the insight). You can tell how often an insight is generated by the green time pill in the top right. A month name indicates monthly, "week ending" indicates weekly, and a date indicates daily. Each insight represents data from a snapshot in time.
+          discrepancies:
+            browser_configuration:
+              name: Browser Configuration
+              description: Users can disable JavaScript and cookies, both of which are used by most major analytics software (Workarea uses both for tracking too).
+            definitions:
+              name: Definitions
+              description: Differences in the way terms are defined, like "sessions" and "uniques".
+            insights:
+              name: Insights
+              description: Insights are generated on a daily, weekly, and monthly basis (depending on the insight). You can tell how often an insight is generated by the green time pill in the top right. A month name indicates monthly, "week ending" indicates weekly, and a date indicates daily. Each insight represents data from a snapshot in time.
+            time_delay:
+              name: Time Delay
+              description_html: Report data display is refreshed no more than once per hour in Workarea. Other platforms (looking at you, Google Analytics) may have a longer or shorter time delay when displaying data.
+            time_zones:
+              name: Time Zones
+              description_html: All Workarea reports and insights are tracked in the time zone configured by the implementer. The current time zone configured for this admin is <code>%{time_zone}</code>.
         reference_link_html: Questions? See our <a href="%{path}">reports reference</a>.
-        customers:
-          title: Customers
-          export_results: Export All Results
-          results_filter: Results Filter
-          filters:
-            all: All Customers
-            returning: Returning Customers
-            one_time: One-Time Customers
         sales_by_category:
           title: Sales by Category
-          date_range: "%{starts_at} to %{ends_at}"
-          export_results: Export All Results
         sales_by_country:
           title: Sales by Country
-          date_range: "%{starts_at} to %{ends_at}"
-          export_results: Export All Results
         sales_by_discount:
           title: Sales by Discount
-          date_range: "%{starts_at} to %{ends_at}"
-          export_results: Export All Results
         sales_by_product:
           title: Sales by Product
-          date_range: "%{starts_at} to %{ends_at}"
-          export_results: Export All Results
         sales_by_sku:
           title: Sales by SKU
-          date_range: "%{starts_at} to %{ends_at}"
-          export_results: Export All Results
+        sales_by_tender:
+          title: Sales by Tender
         sales_by_traffic_referrer:
           title: Sales by Traffic Referrer
-          date_range: "%{starts_at} to %{ends_at}"
-          export_results: Export All Results
         sales_over_time:
           title: Sales over Time
-          date_range: "%{starts_at} to %{ends_at}"
-          by: by
-          export_results: Export All Results
         searches:
-          title: Searches
-          date_range: "%{starts_at} to %{ends_at}"
-          export_results: Export All Results
-          results_filter: Results Filter
           filters:
             all: All Searches
             with_results: Searches with results
             without_results: Searches without results
+          results_filter: Results Filter
+          title: Searches
+        unknown: Unknown
+        timeline:
+          chart_title: Timeline Report
+          date: Date
+          title: Timeline
+          revenue: Revenue
+          orders: Orders
+          units_sold: Units Sold
+          customers: Customers
+          releases: Releases
+          summary:
+            intro_html:
+              one: Over the last <strong>3 Months</strong> there has been <strong>%{count} Release</strong> with
+              other: Over the last <strong>3 Months</strong> there have been <strong>%{count} Releases</strong> with
+            revenue_html: <strong>%{revenue}</strong> in revenue
+            orders_html: <strong>%{orders}</strong> orders
+            units_sold_html: <strong>%{units_sold}</strong> units sold
+            customers_html: <strong>%{customers}</strong> new customers
       reports_mailer:
         export:
           subject: Here's your %{name} export
@@ -3198,6 +3448,80 @@ en:
           show_filters: Show Filters
           sort_by: Sort by
           title: Search results
+      segment_rules:
+        unknown: Unknown
+        email: Email
+        social: Social
+        search: Search
+        fields:
+          traffic_referrer:
+            source_notes: You can use a regular expression here.
+            source_notes_html: You can use a regular expression syntax in this field. For instance <code>twitter|facebook</code> will match either Twitter or Facebook. Matches are case-insensitive. Learn more about regular expressions <a href="https://en.wikipedia.org/wiki/Regular_expression" target="_blank" rel="noopener">here</a>.
+        flash_messages:
+          destroyed: Your rule has been removed.
+          error: There was a problem saving your rule.
+          saved: Your rule has been saved.
+        index:
+          title: Segment Rules for %{name}
+          rules: Rules
+          no_edit: Why can't I edit these?
+          no_edit_description_html: Changing the rules for a segment changes who's in that segment, and invalidates all data and insights collected for those people. Try %{link} instead.
+          creating_a_new_segment: creating a new segment
+        summaries:
+          categories:
+            description_html: "%{strength} any of: <strong>%{categories}</strong>"
+          geolocation:
+            description_html: "Browsing from <strong>%{city}</strong> <strong>%{region}</strong> <strong>%{country}</strong>"
+          last_order:
+            description_html:
+              one: Ordered within <strong>1</strong> day ago
+              other: Ordered within <string>%{count}</strong> days ago
+          orders:
+            description_html: "Placed <strong>%{minimum}</strong> to <strong>%{maximum}</strong> orders"
+            single_value_description_html:
+              one: "Placed <strong>%{count}</strong> order"
+              other: "Placed <strong>%{count}</strong> orders"
+          revenue:
+            description_html: "Spent <strong>%{minimum}</strong> to <strong>%{maximum}</strong>"
+            single_value_description_html: "Spent <strong>%{amount}</strong>"
+          sessions:
+            description_html: "Has visited <strong>%{minimum}</strong> to <strong>%{maximum}</strong> times"
+            single_value_description_html:
+              one: "Has visited <strong>once</strong>"
+              other: "Has visited <strong>%{count}</strong> times"
+      segments:
+        cards:
+          attributes:
+            header: Attributes
+            button: Edit
+          rules:
+            header: Rules
+            button: View Rules
+          insights:
+            header: Insights
+            button: View Insights
+            orders: orders
+            revenue: revenue
+            aov: AOV
+        edit:
+          page_title: Edit %{name}
+        flash_messages:
+          removed: The segment has been removed.
+        index:
+          page_title: Segments
+          dashboard_link: People
+          segment:
+            one: 1 segment
+            other: "%{count} segments"
+          add_custom: Add Custom
+          life_cycle: Life Cycle
+          custom: Custom
+          sparkline_title: Based on orders over the last three months
+        insights:
+          page_title: Insights on %{segment}
+          orders: Orders
+          revenue: Revenue
+          average_order_value: Average Order Value
       shared:
         activate_select:
           when_does_this_activate: When does this activate
@@ -3227,12 +3551,14 @@ en:
           catalog: Catalog
           categories: Categories
           content_pages: Content Pages
+          configuration: Configuration
           create_one: Create One
           customers: Customers
           customizations: All Customizations
           data_files: Imports & Exports
           discounts: Discounts
           email_signups: Email Signups
+          fulfillment: Fulfillment
           home_page: Home Page
           imports: Create Import
           inventory: Inventory
@@ -3258,6 +3584,7 @@ en:
           search: Search
           search_placeholder: Find products, assets, categories, orders, etc...
           searches: Searches
+          segments: Segments
           settings: Settings
           shipping_services: Shipping Services
           site_planner: Site Planner
@@ -3269,6 +3596,7 @@ en:
           todays_signups: Today's Signups
           transactional_emails: Transactional Emails
           trash: Trash
+          view_all_releases: View All Releases
           yesterdays_orders: Yesterday's Orders
         publishing_select:
           when_do_these_changes_publish: When do these changes publish
@@ -3351,13 +3679,15 @@ en:
         orders:
           average_order_value: 'AOV:'
           orders_discounted: 'Orders Discounted:'
-          revenue: 'Revenue:'
+          revenue: in revenue
           title: Orders
-          total_orders: 'Total Orders:'
-          units_sold: 'Units Sold:'
-          discounts: 'Discounts:'
-          customers: 'Customers:'
-        title: Daily Status Report
+          total_orders: total orders
+          units_sold: units sold
+          discounts: discounts applied
+          customers: new customers
+        title: Hey %{site} Team,
+        subject: Daily Status Report for %{site}
+        description: Here is your daily status report for %{date}
       summary:
         last_updated: 'Last updated %{timestamp} ago'
       tax_categories:
@@ -3410,11 +3740,23 @@ en:
             instruction_html: Before getting started, please refer to the %{help_link} help article for more information on managing tax categories.
             title: Using Tax Categories
       tax_rates:
+        flash_messages:
+          saved: Foo
+          changes_error: Foo
+          removed: Foo
         index:
-          button: Import and replace
           empty_button: Import tax rates
+          empty_message: No rates to display
+          import_button: Import
+          new_button: Add new tax rate
           not_applicable: N/A
+          or: or
+          rates:
+            one: 1 Rate
+            other: "%{count} Rates"
+          search_placeholder: Search by country, region or postal code
           table:
+            actions: Actions
             charge_on_shipping: Charge on Shipping
             country: Country
             max_value: Max Value
@@ -3423,10 +3765,19 @@ en:
             min_value: Min Value
             min_value_link: More Info on Min Value
             min_value_tooltip: Minimum value represents the lowest order total on which a tax rate can be charged.
-            percentage: Percentage
+            combined_percentage: Combined %
+            country_percentage: Country %
+            region_percentage: Region %
+            postal_code_percentage: Postal Code %
             postal_code: Postal Code
             region: Region
           title: Rates for %{category}
+        new:
+          title: Add new tax rate for %{category}
+          create_button: Create tax rate
+        edit:
+          title: Editing tax rate
+          save_button: Save tax rate
       timeline:
         card:
           button: View Timeline
@@ -3498,6 +3849,7 @@ en:
           avatar_tooltip_content: Images should be at least 80 x 80 pixels. Files not matching these dimensions will be resized and cropped.
           avatar_delete: Delete Avatar?
           email_signup: Email Signup?
+          send_password_reset: Send password reset email
         flash_messages:
           changes_saved: Your changes have been saved
           saved: Your changes have been saved
@@ -3505,6 +3857,8 @@ en:
           stopped: Impersonation for this user has been stopped.
           created: This account has been created
           error: There was an error saving this account
+          password_reset: Password reset created. User will receive an email shortly.
+          unlocked: User account is now unlocked.
         index:
           add_new: Add New Account
           browse_as_guest: Browse As Guest
@@ -3560,8 +3914,11 @@ en:
           admin: Admin
           admin_access: Admin Access
           admin_areas: Admin Areas
+          admin_capabilities: Admin Capabilities
           button: Save Permissions
           can_grant_or_revoke_permissions: Can grant or revoke permissions
+          can_manage_orders: Can manage orders
+          can_manage_orders_message: Admin users with this permission can modify orders.
           can_publish_now: Can publish to the live site
           can_publish_now_info: Publish now permission information
           can_publish_now_message: Admin users with this permission can make changes to the live site. Users without the permission are required to assign changes to a release, if possible, and cannot publish or schedule releases.
@@ -3588,8 +3945,10 @@ en:
           impersonate_customer: Impersonate This Customer
           impersonation_link: Impersonation Info
           impersonation_tooltip: Impersonating another administrator would allow you to steal their permissions
+          locked: This user is currently locked out from logging in due to repeated login failures.
           stop_impersonation: Stop Impersonation
           impersonate: Impersonate
+          unlock: Unlock user
         summary:
           admin_user: Admin User
           order: Order

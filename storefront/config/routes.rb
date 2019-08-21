@@ -67,7 +67,9 @@ Workarea::Storefront::Engine.routes.draw do
       get   'confirmation', to: 'place_order#confirmation'
     end
 
-    resource :recent_views, only: [:show, :update]
+    resources :downloads, only: :show
+
+    resource :recent_views, only: :show
     resource :recommendations, only: :show
 
     resource :sitemap, only: :show
@@ -94,6 +96,7 @@ Workarea::Storefront::Engine.routes.draw do
     get 'style_guides/:category', to: 'style_guides#category', as: :style_guides_category
     get 'style_guides/:category/:id', to: 'style_guides#show', as: :style_guide
 
+    post 'analytics/new_session', to: 'analytics#new_session', as: :analytics_new_session
     post 'analytics/product_view/:product_id', to: 'analytics#product_view', as: :analytics_product_view
     post 'analytics/category_view/:category_id', to: 'analytics#category_view', as: :analytics_category_view
     post 'analytics/search', to: 'analytics#search', as: :analytics_search

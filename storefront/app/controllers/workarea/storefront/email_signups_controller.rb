@@ -8,6 +8,7 @@ module Workarea
       signup = Email.signup(params[:email])
 
       if signup.try(:valid?)
+        update_tracking!(email: signup.email)
         flash[:success] = t('workarea.storefront.flash_messages.email_signed_up')
       else
         flash[:error] = t('workarea.storefront.flash_messages.email_signup_error')

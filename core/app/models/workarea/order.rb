@@ -22,15 +22,20 @@ module Workarea
     field :tax_total, type: Money, default: 0
     field :total_value, type: Money, default: 0
     field :total_price, type: Money, default: 0
-    field :user_activity_id, type: String
     field :checkout_by_id, type: String
     field :pricing_cache_key, type: String
     field :source, type: String
     field :metrics_saved_at, type: Time
     field :user_agent, type: String
+    field :segment_ids, type: Array, default: []
+    field :fraud_suspected_at, type: Time
+    field :fraud_decided_at, type: Time
 
     # @deprecated as of v3.2, locks are handled via Workarea::Lock
     field :lock_expires_at, type: Time
+
+    # @deprecated as of v3.5, the email address will be the ID for {Metrics}
+    field :user_activity_id, type: String
 
     index({ user_id: 1 })
     index({ placed_at: 1, created_at: 1 })
@@ -44,7 +49,8 @@ module Workarea
         reminded_at: 1,
         checkout_started_at: 1,
         email: 1,
-        "items[0]._id": 1
+        "items[0]._id": 1,
+        fraud_suspected_at: 1
       },
       {
         name: 'abandoned_order_email_index',
@@ -64,6 +70,9 @@ module Workarea
 
     embeds_one :traffic_referrer,
       class_name: 'Workarea::TrafficReferrer'
+
+    embeds_one :fraud_decision,
+      class_name: 'Workarea::Order::FraudDecision'
 
     validates :email, presence: { on: :purchasable }, email: true
 
@@ -115,7 +124,8 @@ module Workarea
           :checkout_by_id,
           :source,
           :traffic_referrer,
-          :user_agent
+          :user_agent,
+          :segment_ids
         )
       )
     end
@@ -176,7 +186,7 @@ module Workarea
     # @return [Boolean]
     #
     def requires_shipping?
-      items.present? && items.any? { |i| !i.digital? }
+      items.present? && items.any?(&:requires_shipping?)
     end
 
     # Whether this order can be purchased, which is defined here as the order
@@ -330,6 +340,27 @@ module Workarea
     # Mark the metrics for the order saved.
     def metrics_saved!
       set(metrics_saved_at: Time.current)
+    end
+
+    # Whether this order is suspected of fraud.
+    #
+    # @return [Boolean]
+    #
+    def fraud_suspected?
+      !!fraud_suspected_at
+    end
+
+    # Sets the fraud descision for the order..
+    #
+    # @param [Workarea::Order::FraudDecision] decision
+    # @return [Boolean]
+    #
+    def set_fraud_decision!(decision)
+      update!(
+        fraud_decision: decision,
+        fraud_decided_at: Time.current,
+        fraud_suspected_at: decision.declined? ? Time.current : nil
+      )
     end
   end
 end

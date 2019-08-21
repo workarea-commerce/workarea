@@ -1,5 +1,6 @@
 ---
 title: Configure a Payment Gateway
+created_at: 2018/09/17
 excerpt: Workarea provides the following configurations for your payment gateway integration. See Integrate a Payment Gateway to learn more about integrating a payment gateway with Workarea.
 ---
 

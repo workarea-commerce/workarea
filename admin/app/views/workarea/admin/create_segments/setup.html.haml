@@ -1,0 +1,42 @@
+- @page_title = t('workarea.admin.create_segments.setup.title')
+
+.view
+  .view__header
+    .view__heading
+      %h1.heading.heading--no-margin= t('workarea.admin.create_segments.setup.title')
+
+  .view__container.view__container--narrow
+    - @segment.errors.full_messages.each do |message|
+      = render_message 'error', message
+
+    = form_tag create_segments_path, method: 'post' do
+      .section
+        .property.property--required
+          = label_tag 'segment_name', t('workarea.admin.fields.name'), class: 'property__name'
+          = text_field_tag 'segment[name]', @segment.name, class: 'text-box', required: true
+
+        .property
+          = label_tag 'segment[tag_list]', t('workarea.admin.fields.tags'), class: 'property__name'
+          = text_field_tag 'segment[tag_list]', @segment.tag_list, class: 'text-box'
+          %span.property__note= t('workarea.admin.form.csv_field_note')
+
+      .workflow-bar
+        .grid.grid--middle
+          .grid__cell.grid__cell--20
+            - if @segment.new_record?
+              = link_to t('workarea.admin.form.cancel'), segments_path, class: 'workflow-bar__button workflow-bar__button--delete'
+            - else
+              = link_to t('workarea.admin.form.cancel'), segment_path(@segment), class: 'workflow-bar__button workflow-bar__button--delete', data: { method: 'delete', confirm: t('workarea.admin.create_segments.workflow.cancel_message') }
+
+          .grid__cell.grid__cell--60
+            %ol.workflow-bar__steps
+              %li.workflow-bar__step
+                %strong 1) #{t('workarea.admin.create_segments.workflow.steps.setup')}
+              - if @segment.new_record?
+                %li.workflow-bar__step 2) #{t('workarea.admin.create_segments.workflow.steps.rules')}
+              - else
+                %li.workflow-bar__step 2) #{link_to t('workarea.admin.create_segments.workflow.steps.rules'), rules_create_segment_path(@segment)}
+
+          .grid__cell.grid__cell--20
+            .grid.grid--auto.grid--right.grid--middle
+              .grid__cell= button_tag t('workarea.admin.create_segments.setup.save_and_add_rules'), value: 'save_setup', class: 'workflow-bar__button workflow-bar__button--create'

@@ -54,18 +54,17 @@ module Workarea
       end
 
       def test_viewing_the_settings_dashboard
-        Workarea.with_config do |config|
-          config.fooconfig = 'barvalue'
+        Workarea.config.fooconfig = 'barvalue'
 
-          visit admin.settings_dashboards_path
-          assert(page.has_content?('Fooconfig'))
-          assert(page.has_content?('barvalue'))
+        visit admin.settings_dashboards_path
+        assert(page.has_content?('Fooconfig'))
+        assert(page.has_content?('barvalue'))
+        assert(page.has_selector?('.jump-to-menu'))
 
-          config.hide_from_settings = %i(fooconfig)
+        Workarea.config.hide_from_settings = %i(fooconfig)
 
-          visit admin.settings_dashboards_path
-          refute(page.has_content?('Fooconfig'))
-        end
+        visit admin.settings_dashboards_path
+        refute(page.has_content?('Fooconfig'))
       end
     end
   end

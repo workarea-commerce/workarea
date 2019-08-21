@@ -1,5 +1,6 @@
 ---
 title: Content
+created_at: 2018/07/31
 excerpt: The Content namespace is responsible for modeling administrable content.
 ---
 
@@ -45,6 +46,9 @@ asset.aspect_ratio
 
 asset.portrait?
 # => true
+
+asset.alt_text
+# => "A foo image"
 ```
 
 ## Page
@@ -430,10 +434,10 @@ field_2.required?
 
 The <dfn>content block DSL</dfn> allows you to extend and augment the content block types available to your application. Use the DSL within an initializer in your app.
 
-The entry point for the DSL is `Content.define_block_types`. Pass this method a block in which you define the block types you want to add (or extend). Give each block type a name and use a block to set its attributes. Each new block type is pushed onto the collection of block types stored in `Workarea.config.content_block_types`.
+The entry point for the DSL is `Workarea.define_content_block_types`. Pass this method a block in which you define the block types you want to add (or extend). Give each block type a name and use a block to set its attributes. Each new block type is pushed onto the collection of block types stored in `Workarea.config.content_block_types`.
 
 ```
-Workarea::Content.define_block_types do
+Workarea.define_content_block_types do
   block_type 'Foo' do
     # ...
   end
@@ -449,7 +453,7 @@ end
 Use the `description` setter to set a description for the block type that will be shown to administrators when browsing block types in the Admin UI. Use `tags` to set tags which can be used to filter block types in the Admin. Use `icon` to specify the path to an SVG icon to represent the block in the admin. Use this only if you do not want to use the default icon path.
 
 ```
-Workarea::Content.define_block_types do
+Workarea.define_content_block_types do
   block_type 'Foo' do
     icon 'path/to/icon.svg'
     description 'Foo description'
@@ -465,7 +469,7 @@ Use the `field`, `fieldset`, and `series` setters to declare the fields and fiel
 Use `field` to add a field to the default "Settings" fieldset. Provide name, type, and options for the field. Refer to the field documentation, above, for the list of available field types and options.
 
 ```
-Workarea::Content.define_block_types do
+Workarea.define_content_block_types do
   block_type 'Foo' do
     # ...
     field 'Message', :text, required: true, default: 'Your text here'
@@ -476,7 +480,7 @@ end
 Use `fieldset` to create a new fieldset. Provide a name for the fieldset and a block defining the fields for that fieldset.
 
 ```
-Workarea::Content.define_block_types do
+Workarea.define_content_block_types do
   block_type 'Foo' do
     # ...
     fieldset 'Message' do
@@ -490,7 +494,7 @@ end
 Use `series` to create a series of fieldsets that share the same fields. The example below creates 4 fieldsets, each with a 'Image' and 'Alt' field.
 
 ```
-Workarea::Content.define_block_types do
+Workarea.define_content_block_types do
   block_type 'Image Slideshow' do
     # ...
     series 4 do
@@ -515,6 +519,19 @@ Persisted block data contains only fields, not fieldsets, so the fields of a ser
   'alt_4' => '...'
 }
 ```
+
+Asset fields, as showcased in the examples above, can pass a special option when being defined that will associate the field with another for the purposes of supplying a default value for the image's <code>alt</code> attribute:
+
+```
+Workarea.define_content_block_types do
+  block_type 'Image' do
+    field 'Image', :asset, alt_field: 'Image Alt Text'
+    field 'Image Alt Text', :string
+  end
+end
+```
+
+Once associated, when outputting the `image_alt_text` field in the Storefront view if no value is supplied for the field the Asset's `alt_text` attribute will be used instead, as a default value.
 
 ## Preset
 

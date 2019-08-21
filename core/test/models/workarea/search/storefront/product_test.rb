@@ -4,11 +4,6 @@ module Workarea
   module Search
     class Storefront
       class ProductTest < IntegrationTest
-        def test_save
-          Product.any_instance.expects(:save).once
-          create_product(variants: [])
-        end
-
         def test_sku_returns_only_skus_that_have_inventory
           inventory = create_inventory(
             id: 'SKU1',
@@ -94,13 +89,17 @@ module Workarea
 
           travel_to Time.zone.local(2018, 12, 5)
 
-          Workarea.with_config do |config|
-            config.score_decay = 0.5
-            config.sorting_score_ttl = 1.year
+          Workarea.config.score_decay = 0.5
+          Workarea.config.sorting_score_ttl = 1.year
 
-            search_model = Product.new(product)
-            assert_equal(1.75, search_model.orders_score)
-          end
+          search_model = Product.new(product)
+          assert_equal(1.75, search_model.orders_score)
+        end
+
+        def test_product_missing_from_storefront_index
+          product = create_product
+          Storefront.delete_indexes!
+          assert(Product.new(product).destroy)
         end
       end
     end

@@ -77,6 +77,16 @@ module Workarea
         end
       end
 
+      def storefront_url_for(taxon)
+        path = storefront_path_for(taxon)
+
+        return if path.blank?
+
+        protocol = Rails.application.config.force_ssl ? 'https' : 'http'
+        "#{protocol}://#{Workarea.config.host}/#{path.sub(/^\//, '')}"
+      end
+
+
       # Generate a cache key for a taxon's left navigation. Uses the
       # `:selected` taxon in the cache key if a given node is selected,
       # otherwise just appends the `section` argument onto the `taxon`'s

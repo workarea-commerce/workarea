@@ -40,6 +40,22 @@ module Workarea
         )
       end
 
+      def fraud_icon_for(model)
+        return unless model.fraud_suspected?
+        svg = inline_svg(
+          'workarea/admin/icons/alert.svg',
+          title: t('workarea.admin.orders.cards.fraud.suspected_fraud'),
+          class: 'svg-icon svg-icon--small svg-icon--link-color'
+        )
+
+        link_to(
+          svg,
+          fraud_order_path(model),
+          title: t('workarea.admin.orders.cards.fraud.suspected_fraud'),
+          class: 'link link--no-underline'
+        )
+      end
+
       def admin_icon_for(model)
         return unless model.admin?
 

@@ -1,5 +1,6 @@
 ---
 title: HTML Fragment Caching
+created_at: 2019/03/14
 excerpt: After HTTP caching The next level of caching happens in the Rails views. The Workarea system does this fragment caching in the conventional Rails way, so if you've worked with caching on Rails systems before this will be familar to you.
 ---
 

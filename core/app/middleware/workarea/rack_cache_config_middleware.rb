@@ -10,7 +10,10 @@ module Workarea
 
       if request.path !~ /(jpe?g|png|ico|gif|css|js)$/
         env['rack-cache.force-pass'] = request.cookies['cache'] == 'false'
-        env['workarea.cache_varies'] = Cache::Varies.new(env).to_s
+      end
+
+      if env['workarea.visit'].present?
+        env['workarea.cache_varies'] = env['workarea.visit'].varies.to_s
       end
 
       @app.call(env)

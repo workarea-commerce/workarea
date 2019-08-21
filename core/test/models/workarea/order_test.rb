@@ -56,6 +56,9 @@ module Workarea
       order.checkout_started_at = Time.current
       assert_equal(:checkout, order.status)
 
+      order.fraud_suspected_at = Time.current
+      assert_equal(:suspected_fraud, order.status)
+
       order.place
       assert_equal(:placed, order.status)
 
@@ -149,6 +152,28 @@ module Workarea
     def test_name
       order = Order.new
       assert_equal("Order #{order.id}", order.name)
+    end
+
+    def test_fraud_suspected?
+      order = Order.new
+      order.fraud_decision = create_fraud_decision
+
+      refute(order.fraud_suspected?)
+
+      order.fraud_decision = create_fraud_decision(decision: :declined)
+      order.fraud_suspected_at = Time.current
+      assert(order.fraud_suspected?)
+    end
+
+    def test_set_fraud_decision
+      order = Order.new
+      order.set_fraud_decision!(create_fraud_decision)
+
+      refute(order.fraud_suspected_at.present?)
+      assert(order.fraud_decided_at.present?)
+
+      order.set_fraud_decision!(create_fraud_decision(decision: :declined))
+      assert(order.fraud_suspected_at.present?)
     end
   end
 end

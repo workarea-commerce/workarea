@@ -2,9 +2,11 @@ module Workarea
   module Releasable
     extend ActiveSupport::Concern
     include Mongoid::DocumentPath
+    include Release::Activation
 
     included do
       field :active, type: Boolean, default: true, localize: Workarea.config.localized_active_fields
+      attr_accessor :release_id
 
       has_many :changesets,
         class_name: 'Workarea::Release::Changeset',
@@ -15,8 +17,8 @@ module Workarea
       scope :active, -> { where(active: true) }
       scope :inactive, -> { where(active: false) }
 
-      around_create :save_activate_with
-      before_update :save_release_changes
+      define_model_callbacks :save_release_changes
+      before_update :handle_release_changes
       after_find :load_release_changes
       after_destroy :destroy_embedded_changesets
 
@@ -25,8 +27,22 @@ module Workarea
       else
         index(active: 1)
       end
+    end
 
-      attr_accessor :activate_with
+    def changesets_with_children
+      criteria = Release::Changeset.any_of(
+        { releasable_type: self.class.name, releasable_id: id }
+      )
+
+      embedded_relations.each do |name, metadata|
+        Array.wrap(send(name)).each do |child|
+          if child.respond_to?(:changesets_with_children)
+            criteria.merge!(child.changesets_with_children)
+          end
+        end
+      end
+
+      criteria
     end
 
     # A hash of changes for being set on the changeset. It's just a filtered
@@ -35,15 +51,42 @@ module Workarea
     # @return [Hash]
     #
     def release_changes
-      changes.keys.inject({}) do |memo, key|
-        old_value, new_value = *changes[key]
+      ::Workarea::Release::Changes.new(self).to_h
+    end
 
-        if Release::Changeset.track_change?(key, old_value, new_value)
-          memo[key] = new_value
-        end
+    def release_originals
+      ::Workarea::Release::Changes.new(self).to_originals_h
+    end
 
-        memo
+    # Get a new instance of this model loaded with changes for the release
+    # passed in.
+    #
+    # @return [Releasable]
+    #
+    def in_release(release)
+      if release.blank? && !changed? # No extra work necessary, return a copy
+        result = dup
+        result.id = id
+        result.release_id = nil
+        result
+      elsif release.present? && !changed? # We don't have to reload from DB, just apply release changes to a copy
+        result = dup
+        result.id = id
+        result.release_id = release.id
+        release.preview.changesets_for(self).each { |cs| cs.apply_to(result) }
+        result
+      else
+        Release.with_current(release) { self.class.find(id) }
       end
+    end
+
+    # Get a new instance of this model without any release changes. This a new
+    # instance without any release changes applied.
+    #
+    # @return [Releasable]
+    #
+    def without_release
+      in_release(nil)
     end
 
     # Skip the release changeset for the duration of the block. Used when
@@ -54,19 +97,10 @@ module Workarea
     #
     def skip_changeset
       @_skip_changeset = true
-      result = yield
-      @_skip_changeset = false
-      result
-    end
+      yield
 
-    # Whether this model becomes active with the current release. Used for some
-    # funny business when displaying content blocks in the admin. :(
-    #
-    # @return [Boolean]
-    #
-    def activates_with_current_release?
-      return false if Release.current.blank?
-      active? && active_changed? && !was_active?
+    ensure
+      @_skip_changeset = false
     end
 
     # Persist a to be recalled for publishing later. This is where changesets
@@ -76,34 +110,22 @@ module Workarea
     #
     # @param release_id [String]
     #
-    def save_changeset(release_id)
-      return unless release_id.present?
+    def save_changeset(release)
+      return unless release.present?
 
-      changeset = Release::Changeset.find_or_initialize_by(
-        releasable_id: id,
-        releasable_type: self.class.name,
-        release_id: release_id
-      )
+      changeset = release.changesets.find_or_initialize_by(releasable: self)
 
-      if changeset.persisted? && release_changes.present?
-        # This is to avoid triggering callbacks - calling #save on a
-        # persisted Changeset is causing Mongoid to run callbacks on the
-        # parent document, which resets the changeset changes to previous
-        # values, not allowing updates to a changeset. #set merges a hash
-        # field's new value into the old, so a call to #unset is necessary
-        # to ensure any removed changes are properly deleted.
-        #
-        # TODO check in with this before v3 to see if Mongoid has fixed or
-        # open a Mongoid PR
-        #
-        changeset.unset(:changeset)
-        changeset.set(changeset: release_changes)
-      elsif release_changes.present?
-        changeset.document_path = document_path
-        changeset.changeset = release_changes
-        changeset.save!
-      elsif changeset.persisted?
-        changeset.destroy
+      run_callbacks :save_release_changes do
+        if changeset.persisted? && release_changes.present?
+          changeset.update!(changeset: release_changes, original: release_originals)
+        elsif release_changes.present?
+          changeset.document_path = document_path
+          changeset.changeset = release_changes
+          changeset.original = release_originals
+          changeset.save!
+        elsif changeset.persisted?
+          changeset.destroy
+        end
       end
 
       changes.each do |field, change|
@@ -111,22 +133,25 @@ module Workarea
       end
     end
 
-    def releasable?
-      true
+    def destroy(*)
+      if embedded? && Release.current.present?
+        update!(active: false)
+      else
+        super
+      end
     end
 
     private
 
     def load_release_changes
-      # Documents found with .only cause issues
-      return if readonly? || Release.current.blank?
+      return if readonly? || Release.current.blank? # Documents found with .only cause issues
 
-      changeset = changesets.find_by(release_id: Release.current.id) rescue nil
-      changeset.apply_to(self) if changeset.present?
+      Release.current.preview.changesets_for(self).each { |c| c.apply_to(self) }
+      self.release_id = Release.current.id
     end
 
-    def save_release_changes
-      save_changeset(Release.current.try(:id)) unless @_skip_changeset
+    def handle_release_changes
+      save_changeset(Release.current) unless @_skip_changeset
     end
 
     def destroy_embedded_changesets
@@ -137,35 +162,6 @@ module Workarea
       if Release.current.present? && changes['slug'].present?
         errors.add(:slug, 'cannot be changed for releases')
       end
-    end
-
-    def save_activate_with
-      self.active = false if activate_with?
-      yield
-      create_activation_changeset(activate_with) if activate_with?
-    end
-
-    def activate_with?
-      activate_with.present? && BSON::ObjectId.legal?(activate_with)
-    end
-
-    def create_activation_changeset(release_id)
-      set = changesets.find_or_initialize_by(release_id: release_id)
-      set.document_path = document_path
-
-      active_changeset = if Workarea.config.localized_active_fields
-        { 'active' => { I18n.locale => true } }
-      else
-        { 'active' => true }
-      end
-
-      set.changeset = active_changeset
-      set.save!
-    end
-
-    def was_active?
-      (Workarea.config.localized_active_fields && active_was[I18n.locale]) ||
-        (!Workarea.config.localized_active_fields && active_was)
     end
   end
 end

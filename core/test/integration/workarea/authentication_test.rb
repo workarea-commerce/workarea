@@ -4,6 +4,7 @@ module Workarea
   class AuthenticationTest < IntegrationTest
     class AuthenticationController < Workarea::ApplicationController
       include Authentication
+      include Storefront::CurrentCheckout
 
       before_action :require_login, only: :logged_in
       before_action :require_logout, only: :logged_out
@@ -161,6 +162,14 @@ module Workarea
       get '/foo', params: { user_id: admin.id }, xhr: true
 
       assert_response(:unauthorized)
+    end
+
+    def test_setting_email_cookie
+      get '/test_login', params: { user_id: @user.id }
+      assert(cookies[:email].present?)
+
+      get '/test_logout'
+      refute(cookies[:email].present?)
     end
   end
 end

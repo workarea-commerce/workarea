@@ -17,22 +17,18 @@
           = label_tag 'release_name', t('workarea.admin.fields.name'), class: 'property__name'
           = text_field_tag 'release[name]', @release.name, class: 'text-box text-box--i18n', required: true, placeholder: t('workarea.admin.create_releases.setup.release_name_placeholder', year: Time.current.year)
 
-        - if current_user.can_publish_now?
-          .grid.grid--huge
-            .grid__cell.grid__cell--50-at-medium
-              .property
-                = label_tag 'release_publish_at', t('workarea.admin.fields.publish_at'), class: 'property__name'
-                .box.box--rounded= hidden_field_tag 'release[publish_at]', @release.publish_at, data: { datetimepicker_field: { inline: true } }
-
-            .grid__cell.grid__cell--50-at-medium
-              .property
-                = label_tag 'release_undo_at', t('workarea.admin.fields.undo_at'), class: 'property__name'
-                .box.box--rounded= hidden_field_tag 'release[undo_at]', nil, data: { datetimepicker_field: { inline: true } }
-
         .property
           = label_tag 'release[tag_list]', t('workarea.admin.fields.tags'), class: 'property__name'
           = text_field_tag 'release[tag_list]', @release.tag_list, class: 'text-box'
           %span.property__note= t('workarea.admin.create_releases.setup.tags_note')
+
+        - if current_user.can_publish_now?
+          .align-center
+            .grid.grid--huge
+              .grid__cell.grid__cell--50-at-medium
+                .property
+                  = label_tag 'release_publish_at', t('workarea.admin.fields.publish_at'), class: 'property__name'
+                  .box.box--rounded= hidden_field_tag 'release[publish_at]', @release.publish_at, data: { datetimepicker_field: { inline: true } }
 
       .workflow-bar
         .grid.grid--middle

@@ -104,14 +104,20 @@ Workarea::Admin::Engine.routes.draw do
     resources :releases do
       resources :changesets, only: [:index, :destroy]
       resources :releasables, only: [:index, :show]
+      resource :undo, controller: 'create_release_undos', only: [:new, :create] do
+        get :review
+        post :complete
+      end
 
       member do
         get 'edit_for/:type', action: :edit_for, as: :edit_for
+        get :undo
+        get :original
         patch :publish
-        patch :undo
       end
 
       collection do
+        get 'list'
         get 'calendar_feed/:token/site_planner.ics', action: :calendar_feed, as: :calendar_feed
       end
     end
@@ -131,10 +137,12 @@ Workarea::Admin::Engine.routes.draw do
       get :sales_by_country
       get :sales_by_discount
       get :sales_by_product
-      get :sales_by_traffic_referrer
       get :sales_by_sku
+      get :sales_by_tender
+      get :sales_by_traffic_referrer
       get :sales_over_time
       get :searches
+      get :timeline
 
       post :export
       get '/:id/download', action: :download, as: :download
@@ -146,6 +154,7 @@ Workarea::Admin::Engine.routes.draw do
       member do
         get :attributes
         get :timeline
+        get :fraud
       end
 
       resources :shippings, only: :index
@@ -159,6 +168,9 @@ Workarea::Admin::Engine.routes.draw do
     resources :payment_transactions, only: [:index, :show]
 
     resources :fulfillments, only: :show
+    resources :fulfillment_skus do
+      resources :fulfillment_tokens, as: :tokens
+    end
 
     resources :catalog_products, except: [:new, :create] do
       resources :variants, controller: 'catalog_variants', except: :show do
@@ -296,6 +308,8 @@ Workarea::Admin::Engine.routes.draw do
     end
 
     resources :pricing_discounts, except: [:new, :create] do
+      resources :redemptions, only: [:index], controller: 'pricing_discount_redemptions'
+
       member do
         get :rules
         get :insights
@@ -334,6 +348,25 @@ Workarea::Admin::Engine.routes.draw do
         get :addresses
         get :permissions
         get :insights
+        post :send_password_reset
+        patch :unlock
+      end
+    end
+
+    resources :segments, except: [:new, :create] do
+      resources :rules, except: [:show, :new, :edit], controller: 'segment_rules'
+
+      member do
+        get :insights
+      end
+    end
+
+    resources :create_segments, except: :show do
+      member do
+        get :rules
+        get :new_rule
+        get 'edit_rule/:rule_id', action: :edit_rule, as: :edit_rule
+        get :review
       end
     end
 
@@ -341,7 +374,7 @@ Workarea::Admin::Engine.routes.draw do
 
     resources :shipping_services
     resources :tax_categories do
-      resources :tax_rates, only: :index, as: :rates, path: 'rates'
+      resources :tax_rates, except: :show, as: :rates, path: 'rates'
     end
 
     get 'toolbar', to: 'toolbar#show', as: 'toolbar'
@@ -367,6 +400,8 @@ Workarea::Admin::Engine.routes.draw do
     get :reports
     get :settings
   end
+
+  resource :configuration, only: [:show, :update]
 
   root to: 'dashboards#index', via: :get
 end

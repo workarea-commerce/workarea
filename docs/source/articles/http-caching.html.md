@@ -1,5 +1,6 @@
 ---
 title: HTTP Caching
+created_at: 2019/03/14
 excerpt: All major content, browse, and search pages are cached for a short and configurable duration by an HTTP cache. This allows the system to serve a large number of requests in a short period of time.
 ---
 

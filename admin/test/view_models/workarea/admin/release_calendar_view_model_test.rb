@@ -31,6 +31,22 @@ module Workarea
         assert_equal(@release.id, day.first.id)
       end
 
+      def test_days_sorts_results
+        travel_to Time.zone.local(2019, 6, 24, 9, 35)
+
+        @release.update_attributes!(name: 'Third', publish_at: 3.hours.from_now)
+        create_release(name: 'First', published_at: 1.hour.ago)
+        create_release(name: 'Second', publish_at: 2.hours.from_now)
+
+        view_model = ReleaseCalendarViewModel.wrap(@release)
+        day = view_model.days[(@release.publish_at).strftime('%Y-%m-%d').to_s]
+
+        assert_equal(3, day.length)
+        assert_equal('First', day.first.name)
+        assert_equal('Second', day.second.name)
+        assert_equal('Third', day.third.name)
+      end
+
       def test_prev_week
         view_model = ReleaseCalendarViewModel.new(@release)
         assert_equal(Time.zone.today - 1.week, view_model.prev_week)

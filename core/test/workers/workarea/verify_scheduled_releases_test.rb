@@ -41,31 +41,5 @@ module Workarea
       assert_equal('123', release.publish_job_id)
       assert_equal(0, @scheduled_set.size)
     end
-
-    def test_rescheduling_undo
-      release = create_release(published_at: Time.current, undo_at: Time.current + 1.hour)
-
-      assert(release.undo_job_id.present?)
-      original_job_id = release.undo_job_id
-      @scheduled_set.clear
-
-      VerifyScheduledReleases.new.perform
-      release.reload
-
-      refute_equal(original_job_id, release.undo_job_id)
-      assert_equal(1, @scheduled_set.size)
-    end
-
-    def test_skipping_undo_dates_in_the_past
-      release = create_release(published_at: Time.current)
-      release.update_attribute(:undo_at, Time.current - 1.hour)
-      release.update_attribute(:undo_job_id, '123')
-
-      VerifyScheduledReleases.new.perform
-      release.reload
-
-      assert_equal('123', release.undo_job_id)
-      assert_equal(0, @scheduled_set.size)
-    end
   end
 end

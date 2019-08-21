@@ -1,5 +1,6 @@
 ---
 title: Stylesheet Coding Standards
+created_at: 2018/07/31
 excerpt: The files that make up the Workarea CSS Framework adhere to specific architectural guidelines. The architecture defines specific layers to which each CSS file should belong. For more information, read through the CSS Architectural Overview section.
 ---
 

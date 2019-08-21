@@ -46,6 +46,8 @@ module Workarea
                   { regular: sku_price, sale: sale_price < 0 ? 1.to_m : sale_price }
                 ]
               )
+
+              Fulfillment::Sku.create!(id: sku)
             end
 
             sizes = product.variants.map { |v| v.details['Size'] }

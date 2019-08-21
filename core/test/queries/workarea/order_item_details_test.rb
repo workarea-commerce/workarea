@@ -12,6 +12,22 @@ module Workarea
       assert_nil(OrderItemDetails.find('SKU1'))
     end
 
+    def test_requires_shipping?
+      product = create_product(variants: [{ sku: 'SKU', regular: 5.00 }])
+
+      assert(OrderItemDetails.find('SKU').requires_shipping?)
+
+      product.update(digital: true)
+      refute(OrderItemDetails.find('SKU').requires_shipping?)
+
+      product.update(digital: false)
+      sku = create_fulfillment_sku(id: 'SKU', policy: :ignore)
+      refute(OrderItemDetails.find('SKU').requires_shipping?)
+
+      sku.update(policy: :download, file: product_image_file)
+      refute(OrderItemDetails.find('SKU').requires_shipping?)
+    end
+
     def test_to_h
       product = create_product(id: "840B898080", variants: [{ sku: 'SKU', regular: 5.00 }])
       # we lose time precision on created_at/updated_at when storing in the database
@@ -22,6 +38,7 @@ module Workarea
       assert_equal("840B898080", details[:product_id])
       assert_equal(product.as_document, details[:product_attributes])
     end
+
 
     def test_shared_sku_products
       product = create_product(id: "840B898080", variants: [{ sku: 'SKU', regular: 5.00 }])

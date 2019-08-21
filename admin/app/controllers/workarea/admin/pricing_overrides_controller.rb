@@ -1,7 +1,7 @@
 module Workarea
   module Admin
     class PricingOverridesController < Admin::ApplicationController
-      required_permissions :orders
+      required_permissions :orders_management
 
       before_action :find_override
       before_action :find_order

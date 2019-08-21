@@ -6,7 +6,6 @@
 
 - content_for :head do
   - cache "#{@category.cache_key}/head", expires_in: Workarea.config.cache_expirations.categories_fragment_cache do
-    %meta{ property: 'recent-view', content: recent_view_content(category_id: @category.id) }
     %meta{ property: 'global-id', content: @category.to_global_id.to_param }
 
     - if @category.first_page? && !@category.has_filters?
@@ -89,10 +88,11 @@
       .pagination{ data: { analytics: product_list_analytics_data(@category.name).to_json, pagination: pagination_data(@category.products), back_to_top_button: '' } }
         .grid
           - @category.products.each_with_index do |product, position|
+            = render_schema_org(product_schema(product))
             = append_partials('storefront.category_browse_grid_item', product: product, position: position)
 
             .grid__cell.grid__cell--50.grid__cell--25-at-medium.grid__cell--20-at-wide{ data: { pagination_item: '' } }
-              .product-summary{ itemscope: true, itemtype: 'http://schema.org/Product' }
+              .product-summary
                 = render 'workarea/storefront/products/summary', product: product
         - if show_pagination?(@category.products)
           .pagination__button

@@ -15,29 +15,22 @@ module Workarea
                           .reject { |changeset| changeset.releasable.blank? }
       end
 
-      def can_undo?
-        !undone? && changesets.any? { |c| c.undo.present? }
-      end
-
-      def published_on_date?(date)
-        date == publish_time.to_date
-      end
-
-      def ended_on_date?(date)
-        return true if content_release?
-        date == model.undo_at.to_date
-      end
-
-      def content_release?
-        model.undo_at.blank?
-      end
-
-      def publish_time
+      def calendar_at
         model.publish_at || model.published_at
       end
 
-      def undo_time
-        model.undo_at || model.undone_at
+      def calendar_on
+        calendar_at&.to_date
+      end
+
+      def undo
+        return unless undo?
+        @undo ||= ReleaseViewModel.wrap(model.undo, options)
+      end
+
+      def undoes
+        return unless undoes?
+        @undoes ||= ReleaseViewModel.wrap(model.undoes, options)
       end
     end
   end

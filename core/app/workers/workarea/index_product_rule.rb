@@ -5,7 +5,7 @@ module Workarea
 
     sidekiq_options(
       enqueue_on: {
-        ProductRule => %i[save destroy],
+        ProductRule => %i[save save_release_changes destroy],
         ignore_if: -> {
           product_list.class.name != 'Workarea::Catalog::Category'
         },

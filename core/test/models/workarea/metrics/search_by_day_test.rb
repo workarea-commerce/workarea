@@ -12,6 +12,9 @@ module Workarea
         SearchByDay.save_search('a', 3)
         assert_equal(0, SearchByDay.count)
 
+        SearchByDay.save_search('a', '')
+        assert_equal(0, SearchByDay.count)
+
         2.times do
           SearchByDay.save_search('Foo  Bar', '3')
           assert_equal(1, SearchByDay.count)

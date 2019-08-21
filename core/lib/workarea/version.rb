@@ -1,10 +1,9 @@
 module Workarea
   module VERSION
     MAJOR = 3
-    MINOR = 4
-    PATCH = 11
-    PRE   = nil
-
+    MINOR = 5
+    PATCH = 0
+    PRE   = 'pre'
     STRING = [MAJOR, MINOR, PATCH, PRE].compact.join('.')
 
     module MONGODB

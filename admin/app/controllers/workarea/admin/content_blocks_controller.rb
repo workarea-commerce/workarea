@@ -53,13 +53,7 @@ module Workarea
     end
 
     def destroy
-      if current_release.present?
-        @block.active = false
-        @block.save
-      else
-        @block.destroy
-      end
-
+      @block.destroy
       flash[:success] = t('workarea.admin.content_blocks.flash_messages.removed')
       redirect_to return_to || edit_content_path(@content)
     end

@@ -1,6 +1,7 @@
 module Workarea
   class ProductRule
     include ApplicationDocument
+    include Releasable
 
     OPERATORS = %w(
       greater_than
@@ -21,6 +22,10 @@ module Workarea
     validates :value, presence: true
     validates :name, presence: true
     validates :operator, presence: true
+
+    def self.usable
+      scoped.select(&:active?).select(&:valid?)
+    end
 
     # The identifier for which admin partials to render for this rule.
     #

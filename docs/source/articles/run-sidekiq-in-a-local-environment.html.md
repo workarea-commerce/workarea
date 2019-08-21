@@ -1,5 +1,6 @@
 ---
 title: Run Sidekiq in a Local Environment
+created_at: 2018/08/08
 excerpt: By default, Workarea applications are configured to run Sidekiq inline for local development. In some cases, however, it could be desirable to have an application run with Sidekiq processing jobs in the background to better match a live, production environment.
 ---
 
@@ -22,19 +23,3 @@ $ bundle exec sidekiq
 ```
 
 When the command executes you will see a message that sidekiq has started. This window must remain open and running for sidekiq to continue to function. If you prefer, you can run sidekiq as a daemon with the `-d` or `--daemon` flag when starting the process.
-
-
-## Run Sidekiq in a Docker Environment
-
-When using Docker for Workarea development, the generated `docker-compose.yml` file provides a commented out service you can use to run Sidekiq in a separate container. Just uncomment the following lines and run `docker-compose up`.
-
-```yaml
-# sidekiq:
-#   <<: *web
-#   command: ['sh', './docker-wait.sh', 'sidekiq']
-#   depends_on:
-#     - web
-#   ports: []
-```
-
-**Note**: Docker environments still require you to remove the `require` shown above from your `config/environments/development.rb` file.

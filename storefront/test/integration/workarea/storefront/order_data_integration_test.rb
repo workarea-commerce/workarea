@@ -38,13 +38,6 @@ module Workarea
         )
       end
 
-      def complete_checkout(email = nil, password = nil)
-        put storefront.recent_views_path,
-          params: { product_id: product.id }
-
-        super
-      end
-
       def test_order_info_saving
         complete_checkout
 
@@ -54,7 +47,6 @@ module Workarea
         assert_equal(order.email, 'bcrouse@workarea.com')
         assert_equal('127.0.0.1', order.ip_address)
         assert_equal('Mozilla', order.user_agent)
-        assert(order.user_activity_id.present?)
 
         assert_equal(1, order.items.length)
         assert_equal(@product.id, order.items.first.product_id)

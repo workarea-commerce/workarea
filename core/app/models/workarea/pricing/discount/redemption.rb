@@ -18,6 +18,7 @@ module Workarea
         belongs_to :discount,
           class_name: 'Workarea::Pricing::Discount'
 
+        scope :recent, -> { desc(:created_at) }
         index({ discount_id: 1, email: 1 })
 
         before_validation :downcase_email

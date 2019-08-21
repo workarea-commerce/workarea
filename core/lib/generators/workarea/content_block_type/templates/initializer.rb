@@ -1,3 +1,3 @@
-Workarea::Content.define_block_types do
+Workarea.define_content_block_types do
 
 end

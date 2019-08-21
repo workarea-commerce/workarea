@@ -1,5 +1,6 @@
 ---
 title: Browser & Device Support
+created_at: 2018/10/12
 excerpt: The Workarea platform is designed for compatibility with modern browsers and devices. The platform is explicitly tested with the browsers and devices that are most often used by end users, as reported by our systems integrators.
 ---
 

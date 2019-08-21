@@ -27,10 +27,7 @@ module Workarea
         end
 
         def as_document
-          super.merge(
-            published_at: model.published_at,
-            undo_at: model.undo_at
-          )
+          super.merge(published_at: model.published_at)
         end
       end
     end

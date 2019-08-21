@@ -1,5 +1,6 @@
 ---
 title: Add or Replace a Pricing Calculator
+created_at: 2018/11/27
 excerpt: Learn how to manipulate pricing calculators to affect how products and orders are priced on your Workarea application.
 ---
 

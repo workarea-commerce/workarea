@@ -8,27 +8,25 @@ module Workarea
     field :publish_at, type: Time
     field :published_at, type: Time
     field :publish_job_id, type: String
-    field :undo_at, type: Time
-    field :undone_at, type: Time
-    field :undo_job_id, type: String
+    field :undo_at, type: Time # TODO deprecated, remove in v3.6
+    field :undone_at, type: Time # TODO deprecated, remove in v3.6
+    field :undo_job_id, type: String # TODO deprecated, remove in v3.6
 
     has_many :changesets, class_name: 'Workarea::Release::Changeset'
+    has_one :undo, class_name: 'Workarea::Release', inverse_of: :undoes
+    belongs_to :undoes, class_name: 'Workarea::Release', inverse_of: :undo, optional: true
 
     index({ publish_at: 1 })
     index({ published_at: 1 })
-    index({ undo_at: 1 })
-    index({ undone_at: 1 })
 
     validates :name, presence: true
     validate :publish_at_status
-    validate :undoable_release, if: :undo_at?
 
+    after_find :reset_preview
     before_save :remove_publish_job, if: Proc.new { |r| r.publish_at.blank? }
-    before_save :remove_undo_job, if: Proc.new { |r| r.undo_at.blank? }
     before_save :schedule_publish
-    before_save :schedule_undo
+    after_save :reset_preview
     before_destroy :remove_publish_job
-    before_destroy :remove_undo_job
 
     scope :not_published, (lambda do
       any_of({ :published_at.exists => false }, { published_at: nil })
@@ -36,11 +34,21 @@ module Workarea
     scope :published, (lambda do
       where(:published_at.exists => true)
     end)
+    scope :published_between, ->(starts_at: nil, ends_at: nil) do
+      where(
+        :published_at.gte => starts_at,
+        :published_at.lte => ends_at
+      )
+    end
     scope :not_scheduled, (lambda do
       any_of({ :publish_at.exists => false }, { publish_at: nil })
     end)
-    scope :scheduled, -> { where(:publish_at.gt => Time.current) }
-    scope :to_undo, -> { where(:undo_at.gt => Time.current) }
+    scope :scheduled, ->(before: nil, after: nil) do
+      criteria = where(:publish_at.gt => Time.current)
+      criteria = criteria.where(:publish_at.lte => before) if before.present?
+      criteria = criteria.where(:publish_at.gte => after) if after.present?
+      criteria
+    end
     scope :soonest, -> { scheduled.asc(:publish_at) }
     scope :tomorrow, -> do
       where(
@@ -57,15 +65,28 @@ module Workarea
       Thread.current[:current_release] = release
     end
 
-    def self.with_current(release_id, &block)
+    def self.with_current(release)
       previous = current
-      self.current = release_id.blank? ? nil : find(release_id) rescue nil
 
-      return_value = block.call
+      new_current = if release.is_a?(Release)
+        release
+      elsif release.present?
+        find(release) rescue nil
+      end
+
+      self.current = new_current
+      current&.reset_preview
+      yield
 
     ensure
       self.current = previous
-      return_value
+
+      current&.reset_preview
+      previous&.reset_preview
+    end
+
+    def self.without_current(&block)
+      with_current(nil, &block)
     end
 
     # Gets a list of unscheduled releases
@@ -104,29 +125,12 @@ module Workarea
       results.uniq.sort_by { |r| [r.publish_at || 0, r.published_at || 0] }
     end
 
-    # Get a list of releases undone or to be undone
-    # within a given range
-    #
-    # @ return [Array<Release>]
-    #
-    def self.undone_within(start_date, end_date)
-      results = where(
-        :undo_at.gte => start_date.to_time,
-        :undo_at.lte => end_date.to_time
-      )
-
-      results += where(
-        :undone_at.gte => start_date.to_time,
-        :undone_at.lte => end_date.to_time
-      )
-
-      results.uniq.sort_by { |r| [r.undo_at || 0, r.undone_at || 0] }
+    def self.sort_by_publish
+      scoped.sort_by { |r| [r.publish_at, r.created_at] }
     end
 
     def as_current
-      self.class.with_current(id) do
-        yield
-      end
+      self.class.with_current(self) { yield }
     end
 
     def scheduled?
@@ -141,29 +145,48 @@ module Workarea
       scheduled? || (!scheduled? && !published?)
     end
 
-    def undone?
-      !!undone_at
-    end
-
     def has_changes?
       changesets.present?
     end
 
+    def preview
+      @preview ||= Preview.new(self)
+    end
+
+    def reset_preview
+      @preview = nil
+    end
+
+    def scheduled_before
+      return [] unless scheduled?
+      self.class.scheduled(before: publish_at).ne(id: id).sort_by_publish
+    end
+
+    def scheduled_after
+      return [] unless scheduled?
+      self.class.scheduled(after: publish_at).ne(id: id).sort_by_publish
+    end
+
+    def previous
+      scheduled_before.last
+    end
+
+    def build_undo(attributes = {})
+      result = undo || Release.new(attributes)
+
+      result.name ||= I18n.t('workarea.release.undo', name: name)
+      result.tags = %w(undo) if result.tags.blank?
+      self.undo = result
+
+      result
+    end
+
     def publish!
       self.published_at = Time.current
-      self.undone_at = nil
       self.publish_at = nil
       save!
 
       changesets.each(&:publish!)
-    end
-
-    def undo!
-      self.undo_at = nil if undo_at.present? && undo_at >= Time.current
-      self.undone_at = Time.current
-      save!
-
-      changesets.each(&:undo!)
     end
 
     def set_publish_job
@@ -172,15 +195,6 @@ module Workarea
         at: publish_at,
         args: [id.to_s],
         job_id: publish_job_id
-      )
-    end
-
-    def set_undo_job
-      self.undo_job_id = Scheduler.schedule(
-        worker: UndoRelease,
-        at: undo_at,
-        args: [id.to_s],
-        job_id: undo_job_id
       )
     end
 
@@ -205,28 +219,11 @@ module Workarea
       set_publish_job if publish_at_changed? && publish_at.present?
     end
 
-    def schedule_undo
-      set_undo_job if undo_at_changed? && undo_at.present?
-    end
-
     def remove_publish_job
       return if publish_job_id.blank?
 
       Scheduler.delete(publish_job_id)
       self.publish_job_id = nil
-    end
-
-    def remove_undo_job
-      return if undo_job_id.blank?
-
-      Scheduler.delete(undo_job_id)
-      self.undo_job_id = nil
-    end
-
-    def undoable_release
-      unless publish_at.present? || published_at.present?
-        errors.add(:undo_at, I18n.t('workarea.errors.messages.undo_unpublished_release'))
-      end
     end
   end
 end

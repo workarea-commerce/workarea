@@ -1,0 +1,26 @@
+- @page_title = t('workarea.admin.segment_rules.index.title', name: @segment.name)
+
+.view
+  .view__header
+    .grid.grid--center
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@segment)
+          %h1= @segment.name
+
+  .view__container
+    = render_cards_for(@segment, :rules)
+
+    .section
+      .grid.grid--center
+        .grid__cell.grid__cell--50
+          .align-center
+            %h2= t('workarea.admin.segment_rules.index.rules')
+            .box
+              %ul.list-reset
+                - @segment.rules.each do |rule|
+                  %li.text--large= render "workarea/admin/segment_rules/summaries/#{rule.slug}", rule: rule
+
+          .section.align-center
+            %h5= t('workarea.admin.segment_rules.index.no_edit')
+            %p= t('workarea.admin.segment_rules.index.no_edit_description_html', link: link_to(t('workarea.admin.segment_rules.index.creating_a_new_segment'), create_segments_path))

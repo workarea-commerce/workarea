@@ -27,7 +27,9 @@
           %th.align-center= link_to_reports_sorting t('workarea.admin.fields.first_order_at'), report: @report, sort_by: 'first_order_at'
           %th.align-center= link_to_reports_sorting t('workarea.admin.fields.last_order_at'), report: @report, sort_by: 'last_order_at'
           %th.align-center= link_to_reports_sorting t('workarea.admin.fields.orders'), report: @report, sort_by: 'orders'
+          %th.align-right= link_to_reports_sorting t('workarea.admin.fields.cancellations'), report: @report, sort_by: 'cancellations'
           %th.align-right= link_to_reports_sorting t('workarea.admin.fields.average_order_value'), report: @report, sort_by: 'average_order_value'
+          %th.align-right= link_to_reports_sorting t('workarea.admin.fields.refund'), report: @report, sort_by: 'refund'
           %th.align-right= link_to_reports_sorting t('workarea.admin.fields.revenue'), report: @report, sort_by: 'revenue'
       %tbody
         - @report.results.each do |result|
@@ -45,5 +47,7 @@
             %td.align-center= local_time_ago(result.first_order_at)
             %td.align-center= local_time_ago(result.last_order_at)
             %td.align-center= number_with_delimiter result.orders
+            %td.align-center= number_with_delimiter result.cancellations
             %td.align-right= number_to_currency(result.average_order_value)
+            %td.align-right= number_to_currency(result.refund)
             %td.align-right= number_to_currency(result.revenue)

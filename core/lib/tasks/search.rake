@@ -1,5 +1,10 @@
 namespace :workarea do
   namespace :search_index do
+    def setup
+      require 'sidekiq/testing/inline' unless ENV['INLINE'] == 'false'
+      Workarea.config.bulk_index_batch_size = ENV['BATCH_SIZE'].to_i if ENV['BATCH_SIZE'].present?
+    end
+
     desc 'Reindex all data'
     task all: :environment do
       Rake::Task['workarea:search_index:storefront'].invoke
@@ -9,15 +14,14 @@ namespace :workarea do
 
     desc 'Reindex admin'
     task admin: :environment do
-      require 'sidekiq/testing/inline' unless ENV['INLINE'] == 'false'
+      setup
       puts 'Indexing admin...'
-
       Workarea::Search::Admin.reset_indexes!
 
       Mongoid.models.each do |klass|
         next unless Workarea::Search::Admin.for(klass.first).present?
 
-        klass.all.each_slice_of(100) do |models|
+        klass.all.each_slice_of(Workarea.config.bulk_index_batch_size) do |models|
           Workarea::BulkIndexAdmin.perform_by_models(models)
         end
       end
@@ -29,7 +33,7 @@ namespace :workarea do
 
     desc 'Reindex storefront'
     task storefront: :environment do
-      require 'sidekiq/testing/inline' unless ENV['INLINE'] == 'false'
+      setup
       puts 'Indexing storefront...'
 
       Workarea::Search::Storefront.reset_indexes!
@@ -61,12 +65,12 @@ namespace :workarea do
         Workarea::Search::Storefront::Product.new(product).save
       end
 
-      Workarea::Catalog::Category.all.each_by(100) do |category|
-        Workarea::Search::Storefront::Product.add_category(category)
+      Workarea::Catalog::Category.all.each_by(Workarea.config.bulk_index_batch_size) do |category|
+        Workarea::Search::Storefront::CategoryQuery.new(category).create
         Workarea::Search::Storefront::Category.new(category).save
       end
 
-      Workarea::Content::Page.all.each_by(100) do |page|
+      Workarea::Content::Page.all.each_by(Workarea.config.bulk_index_batch_size) do |page|
         Workarea::Search::Storefront::Page.new(page).save
       end
 
@@ -76,12 +80,12 @@ namespace :workarea do
 
     desc 'Reindex help'
     task help: :environment do
-      require 'sidekiq/testing/inline' unless ENV['INLINE'] == 'false'
+      setup
       puts 'Indexing help...'
 
       Workarea::Search::Help.reset_indexes!
 
-      Workarea::Help::Article.all.each_by(100) do |help_article|
+      Workarea::Help::Article.all.each_by(Workarea.config.bulk_index_batch_size) do |help_article|
         Workarea::Search::Help.new(help_article).save
       end
     end

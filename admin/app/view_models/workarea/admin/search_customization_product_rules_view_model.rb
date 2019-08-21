@@ -11,7 +11,7 @@ module Workarea
       def search
         @search ||= Search::ProductSearch.new(
           q: model.query,
-          rules: model.product_rules.select(&:valid?),
+          rules: model.product_rules.usable,
           page: options[:page] || 1,
           show_all: show_all?
         ).tap { |s| s.extend(Search::AdminProductRulesPreview) }

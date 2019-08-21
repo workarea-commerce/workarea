@@ -148,6 +148,40 @@ module Workarea
 
         assert_equal(subject, email.subject)
       end
+
+      def test_importing_for_a_release
+        sample = create_product(name: 'Test Product')
+        sample.name = "Test Product Changed"
+        format = Workarea::DataFile::Csv.new
+        file = create_tempfile(format.serialize(sample), extension: 'csv')
+        release = create_release
+
+        post admin.data_file_imports_path,
+          params: {
+            return_to: admin.catalog_products_path,
+            publishing: release.id,
+            import: {
+              model_type: 'Workarea::Catalog::Product',
+              file: Rack::Test::UploadedFile.new(file.path)
+            }
+          }
+
+        assert_redirected_to(admin.catalog_products_path)
+
+        assert_equal(1, Catalog::Product.count)
+
+        sample.reload
+        assert_equal('Test Product', sample.name)
+
+        Release.with_current(release) do
+          assert_equal('Test Product Changed', sample.reload.name)
+        end
+
+        assert_equal(1, DataFile::Import.count)
+        import = DataFile::Import.first
+        assert(import.created_by_id.present?)
+        assert_equal(release.id.to_s, import.release_id)
+      end
     end
   end
 end

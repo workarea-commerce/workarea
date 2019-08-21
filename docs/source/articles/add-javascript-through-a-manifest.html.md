@@ -1,5 +1,6 @@
 ---
 title: Add JavaScript through a Manifest
+created_at: 2018/07/31
 excerpt: JavaScript manifests are the preferred solution for adding JavaScripts to and removing JavaScripts from a Workarea application. The Workarea Storefront includes 2 manifests, head and application, which are introduced in the JavaScript overview, wherea
 ---
 

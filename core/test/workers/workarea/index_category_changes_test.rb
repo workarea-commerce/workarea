@@ -25,15 +25,13 @@ module Workarea
 
       products = Array.new(4) { create_product }
 
-      Workarea.with_config do |config|
-        config.category_inline_index_product_max_count = 3
+      Workarea.config.category_inline_index_product_max_count = 3
 
-        IndexCategoryChanges.new.perform(
-          'product_ids' => [[], products.map(&:id)]
-        )
+      IndexCategoryChanges.new.perform(
+        'product_ids' => [[], products.map(&:id)]
+      )
 
-        assert_equal(2, BulkIndexProducts.jobs.size)
-      end
+      assert_equal(4, IndexProduct.jobs.size)
     ensure
       Sidekiq::Testing.inline!
     end

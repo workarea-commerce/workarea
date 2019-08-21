@@ -54,7 +54,9 @@ module Workarea
               'discounts' => { '$sum' => '$discounts' },
               'tax' => { '$sum' => '$tax' },
               'revenue' => { '$sum' => '$revenue' },
-              'reporting_on' => { '$min' => '$reporting_on' }
+              'reporting_on' => { '$min' => '$reporting_on' },
+              'units_canceled' => { '$sum' => '$units_canceled' },
+              'refund' => { '$sum' => '$refund' }
             }
           }
         end

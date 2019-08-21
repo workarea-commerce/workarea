@@ -9,13 +9,13 @@ module Workarea
       )
 
       category.rates.create!(
-        percentage: 0.07,
+        region_percentage: 0.07,
         country: 'US',
         region: 'PA'
       )
 
       category.rates.create!(
-        percentage: 0.08,
+        region_percentage: 0.08,
         country: 'US',
         region: 'NY',
         tier_min: 0,
@@ -23,7 +23,7 @@ module Workarea
       )
 
       category.rates.create!(
-        percentage: 0.09,
+        region_percentage: 0.09,
         country: 'US',
         region: 'NY',
         tier_min: 200.01

@@ -37,12 +37,14 @@ module Workarea
 
         current_order.touch_checkout!(
           ip_address: request.remote_ip,
-          user_activity_id: current_user_activity_id,
           checkout_by_id: current_admin.try(:id) || current_user.try(:id),
           source: current_admin.present? ? 'admin' : 'storefront',
           traffic_referrer: current_referrer,
-          user_agent: request.user_agent
+          user_agent: request.user_agent,
+          segment_ids: current_segments.map(&:id)
         )
+
+        update_tracking!(email: current_order.email)
       end
 
       def with_order_lock
@@ -79,6 +81,7 @@ module Workarea
 
       def setup_view_models
         Pricing.perform(current_order, current_shippings)
+        current_checkout.adjust_tender_amounts!
 
         @cart = CartViewModel.new(current_order, view_model_options)
         @summary = Checkout::SummaryViewModel.new(
@@ -90,11 +93,10 @@ module Workarea
       def set_checkout_user
         return if current_order.checking_out?
 
-        if current_user.present?
+        if logged_in?
           current_checkout.start_as(current_user)
         else
           current_checkout.start_as(:guest)
-          logout
         end
       end
     end

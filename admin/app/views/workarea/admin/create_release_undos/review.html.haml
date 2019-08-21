@@ -1,0 +1,51 @@
+- @page_title = t('workarea.admin.create_release_undos.review.title', name: @release.name)
+
+.view
+  .view__header
+    .view__heading
+      %h1.heading--no-margin= t('workarea.admin.create_release_undos.review.title', name: @release.name)
+      %p= link_to t('workarea.admin.create_release_undos.workflow.or_skip_this'), url_for(@undo_release)
+
+
+  .view__container.view__container--narrow
+    .section
+      .grid.grid--center
+        .grid__cell.grid__cell--50
+          %p.align-center.text.text--large= t('workarea.admin.create_release_undos.review.changes_description_html', undo: link_to(@undo_release.name, @undo_release), original: link_to(@release.name, @release))
+
+    .grid.grid--center
+      .grid__cell.grid__cell--80-at-medium
+        %ul.list-reset
+          - @undo_release.changesets_with_releasable.each do |changeset|
+            %li
+              .release-changeset
+                .release-changeset__header
+                  .release-changeset__icon
+                    = changeset_icon changeset, { class: 'svg-icon svg-icon--large'}
+                  %h5.release-changeset__heading= link_to changeset.name, url_for(changeset.root)
+                  .release-changeset__actions
+                    .grid.grid--auto
+                      = form_tag release_changeset_path(@undo_release, changeset), method: :delete, class: 'grid__cell', data: { deletion_form: { message: t('workarea.admin.changesets.delete_confirmation') } } do
+                        = button_tag value: 'delete_changeset', class: 'text-button text-button--destroy' do
+                          = t('workarea.admin.actions.delete')
+                          = inline_svg('workarea/admin/icons/delete.svg', class: 'text-button__icon')
+
+                .release-changeset__body
+                  - changeset.changed_fields.each do |field|
+                    = render_changeset_field(changeset, field)
+
+    .workflow-bar
+      .grid.grid--middle
+        .grid__cell.grid__cell--20
+          = link_to t('workarea.admin.form.cancel'), release_path(@undo_release), class: 'workflow-bar__button workflow-bar__button--delete', data: { method: 'delete', confirm: t('workarea.admin.create_release_undos.workflow.delete_confirmation') }
+
+        .grid__cell.grid__cell--60
+          %ol.workflow-bar__steps
+            %li.workflow-bar__step
+              1) #{link_to t('workarea.admin.create_release_undos.workflow.setup'), new_release_undo_path(@release)}
+            %li.workflow-bar__step
+              %strong 2) #{t('workarea.admin.create_release_undos.workflow.review')}
+
+        .grid__cell.grid__cell--20
+          .grid.grid--auto.grid--right.grid--middle
+            .grid__cell= link_to "#{t('workarea.admin.create_release_undos.workflow.done')} →", release_path(@undo_release), class: 'workflow-bar__button'

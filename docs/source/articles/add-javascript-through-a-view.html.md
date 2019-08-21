@@ -1,5 +1,6 @@
 ---
 title: Add JavaScript through a View
+created_at: 2018/07/31
 excerpt: 'Note: First of all, are you sure?! Assets added to views are not optimized in any way for production environments like assets added through manifests. Peppering your views with JavaScript also makes your application more difficult to debug and maintai'
 ---
 

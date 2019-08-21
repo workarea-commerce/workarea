@@ -1,12 +1,12 @@
 module Workarea
   module Recommendation
     class UserActivityBased
-      def initialize(user_activity)
-        @user_activity = user_activity
+      def initialize(metrics)
+        @metrics = metrics
       end
 
       def results
-        if @user_activity.product_ids.blank? && @user_activity.category_ids.blank?
+        if recent_product_ids.blank? && recent_category_ids.blank?
           popular_product_ids.take(max_results)
         else
           related_product_ids.take(max_results)
@@ -16,6 +16,14 @@ module Workarea
       def max_results
         # accommodate some missing or undisplayable products
         Workarea.config.per_page
+      end
+
+      def recent_product_ids
+        @metrics.viewed.recent_product_ids
+      end
+
+      def recent_category_ids
+        @metrics.viewed.recent_category_ids
       end
 
       def popular_product_ids
@@ -28,9 +36,9 @@ module Workarea
 
       def related_product_ids
         query = Workarea::Search::RelatedProducts.new(
-          product_ids: @user_activity.product_ids,
-          category_ids: @user_activity.category_ids,
-          exclude_product_ids: @user_activity.product_ids
+          product_ids: recent_product_ids,
+          category_ids: recent_category_ids,
+          exclude_product_ids: recent_product_ids
         )
 
         query.results.map { |r| r[:catalog_id] }

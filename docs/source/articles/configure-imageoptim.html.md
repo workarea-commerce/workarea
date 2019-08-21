@@ -1,5 +1,6 @@
 ---
 title: Configure ImageOptim
+created_at: 2018/09/17
 excerpt: Workarea uses the image_optim gem to optimize images. It will grab the global Rails image_optim config when looking for configuration.
 ---
 

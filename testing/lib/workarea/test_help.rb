@@ -24,6 +24,7 @@ require 'workarea/system_test'
 require 'workarea/view_test'
 require 'workarea/generator_test'
 require 'workarea/performance_test'
+require 'workarea/mailer_test'
 
 require 'workarea/admin/integration_test'
 require 'workarea/core/discount_condition_tests'

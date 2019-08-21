@@ -9,10 +9,7 @@ module Workarea
       document Search::Admin
 
       def self.available_sorts
-        Sort::Collection.new(
-          Sort.published_date,
-          Sort.undo_date
-        )
+        Sort::Collection.new(Sort.published_date)
       end
 
       def initialize(params = {})

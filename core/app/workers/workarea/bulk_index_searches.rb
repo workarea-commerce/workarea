@@ -4,7 +4,7 @@ module Workarea
 
     class << self
       def perform(ids = popular_searches.pluck(:id))
-        ids.each_slice(100) do |group|
+        ids.each_slice(Workarea.config.bulk_index_batch_size) do |group|
           perform_by_models(Metrics::SearchByWeek.in(id: group).to_a)
         end
       end

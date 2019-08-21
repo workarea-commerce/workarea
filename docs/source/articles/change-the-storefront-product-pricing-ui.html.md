@@ -1,5 +1,6 @@
 ---
 title: Change the Storefront Product Pricing UI 
+created_at: 2019/03/28
 excerpt: An overview of how Workarea displays pricing for products and how to customize its UI.
 ---
 
@@ -109,7 +110,7 @@ The `.product-prices` component is used in multiple sections of the application,
 
 ## Markup
 
-The aforementioned class names are applied to the product pricing partial, which makes further use of the product price partial. The latter is supplied merely as an effort to DRY up the former, as the product pricing partial handles the many display conditions of the price. The logical permutations are as follows:
+The aforementioned class names are applied to the product pricing partial, which handles the many display conditions of the price. The logical permutations are as follows:
 
 * if the product has only one price
   * and if the product should show a range of prices
@@ -130,46 +131,46 @@ The product pricing partial will always show the determined original price by de
   - if product.one_price?
     %p.product-prices__price
       - if product.show_sell_range?
-        %span.product-prices__sell-price.product-prices__sell-price--min= render 'workarea/storefront/products/price', price: product.sell_min_price
+        %span.product-prices__sell-price.product-prices__sell-price--min
+          = number_to_currency(product.sell_min_price)
         %span.product-prices__sell-price.product-prices__sell-price--max – #{number_to_currency product.sell_max_price}
       - else
-        %span.product-prices__sell-price= render 'workarea/storefront/products/price', price: product.sell_min_price
+        %span.product-prices__sell-price
+          = number_to_currency(product.sell_min_price)
 
   - else
     - if product.on_sale?
       %p.product-prices__price.product-prices__price--on-sale
         - if product.show_sell_range?
-          %strong.product-prices__sell-price.product-prices__sell-price--min= render 'workarea/storefront/products/price', price: product.sell_min_price
+          %strong.product-prices__sell-price.product-prices__sell-price--min
+            = number_to_currency(product.sell_min_price)
           %strong.product-prices__sell-price.product-prices__sell-price--max – #{number_to_currency product.sell_max_price}
         - else
-          %strong.product-prices__sell-price= render 'workarea/storefront/products/price', price: product.sell_min_price
+          %strong.product-prices__sell-price
+            = number_to_currency(product.sell_min_price)
 
     - else
       %p.product-prices__price
         - if product.show_sell_range?
-          %span.product-prices__sell-price.product-prices__sell-price--min= render 'workarea/storefront/products/price', price: product.sell_min_price
+          %span.product-prices__sell-price.product-prices__sell-price--min
+            = number_to_currency(product.sell_min_price)
           %span.product-prices__sell-price.product-prices__sell-price--max – #{number_to_currency product.sell_max_price}
         - else
-          %span.product-prices__sell-price= render 'workarea/storefront/products/price', price: product.sell_min_price
+          %span.product-prices__sell-price
+            = number_to_currency(product.sell_min_price)
 
     %p.product-prices__price.product-prices__price--original
       - if product.show_original_range?
-        %s.product-prices__original-price #{number_to_currency product.original_min_price} – #{number_to_currency product.original_max_price}
+        %s.product-prices__original-price.product-prices__original-price--range #{number_to_currency product.original_min_price} – #{number_to_currency product.original_max_price}
       - else
         %s.product-prices__original-price= number_to_currency product.original_min_price
-```
 
-```haml
--# app/views/workarea/storefront/products/_price.html.haml
-- if price.present?
-  %meta{ itemprop: 'priceCurrency', content: price.currency }
-  %meta{ itemprop: 'price', content: price.to_f }
-  = number_to_currency price
+  = append_partials('storefront.product_pricing', product: product)
 ```
 
 As you can see we use `strong` and `s` HTML tags within these which carry semantic value.
 
-These partials are rendered within the product details and summary views, each applying their own modifier to the component, which allows these components to be conditionally styled based on which page they appear.
+This partial is rendered within the product details and summary views, each applying their own modifier to the component, which allows these components to be conditionally styled based on which page they appear.
 
 ## Caching
 
@@ -187,7 +188,7 @@ Additional fragment caches may be added as well, such as if the summary is an re
 
 ## Recommendations in Storefront emails
 
-The product pricing partial is also referenced by the recommendations mailer partial, for use in generating recommendations to users of the site.
+The product pricing partial is also referenced by the recommendations mailer view, for use in generating recommendations for users of the site.
 
 Styling for this markup is provided by the `.product-grid` component that lives inside the `email` Stylesheet directory, specifically in:
 
@@ -295,9 +296,11 @@ Next we'll add the new locale to the product pricing partial, removing the eleme
       - if product.show_sell_range?
         %span.product-prices__sell-price.product-prices__sell-price--min
           = t('workarea.storefront.products.min_price_label')
-          = render 'workarea/storefront/products/price', price: product.sell_min_price
+          = number_to_currency(product.sell_min_price)
+        %span.product-prices__sell-price.product-prices__sell-price--max – #{number_to_currency product.sell_max_price}
       - else
-        %span.product-prices__sell-price= render 'workarea/storefront/products/price', price: product.sell_min_price
+        %span.product-prices__sell-price
+          = number_to_currency(product.sell_min_price)
 
   - else
     - if product.on_sale?
@@ -305,24 +308,30 @@ Next we'll add the new locale to the product pricing partial, removing the eleme
         - if product.show_sell_range?
           %strong.product-prices__sell-price.product-prices__sell-price--min
             = t('workarea.storefront.products.min_price_label')
-            = render 'workarea/storefront/products/price', price: product.sell_min_price
+            = number_to_currency(product.sell_min_price)
+          %strong.product-prices__sell-price.product-prices__sell-price--max – #{number_to_currency product.sell_max_price}
         - else
-          %strong.product-prices__sell-price= render 'workarea/storefront/products/price', price: product.sell_min_price
+          %strong.product-prices__sell-price
+            = number_to_currency(product.sell_min_price)
 
     - else
       %p.product-prices__price
         - if product.show_sell_range?
           %span.product-prices__sell-price.product-prices__sell-price--min
             = t('workarea.storefront.products.min_price_label')
-            = render 'workarea/storefront/products/price', price: product.sell_min_price
+            = number_to_currency(product.sell_min_price)
+          %span.product-prices__sell-price.product-prices__sell-price--max – #{number_to_currency product.sell_max_price}
         - else
-          %span.product-prices__sell-price= render 'workarea/storefront/products/price', price: product.sell_min_price
+          %span.product-prices__sell-price
+            = number_to_currency(product.sell_min_price)
 
     %p.product-prices__price.product-prices__price--original
       - if product.show_original_range?
-        %s.product-prices__original-price #{number_to_currency product.original_min_price} – #{number_to_currency product.original_max_price}
+        %s.product-prices__original-price.product-prices__original-price--range #{number_to_currency product.original_min_price} – #{number_to_currency product.original_max_price}
       - else
         %s.product-prices__original-price= number_to_currency product.original_min_price
+
+  = append_partials('storefront.product_pricing', product: product)
 ```
 
 This change will undoubtedly break some tests. The tests pertaining to pricing live in the Storefront's product's system test. As an example we'll modify the `test_showing_a_product` test method in a decorator:

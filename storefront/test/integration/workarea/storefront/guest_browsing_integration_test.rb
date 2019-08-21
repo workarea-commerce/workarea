@@ -16,8 +16,8 @@ module Workarea
         complete_checkout
         order = Order.placed.first
         assert_nil(order.user_id)
-        assert('admin', order.source)
-        assert(order.checkout_by_id, admin_user.id.to_s)
+        assert_equal('admin', order.source)
+        assert_equal(order.checkout_by_id, admin_user.id.to_s)
       end
     end
   end

@@ -8,6 +8,7 @@ Rails.application.config.assets.precompile += %w(
   workarea/storefront/style_guide_product.jpg
   workarea/**/*.svg
   workarea/**/email.css
+  workarea/admin/email_logo.png
 )
 
 InlineSvg.configure do |config|

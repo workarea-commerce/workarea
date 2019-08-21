@@ -43,6 +43,8 @@ module Workarea
         ]
       )
 
+      create_payment_profile(store_credit: 6.to_m, reference: @order.id)
+
       Metrics::User.save_order(email: 'bcrouse@workarea.com', revenue: 10.to_m)
 
       create_tax_category(code: '001', rates: [{ percentage: 0.06, country: 'US' }])
@@ -175,6 +177,16 @@ module Workarea
       metrics = OrderMetrics.new(@order)
       refute(metrics.first_time_customer?)
       refute(metrics.repeat_today?)
+    end
+
+    def test_tenders
+      assert_equal(2, @metrics.tenders.size)
+
+      assert_equal(1, @metrics.tenders[:credit_card][:orders])
+      assert_equal(10.26.to_m, @metrics.tenders[:credit_card][:revenue])
+
+      assert_equal(1, @metrics.tenders[:store_credit][:orders])
+      assert_equal(6.to_m, @metrics.tenders[:store_credit][:revenue])
     end
   end
 end

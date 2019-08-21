@@ -8,7 +8,7 @@ module Workarea
     # The data field is passed to the partial as local assigns.
     #
     # This flexibility makes it very easy to add a new type to the system:
-    # 1) Define the block type using the DSL ({Workarea::Content.define_block_types})
+    # 1) Define the block type using the DSL ({Workarea.define_content_block_types})
     # 2) Add the storefront partial, e.g. workarea/storefront/content_blocks/types/_foo.html.haml
     #
     class Block
@@ -91,7 +91,7 @@ module Workarea
       end
 
       # The {Workarea::Content::BlockType} that this block is. See documentation
-      # for {Content.define_block_types} for info how to define block types.
+      # for {Workarea.define_content_block_types} for info how to define block types.
       #
       # @return [Workarea::Content::BlockType]
       #

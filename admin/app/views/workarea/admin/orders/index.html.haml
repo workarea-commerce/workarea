@@ -103,6 +103,7 @@
               %td
                 = link_to result.id, order_path(result)
                 = comments_icon_for(result)
+                = fraud_icon_for(result)
                 = append_partials('admin.order_index_icons', result: result)
               %td= result.email
               %td= number_to_currency result.total_price

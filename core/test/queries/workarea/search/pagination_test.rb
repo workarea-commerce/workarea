@@ -20,29 +20,21 @@ module Workarea
       end
 
       def test_from
-        Workarea.with_config do |config|
-          config.per_page = 30
-          assert_equal(0, Paginate.new(page: 1).from)
-        end
+        Workarea.config.per_page = 30
+        assert_equal(0, Paginate.new(page: 1).from)
 
-        Workarea.with_config do |config|
-          config.per_page = 15
-          assert_equal(15, Paginate.new(page: 2).from)
-        end
+        Workarea.config.per_page = 15
+        assert_equal(15, Paginate.new(page: 2).from)
 
-        Workarea.with_config do |config|
-          config.per_page = 45
-          assert_equal(90, Paginate.new(page: 3).from)
-        end
+        Workarea.config.per_page = 45
+        assert_equal(90, Paginate.new(page: 3).from)
       end
 
       def test_size
-        Workarea.with_config do |config|
-          config.per_page = 30
+        Workarea.config.per_page = 30
 
-          search = Paginate.new(page: 2)
-          assert_equal(30, search.size)
-        end
+        search = Paginate.new(page: 2)
+        assert_equal(30, search.size)
       end
 
       def test_each_by

@@ -13,6 +13,7 @@ module Workarea
     field :total_value, type: Money, default: 0
     field :total_price, type: Money, default: 0
     field :via, type: String
+    field :requires_shipping, type: Boolean, default: true
 
     scope :by_newest, -> { desc(:created_at) }
 
@@ -34,6 +35,12 @@ module Workarea
     # @return [Boolean]
     #
     def digital?
+      warn <<~eos
+        [DEPRECATION] `item.digital?` is deprecated and will be removed in
+        version 3.6.0. Use `item.requires_shipping?` to determine if this item
+        is shipped.
+      eos
+
       !!product_attributes['digital']
     end
 

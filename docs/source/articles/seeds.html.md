@@ -1,5 +1,6 @@
 ---
 title: Seeds
+created_at: 2018/08/07
 excerpt: Seeds are default data appropriate for developing, testing, or otherwise using a Workarea application, particularly in a development environment. Seeding is the process of writing the seeds within a particular environment.
 ---
 
@@ -247,9 +248,72 @@ It is therefore sensible to re-seed your development environment in the followin
 
 ## Extending Seeds
 
-As an application developer, you can define your own seeds. You can also [decorate](decoration.html) and [configure](configuration.html) existing seeds. However, these techniques depend on an understanding of how seeds are implemented, which I haven't covered yet.
+As an application developer, you can define your own seeds. You can also [decorate](decoration.html) and [configure](configuration.html) existing seeds. This provides the flexibility to add, modify, replace, and remove seeds to better suite the requirements of your application.
 
-Therefore, let's instead take a look at how your installed plugins affect your seeds. Plugins typically add _new_ seeds, which support the other extensions applied within the plugin. For example, the blog plugin seeds blogs, entries, and comments; while the clothing and package products plugins seed additional products.
+### Remove Seeds
+
+To remove seeds, you can add the following to the application's `workarea.rb` initializer:
+
+```ruby
+Workarea.configure do |config|
+  config.seeds.delete('Workarea::CustomersSeeds')
+end
+```
+
+### Modify Seeds
+
+If you only want to make minor tweaks to how existing seeds work, you can decorate seed files like any other Workarea class:
+
+```ruby
+# app/seeds/workarea/discounts_seeds.decorator
+module Workarea
+  decorate DiscountsSeeds, with: :your_app do
+    def perform
+      super
+
+      # Add new seeded discounts
+    end
+  end
+end
+```
+
+### Add or Replace Seeds
+
+Swapping existing seeds for your custom seed class or adding onto seeds both require two steps -- creating a new seed class, and editing the configuration. Workarea expects any seed class to respond to a `#perform` instance method
+
+```ruby
+# app/seeds/workarea/my_custom_seeds.rb
+module Workarea
+  class CustomCategorySeeds
+    def perform
+      puts 'Adding custom data...'
+
+      # add custom seed data here
+    end
+  end
+end
+```
+
+Once your seed class is created, you need to update the `Workarea.config.seeds` list to include your seeds in `config/initializers/workarea.rb`.
+
+You can either add to existing seeds
+
+```ruby
+Workarea.config.seeds.insert('Workarea::CustomCategorySeeds')
+```
+
+Or, if you are replacing an existing seed class you can swap the classes:
+
+```ruby
+Workarea.config.seeds.swap(
+  'Workarea::CategoriesSeeds',
+  'Workarea::CustomCategorySeeds'
+)
+```
+
+## Plugin Seeds
+
+Plugins typically add _new_ seeds, which support the other extensions applied within the plugin. For example, the blog plugin seeds blogs, entries, and comments; while the clothing and package products plugins seed additional products.
 
 To see this, add some plugins to the application, as shown in the following git patch:
 

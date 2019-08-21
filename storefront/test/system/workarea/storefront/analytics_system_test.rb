@@ -700,6 +700,48 @@ module Workarea
         assert_equal('Home Page Content Block', payload['data']['html'])
       end
 
+      def test_sessions
+        create_life_cycle_segments
+
+        visit storefront.root_path
+        assert_equal(1, find_analytics_events(for_event: 'newSession').size)
+        assert_equal(1, Metrics::SalesByDay.today.sessions)
+        assert_equal(1, Metrics::SegmentByDay.find_by(segment_id: 'first_time_visitor').sessions)
+
+        visit storefront.category_path(@category)
+        assert_equal(0, find_analytics_events(for_event: 'newSession').size)
+        assert_equal(1, Metrics::SalesByDay.today.sessions)
+        assert_equal(1, Metrics::SegmentByDay.find_by(segment_id: 'first_time_visitor').sessions)
+
+        expire_analytics_session
+        visit storefront.root_path
+        assert_equal(1, find_analytics_events(for_event: 'newSession').size)
+        assert_equal(2, Metrics::SalesByDay.today.sessions)
+        assert_equal(1, Metrics::SegmentByDay.find_by(segment_id: 'first_time_visitor').sessions)
+        assert_equal(1, Metrics::SegmentByDay.find_by(segment_id: 'returning_visitor').sessions)
+
+        setup_checkout_specs
+        add_user_data
+        start_guest_checkout
+
+        fill_in_email
+        fill_in_shipping_address
+        click_button t('workarea.storefront.checkouts.continue_to_shipping')
+        click_button t('workarea.storefront.checkouts.continue_to_payment')
+
+        fill_in_credit_card
+        click_button t('workarea.storefront.checkouts.place_order')
+        assert_current_path(storefront.checkout_confirmation_path)
+
+        expire_analytics_session
+        visit storefront.root_path
+        assert_equal(1, find_analytics_events(for_event: 'newSession').size)
+        assert_equal(3, Metrics::SalesByDay.today.sessions)
+        assert_equal(1, Metrics::SegmentByDay.find_by(segment_id: 'first_time_visitor').sessions)
+        assert_equal(2, Metrics::SegmentByDay.find_by(segment_id: 'returning_visitor').sessions)
+        assert_equal(1, Metrics::SegmentByDay.find_by(segment_id: 'first_time_customer').sessions)
+      end
+
       private
 
       def find_analytics_events(for_event: nil)
@@ -719,6 +761,11 @@ module Workarea
 
       def disable_dom_events
         page.execute_script('WORKAREA.analytics.disableDomEvents();')
+      end
+
+      def expire_analytics_session
+        # Simulate session expiration where this cookie would disappear
+        page.execute_script("WORKAREA.cookie.destroy('analytics_session');")
       end
     end
   end

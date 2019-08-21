@@ -2,27 +2,23 @@ require 'test_helper'
 
 module Workarea
   module Storefront
-    class TransactionalMailerTest < Workarea::IntegrationTest
+    class TransactionalMailerTest < MailerTest
       def test_enabled_transactional_emails
-        Workarea.with_config do |config|
-          config.send_transactional_emails = true
+        Workarea.config.send_transactional_emails = true
 
-          order = create_placed_order
-          OrderMailer.confirmation(order.id).deliver_now
+        order = create_placed_order
+        OrderMailer.confirmation(order.id).deliver_now
 
-          assert(ActionMailer::Base.deliveries.last.present?)
-        end
+        assert_emails(1)
       end
 
       def test_disabling_transactionl_email
-        Workarea.with_config do |config|
-          config.send_transactional_emails = false
+        Workarea.config.send_transactional_emails = false
 
-          order = create_placed_order
-          OrderMailer.confirmation(order.id).deliver_now
+        order = create_placed_order
+        OrderMailer.confirmation(order.id).deliver_now
 
-          assert_nil(ActionMailer::Base.deliveries.last)
-        end
+        assert_no_emails
       end
     end
   end

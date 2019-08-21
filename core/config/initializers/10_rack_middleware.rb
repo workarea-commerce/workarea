@@ -27,3 +27,5 @@ app.config.middleware.use Workarea::EnforceHostMiddleware
 if Rails.env.test?
   app.config.middleware.insert(0, Workarea::StripHttpCachingMiddleware)
 end
+
+app.config.middleware.insert(0, Workarea::TrackingMiddleware)

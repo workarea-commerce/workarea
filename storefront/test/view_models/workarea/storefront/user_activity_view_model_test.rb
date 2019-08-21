@@ -20,20 +20,19 @@ module Workarea
         product_one = create_product
         product_two = create_product
         product_three = create_product
+        [product_three, product_two, product_one, product_one].each do |product|
+          Metrics::User.save_affinity(id: 'foo', action: 'viewed', product_ids: product.id)
+        end
 
-        product_ids = [product_one.id, product_one.id, product_two.id, product_three.id]
-        user_activity = Recommendation::UserActivity.new(product_ids: product_ids)
-        view_model = UserActivityViewModel.new(user_activity)
+        metrics = Metrics::User.find('foo')
+        view_model = UserActivityViewModel.new(metrics)
 
         assert_equal(2, view_model.products.length)
         assert_equal(product_one, view_model.products.first.model)
         assert_equal(product_two, view_model.products.second.model)
 
         product_two.update_attributes!(active: false)
-
-        product_ids = [product_one.id, product_two.id]
-        user_activity = Recommendation::UserActivity.new(product_ids: product_ids)
-        view_model = UserActivityViewModel.new(user_activity)
+        view_model = UserActivityViewModel.new(metrics)
 
         assert_equal(1, view_model.products.length)
         assert_equal(product_one, view_model.products.first.model)
@@ -43,22 +42,16 @@ module Workarea
         one = create_category
         two = create_category
         three = create_category
-        user_activity =
-          Recommendation::UserActivity.new(category_ids: [one.id, one.id, two.id, three.id])
+        [three, two, one, one].each do |category|
+          Metrics::User.save_affinity(id: 'foo', action: 'viewed', category_ids: category.id)
+        end
 
-        view_model = UserActivityViewModel.new(user_activity)
+        metrics = Metrics::User.find('foo')
+        view_model = UserActivityViewModel.new(metrics)
 
         assert_equal(2, view_model.categories.length)
         assert_equal(one.id, view_model.categories.first.id)
         assert_equal(two.id, view_model.categories.second.id)
-      end
-
-      def test_searches
-        searches = %w(one one two three)
-        user_activity = Recommendation::UserActivity.new(searches: searches)
-        view_model = UserActivityViewModel.new(user_activity)
-
-        assert_equal(%w(one two), view_model.searches)
       end
     end
   end

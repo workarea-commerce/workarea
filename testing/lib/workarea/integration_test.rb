@@ -33,12 +33,14 @@ module Workarea
     end
 
     extend TestCase::Decoration
+    include TestCase::Configuration
     include TestCase::Workers
     include TestCase::SearchIndexing
     include TestCase::Mail
     include TestCase::RunnerLocation
     include TestCase::Locales
     include TestCase::S3
+    include TestCase::Encryption
     include Factories
     include Configuration
   end

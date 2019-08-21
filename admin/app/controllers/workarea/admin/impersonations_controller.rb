@@ -22,9 +22,9 @@ module Workarea
       end
 
       def destroy
-        previous_user_id = cookies.signed[:user_id]
+        previous_user_id = session[:user_id]
         stop_impersonation
-        self.current_order = nil
+        clear_current_order
 
         flash[:success] = t('workarea.admin.users.flash_messages.stopped')
         redirect_to user_path(previous_user_id)

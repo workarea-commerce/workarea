@@ -94,6 +94,7 @@ module Workarea
           Order.where(
             placed_at: nil,
             reminded_at: nil,
+            fraud_suspected_at: nil,
             :checkout_started_at.lte => Workarea.config.order_active_period.ago,
             :email.exists => true,
             :email.ne => '',

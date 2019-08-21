@@ -1,5 +1,6 @@
 ---
 title: Decoration
+created_at: 2018/10/11
 excerpt: Decoration is an extension technique that allows Workarea applications and plugins to modify Ruby classes provided by the Workarea platform and other Ruby libraries. Ruby is a dynamic language that allows classes (and their instances) to be modifie
 ---
 

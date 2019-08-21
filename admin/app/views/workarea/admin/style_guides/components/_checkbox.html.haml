@@ -7,7 +7,7 @@
   .style-guide__example-block
     .checkbox
       = check_box_tag 'checkbox_1', 'value_1', false, class: 'checkbox__input'
-      = label_tag 'checkbox_1', '', class: 'checkbox__label', title: 'Select Row'
+      = label_tag 'checkbox_1', 'Select The Row', class: 'checkbox__label', title: 'Select Row'
 
 #checkbox--indeterminate.style-guide__subsection
 
@@ -18,4 +18,23 @@
   .style-guide__example-block
     .checkbox.checkbox--indeterminate
       = check_box_tag 'checkbox_2', 'value_2', false, class: 'checkbox__input'
-      = label_tag 'checkbox_2', '', class: 'checkbox__label', title: 'Select Row'
+      = label_tag 'checkbox_2', 'I dunno dawg', class: 'checkbox__label', title: 'Select Row'
+
+#checkbox--no-label.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'checkbox__no_label')
+
+  %p should visually hide the label
+  .style-guide__example-block
+    .checkbox.checkbox--no-label
+      = check_box_tag 'checkbox_3', 'value_3', false, class: 'checkbox__input'
+      = label_tag 'checkbox_3', 'Select The Row', class: 'checkbox__label', title: 'Select Row'
+
+  %p This behavior is also default when <code>checkbox__label</code> is found within <code>index-table</code>:
+
+  %p should visually hide the label
+  .style-guide__example-block
+    .index-table
+      .checkbox
+        = check_box_tag 'checkbox_4', 'value_4', false, class: 'checkbox__input'
+        = label_tag 'checkbox_4', 'Select The Row', class: 'checkbox__label', title: 'Select Row'

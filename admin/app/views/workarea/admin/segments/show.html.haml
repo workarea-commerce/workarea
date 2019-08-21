@@ -1,0 +1,20 @@
+- @page_title = @segment.name
+
+.view
+  .view__header
+    .grid.grid--center
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@segment)
+          %h1= @segment.name
+
+  .view__container
+    = render_cards_for(@segment)
+
+    .workflow-bar
+      .grid
+        .grid__cell.grid__cell--50
+          - unless @segment.life_cycle?
+            = link_to t('workarea.admin.actions.delete'), segment_path(@segment), class: 'workflow-bar__button workflow-bar__button--delete', data: { method: 'delete', confirm: t('workarea.admin.actions.delete_confirmation') }
+        .grid__cell.grid__cell--50.grid--right
+          = append_partials('admin.discount_show_workflow_bar', model: @segment)

@@ -11,7 +11,10 @@ module Workarea
         mail(
           bcc: emails,
           from: Workarea.config.email_from,
-          subject: t('workarea.admin.status_report_mailer.title')
+          subject: t(
+            'workarea.admin.status_report_mailer.subject',
+            site: Workarea.config.site_name
+          )
         )
       end
     end

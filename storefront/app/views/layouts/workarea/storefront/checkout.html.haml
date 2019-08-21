@@ -27,7 +27,10 @@
     = append_partials('storefront.document_head')
     = javascript_include_tag Workarea.config.asset_manifests.storefront_javascript_head
 
-  %body{ itemscope: true, itemtype: 'http://schema.org/WebPage' }
+    = render_schema_org(web_site_schema)
+    = render_schema_org(web_page_schema('CheckoutPage'))
+
+  %body
     = append_partials('storefront.body_top')
 
     %nav.accessibility-nav.visually-hidden

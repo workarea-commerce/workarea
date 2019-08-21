@@ -40,7 +40,7 @@ module Workarea
       end
 
       def test_when_query_cache_is_disabled
-        Workarea::Search::Storefront::Product.find_categories(product)
+        Search::Storefront::CategoryQuery.find_by_product(product)
 
         assert_requested :get, "#{Workarea::Search::Storefront.current_index.url}/_search"
       end
@@ -48,11 +48,11 @@ module Workarea
       def test_when_query_cache_is_enabled
         Workarea::Elasticsearch::QueryCache.enabled = true
 
-        Workarea::Search::Storefront::Product.find_categories(product)
+        Search::Storefront::CategoryQuery.find_by_product(product)
 
         WebMock.reset!
 
-        Workarea::Search::Storefront::Product.find_categories(product)
+        Search::Storefront::CategoryQuery.find_by_product(product)
 
         assert_not_requested :get, "#{Workarea::Search::Storefront.current_index.url}/_search"
       end
@@ -60,13 +60,13 @@ module Workarea
       def test_reset_when_updating_a_document
         Workarea::Elasticsearch::QueryCache.enabled = true
 
-        Workarea::Search::Storefront::Product.find_categories(product)
+        Search::Storefront::CategoryQuery.find_by_product(product)
 
         product.update_attributes(name: 'New Name')
 
         WebMock.reset!
 
-        Workarea::Search::Storefront::Product.find_categories(product)
+        Search::Storefront::CategoryQuery.find_by_product(product)
 
         assert_requested :get, "#{Workarea::Search::Storefront.current_index.url}/_search"
       end
@@ -74,7 +74,7 @@ module Workarea
       def test_reset_when_deleting_a_document
         Workarea::Elasticsearch::QueryCache.enabled = true
 
-        Workarea::Search::Storefront::Product.find_categories(product)
+        Search::Storefront::CategoryQuery.find_by_product(product)
 
         product.update_attributes(name: 'New Name')
 
@@ -84,7 +84,7 @@ module Workarea
 
         WebMock.reset!
 
-        Workarea::Search::Storefront::Product.find_categories(product)
+        Search::Storefront::CategoryQuery.find_by_product(product)
 
         assert_requested :get, "#{Workarea::Search::Storefront.current_index.url}/_search"
       end

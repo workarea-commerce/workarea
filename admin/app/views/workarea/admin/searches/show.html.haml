@@ -46,9 +46,10 @@
 
     - if @search.results.present?
       - if @search.results.any?
-        .grid.grid--auto.grid--flush.grid--center
-          - @search.results.each do |result|
-            .grid__cell= render_summary_for(result)
+        .section
+          .grid.grid--auto.grid--flush.grid--center
+            - @search.results.each do |result|
+              .grid__cell= render_summary_for(result)
 
-        - if @search.results.total_pages > 1
-          = render 'workarea/admin/shared/pagination', collection: @search.results
+          - if @search.results.total_pages > 1
+            = render 'workarea/admin/shared/pagination', collection: @search.results

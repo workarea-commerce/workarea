@@ -5,7 +5,7 @@ module Workarea
 
       included do
         helper_method :current_order
-        after_action :set_session_order_id
+        after_action :set_order_id_cookie
       end
 
       # The current order for the current session.
@@ -14,8 +14,11 @@ module Workarea
       #
       def current_order
         @current_order ||= Order.find_current(
-          id: session[:order_id],
-          user_id: cookies.signed[:user_id]
+          # TODO session[:order_id] is deprecated in v3.5, remove in v3.6
+          # TODO cookies.signed[:user_id] is deprecated in v3.5, remove in v3.6
+
+          id: cookies.signed[:order_id].presence || session[:order_id],
+          user_id: session[:user_id].presence || cookies.signed[:user_id]
         )
       end
 
@@ -23,13 +26,16 @@ module Workarea
       #
       def current_order=(order)
         @current_order = order
-        session[:order_id] = order.try(:id)
+        cookies.permanent.signed[:order_id] = order&.id
       end
 
       # Removes the current order from the session.
       #
       def clear_current_order
+        # TODO session[:order_id] is deprecated in v3.5, remove in v3.6
         session.delete(:order_id)
+
+        cookies.delete(:order_id)
         @current_order = nil
       end
 
@@ -38,11 +44,7 @@ module Workarea
       # page.
       #
       def completed_order=(order)
-        cookies.signed[:completed_order] = {
-          value: order.id,
-          expires: Workarea.config.completed_order_timeout.from_now
-        }
-
+        session[:completed_order_id] = order&.id
         @completed_order = order
       end
 
@@ -52,9 +54,8 @@ module Workarea
       # @return [Order]
       #
       def completed_order
-        if cookies.signed[:completed_order].present?
-          @completed_order ||= Order.find(cookies.signed[:completed_order])
-        end
+        return @completed_order if defined?(@completed_order)
+        @completed_order = Order.find(session[:completed_order_id]) rescue nil
       end
 
       # Get the current checkout for the session.
@@ -81,11 +82,16 @@ module Workarea
         current_checkout.shippings
       end
 
+      def logout
+        super
+        clear_current_order
+      end
+
       private
 
-      def set_session_order_id
+      def set_order_id_cookie
         if @current_order.present? && @current_order.persisted?
-          session[:order_id] = @current_order.id
+          cookies.permanent.signed[:order_id] = @current_order.id
         end
       end
 

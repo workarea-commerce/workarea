@@ -4,8 +4,8 @@ module Mongoid
       ids = Array(ids).flatten
       return [] if ids.blank?
 
-      unsorted = any_in(id: ids).to_a
-      ids.map { |id| unsorted.detect { |p| p.id.to_s == id.to_s } }.compact
+      lookup = scoped.any_in(id: ids).to_lookup_hash
+      ids.map { |id| lookup[id] }.compact
     end
   end
 end

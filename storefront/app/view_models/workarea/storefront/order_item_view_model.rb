@@ -68,6 +68,20 @@ module Workarea
         @total_adjustments ||= price_adjustments.reduce_by_description('item')
       end
 
+      #
+      # Fulfillment
+      #
+      #
+      def fulfillment_sku
+        @fulfillment_sku ||=
+          Fulfillment::Sku.find_or_initialize_by(id: model.sku)
+      end
+
+      def token
+        return unless fulfillment_sku.download?
+        @token ||= Fulfillment::Token.for_order_item(model.order.id, model.id)
+      end
+
       def default_category_name
         @default_category_name =
           Categorization.new(catalog_product).default_model.try(:name)

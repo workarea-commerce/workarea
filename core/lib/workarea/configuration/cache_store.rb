@@ -7,7 +7,9 @@ module Workarea
         if Rails.env.test?
           Rails.application.config.cache_store = :null_store
         elsif !Rails.env.development?
-          Rails.application.config.cache_store = :redis_store, Workarea::Configuration::Redis.cache.to_url
+          Rails.application.config.cache_store = :redis_cache_store, {
+            url: Workarea::Configuration::Redis.cache.to_url
+          }
 
           require 'redis-rack-cache'
           Rails.application.config.action_dispatch.rack_cache = {

@@ -11,6 +11,22 @@
 
 
 /**
+ * Display helpers
+ */
+.hidden {
+    display: none;
+    font-size: 1px;
+    line-height: 1px;
+    max-height: 0px;
+    max-width: 0px;
+    opacity: 0;
+    overflow: hidden;
+    mso-hide: all;
+    font-family: sans-serif;
+}
+
+
+/**
  * Responsive helpers
  *
  * Due to the way Premailer parses external CSS into inline CSS, we must be very

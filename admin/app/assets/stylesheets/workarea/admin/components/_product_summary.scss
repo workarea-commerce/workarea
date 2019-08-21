@@ -7,6 +7,10 @@ $product-summary-muted-bg-color: $light-gray !default;
 $product-summary-box-shadow-color:  $gray !default;
 $product-summary-action-color:      $blue !default;
 
+$product-summary-status-color: $white !default;
+$product-summary-status-issue-color: $red !default;
+$product-summary-status-issue-low-inventory-color: $orange !default;
+
 $product-summary-image-outline:  2px solid $gray !default;
 
 
@@ -35,6 +39,35 @@ $product-summary-image-outline:  2px solid $gray !default;
 .product-summary--muted {
     background: $product-summary-muted-bg-color;
 }
+
+.product-summary--status-issue {
+    @include global-box-shadow($product-summary-status-issue-color, tight);
+
+    &.product-summary--low-inventory {
+        @include global-box-shadow($product-summary-status-issue-low-inventory-color, tight);
+    }
+}
+
+
+    .product-summary__status {
+        @include center;
+        display: none;
+        color: $product-summary-status-color;
+        background: $product-summary-status-issue-color;
+        width: 80%;
+        text-align: center;
+        font-weight: bold;
+        padding: ($spacing-unit / 2) $spacing-unit;
+        border-radius: $global-border-radius;
+
+        .product-summary--status-issue & {
+            display: block;
+        }
+
+        .product-summary--low-inventory & {
+            background: $product-summary-status-issue-low-inventory-color;
+        }
+    }
 
 
     .product-summary__remove {
@@ -75,4 +108,17 @@ $product-summary-image-outline:  2px solid $gray !default;
     .product-summary__graph {
         display: block;
         text-align: center;
+    }
+
+
+    /**
+     * For Products that will not display on the Storefront we reduce opacity.
+     */
+    .product-summary__media,
+    .product-summary__name,
+    .product-summary__graph {
+        .product-summary--inactive &,
+        .product-summary--out-of-stock & {
+            opacity: 0.5;
+        }
     }

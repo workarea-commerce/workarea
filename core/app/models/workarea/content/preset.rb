@@ -54,7 +54,7 @@ module Workarea
       end
 
       # The {Workarea::Content::BlockType} that this block is. See documentation
-      # for {Content.define_block_types} for info how to define block types.
+      # for {Workarea.define_content_block_types} for info how to define block types.
       #
       # @return [Workarea::Content::BlockType]
       #

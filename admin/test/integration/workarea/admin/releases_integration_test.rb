@@ -5,18 +5,6 @@ module Workarea
     class ReleasesIntegrationTest < Workarea::IntegrationTest
       include Admin::IntegrationTest
 
-      setup :save_timezone
-      teardown :reset_timezone
-
-      def save_timezone
-        @time_zone = Time.zone
-        Time.zone = ActiveSupport::TimeZone['UTC']
-      end
-
-      def reset_timezone
-        Time.zone = @time_zone
-      end
-
       def test_creates_releases
         post admin.releases_path, params: { release: { name: 'foo bar' } }
         assert_equal(1, Release.count)
@@ -48,11 +36,7 @@ module Workarea
 
       def test_calendar_feed
         user = create_user(admin: true)
-        create_release(
-          name: 'foobar',
-          publish_at: 1.week.from_now,
-          undo_at: 1.month.from_now
-        )
+        create_release(name: 'foobar', publish_at: 1.week.from_now)
 
         get admin.calendar_feed_releases_path(token: user.token)
         assert_response :unauthorized
@@ -86,86 +70,86 @@ module Workarea
         assert_response :ok
       end
 
-      def test_calendar_feed_timezones
+      def test_single_release
+        current_time_zone = Time.zone
+        Time.zone = ActiveSupport::TimeZone['UTC']
+
         user = create_user(admin: true, releases_access: true)
+        release = create_release(publish_at: 1.hour.from_now)
 
-        Time.zone = ActiveSupport::TimeZone['Pacific/Midway'] # UTC-11
+        get admin.calendar_feed_releases_path(token: user.token)
 
+        assert_includes(response.body, "DTSTART;TZID=Etc/UTC:#{release.publish_at.strftime('%Y%m%dT%H%M%S')}\r\n")
+        assert_match(/DTEND;TZID=Etc\/UTC:\d{8}T\d{6}/, response.body)
+
+      ensure
+        Time.zone = current_time_zone
+      end
+
+      def test_saving_release_during_time_based_previewing
+        first = create_release(publish_at: 1.day.from_now)
+        second = create_release(publish_at: 2.days.from_now)
+
+        product = create_product(name: 'Foo', description: 'One')
+        first.as_current { product.update_attributes!(name: 'Bar', description: 'Two') }
+        second.as_current { product.update_attributes!(name: 'Baz') }
+
+        post admin.release_session_path, params: { release_id: second.id }
+        patch admin.catalog_product_path(product), params: { product: { name: 'Qux' } }
+
+        second.reload
+        assert_equal(1, second.changesets.size)
+        assert_equal(1, second.changesets.first.changeset.size)
+        assert_equal(['name'], second.changesets.first.changeset.keys)
+        assert_equal('Qux', second.changesets.first.changeset['name'][I18n.locale.to_s])
+
+        third = create_release(publish_at: 3.days.from_now)
+        post admin.release_session_path, params: { release_id: third.id }
+        patch admin.catalog_product_path(product),
+          params: { product: { name: 'Qoo', description: 'Two' } }
+
+        third.reload
+        assert_equal(1, third.changesets.size)
+        assert_equal(1, third.changesets.first.changeset.size)
+        assert_equal(['name'], third.changesets.first.changeset.keys)
+        assert_equal('Qoo', third.changesets.first.changeset['name'][I18n.locale.to_s])
+
+        patch admin.catalog_product_path(product),
+          params: { product: { name: 'Quo', description: 'Three' } }
+
+        third.reload
+        assert_equal(1, third.changesets.size)
+        assert_equal(2, third.changesets.first.changeset.size)
+        assert_includes(third.changesets.first.changeset.keys, 'name')
+        assert_includes(third.changesets.first.changeset.keys, 'description')
+        assert_equal('Quo', third.changesets.first.changeset['name'][I18n.locale.to_s])
+        assert_equal('Three', third.changesets.first.changeset['description'][I18n.locale.to_s])
+      end
+
+      def test_working_on_releases_that_publish_at_the_same_time
         publish_at = 1.week.from_now
-        create_release(name: 'foobar', publish_at: publish_at)
+        first = create_release(publish_at: publish_at)
+        second = create_release(publish_at: publish_at)
 
-        get admin.calendar_feed_releases_path(token: user.token)
+        product = create_product(name: 'Foo', description: 'One')
+        first.as_current { product.update_attributes!(name: 'Bar', description: 'Two') }
+        second.as_current { product.update_attributes!(name: 'Baz') }
 
-        assert_includes(response.body, 'BEGIN:VTIMEZONE')
-        assert_includes(response.body, 'TZID:Pacific/Midway')
-        assert_includes(response.body, 'TZOFFSETTO:-1100')
-        assert_includes(response.body, "X-WR-CALNAME:#{t('workarea.admin.releases.feed.name', site_name: Workarea.config.site_name)}")
-      end
+        post admin.release_session_path, params: { release_id: second.id }
+        patch admin.catalog_product_path(product), params: { product: { name: 'Qux' } }
 
-      def test_single_day_events
-        user = create_user(admin: true, releases_access: true)
+        first.reload
+        assert_equal(1, first.changesets.size)
+        assert_equal(2, first.changesets.first.changeset.size)
+        assert_equal(%w(name description), first.changesets.first.changeset.keys)
+        assert_equal('Bar', first.changesets.first.changeset['name'][I18n.locale.to_s])
+        assert_equal('Two', first.changesets.first.changeset['description'][I18n.locale.to_s])
 
-        publish_at = 1.hour.from_now
-        undo_at = 2.hours.from_now
-        create_release(
-          name: 'Single-Day',
-          publish_at: publish_at,
-          undo_at: undo_at
-        )
-
-        get admin.calendar_feed_releases_path(token: user.token)
-
-        assert_includes(response.body, "DTSTART;TZID=Etc/UTC:#{publish_at.strftime('%Y%m%dT%H%M%S')}\r\n")
-        assert_includes(response.body, "DTEND;TZID=Etc/UTC:#{undo_at.strftime('%Y%m%dT%H%M%S')}\r\n")
-      end
-
-      def test_overnight
-        user = create_user(admin: true, releases_access: true)
-
-        publish_at = 1.hour.from_now
-        undo_at = 24.hours.from_now
-        create_release(
-          name: 'Single-Day',
-          publish_at: publish_at,
-          undo_at: undo_at
-        )
-
-        get admin.calendar_feed_releases_path(token: user.token)
-
-        assert_includes(response.body, "DTSTART;TZID=Etc/UTC:#{publish_at.strftime('%Y%m%dT%H%M%S')}\r\n")
-        assert_includes(response.body, "DTEND;TZID=Etc/UTC:#{undo_at.strftime('%Y%m%dT%H%M%S')}\r\n")
-      end
-
-      def test_multi_day_events
-        user = create_user(admin: true, releases_access: true)
-
-        publish_at = 1.week.from_now
-        undo_at = 2.weeks.from_now
-        create_release(
-          name: 'Multi-Day',
-          publish_at: publish_at,
-          undo_at: undo_at
-        )
-
-        get admin.calendar_feed_releases_path(token: user.token)
-
-        assert_includes(response.body, "DTSTART;TZID=Etc/UTC;VALUE=DATE:#{publish_at.strftime('%Y%m%d')}\r\n")
-        assert_includes(response.body, "DTEND;TZID=Etc/UTC;VALUE=DATE:#{undo_at.strftime('%Y%m%d')}\r\n")
-      end
-
-      def test_release_without_undo
-        user = create_user(admin: true, releases_access: true)
-
-        publish_at = 1.hour.from_now
-        create_release(
-          name: 'No Undo',
-          publish_at: publish_at
-        )
-
-        get admin.calendar_feed_releases_path(token: user.token)
-
-        assert_includes(response.body, "DTSTART;TZID=Etc/UTC:#{publish_at.strftime('%Y%m%dT%H%M%S')}\r\n")
-        assert_includes(response.body, t('workarea.admin.releases.feed.no_undo_date'))
+        second.reload
+        assert_equal(1, second.changesets.size)
+        assert_equal(1, second.changesets.first.changeset.size)
+        assert_equal(['name'], second.changesets.first.changeset.keys)
+        assert_equal('Qux', second.changesets.first.changeset['name'][I18n.locale.to_s])
       end
     end
   end

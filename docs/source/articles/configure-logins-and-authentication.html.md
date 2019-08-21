@@ -1,5 +1,6 @@
 ---
 title: Configure Logins & Authentication
+created_at: 2018/09/17
 excerpt: Workarea provides several configuration options related to user login and authentication.
 ---
 

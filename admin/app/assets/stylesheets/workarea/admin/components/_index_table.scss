@@ -4,6 +4,7 @@
 
 $index-table-row-color:  $black !default;
 $index-table-row-inactive-color:  $gray !default;
+$index-table-row-highlight-color: $green !default;
 $index-table-image-size:  32px !default;
 
 /**
@@ -29,6 +30,10 @@ $index-table-image-size:  32px !default;
 
     .index-table__row {
         color: $index-table-row-color;
+    }
+
+    .index-table__row--highlight {
+        background: rgba($index-table-row-highlight-color, 0.2);
     }
 
     .index-table__row--inactive {

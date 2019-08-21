@@ -34,10 +34,7 @@ module Workarea
         #
         def reset!(params, by: nil)
           @params = params
-          @query = Search::ProductSearch.new(
-            params.merge(rules: customization&.product_rules)
-          )
-
+          @query = Search::ProductSearch.new(params.merge(rules: product_rules))
           @trace << Trace.new(@params, @query, by)
         end
 
@@ -59,6 +56,11 @@ module Workarea
 
         def query_suggestions
           @query.query_suggestions
+        end
+
+        def product_rules
+          return [] if customization.blank?
+          customization.product_rules.usable
         end
 
         private

@@ -1,5 +1,6 @@
 ---
 title: Rails Asset Manifests
+created_at: 2018/07/31
 excerpt: Rails ships with a feature known as the asset pipeline, which is covered in detail in this excellent Rails guide. If you're new to Ruby on Rails, that guide and the other Rails guides are your friends.
 ---
 

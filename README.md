@@ -1,18 +1,18 @@
 Workarea Commerce Platform
 ================================================================================
-[![Build Status](https://travis-ci.com/workarea-commerce/workarea.svg?token=YjqtGLgnbrDJ77Kqw1nV&branch=master)](https://travis-ci.com/workarea-commerce/workarea)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v1.4%20adopted-ff69b4.svg)](CODE_OF_CONDUCT.md)
 
 [Workarea](https://www.workarea.com) is an enterprise-grade commerce platform written in [Ruby on Rails](https://rubyonrails.org). It uses [MongoDB](https://www.mongodb.com), [Elasticsearch](https://www.elastic.co/products/elasticsearch), and [Redis](https://redis.io). Workarea also uses a whole lot of gems you can see in [our gemspec](https://github.com/weblinc/workarea/blob/master/core/workarea-core.gemspec).
 
-[Workarea Commerce Cloud](https://www.workarea.com/pages/commerce-cloud)
-[Documentation](https://developer.workarea.com)
-[Demo](https://github.com/workarea-commerce/workarea#demo)
-[Getting Started](https://github.com/workarea-commerce/workarea#getting-started)
-[Plugins](https://github.com/workarea-commerce/workarea#plugins)
-[Deploying](https://github.com/workarea-commerce/workarea#deploying)
-[Contributing](https://github.com/workarea-commerce/workarea#contributing)
-[Slack](https://www.workarea.com/slack)
+[Workarea Commerce Cloud](https://www.workarea.com/pages/commerce-cloud)  
+[Documentation](https://developer.workarea.com)  
+[Demo](https://github.com/workarea-commerce/workarea#demo)  
+[Getting Started](https://github.com/workarea-commerce/workarea#getting-started)  
+[Plugins](https://github.com/workarea-commerce/workarea#plugins)  
+[Extension](https://github.com/workarea-commerce/workarea#extension)  
+[Deploying](https://github.com/workarea-commerce/workarea#deploying)  
+[Contributing](https://github.com/workarea-commerce/workarea#contributing)  
+[Slack](https://www.workarea.com/slack)  
 
 ![Workarea Screenshot](https://raw.githubusercontent.com/workarea-commerce/workarea/master/docs/source/images/readme-hero.png)
 
@@ -64,7 +64,6 @@ Workarea combines commerce, content, search, and insights into a unified platfor
 
 Demo
 --------------------------------------------------------------------------------
-
 You can run a demo version of workarea by running the following command in your terminal:
 
 ```bash
@@ -130,9 +129,16 @@ Workarea extends functionality with a library of plugins. These plugins add ever
 | [Wish Lists](https://github.com/workarea-commerce/workarea-wish-lists) | Adds customer wish lists |
 | [Sitemaps](https://github.com/workarea-commerce/workarea-sitemaps) | Autogenerating sitemaps |
 | [Share](https://github.com/workarea-commerce/workarea-share) | Adds page sharing via social media or email |
-| [Google Tag Manager](https://github.com/workarea-commerce/workarea-tag-manager) | Adds [Google Tag Manager](https://marketingplatform.google.com/about/tag-manager/) |
 | [Package Products](https://github.com/workarea-commerce/workarea-package-products) | Allows displaying products as a group in browse and details pages |
 | [Gift Cards](https://github.com/workarea-commerce/workarea-gift-cards) | Adds Workarea-native digital gift cards |
+
+To see a full list of open-source plugins, check out the [Workarea Github organization](https://github.com/workarea-commerce). More plugins like B2B functionality, order management, and running multiple sites are available through the [Workarea Commerce Cloud](https://www.workarea.com/pages/commerce-cloud).
+
+
+Extension
+--------------------------------------------------------------------------------
+Workarea is meant to be extended and customized to fit merchant needs. It's built as a collection of [Rails Engines](https://guides.rubyonrails.org/engines.html) so the [Rails guides on customizing engines](https://guides.rubyonrails.org/engines.html#improving-engine-functionality) apply. Workarea also includes the [Rails Decorators](https://github.com/workarea-commerce/rails-decorators) to provide a easy and familiar path for Rails developers to customize Ruby classes. To read more, check out [our documentation on extension](https://developer.workarea.com/articles/extension-overview.html).
+
 
 Deploying
 --------------------------------------------------------------------------------

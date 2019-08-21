@@ -6,7 +6,15 @@ module Workarea
       field :product_ids, type: Array, default: []
       before_validation :clean_product_ids
 
+      scope :by_product, ->(id) { self.in(product_ids: id) }
       index({ product_ids: 1 })
+    end
+
+    def self.changesets(product_id)
+      Release::Changeset.any_of(
+        { 'changeset.product_ids' => product_id },
+        { 'original.product_ids' => product_id }
+      )
     end
 
     def featured_products?

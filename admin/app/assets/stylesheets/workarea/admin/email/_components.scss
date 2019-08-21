@@ -1,29 +1,42 @@
 /*------------------------------------*\
     #LAYOUT
 \*------------------------------------*/
+
+$email-container-font-color: $dark-gray !default;
 $email-container-main-bg-color: $white !default;
+$email-container-main-shadow-color: $light-gray !default;
+$email-container-main-accent-color: $blue !default;
 
 .email-container {
-    margin: auto;
+    margin: 0 auto;
     text-align: center;
+    font-family: $font-family;
+    color: $email-container-font-color;
 }
 
 .email-container--main {
+    box-shadow: 0 0 10px $email-container-main-shadow-color;
+    border-bottom: 8px solid $email-container-main-accent-color;
+
     & > tr > td {
         background: $email-container-main-bg-color;
-        text-align: center;
+        text-align: left;
         vertical-align: top;
-        padding: $spacing-unit;
+        padding: $spacing-unit * 3;
     }
 }
 
 .email-header {
-    padding: ($spacing-unit * 2) 0;
+    padding: ($spacing-unit * 4) 0;
 }
 
 .email-footer {
     padding: ($spacing-unit * 4) $spacing-unit;
     font-family: $font-family;
+}
+
+.section {
+    padding: ($spacing-unit * 2) 0;
 }
 
 
@@ -47,10 +60,14 @@ $email-container-main-bg-color: $white !default;
     #LOGO
 \*------------------------------------*/
 .logo {
+    display: inline-block;
+    vertical-align: top;
     text-decoration: none;
 }
 
-    .logo__image {}
+    .logo__image {
+        display: block;
+    }
 
 
 /*------------------------------------*\
@@ -112,3 +129,47 @@ $item-table-border-color: $light-gray !default;
     }
 }
 
+/*------------------------------------*\
+    #BOX
+\*------------------------------------*/
+$box-border-color: $blue !default;
+
+.box {
+    border: 1px solid $box-border-color;
+    border-left-width: 8px;
+    padding: $spacing-unit * 2;
+    margin: ($spacing-unit * 4) 0;
+}
+
+/*------------------------------------*\
+    #COMMENT
+\*------------------------------------*/
+
+.comment {
+    @extend .box;
+    margin: $spacing-unit * 4;
+}
+
+    .comment__author-info {
+        display: block;
+        font-size: $font-size - 2;
+        font-style: italic;
+        margin-top: $spacing-unit * 2;
+    }
+
+
+/*------------------------------------*\
+    #BUTTON
+\*------------------------------------*/
+$button-color: $white !default;
+$button-bg-color: $blue !default;
+
+.button {
+    display: inline-block;
+    padding: $spacing-unit ($spacing-unit * 4);
+    background: $button-bg-color;
+    color: $button-color;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 11px;
+}

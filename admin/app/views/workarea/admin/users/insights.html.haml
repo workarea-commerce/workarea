@@ -117,8 +117,12 @@
             %p.align-center= t('workarea.admin.users.insights.recently_viewed.none')
 
           %ul
-            - @user.recent_searches.each do |search|
-              %li= link_to search, storefront.search_path(q: search)
+            - @user.recent_searches.each do |search_id|
+              %li
+                = form_tag search_customizations_path, method: 'post' do
+                  = hidden_field_tag 'q', search_id, id: nil
+                  = button_tag search_id, class: 'button button--small'
+
 
   - if @insights.any?
     .view__container.view__container--narrow

@@ -1,3 +1,5 @@
+= render_schema_org(email_action_schema(url_for(@export), t('workarea.admin.data_file_mailer.export.email_action.name'), t('workarea.admin.data_file_mailer.export.email_action.description')))
+
 %tr
   %td
     %p= t('workarea.admin.data_file_mailer.export.download_html', link: link_to(t('workarea.admin.data_file_mailer.export.download_link'), url_for(@export)), name: @export.name.downcase, type: @export.file_type.upcase)

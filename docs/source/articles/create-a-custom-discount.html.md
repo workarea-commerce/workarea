@@ -1,5 +1,6 @@
 ---
 title: Create a Custom Discount
+created_at: 2018/07/31
 excerpt: The following example creates a "Buy Some Get Shipping" discount that provides a discount on a particular shipping method with the purchase of certain products or from certain categories.
 ---
 
@@ -196,11 +197,15 @@ your\_app/app/views/workarea/admin/pricing\_discounts/properties/\_buy\_some\_ge
 %p.discount__node-group
   %span.discount__node Take
   %span.discount__node= select_tag 'discount[amount_type]', options_for_select(@discount.amount_type_options, @discount.amount_type), title: 'Type of Amount'
+created_at: 2018/07/31
   %span.discount__node= text_field_tag 'discount[amount]', @discount.amount, class: 'text-box text-box--mini', title: 'Amount of Discount', placeholder: '10', required: true
+created_at: 2018/07/31
   %span.discount__node off
   %span.discount__node= select_tag 'discount[shipping_method_id]', options_for_select(@discount.shipping_method_options, @discount.shipping_method_id), title: 'Shipping Method'
+created_at: 2018/07/31
   %span.discount__node when
   %span.discount__node= number_field_tag 'discount[purchase_quantity]', @discount.purchase_quantity || 1, min: '1', class: 'text-box text-box--mini', title: 'Quantity to Qualify', required: true
+created_at: 2018/07/31
   %span.discount__node of the following
   %span.discount__node= select_tag 'discount[product_ids]', options_from_collection_for_select(@discount.products, 'id', 'name', @discount.product_ids), multiple: true, data: { remote_select: { source: catalog_products_path(format: :json), options: { placeholder: 'Product A, Product B' } }.to_json }
   %span.discount__node or

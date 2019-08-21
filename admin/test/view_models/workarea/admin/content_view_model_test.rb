@@ -13,17 +13,6 @@ module Workarea
           view_model.areas
         )
 
-        Workarea.with_config do |config|
-          config.content_areas['landing'] = %w(top bottom)
-          model = Content.new(contentable: create_page(template: 'landing'))
-          view_model = ContentViewModel.new(model)
-
-          assert_equal(
-            %w(top bottom),
-            view_model.areas
-          )
-        end
-
         model = Content.new(contentable: create_category)
         view_model = ContentViewModel.new(model)
 
@@ -37,6 +26,15 @@ module Workarea
 
         assert_equal(
           Workarea.config.content_areas['generic'],
+          view_model.areas
+        )
+
+        Workarea.config.content_areas['landing'] = %w(top bottom)
+        model = Content.new(contentable: create_page(template: 'landing'))
+        view_model = ContentViewModel.new(model)
+
+        assert_equal(
+          %w(top bottom),
           view_model.areas
         )
       end

@@ -1,4 +1,15 @@
 class Money
+  module BlankMongoizing
+    def mongoize(value)
+      return nil if value.blank?
+      super(value)
+    end
+  end
+
+  class << self
+    prepend BlankMongoizing
+  end
+
   alias_method :to_m, :to_money
 
   def as_json(*)

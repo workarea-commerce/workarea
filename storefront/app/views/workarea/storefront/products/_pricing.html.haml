@@ -3,27 +3,33 @@
   - if product.one_price?
     %p.product-prices__price
       - if product.show_sell_range?
-        %span.product-prices__sell-price.product-prices__sell-price--min= render 'workarea/storefront/products/price', price: product.sell_min_price
+        %span.product-prices__sell-price.product-prices__sell-price--min
+          = number_to_currency(product.sell_min_price)
         %span.product-prices__sell-price.product-prices__sell-price--max – #{number_to_currency product.sell_max_price}
       - else
-        %span.product-prices__sell-price= render 'workarea/storefront/products/price', price: product.sell_min_price
+        %span.product-prices__sell-price
+          = number_to_currency(product.sell_min_price)
 
   - else
     - if product.on_sale?
       %p.product-prices__price.product-prices__price--on-sale
         - if product.show_sell_range?
-          %strong.product-prices__sell-price.product-prices__sell-price--min= render 'workarea/storefront/products/price', price: product.sell_min_price
+          %strong.product-prices__sell-price.product-prices__sell-price--min
+            = number_to_currency(product.sell_min_price)
           %strong.product-prices__sell-price.product-prices__sell-price--max – #{number_to_currency product.sell_max_price}
         - else
-          %strong.product-prices__sell-price= render 'workarea/storefront/products/price', price: product.sell_min_price
+          %strong.product-prices__sell-price
+            = number_to_currency(product.sell_min_price)
 
     - else
       %p.product-prices__price
         - if product.show_sell_range?
-          %span.product-prices__sell-price.product-prices__sell-price--min= render 'workarea/storefront/products/price', price: product.sell_min_price
+          %span.product-prices__sell-price.product-prices__sell-price--min
+            = number_to_currency(product.sell_min_price)
           %span.product-prices__sell-price.product-prices__sell-price--max – #{number_to_currency product.sell_max_price}
         - else
-          %span.product-prices__sell-price= render 'workarea/storefront/products/price', price: product.sell_min_price
+          %span.product-prices__sell-price
+            = number_to_currency(product.sell_min_price)
 
     %p.product-prices__price.product-prices__price--original
       - if product.show_original_range?

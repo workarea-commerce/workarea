@@ -1,5 +1,6 @@
 ---
 title: Favicon Support
+created_at: 2018/12/03
 excerpt: Learn how Workarea manages favicons and how they are output in your application
 ---
 

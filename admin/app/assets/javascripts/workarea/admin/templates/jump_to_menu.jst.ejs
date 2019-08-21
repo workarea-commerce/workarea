@@ -1,0 +1,13 @@
+<div class='jump-to-menu' data-turbolinks='false'>
+    <nav class='jump-to-menu__container'>
+        <ul class='jump-to-menu__list'>
+            <% _.forEach(items, function (item) { %>
+                <li class='jump-to-menu__list-item'>
+                    <a href='#<%= item.anchor %>' class='jump-to-menu__link jump-to-menu__link--<%= item.level %>'>
+                        <%= item.name %>
+                    </a>
+                </li>
+            <% }); %>
+        </ul>
+    </nav>
+</div>

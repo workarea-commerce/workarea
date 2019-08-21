@@ -2,9 +2,17 @@ module Workarea
   module Storefront
     module ApplicationHelper
       def page_title(title_content = @title)
-        title = [title_content, Workarea.config.site_name]
-                  .reject(&:blank?)
-                  .join(' - ')
+        if title_content.present?
+          title = t(
+            'workarea.storefront.layouts.page_title_with_content',
+            title_content: title_content,
+            site_name: Workarea.config.site_name
+          )
+        else
+          title = t('workarea.storefront.layouts.page_title',
+            site_name: Workarea.config.site_name
+          )
+        end
 
         unless Rails.env.in?(%w(test development production))
           title = "[#{Rails.env.upcase}] #{title}"

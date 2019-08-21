@@ -6,7 +6,7 @@ module Workarea
 
       def create
         admin_browse_as_guest
-        self.current_order = nil
+        clear_current_order
 
         flash[:success] =
           t('workarea.admin.guest_browsing.flash_messages.started')
@@ -15,7 +15,7 @@ module Workarea
 
       def destroy
         stop_admin_guest_browsing
-        self.current_order = nil
+        clear_current_order
 
         flash[:success] = t('workarea.admin.guest_browsing.flash_messages.stopped')
         redirect_to users_path

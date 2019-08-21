@@ -1,5 +1,6 @@
 ---
 title: System Emails
+created_at: 2018/07/31
 excerpt: System emails are sent from both the admin and storefront engines. All system emails may be customized like any other view in the system, by first overriding the mailer views and associated stylesheets.
 ---
 

@@ -34,7 +34,7 @@ module Workarea
       IndexProduct.perform(product_2)
       IndexProduct.perform(product_3)
 
-      current_last_indexed_at = product_1.last_indexed_at
+      current_last_indexed_at = product_1.reload.last_indexed_at
 
       travel_to(Time.current + 1.second)
       KeepProductIndexFresh.new.perform

@@ -32,7 +32,7 @@ WORKAREA.registerModule('calendars', (function () {
         resetCalendar = function (event) {
             var calendar = event.delegateTarget,
                 today = new Date(),
-                endpoint = WORKAREA.routes.admin.calendarReleasesPath();
+                endpoint = WORKAREA.routes.admin.releasesPath();
 
             event.preventDefault();
 

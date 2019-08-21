@@ -1,5 +1,6 @@
 ---
 title: Translate or Customize Message Content
+created_at: 2019/03/14
 excerpt: Message text is translated/customized in the same manner as all static text.
 ---
 

@@ -1,5 +1,6 @@
 ---
 title: Add, Remove, or Change a Product Template
+created_at: 2019/03/14
 excerpt: Product Templates are useful to change how the product is displayed on its detail page. This guide will show you how to manipulate these templates both within a plugin and in an application.
 ---
 

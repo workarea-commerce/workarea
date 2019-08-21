@@ -21,7 +21,7 @@ module Workarea
 
       def self.save_search(query_string, total_results, at: Time.current)
         query_string = QueryString.new(query_string)
-        return if query_string.id.blank? || query_string.short?
+        return if query_string.id.blank? || query_string.short? || total_results.blank?
 
         inc(
           key: { query_id: query_string.id },

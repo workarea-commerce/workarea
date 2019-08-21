@@ -148,6 +148,38 @@ module Workarea
         assert(flash[:success].present?)
         refute(Email.signed_up?(user.email))
       end
+
+      def test_password_reset
+        user = create_user
+
+        post admin.send_password_reset_user_path(user)
+
+        assert_redirected_to(admin.user_path(user))
+        assert(flash[:success].present?)
+
+        assert_equal(1, User::PasswordReset.count)
+
+        reset = User::PasswordReset.first
+        assert_equal(user.id, reset.user_id)
+
+        delivery = ActionMailer::Base.deliveries.last
+        assert_includes(delivery.subject, t('workarea.storefront.email.password_reset.subject'))
+        assert_includes(delivery.to, user.email)
+        assert_includes(delivery.html_part.body, reset.token)
+      end
+
+      def test_unlock_user
+        user = create_user(
+          failed_login_count: Workarea.config.allowed_login_attempts + 1,
+          last_login_attempt_at: Time.current
+        )
+
+        patch admin.unlock_user_path(user)
+
+        assert_redirected_to(admin.user_path(user))
+        assert(flash[:success].present?)
+        refute(user.reload.login_locked?)
+      end
     end
   end
 end

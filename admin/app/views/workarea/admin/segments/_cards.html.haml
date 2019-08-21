@@ -1,0 +1,80 @@
+.grid.grid--auto.grid--flush.grid--center
+  .grid__cell
+    .card{ class: card_classes(:attributes, local_assigns[:active]) }
+      = link_to edit_segment_path(model), class: 'card__header' do
+        %span.card__header-text= t('workarea.admin.segments.cards.attributes.header')
+        = inline_svg 'workarea/admin/icons/attributes.svg', class: 'card__icon'
+
+      - if local_assigns[:active].blank?
+        .card__body
+          %ul.list-reset
+            %li
+              %strong #{t('workarea.admin.fields.tags')}:
+              = model.tags.join(', ').presence || '(none)'
+            %li
+              %strong #{t('workarea.admin.fields.updated_at')}:
+              #{local_time_ago(model.updated_at)}
+            %li
+              %strong #{t('workarea.admin.fields.created_at')}:
+              #{local_time_ago(model.created_at)}
+
+          = link_to edit_segment_path(model), class: 'card__button' do
+            %span.button.button--small= t('workarea.admin.segments.cards.attributes.button')
+
+  .grid__cell
+    .card{ class: card_classes(:rules, local_assigns[:active]) }
+      = link_to segment_rules_path(model), class: 'card__header' do
+        %span.card__header-text= t('workarea.admin.segments.cards.rules.header')
+        = inline_svg 'workarea/admin/icons/rules.svg', class: 'card__icon'
+
+      - if local_assigns[:active].blank?
+        .card__body
+          %ul
+            - model.rules.each do |rule|
+              %li= render "workarea/admin/segment_rules/summaries/#{rule.slug}", rule: rule
+
+          = link_to segment_rules_path(model), class: 'card__button' do
+            %span.button.button--small= t('workarea.admin.segments.cards.rules.button')
+
+  .grid__cell
+    .card{ class: card_classes(:insights, local_assigns[:active]) }
+      = link_to insights_segment_path(model), class: 'card__header' do
+        %span.card__header-text= t('workarea.admin.segments.cards.insights.header')
+        = inline_svg 'workarea/admin/icons/insights.svg', class: 'card__icon'
+
+      - if local_assigns[:active].blank?
+        .card__body
+          %p.align-center
+            %span.spark.spark--large{ title: t('workarea.admin.segments.index.sparkline_title') }
+              {#{sparkline_analytics_data_for(model.insights.orders_sparkline).join(',')}}
+
+          %span.heading.heading--4.align-center
+            #{number_with_delimiter model.insights.orders}
+            #{t('workarea.admin.segments.cards.insights.orders')}
+            #{insights_trend_icon(model.insights.orders_percent_change)}
+
+          .grid
+            .grid__cell.grid__cell--50
+              %p.align-center
+                %strong= number_to_currency model.insights.revenue
+                #{insights_trend_icon(model.insights.revenue_percent_change)}
+                %br
+                #{t('workarea.admin.segments.cards.insights.revenue')}
+            .grid__cell.grid__cell--50
+              %p.align-center
+                %strong= number_to_currency model.insights.average_order_value
+                #{insights_trend_icon(model.insights.average_order_value_percent_change)}
+                %br
+                #{t('workarea.admin.segments.cards.insights.aov')}
+
+          %p.align-center
+            = distance_of_time_in_words(model.insights.starts_at, model.insights.ends_at)
+
+          = link_to insights_segment_path(model), class: 'card__button' do
+            %span.button.button--small= t('workarea.admin.segments.cards.insights.button')
+
+  .grid__cell
+    = render 'workarea/admin/timeline/card', timeline: model.timeline, active: local_assigns[:active]
+
+  .grid__cell
+    = render 'workarea/admin/comments/card', commentable: model, active: local_assigns[:active]

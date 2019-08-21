@@ -1,7 +1,7 @@
 require 'test_helper'
 
 module Workarea
-  class ApplicationMailerTest < IntegrationTest
+  class ApplicationMailerTest < MailerTest
     def test_from_address_changes
       order = create_placed_order
 

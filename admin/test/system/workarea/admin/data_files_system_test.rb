@@ -30,7 +30,7 @@ module Workarea
           )
 
           import_two = create_import(
-            model_type: Workarea::Content::Page,
+            model_type: 'Workarea::Content::Page',
             created_by_id: user.id,
             started_at: 2.hour.ago,
             file: tempfile,

@@ -157,9 +157,7 @@ class Rack::Attack
   # number is usable.
   #
   blocklist('req/credit_cards') do |request|
-    key = [request.ip, request.cookies['user_id']].reject(&:blank?).join('/')
-
-    Rack::Attack::Allow2Ban.filter(key, maxretry: 10, findtime: 1.hour, bantime: 1.day) do
+    Rack::Attack::Allow2Ban.filter(request.ip, maxretry: 10, findtime: 1.hour, bantime: 1.day) do
       request.path =~ /place_order|credit_cards/ && !request.get?
     end
   end

@@ -30,22 +30,19 @@ module Workarea
           @shipping.address
         )
 
-        tax_amount = guard_negative_price do
-          taxable_amount * rate.percentage
-        end
-
-        return if tax_amount.zero?
+        tax_amounts = calculate_tax_amounts(taxable_amount, rate)
+        return if tax_amounts.values.sum.zero?
 
         @shipping.adjust_pricing(
           price: 'tax',
           calculator: self.class.name,
           description: 'Item Tax',
-          amount: tax_amount,
-          data: {
+          amount: tax_amounts.values.sum,
+          data: tax_amounts.merge(
             'adjustment' => adjustment.id,
             'order_item_id' => adjustment._parent.id,
             'tax_code' => adjustment.data['tax_code']
-          }
+          )
         )
       end
 
@@ -59,8 +56,21 @@ module Workarea
         total
       end
 
+      def calculate_tax_amounts(taxable_amount, rate)
+        {
+          'country_amount' => calculate_tax_amount(taxable_amount, rate.country_percentage),
+          'region_amount' => calculate_tax_amount(taxable_amount, rate.region_percentage),
+          'postal_code_amount' => calculate_tax_amount(taxable_amount, rate.postal_code_percentage)
+        }
+      end
+
+      def calculate_tax_amount(amount, percentage)
+        return 0.to_m unless percentage.present?
+        guard_negative_price { amount * percentage }
+      end
+
       def assign_shipping_tax
-        return unless shipping_total > 0
+        return unless shipping_total.positive?
 
         tax_rate = Tax.find_rate(
           @shipping.shipping_service.tax_code,
@@ -70,18 +80,18 @@ module Workarea
 
         return unless tax_rate.charge_on_shipping?
 
-        amount = shipping_total * tax_rate.percentage
+        amounts = calculate_tax_amounts(shipping_total, tax_rate)
 
-        if amount > 0
+        if amounts.values.sum.positive?
           @shipping.adjust_pricing(
             price: 'tax',
             calculator: self.class.name,
             description: 'Shipping Tax',
-            amount: amount,
-            data: {
+            amount: amounts.values.sum,
+            data: amounts.merge(
               'shipping_service_tax' => true,
               'tax_code' => tax_rate.category.code
-            }
+            )
           )
         end
       end

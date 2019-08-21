@@ -1,5 +1,6 @@
 ---
 title: Order Life Cycle
+created_at: 2018/08/07
 excerpt: 'Order models represent order transactions throughout their entire life cycles, thereby encapsulating the function of several traditional business documents (for example: purchase order, invoice, and receipt) into a single document.'
 ---
 

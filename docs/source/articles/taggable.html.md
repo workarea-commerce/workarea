@@ -1,5 +1,6 @@
 ---
 title: Taggable
+created_at: 2018/10/03
 excerpt: A taggable is an application document that includes the Mongoid::Document::Taggable module from the mongoid-simple-tags Ruby library (source). The Mongoid::Document::Taggable module provides tagging functionality that is explained in the library's REA
 ---
 

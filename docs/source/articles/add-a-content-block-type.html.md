@@ -1,5 +1,6 @@
 ---
 title: Add a Content Block Type
+created_at: 2019/01/14
 excerpt: In this guide, I outline the steps for creating a content block type and provide an example for each.
 ---
 
@@ -155,7 +156,7 @@ Define your block type in an initializer. I like to start with a static block (n
 ```
 # config/initializers/content_block_types.rb
 
-Workarea::Content.define_block_types do
+Workarea.define_content_block_types do
   block_type 'Captioned Image' do
     description 'An image with a caption, used for figures in technical documentation.'
   end
@@ -218,7 +219,7 @@ Revisit your initializer to add content [fields](content.html#field). I add the 
 ```
 # config/initializers/content_block_types.rb
 
-Workarea::Content.define_block_types do
+Workarea.define_content_block_types do
   # copied from workarea-core/config/initializers/14_content_block_types.rb
   find_asset_id = lambda do |name|
     proc do

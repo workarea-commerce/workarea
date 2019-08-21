@@ -1,0 +1,11 @@
+- if rule.persisted?
+  = form_tag segment_rule_path(segment, rule), method: 'patch', data: { unsaved_changes: '' } do
+    = hidden_field_tag 'return_to', local_assigns[:return_to]
+    = render "workarea/admin/segment_rules/fields/#{rule.slug}", rule: rule
+    = button_tag t('workarea.admin.actions.save'), value: 'save_rule', class: 'button button--small'
+- else
+  = form_tag segment_rules_path(segment), method: 'post', data: { unsaved_changes: '' } do
+    = hidden_field_tag 'return_to', local_assigns[:return_to]
+    = hidden_field_tag 'rule_type', rule.slug
+    = render "workarea/admin/segment_rules/fields/#{rule.slug}", rule: rule
+    = button_tag t('workarea.admin.actions.save'), value: 'save_rule', class: 'button button--small'

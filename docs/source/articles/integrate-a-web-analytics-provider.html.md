@@ -1,5 +1,6 @@
 ---
 title: Integrate a Web Analytics Provider
+created_at: 2018/11/08
 excerpt: Workarea analytics adapters are responsible for registering callbacks for events and in turn sending the correctly formatted data and events to the third party.
 ---
 

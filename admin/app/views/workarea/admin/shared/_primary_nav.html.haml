@@ -29,6 +29,7 @@
                       = local_time(release.publish_at, :date_only)
                     - else
                       = t('workarea.admin.shared.primary_nav.not_scheduled')
+            %li.primary-nav__item= link_to t('workarea.admin.shared.primary_nav.view_all_releases'), list_releases_path, class: navigation_link_classes(list_releases_path)
 
           = append_partials('admin.releases_menu')
 
@@ -50,6 +51,7 @@
           %li{ class: "primary-nav__item" }= link_to t('workarea.admin.shared.primary_nav.categories'), catalog_categories_path, class: navigation_link_classes(catalog_categories_path)
           %li{ class: "primary-nav__item" }= link_to t('workarea.admin.shared.primary_nav.pricing'), pricing_skus_path, class: navigation_link_classes(pricing_skus_path)
           %li{ class: "primary-nav__item" }= link_to t('workarea.admin.shared.primary_nav.inventory'), inventory_skus_path, class: navigation_link_classes(inventory_skus_path)
+          %li{ class: "primary-nav__item" }= link_to t('workarea.admin.shared.primary_nav.fulfillment'), fulfillment_skus_path, class: navigation_link_classes(fulfillment_skus_path)
           = append_partials('admin.catalog_menu')
 
       .primary-nav__section
@@ -67,7 +69,7 @@
           %li{ class: "primary-nav__item" }= link_to t('workarea.admin.shared.primary_nav.all_people'), users_path, class: navigation_link_classes(users_path)
           %li{ class: "primary-nav__item" }= link_to t('workarea.admin.shared.primary_nav.customers'), customers_path, class: navigation_link_classes(customers_path)
           %li{ class: "primary-nav__item" }= link_to t('workarea.admin.shared.primary_nav.administrators'), administrators_path, class: navigation_link_classes(administrators_path)
-          %li{ class: "primary-nav__item" }= link_to t('workarea.admin.shared.primary_nav.todays_signups'), todays_signups_path, class: navigation_link_classes(todays_signups_path)
+          %li{ class: "primary-nav__item" }= link_to t('workarea.admin.shared.primary_nav.segments'), segments_path, class: navigation_link_classes(segments_path)
           = append_partials('admin.people_menu')
 
       .primary-nav__section
@@ -104,6 +106,7 @@
       .primary-nav__section
         .primary-nav__heading= link_to t('workarea.admin.shared.primary_nav.settings'), settings_dashboards_path, tabindex: 0, class: 'primary-nav__heading-link'
         %ul.primary-nav__children
+          %li{ class: "primary-nav__item" }= link_to t('workarea.admin.shared.primary_nav.configuration'), configuration_path, class: navigation_link_classes(configuration_path)
           %li{ class: "primary-nav__item" }= link_to t('workarea.admin.shared.primary_nav.search'), search_settings_path, class: navigation_link_classes(search_settings_path)
           %li{ class: "primary-nav__item" }= link_to t('workarea.admin.shared.primary_nav.tax_categories'), tax_categories_path, class: navigation_link_classes(tax_categories_path)
           %li{ class: "primary-nav__item" }= link_to t('workarea.admin.shared.primary_nav.shipping_services'), shipping_services_path, class: navigation_link_classes(shipping_services_path)

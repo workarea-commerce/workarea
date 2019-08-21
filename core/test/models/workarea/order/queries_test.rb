@@ -118,6 +118,7 @@ module Workarea
       def test_need_reminding
         placed = Order.create!(placed_at: 1.hour.ago)
         reminded = Order.create!(reminded_at: 1.hour.ago)
+        fraud = Order.create!(fraud_suspected_at: 1.hour.ago)
         not_abandoned = Order.create!(email: email)
         abandoned = Order.create!(email: email, checkout_started_at: 2.hours.ago, items: [{ product_id: '1', sku: 2 }])
         empty = Order.create!(email: email, checkout_started_at: 2.hours.ago, items: [])
@@ -126,6 +127,7 @@ module Workarea
 
         refute_includes(results, placed)
         refute_includes(results, reminded)
+        refute_includes(results, fraud)
         refute_includes(results, no_info)
         refute_includes(results, not_abandoned)
         refute_includes(results, empty)

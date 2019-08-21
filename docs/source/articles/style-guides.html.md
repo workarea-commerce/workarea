@@ -1,5 +1,6 @@
 ---
 title: Style Guides
+created_at: 2018/07/31
 excerpt: Each Workarea user interface includes a style guide page that provides tests and documentation for each layer of the CSS Architecture. The only exception to this rule is Tools, who's documentation is included in their respective files. These pages are
 ---
 

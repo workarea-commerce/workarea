@@ -4,14 +4,13 @@ module Workarea
     include Sidekiq::CallbacksWorker
 
     sidekiq_options(
-      enqueue_on: { Catalog::Product => [:save, :destroy] },
+      enqueue_on: { Catalog::Product => [:save, :save_release_changes, :destroy] },
       lock: :until_executing
     )
 
     class << self
       def perform(product)
-        Search::ProductEntries.new(product).each(&:save)
-        product.set(last_indexed_at: Time.current)
+        BulkIndexProducts.perform_by_model(product)
       end
     end
 

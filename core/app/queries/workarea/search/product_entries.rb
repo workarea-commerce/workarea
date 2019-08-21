@@ -13,7 +13,21 @@ module Workarea
       end
 
       def entries
-        @entries ||= @products.flat_map { |p| index_entries_for(p) }
+        @entries ||= live_entries + release_entries
+      end
+
+      def live_entries
+        @live_entries ||= @products.flat_map do |product|
+          index_entries_for(product.without_release)
+        end
+      end
+
+      def release_entries
+        @release_entries ||= @products.flat_map do |product|
+          ProductReleases.new(product).releases.map do |release|
+            index_entries_for(product.in_release(release))
+          end
+        end
       end
 
       def index_entries_for(product)

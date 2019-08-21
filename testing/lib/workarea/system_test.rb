@@ -1,14 +1,17 @@
 require 'capybara/rails'
 require 'webdrivers'
 require 'puma'
+require 'capybara/chromedriver/logger'
 require 'workarea/integration_test'
 require 'workarea/testing/custom_capybara_matchers'
+require 'workarea/testing/headless_chrome'
+require 'workarea/testing/capybara_chromedriver_logger_collector.decorator'
 
 # get options on load to ensure initial configuration is captured.
 # Capybara.register_driver does not execute the passed block immediately, which
 # can cause issues with the aliasing of Workarea.config.headless_chrome_options.
 # This can be removed in the upcoming minor to rename that configuration.
-chrome_options = Workarea::Configuration::HeadlessChrome.options
+chrome_options = Workarea::HeadlessChrome.options
 
 Capybara.server_errors = [Exception]
 Capybara.automatic_label_click = true
@@ -17,10 +20,16 @@ Capybara.register_driver :headless_chrome do |app|
     app,
     browser: :chrome,
     desired_capabilities: Selenium::WebDriver::Remote::Capabilities.chrome(
-      chromeOptions: chrome_options
+      chromeOptions: chrome_options,
+      loggingPrefs: {
+        browser: 'ALL'
+      }
     )
   )
 end
+
+# Fail tests when JS errors are thrown.
+Capybara::Chromedriver::Logger.raise_js_errors = true
 
 Capybara.server = :puma, { Silent: true }
 Capybara.javascript_driver = :headless_chrome
@@ -47,12 +56,14 @@ ENV["RAILS_SYSTEM_TESTING_SCREENSHOT"] ||= 'simple'
 module Workarea
   class SystemTest < ActionDispatch::SystemTestCase
     extend TestCase::Decoration
+    include TestCase::Configuration
     include TestCase::Workers
     include TestCase::SearchIndexing
     include TestCase::Mail
     include TestCase::RunnerLocation
     include TestCase::Locales
     include TestCase::S3
+    include TestCase::Encryption
     include Factories
     include IntegrationTest::Configuration
 
@@ -63,7 +74,7 @@ module Workarea
     end
 
     teardown do
-      assert_no_js_errors if javascript?
+      Capybara::Chromedriver::Logger::TestHooks.after_example! if javascript?
     end
 
     # This is to make sure Chrome chills out and allows XHR requests to finish
@@ -133,21 +144,6 @@ module Workarea
 
     def scroll_to_bottom
       page.execute_script('window.scrollBy(0, 9999999)')
-    end
-
-    # Intentionally fails, providing a custom error message, if
-    # any JavaScript errors are thrown during a test run.
-    def assert_no_js_errors
-      page.driver.browser.manage.logs.get(:browser).each do |log_entry|
-        # Bad responses (like 422 or 401) show as errors as well, which are OK
-        # for system tests because they indicate the site is functioning properly.
-        if log_entry.level == 'SEVERE' && log_entry.message =~ /Uncaught/
-          assert(false, log_entry.message)
-        elsif log_entry.level == 'WARNING'
-          STDERR.puts 'WARN: Browser warning'
-          STDERR.puts log_entry.message
-        end
-      end
     end
 
     private

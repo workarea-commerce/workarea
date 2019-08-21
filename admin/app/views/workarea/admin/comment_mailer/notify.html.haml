@@ -1,36 +1,44 @@
 %tr
   %td
-    %h1
-      = @comment.author_name
-      = t('workarea.admin.comment_mailer.notify.posted_a_comment_about')
-      = @commentable.name
+    %h1= t('workarea.admin.comment_mailer.notify.title', site: Workarea.config.site_name)
+    %p
+      - if @comment.author.present?
+        %strong= @comment.author_name
+        = t('workarea.admin.comment_mailer.notify.posted_a_comment_about')
+      - else
+        = t('workarea.admin.comment_mailer.notify.new_comment_about')
+      = link_to @commentable.name, url_for(@commentable)
 
-      %p
-        = @comment.body
-        %br
+    .comment
+      = @comment.body
+      %span.comment__author-info
         - if @comment.author.present?
           = t('workarea.admin.comment_mailer.notify.by')
           = link_to @comment.author_name, edit_user_url(@comment.author)
-      %p
+          |
         = t('workarea.admin.comment_mailer.notify.posted_at')
         = @comment.created_at.to_s(:long)
-        = link_to t('workarea.admin.comment_mailer.notify.reply_to_this_comment'), commentable_comments_url(@commentable.to_global_id)
 
-      - if @comments.any?
-        %h2= t('workarea.admin.comment_mailer.notify.discussion_history')
+    .align-center.section
+      = link_to t('workarea.admin.comment_mailer.notify.reply_to_this_comment'), commentable_comments_url(@commentable.to_global_id), class: 'button'
 
-        - @comments.each_with_index do |comment, i|
-          %p
-            = comment.body
-            %br
+    - if @comments.any?
+      %h2= t('workarea.admin.comment_mailer.notify.discussion_history')
+
+      - @comments.each_with_index do |comment, i|
+        .comment
+          = comment.body
+          %span.comment__author-info
             - if comment.author.present?
               = t('workarea.admin.comment_mailer.notify.by')
               = link_to comment.author_name, edit_user_url(comment.author)
-          %p
+              |
             = t('workarea.admin.comment_mailer.notify.posted_at')
             = comment.created_at.to_s(:long)
 
-      - if @comments.length > 5
-        %p= link_to t('workarea.admin.comment_mailer.notify.post_a_comment'), commentable_comments_url(@commentable.to_global_id)
+    - if @comments.length > 5
+      .align-center.section
+        = link_to t('workarea.admin.comment_mailer.notify.post_a_comment'), commentable_comments_url(@commentable.to_global_id), class: 'button'
 
-      %p= link_to t('workarea.admin.comment_mailer.notify.unsubscribe_from_notifications', commentable_name: @commentable.name), commentable_unsubscribe_url(@commentable.to_global_id)
+    %p.align-center
+      = link_to t('workarea.admin.comment_mailer.notify.unsubscribe_from_notifications', commentable_name: @commentable.name), commentable_unsubscribe_url(@commentable.to_global_id)

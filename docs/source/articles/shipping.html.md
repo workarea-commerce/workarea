@@ -1,5 +1,6 @@
 ---
 title: Shipping
+created_at: 2018/07/31
 excerpt: A shipping (Workarea::Shipping) is an application document that represents shipping and pricing information for an order or a subset of an order.
 ---
 

@@ -1,5 +1,6 @@
 ---
 title: Create a Style Guide
+created_at: 2018/07/31
 excerpt: To add a style guide, use the style guide generator.
 ---
 

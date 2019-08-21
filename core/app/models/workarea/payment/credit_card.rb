@@ -17,6 +17,7 @@ module Workarea
         validate :valid_number
         validate :cvv_presence
         validate :not_expired
+        validate :issuer_accepted
 
         validates :first_name, presence: true
         validates :last_name, presence: true
@@ -82,6 +83,17 @@ module Workarea
           if brand.present?
             self.issuer = Workarea.config.credit_card_issuers[brand].to_s
           end
+        end
+      end
+
+      def issuer_accepted
+        unless Workarea.config.credit_card_issuers.value?(issuer)
+          message = I18n.t(
+            'workarea.errors.messages.invalid_credit_card_issuer',
+            value: issuer,
+            issuers: Workarea.config.credit_card_issuers.values.to_sentence
+          )
+          errors.add(:base, message)
         end
       end
 

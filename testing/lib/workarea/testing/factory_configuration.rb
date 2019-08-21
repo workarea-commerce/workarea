@@ -34,12 +34,16 @@ defaults.content = { name: 'Test content' }
 defaults.page = { name: 'Test Page' }
 
 # factories/data_file.rb
-defaults.import = { model_type: Workarea::Catalog::Product }
-defaults.export = Proc.new { { model_type: Workarea::Catalog::Product, query_id: Workarea::Search::AdminProducts.new.to_global_id } }
+defaults.import = { model_type: 'Workarea::Catalog::Product' }
+defaults.export = Proc.new { { model_type: 'Workarea::Catalog::Product', query_id: Workarea::Search::AdminProducts.new.to_global_id } }
+
+# factories/fulfillment.rb
+defaults.fulfillment_sku = { id: '2134', policy: 'ship' }
+defaults.fulfillment_token = { order_id: '1234', order_item_id: '3456', sku: '2134' }
 
 # factories/insights.rb
 defaults.insights_product_by_week = Proc.new { { product_id: "foo-#{product_by_week_count}", reporting_on: Time.current } }
-defaults.insights_search_by_week = Proc.new { { query_id: "foo#{search_by_week_count}", reporting_on: Time.current } }
+defaults.insights_search_by_week = Proc.new { { query_string: "foo #{search_by_week_count}", searches: 1, reporting_on: Time.current } }
 defaults.hot_products = Proc.new { { results: Array.new(3) { create_product_by_week.as_document } } }
 defaults.cold_products = Proc.new { { results: Array.new(3) { create_product_by_week.as_document } } }
 defaults.top_products = Proc.new { { results: Array.new(3) { create_product_by_week.as_document } } }
@@ -54,6 +58,7 @@ defaults.menu = Proc.new { { taxon: create_taxon } }
 # factories/order.rb
 defaults.order = { email: 'bcrouse@workarea.com' }
 defaults.placed_order = Proc.new { { id: '1234', email: 'bcrouse-new@workarea.com', placed_at: Time.current } }
+defaults.fraudulent_order = Proc.new { { id: '1234', email: 'bcrouse-new@workarea.com', fraud_decision: { decision: :declined, message: "declined for fraud", response: "test response" } } }
 defaults.shipping_address = { first_name: 'Ben', last_name: 'Crouse', street: '22 S. 3rd St.', street_2: 'Second Floor', city: 'Philadelphia', region: 'PA', postal_code: '19106', country: 'US' }
 defaults.billing_address = { first_name: 'Ben', last_name: 'Crouse', street: '22 S. 3rd St.', street_2: 'Second Floor', city: 'Philadelphia', region: 'PA', postal_code: '19106', country: 'US' }
 defaults.checkout_payment = { payment: 'new_card', credit_card: { number: '1', month: '1', year: Time.current.year + 1, cvv: '999' } }
@@ -86,5 +91,11 @@ defaults.search_customization = { id: 'foo', query: 'Foo' }
 defaults.admin_search = Proc.new { { results: [create_product, create_product, create_product], stats: {}, facets: { 'color' => { 'Red' => 2, 'Blue' => 1 } }, total: 3, page: 1, per_page: Workarea.config.per_page } }
 defaults.product_browse_search_options = Proc.new { { products: [create_product, create_product, create_product], stats: {}, facets: { 'color' => { 'Red' => 2, 'Blue' => 1 } }, total: 3, page: 1, per_page: Workarea.config.per_page } }
 
+# factories/segments.rb
+defaults.segment = Proc.new { { name: 'Philadelphians', rules: [{ _type: 'Workarea::Segment::Rules::Geolocation', city: 'Philadelphia' }] } }
+
 # factories/user.rb
 defaults.user = Proc.new { { email: "user#{user_count}@workarea.com", password: 'W3bl1nc!', first_name: 'Ben', last_name: 'Crouse' } }
+
+# factories/fraud_decision.rb
+defaults.fraud_decision = { decision: :no_decision, message: 'Workarea default fraud check.' }

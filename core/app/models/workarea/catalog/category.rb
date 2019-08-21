@@ -23,8 +23,6 @@ module Workarea
       validates :client_id, uniqueness: true, allow_blank: true
 
       scope :recent, ->(l = 5) { order_by([:created_at, :desc]).limit(l) }
-      scope :by_product, ->(id) { self.in(product_ids: id) }
-
       index({ client_id: 1 })
     end
   end

@@ -15,7 +15,7 @@ module Workarea
         Metrics::User.save_order(email: 'bcrouse4@workarea.com', revenue: 1.to_m, at: Time.zone.local(2018, 12, 25))
         travel_to Time.zone.local(2019, 1, 4)
 
-        Metrics::User.update_aggregations!
+        Metrics::UpdateUserAggregations.update!
         CustomerAcquisition.generate_monthly!
         assert_equal(1, CustomerAcquisition.count)
 

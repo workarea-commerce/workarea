@@ -1,5 +1,6 @@
 ---
 title: CSS Architectural Overview
+created_at: 2018/07/31
 excerpt: The main principals of the Workarea CSS architecture were modeled after OOCSS and ITCSS best practices. You will find that the architecture is layered. Each layer has a specific purpose and is naturally more specific than the layer it proceeds. This a
 ---
 

@@ -30,20 +30,18 @@ module Workarea
     end
 
     def test_total_dimensions
-      Workarea.with_config do |config|
-        Workarea.config.shipping_dimensions = [1, 2, 3]
+      Workarea.config.shipping_dimensions = [1, 2, 3]
 
-        packaging = Packaging.new(order)
-        assert_equal([1, 2, 3], packaging.total_dimensions)
+      packaging = Packaging.new(order)
+      assert_equal([1, 2, 3], packaging.total_dimensions)
 
-        create_shipping_sku(id: 'SKU1', dimensions: [2, 3, 4])
-        create_shipping_sku(id: 'SKU2', dimensions: [5, 6, 8])
+      create_shipping_sku(id: 'SKU1', dimensions: [2, 3, 4])
+      create_shipping_sku(id: 'SKU2', dimensions: [5, 6, 8])
 
-        packaging = Packaging.new(order)
-        assert_equal(8, packaging.total_dimensions.first)
-        assert_equal(6, packaging.total_dimensions.second)
-        assert_equal(12, packaging.total_dimensions.third)
-      end
+      packaging = Packaging.new(order)
+      assert_equal(8, packaging.total_dimensions.first)
+      assert_equal(6, packaging.total_dimensions.second)
+      assert_equal(12, packaging.total_dimensions.third)
     end
 
     def test_total_value

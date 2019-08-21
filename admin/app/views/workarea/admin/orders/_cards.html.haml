@@ -117,6 +117,23 @@
               %span.button.button--small= t('workarea.admin.orders.cards.payment.button')
 
   .grid__cell
+    .card{ class: card_classes(:fraud, local_assigns[:active]) }
+      = link_to fraud_order_path(model), class: 'card__header' do
+        %span.card__header-text= t('workarea.admin.orders.attributes.fraud.title')
+        = inline_svg 'workarea/admin/icons/alert.svg', class: 'card__icon'
+
+      - if local_assigns[:active].blank?
+        .card__body
+          - if model.fraud_decision.present?
+            %strong= t('workarea.admin.orders.cards.fraud.decision')
+            %p= model.fraud_decision.decision.to_s.titleize
+
+            = link_to fraud_order_path(model), class: 'card__button' do
+              %span.button.button--small= t('workarea.admin.orders.cards.fraud.button')
+          - else
+            %p= t('workarea.admin.orders.cards.fraud.no_fraud_decision')
+
+  .grid__cell
     .card{ class: card_classes(:fulfillment, local_assigns[:active]) }
       - if model.fulfillment.persisted?
         = link_to fulfillment_path(model.fulfillment), class: 'card__header' do

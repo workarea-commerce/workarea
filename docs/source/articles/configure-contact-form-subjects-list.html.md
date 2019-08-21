@@ -1,5 +1,6 @@
 ---
 title: Configure Contact Form Subjects List
+created_at: 2018/07/31
 excerpt: Use config.inquiry_subjects to configure the subject line options presented to users in the contact form. The value is a hash in the form { 'slug' => 'description' }.
 ---
 

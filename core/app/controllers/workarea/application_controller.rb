@@ -1,6 +1,9 @@
 module Workarea
   class ApplicationController < ActionController::Base
     include I18n::DefaultUrlOptions
+    include HttpCaching
+    include CurrentTracking
+
     protect_from_forgery
 
     before_action :set_locale
@@ -20,7 +23,7 @@ module Workarea
     end
 
     def current_location
-      @current_location ||= Geolocation.new(request.env, request.remote_ip)
+      current_visit.geolocation
     end
 
     def view_model_options

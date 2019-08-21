@@ -15,7 +15,7 @@ module Workarea
 
     def require_admin
       unless current_user.try(:admin?)
-        flash[:error] = 'You are not authorized to perform this action'
+        flash[:error] = t('workarea.admin.authorization.unauthorized_action')
         redirect_to storefront.root_path
         return false
       end
@@ -39,7 +39,7 @@ module Workarea
     end
 
     def unauthorized_user
-      flash[:error] = 'You are not authorized to access this area'
+      flash[:error] = t('workarea.admin.authorization.unauthorized_area')
       redirect_back fallback_location: root_path
     end
   end

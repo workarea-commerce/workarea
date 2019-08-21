@@ -57,6 +57,15 @@ module Workarea
         result = trending_icon_for(ProductViewModel.wrap(product))
         assert_equal('workarea/admin/icons/fire.svg', result.first)
       end
+
+      def test_fraud_icon_for
+        order = create_order
+        assert_nil(fraud_icon_for(order))
+
+        order = create_order(fraud_suspected_at: Time.current)
+        result = fraud_icon_for(order)
+        assert_equal('workarea/admin/icons/alert.svg', result.first)
+      end
     end
   end
 end

@@ -9,6 +9,7 @@ module Workarea
       field :error_message, type: String
       field :total, type: Integer, default: 0
       field :succeeded, type: Integer, default: 0
+      field :release_id, type: String
 
       # These scopes used for mailer previews only
       scope :successful, -> { where(file_errors: {}, error_type: nil, :succeeded.gt => 0) }
@@ -40,8 +41,10 @@ module Workarea
       def process!
         set(started_at: Time.current)
         assert_valid_file_type
-        run_callbacks(:process) { format.import! }
 
+        Workarea::Release.with_current(release_id) do
+          run_callbacks(:process) { format.import! }
+        end
       rescue Exception => e
         self.error_type = e.class
         self.error_message = e.message
@@ -61,6 +64,11 @@ module Workarea
           id = instance.new_record? ? index : instance.id
           file_errors[id.to_s] = instance.errors.as_json
         end
+      end
+
+      def releasable?
+        return false unless model_type.present?
+        model_class.new.releasable?
       end
 
       private

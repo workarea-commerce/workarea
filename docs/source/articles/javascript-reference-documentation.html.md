@@ -1,5 +1,6 @@
 ---
 title: JavaScript Reference Documentation
+created_at: 2018/07/31
 excerpt: Workarea JavaScripts are documented with JSDoc comments. You can generate HTML documentation (among other formats) using a variety of tools designed to parse JSDoc comments, including the jsdoc tool itself.
 ---
 

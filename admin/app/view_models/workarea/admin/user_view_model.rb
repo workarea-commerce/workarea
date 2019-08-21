@@ -60,24 +60,21 @@ module Workarea
         @orders ||= OrderViewModel.wrap(Order.recent(model.id, 50))
       end
 
-      def insights
-        @insights ||= Metrics::User.find_or_initialize_by(id: model.email)
+      def metrics
+        @metrics ||= Metrics::User.find_or_initialize_by(id: model.email)
       end
-
-      def activity
-        @activity ||= Recommendation::UserActivity.find_or_initialize_by(id: model.id)
-      end
+      alias_method :insights, :metrics # To ease upgrades, TODO remove in v3.6
 
       def recent_products
-        @recent_products ||= Catalog::Product.any_in(id: activity.product_ids)
+        @recent_products ||= Catalog::Product.find_ordered(metrics.viewed.recent_product_ids)
       end
 
       def recent_categories
-        @recent_categories ||= Catalog::Category.any_in(id: activity.category_ids)
+        @recent_categories ||= Catalog::Category.find_ordered(metrics.viewed.recent_category_ids)
       end
 
       def recent_searches
-        activity.searches
+        @recent_searches ||= metrics.viewed.recent_search_ids
       end
 
       def email_signup?

@@ -14,7 +14,7 @@ module Workarea
     end
 
     class CachingController < Workarea::ApplicationController
-      include Storefront::HttpCaching
+      include HttpCaching
       before_action :cache_page, only: :foo
 
       def set_session
@@ -42,6 +42,7 @@ module Workarea
     def app
       @app ||= Rack::Builder.new do
         use AddEnvMiddleware
+        use TrackingMiddleware
         use RackCacheConfigMiddleware
         use Rack::Cache, metastore: 'heap:/', entitystore: 'heap:/'
         run Rails.application
@@ -49,32 +50,30 @@ module Workarea
     end
 
     def test_varies_on_session
-      Workarea.with_config do |config|
-        config.strip_http_caching_in_tests = false
-        config.cache_varies = [lambda { session[:foo] }]
+      Workarea.config.strip_http_caching_in_tests = false
+      Workarea.config.cache_varies = [lambda { session[:foo] }]
 
-        get '/cache_varies_test_foo'
-        assert_equal('nil', response.body)
-        assert_equal('miss, store', response.headers['X-Rack-Cache'])
+      get '/cache_varies_test_foo'
+      assert_equal('nil', response.body)
+      assert_equal('miss, store', response.headers['X-Rack-Cache'])
 
-        post '/cache_varies_test_set_session', params: { foo: 'bar' }
-        get '/cache_varies_test_foo'
-        assert_equal('bar', response.body)
-        assert_equal('miss, store', response.headers['X-Rack-Cache'])
+      post '/cache_varies_test_set_session', params: { foo: 'bar' }
+      get '/cache_varies_test_foo'
+      assert_equal('bar', response.body)
+      assert_equal('miss, store', response.headers['X-Rack-Cache'])
 
-        get '/cache_varies_test_foo'
-        assert_equal('bar', response.body)
-        assert_equal('fresh', response.headers['X-Rack-Cache'])
+      get '/cache_varies_test_foo'
+      assert_equal('bar', response.body)
+      assert_equal('fresh', response.headers['X-Rack-Cache'])
 
-        post '/cache_varies_test_set_session', params: { foo: 'baz' }
-        get '/cache_varies_test_foo'
-        assert_equal('baz', response.body)
-        assert_equal('miss, store', response.headers['X-Rack-Cache'])
+      post '/cache_varies_test_set_session', params: { foo: 'baz' }
+      get '/cache_varies_test_foo'
+      assert_equal('baz', response.body)
+      assert_equal('miss, store', response.headers['X-Rack-Cache'])
 
-        get '/cache_varies_test_foo'
-        assert_equal('baz', response.body)
-        assert_equal('fresh', response.headers['X-Rack-Cache'])
-      end
+      get '/cache_varies_test_foo'
+      assert_equal('baz', response.body)
+      assert_equal('fresh', response.headers['X-Rack-Cache'])
     end
   end
 end

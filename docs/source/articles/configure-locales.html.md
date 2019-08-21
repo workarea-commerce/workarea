@@ -1,5 +1,6 @@
 ---
 title: Configure Locales
+created_at: 2019/03/07
 excerpt: Configure locales as explained in the Rails Internationalization (I18n) API guide. For the most foolproof configuration, set available locales, default locale, and fallbacks.
 ---
 

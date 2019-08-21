@@ -58,6 +58,18 @@ module Workarea
         assert_equal(1, Pricing::Override.count)
         assert_equal(1, order.reload.comments.count)
       end
+
+      def test_not_having_permission
+        admin_user.update(super_admin: false, orders_management_access: false)
+
+        get admin.edit_pricing_override_path(order.id)
+
+        assert_redirected_to(admin.root_path)
+        assert_equal(
+          t('workarea.admin.authorization.unauthorized_area'),
+          flash[:error]
+        )
+      end
     end
   end
 end

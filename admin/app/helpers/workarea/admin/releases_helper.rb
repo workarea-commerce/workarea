@@ -171,7 +171,7 @@ module Workarea
 
     def calendar_day_classes(day)
       date = Date.parse(day)
-      today = Time.zone.now.to_date
+      today = Date.current
 
       classes = ['calendar__day']
       classes << 'calendar__day--odd-month'     if date.month.odd?
@@ -180,26 +180,6 @@ module Workarea
       classes << 'calendar__day--end-of-week'   if date == date.end_of_week(start_day = :sunday)
 
       classes
-    end
-
-    def calendar_release_classes(day, release)
-      date = Date.parse(day)
-
-      classes = ['calendar__release']
-      classes << 'calendar__release--start'   if release.published_on_date?(date)
-      classes << 'calendar__release--end'     if release.ended_on_date?(date)
-      classes << 'calendar__release--content' if release.content_release?
-
-      classes
-    end
-
-    def calendar_release_styles(release)
-      return if release.undo_at.blank?
-
-      color = Digest::MD5.hexdigest(release.name)[0, 6]
-      text_color = release_text_color(color)
-
-      "background-color: ##{color}; color: ##{text_color};"
     end
 
     private

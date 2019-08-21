@@ -2,6 +2,7 @@ module Workarea
   module Metrics
     class User
       include Mongoid::Document
+      include Mongoid::Timestamps
 
       store_in client: :metrics
 
@@ -18,6 +19,8 @@ module Workarea
       field :revenue_percentile, type: Integer, default: 10
       field :frequency_percentile, type: Integer, default: 10
       field :average_order_value_percentile, type: Integer, default: 10
+      field :cancellations, type: Integer, default: 0
+      field :refund, type: Float, default: 0.0
 
       index(first_order_at: 1)
       index(last_order_at: 1)
@@ -25,6 +28,7 @@ module Workarea
       index(revenue: 1)
       index(frequency: 1)
       index(average_order_value: 1)
+      index(updated_at: 1)
 
       scope :with_purchases, -> { where(:orders.gt => 0, :revenue.gt => 0) }
       scope :ordered_since, ->(time) { where(:last_order_at.gte => time) }
@@ -34,21 +38,51 @@ module Workarea
       scope :by_average_order_value_percentile, ->(range) { where(average_order_value_percentile: range) }
       scope :full_price, -> { where(discounts: 0) }
 
+      embeds_one :viewed, class_name: 'Workarea::Metrics::Affinity', inverse_of: :user, autobuild: true
+      embeds_one :purchased, class_name: 'Workarea::Metrics::Affinity', inverse_of: :user, autobuild: true
+
       class << self
         def save_order(email:, revenue:, discounts: 0, at: Time.current)
           revenue_in_default_currency = revenue.to_m.exchange_to(Money.default_currency).to_f
           discounts_in_default_currency = discounts.to_m.exchange_to(Money.default_currency).to_f
 
+          metrics = find_or_create_by(id: email)
+          first_order_at = [at, metrics.first_order_at].compact.min
+          last_order_at = [at, metrics.last_order_at].compact.max
+
+          metrics.update!(first_order_at: first_order_at, last_order_at: last_order_at)
+          metrics.inc(
+            orders: 1,
+            revenue: revenue_in_default_currency,
+            discounts: discounts_in_default_currency
+          )
+        end
+
+        def save_cancellation(email:, refund:, at: Time.current)
+          refund_in_default_currency = refund.to_m.exchange_to(Money.default_currency).to_f
+
           collection.update_one(
             { _id: email },
             {
-              '$set' => { last_order_at: at.utc },
-              '$setOnInsert' => { first_order_at: at.utc },
               '$inc' => {
-                orders: 1,
-                revenue: revenue_in_default_currency,
-                discounts: discounts_in_default_currency
+                cancellations: 1,
+                refund: refund_in_default_currency,
+                revenue: refund_in_default_currency
               }
+            }
+          )
+        end
+
+        def save_affinity(id:, action:, **data)
+          return if data.blank? || data.values.all?(&:blank?)
+
+          collection.update_one(
+            { _id: id },
+            {
+              '$set' => { updated_at: Time.current.utc },
+              '$addToSet' => data.each_with_object({}) do |(field, values), update|
+                update["#{action}.#{field}"] = { '$each' => Array.wrap(values) }
+              end
             },
             upsert: true
           )
@@ -61,60 +95,6 @@ module Workarea
             .by_revenue_percentile(81..100)
             .order_by(revenue: :desc, orders: :desc, last_order_at: :desc, id: :asc)
         end
-
-        def update_aggregations!
-          update_calculated_fields!
-          update_percentiles!
-        end
-
-        def update_calculated_fields!
-          collection.aggregate([
-            {
-              '$addFields' => {
-                'frequency' => {
-                  '$divide' => [
-                    '$orders',
-                    { '$subtract' => [Time.current, '$first_order_at'] }
-                  ]
-                },
-                'average_order_value' => {
-                  '$divide' => ['$revenue', '$orders']
-                }
-              }
-            },
-            { '$out' => collection.name }
-          ]).first
-        end
-
-        def update_percentiles!
-          collection.aggregate([
-            {
-              '$addFields' => {
-                'orders_percentile' => update_percentiles_expression(:orders),
-                'frequency_percentile' => update_percentiles_expression(:frequency),
-                'revenue_percentile' => update_percentiles_expression(:revenue),
-                'average_order_value_percentile' => update_percentiles_expression(:average_order_value)
-              }
-            },
-            { '$out' => collection.name }
-          ]).first
-        end
-
-        def update_percentiles_expression(field)
-          percentiles = CalculatePercentiles.new(collection, field)
-
-          {
-            '$switch' => {
-              'branches' => 99.downto(1).map do |percentile|
-                {
-                  'case' => {  '$gte' => ["$#{field}", percentiles[percentile.to_s]] },
-                  'then' => percentile + 1
-                }
-              end,
-              'default' => 1
-            }
-          }
-        end
       end
 
       # Use calculated value for real-time display, the aggregated value used
@@ -122,6 +102,32 @@ module Workarea
       def average_order_value
         return nil if orders.zero?
         revenue / orders.to_f
+      end
+
+      def merge!(other)
+        %w(orders revenue discounts cancellations refund).each do |field|
+          self.send("#{field}=", send(field) + other.send(field))
+        end
+
+        self.first_order_at = [first_order_at, other.first_order_at].compact.min
+        self.last_order_at = [last_order_at, other.last_order_at].compact.max
+        self.average_order_value = average_order_value
+        save!
+
+        self.class.save_affinity(
+          id: id,
+          action: 'viewed',
+          product_ids: other.viewed.product_ids,
+          category_ids: other.viewed.category_ids,
+          search_ids: other.viewed.search_ids
+        )
+        self.class.save_affinity(
+          id: id,
+          action: 'purchased',
+          product_ids: other.purchased.product_ids,
+          category_ids: other.purchased.category_ids,
+          search_ids: other.purchased.search_ids
+        )
       end
     end
   end

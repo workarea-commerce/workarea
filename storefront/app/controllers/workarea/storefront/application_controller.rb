@@ -1,13 +1,10 @@
 module Workarea
   module Storefront
     class ApplicationController < Workarea::ApplicationController
-      include HttpCaching
       include Authentication
-      include AdminGuestBrowsing
       include Impersonation
       include CurrentCheckout
       include CurrentRelease
-      include UserActivity
       include OrderLookup
       include CurrentReferrer
 
@@ -21,7 +18,6 @@ module Workarea
       end
 
       def current_user_info
-        touch_auth_cookie
         render 'workarea/storefront/users/current_user'
       end
 

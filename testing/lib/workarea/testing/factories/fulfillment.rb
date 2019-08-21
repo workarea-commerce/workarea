@@ -16,6 +16,16 @@ module Workarea
         create = CreateFulfillment.new(order).tap(&:perform)
         create.fulfillment
       end
+
+      def create_fulfillment_sku(overrides = {})
+        attributes = factory_defaults(:fulfillment_sku).merge(overrides)
+        Workarea::Fulfillment::Sku.create!(attributes)
+      end
+
+      def create_fulfillment_token(overrides = {})
+        attributes = factory_defaults(:fulfillment_token).merge(overrides)
+        Workarea::Fulfillment::Token.create!(attributes)
+      end
     end
   end
 end

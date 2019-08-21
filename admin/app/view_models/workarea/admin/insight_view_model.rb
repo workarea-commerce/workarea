@@ -17,12 +17,12 @@ module Workarea
         id_key_name = "#{key_name}_id"
 
         ids = model.results.flat_map { |r| r.select { |k| k =~ /#{id_key_name}$/ }.values }
-        models = klass.any_in(id: ids).to_a
+        models = klass.any_in(id: ids).to_lookup_hash
 
         insight_result.each do |key, value|
           if key =~ /#{id_key_name}$/
             new_key = key.gsub(/#{id_key_name}$/, key_name)
-            model = models.detect { |m| m.id.to_s == value.to_s }
+            model = models[value]
 
             if model.present?
               result.merge!(new_key => ApplicationController.wrap_in_view_model(model))

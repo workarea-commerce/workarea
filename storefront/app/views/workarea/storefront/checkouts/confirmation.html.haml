@@ -33,5 +33,5 @@
           %span.button-property__text= t('workarea.storefront.users.sign_up_for_email')
       %p= button_tag t('workarea.storefront.users.create_account'), value: 'sign_up', class: 'button', data: { disable_with: loading_indicator(t('workarea.storefront.users.create_account_disabled_text')) }
 
-  = render 'workarea/storefront/orders/summary', order: @order, recommendations: @order.recommendations, show_fulfillment: false
+  = render 'workarea/storefront/orders/summary', order: @order, recommendations: @order.recommendations
   = append_partials('storefront.checkout_confirmation')

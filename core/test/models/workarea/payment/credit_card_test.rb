@@ -52,6 +52,11 @@ module Workarea
         credit_card.valid?
         assert(credit_card.display_number.present?)
         assert(credit_card.issuer.present?)
+
+        Workarea.config.credit_card_issuers.delete('american_express')
+        credit_card.number = 378282246310005 # amex test number
+        refute(credit_card.valid?, 'valid')
+        assert(credit_card.errors[:base].present?, 'no errors')
       end
 
       def test_number=

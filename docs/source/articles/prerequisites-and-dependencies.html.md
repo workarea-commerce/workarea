@@ -1,5 +1,6 @@
 ---
 title: Prerequisites & Dependencies
+created_at: 2018/10/15
 excerpt: The Workarea platform stands on the shoulders of many other software projects. Workarea's training and support materials focus on Workarea software and do not teach the specifics of Workarea's dependencies. However, this "prerequisite" knowledge is covere
 ---
 

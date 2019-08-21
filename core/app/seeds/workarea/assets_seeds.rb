@@ -14,7 +14,8 @@ module Workarea
 
           Content::Asset.create!(
             name: filename.titleize,
-            file: File.new(path)
+            file: File.new(path),
+            alt_text: filename.titleize
           )
         end
       end

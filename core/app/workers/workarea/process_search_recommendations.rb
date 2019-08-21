@@ -7,10 +7,10 @@ module Workarea
 
       start = Workarea.config.recommendation_expiration.ago
 
-      Recommendation::UserActivity
+      Metrics::User
         .where(:updated_at.gte => start)
         .desc(:updated_at) # sort by updated_at to ensure use of that index
-        .each_by(page_size) { |activity| add(activity) }
+        .each_by(page_size) { |metrics| add(metrics) }
 
       predictor.process!
     end
@@ -19,13 +19,9 @@ module Workarea
       @predictor ||= Recommendation::SearchPredictor.new
     end
 
-    def add(activity)
-      searches = activity
-                  .searches
-                  .map { |s| QueryString.new(s).id }
-                  .reject(&:blank?)
-
-      predictor.sessions.add_set(activity.id.to_s, searches) if searches.many?
+    def add(metrics)
+      return unless metrics.viewed.search_ids.many?
+      predictor.sessions.add_set(metrics.id, metrics.viewed.search_ids)
     end
 
     def page_size

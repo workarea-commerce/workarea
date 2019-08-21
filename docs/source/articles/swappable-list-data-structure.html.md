@@ -1,5 +1,6 @@
 ---
 title: SwappableList Data Structure
+created_at: 2019/03/21
 excerpt: "SwappableList is a data structure in Workarea, typically used for storing a mutatable list of values in the app configuration. Learn why it's used in the platform and how you can use it on your own projects in this guide."
 ---
 

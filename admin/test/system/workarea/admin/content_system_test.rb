@@ -94,6 +94,12 @@ module Workarea
         click_link 'Advanced', match: :first
 
         assert_current_path(/#{admin.advanced_content_path(home)}/)
+
+        assert(page.has_selector?('#content_browser_title', visible: false))
+
+        find('.toggle-button__label--positive').click
+        assert(page.has_selector?('#content_browser_title', visible: true))
+
         fill_in 'content[browser_title]', with: 'Browser Title'
         click_button 'save'
 

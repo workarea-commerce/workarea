@@ -1,5 +1,3 @@
-# TODO: Factor out remaining calls to this service and then remove
-# Plugins call Order#cancel directly and no longer go through this service
 module Workarea
   class CancelOrder
     attr_reader :order, :params
@@ -45,7 +43,7 @@ module Workarea
       refund if refund?
       update_fulfillment if update_fulfillment?
 
-      order.cancel
+      order.cancel.tap { |canceled| update_metrics if canceled }
     end
 
     private
@@ -63,6 +61,13 @@ module Workarea
 
     def fulfillment
       @fulfillment ||= Fulfillment.find_or_initialize_by(id: order.id)
+    end
+
+    def update_metrics
+      SaveOrderCancellationMetrics.perform_async(
+        order.id,
+        occured_at: order.canceled_at
+      )
     end
   end
 end

@@ -46,3 +46,5 @@ tmp/
 *.swp
 node_modules/
 docs/build/
+yarn.lock
+package-lock.json

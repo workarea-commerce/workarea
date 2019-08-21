@@ -8,6 +8,7 @@ module Workarea
           params: { email: 'bcrouse@workarea.com' }
 
         assert_redirected_to(storefront.root_path)
+        assert(cookies[:email].present?)
         assert(flash[:success].present?)
         assert_equal(1, Email::Signup.where(email: 'bcrouse@workarea.com').count)
       end
@@ -17,6 +18,7 @@ module Workarea
           params: { email: 'bcrouse@workarea' }
 
         assert_redirected_to(storefront.root_path)
+        assert(cookies[:email].blank?)
         assert(flash[:error].present?)
         assert_equal(0, Email::Signup.count)
       end

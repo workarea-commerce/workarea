@@ -230,6 +230,21 @@ module Workarea
         refute(view_model.inventory_purchasable?)
         refute(view_model.purchasable?)
       end
+
+      def test_requires_shipping?
+        product = create_product(variants: [{ sku: 'SKU1' }, { sku: 'SKU2' }])
+        sku_1 = create_fulfillment_sku(id: 'SKU1', policy: 'ignore')
+        sku_2 = create_fulfillment_sku(id: 'SKU2', policy: 'ship')
+
+        view_model = ProductViewModel.wrap(product)
+        assert(view_model.requires_shipping?)
+
+        view_model = ProductViewModel.wrap(product, sku: 'SKU1')
+        refute(view_model.requires_shipping?)
+
+        view_model = ProductViewModel.wrap(product, sku: 'SKU2')
+        assert(view_model.requires_shipping?)
+      end
     end
   end
 end

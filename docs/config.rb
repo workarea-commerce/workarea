@@ -61,13 +61,12 @@ helpers do
   end
 
   def recent_articles(size = 5)
-    files = Dir['source/{articles,hosting}/**/*.md']
-              .map { |p| File.new(p) }
-              .sort { |y, x| x.ctime <=> y.ctime }
-
-    files.take(size).map do |file|
-      sitemap.resources.find { |r| file.path.include?(r.path) }
-    end
+    sitemap.resources
+      .select { |resource| resource.path.start_with?('articles', 'hosting') }
+      .select { |resource| resource.data.created_at.present? }
+      .sort_by { |resource| Date.parse(resource.data.created_at) }
+      .reverse
+      .take(size)
   end
 end
 

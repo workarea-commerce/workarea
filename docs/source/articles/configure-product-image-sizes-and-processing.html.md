@@ -1,5 +1,6 @@
 ---
 title: Configure Product Image Sizes & Processing
+created_at: 2018/07/31
 excerpt: There is an initializer which sets up a Dragonfly application for the Workarea platform. This initializer sets up image optimization, URLs, logging, etc.
 ---
 

@@ -54,7 +54,6 @@ module Workarea
 
       def destroy
         @product_rule.destroy
-
         flash[:success] = t('workarea.admin.product_rules.flash_messages.destroyed')
         redirect_back_or product_list_product_rules_path(@product_list.to_global_id)
       end
@@ -68,7 +67,7 @@ module Workarea
       end
 
       def find_product_rules
-        @product_rules = @product_list.product_rules.select(&:persisted?)
+        @product_rules = @product_list.product_rules.usable.select(&:persisted?)
       end
 
       def find_product_rule

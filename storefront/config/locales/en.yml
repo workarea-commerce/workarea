@@ -127,10 +127,14 @@ en:
           info_text: You can update your information at any time by visiting
           closing_html: Have a great day!
           closing_text: Have a great day!
+          email_action:
+            name: View Account
         password_reset:
           subject: Reset Your Password
           info_html: Click this link to reset your password
           info_text: Click this link to reset your password
+          email_action:
+            name: Reset Password
         inquiry:
           heading: Customer Service Inquiry on %{subject}
           name: Name
@@ -149,6 +153,8 @@ en:
         order_confirmation:
           subject: Order %{order_id} Confirmation
           heading: Order %{order_id} Confirmation
+          email_action:
+            name: View Order
         order_refund:
           subject: Order %{order_id} Refund
           heading: Order %{order_id} Refund
@@ -159,6 +165,9 @@ en:
           info_html: We noticed that you didn't complete checkout, and we wanted to help. To complete your order, %{link}. Please let us know if there is any other way we can help.
           info_text: We noticed that you didn't complete checkout, and we wanted to help. To complete your order, visit the link below. Please let us know if there is any other way we can help.
           resume_link: resume your checkout
+          email_action:
+            name: Resume Order
+            description: Continue checkout to complete your order
         recommendations: You may also like…
 
       flash_messages:
@@ -207,6 +216,7 @@ en:
         password_required: Password is required.
         items_required: You must add an item to your cart to checkout
         order_custom_pricing: Your cart has custom pricing, you cannot edit the contents of your cart.
+        download_unavailable: This download is no longer available. Contact customer support for more information.
         no_available_shipping_options: There are no available shipping options for your shipping adddress.
 
       forms:
@@ -221,7 +231,8 @@ en:
         go: Go
         email_placeholder: name@example.com
         confirmation_alert: Are you sure you want to delete this?
-
+      fraud:
+        default_message: Workarea default fraud check. Automatic no decision.
       layouts:
         accessibility_info: Accessibility Information
         main_content: Skip to Main Content
@@ -237,6 +248,8 @@ en:
         locale: Select locale
         mobile_navigation: Mobile Navigation
         default_meta_description: Shop online for %{site_name} products
+        page_title: '%{site_name}'
+        page_title_with_content: '%{title_content} - %{site_name}'
 
       messages:
         info: Info
@@ -297,6 +310,7 @@ en:
         sku: SKU
         each: each
         view_order: View Order
+        download: Download
 
       pagination:
         loading_more: Loading More...

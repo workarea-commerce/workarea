@@ -14,7 +14,7 @@
           .grid__cell= render 'workarea/admin/shared/date_selector', starts_at: @report.starts_at, ends_at: @report.ends_at
           .grid__cell
             .property.property--inline
-              = label_tag 'group_by', t('workarea.admin.reports.first_time_vs_returning_sales.by')
+              = label_tag 'group_by', t('workarea.admin.reports.by')
               = select_tag 'group_by', options_for_select(@report.group_by_options, @report.group_by), data: { form_submitting_control: '' }
 
       .browsing-controls__count

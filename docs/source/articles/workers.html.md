@@ -1,5 +1,6 @@
 ---
 title: Workers
+created_at: 2018/07/31
 excerpt: Workarea applications use Sidekiq as a job queuing backend to perform units of work asynchronously in the background. These jobs, which include search indexing, cache busting, and cleanup of expired data, are defined as workers. Workarea workers build
 ---
 

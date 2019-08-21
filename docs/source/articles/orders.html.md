@@ -1,5 +1,6 @@
 ---
 title: Orders
+created_at: 2018/07/31
 excerpt: 'Workarea applications facilitate orders: transactions between consumers and retailers. Due to their complexity, orders are enabled by and recorded across many models within the Workarea platform. More specifically, various models within the Order, Shi'
 ---
 

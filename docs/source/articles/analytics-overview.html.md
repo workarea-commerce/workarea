@@ -1,5 +1,6 @@
 ---
 title: Analytics Overview
+created_at: 2019/03/14
 excerpt: The Workarea platform has a built-in framework for allowing analytics plugins to share data, and to facilitate using multiple analytics platforms simultaneously.
 ---
 

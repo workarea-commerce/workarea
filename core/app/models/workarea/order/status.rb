@@ -8,7 +8,8 @@ module Workarea
           !order.canceled? &&
             !order.placed? &&
             !order.checking_out? &&
-            !order.abandoned?
+            !order.abandoned? &&
+            !order.fraud_suspected?
         end
       end
 
@@ -41,6 +42,14 @@ module Workarea
 
         def in_status?
           order.abandoned?
+        end
+      end
+
+      class SuspectedFraud
+        include StatusCalculator::Status
+
+        def in_status?
+          order.fraud_suspected?
         end
       end
     end

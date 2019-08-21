@@ -1,0 +1,44 @@
+- @page_title = t('workarea.admin.pricing_discount_redemptions.index.title')
+
+.view
+  .view__header
+    .grid
+      .grid__cell.grid__cell--25
+        = render 'workarea/admin/releases/select'
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@discount)
+          %h1= @discount.name
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@discount)
+
+  .view__container
+    = render_cards_for(@discount, :redemptions)
+
+  .view__container.view__container--narrow
+    .section
+      %h2.align-center= t('workarea.admin.pricing_discount_redemptions.index.most_recent_redemptions')
+
+      .browsing-controls.browsing-controls--center
+        %p.browsing-controls__count
+          = t('workarea.admin.pricing_discount_redemptions.index.redemption_pluralize', count: @redemptions.length)
+        %p
+          = link_to orders_path(q: @discount.id) do
+            = t('workarea.admin.pricing_discount_redemptions.index.view_orders')
+
+      - if @redemptions.any?
+        .grid.grid--center
+          .grid__cell.grid__cell--50
+            %table.index-table
+              %thead
+                %tr
+                  %th= t('workarea.admin.fields.email')
+                  %th= t('workarea.admin.pricing_discount_redemptions.index.redeemed')
+              %tbody
+                - @redemptions.each do |redemption|
+                  %tr.index-table__row
+                    %td= link_to redemption.email, orders_path(q: redemption.email)
+                    %td= local_time_ago redemption.created_at
+
+        - if @redemptions.total_pages > 1
+          = render 'workarea/admin/shared/pagination', collection: @redemptions

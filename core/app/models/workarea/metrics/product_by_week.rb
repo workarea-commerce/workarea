@@ -17,6 +17,8 @@ module Workarea
       field :average_discount, type: Float, default: 0.0
       field :discount_rate, type: Float, default: 0.0
       field :conversion_rate, type: Float, default: 0.0
+      field :units_canceled, type: Integer, default: 0
+      field :refund, type: Float, default: 0.0
 
       index(product_id: 1)
       index(views_percentile: 1, reporting_on: 1, conversion_rate: 1)

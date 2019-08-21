@@ -28,13 +28,11 @@ module Workarea
         payment.try(:credit_card).try(:issuer)
       end
 
+      # Space-separated IDs for item-level and shipping-level discounts.
+      #
+      # @return [String]
       def discount_text
-        @order
-          .price_adjustments
-          .map { |pa| pa.data['discount_id'] }
-          .compact
-          .uniq
-          .join(' ')
+        (order_discounts + shipping_discounts).join(' ')
       end
 
       def shipping_text
@@ -69,6 +67,25 @@ module Workarea
 
       def addresses
         (shippings.map(&:address) + [payment.try(:address)]).reject(&:blank?)
+      end
+
+      private
+
+      def order_discounts
+        @order
+          .price_adjustments
+          .map { |pa| pa.data['discount_id'] }
+          .compact
+          .uniq
+      end
+
+      def shipping_discounts
+        shippings
+         .map(&:price_adjustments)
+         .flatten
+         .map { |pa| pa.data['discount_id'] }
+         .compact
+         .uniq
       end
     end
   end
