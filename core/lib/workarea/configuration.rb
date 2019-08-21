@@ -1209,7 +1209,6 @@ module Workarea
         pass
       )
 
-<<<<<<< HEAD
       # The maximum amount of time an order might be expected to be in transit
       # to a customer. For use in Schema.org JSON-LD entry of the Fulfillment
       # Shipped mailer. Setting this to `nil` will effectively render the entry
