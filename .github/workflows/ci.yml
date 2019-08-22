@@ -1,0 +1,55 @@
+name: CI
+on: [push]
+
+jobs:
+  static_analysis:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-ruby@v1
+      with:
+        ruby-version: 2.6.x
+    - name: Run
+      run: |
+        gem install bundler
+        bundle install --jobs 4 --retry 3
+        script/static_analysis
+
+  admin:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-ruby@v1
+      with:
+        ruby-version: 2.6.x
+    - uses: workarea-commerce/setup-ci@v1
+    - name: Run tests
+      run: |
+        cd admin
+        CI=true bin/rails test test/**/*_test.rb
+
+  core:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-ruby@v1
+      with:
+        ruby-version: 2.6.x
+    - uses: workarea-commerce/setup-ci@v1
+    - name: Run tests
+      run: |
+        cd core
+        CI=true bin/rails test test/**/*_test.rb
+
+  storefront:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-ruby@v1
+      with:
+        ruby-version: 2.6.x
+    - uses: workarea-commerce/setup-ci@v1
+    - name: Run tests
+      run: |
+        cd storefront
+        CI=true bin/rails test test/**/*_test.rb
