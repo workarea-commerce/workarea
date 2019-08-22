@@ -11,6 +11,7 @@ Workarea Commerce Platform
 [Plugins](https://github.com/workarea-commerce/workarea#plugins)  
 [Extension](https://github.com/workarea-commerce/workarea#extension)  
 [Deploying](https://github.com/workarea-commerce/workarea#deploying)  
+[Sites Running Workarea](https://github.com/workarea-commerce/workarea#sites-running-workarea)  
 [Contributing](https://github.com/workarea-commerce/workarea#contributing)  
 [Slack](https://www.workarea.com/slack)  
 
@@ -149,6 +150,18 @@ If you'd like to host on your own, we have some documentation to help:
 * [Required infrastructure](https://developer.workarea.com/articles/infrastructure.html)
 * [Configuring Workarea for hosting](https://developer.workarea.com/articles/configuration-for-hosting.html)
 
+
+Sites Running Workarea
+--------------------------------------------------------------------------------
+[The Bouqs](https://bouqs.com)  
+[Sanrio](https://www.sanrio.com)  
+[BHLDN](https://www.bhldn.com)  
+[Reformation](https://www.thereformation.com)  
+[Woodcraft](https://www.woodcraft.com)  
+[Lonely Planet](https://shop.lonelyplanet.com)  
+[Paragon Sports](https://www.paragonsports.com)  
+[Costume Super Center](https://www.costumesupercenter.com)  
+and many more!
 
 Contributing
 --------------------------------------------------------------------------------
