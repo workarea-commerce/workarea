@@ -1,6 +1,6 @@
 module Workarea
   class ProductsSeeds
-    SAMPLE_IMAGES_BASE_URL = "https://api.github.com/repos/workarea-commerce/workarea/contents/core/data/product_images"
+    SAMPLE_IMAGES_BASE_URL = "https://github.com/workarea-commerce/workarea/raw/master/core/data/product_images"
     SAMPLE_IMAGES = (0..39).map { |i| "#{i}.jpg" }
 
     def perform
