@@ -38,6 +38,7 @@ A big thank you to everyone else that has contributed to the codebase over the y
 * [jananananana](https://github.com/jananananana)
 * [kcdragon](https://github.com/kcdragon)
 * [knightdr](https://github.com/knightdr)
+* [kristenward](https://github.com/kristenward)
 * [komaron](https://github.com/komaron)
 * [lactose](https://github.com/lactose)
 * [mcelaney](https://github.com/mcelaney)
