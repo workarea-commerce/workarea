@@ -81,6 +81,8 @@ This will run a script that does the following:
 
 It requires you have Docker installed and running. Once complete, you can visit `http://localhost:3000` to view your app. The seed data provides an admin user with an email/password of `user@workarea.com/w0rkArea!`.
 
+For more information on usage and troubleshooting, see the [workarea-demo](https://github.com/workarea-commerce/workarea-demo) page.
+
 Getting Started
 --------------------------------------------------------------------------------
 We'll assume you have [Docker desktop](https://www.docker.com/products/docker-desktop) and [Ruby >= 2.4.0, < 2.7.0](https://github.com/rbenv/rbenv#installation) installed.
