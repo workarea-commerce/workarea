@@ -54,6 +54,14 @@ module Workarea
         assert_nil(override.item_price_for_id('1234'))
         assert_equal(2.to_m, override.item_price_for_id('5678'))
       end
+
+      def test_handles_currency_changes
+        aud = Money::Currency.new('AUD')
+        Money.default_currency = aud
+        override = Pricing::Override.new
+
+        assert_equal(aud, override.subtotal_adjustment.currency)
+      end
     end
   end
 end
