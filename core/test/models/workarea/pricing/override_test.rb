@@ -56,11 +56,15 @@ module Workarea
       end
 
       def test_handles_currency_changes
+        current_default = Money.default_currency
         aud = Money::Currency.new('AUD')
         Money.default_currency = aud
         override = Pricing::Override.new
 
         assert_equal(aud, override.subtotal_adjustment.currency)
+
+      ensure
+        Money.default_currency = current_default
       end
     end
   end
