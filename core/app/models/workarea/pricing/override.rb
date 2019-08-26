@@ -6,8 +6,8 @@ module Workarea
       # This will be the order id
       field :_id, type: String, default: -> { BSON::ObjectId.new.to_s }
       field :created_by_id, type: String
-      field :subtotal_adjustment, type: Money, default: 0.to_m
-      field :shipping_adjustment, type: Money, default: 0.to_m
+      field :subtotal_adjustment, type: Money, default: 0
+      field :shipping_adjustment, type: Money, default: 0
       field :item_prices, type: Hash, default: {}
 
       def has_adjustments?

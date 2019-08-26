@@ -27,4 +27,5 @@ Gem::Specification.new do |s|
   s.add_dependency 'selenium-webdriver', '~> 3.142'
   s.add_dependency 'webdrivers', '~> 3.0'
   s.add_dependency 'capybara-chromedriver-logger', '~> 0.2.1'
+  s.add_dependency 'minitest-retry', '~> 0.1.5'
 end

@@ -91,10 +91,10 @@ task :release do
   # Updating changelog
   #
   #
-  Rake::Task["workarea:changelog"].execute
-  system 'git add CHANGELOG.md'
-  system 'git commit -m "Update CHANGELOG"'
-  system 'git push origin HEAD'
+  #Rake::Task["workarea:changelog"].execute
+  #system 'git add CHANGELOG.md'
+  #system 'git commit -m "Update CHANGELOG"'
+  #system 'git push origin HEAD'
 
   #
   # Build gem files
