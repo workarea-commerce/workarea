@@ -1,6 +1,11 @@
 Workarea 3.4.13 (2019-08-26)
 --------------------------------------------------------------------------------
 
+*   Fix a test that doesn't reset state
+
+Workarea 3.4.13 (2019-08-26)
+--------------------------------------------------------------------------------
+
 *   Remove references to v2 from Developer docs
 
 *  	Fix Incorrect Currency in Mongoid Money Types
