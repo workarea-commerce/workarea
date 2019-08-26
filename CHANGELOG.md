@@ -1,3 +1,21 @@
+Workarea 3.4.13 (2019-08-26)
+--------------------------------------------------------------------------------
+
+*   Remove references to v2 from Developer docs
+
+*  	Fix Incorrect Currency in Mongoid Money Types
+    
+    Workarea's default values for the Money fields in `Pricing::Override`
+    didn't previously change currency when `Money.default_currency` is
+    re-configured in process (like in the case of a multi-site application
+    with multiple currencies). Ensure that the correct currency is used by
+    using an Integer type as the default, which will get converted into a
+    Money type at runtime.
+
+* 	Change URL used to download product images for seed data
+
+*   Get GitHub Actions CI up and running
+
 Workarea 3.4.12 (2019-08-21)
 --------------------------------------------------------------------------------
 
