@@ -163,6 +163,10 @@ Sites Running Workarea
 [Costume Super Center](https://www.costumesupercenter.com)  
 and many more!
 
+Retail Stores Running Workarea
+--------------------------------------------------------------------------------
+[Reformation](https://www.cnn.com/2019/08/15/tech/retail-technology-nike-macys-reformation/index.html)
+
 Contributing
 --------------------------------------------------------------------------------
 All contributors in any way are expected to follow the [code of conduct](https://github.com/workarea-commerce/workarea/blob/master/CODE_OF_CONDUCT.md).
