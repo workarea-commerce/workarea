@@ -1,0 +1,30 @@
+name: Docker Demo Image
+on: release
+
+jobs:
+  image_build:
+    name: Build, Tag & Push
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Docker Login
+        uses: actions/docker/login@master
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build Image
+        uses: actions/docker/cli@master
+        with:
+          args: 'build -t demo_app demo/'
+      - name: Tag Image
+        uses: actions/docker/tag@master
+        with:
+          args: demo_app workarea/demo_app --no-sha --env
+      - name: Push Version
+        uses: actions/docker/cli@master
+        with:
+          args: push workarea/demo_app:$IMAGE_REF
+      - name: Push Latest
+        uses: actions/docker/cli@master
+        with:
+          args: push workarea/demo_app:latest

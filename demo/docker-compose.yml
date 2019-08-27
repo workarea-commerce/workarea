@@ -1,0 +1,45 @@
+version: '3'
+services:
+  mongo:
+    image: mongo:4.0
+    volumes:
+      - mongo:/data/db
+    ports:
+      - 27018:27017
+
+  redis:
+    image: redis:5.0
+    volumes:
+      - redis:/data
+    ports:
+      - 6389:6379
+
+  elasticsearch:
+    image: elasticsearch:5.6
+    ports:
+      - 9201:9200
+    volumes:
+      - elasticsearch:/usr/share/elasticsearch/data
+
+  workarea_demo:
+    image: workarea/demo_app
+    ports:
+      - 3000:3000
+    depends_on:
+      - mongo
+      - elasticsearch
+      - redis
+    environment:
+      - WORKAREA_MONGOID_HOST=mongo:27017
+      - WORKAREA_ELASTICSEARCH_URL=elasticsearch:9200
+      - WORKAREA_REDIS_HOST=redis
+      - WORKAREA_REDIS_PORT=6379
+      - WORKAREA_REDIS_CACHE_HOST=redis
+      - WORKAREA_REDIS_CACHE_PORT=6379
+    stdin_open: true
+    tty: true
+
+volumes:
+  mongo:
+  redis:
+  elasticsearch:
