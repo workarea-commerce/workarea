@@ -103,3 +103,19 @@ As a part of this process, the `digital?` flag on products was no longer necessa
 ### What Do You Need To Do?
 
 The v3.5 migration script creates `Fulfillment::Sku` records for existing digital items, setting their policy to `ignore_digital`. This should preserve any behavior in your system for digital products. However, we strongly recommend reworking any code that relies on the `digital?` method of either `Catalog::Product` or `Order::Item`. Instead use `requires_shipping?` on `Order` and `Order::Item` to determine behaviors within this concern.
+
+## Move Storefront Search Autocomplete Functionality to Plugin
+
+### What's Changing?
+
+We've removed the default Search Autocomplete functionality from the Storefront into a plugin to be able to give applications more flexibility.
+
+### What Do You Need To Do?
+
+To keep this functionality present in your application you'll need to install the `workarea-classic_search_autocomplete` plugin. Once the plugin is installed, if any of the following files have been overridden in your application you will need to move them to a new location to maintain proper overriding:
+
+* Move `app/assets/javascripts/jquery_ui/storefront/categorized_autocomplete.js` to `app/assets/javascripts/jquery_ui/storefront/classic_search_autocomplete/categorized_autocomplete.js`
+* Move `app/assets/javascripts/workarea/storefront/modules/search_fields.js` to `app/assets/javascripts/workarea/storefront/classic_search_autocomplete/modules/search_fields.js`
+* Move `app/assets/javascripts/workarea/storefront/templates/ui_menu_heading.jst.ejs` to `app/assets/javascripts/workarea/storefront/classic_search_autocomplete/templates/ui_menu_heading.jst.ejs`
+* Move `app/assets/javascripts/workarea/storefront/templates/ui_menu_item.jst.ejs` to `app/assets/javascripts/workarea/storefront/classic_search_autocomplete/templates/ui_menu_item.jst.ejs`
+* Move `app/assets/stylesheets/jquery_ui/storefront/_ui_menu.scss` to `app/assets/stylesheets/jquery_ui/storefront/classic_search_autocomplete/_ui_menu.scss`
