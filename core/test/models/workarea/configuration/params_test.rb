@@ -4,7 +4,7 @@ module Workarea
   module Configuration
     class ParamsTest < TestCase
       def test_to_h
-        Workarea.config.admin_definintion = Administrable::Definition.new
+        Workarea.config.admin_definition = Administrable::Definition.new
         Workarea::Configuration.define_fields do
           field 'foo', type: :string
           field 'bar', type: :string

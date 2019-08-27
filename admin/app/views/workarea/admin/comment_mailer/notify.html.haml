@@ -41,4 +41,4 @@
         = link_to t('workarea.admin.comment_mailer.notify.post_a_comment'), commentable_comments_url(@commentable.to_global_id), class: 'button'
 
     %p.align-center
-      = link_to t('workarea.admin.comment_mailer.notify.unsubscribe_from_notifications', commentable_name: @commentable.name), commentable_unsubscribe_url(@commentable.to_global_id)
+      = link_to t('workarea.admin.comment_mailer.notify.unsubscribe_from_notifications', commentable_name: @commentable.name), commentable_unsubscribe_url(@user.token, commentable_id: @commentable.to_global_id)

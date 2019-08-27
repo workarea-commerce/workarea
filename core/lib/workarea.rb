@@ -185,5 +185,3 @@ module Workarea
 end
 
 require 'workarea/core'
-require 'workarea/admin'
-require 'workarea/storefront'

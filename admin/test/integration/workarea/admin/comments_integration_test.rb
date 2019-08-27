@@ -112,13 +112,6 @@ module Workarea
         assert_equal(0, Comment.count)
       end
 
-      def test_unsubscribing_from_email_notifications
-        get admin.commentable_unsubscribe_url(commentable.to_global_id)
-
-        commentable.reload
-        assert_equal([user_1.id.to_s], commentable.subscribed_user_ids)
-      end
-
       def test_commenting_with_active_release
         product = create_product(name: 'Foo')
         release = create_release

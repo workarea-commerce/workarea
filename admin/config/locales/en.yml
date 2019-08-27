@@ -618,7 +618,6 @@ en:
           added: Your comment has been added
           added_error: There was a problem adding your comment
           comment_edit_error: You cannot edit someone else's comment
-          comment_unsubscribed: You have been unsubscribed from notifications for %{commentable} string
           removed: Your comment has been removed
           saved: Your comment has been saved
           saved_error: There was a problem saving your comment
@@ -3688,6 +3687,7 @@ en:
         title: Hey %{site} Team,
         subject: Daily Status Report for %{site}
         description: Here is your daily status report for %{date}
+        unsubscribe: Unsubscribe from this email
       summary:
         last_updated: 'Last updated %{timestamp} ago'
       tax_categories:
@@ -3814,6 +3814,12 @@ en:
           description: Here you can see things that have been deleted that can be restored. Items will stay in the trash for three months.
           empty: There's currently no trash to show. Go delete something!
       'true': 'Yes'
+      unsubscribe:
+        flash_messages:
+          status_report_success: You've been unsubscribed from the daily status email
+          status_report_error: Something went wrong while unsubscribing you from the daily status email
+          commentable_success: You have been unsubscribed from notifications for %{commentable}
+          commentable_error: Something went wrong while unsubscribing you from notifications
       users:
         addresses:
           empty: No saved addresses.

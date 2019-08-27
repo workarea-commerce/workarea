@@ -84,4 +84,8 @@
                 = @alerts.empty_upcoming_releases.length
                 = t('workarea.admin.status_report_mailer.alerts.upcoming_empty_releases')
 
+    - if @user.present?
+      %p.align-center
+        = link_to t('workarea.admin.status_report_mailer.unsubscribe'), status_report_unsubscribe_url(@user.token)
+
 = append_partials('admin.status_report_mailer')

@@ -51,7 +51,6 @@ Workarea::Admin::Engine.routes.draw do
 
     resources :commentables, only: [] do
       resources :comments, except: :new
-      get :unsubscribe, to: 'comments#unsubscribe'
     end
 
     resources :content_assets do
@@ -350,6 +349,13 @@ Workarea::Admin::Engine.routes.draw do
         get :insights
         post :send_password_reset
         patch :unlock
+      end
+    end
+
+    resources :unsubscribes, only: [] do
+      member do
+        get :status_report
+        get :commentable
       end
     end
 

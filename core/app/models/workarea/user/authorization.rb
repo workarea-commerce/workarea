@@ -35,7 +35,7 @@ module Workarea
 
       class_methods do
         def status_email_recipients
-          admins.where(status_email_recipient: true).pluck(:email)
+          admins.where(status_email_recipient: true)
         end
       end
 
