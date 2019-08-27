@@ -112,10 +112,4 @@ We've removed the default Search Autocomplete functionality from the Storefront 
 
 ### What Do You Need To Do?
 
-To keep this functionality present in your application you'll need to install the `workarea-classic_search_autocomplete` plugin. Once the plugin is installed, if any of the following files have been overridden in your application you will need to move them to a new location to maintain proper overriding:
-
-* Move `app/assets/javascripts/jquery_ui/storefront/categorized_autocomplete.js` to `app/assets/javascripts/jquery_ui/storefront/classic_search_autocomplete/categorized_autocomplete.js`
-* Move `app/assets/javascripts/workarea/storefront/modules/search_fields.js` to `app/assets/javascripts/workarea/storefront/classic_search_autocomplete/modules/search_fields.js`
-* Move `app/assets/javascripts/workarea/storefront/templates/ui_menu_heading.jst.ejs` to `app/assets/javascripts/workarea/storefront/classic_search_autocomplete/templates/ui_menu_heading.jst.ejs`
-* Move `app/assets/javascripts/workarea/storefront/templates/ui_menu_item.jst.ejs` to `app/assets/javascripts/workarea/storefront/classic_search_autocomplete/templates/ui_menu_item.jst.ejs`
-* Move `app/assets/stylesheets/jquery_ui/storefront/_ui_menu.scss` to `app/assets/stylesheets/jquery_ui/storefront/classic_search_autocomplete/_ui_menu.scss`
+To keep this functionality present in your application you'll need to install the `workarea-classic_search_autocomplete` plugin. 
