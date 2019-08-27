@@ -185,7 +185,6 @@ Depending on the search query class these may include the following:
   * `Workarea.config.search_name_phrase_match_boost`
   * `Workarea.config.search_query_options`
   * `Workarea.config.search_suggestion_min_doc_freq`
-  * `Workarea.config.search_suggestions`
 
 You may need to examine these values to determine how the request body reached its final state.
 

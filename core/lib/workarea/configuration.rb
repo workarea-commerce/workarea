@@ -455,9 +455,9 @@ module Workarea
             status: { type: 'keyword' },
             keywords: { type: 'keyword' },
             search_text: { type: 'text', analyzer: 'text_analyzer' },
-            jump_to_text: { type: 'text', analyzer: 'autocomplete_analyzer' },
-            jump_to_search_text: { type: 'text', analyzer: 'autocomplete_analyzer' },
-            jump_to_position: { type: 'integer' },
+              jump_to_text: { type: 'text', analyzer: 'autocomplete_analyzer' },
+              jump_to_search_text: { type: 'text', analyzer: 'autocomplete_analyzer' },
+              jump_to_position: { type: 'integer' },
             jump_to_param: { type: 'keyword' },
             updated_at: { type: 'date' },
             releasable: { type: 'boolean' },
@@ -635,10 +635,6 @@ module Workarea
       # Used to add in scores from fields that didn't win the dismax. Setting it
       # to 1 makes it an even boolean OR between fields.
       config.search_dismax_tie_breaker = 0.5
-
-      # The minimum number of documents a term should appear in before being
-      # considered a relevant term to suggest in search.
-      config.search_suggestion_min_doc_freq = 2
 
       # Used in the admin ChangesetsHelper to map types of releasables to icons
       # Icons are displayed on planned changes view
