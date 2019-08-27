@@ -15,7 +15,10 @@ module Workarea
         {
           '$match' => {
             'reporting_on' => { '$gte' => starts_at, '$lte' => ends_at },
-            'orders' => { '$gt' => 0 }
+            '$or' => [
+              { 'orders' => { '$gt' => 0 } },
+              { 'cancellations' => { '$gt' => 0 } }
+            ]
           }
         }
       end
