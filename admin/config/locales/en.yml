@@ -2864,7 +2864,7 @@ en:
           tags_note: 'Comma separated: just, like, this'
           undo_at: Undo at
         flash_messages:
-          published: Your release has been published.
+          published: Your release has been published. It may take a few moments to apply changes.
           removed: This release has been removed
           reverted: Your release has been reverted.
           saved: Your release has been saved.
