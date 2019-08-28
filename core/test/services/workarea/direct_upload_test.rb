@@ -46,6 +46,39 @@ module Workarea
       refute(direct_upload.valid?)
     end
 
+    def test_ensure_cors
+      original_host = Workarea.config.host
+      Workarea.config.host = 'test.host'
+      request = mock('ActionDispatch::Request', ssl?: false, host: 'localhost', port: 3000)
+      Workarea.s3.expects(:put_bucket_cors).with(
+        Configuration::S3.bucket,
+        'CORSConfiguration' => [
+          {
+            'ID' => "direct_upload_test.host",
+            'AllowedMethod' => 'PUT',
+            'AllowedOrigin' => 'http://test.host',
+            'AllowedHeader' => '*'
+          }
+        ]
+      ).returns(true)
+      Workarea.s3.expects(:put_bucket_cors).with(
+        Configuration::S3.bucket,
+        'CORSConfiguration' => [
+          {
+            'ID' => "direct_upload_localhost",
+            'AllowedMethod' => 'PUT',
+            'AllowedOrigin' => 'http://localhost:3000',
+            'AllowedHeader' => '*'
+          }
+        ]
+      ).returns(true)
+
+      assert(DirectUpload.ensure_cors!)
+      assert(DirectUpload.ensure_cors!(request))
+    ensure
+      Workarea.config.host = original_host
+    end
+
     private
 
     def upload_file
