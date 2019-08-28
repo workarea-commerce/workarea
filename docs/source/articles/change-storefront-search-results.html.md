@@ -124,7 +124,11 @@ At this point, searching for "promo" returns all 4 test products.
 ![Before: promo products included in search results](../images/promo-products-included-search-results-before.png)
 
 To complete the change request, you must write the code necessary to exclude the promo products from these results.
-However, the retailer wants to exclude these products from _all_ search results, which includes categories, and product recommendations as well.
+However, the retailer wants to exclude these products from _all_ search results, which includes autocomplete, categories, and product recommendations as well.
+
+You can see the products are currently included in autocomplete results:
+
+![Before: promo products included in autocomplete results](../images/promo-products-included-autocomplete-results-before.png)
 
 And all four products are included in the "Promo Search" category, which merchandises the products using a product rule:
 
@@ -222,6 +226,27 @@ The example uses the logic "keywords.promo must not contain true" rather than "k
 The chosen logic excludes only those product search documents that have a `keywords.promo` field and whose value contains `'true'`.
 Existing search documents without a keywords.promo field will continue to match queries as expected.
 
+The decorator above does not cover the autocomplete feature, which relies on a separate query.
+So you must additionally decorate the `SearchSuggestions` query class, adding similar logic to this query's request body.
+This query's body is implemented almost entirely within the `#query` method, so apply your changes there:
+
+```ruby
+# app/queries/workarea/search/search_suggestions.decorator
+module Workarea
+  decorate Search::SearchSuggestions do
+    def query
+      result = super
+      # add a compound query clause to exclude promo products
+      result[:bool][:must_not] = [
+        { term: { 'keywords.promo' => true } }
+      ]
+      result
+    end
+  end
+end
+```
+
+
 Result
 --------------------------------------------------------------------------------
 
@@ -232,6 +257,10 @@ In each case, the "Not promo" products continue to match, but the promo products
 Search results:
 
 ![After: promo products excluded from search results](../images/promo-products-excluded-search-results-after.png)
+
+Autocomplete:
+
+![After: promo products excluded from autocomplete results](../images/promo-products-excluded-autocomplete-results-after.png)
 
 Categories:
 

@@ -24,6 +24,16 @@ These queries are built via a user interface and include a query string and opti
 Admins can customize the results of all searches via _search settings_ (terms facets, range facets, field boosts, product popularity multiplier), and they can customize specific searches via _search customizations_ (featured products, product rules, query rewrite).
 
 
+### Autocomplete
+
+Another obvious search feature in the Storefront is _autocomplete_.
+Storefront autocomplete is a _search-as-you-type_ feature that matches products, categories, pages, and searches to shoppers' queries as they type.
+
+![Storefront autocomplete](../images/storefront-autocomplete.png)
+
+There is no administration specific to this feature, but plugins and applications can extend autocomplete. For example, the Workarea Blog plugin extends this feature to include blog entries in the results.
+
+
 ### Categories
 
 Less evidently, _categories_ (i.e. category pages) in the Storefront are also a search feature.
@@ -72,7 +82,7 @@ Extending any of these features therefore requires an understanding of their sha
 Querying
 --------------------------------------------------------------------------------
 
-In each of the features above, shoppers are requesting pages which contain search results.
+In each of the features above, shoppers are requesting pages (or updating pages in the case of autocomplete) which contain search results.
 Application code responsible for handling these _Storefront requests_ must make additional _search requests_ to Elasticsearch.
 Elasticsearch responds to these requests, and the application processes the results, allowing it to respond to the original Storefront requests.
 
@@ -112,6 +122,7 @@ The following table maps each search feature to its corresponding search query c
 Search Feature                                 | Search Query Class          | Potential Callers
 ---------------------------------------------- | --------------------------- | ---------------------------------------------------------------------------------------------------
 Searches                                       | `Search::ProductSearch`     | See [Storefront Searches](storefront-searches.html)
+Autocomplete                                   | `Search::SearchSuggestions` | `Storefront::SearchesController#index`
 Categories and category summary content blocks | `Search::CategoryBrowse`    | `Storefront::CategoryViewModel#search_query`
 Product recommendations                        | `Search::RelatedProducts`   | `Recommendations::ProductBased`, `Recommendations::OrderBased`, `Recommendations::UserActivityBased`
 
@@ -310,7 +321,8 @@ The fields within each of these search documents were derived from data in one o
 _Search models_ are objects used to index documents into Elasticsearch.
 They create search documents from MongoDB documents and put the search documents into the appropriate search indexes (i.e. send indexing requests to Elasticsearch).
 
-There are different search model classes to handle the creation and indexing of documents of various types.
+Storefront search results are primarily products, but autocomplete results may also be categories, pages, searches, and possibly additional types (depending on plugins and extensions).
+There are therefore different search model classes to handle the creation and indexing of documents of these various types.
 The following table maps each search result type to its corresponding Mongoid model class and Storefront search model class.
 
 Search Result | Mongoid Model         | Search Model

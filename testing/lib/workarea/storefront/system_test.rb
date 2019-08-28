@@ -137,20 +137,6 @@ module Workarea
       def select_shipping_service
         choose 'Ground'
       end
-
-      def disable_analytics_events
-        page.execute_script('WORKAREA.analytics.disableDomEvents();')
-      end
-
-      def find_analytics_events(for_event: nil)
-        all_events = page.evaluate_script('WORKAREA.analytics.events')
-
-        if for_event.blank?
-          all_events
-        else
-          all_events.select { |e| e['name'] == for_event }
-        end
-      end
     end
   end
 end

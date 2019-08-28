@@ -144,7 +144,7 @@ module Workarea
       def test_announcing_product_click_event
         visit storefront.category_path(@category)
 
-        disable_analytics_events
+        disable_dom_events
         within '.product-summary__name', match: :first do
           click_link 'Test Product 2'
         end
@@ -161,6 +161,25 @@ module Workarea
         assert_equal('Test Category', payload['list'])
         assert_equal(0, payload['position'])
         assert_page_view
+      end
+
+      def test_announcing_product_click_event_search_type_ahead
+        @products.each { |p| Search::Storefront::Product.new(p).save }
+        visit storefront.root_path
+        disable_dom_events
+
+        page.evaluate_script('$("#storefront_search").categorizedAutocomplete("search", "test");')
+
+        find('li', text: 'Test Product 1').click
+
+        events = find_analytics_events(for_event: 'productClick')
+        assert_equal(1, events.count)
+        payload = events.first['arguments'].first
+
+        assert_equal('PROD1', payload['id'])
+        assert_equal('Test Product 1', payload['name'])
+        assert_equal(false, payload['sale'])
+        assert_equal(10, payload['price'])
       end
 
       def test_announcing_add_to_cart_event
@@ -191,7 +210,7 @@ module Workarea
 
         visit storefront.cart_path
 
-        disable_analytics_events
+        disable_dom_events
         fill_in 'quantity', with: '1'
 
         events = find_analytics_events(for_event: 'updateCartItem')
@@ -217,7 +236,7 @@ module Workarea
         click_button t('workarea.storefront.products.add_to_cart')
         click_link t('workarea.storefront.carts.view_cart')
 
-        disable_analytics_events
+        disable_dom_events
         click_button t('workarea.storefront.carts.remove')
 
         events = find_analytics_events(for_event: 'removeFromCart')
@@ -468,7 +487,7 @@ module Workarea
 
         fill_in 'footer_email_signup_field', with: 'foo@bar.com'
 
-        disable_analytics_events
+        disable_dom_events
         click_button t('workarea.storefront.users.join')
 
         events = find_analytics_events(for_event: 'emailSignup')
@@ -483,7 +502,7 @@ module Workarea
 
         visit storefront.checkout_path
 
-        disable_analytics_events
+        disable_dom_events
         click_link t('workarea.storefront.users.login')
 
         events = find_analytics_events(for_event: 'checkoutLogin')
@@ -507,7 +526,7 @@ module Workarea
 
         fill_in 'password', with: 'W3bl1nc!'
 
-        disable_analytics_events
+        disable_dom_events
         click_button t('workarea.storefront.users.create_account')
 
         events = find_analytics_events(for_event: 'checkoutSignup')
@@ -524,7 +543,7 @@ module Workarea
           fill_in 'email', with: 'bcrouse@workarea.com'
           fill_in 'password', with: 'W3bl1nc!'
 
-          disable_analytics_events
+          disable_dom_events
           click_button t('workarea.storefront.users.login')
         end
 
@@ -540,7 +559,7 @@ module Workarea
         within '#forgot_password_form' do
           fill_in 'email', with: 'bcrouse@workarea.com'
 
-          disable_analytics_events
+          disable_dom_events
           click_button t('workarea.storefront.forms.send')
         end
 
@@ -557,7 +576,7 @@ module Workarea
           fill_in 'email', with: 'bcrouse@workarea.com'
           fill_in 'password', with: 'W3bl1nc!'
 
-          disable_analytics_events
+          disable_dom_events
           click_button t('workarea.storefront.users.create_account')
         end
 
@@ -573,7 +592,7 @@ module Workarea
 
         visit storefront.root_path
 
-        disable_analytics_events
+        disable_dom_events
         click_link 'First Level'
 
         events = find_analytics_events(for_event: 'primaryNavigationClick')
@@ -593,7 +612,7 @@ module Workarea
         fill_in_shipping_address
         click_button t('workarea.storefront.checkouts.continue_to_shipping')
 
-        disable_analytics_events
+        disable_dom_events
         click_link t('workarea.storefront.forms.edit')
 
         events = find_analytics_events(for_event: 'checkoutEdit')
@@ -725,9 +744,23 @@ module Workarea
 
       private
 
+      def find_analytics_events(for_event: nil)
+        all_events = page.evaluate_script('WORKAREA.analytics.events')
+
+        if for_event.blank?
+          all_events
+        else
+          all_events.select { |e| e['name'] == for_event }
+        end
+      end
+
       def assert_page_view
         page_view = find_analytics_events(for_event: 'pageView')
         assert_equal(1, page_view.count)
+      end
+
+      def disable_dom_events
+        page.execute_script('WORKAREA.analytics.disableDomEvents();')
       end
 
       def expire_analytics_session

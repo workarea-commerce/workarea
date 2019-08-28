@@ -764,6 +764,7 @@ puts searches.map(&:to_s).sort
 # Workarea::Search::ProductSearch
 # Workarea::Search::RelatedHelp
 # Workarea::Search::RelatedProducts
+# Workarea::Search::SearchSuggestions
 ```
 
 Each search query searches for results of a particular Elasticsearch document type. The following example groups the search queries by type.
@@ -771,7 +772,8 @@ Each search query searches for results of a particular Elasticsearch document ty
 ```ruby
 pp searches.group_by(&:document)
 # {Workarea::Search::Storefront=>
-# [Workarea::Search::RelatedProducts,
+# [Workarea::Search::SearchSuggestions,
+# Workarea::Search::RelatedProducts,
 # Workarea::Search::ProductSearch,
 # Workarea::Search::CategoryBrowse,
 # Workarea::Search::Categorization],
