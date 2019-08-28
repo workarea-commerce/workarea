@@ -41,5 +41,16 @@ module Workarea
       assert_instance_of(SwappableList, @list)
       refute_includes(@list, :three)
     end
+
+    def test_deep_dup
+      config_1 = ActiveSupport::OrderedOptions.new
+      config_1.list = SwappableList.new([:foo])
+      config_2 = config_1.deep_dup
+
+      config_2.list.swap(:foo, :bar)
+
+      assert_equal([:foo], config_1.list.to_a)
+      assert_equal([:bar], config_2.list.to_a)
+    end
   end
 end
