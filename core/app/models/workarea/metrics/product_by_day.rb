@@ -17,6 +17,7 @@ module Workarea
 
       index(reporting_on: 1, orders: 1)
       index(reporting_on: 1, units_sold: 1)
+      index(reporting_on: 1, units_canceled: 1)
       index(product_id: 1, reporting_on: 1)
       scope :by_product, ->(id) { where(product_id: id) }
     end

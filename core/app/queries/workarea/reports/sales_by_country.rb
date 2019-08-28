@@ -16,7 +16,8 @@ module Workarea
             'reporting_on' => { '$gte' => starts_at, '$lte' => ends_at },
             '$or' => [
               { 'orders' => { '$gt' => 0 } },
-              { 'units_sold' => { '$gt' => 0 } }
+              { 'units_sold' => { '$gt' => 0 } },
+              { 'units_canceled' => { '$gt' => 0 } }
             ]
           }
         }

@@ -16,6 +16,7 @@ module Workarea
 
       index(reporting_on: 1, orders: 1)
       index(reporting_on: 1, units_sold: 1)
+      index(reporting_on: 1, units_canceled: 1)
     end
   end
 end

@@ -19,6 +19,7 @@ module Workarea
       field :sessions, type: Integer, default: 0
 
       index(reporting_on: 1, orders: 1)
+      index(reporting_on: 1, cancellations: 1)
     end
   end
 end
