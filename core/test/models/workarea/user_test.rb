@@ -304,7 +304,7 @@ module Workarea
 
       status_email_recipients = User.status_email_recipients
       assert_equal(1, status_email_recipients.size)
-      assert_equal(admin.email, status_email_recipients.first)
+      assert_equal(admin, status_email_recipients.first)
     end
   end
 end

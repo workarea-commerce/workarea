@@ -2,8 +2,8 @@ module Workarea
   module Admin
     class CommentMailer < Admin::ApplicationMailer
       def notify(user_id, comment_id)
-        email = User.where(id: user_id).first.email
-        return false unless email.present?
+        @user = User.find(user_id) rescue nil
+        return false unless @user&.email.present?
 
         model = Comment.where(id: comment_id).first
         return false unless model.present?
@@ -19,7 +19,7 @@ module Workarea
         set_colors
 
         mail(
-          to: email,
+          to: @user.email,
           from: Workarea.config.email_from,
           subject: t(
             'workarea.admin.comment_mailer.notify.subject',
