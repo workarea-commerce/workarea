@@ -28,7 +28,6 @@ Workarea::Storefront::Engine.routes.draw do
     end
 
     resource :email_signup, only: [:show, :create]
-    resources :searches, only: :index
     resource :search, only: :show
 
     get '/current_user', to: 'application#current_user_info', as: :current_user
