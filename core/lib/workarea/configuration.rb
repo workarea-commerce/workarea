@@ -636,6 +636,10 @@ module Workarea
       # to 1 makes it an even boolean OR between fields.
       config.search_dismax_tie_breaker = 0.5
 
+      # The minimum number of documents a term should appear in before being
+      # considered a relevant term to suggest in search.
+      config.search_suggestion_min_doc_freq = 2
+
       # Used in the admin ChangesetsHelper to map types of releasables to icons
       # Icons are displayed on planned changes view
       config.releasable_icons = {

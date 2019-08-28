@@ -44,6 +44,8 @@
   %w(
     workarea/core/templates/lorem_ipsum_view
     workarea/core/templates/reveal_password_button
+    workarea/storefront/templates/ui_menu_heading
+    workarea/storefront/templates/ui_menu_item
     workarea/storefront/templates/loading
     workarea/storefront/templates/message
     workarea/storefront/templates/message_dismiss_action
@@ -64,8 +66,12 @@
   # Plugin JST Templates
   append_javascripts('storefront.templates')
 
-  # Plugin Library Extensions
-  append_javascripts('storefront.extensions')
+  # Library Extensions
+  %w(
+    jquery_ui/storefront/categorized_autocomplete
+  ).each do |asset|
+    require_asset asset
+  end
 
   # Workarea Module Controller
   require_asset 'workarea/core/workarea'
@@ -118,6 +124,7 @@
     workarea/storefront/modules/primary_nav_content
     workarea/storefront/modules/product_details_sku_selects
     workarea/storefront/modules/popup_buttons
+    workarea/storefront/modules/search_fields
     workarea/storefront/modules/alternate_image_buttons
     workarea/storefront/modules/scroll_to_buttons
     workarea/storefront/modules/address_region_fields

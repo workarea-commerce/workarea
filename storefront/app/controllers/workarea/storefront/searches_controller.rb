@@ -3,6 +3,17 @@ module Workarea
     class SearchesController < Storefront::ApplicationController
       before_action :cache_page
 
+      def index
+        render nothing: true and return if search_query.blank?
+        autocomplete_params = params.permit(:q)
+
+        search = Search::SearchSuggestions.new(autocomplete_params)
+
+        @results = search.results.map do |result|
+          SearchSuggestionViewModel.new(result).to_h
+        end
+      end
+
       def show
         if search_query.blank?
           flash[:error] = t('workarea.storefront.flash_messages.no_search_query')

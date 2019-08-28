@@ -1,0 +1,40 @@
+/*------------------------------------*\
+    #UI-MENU
+\*------------------------------------*/
+
+$ui-menu-item-selected-color:  $highlight-color !default;
+
+
+/**
+ * 1. default menu item state
+ * 2. hovered menu item state
+ * 3. the displayed result image
+ * 4. menu headings
+ */
+
+.ui-menu {
+    .ui-menu-item { /* [1] */
+        @extend %clearfix;
+        padding: ($spacing-unit / 2) 0;
+        cursor: pointer;
+
+        &:hover { /* [2] */
+            background: $ui-menu-item-selected-color;
+        }
+
+        img { /* [3] */
+            margin: 0 ($spacing-unit / 2) 0 0;
+            float: left;
+        }
+    }
+
+    .ui-menu-heading { /* [4] */
+        margin:  ($spacing-unit / 2) 0;
+        padding: ($spacing-unit / 2) 0;
+        font-weight: bold;
+    }
+}
+
+    .ui-menu-item-wrapper {
+        display: block;
+    }
