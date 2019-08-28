@@ -58,6 +58,9 @@ en:
         filters:
           all_types: all types of
           everyone: everyone
+        generic_create_html: created %{model} %{id}
+        generic_update_html: updated %{model} %{id}
+        generic_destroy_html: removed %{model} %{id}
         help_article_create_html: created the %{name} help article
         help_article_destroy_html: removed the %{name} help article
         help_article_update_html: updated %{fields} on the %{name} help article
@@ -3460,7 +3463,7 @@ en:
         index:
           main_dashboard: Main dashboard
           title: Trash
-          description: Here you can see things that have been deleted that can be restored. Items will stay in the trash for three months.
+          description: Here you can see things that have been deleted. Items will stay in the trash for three months. Some items can be restored.
           empty: There's currently no trash to show. Go delete something!
       'true': 'Yes'
       users:

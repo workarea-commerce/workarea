@@ -5,9 +5,8 @@ module Workarea
         model_key = ActiveModel::Naming.param_key(entry.audited_type.constantize)
         partial_name = "#{model_key}_#{entry.action}"
         render "workarea/admin/activities/#{partial_name}", entry: entry
-
       rescue ActionView::MissingTemplate
-        '' # we don't want to render anything if the partial is missing
+        render "workarea/admin/activities/#{entry.action}", entry: entry
       end
 
       def render_activity_category_value(attributes)
@@ -54,6 +53,10 @@ module Workarea
         else
           local_time(value, :time_only)
         end
+      end
+
+      def activity_model_name(entry)
+        entry.audited_type.gsub(/Workarea::/, '').gsub(/::/, ' ')
       end
 
       def link_to_restore_for(entry)
