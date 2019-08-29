@@ -3,19 +3,24 @@ module Workarea
     class InvalidTypeError < RuntimeError; end
 
     def self.ensure_cors!(request = nil)
-      host = request.present? ? request.host : Workarea.config.host
-      ssl = request.present? ? request.ssl? : Rails.application.config.force_ssl
-      url = "http#{ssl ? 's' : ''}://"
-      url += host
-      url += ":#{request.port}" if request.present?
+      builder = if request&.ssl? || Rails.configuration.force_ssl
+                  URI::HTTPS
+                else
+                  URI::HTTP
+                end
+      uri = if request.present?
+              builder.build(host: request.host, port: request.port)
+            else
+              builder.build(host: Workarea.config.host)
+            end
 
       Workarea.s3.put_bucket_cors(
         Configuration::S3.bucket,
         'CORSConfiguration' => [
           {
-            'ID' => "direct_upload_#{host}",
+            'ID' => "direct_upload_#{uri.host}",
             'AllowedMethod' => 'PUT',
-            'AllowedOrigin' => url,
+            'AllowedOrigin' => uri.to_s,
             'AllowedHeader' => '*'
           }
         ]

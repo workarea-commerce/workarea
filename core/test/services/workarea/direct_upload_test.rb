@@ -49,7 +49,19 @@ module Workarea
     def test_ensure_cors
       original_host = Workarea.config.host
       Workarea.config.host = 'test.host'
-      request = mock('ActionDispatch::Request', ssl?: false, host: 'localhost', port: 3000)
+      dev_request = mock(
+        'ActionDispatch::Request',
+        ssl?: false,
+        host: 'localhost',
+        port: 3000
+      )
+      prod_request = mock(
+        'ActionDispatch::Request',
+        ssl?: true,
+        host: 'example.com',
+        port: 443
+      )
+
       Workarea.s3.expects(:put_bucket_cors).with(
         Configuration::S3.bucket,
         'CORSConfiguration' => [
@@ -72,9 +84,22 @@ module Workarea
           }
         ]
       ).returns(true)
+      Workarea.s3.expects(:put_bucket_cors).with(
+        Configuration::S3.bucket,
+        'CORSConfiguration' => [
+          {
+            'ID' => "direct_upload_example.com",
+            'AllowedMethod' => 'PUT',
+            'AllowedOrigin' => 'https://example.com',
+            'AllowedHeader' => '*'
+          }
+        ]
+      ).returns(true)
+
 
       assert(DirectUpload.ensure_cors!)
-      assert(DirectUpload.ensure_cors!(request))
+      assert(DirectUpload.ensure_cors!(dev_request))
+      assert(DirectUpload.ensure_cors!(prod_request))
     ensure
       Workarea.config.host = original_host
     end
