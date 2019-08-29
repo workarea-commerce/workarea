@@ -1,27 +1,32 @@
 AllCops:
-  TargetRubyVersion: 2.4
+  TargetRubyVersion: 2.6
   # RuboCop has a bunch of cops enabled by default. This setting tells RuboCop
   # to ignore them, so only the ones explicitly set in this file are enabled.
   DisabledByDefault: true
-
-Rails/TimeZone:
-  Enabled: true
 
 # Prefer &&/|| over and/or.
 Style/AndOr:
   Enabled: true
   Exclude:
     - 'testing/lib/workarea/performance_test.rb'
-
-# Do not use braces for hash literals when they are the last argument of a
-# method call.
-Style/BracesAroundHashParameters:
-  Enabled: true
-  EnforcedStyle: context_dependent
+    - 'admin/app/controllers/workarea/admin/help_authorization.rb'
+    - 'admin/app/controllers/workarea/admin/users_controller.rb'
+    - 'core/app/controllers/workarea/authorization.rb'
+    - 'core/app/models/workarea/analytics/time_series.rb'
+    - 'core/app/models/workarea/payment/operation.rb'
+    - 'core/lib/workarea/validators/ip_address_validator.rb'
+    - 'script/rename'
+    - 'storefront/app/controllers/workarea/storefront/checkout/place_order_controller.rb'
+    - 'storefront/app/controllers/workarea/storefront/current_checkout.rb'
+    - 'storefront/app/controllers/workarea/storefront/searches_controller.rb'
+    - 'storefront/app/controllers/workarea/storefront/users/orders_controller.rb'
+    - 'storefront/app/controllers/workarea/storefront/users/passwords_controller.rb'
 
 # Align `when` with `case`.
 Layout/CaseIndentation:
   Enabled: true
+  Exclude:
+    - 'admin/app/helpers/workarea/admin/dashboard_helper.rb'
 
 # Align comments with method definitions.
 Layout/CommentIndentation:
@@ -33,6 +38,50 @@ Layout/EmptyLineAfterMagicComment:
 # In a regular class definition, no empty lines around the body.
 Layout/EmptyLinesAroundClassBody:
   Enabled: true
+  Exclude:
+    - 'admin/app/controllers/workarea/admin/release_sessions_controller.rb'
+    - 'admin/app/view_models/workarea/admin/release_calendar_view_model.rb'
+    - 'admin/lib/workarea/mailer_previews/admin/comment_mailer_preview.rb'
+    - 'admin/test/integration/workarea/admin/content_blocks_integration_test.rb'
+    - 'admin/test/view_models/workarea/admin/content_view_model_test.rb'
+    - 'core/app/models/workarea/checkout/steps/addresses.rb'
+    - 'core/app/models/workarea/pricing/discount/buy_some_get_some/product_application.rb'
+    - 'core/app/queries/workarea/metadata/catalog_category.rb'
+    - 'core/app/queries/workarea/metadata/content_page.rb'
+    - 'core/app/queries/workarea/search/facet.rb'
+    - 'core/app/queries/workarea/search/range_filter.rb'
+    - 'core/config/initializers/13_rack_attack.rb'
+    - 'core/lib/generators/workarea/override/override_generator.rb'
+    - 'core/lib/workarea/elasticsearch/query_cache.rb'
+    - 'core/lib/workarea/monitoring/elasticsearch_check.rb'
+    - 'core/lib/workarea/monitoring/mongoid_check.rb'
+    - 'core/lib/workarea/monitoring/sidekiq_queue_size_check.rb'
+    - 'core/lib/workarea/validators/email_validator.rb'
+    - 'core/test/lib/workarea/mail_interceptor_test.rb'
+    - 'core/test/models/workarea/commentable_test.rb'
+    - 'core/test/models/workarea/search/settings_test.rb'
+    - 'core/test/models/workarea/shipping/rate_lookup_test.rb'
+    - 'core/test/queries/workarea/find_pipeline_asset_test.rb'
+    - 'core/test/queries/workarea/product_primary_image_url_test.rb'
+    - 'core/test/queries/workarea/search/filter_test.rb'
+    - 'core/test/workers/workarea/bulk_index_admin_test.rb'
+    - 'core/test/workers/workarea/bulk_index_products_test.rb'
+    - 'core/vendor/active_shipping/lib/active_shipping/carriers/australia_post.rb'
+    - 'core/vendor/active_shipping/lib/active_shipping/carriers/canada_post_pws.rb'
+    - 'core/vendor/active_shipping/lib/active_shipping/carriers/usps_returns.rb'
+    - 'core/vendor/active_shipping/lib/active_shipping/delivery_date_estimates_response.rb'
+    - 'core/vendor/active_shipping/lib/active_shipping/rate_response.rb'
+    - 'core/vendor/active_shipping/test/remote/australia_post_test.rb'
+    - 'core/vendor/active_shipping/test/remote/usps_returns_test.rb'
+    - 'core/vendor/active_shipping/test/unit/carriers/australia_post_test.rb'
+    - 'core/vendor/active_shipping/test/unit/carriers/canada_post_pws_test.rb'
+    - 'core/vendor/active_shipping/test/unit/carriers/usps_returns_test.rb'
+    - 'storefront/app/view_models/workarea/storefront/content_blocks/product_list_view_model.rb'
+    - 'storefront/app/view_models/workarea/storefront/product_view_model.rb'
+    - 'storefront/lib/workarea/mailer_previews/storefront/order_mailer_preview.rb'
+    - 'storefront/test/performance/workarea/storefront/categories_performance_test.rb'
+    - 'storefront/test/performance/workarea/storefront/search_performance_test.rb'
+    - 'storefront/test/view_models/workarea/storefront/user_activity_view_model_test.rb'
 
 # In a regular method definition, no empty lines around the body.
 Layout/EmptyLinesAroundMethodBody:
@@ -41,32 +90,70 @@ Layout/EmptyLinesAroundMethodBody:
 # In a regular module definition, no empty lines around the body.
 Layout/EmptyLinesAroundModuleBody:
   Enabled: true
+  Exclude:
+    - 'core/lib/workarea/ext/mongoid/timestamps_timeless.rb'
+    - 'storefront/app/view_models/workarea/storefront/search_customization_content.rb'
+    - 'testing/lib/workarea/testing/warning_suppressor.rb'
 
-Layout/FirstParameterIndentation:
+Layout/IndentFirstArgument:
   Enabled: true
+  Exclude:
+    - 'admin/test/helpers/workarea/admin/releases_helper_test.rb'
+    - 'admin/test/integration/workarea/admin/pricing_sku_prices_integration_test.rb'
+    - 'admin/test/integration/workarea/admin/products_integration_test.rb'
+    - 'admin/test/system/workarea/admin/users_system_test.rb'
+    - 'core/app/models/workarea/catalog/product_placeholder_image.rb'
+    - 'core/app/models/workarea/checkout/auto_complete.rb'
+    - 'core/app/models/workarea/content/asset.rb'
+    - 'core/app/models/workarea/order.rb'
+    - 'core/test/models/workarea/fulfillment_test.rb'
+    - 'storefront/test/system/workarea/storefront/categories_system_test.rb'
+    - 'storefront/test/system/workarea/storefront/products_system_test.rb'
 
 # Use Ruby >= 1.9 syntax for hashes. Prefer { a: :b } over { :a => :b }.
 Style/HashSyntax:
   Enabled: true
 
-# Two spaces, no tabs (for indentation).
-Layout/IndentationWidth:
-  Enabled: true
-
 Layout/SpaceAfterColon:
   Enabled: true
+  Exclude:
+    - 'testing/lib/workarea/testing/factories/content.rb'
+    - 'testing/lib/workarea/testing/factories/pricing.rb'
 
 Layout/SpaceAfterComma:
   Enabled: true
+  Exclude:
+    - 'admin/app/controllers/workarea/admin/shipping_services_controller.rb'
+    - 'admin/test/helpers/workarea/admin/application_helper_test.rb'
+    - 'core/app/models/workarea/payment/credit_card.rb'
+    - 'core/app/models/workarea/pricing/request.rb'
+    - 'core/spec/lib/workarea/swappable_list_spec.rb'
+    - 'core/test/models/workarea/inventory_test.rb'
+    - 'core/test/queries/workarea/search/range_facet_test.rb'
+    - 'storefront/test/view_models/workarea/storefront/package_view_model_test.rb'
 
 Layout/SpaceAroundEqualsInParameterDefault:
   Enabled: true
+  Exclude:
+    - 'admin/app/helpers/workarea/admin/content_block_icon_helper.rb'
+    - 'core/app/helpers/workarea/content_assets_helper.rb'
+    - 'core/lib/workarea/elasticsearch/query_cache.rb'
+    - 'testing/lib/workarea/system_test.rb'
+    - 'testing/lib/workarea/testing/locale_routing_fixes.rb'
+
 
 Layout/SpaceAroundKeyword:
   Enabled: true
 
 Layout/SpaceAroundOperators:
   Enabled: true
+  Exclude:
+    - 'admin/app/controllers/workarea/admin/content_emails_controller.rb'
+    - 'admin/app/controllers/workarea/admin/users_controller.rb'
+    - 'core/app/helpers/workarea/content_assets_helper.rb'
+    - 'core/vendor/active_shipping/lib/active_shipping/carriers/canada_post_pws.rb'
+    - 'core/vendor/active_shipping/lib/active_shipping/carriers/fedex.rb'
+    - 'core/vendor/active_shipping/lib/active_shipping/carriers/stamps.rb'
 
 Layout/SpaceBeforeFirstArg:
     Enabled: true
@@ -78,6 +165,8 @@ Style/MethodDefParentheses:
 # Use `foo {}` not `foo{}`.
 Layout/SpaceBeforeBlockBraces:
   Enabled: true
+  Exclude:
+    - 'admin/app/view_models/workarea/admin/release_calendar_view_model.rb'
 
 # Use `foo { bar }` not `foo {bar}`.
 Layout/SpaceInsideBlockBraces:
@@ -86,176 +175,6 @@ Layout/SpaceInsideBlockBraces:
 # Use `{ a: 1 }` not `{a:1}`.
 Layout/SpaceInsideHashLiteralBraces:
   Enabled: true
-
-Layout/SpaceInsideParens:
-  Enabled: true
-
-# Check quotes usage according to lint rule below.
-Style/StringLiterals:
-  Enabled: true
-
-# Detect hard tabs, no hard tabs.
-Layout/Tab:
-  Enabled: true
-
-# Blank lines should not have any spaces.
-Layout/TrailingBlankLines:
-  Enabled: true
-
-# No trailing whitespace.
-Layout/TrailingWhitespace:
-  Enabled: true
-
-# Use quotes for string literals when they are enough.
-Style/UnneededPercentQ:
-  Enabled: true
-
-# Align `end` with the matching keyword or starting expression except for
-# assignments, where it should be aligned with the LHS.
-Layout/EndAlignment:
-  Enabled: true
-  EnforcedStyleAlignWith: variable
-
-
-
-# This configuration was generated by
-# `rubocop --auto-gen-config`
-# on 2018-01-09 11:18:02 -0500 using RuboCop version 0.52.1.
-# The point is for the user to remove these configuration records
-# one by one as the offenses are removed from the code base.
-# Note that changes in the inspected code, or installation of new
-# versions of RuboCop, may require this file to be generated again.
-#
-
-# Use my_method(my_arg) not my_method( my_arg ) or my_method my_arg.
-Lint/RequireParentheses:
-  Enabled: true
-
-# Offense count: 5
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, IndentOneStep, IndentationWidth.
-# SupportedStyles: case, end
-Layout/CaseIndentation:
-  Exclude:
-    - 'admin/app/helpers/workarea/admin/dashboard_helper.rb'
-
-# Offense count: 30
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: empty_lines, empty_lines_except_namespace, empty_lines_special, no_empty_lines
-Layout/EmptyLinesAroundClassBody:
-  Enabled: false
-
-# Offense count: 5
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: empty_lines, empty_lines_except_namespace, empty_lines_special, no_empty_lines
-Layout/EmptyLinesAroundModuleBody:
-  Exclude:
-    - 'admin/spec/view_models/workarea/admin/product_view_model_spec.rb'
-    - 'core/lib/workarea/ext/mongoid/timestamps_timeless.rb'
-    - 'storefront/app/view_models/workarea/storefront/search_customization_content.rb'
-    - 'testing/lib/workarea/testing/warning_suppressor.rb'
-
-# Offense count: 19
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, IndentationWidth.
-# SupportedStyles: consistent, special_for_inner_method_call, special_for_inner_method_call_in_parentheses
-Layout/FirstParameterIndentation:
-  Exclude:
-    - 'admin/test/helpers/workarea/admin/releases_helper_test.rb'
-    - 'admin/test/integration/workarea/admin/pricing_sku_prices_integration_test.rb'
-    - 'admin/test/integration/workarea/admin/products_integration_test.rb'
-    - 'admin/test/system/workarea/admin/users_system_test.rb'
-    - 'core/app/models/workarea/catalog/product_placeholder_image.rb'
-    - 'core/app/models/workarea/checkout/auto_complete.rb'
-    - 'core/app/models/workarea/content/asset.rb'
-    - 'core/app/models/workarea/order.rb'
-    - 'core/spec/models/workarea/tax_spec.rb'
-    - 'core/test/models/workarea/fulfillment_test.rb'
-    - 'storefront/test/system/workarea/storefront/categories_system_test.rb'
-    - 'storefront/test/system/workarea/storefront/products_system_test.rb'
-
-# Offense count: 70
-# Cop supports --auto-correct.
-# Configuration parameters: Width, IgnoredPatterns.
-Layout/IndentationWidth:
-  Enabled: false
-
-# Offense count: 3
-# Cop supports --auto-correct.
-Layout/SpaceAfterColon:
-  Exclude:
-    - 'testing/lib/workarea/testing/factories/content.rb'
-    - 'testing/lib/workarea/testing/factories/pricing.rb'
-
-# Offense count: 24
-# Cop supports --auto-correct.
-Layout/SpaceAfterComma:
-  Exclude:
-    - 'admin/app/controllers/workarea/admin/shipping_services_controller.rb'
-    - 'admin/spec/view_models/workarea/admin/product_view_model_spec.rb'
-    - 'admin/test/helpers/workarea/admin/application_helper_test.rb'
-    - 'core/app/models/workarea/payment/credit_card.rb'
-    - 'core/app/models/workarea/pricing/request.rb'
-    - 'core/spec/lib/workarea/swappable_list_spec.rb'
-    - 'core/test/models/workarea/inventory_test.rb'
-    - 'core/test/queries/workarea/search/range_facet_test.rb'
-    - 'storefront/test/view_models/workarea/storefront/package_view_model_test.rb'
-
-# Offense count: 6
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: space, no_space
-Layout/SpaceAroundEqualsInParameterDefault:
-  Exclude:
-    - 'admin/app/helpers/workarea/admin/content_block_icon_helper.rb'
-    - 'core/app/helpers/workarea/content_assets_helper.rb'
-    - 'core/lib/workarea/elasticsearch/query_cache.rb'
-    - 'testing/lib/workarea/system_test.rb'
-    - 'testing/lib/workarea/testing/locale_routing_fixes.rb'
-
-# Offense count: 3
-# Cop supports --auto-correct.
-# Configuration parameters: AllowForAlignment.
-Layout/SpaceAroundOperators:
-  Exclude:
-    - 'admin/app/controllers/workarea/admin/content_emails_controller.rb'
-    - 'admin/app/controllers/workarea/admin/users_controller.rb'
-    - 'core/app/helpers/workarea/content_assets_helper.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, EnforcedStyleForEmptyBraces.
-# SupportedStyles: space, no_space
-# SupportedStylesForEmptyBraces: space, no_space
-Layout/SpaceBeforeBlockBraces:
-  Exclude:
-    - 'admin/app/view_models/workarea/admin/release_calendar_view_model.rb'
-
-# Offense count: 4
-# Cop supports --auto-correct.
-# Configuration parameters: AllowForAlignment.
-Layout/SpaceBeforeFirstArg:
-  Exclude:
-    - 'core/spec/lib/workarea/swappable_list_spec.rb'
-    - 'core/spec/models/workarea/pricing/calculators/discount_calculator_spec.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, EnforcedStyleForEmptyBraces, SpaceBeforeBlockParameters.
-# SupportedStyles: space, no_space
-# SupportedStylesForEmptyBraces: space, no_space
-Layout/SpaceInsideBlockBraces:
-  Exclude:
-    - 'script/convert_to_minitest'
-
-# Offense count: 28
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, EnforcedStyleForEmptyBraces.
-# SupportedStyles: space, no_space, compact
-# SupportedStylesForEmptyBraces: space, no_space
-Layout/SpaceInsideHashLiteralBraces:
   Exclude:
     - 'admin/test/integration/workarea/admin/pricing_sku_prices_integration_test.rb'
     - 'admin/test/integration/workarea/admin/shipping_service_integration_test.rb'
@@ -271,56 +190,32 @@ Layout/SpaceInsideHashLiteralBraces:
     - 'core/test/queries/workarea/search/product_rules_test.rb'
     - 'core/test/workers/workarea/generate_content_metadata_test.rb'
 
-# Offense count: 4
-# Cop supports --auto-correct.
 Layout/SpaceInsideParens:
+  Enabled: true
   Exclude:
     - 'core/app/models/workarea/inventory/collection.rb'
     - 'core/app/models/workarea/pricing/calculators/item_calculator.rb'
     - 'core/spec/models/workarea/order/queries_spec.rb'
 
-# Offense count: 59
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyleAlignWith, AutoCorrect.
-# SupportedStylesAlignWith: keyword, variable, start_of_line
-Layout/EndAlignment:
-  Enabled: false
-
-# Offense count: 16
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: always, conditionals
-Style/AndOr:
+# Detect hard tabs, no hard tabs.
+Layout/Tab:
+  Enabled: true
   Exclude:
-    - 'admin/app/controllers/workarea/admin/help_authorization.rb'
-    - 'admin/app/controllers/workarea/admin/users_controller.rb'
-    - 'core/app/controllers/workarea/authorization.rb'
-    - 'core/app/models/workarea/analytics/time_series.rb'
-    - 'core/app/models/workarea/payment/operation.rb'
-    - 'core/lib/workarea/validators/ip_address_validator.rb'
-    - 'script/rename'
-    - 'storefront/app/controllers/workarea/storefront/checkout/place_order_controller.rb'
-    - 'storefront/app/controllers/workarea/storefront/current_checkout.rb'
-    - 'storefront/app/controllers/workarea/storefront/searches_controller.rb'
-    - 'storefront/app/controllers/workarea/storefront/users/orders_controller.rb'
-    - 'storefront/app/controllers/workarea/storefront/users/passwords_controller.rb'
+    - 'core/vendor/active_shipping/lib/active_shipping/carriers/canada_post.rb'
 
-# Offense count: 89
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: braces, no_braces, context_dependent
-Style/BracesAroundHashParameters:
-  Enabled: false
+# Blank lines should not have any spaces.
+Layout/TrailingBlankLines:
+  Enabled: true
 
-# Offense count: 216
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, ConsistentQuotesInMultiline.
-# SupportedStyles: single_quotes, double_quotes
-Style/StringLiterals:
-  Enabled: false
+# No trailing whitespace.
+Layout/TrailingWhitespace:
+  Enabled: true
 
-# Offense count: 1325
-# Configuration parameters: AllowHeredoc, AllowURI, URISchemes, IgnoreCopDirectives, IgnoredPatterns.
-# URISchemes: http, https
-Metrics/LineLength:
-  Max: 631
+# Use quotes for string literals when they are enough.
+Style/UnneededPercentQ:
+  Enabled: true
+
+# Use my_method(my_arg) not my_method( my_arg ) or my_method my_arg.
+Lint/RequireParentheses:
+  Enabled: true
+
