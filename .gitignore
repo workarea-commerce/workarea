@@ -47,4 +47,5 @@ tmp/
 node_modules/
 docs/build/
 yarn.lock
+yarn-error.log
 package-lock.json

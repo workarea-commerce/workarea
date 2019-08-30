@@ -23,7 +23,6 @@
     jquery-ui/widgets/mouse
     jquery-ui/widgets/draggable
     jquery-ui/widgets/resizable
-    jquery-ui/widgets/autocomplete
     jquery-ui/widgets/button
     jquery-ui/widgets/dialog
     jquery-ui/widgets/menu
@@ -44,8 +43,6 @@
   %w(
     workarea/core/templates/lorem_ipsum_view
     workarea/core/templates/reveal_password_button
-    workarea/storefront/templates/ui_menu_heading
-    workarea/storefront/templates/ui_menu_item
     workarea/storefront/templates/loading
     workarea/storefront/templates/message
     workarea/storefront/templates/message_dismiss_action
@@ -66,12 +63,8 @@
   # Plugin JST Templates
   append_javascripts('storefront.templates')
 
-  # Library Extensions
-  %w(
-    jquery_ui/storefront/categorized_autocomplete
-  ).each do |asset|
-    require_asset asset
-  end
+  # Plugin Library Extensions
+  append_javascripts('storefront.extensions')
 
   # Workarea Module Controller
   require_asset 'workarea/core/workarea'
@@ -107,7 +100,6 @@
     workarea/core/modules/form_submitting_controls
     workarea/core/modules/jquery
     workarea/core/modules/style_guide_empty_links
-    workarea/core/modules/style_guide_autocomplete_fields
     workarea/core/modules/reveal_password
     workarea/core/modules/local_time
     workarea/storefront/modules/forms
@@ -124,7 +116,6 @@
     workarea/storefront/modules/primary_nav_content
     workarea/storefront/modules/product_details_sku_selects
     workarea/storefront/modules/popup_buttons
-    workarea/storefront/modules/search_fields
     workarea/storefront/modules/alternate_image_buttons
     workarea/storefront/modules/scroll_to_buttons
     workarea/storefront/modules/address_region_fields
