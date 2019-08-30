@@ -1,0 +1,6 @@
+name: 'Workarea Documentation Build'
+description: 'Build middleman site and deploy to S3'
+author: 'Workarea'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
