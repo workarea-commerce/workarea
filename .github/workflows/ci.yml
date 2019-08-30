@@ -6,50 +6,66 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - uses: actions/setup-ruby@v1
+    - uses: workarea-commerce/ci/bundler-audit@v1
+    - uses: workarea-commerce/ci/rubocop@v1
+    - uses: workarea-commerce/ci/eslint@v1
       with:
-        ruby-version: 2.6.x
-    - name: Run
-      run: |
-        gem install bundler
-        bundle install --jobs 4 --retry 3
-        script/static_analysis
+        args: '{admin,core,storefront}/{app,test}/**/*.js'
+    - uses: workarea-commerce/ci/stylelint@v1
+      with:
+        args: '{admin,core,storefront}/{app,test}/**/*.scss'
 
-  admin:
+  admin_tests:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
     - uses: actions/setup-ruby@v1
       with:
         ruby-version: 2.6.x
-    - uses: workarea-commerce/setup-ci@v1
-    - name: Run tests
-      run: |
-        cd admin
-        CI=true bin/rails test test/**/*_test.rb
+    - uses: workarea-commerce/ci/test@v1
+      with:
+        command: cd admin && bin/rails test
 
-  core:
+  admin_system_tests:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
     - uses: actions/setup-ruby@v1
       with:
         ruby-version: 2.6.x
-    - uses: workarea-commerce/setup-ci@v1
-    - name: Run tests
-      run: |
-        cd core
-        CI=true bin/rails test test/**/*_test.rb
+    - uses: workarea-commerce/ci/test@v1
+      with:
+        command: cd admin && bin/rails test test/system/**/*_test.rb
 
-  storefront:
+  core_tests:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
     - uses: actions/setup-ruby@v1
       with:
         ruby-version: 2.6.x
-    - uses: workarea-commerce/setup-ci@v1
-    - name: Run tests
-      run: |
-        cd storefront
-        CI=true bin/rails test test/**/*_test.rb
+    - uses: workarea-commerce/ci/test@v1
+      with:
+        command: cd core && bin/rails test test/**/*_test.rb
+
+  storefront_tests:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-ruby@v1
+      with:
+        ruby-version: 2.6.x
+    - uses: workarea-commerce/ci/test@v1
+      with:
+        command: cd storefront && bin/rails test
+
+  storefront_system_tests:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-ruby@v1
+      with:
+        ruby-version: 2.6.x
+    - uses: workarea-commerce/ci/test@v1
+      with:
+        command: cd storefront && bin/rails test test/system/**/*_test.rb
