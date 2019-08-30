@@ -106,6 +106,21 @@ module Workarea
           assert_kind_of(StorefrontSearch::ProductMultipass, trace.third.reset_by)
         end
       end
+
+      def test_exact_match_customization
+        IndexProduct.perform(create_product(id: '1', name: 'Foo'))
+        IndexProduct.perform(create_product(id: '2', name: 'Bar'))
+        IndexProduct.perform(create_product(id: '3', name: 'Baz'))
+        create_search_customization(
+          id: 'foo', query: 'foo', product_ids: %w(2 3)
+        )
+
+        search = StorefrontSearch.new(q: 'foo')
+
+        refute_nil(search.response.customization)
+        assert_nil(search.response.redirect)
+        refute_kind_of(StorefrontSearch::ExactMatches, search.used_middleware.last)
+      end
     end
   end
 end

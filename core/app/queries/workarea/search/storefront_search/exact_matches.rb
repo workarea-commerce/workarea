@@ -7,7 +7,7 @@ module Workarea
         def call(response)
           exact_match = find_exact_match(response)
 
-          if !response.has_filters? && exact_match.present?
+          if response.customization.new_record? && !response.has_filters? && exact_match.present?
             response.redirect = product_path(exact_match)
           else
             yield
