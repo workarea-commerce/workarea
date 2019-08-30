@@ -44,15 +44,12 @@ module Workarea
         end
       end
 
-      def undo
-      end
-
       def original
       end
 
       def publish
         self.current_release = nil
-        @release.publish!
+        PublishRelease.perform_async(@release.id)
 
         flash[:success] = t('workarea.admin.releases.flash_messages.published')
         redirect_to return_to || release_path(@release)

@@ -53,6 +53,10 @@ module Workarea
       super || @source.respond_to?(method_name)
     end
 
+    def deep_dup
+      self.class.new(@source.deep_dup)
+    end
+
     private
 
     def assert_index(index, where)
