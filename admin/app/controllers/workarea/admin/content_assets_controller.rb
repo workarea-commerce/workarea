@@ -8,7 +8,7 @@ module Workarea
 
     def index
       if Configuration::S3.configured? && !request.xhr?
-        DirectUpload.ensure_cors!(request)
+        DirectUpload.ensure_cors!(request.url)
       end
 
       search = Search::AdminAssets.new(params)
