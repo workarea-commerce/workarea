@@ -6,6 +6,7 @@ Base: [![Base](https://github.com/workarea-commerce/workarea/workflows/CI/badge.
 | Plugin | Status |
 | --- | --- |
 | A11y | [![A11y](https://github.com/workarea-commerce/workarea-a11y/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-a11y) |
+| API | [![API](https://github.com/workarea-commerce/workarea-api/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-api) |
 | Authorize.NET CIM | [![Authorize.NET CIM](https://github.com/workarea-commerce/workarea-authorize-cim/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-authorize-cim) |
 | Basic Auth | [![Basic Auth](https://github.com/workarea-commerce/workarea-basic-auth/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-basic-auth) |
 | Blog | [![Blog](https://github.com/workarea-commerce/workarea-blog/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-blog) |
