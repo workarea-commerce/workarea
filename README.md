@@ -68,18 +68,14 @@ Demo
 You can run a demo version of workarea by running the following command in your terminal:
 
 ```bash
-curl -s https://raw.githubusercontent.com/workarea-commerce/workarea-demo/master/bin/install | bash
+curl -s https://raw.githubusercontent.com/workarea-commerce/workarea/master/demo/install | bash
 ```
 
-This will run a script that does the following:
+It requires you have Docker installed and running. Once complete, you can visit `http://localhost:3000` to view your app.
 
-* clone the [workarea-demo](https://github.com/workarea-commerce/workarea-demo) repository.
-* build a Docker image for the application
-* start containers for the application and required services
-* seed the database
-* start the application server
+The seed data provides an admin user with an email/password of `user@workarea.com/w0rkArea!`.
 
-It requires you have Docker installed and running. Once complete, you can visit `http://localhost:3000` to view your app. The seed data provides an admin user with an email/password of `user@workarea.com/w0rkArea!`.
+See the [README](demo/README.md) in the `demo` directory for more information.
 
 For more information on usage and troubleshooting, see the [workarea-demo](https://github.com/workarea-commerce/workarea-demo) page.
 

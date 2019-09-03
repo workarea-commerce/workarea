@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+mkdir -p workarea-demo && cd workarea-demo
+curl -s https://raw.githubusercontent.com/workarea-commerce/workarea/master/demo/docker-compose.yml -o docker-compose.yml
+
+docker-compose up --build -d
+echo 'Waiting for Workarea services to fully initialize...'
+sleep 15 # Wait for services to become fully available
+docker-compose exec -T workarea_demo bin/rails db:seed
