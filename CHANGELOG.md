@@ -1,4 +1,57 @@
-Workarea 3.4.13 (2019-08-26)
+Workarea 3.4.15 (2019-09-04)
+--------------------------------------------------------------------------------
+
+*   Customize Search Queries That Return an Exact Match (#22)
+
+    It's currently possible to customize search queries that return an exact
+    match, but instead of seeing the customized results when you run the
+    query, you'll be redirected to the product page since the
+    `StorefrontSearch::ExactMatches` middleware stops further middleware
+    execution and sets a redirect to the product path. To resolve the issue,
+    Workarea will now ignore this middleware if a customization is present
+    on the search response.
+    
+    Discovered by @ryaan-anthony of **Syatt Media**. Thanks Ryan!
+
+*   Add Generic Activity Partials (#4)
+
+    Empty results were still being seen in the trash when a model that
+    doesn't explicitly have an activity partial defined is encountered. This
+    is due to the `render_activity_entry` helper rescuing an
+    `ActionView::TemplateError` to return a blank string. To resolve this
+    issue, models that are tracked by `Mongoid::AuditLog`, without an
+    explicit activity partial defined will be rendered using a generic
+    partial, showing the class name and ID of the audited model, as
+    something to render in the listing so that pages of blank results
+    aren't shown.
+
+*   Remove minitest plugin (#12)
+
+    This existed for CI purposes on Bamboo, and we don't need it here after
+    moving to Github. It has been moved the `workarea-ci` gem for backwards
+    compatibility.
+
+*   Fix Deep Duplication of Swappable Lists (#13)
+
+    The `Workarea::SwappableList` class does not get duplicated correctly
+    when `Workarea.config.deep_dup` is used. This was observed while using
+    multi-site and attempting to change a swappable list for only one site.
+    Define the `#deep_dup` method to return a new object instead of referencing
+    the existing one.
+
+
+*   Publish Releases In Background Job
+
+    When a release is published, but has too many changes, it can cause a
+    request timeout because it can't be fully published within the allotted
+    15 seconds in production. To prevent this, Workarea now runs all release
+    publishing in a background job. The success flash message for when a
+    release is published has been updated to inform users that changes may
+    take a little while to apply.
+    
+    Fixes #1
+
+Workarea 3.4.14 (2019-08-26)
 --------------------------------------------------------------------------------
 
 *   Fix a test that doesn't reset state
