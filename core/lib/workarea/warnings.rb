@@ -25,7 +25,7 @@ find their preference.
     end
 
     def check_mongo_notable_scan
-      if (!Rails.env.test? &&
+      if (Rails.env.development? &&
           !Workarea.config.skip_service_connections &&
           Configuration::Mongoid.indexes_enforced?)
         warn <<~eos
