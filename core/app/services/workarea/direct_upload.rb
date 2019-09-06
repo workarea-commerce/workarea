@@ -2,15 +2,12 @@ module Workarea
   class DirectUpload
     class InvalidTypeError < RuntimeError; end
 
-    def self.ensure_cors!
-      url = "http#{Rails.application.config.force_ssl ? 's' : ''}://"
-      url += Workarea.config.host
-
+    def self.ensure_cors!(url)
       Workarea.s3.put_bucket_cors(
         Configuration::S3.bucket,
         'CORSConfiguration' => [
           {
-            'ID' => "direct_upload_#{Workarea.config.host}",
+            'ID' => "direct_upload_#{url}",
             'AllowedMethod' => 'PUT',
             'AllowedOrigin' => url,
             'AllowedHeader' => '*'
