@@ -60,8 +60,8 @@ module Workarea
     # Override when impersonating to prevent IP address and user agent
     # validation.
     #
-    def valid_logged_in_request?
-      impersonating? || super
+    def logged_in?
+      super || (impersonating? && !admin_browsing_as_guest? && current_admin.present?)
     end
   end
 end
