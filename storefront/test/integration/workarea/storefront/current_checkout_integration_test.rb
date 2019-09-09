@@ -56,6 +56,15 @@ module Workarea
         assert(cookies[:order_id].blank?)
       end
 
+      def test_require_login_does_not_clear_current_order
+        get '/current_checkout_test', params: { save: true }
+        assert(cookies[:order_id].present?)
+
+        assert_no_changes 'cookies[:order_id]' do
+          get '/current_checkout_test_login_required'
+        end
+      end
+
       def test_ip_address_changing_clears_current_order
         get '/current_checkout_test_login', params: { user_id: @user.id, order_id: 'foo' }
 

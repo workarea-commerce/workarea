@@ -43,17 +43,13 @@ module Workarea
     alias_method :keep_auth_alive, :touch_auth_cookie
 
     def logged_in?
-      current_user.present? && valid_logged_in_request?
-    end
-
-    def valid_logged_in_request?
-      !!current_user&.valid_logged_in_request?(request)
+      current_user.present? && current_user.valid_logged_in_request?(request)
     end
 
     def require_login(should_remember_location = true)
       return if logged_in?
 
-      logout if !valid_logged_in_request?
+      logout if current_user.present? # reset everything if invalid logged in request
       flash[:info] = t('workarea.authentication.login')
       remember_location if request.get? && should_remember_location
       redirect_to storefront.login_path, turbolinks: false
@@ -69,9 +65,7 @@ module Workarea
     end
 
     def require_password_changes
-      return unless logged_in?
-
-      if current_user.force_password_change?
+      if current_user&.force_password_change?
         flash[:warning] = t('workarea.authentication.password_expired')
 
         if request.xhr?
