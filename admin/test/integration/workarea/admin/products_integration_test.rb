@@ -5,6 +5,20 @@ module Workarea
     class ProductsIntegrationTest < Workarea::IntegrationTest
       include Admin::IntegrationTest
 
+      def test_view_product_cards
+        rule = {
+          name: 'price',
+          operator: 'less_than',
+          value: '10'
+        }
+        create_category(product_rules: [rule], active: false)
+        product = create_product
+
+        get admin.catalog_product_path(product)
+
+        assert_response :success
+      end
+
       def test_updates_a_product
         product = create_product(variants: [])
 

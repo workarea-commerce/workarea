@@ -33,7 +33,9 @@ module Workarea
       end
 
       def default_category
-        CategoryViewModel.wrap(categorization.default_model)
+        if categorization.default_model.present?
+          CategoryViewModel.wrap(categorization.default_model)
+        end
       end
 
       def storefront_view_model
