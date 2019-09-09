@@ -13,10 +13,7 @@ module Workarea
       end
 
       def indexes_enforced?
-        servers = ::Mongoid::Clients.default.cluster.servers
-        addresses = servers.map(&:address).map(&:to_s)
-
-        client = Mongo::Client.new(addresses, database: 'admin')
+        client = ::Mongoid::Clients.default.use('admin')
         result = client.command(getParameter: 1, notablescan: nil)
         client.close
 
