@@ -82,9 +82,9 @@ module Workarea
       ).returns(true)
 
 
-      assert(DirectUpload.ensure_cors!('http://test.host'))
-      assert(DirectUpload.ensure_cors!('http://localhost:3000'))
-      assert(DirectUpload.ensure_cors!('https://example.com'))
+      assert(DirectUpload.ensure_cors!('http://test.host/admin/content_assets'))
+      assert(DirectUpload.ensure_cors!('http://localhost:3000/admin/content_assets'))
+      assert(DirectUpload.ensure_cors!('https://example.com/admin/direct_uploads'))
     end
 
     private
