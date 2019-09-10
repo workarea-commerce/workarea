@@ -14,7 +14,7 @@ module Workarea
 
         Metrics::User.save_order(
           email: 'returning-once@workarea.com',
-          revenue: 20.to_m,
+          revenue: 10.to_m,
           at: Time.zone.local(2018, 11, 16)
         )
 
@@ -36,7 +36,11 @@ module Workarea
           at: Time.zone.local(2018, 11, 16)
         )
 
-        Metrics::User.save_order(email: 'once@workarea.com', revenue: 15.to_m)
+        Metrics::User.save_order(
+          email: 'once@workarea.com',
+          revenue: 15.to_m,
+          at: Time.zone.local(2018, 11, 15)
+        )
       end
 
       def test_filtering
@@ -66,19 +70,19 @@ module Workarea
         report = Customers.new
         assert_equal(3, report.results.length)
 
-        once = report.results.detect { |r| r['_id'] == 'returning-once@workarea.com' }
+        once = report.results.detect { |r| r['_id'] == 'once@workarea.com' }
         assert_equal(Time.zone.local(2018, 11, 15).to_i, once['first_order_at'].to_i)
-        assert_equal(Time.zone.local(2018, 11, 16).to_i, once['last_order_at'].to_i)
-        assert_equal(2, once['orders'])
+        assert_equal(Time.zone.local(2018, 11, 15).to_i, once['last_order_at'].to_i)
+        assert_equal(1, once['orders'])
         assert_equal(15, once['average_order_value'])
-        assert_equal(30, once['revenue'])
+        assert_equal(15, once['revenue'])
 
         returning = report.results.detect { |r| r['_id'] == 'returning-once@workarea.com' }
         assert_equal(Time.zone.local(2018, 11, 15).to_i, returning['first_order_at'].to_i)
         assert_equal(Time.zone.local(2018, 11, 16).to_i, returning['last_order_at'].to_i)
         assert_equal(2, returning['orders'])
-        assert_equal(15, returning['average_order_value'])
-        assert_equal(30, returning['revenue'])
+        assert_equal(10, returning['average_order_value'])
+        assert_equal(20, returning['revenue'])
 
         twice = report.results.detect { |r| r['_id'] == 'returning-twice@workarea.com' }
         assert_equal(Time.zone.local(2018, 11, 14).to_i, twice['first_order_at'].to_i)
