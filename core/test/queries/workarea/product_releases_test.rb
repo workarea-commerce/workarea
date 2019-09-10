@@ -42,5 +42,15 @@ module Workarea
       release.as_current { pricing.prices.first.update!(regular: 10_000) }
       assert_equal([release], ProductReleases.new(product).releases)
     end
+
+    def test_changesets_with_missing_releases
+      product = create_product(name: 'Foo')
+      release = create_release
+      release.as_current { product.update!(name: 'Bar') }
+      release.delete
+
+      assert_nil(product.reload.changesets.first.release)
+      assert_equal([], ProductReleases.new(product).releases)
+    end
   end
 end
