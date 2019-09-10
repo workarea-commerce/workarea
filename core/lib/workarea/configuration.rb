@@ -414,6 +414,10 @@ module Workarea
         size: 'Workarea::Search::FacetSorting::Size'
       }
 
+      # The default sorting for search facets types that do not have an
+      # explicitly defined sort in `search_facet_sorts`
+      config.search_facet_default_sort = :count
+
       # The size to use for a facet aggregation when being ordered dynamically
       # through a proc or class. We do this to return all values so the facets
       # returned can be sorted before being narrowed to the size defined

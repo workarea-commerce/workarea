@@ -1,1 +1,1 @@
-= number_field_tag "configuration[#{field.key}]", value, class: 'text-box text-box--small', step: 1
+= number_field_tag "configuration[#{field.key}]", value, class: 'text-box text-box--small', step: 1, required: !field.allow_blank?

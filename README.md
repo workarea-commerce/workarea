@@ -80,7 +80,7 @@ This will run a script that does the following:
 * seed the database
 * start the application server
 
-It requires you have Docker installed and running. Once complete, you can visit `http://localhost:3000` to view your storefront app. For the Workarea Admin, you can visit 'http://localhost:3000/admin'. The seed data provides an admin user with an email/password of `user@workarea.com/W3bl1nc!`.
+It requires you have Docker installed and running. Once complete, you can visit `http://localhost:3000` to view your storefront app. For the Workarea Admin, you can visit 'http://localhost:3000/admin'. The seed data provides an admin user with an email/password of `user@workarea.com/w0rkArea!`.
 
 For more information on usage and troubleshooting, see the [workarea-demo](https://github.com/workarea-commerce/workarea-demo) page.
 

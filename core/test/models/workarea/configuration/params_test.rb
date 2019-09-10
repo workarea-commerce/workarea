@@ -7,8 +7,8 @@ module Workarea
         Workarea.config.admin_definition = Administrable::Definition.new
         Workarea::Configuration.define_fields do
           field 'foo', type: :string
-          field 'bar', type: :string
-          field 'baz', type: :string
+          field 'bar', type: :string, default: 'test'
+          field 'baz', type: :string, allow_blank: true
 
           field 'foo_hash', type: :hash, values_type: :integer
           field 'bar_array', type: :array
@@ -26,7 +26,7 @@ module Workarea
 
         result = Params.new(params).to_h
         assert_equal('string value', result[:foo])
-        assert_nil(result[:bar])
+        assert_equal('test', result[:bar])
         assert_equal('', result[:baz])
         assert_equal({ 'one' => 1 }, result[:foo_hash])
         assert_equal(%w(one two three), result[:bar_array])

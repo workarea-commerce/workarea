@@ -1,2 +1,2 @@
-= number_field_tag "configuration[#{field.key}][]", value.parts.values.first, id: nil, class: 'text-box text-box--small', step: 1
+= number_field_tag "configuration[#{field.key}][]", value.parts.values.first, id: nil, class: 'text-box text-box--small', step: 1, required: !field.allow_blank?
 = select_tag "configuration[#{field.key}][]", options_for_select(duration_field_options, value.parts.keys.first.to_s), id: nil
