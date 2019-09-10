@@ -7,10 +7,11 @@ module Workarea
       self.sort_fields = %w(revenue refund first_order_at last_order_at orders average_order_value cancellations)
 
       def aggregation
-        result = [add_returning]
-        result << filter_to_returning if params[:results_filter] == 'returning'
-        result << filter_to_one_time if params[:results_filter] == 'one_time'
-        result + [project_fields]
+        [filter_orders, add_returning, filter_returning, project_fields].compact
+      end
+
+      def filter_orders
+        { '$match' => { 'orders' => { '$gt' => 0 } } }
       end
 
       def add_returning
@@ -21,12 +22,12 @@ module Workarea
         }
       end
 
-      def filter_to_returning
-        { '$match' => { 'returning' => true } }
-      end
-
-      def filter_to_one_time
-        { '$match' => { 'returning' => false } }
+      def filter_returning
+        if params[:results_filter] == 'returning'
+          { '$match' => { 'returning' => true } }
+        elsif params[:results_filter] == 'one_time'
+          { '$match' => { 'returning' => false } }
+        end
       end
 
       def project_fields
