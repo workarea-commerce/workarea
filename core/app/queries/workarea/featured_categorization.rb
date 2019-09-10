@@ -30,16 +30,18 @@ module Workarea
     def categories_affected_by_current_release
       return [] if Release.current.blank?
 
+      Catalog::Category.in(
+        id: category_changesets_affecting_current_release.map(&:releasable_id)
+      )
+    end
+
+    def category_changesets_affecting_current_release
+      return [] if Release.current.blank?
+
       FeaturedProducts
         .changesets(@product.id)
         .where(releasable_type: Catalog::Category.name)
-        .in(release_id: releases_affecting_current_release.map(&:id))
-        .map(&:releasable)
-    end
-
-    def releases_affecting_current_release
-      return [] if Release.current.blank?
-      Release.current.scheduled_before + [Release.current]
+        .in(release_id: Release.current.preview.releases.map(&:id))
     end
   end
 end
