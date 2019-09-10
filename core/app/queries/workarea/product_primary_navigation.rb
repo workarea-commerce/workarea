@@ -34,8 +34,19 @@ module Workarea
     private
 
     def categories
-      @categories ||= @options[:categories] ||
-        Categorization.new(@product).to_models
+      @categories ||=
+        (@options[:categories] || Categorization.new(@product).to_models)
+          .tap(&method(:load_taxons))
+    end
+
+    def load_taxons(categories)
+      taxons = Navigation::Taxon
+        .where(navigable_type: Catalog::Category.name)
+        .in(navigable_id: categories.map(&:id))
+        .map { |taxon| [taxon.navigable_id, taxon] }
+        .to_h
+
+      categories.each { |cat| cat.set_relation(:taxon, taxons[cat.id]) }
     end
   end
 end
