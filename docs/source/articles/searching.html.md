@@ -673,19 +673,19 @@ Workarea provides several Rake tasks to manually re-index all search indexes or 
 You can run the tasks as commands.
 
 ```bash
-$ bin/rails workarea::search_index::all
+$ bin/rails workarea:search_index:all
 ```
 
 ```bash
-$ bin/rails workarea::search_index::admin
+$ bin/rails workarea:search_index:admin
 ```
 
 ```bash
-$ bin/rails workarea::search_index::storefront
+$ bin/rails workarea:search_index:storefront
 ```
 
 ```bash
-$ bin/rails workarea::search_index::help
+$ bin/rails workarea:search_index:help
 ```
 
 Or invoke the tasks programatically.
@@ -709,7 +709,7 @@ Rake::Task['workarea:search_index:help'].invoke
 Regardless of how you execute them, these tasks each inline all Sidekiq workers for the duration of the task. As of Workarea 3.3, you can prevent this behavior by setting the environment variable `INLINE` to `false`. For example:
 
 ```bash
-$ INLINE=false bin/rails workarea::search_index::all
+$ INLINE=false bin/rails workarea:search_index:all
 ```
 
 ### Seeds
