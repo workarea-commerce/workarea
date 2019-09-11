@@ -41,12 +41,18 @@ module Workarea
 
       def test_showing_a_specific_variant_by_sku
         visit storefront.product_path(@product, sku: 'SKU1')
-        assert(page.has_content?('Integration Product'))
-        assert(page.has_content?('$10.00'))
-        assert(page.has_no_content?('$15.00'))
+
+        within '.product-details' do
+          assert(has_content?('Integration Product'))
+          assert(has_content?('$10.00'))
+          assert(has_no_content?('$15.00'))
+        end
 
         visit storefront.product_path(@product, sku: 'SKU2')
-        assert(page.has_content?('$15.00'))
+
+        within '.product-details' do
+          assert(has_content?('$15.00'))
+        end
       end
 
       def test_showing_a_product_with_no_prices
