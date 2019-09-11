@@ -9,6 +9,7 @@ module Workarea
     def releases
       changesets
         .uniq(&:release)
+        .reject { |cs| cs.release.blank? }
         .flat_map { |cs| [cs.release] + cs.release.scheduled_after }
         .uniq
     end
