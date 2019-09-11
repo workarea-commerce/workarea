@@ -259,8 +259,10 @@ module Workarea
       refute(model.active)
       assert_equal(1, model.changesets.length)
       assert_equal(@release.id, model.changesets.first.release_id)
-      assert(model.changesets.first.changeset['active'])
-      refute(model.changesets.first.original['active'])
+      assert_equal(1, model.changesets.first.changeset.size)
+      assert(model.changesets.first.changeset['active'][I18n.locale.to_s])
+      assert_equal(1, model.changesets.first.original.size)
+      refute(model.changesets.first.original['active'][I18n.locale.to_s])
     end
 
     def test_save_ignores_illegal_values
@@ -296,14 +298,18 @@ module Workarea
       refute(embedded_1.active)
       assert_equal(1, embedded_1.changesets.length)
       assert_equal(@release.id, embedded_1.changesets.first.release_id)
-      assert(embedded_1.changesets.first.changeset['active'])
-      refute(embedded_1.changesets.first.original['active'])
+      assert_equal(1, embedded_1.changesets.first.changeset.size)
+      assert(embedded_1.changesets.first.changeset['active'][I18n.locale.to_s])
+      assert_equal(1, embedded_1.changesets.first.original.size)
+      refute(embedded_1.changesets.first.original['active'][I18n.locale.to_s])
 
       refute(embedded_2.active)
       assert_equal(1, embedded_2.changesets.length)
       assert_equal(@release.id, embedded_2.changesets.first.release_id)
-      assert(embedded_2.changesets.first.changeset['active'])
-      refute(embedded_2.changesets.first.original['active'])
+      assert_equal(1, embedded_2.changesets.first.changeset.size)
+      assert(embedded_2.changesets.first.changeset['active'][I18n.locale.to_s])
+      assert_equal(1, embedded_2.changesets.first.original.size)
+      refute(embedded_2.changesets.first.original['active'][I18n.locale.to_s])
     end
 
     def test_destroys_related_changesets
@@ -411,8 +417,10 @@ module Workarea
       refute(embedded.active)
       assert_equal(1, embedded.changesets.length)
       assert_equal(@release.id, embedded.changesets.first.release_id)
-      assert(embedded.changesets.first.changeset['active'])
-      refute(embedded.changesets.first.original['active'])
+      assert_equal(1, embedded.changesets.first.changeset.size)
+      assert(embedded.changesets.first.changeset['active'][I18n.locale.to_s])
+      assert_equal(1, embedded.changesets.first.original.size)
+      refute(embedded.changesets.first.original['active'][I18n.locale.to_s])
       assert(embedded.changesets.first.document_path.present?)
     end
 

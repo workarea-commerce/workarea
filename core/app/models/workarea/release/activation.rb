@@ -22,18 +22,22 @@ module Workarea
         set = changesets.find_or_initialize_by(release_id: release_id)
         set.document_path = document_path
 
-        active_changeset = if Workarea.config.localized_active_fields
-          { 'active' => { I18n.locale => true } }
+        set.changeset = if Workarea.config.localized_active_fields
+          { 'active' => { I18n.locale.to_s => true } }
         else
           { 'active' => true }
         end
+        set.original = if Workarea.config.localized_active_fields
+          { 'active' => { I18n.locale.to_s => false } }
+        else
+          { 'active' => false }
+        end
 
-        set.changeset = active_changeset
         set.save!
       end
 
       def was_active?
-        (Workarea.config.localized_active_fields && active_was[I18n.locale]) ||
+        (Workarea.config.localized_active_fields && active_was[I18n.locale.to_s]) ||
           (!Workarea.config.localized_active_fields && active_was)
       end
     end
