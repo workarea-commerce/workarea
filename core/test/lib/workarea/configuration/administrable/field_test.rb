@@ -111,6 +111,17 @@ module Workarea
           Workarea.config.bar = 'baz'
           assert(field.overridden?)
         end
+
+        def test_allow_blank?
+          field = Field.new('Foo', type: :string)
+          refute(field.allow_blank?)
+
+          field = Field.new('Foo', type: :string, allow_blank: false)
+          refute(field.allow_blank?)
+
+          field = Field.new('Foo', type: :string, allow_blank: true)
+          assert(field.allow_blank?)
+        end
       end
     end
   end

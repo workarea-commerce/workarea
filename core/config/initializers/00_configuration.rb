@@ -131,16 +131,6 @@ Workarea::Configuration.define_fields do
         in the default config above.
       ).squish
 
-    field 'Search Facet Default Sort',
-      type: :symbol,
-      default: :count,
-      values: [
-        ['Number of Results', :count],
-        ['Alphabetical, A-Z', :alphabetical_asc],
-        ['Alphabetical, Z-A', :alphabetical_asc]
-      ],
-      description: 'The default sorting for search facets.'
-
     field 'Search Size Facet Sort',
       id: :search_facet_size_sort,
       type: :array,

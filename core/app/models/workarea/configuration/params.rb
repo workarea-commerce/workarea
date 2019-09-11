@@ -10,11 +10,18 @@ module Workarea
           next unless @params.key?(field.key)
           value = @params[field.key]
 
-          memo[field.key] =
+          formatted_value =
             if value.present? && respond_to?(field.type)
               send(field.type, field, value)
             else
               value
+            end
+
+          memo[field.key] =
+            if formatted_value.blank? && !field.allow_blank?
+              field.default
+            else
+              formatted_value
             end
         end
       end

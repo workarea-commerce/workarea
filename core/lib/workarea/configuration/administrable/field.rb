@@ -52,6 +52,10 @@ module Workarea
           self
         end
 
+        def allow_blank?
+          !!@options.allow_blank
+        end
+
         def merge!(options = {})
           @options = OpenStruct.new(options.to_h.merge(options))
         end
