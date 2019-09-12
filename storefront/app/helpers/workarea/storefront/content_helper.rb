@@ -21,7 +21,7 @@ module Workarea
           render_content_blocks_without_cache(blocks)
         else
           Rails.cache.fetch(
-            blocks.map(&:cache_key).join('/'),
+            blocks.map(&:cache_key).push(cache_varies).join('/'),
             expires_in: Workarea.config.cache_expirations.render_content_blocks
           ) { render_content_blocks_without_cache(blocks) }
         end

@@ -11,6 +11,7 @@ module Workarea
         blocks = ContentBlockViewModel.wrap(content.blocks)
 
         self.expects(:current_user).returns(nil)
+        self.expects(:request).returns(OpenStruct.new(env: {}))
         Rails.cache.expects(:fetch).once
         render_content_blocks(blocks)
 
