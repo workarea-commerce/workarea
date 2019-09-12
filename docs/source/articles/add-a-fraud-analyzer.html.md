@@ -3,7 +3,7 @@ title: Add a Fraud Analyzer
 excerpt: This page will guide you through a step-by-step process of adding a custom fraud analyzer to evaluate orders.
 ---
 
-# Analyzing Fraud
+# Add a Fraud Analyzer
 
 Workarea provides a default fraud analyzer which will make no decision of the fraudulence of an order. This analyzer will return a `no decision` by default and is meant to be placeholder until retailer specific rules can be put into place.
 
