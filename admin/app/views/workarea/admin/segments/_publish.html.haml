@@ -1,0 +1,10 @@
+.section.align-center
+  %h4.link{ data: { toggle: '#segments-table' } }= t('workarea.admin.segments.publish.title')
+
+  #segments-table.hidden
+    %p= t('workarea.admin.segments.publish.description')
+
+    .property
+      = label_tag 'active_segment_ids', t('workarea.admin.shared.active_field.only_for'), class: 'property__name'
+      = select_tag 'active_segment_ids', options_from_collection_for_select(segments, :id, :name, model.active_segment_ids), multiple: true, data: { select_two: { placeholder: t('workarea.admin.shared.active_field.select_segments'), allowClear: true, dropdownParentSelector: '#active-by-segment' } }
+      %span.property__note= t('workarea.admin.shared.active_field.only_these_segments')

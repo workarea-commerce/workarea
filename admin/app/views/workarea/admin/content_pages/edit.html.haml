@@ -31,7 +31,7 @@
           %span.property__name
             = t('workarea.admin.fields.active')
             = inline_svg('workarea/admin/i18n.svg', class: 'svg-icon svg-icon--small') if locale_options.many? && Workarea.config.localized_active_fields
-          = toggle_button_for 'page[active]', @page.active?
+          = render 'workarea/admin/shared/active_field', scope: 'page', model: @page
 
         .property
           = label_tag 'page[tag_list]', t('workarea.admin.content_pages.edit.tags_label'), class: 'property__name'

@@ -18,7 +18,7 @@ module Workarea
       end
 
       def test_cache_key
-        cached_product = Catalog::Product.new(@product.as_document)
+        cached_product = Catalog::Product.instantiate(@product.as_document)
 
         view_model = ProductViewModel.new(cached_product)
         assert_match(/#{@product.id}/, view_model.cache_key)
@@ -37,7 +37,7 @@ module Workarea
 
       def test_cache_key_with_options
         variant = @product.variants.build(sku: 'SKU', details: { 'Color' => 'blue' })
-        cached_product = Catalog::Product.new(@product.as_document)
+        cached_product = Catalog::Product.instantiate(@product.as_document)
         options = { action: 'show', sku: variant.sku }.merge(variant.details)
         view_model = ProductViewModel.new(cached_product, options)
 

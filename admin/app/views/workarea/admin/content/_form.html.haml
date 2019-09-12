@@ -27,14 +27,20 @@
 
     .tabs__panel
       %h2.tabs__heading= t('workarea.admin.content.form.display')
-      %span.heading.heading--4= t('workarea.admin.content.form.hide_for')
-
-      - Workarea.config.storefront_break_points.each_key do |breakpoint|
+      .section
+        %span.heading.heading--4= t('workarea.admin.content.form.segments')
         .property
-          = hidden_field_tag 'block[hidden_breakpoints][]', '', id: nil
-          = check_box_tag 'block[hidden_breakpoints][]', breakpoint.to_s, block.hidden_breakpoints.include?(breakpoint.to_s), id: dom_id(block, "hidden_breakpoint_#{breakpoint.to_s}")
-          = label_tag dom_id(block, "hidden_breakpoint_#{breakpoint.to_s}"), nil, class: 'property__name' do
-            #{breakpoint.to_s.titleize} #{t('workarea.admin.content.form.devices')}
+          = label_tag 'block_active_segment_ids', t('workarea.admin.content.form.exclusive_segments'), class: 'property__name'
+          = select_tag 'block[active_segment_ids]', options_from_collection_for_select(segments, :id, :name, block.active_segment_ids), multiple: true, data: { select_two: { placeholder: t('workarea.admin.shared.active_field.select_segments'), allowClear: true } }, id: nil
+
+      .section
+        %span.heading.heading--4= t('workarea.admin.content.form.hide_for')
+        - Workarea.config.storefront_break_points.each_key do |breakpoint|
+          .property
+            = hidden_field_tag 'block[hidden_breakpoints][]', '', id: nil
+            = check_box_tag 'block[hidden_breakpoints][]', breakpoint.to_s, block.hidden_breakpoints.include?(breakpoint.to_s), id: dom_id(block, "hidden_breakpoint_#{breakpoint.to_s}")
+            = label_tag dom_id(block, "hidden_breakpoint_#{breakpoint.to_s}"), nil, class: 'property__name' do
+              #{breakpoint.to_s.titleize} #{t('workarea.admin.content.form.devices')}
 
 .content-editor__form-actions
   .grid.grid--auto.grid--center.grid--middle

@@ -247,24 +247,6 @@ module Workarea
       refute_includes(fields_in_original, 'blank_field')
     end
 
-    def test_save_can_schedule_activation
-      model = Foo.create!(
-        name: 'Test',
-        active: true,
-        activate_with: @release.id
-      )
-
-      model.reload
-
-      refute(model.active)
-      assert_equal(1, model.changesets.length)
-      assert_equal(@release.id, model.changesets.first.release_id)
-      assert_equal(1, model.changesets.first.changeset.size)
-      assert(model.changesets.first.changeset['active'][I18n.locale.to_s])
-      assert_equal(1, model.changesets.first.original.size)
-      refute(model.changesets.first.original['active'][I18n.locale.to_s])
-    end
-
     def test_save_ignores_illegal_values
       model = Foo.create!(
         name: 'Test',
@@ -276,40 +258,6 @@ module Workarea
 
       assert(model.active)
       assert_equal(0, model.changesets.length)
-    end
-
-    def test_save_can_schedule_activation_for_an_embedded_document
-      model = Foo.create!(name: 'Test')
-
-      embedded_1 = model.bars.create!(
-        name: 'Bar',
-        active: true,
-        activate_with: @release.id
-      )
-
-      embedded_2 = model.bars.create!(
-        name: 'Baz',
-        active: true,
-        activate_with: @release.id
-      )
-
-      model.reload
-
-      refute(embedded_1.active)
-      assert_equal(1, embedded_1.changesets.length)
-      assert_equal(@release.id, embedded_1.changesets.first.release_id)
-      assert_equal(1, embedded_1.changesets.first.changeset.size)
-      assert(embedded_1.changesets.first.changeset['active'][I18n.locale.to_s])
-      assert_equal(1, embedded_1.changesets.first.original.size)
-      refute(embedded_1.changesets.first.original['active'][I18n.locale.to_s])
-
-      refute(embedded_2.active)
-      assert_equal(1, embedded_2.changesets.length)
-      assert_equal(@release.id, embedded_2.changesets.first.release_id)
-      assert_equal(1, embedded_2.changesets.first.changeset.size)
-      assert(embedded_2.changesets.first.changeset['active'][I18n.locale.to_s])
-      assert_equal(1, embedded_2.changesets.first.original.size)
-      refute(embedded_2.changesets.first.original['active'][I18n.locale.to_s])
     end
 
     def test_destroys_related_changesets
@@ -399,29 +347,6 @@ module Workarea
       assert_equal('Changed', model.name)
       assert_equal('Bar Changed', model.bars.first.name)
       assert_equal('Baz Changed', model.baz.name)
-    end
-
-    def test_creating_and_activating_embedded
-      model = Foo.create!(name: 'Foo')
-
-      embedded = Release.with_current(@release.id) do
-        model.bars.create!(
-          name: 'Test',
-          active: true,
-          activate_with: @release.id
-        )
-      end
-
-      model.reload
-
-      refute(embedded.active)
-      assert_equal(1, embedded.changesets.length)
-      assert_equal(@release.id, embedded.changesets.first.release_id)
-      assert_equal(1, embedded.changesets.first.changeset.size)
-      assert(embedded.changesets.first.changeset['active'][I18n.locale.to_s])
-      assert_equal(1, embedded.changesets.first.original.size)
-      refute(embedded.changesets.first.original['active'][I18n.locale.to_s])
-      assert(embedded.changesets.first.document_path.present?)
     end
 
     def test_deleting_embedded

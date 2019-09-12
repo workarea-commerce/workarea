@@ -1,6 +1,6 @@
 module Workarea
   module Admin
-    module SegmentRulesHelper
+    module SegmentsHelper
       def segment_rule_types_options
         Workarea.config.segment_rule_types.map do |string|
           rule = string.constantize
@@ -15,6 +15,10 @@ module Workarea
           t('workarea.admin.segment_rules.social') => 'social',
           t('workarea.admin.segment_rules.search') => 'search'
         }
+      end
+
+      def segments
+        @segments ||= Segment.all
       end
     end
   end

@@ -43,7 +43,7 @@
                 %td
                   = text_field_tag 'price[min_quantity]', price.min_quantity, class: 'text-box text-box--small', title: t('workarea.admin.fields.min_quantity'), id: "price[min_quantity]", min: '1'
                 %td
-                  = toggle_button_for 'price[active]', @price.active?
+                  = render 'workarea/admin/shared/active_field', scope: 'price', model: @price
                 %td
                   = toggle_button_for 'price[on_sale]', @price.on_sale?
                 = append_partials('admin.price_table_fields', price: price)

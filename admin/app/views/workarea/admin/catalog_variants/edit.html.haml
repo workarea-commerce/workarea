@@ -34,7 +34,7 @@
           %span.property__name
             = t('workarea.admin.fields.active')
             = inline_svg('workarea/admin/i18n.svg', class: 'svg-icon svg-icon--small') if locale_options.many? && Workarea.config.localized_active_fields
-          = toggle_button_for 'variant[active]', @variant.active?
+          = render 'workarea/admin/shared/active_field', scope: 'variant', model: @variant
 
         = append_partials('admin.variant_fields', variant: @variant)
 

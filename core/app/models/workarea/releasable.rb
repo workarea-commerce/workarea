@@ -3,6 +3,7 @@ module Workarea
     extend ActiveSupport::Concern
     include Mongoid::DocumentPath
     include Release::Activation
+    include Segmentable
 
     included do
       field :active, type: Boolean, default: true, localize: Workarea.config.localized_active_fields
@@ -13,9 +14,6 @@ module Workarea
         as: :releasable
 
       validate :slug_unchanged, on: :update
-
-      scope :active, -> { where(active: true) }
-      scope :inactive, -> { where(active: false) }
 
       define_model_callbacks :save_release_changes
       before_update :handle_release_changes

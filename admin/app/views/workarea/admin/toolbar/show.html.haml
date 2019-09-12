@@ -45,6 +45,17 @@
               .header__action= link_to t('workarea.admin.toolbar.edit_content'), edit_content_path(@content), class: 'header__action-link'
 
             .header__action
+              = link_to segment_override_path(return_to: params[:return_to]), title: t('workarea.admin.toolbar.select_segments'), id: 'select_segments', class: 'header__action-link' do
+                = inline_svg('workarea/admin/icons/user.svg', class: 'svg-icon svg-icon--medium svg-icon--blue') unless Rails.env.test? # Capybara cannot find this link by content, id, or title if this is present
+                - if override_segments.blank?
+                  = t('workarea.admin.toolbar.select_segments')
+                - else
+                  = override_segments.take(2).map(&:name).join(', ')
+                  - if override_segments.size > 2
+                    ,
+                    = t('workarea.admin.toolbar.more_segments', count: override_segments.size - 2)
+
+            .header__action
               = form_tag release_session_path(return_to: params[:return_to]), method: :post, class: 'header__action-link' do
                 = inline_svg('workarea/admin/icons/calendar.svg', title: t('workarea.admin.toolbar.managing_changes_for'), class: 'release-select__icon')
                 = select_tag :release_id, release_options_for_select, data: { form_submitting_control: '' }, id: nil, aria: { label: t('workarea.admin.toolbar.managing_changes_for') }

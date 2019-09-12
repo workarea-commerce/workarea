@@ -34,7 +34,7 @@ module Workarea
         end
 
         def newest_products
-          @newest_products ||= Catalog::Product.active.recent(results_count)
+          @newest_products ||= Catalog::Product.recent(results_count * 2).select(&:active?)
         end
 
         def results_count

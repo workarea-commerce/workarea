@@ -3,6 +3,7 @@ module Workarea
     include I18n::DefaultUrlOptions
     include HttpCaching
     include CurrentTracking
+    include CurrentSegments
 
     protect_from_forgery
 

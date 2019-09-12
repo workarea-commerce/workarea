@@ -12,7 +12,7 @@ module Workarea
       return true if @releasable.blank?
 
       Release.with_current(release.try(:id)) do
-        @releasable.update_attributes!(active: activate?)
+        @releasable.update!(active: activate?, active_segment_ids: active_segment_ids)
       end
     end
 
@@ -29,6 +29,10 @@ module Workarea
 
     def activate?
       @params[:activate] != 'never'
+    end
+
+    def active_segment_ids
+      Array.wrap(@params[:active_segment_ids])
     end
   end
 end

@@ -71,7 +71,7 @@ module Workarea
           data = model.data.slice(*fields)
 
           if data.present? && data.values.any?(&:present?)
-            duplicate = Content::Block.new(model.attributes)
+            duplicate = Content::Block.instantiate(model.as_document)
             duplicate.data = data
                               .map { |k, v| [k.gsub(/_\d+/, ''), v] }
                               .to_h

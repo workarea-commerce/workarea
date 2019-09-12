@@ -1,0 +1,29 @@
+- @page_title = t('workarea.admin.segment_overrides.show.title')
+
+.view
+  .view__header
+    .grid.grid--center
+      .grid__cell.grid__cell--50
+        .view__heading
+          %h1
+            = inline_svg('workarea/admin/icons/user.svg', class: 'svg-icon svg-icon--large svg-icon--blue')
+            = t('workarea.admin.segment_overrides.show.title')
+          .grid.grid--center
+            .grid__cell.grid__cell--50
+              %p= t('workarea.admin.segment_overrides.show.description')
+
+  .view__container.view__container--narrow
+    = form_tag segment_override_path, method: 'post' do
+      = hidden_field_tag 'return_to', params[:return_to]
+
+      .grid.grid--center
+        .grid__cell.grid__cell--50
+          %table
+            %tbody
+              - segments.each do |segment|
+                %tr
+                  %td= link_to segment.name, segment
+                  %td.align-right= toggle_button_for "segment_ids[#{segment.id}]", override_segments.include?(segment), id: segment.id
+
+      .align-center
+        = button_tag "#{t('workarea.admin.segment_overrides.show.button')} →", value: 'set_overrides', class: 'button'

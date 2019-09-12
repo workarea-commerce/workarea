@@ -13,6 +13,8 @@ module Workarea
       helper :all
       helper_method :layout_content
 
+      around_action :apply_segments
+
       def health_check
         render plain: 'ok'
       end

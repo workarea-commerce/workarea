@@ -1,0 +1,18 @@
+.active-field
+  = toggle_button_for "#{scope}[active]", model.active, data: { toggle_button: '' } do
+    .toggle-button__more.toggle-button__more--to-right{ data: { toggle_button_positive_element: '' } }
+      = link_to '#active-by-segment', data: { active_by_segment_tooltip: '' } do
+        .active-field__segments-message
+          - selected_segments = segments.select { |s| model.active_segment_ids.map(&:to_s).include?(s.id.to_s) }
+          - haml_tag_if selected_segments.present?, :strong do
+            = t('workarea.admin.shared.active_field.by_segment', names: selected_segments.map(&:name).to_sentence, count: selected_segments.size)
+
+      #active-by-segment.tooltip-content
+        %h3
+          = inline_svg('workarea/admin/icons/user.svg', class: 'svg-icon svg-icon--small svg-icon--blue')
+          = t('workarea.admin.shared.active_field.active_by_segment')
+        %p= t('workarea.admin.shared.active_field.description_html', segments_path: segments_path)
+
+        .property
+          = label_tag "#{scope}_active_segment_ids", t('workarea.admin.shared.active_field.only_for'), class: 'property__name'
+          = select_tag "#{scope}[active_segment_ids]", options_from_collection_for_select(segments, :id, :name, model.active_segment_ids), multiple: true, data: { select_two: { placeholder: t('workarea.admin.shared.active_field.select_segments'), allowClear: true, dropdownParentSelector: '#active-by-segment' } }

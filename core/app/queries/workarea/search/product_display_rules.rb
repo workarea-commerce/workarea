@@ -2,7 +2,6 @@ module Workarea
   module Search
     module ProductDisplayRules
       extend ActiveSupport::Concern
-      include ReleaseDisplayRules
 
       def product_display_query_clauses(allow_displayable_when_out_of_stock: true)
         [
@@ -11,8 +10,8 @@ module Workarea
           inventory_display_clause(
             allow_displayable_when_out_of_stock: allow_displayable_when_out_of_stock
           ),
-          active_for_release_clause,
-          include_current_release_clause
+          active_for_segments_clause,
+          preview_current_release_clause
         ]
       end
 
@@ -38,6 +37,62 @@ module Workarea
         end
 
         result
+      end
+
+      def active_for_segments_clause
+        result = { bool: { must: [{ term: { 'active.now' => true } }] } }
+
+        if Segment.current.present?
+          result[:bool][:must] << {
+            bool: {
+              should: [
+                { bool: { must_not: { exists: { field: 'active_segment_ids' } } } },
+                { terms: { 'active_segment_ids' => Segment.current.map(&:id) } }
+              ]
+            }
+          }
+        end
+
+        result
+      end
+
+      def preview_current_release_clause
+        if Release.current.blank?
+          {
+            bool: {
+              minimum_should_match: 1,
+              should: [
+                { term: { release_id: 'live' } },
+                { bool: { must_not: { exists: { field: 'release_id' } } } } # for upgrade compatiblity
+              ]
+            }
+          }
+        else
+          {
+            bool: {
+              minimum_should_match: 1,
+              should: [
+                { term: { release_id: Release.current.id } },
+                {
+                  bool: {
+                    must_not: [{ term: { changeset_release_ids: Release.current.id } }],
+                    must: [
+                      {
+                        bool: {
+                          minimum_should_match: 1,
+                          should: [
+                            { term: { release_id: 'live' } },
+                            { bool: { must_not: { exists: { field: 'release_id' } } } } # for upgrade compatiblity
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        end
       end
     end
   end

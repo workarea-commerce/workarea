@@ -25,6 +25,26 @@ module Workarea
       assert_equal([one, two, three], Segment.find_qualifying(visit))
     end
 
+    def test_current
+      assert_equal([], Segment.current)
+
+      segment = create_segment
+      Segment.with_current(segment) { assert_equal([segment], Segment.current) }
+      assert_equal([], Segment.current)
+
+      Segment.with_current([segment]) { assert_equal([segment], Segment.current) }
+      assert_equal([], Segment.current)
+
+      assert_raises { Segment.with_current(segment) { raise 'foo' } }
+      assert_equal([], Segment.current)
+    end
+
+    def test_with_current_returns_the_value_from_the_block
+      segment = create_segment
+      result = Segment.with_current(segment) { 'foo' }
+      assert_equal('foo', result)
+    end
+
     def test_qualifies
       segment = create_segment(
         rules: [

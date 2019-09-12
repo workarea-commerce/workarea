@@ -8,6 +8,7 @@ module Workarea
       def index
         query = Search::AdminSegments.new(params)
         @search = SearchViewModel.new(query, view_model_options)
+        @segments = SegmentViewModel.wrap(Segment.all, view_model_options)
       end
 
       def show

@@ -127,6 +127,12 @@ module Workarea
         self == siblings.select(&:active?).last
       end
 
+      def to_draft
+        result = Content::BlockDraft.instantiate(as_document.merge('content_id' => _parent.id))
+        result.new_record = true
+        result
+      end
+
       private
 
       def set_defaults

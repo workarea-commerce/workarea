@@ -59,10 +59,7 @@ module Workarea
         )
         content.save!
 
-        draft = Content::BlockDraft.create!(
-          block.attributes.merge('content_id' => content.id)
-        )
-
+        draft = block.to_draft.tap(&:save!)
         get storefront.draft_content_block_path(draft)
         assert(response.ok?)
       end

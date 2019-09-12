@@ -32,7 +32,7 @@
           %span.property__name
             = t('workarea.admin.fields.active')
             = inline_svg('workarea/admin/i18n.svg', class: 'svg-icon svg-icon--small') if locale_options.many? && Workarea.config.localized_active_fields
-          = toggle_button_for 'category[active]', @category.active?
+          = render 'workarea/admin/shared/active_field', scope: 'category', model: @category
 
         .property
           = label_tag 'category[slug]', nil, class: 'property__name' do
