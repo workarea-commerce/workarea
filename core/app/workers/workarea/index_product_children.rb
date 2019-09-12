@@ -9,7 +9,8 @@ module Workarea
         Catalog::ProductImage => [:save, :save_release_changes, :destroy],
         with: -> { [_parent.id.to_s] }
       },
-      lock: :until_executing
+      lock: :until_executing,
+      query_cache: true
     )
 
     def perform(id)

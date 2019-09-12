@@ -5,7 +5,8 @@ module Workarea
 
     sidekiq_options(
       enqueue_on: { Catalog::Category => [:save, :destroy] },
-      lock: :until_executing
+      lock: :until_executing,
+      query_cache: true
     )
 
     def perform(id)

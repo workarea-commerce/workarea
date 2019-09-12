@@ -11,7 +11,8 @@ module Workarea
         },
         with: -> { [product_list.id] }
       },
-      unique: :until_executing
+      unique: :until_executing,
+      query_cache: true
     )
 
     def perform(id)

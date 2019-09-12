@@ -6,6 +6,7 @@ module Workarea
     sidekiq_options(
       queue: 'low',
       lock: :until_executing,
+      query_cache: true,
       enqueue_on: {
         ApplicationDocument => [:save, :touch, :destroy],
         with: -> { [self.class.name, id] },
