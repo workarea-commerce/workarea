@@ -125,8 +125,9 @@ module Workarea
 
         def free_product_attributes(sku)
           ttl = Workarea.config.cache_expirations.free_gift_attributes
+          key = ['workarea/free_gift', sku, Release.current&.id].compact.join('/')
 
-          Rails.cache.fetch("workarea/free_gift/#{sku}", expires_in: ttl) do
+          Rails.cache.fetch(key, expires_in: ttl) do
             Workarea::OrderItemDetails.find(sku).try(:to_h) || {}
           end
         end

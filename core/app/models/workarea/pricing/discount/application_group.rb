@@ -6,7 +6,9 @@ module Workarea
 
         class << self
           def calculate(discounts, order, shippings)
-            groups = Rails.cache.fetch('discount_application_groups', expires_in: Workarea.config.cache_expirations.discount_application_groups, race_condition_ttl: 10) do
+            key = ['discount_application_groups', Release.current&.id].compact.join('/')
+            expiration = Workarea.config.cache_expirations.discount_application_groups
+            groups = Rails.cache.fetch(key, expires_in: expiration, race_condition_ttl: 10) do
               # Ensure an undirected graph of compatibility on discounts
               discounts.each do |discount|
                 discount.compatible_discount_ids.each do |id|
