@@ -4,7 +4,8 @@ module Workarea
     include Sidekiq::CallbacksWorker
 
     sidekiq_options(
-      enqueue_on: { Help::Article => [:save, :destroy] }
+      enqueue_on: { Help::Article => [:save, :destroy] },
+      query_cache: true
     )
 
     def perform(id)

@@ -9,7 +9,8 @@ module Workarea
         with: -> { [payment_id] },
         ignore_if: -> { !success? }
       },
-      lock: :until_executing
+      lock: :until_executing,
+      query_cache: true
     )
 
     def perform(order_id)
