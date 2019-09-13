@@ -51,7 +51,7 @@ module Workarea
       end
 
       def test_viewing_comments_without_an_author
-        _comment = create_comment(
+        create_comment(
           commentable: commentable,
           body: 'system generated comment'
         )
