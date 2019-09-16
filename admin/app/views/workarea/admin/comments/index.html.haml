@@ -19,10 +19,11 @@
         - @comments.each do |comment|
           %li.comments__comment
             .comments__comment-header
-              .comments__comment-avatar
-                = link_to user_path(comment.author) do
-                  = avatar_for comment.author, additional_css_class: 'avatar'
-              %h3.comments__comment-author= link_to comment.author_name, user_path(comment.author)
+              - if comment.author.present?
+                .comments__comment-avatar
+                  = link_to user_path(comment.author) do
+                    = avatar_for comment.author, additional_css_class: 'avatar'
+                %h3.comments__comment-author= link_to comment.author_name, user_path(comment.author)
               %p.comments__comment-time #{time_ago_in_words(comment.created_at)} ago
               .comments__comment-actions
                 - if comment.author == current_user

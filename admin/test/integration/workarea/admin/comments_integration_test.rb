@@ -50,6 +50,16 @@ module Workarea
         end
       end
 
+      def test_viewing_comments_without_an_author
+        create_comment(
+          commentable: commentable,
+          body: 'system generated comment'
+        )
+
+        get admin.commentable_comments_path(commentable.to_global_id)
+        assert(response.ok?)
+      end
+
       def test_adding_comment_and_subscribing
         create_comment(commentable: commentable, body: 'comment history')
 
