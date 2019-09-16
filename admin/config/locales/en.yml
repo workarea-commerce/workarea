@@ -3053,7 +3053,7 @@ en:
             undoes_html: This release undoes the %{link} release.
             learn_more: Learn More
         edit:
-          index_link: All releases
+          index_link: Release calendar
           last_published_at: Last Published at
           last_undone_at: Last Undone At
           name: Name
@@ -3117,7 +3117,7 @@ en:
           view: View
           view_release: View Release
         show:
-          index_link: All releases
+          index_link: Release calendar
           plan_changes_to_preview: Plan some changes to preview this release
           publish_now: Publish Now
           republish_now: Republish Now
@@ -3156,7 +3156,7 @@ en:
           no_undo_date: There is no undo date set for this release.
         undo:
           page_title: Undo %{name}
-          index_link: All releases
+          index_link: Release calendar
           plan_changes: Plan Changes
           no_changes_html: There are no changes to undo for this release! Head to %{plan_changes} to make some.
           undoing: Undoing a Release
@@ -3167,7 +3167,7 @@ en:
           view_the_undo_release: View the Undo Release
         original:
           page_title: Original Release for %{name}
-          index_link: All releases
+          index_link: Release calendar
           title: Original Release
           created_description_html: "%{undo} was created %{at} to undo the %{original} release."
           no_changes_for_this_release: No changes for this release now.
