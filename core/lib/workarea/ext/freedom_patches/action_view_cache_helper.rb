@@ -11,13 +11,11 @@ module ActionView
       end
 
       def cache_fragment_name(*)
-        result = super
+        super.tap { |result| result << cache_varies if cache_varies.present? }
+      end
 
-        if request.env['workarea.cache_varies'].present?
-          result << request.env['workarea.cache_varies']
-        end
-
-        result
+      def cache_varies
+        request.env['workarea.cache_varies']
       end
     end
   end
