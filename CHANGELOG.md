@@ -1,3 +1,28 @@
+Workarea 3.4.16 (2019-09-17)
+--------------------------------------------------------------------------------
+
+* Ensure test only asserts product details for product system test
+
+* Parse URL When Ensuring CORS for Direct Uploads
+
+  The `request.url` returns the full URL, with path included. This isn't
+  valid for a CORS header, which needs just the scheme, host, and port if
+  it's non-standard. Update the `DirectUpload.ensure_cors!` method to
+  parse out those pieces of the URL and re-assemble it for the CORS
+  header and ID.
+
+* Use current URL for direct upload CORS headers (#20)
+
+  Direct uploads can fail locally if your `Workarea.config.host` is not
+  set to the domain you are currently using in the browser. To prevent
+  this, instead of reading from the configuration when ensuring CORS
+  headers on the S3 bucket, use the URL from the request for S3 CORS config.
+  Addresses a problem whereby changing the domain (either accidentally or
+  on-purpose) causes direct uploads to fail, since it can't create the
+  proper CORS headers needed to transmit files into the bucket directly.
+
+
+
 Workarea 3.4.15 (2019-09-04)
 --------------------------------------------------------------------------------
 
