@@ -1,12 +1,12 @@
 ---
 title: Release Notes
-excerpt: Release notes for Workarea summarize the technical changes introduced by new versions of the platform. They are intended to aide developers migrating to those versions.
+excerpt: Release notes for Workarea summarize the technical changes introduced by new versions of the platform. They are intended to aid developers migrating to those versions.
 body_class: body--nude
 ---
 
 # Release Notes
 
-Release notes for Workarea summarize the technical changes introduced by new versions of the platform. They are intended to aide developers migrating to those versions.
+Release notes for Workarea summarize the technical changes introduced by new versions of the platform. They are intended to aid developers migrating to those versions.
 
 ## Release Announcements
 
