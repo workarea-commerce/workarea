@@ -33,7 +33,7 @@ module Workarea
       end
 
       def default_category
-        if categorization.default_model.present?
+        @default_category ||= if categorization.default_model.present?
           CategoryViewModel.wrap(categorization.default_model)
         end
       end
