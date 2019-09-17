@@ -71,7 +71,7 @@ proper CORS headers needed to transmit files into the bucket directly.
 - [20](https://github.com/workarea-commerce/workarea/pull/20)
 - [46](https://github.com/workarea-commerce/workarea/pull/46)
 
-## Fix Randomly Failing System TEst
+## Fix Randomly Failing System Test
 
 Ensure test only asserts product details in `ProductSystemTest`.
 Recently viewed products were being accidentally clicked on and thus the
