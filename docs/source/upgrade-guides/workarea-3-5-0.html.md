@@ -1,17 +1,20 @@
 ---
-title: Upgrading from Workarea v3.4 to v3.5
-excerpt: A catalog of changes to watch out for while upgrading between minor versions
+title: Workarea 3.5.0 Upgrade Guide
+excerpt: Changes requiring attention when upgrading to Workarea 3.5.0
 ---
 
-# Upgrading from Workarea v3.4 to v3.5
+# Workarea 3.5.0 Upgrade Guide
 
-This document is intended to help ease your upgrade between minor versions of Workarea.
+Before upgrading to Workarea 3.5.0, review the following changes.
+
+_See also:_ [Workarea 3.5.0 Release Notes](/release-notes/workarea-3-5-0.html) and [Workarea Upgrade](https://plugins.workarea.com/plugins/upgrade) (tool you should use for all upgrades).
+
 
 ## Change releases to undo using new releases
 
 ### What's Changing?
 
-Undoing a release in versions up to v3.5 was a separate code and Sidekiq job to revert the changes made based on a time specified on the release. To setup releases for more capabilities going forward (like segments and A/B testing), we're moving the release undo functionality to actually be a workflow to create mirrored, reverting release. The new undo release has a publish like any other, and can be edited like any other. This allows administrators to resolve conflicts and make other edits to the undo with full control.
+Undoing a release in versions up to v3.5 was separate code and a Sidekiq job to revert the changes made based on a time specified on the release. To set up releases for more capabilities going forward (like segments and A/B testing), we're moving the release undo functionality to actually be a workflow to create a mirrored, reverting release. The new undo release has a publish like any other, and can be edited like any other. This allows administrators to resolve conflicts and make other edits to the undo with full control.
 
 ### What Do You Need to Do?
 
@@ -25,11 +28,11 @@ To make release publishing as reliable and possible within Sidekiq, v3.5 adds a 
 
 ### What Do You Need to Do?
 
-If you're relying on the autoconfig of Sidekiq that Workarea provides, you don't have to do anything. If you are (probably with a `config/sidekiq.yml`), you'll want to add the queue `releases` to the top of the list.
+If you're relying on the autoconfig of Sidekiq that Workarea provides, you don't have to do anything. If you aren't (most likely using a `config/sidekiq.yml` file instead), you'll want to add the queue `releases` to the top of the list.
 
 ## Schema.org structured data as JSON-LD
 
-### Conversion of Microdata to JSON-LD format
+### What's Changing?
 
 [Schema.org](https://schema.org) structured data was previously represented in microdata format. This format enforced metadata attributes to be placed on relevant elements in views across the Storefront. The problem with this approach is that a developer will frequently edit markup to satisfy project requirements and can unwittingly cause the metadata to become invalid.
 
@@ -38,23 +41,25 @@ If you're relying on the autoconfig of Sidekiq that Workarea provides, you don't
 * `Workarea::SchemaOrgHelper`
 * `Workarea::Storefront::SchemaOrgHelper`
 
+### What Do You Need to Do?
+
 **Switching from the microdata format to the JSON-LD format is not mandatory** as valid microdata is still an accepted format. It is, however, highly recommended that apps are upgraded to use the new format, as views that have not been overridden in the app will automatically begin using the new format. Offering a mixture of both microdata and JSON-LD is not recommended.
 
 
 ### Removal of Storefront product price partial
 
+### What's Changing?
+
 The conversion of the Schema.org structured data also rendered the `workarea/storefront/product/price` partial obsolete, as its primary purpose was to assist with the rendering of Schema.org Product Offer schema at the price level.
 
 The contents of this partial are now directly rendered within the `workarea/storefront/product/pricing` partial itself.
 
-### Additional Notes
-
-These changes will be caught and displayed via the diffing functionality of the [Upgrade plugin](https://stash.tools.weblinc.com/projects/WL/repos/workarea-upgrade/browse).
-
-### Relevant links:
-
 * [Pull request](https://stash.tools.weblinc.com/projects/WL/repos/workarea/pull-requests/3926/overview)
 * [JIRA ticket](https://jira.tools.weblinc.com/browse/ECOMMERCE-6743)
+
+### What Do You Need to Do?
+
+These changes will be caught and displayed via the diffing functionality of the [Upgrade plugin](https://stash.tools.weblinc.com/projects/WL/repos/workarea-upgrade/browse).
 
 
 ## Updates to Headless Chrome Configuration
@@ -65,7 +70,7 @@ To accommodate future on-demand changes related to Chrome's auto-updating, we're
 
 ### What Do You Need to Do?
 
-If you're using `Workarea.config.headless_chrome_options`, you'll need to rename that to `Workarea.config.headless_chrome_args`. Some applications setup with Docker for local development will be affected by this.
+If you're using `Workarea.config.headless_chrome_options`, you'll need to rename that to `Workarea.config.headless_chrome_args`. Some applications set up with Docker for local development will be affected by this.
 
 ## Updates tax rates with different tax level percentages
 
@@ -96,9 +101,9 @@ You'll also need to check out your `config/initializer/session_store.rb` and ens
 
 ### What's Changing?
 
-We looked to offer more robust features around digital products in v3.5. As a result, `Fulfillment::Sku` was introduced as a way to define how each SKU is fulfilled. Each Fulfillment SKU has a policy, much like Inventory SKUs, that define what should be done upon the completion of checkout for an item of a particular SKU. By default there are 2 policies: ignore and download. Ignore will do nothing automatically, thus signifying that human intervention is needed in order to fulfill the item. This will be the default and most common policy. The download policy provides enhance functionality for digital items. Admin can associate a file to a Fulfillment SKUs with a download policy, which will automatically generate a unique token for purchase that gives the user access to a download link in the summary of their order after completion and any time after that from their order history. Each policy defines any automated behavior, and whether SKUs with the policy require shipping. This allows flexibility to have some automation but still require human intervention to fully fulfill the item.
+We looked to offer more robust features around digital products in v3.5. As a result, `Fulfillment::Sku` was introduced as a way to define how each SKU is fulfilled. Each Fulfillment SKU has a policy, much like Inventory SKUs, that define what should be done upon the completion of checkout for an item of a particular SKU. By default there are 2 policies: ignore and download. Ignore will do nothing automatically, thus signifying that human intervention is needed in order to fulfill the item. This will be the default and most common policy. The download policy provides enhanced functionality for digital items. Admin can associate a file to a Fulfillment SKU with a download policy, which will automatically generate a unique token for purchase that gives the user access to a download link in the summary of their order after completion and any time after that from their order history. Each policy defines any automated behavior, and whether SKUs with the policy require shipping. This allows flexibility to have some automation but still require human intervention to fully fulfill the item.
 
-As a part of this process, the `digital?` flag on products was no longer necessary. The field is still defined, but is no longer used anywhere within the base system and will be removed completely in future versions. Instead, this concern was shifted fully to `Fullfillment::Sku`. A stop-gap policy of `ignore_digital` was also provided to mimic the behavior a product not requiring shipping, but not having automated fulfillment.
+As a part of this process, the `digital?` flag on products was no longer necessary. The field is still defined, but is no longer used anywhere within the base system and will be removed completely in future versions. Instead, this concern was shifted fully to `Fullfillment::Sku`. A stop-gap policy of `ignore_digital` was also provided to mimic the behavior of a product not requiring shipping, but not having automated fulfillment.
 
 ### What Do You Need To Do?
 

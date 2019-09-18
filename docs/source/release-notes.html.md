@@ -37,9 +37,7 @@ Since version 3.4.0, Workarea also provides upgrade guides for minor and major p
 
 ### Workarea 3.5
 
-**Upgrading from v3.4? Check out our [upgrade guide](upgrade-guides/from-3-4-to-3-5.html)!**
-
-- [Workarea 3.5.0](#TODO)
+- [Workarea 3.5.0](release-notes/workarea-3-5-0.html)
 
 ### Workarea 3.4
 
