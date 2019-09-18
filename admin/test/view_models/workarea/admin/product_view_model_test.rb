@@ -148,7 +148,7 @@ module Workarea
         assert(@view_model.ignore_inventory?)
       end
 
-      def test_blank_data
+      def test_blank_categories
         product = create_product
         view_model = ProductViewModel.new(product)
 
