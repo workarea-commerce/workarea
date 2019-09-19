@@ -15,6 +15,10 @@
     <meta name='description' content='<%= current_page.data.excerpt || 'Developer Documentation for the Workarea Commerce Platform' %>'>
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <% unless @hide_github_badge %>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.2.3/gh-fork-ribbon.min.css" />
+    <% end %>
     <%= stylesheet_link_tag "site" %>
 
     <% if build? %>
@@ -34,6 +38,10 @@
     <div class='view'>
       <%= yield %>
     </div>
+
+    <% unless @hide_github_badge %>
+      <a class="github-fork-ribbon left-bottom fixed" href="https://github.com/workarea-commerce" target="_blank" data-ribbon="Now On GitHub" title="Now On GitHub">Now on GitHub</a>
+    <% end %>
 
     <%= javascript_include_tag "jquery" %>
     <%= javascript_include_tag "vendor/highlight.pack" %>

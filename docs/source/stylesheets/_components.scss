@@ -395,7 +395,7 @@
 
 .search-results {
   max-width: 770px;
-  margin: 4em auto;
+  margin: 6em auto 4em;
   min-height: 600px;
 }
 
@@ -490,6 +490,7 @@
 
 .nav {
   padding: $spacing-unit * 2;
+  padding-bottom: 150px; // Make room for GitHub ribbon
 }
 
   .nav__menu {
@@ -667,3 +668,6 @@
       .skip-to__link--h4 { padding-left: 2em; font-size: 0.8rem; }
       .skip-to__link--h5 { padding-left: 3em; font-size: 0.7rem; }
       .skip-to__link--h6 { padding-left: 4em; font-size: 0.6rem; }
+
+
+.github-fork-ribbon::before { background-color: $blue }
