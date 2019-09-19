@@ -1,0 +1,24 @@
+name: Build Documentation
+on:
+  release:
+    branches:
+      - 'master'
+      - 'v3.4-stable'
+  push:
+    branches:
+      - 'v3.4-stable'
+    paths:
+      - 'docs/*'
+
+jobs:
+  build:
+    name: Build & Publish
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: ./.github/actions/build_documentation
+        env:
+          S3_REGION: ${{ secrets.s3_region }}
+          S3_BUCKET: ${{ secrets.s3_bucket }}
+          S3_ACCESS_KEY_ID: ${{ secrets.s3_access_key_id }}
+          S3_SECRET_ACCESS_KEY: ${{ secrets.s3_secret_access_key }}
