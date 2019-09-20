@@ -7,7 +7,9 @@ module Workarea
     after_action :track_index_filters, only: :index
 
     def index
-      DirectUpload.ensure_cors! if Configuration::S3.configured? && !request.xhr?
+      if Configuration::S3.configured? && !request.xhr?
+        DirectUpload.ensure_cors!(request.url)
+      end
 
       search = Search::AdminAssets.new(params)
       @search = Admin::SearchViewModel.new(search, view_model_options)

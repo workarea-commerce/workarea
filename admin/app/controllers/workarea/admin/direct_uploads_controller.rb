@@ -2,7 +2,7 @@ module Workarea
   module Admin
     class DirectUploadsController < Admin::ApplicationController
       def product_images
-        DirectUpload.ensure_cors! if Configuration::S3.configured?
+        DirectUpload.ensure_cors!(request.url) if Configuration::S3.configured?
       end
 
       def new

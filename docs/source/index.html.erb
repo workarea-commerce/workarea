@@ -1,3 +1,5 @@
+<% @hide_github_badge = true %>
+
 <div class='section [ white-text align-center ]'>
   <h1 class='heading heading--4'>How can we help?</h1>
   <% form_tag '/search.html', class: 'search', method: 'get' do %>
@@ -78,7 +80,7 @@
           <span class='box__heading'>Release Notes</span>
         </div>
         <p class='box__text'>
-          Stay up-to-date with each new patch release.
+          Stay up-to-date with each new patch release!
         </p>
       <% end %>
     </div>
@@ -132,9 +134,30 @@
           </div>
         </div>
         <p class='box__text'>
-          Chances are someone's asked the same question as you.
+          Join our Slack community to speak directly with the Workarea team and developers all over the world!
         </p>
       </a>
+    </div>
+  </div>
+  <div class='grid__cell 1/3--lap-and-up 1/5--desk'>
+    <div class='align-center'>
+      <% link_to 'https://github.com/workarea-commerce', target: '_blank', class: 'box' do %>
+        <div class='box__header'>
+          <div class='grid'>
+            <div class='grid__cell 4/5'>
+              <span class='box__heading'>GitHub</span>
+            </div>
+            <div class='grid__cell 1/5'>
+              <span class='box__arrow'>
+                <%= partial 'shared/svgs', locals: { svg: 'external' } %>
+              </span>
+            </div>
+          </div>
+        </div>
+        <p class='box__text'>
+          Come collaborate with us now that Workarea and many of its plugins are publically available on GitHub!
+        </p>
+      <% end %>
     </div>
   </div>
 </div>

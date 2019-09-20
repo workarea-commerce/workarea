@@ -1,8 +1,9 @@
 source 'https://rubygems.org'
+git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-gem 'redcarpet'
-gem 'middleman', '~> 4.2'
-gem 'middleman-autoprefixer', '~> 2.9'
-gem 'middleman-search', '~> 0.10.0'
+gem 'redcarpet', '~> 3.5.0'
+gem 'middleman', '~> 4.3.5'
+gem 'middleman-autoprefixer', '~> 2.10.1'
+gem 'middleman-search', github: 'workarea-commerce/middleman-search'
 gem 'middleman-navtree', '~> 0.1.10'
-gem 'puma'
+gem 'puma', '~> 4.1.1'
