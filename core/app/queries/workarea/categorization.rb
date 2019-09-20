@@ -12,7 +12,7 @@ module Workarea
     end
 
     def default_model
-      key = "#{@product.cache_key}/default_category"
+      key = [@product.cache_key, 'default_category', Release.current&.id].compact.join('/')
 
       @default_model ||= Rails.cache.fetch(key, expires_in: Workarea.config.cache_expirations.products_default_category) do
         manual_default_model ||
