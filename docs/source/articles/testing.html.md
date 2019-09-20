@@ -368,7 +368,28 @@ Workarea and its plugins include a plethora of configuration options that define
 
 #### Temporarily Changing Global Configuration
 
-To ensure that global configuration changes affect your code in expected ways, you can apply different configuration settings temporarily and run tests as if they are part of the global configuration. For example, here's a unit test from core that uses `Workarea.with_config` to ensure that admins are not affected by a change in `config.password_strength`:
+Since Workarea 3.5.0, the global configuration is reset before each test. You can therefore change the configuration within a test and have it affect only that test. Here is an example from Workarea Core:
+
+```ruby
+module Workarea
+  class UserTest < TestCase
+    def test_admins_have_more_advanced_password_requirements
+      config.password_strength = :weak
+
+      user = User.new(admin: false, password: 'password').tap(&:valid?)
+      assert(user.errors[:password].blank?)
+
+      user = User.new(admin: true, password: 'password').tap(&:valid?)
+      assert(user.errors[:password].present?)
+
+      user = User.new(admin: true, password: 'xykrDQXT]9Ai7XEXfe').tap(&:valid?)
+      assert(user.errors[:password].blank?)
+    end
+  end
+end
+```
+
+Prior to Workarea 3.5.0, you must wrap configuration changes in `Workarea.with_config` to ensure they reset after the test. Here is the same example from above using `Workarea.with_config`:
 
 ```ruby
 module Workarea
@@ -571,6 +592,29 @@ if Workarea::TestCase.running_in_gem? ||
   end
 end
 ```
+
+### Configuring Headless Chrome
+
+System tests (see below) are driven by a headless instance of Chrome, which, since Workarea 3.5.0, is configurable as follows:
+
+```ruby
+# <workarea-core>/lib/workarea/configuration.rb
+
+# Options passed to the Selenium driver's capabilities
+config.headless_chrome_options = { w3c: false }
+
+# Arguments passed to headless Chrome for running system tests
+config.headless_chrome_args = [
+  'headless',
+  'disable-gpu',
+  'disable-popup-blocking',
+  '--enable-features=NetworkService,NetworkServiceInProcess',
+  "--window-size=#{config.capybara_browser_width},#{config.capybara_browser_width}"
+]
+```
+
+Modify these configurations as needed from an initializer in your app or plugin.
+
 
 ## Test Case Types
 
@@ -794,7 +838,34 @@ Workarea.configure do |config|
 end
 ```
 
-Additionally, you can customize the factory default values for the duration of a single test by utilizing the `Workarea.with_config` method to temporarily modify the configuration values.
+Additionally, you can customize the factory default values for the duration of a single test.
+
+Since Workarea 3.5.0, the global configuration is reset before each test.
+Prior to Workarea 3.5.0, you must wrap temporary configuration changes in `Workarea.with_config` to ensure they reset after the test.
+
+Example for Workarea 3.5 and up:
+
+```ruby
+# test/system/storefront/categories_system_test.decorator
+
+require 'test_helper'
+
+module Workarea
+  decorate Storefront::CategoriesSystemTest do
+
+    # Decorate setup method
+    def set_products
+      config.testing_factory_defaults.product.merge!(
+        # add customized defaults
+      )
+
+      super
+    end
+  end
+end
+```
+
+Example for Workarea versions prior to 3.5:
 
 ```ruby
 # test/system/storefront/categories_system_test.decorator
