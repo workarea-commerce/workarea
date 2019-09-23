@@ -90,6 +90,8 @@ en:
       success: Success
       generic_error_text: Sorry, there was an error processing your request.
       loading: Loading...
+      copied: Copied!
+      copy_failed: Failed to Copy!
     payment:
       insufficient_payment: "Your payment is insufficient. The remaining balance is %{balance}."
       transaction_failure: "There was a problem processing your payment. %{message}"
