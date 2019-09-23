@@ -46,7 +46,9 @@ Workarea uses documents of type _category_ to index category queries for use wit
 
 ### Indexes
 
-Documents of type _admin_, _help_, and _storefront_ are stored in separate indexes. Workarea applications use a varying number of Elasticsearch indexes. An index exists for each combination of site name, Rails environment, locale, and Elasticsearch document type. <sup><a href="#notes" id="note-1-context">[1]</a></sup>
+Documents of type _admin_, _help_, and _storefront_ are stored in separate indexes. Workarea applications use a varying number of Elasticsearch indexes. An index exists for each combination of site name, Rails environment, locale, and Elasticsearch document type.
+
+( Documents of type _category_ are stored in the same indexes as documents of type _storefront_. )
 
 For example, the indexes for a simple development application could be as follows.
 
@@ -109,7 +111,9 @@ Meanwhile, the following list of indexes could be used in an application with mu
 
 Elasticsearch mappings are typically declared for an index when the index is created, however, the mapping may be extended at index time, such as when an index's mapping includes [dynamic templates](https://www.elastic.co/guide/en/elasticsearch/reference/current/dynamic-templates.html).
 
-When creating a new index, Workarea looks for a configuration value declaring the mapping for that index. The configuration keys are named after the different document types. <sup><a href="#notes" id="note-2-context">[2]</a></sup> Each configured mapping includes _properties_ and _dynamic templates_.
+When creating a new index, Workarea looks for a configuration value declaring the mapping for that index. The configuration keys are named after the different document types. Each configured mapping includes _properties_ and _dynamic templates_.
+
+( The _storefront_ key declares mappings for the _storefront_ **and** _category_ types, since both document types are stored in the same indexes. )
 
 For example, the default configuration of the mappings for _storefront_ indexes are shown below.
 
@@ -178,7 +182,9 @@ puts Workarea::Elasticsearch::Document.all
 # Workarea::Search::Storefront
 ```
 
-The classes listed above are used almost exclusively for _type_ and _index_ level concerns (see below), while the descendants of these classes (covered under Search Models) are used primarily for _document_ level concerns. <sup><a href="#notes" id="note-3-context">[3]</a></sup>
+The classes listed above are used almost exclusively for _type_ and _index_ level concerns (see below), while the descendants of these classes (covered under Search Models) are used primarily for _document_ level concerns.
+
+( `Workarea::Search::Help` has no descendants and is used directly to save and destroy documents. )
 
 These classes respond to `.type` and `.mappings`, which describe the type of documents for which they are responsible. (Note that `.mappings` returns the Workarea configuration, not the actual mappings on the index.)
 
@@ -994,11 +1000,3 @@ Many search queries include some of the following modules, which help to build u
 - `Workarea::Search::ProductRules`
 - `Workarea::Search::AdminIndexSearch`
 - `Workarea::Search::AdminSorting`
-
-## Notes
-
-[1] Documents of type _category_ are stored in the same indexes as documents of type _storefront_.
-
-[2] The _storefront_ key declares mappings for the _storefront_ **and** _category_ types, since both document types are stored in the same indexes.
-
-[3] `Workarea::Search::Help` has no descendants and is used directly to save and destroy documents.
