@@ -76,6 +76,8 @@ module Workarea
 
     validates :email, presence: { on: :purchasable }, email: true
 
+    validate :item_count_limit
+
     define_model_callbacks :place
 
     # The user-friendly name for the order
@@ -361,6 +363,16 @@ module Workarea
         fraud_decided_at: Time.current,
         fraud_suspected_at: decision.declined? ? Time.current : nil
       )
+    end
+
+    private
+
+    def item_count_limit
+      limit = Workarea.config.item_count_limit
+
+      if items.size > limit
+        errors.add(:base, I18n.t('workarea.order.errors.count_limit', size: limit))
+      end
     end
   end
 end

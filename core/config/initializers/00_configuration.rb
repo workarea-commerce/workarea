@@ -26,6 +26,11 @@ Workarea::Configuration.define_fields do
       type: :duration,
       default: 15.minutes,
       description: 'How long a checkout can be idle before the user is forced to restart'
+
+    field 'Item Count Limit',
+      type: :integer,
+      default: 100,
+      description: 'How many unique items can be added to a single cart'
   end
 
   fieldset 'Orders', namespaced: false do
