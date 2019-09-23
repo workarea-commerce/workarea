@@ -156,7 +156,7 @@ workarea {env} edit proxy
 
 The Worakarea CLI allows you to connect to your application's Kibana intance using port forwarding. This gives you access to the kibana ES console and logstash.
 
-This feature is currently experimental and not available for all environments or applications, if you need access and the following command does not work, please contact Workarea support at <https://www.suport.workarea.com>
+This feature is currently experimental and not available for all environments or applications, if you need access and the following command does not work, please contact Workarea support at <https://support.workarea.com>
 
 ```bash
 workarea {env} fwd kibana 5601:5601
