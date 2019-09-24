@@ -1,5 +1,7 @@
 name: Docker Demo Image
-on: release
+on:
+  release:
+    types: [published]
 
 jobs:
   image_build:

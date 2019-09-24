@@ -1,14 +1,14 @@
 name: Build Documentation
 on:
   release:
-    branches:
-      - 'master'
-      - 'v3.4-stable'
+    types: [published]
   push:
     branches:
       - 'v3.4-stable'
     paths:
       - 'docs/*'
+      - 'docs/*/*'
+      - 'docs/*/*/*'
 
 jobs:
   build:
