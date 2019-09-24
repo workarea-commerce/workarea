@@ -14,7 +14,7 @@ Workarea also provides query classes which encapsulate the complexity of the var
 
 ## Client & Server(s)
 
-Workarea uses a [Ruby client](http://www.rubydoc.info/gems/elasticsearch-transport/5.0.4/Elasticsearch/Transport/Client) to communicate with an Elasticsearch [cluster](https://www.elastic.co/guide/en/elasticsearch/reference/5.5/_basic_concepts.html#_cluster). Workarea Hosting provisions each cloud environment with a cluster. You must provision your own cluster for local environments.
+Workarea uses a [Ruby client](http://www.rubydoc.info/gems/elasticsearch-transport/5.0.4/Elasticsearch/Transport/Client) to communicate with an Elasticsearch [cluster](https://www.elastic.co/guide/en/elasticsearch/reference/5.5/_basic_concepts.html#_cluster). In Workarea Cloud environments, the Elasticsearch cluster is already provisioned. You must provision your own cluster in other environments.
 
 The client instance, accessed as `Workarea.elasticsearch`, provides a [Ruby implementation](http://www.rubydoc.info/gems/elasticsearch-api/5.0.4/Elasticsearch/API) of the [Elasticsearch REST APIs](https://www.elastic.co/guide/en/elasticsearch/reference/5.5/index.html).
 
