@@ -9,7 +9,7 @@ Index Storefront Search Documents
 This document provides procedures developers can use to manually index Storefront search documents.
 
 These procedures are for _manually_ indexing search documents. However, most search indexing is _automatic_, as explained in [Search, Indexing](searching.html#indexing_7).
-See also [Storefront Search Features, Indexing](storefront-search-features.html#indexing_12) for an overview of Storefront search document creation and indexing.
+See also [Storefront Search Features, Indexing](storefront-search-features.html#indexing_11) for an overview of Storefront search document creation and indexing.
 
 
 Index All Storefront Search Documents
@@ -53,7 +53,7 @@ catalog_category = Workarea::Catalog::Category.first
 Search::Storefront::Category.new(catalog_category).save
 ```
 
-See [Storefront Search Features, Search Models](storefront-search-features.html#search-models_13) for an explanation of Storefront search models.
+See [Storefront Search Features, Search Models](storefront-search-features.html#search-models_12) for an explanation of Storefront search models.
 
 
 ### Product Documents
