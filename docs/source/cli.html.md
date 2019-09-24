@@ -10,7 +10,7 @@ body_class: body--nude
 
 ### Using an Apple Machine
 
-Installation on mac uses homebrew. If you do not have homebrew installed see <https://brew.sh/>
+Installation on macOS uses Homebrew. If you do not have Homebrew installed see <https://brew.sh/>
 
 ```bash
 brew tap workarea/tools ssh://git@stash.tools.weblinc.com:7999/wl/homebrew-taps.git
@@ -154,7 +154,7 @@ workarea {env} edit proxy
 
 ## Kibana
 
-The Worakarea CLI allows you to connect to your application's Kibana intance using port forwarding. This gives you access to the kibana ES console and logstash.
+The Workarea CLI allows you to connect to your application's Kibana instance using port forwarding. This gives you access to the Kibana dev tools (including Elasticsearch console) and Logstash.
 
 This feature is currently experimental and not available for all environments or applications, if you need access and the following command does not work, please contact Workarea support at <https://support.workarea.com>
 
