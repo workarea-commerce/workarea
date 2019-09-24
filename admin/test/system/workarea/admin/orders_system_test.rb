@@ -6,7 +6,12 @@ module Workarea
       include Admin::IntegrationTest
 
       def test_attributes
-        order = create_placed_order
+        order = create_placed_order(
+          traffic_referrer: {
+            uri: 'https://foo.bar'
+          }
+        )
+
         visit admin.order_path(order)
         click_link t('workarea.admin.cards.attributes.title')
 
@@ -15,6 +20,11 @@ module Workarea
         assert(page.has_content?("#{Money.default_currency.symbol}10.00")) # Subtotal
         assert(page.has_content?("#{Money.default_currency.symbol}1.00")) # Shipping
         assert(page.has_content?("#{Money.default_currency.symbol}11.00")) # Total
+
+        click_link t('workarea.admin.orders.attributes.checkout.view')
+        within '.tooltip-content' do
+          page.has_content?('https://foo.bar')
+        end
       end
 
       def test_fulfillment
