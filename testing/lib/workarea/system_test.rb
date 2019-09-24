@@ -31,6 +31,13 @@ end
 # Fail tests when JS errors are thrown.
 Capybara::Chromedriver::Logger.raise_js_errors = true
 
+# Ignore common error responses for `/current_user.json` and /login`.
+# These occur during the normal course of testing authentication, so
+# they don't need to be output in the test results.
+Capybara::Chromedriver::Logger.filters = [
+  /(login|current_user\.json) - Failed to load resource: the server responded with a status of (401|422)/
+]
+
 Capybara.server = :puma, { Silent: true }
 Capybara.javascript_driver = :headless_chrome
 
