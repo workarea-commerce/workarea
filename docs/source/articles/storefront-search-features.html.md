@@ -85,7 +85,6 @@ Furthermore, the following table provides specific examples of Storefront reques
 Storefront Request                            | Search Request
 --------------------------------------------- | ------------------------------------------------------
 Search results page                           | Products matching the user's query
-Autocomplete                                  | (Mixed) results matching the user's query as they type
 Home page with category summary content block | First _n_ products matching the category
 Order confirmation email with recommendations | Products similar to those in the user's order
 
@@ -172,7 +171,6 @@ The following table illustrates how the various Storefront search features use t
 Storefront Feature                                    | Use of Search Results
 ----------------------------------------------------- | ------------------------------------------------------
 Searches, categories, category summary content blocks | Init a `Storefront::ProductViewModel` from the cached product, pricing, and inventory models stored within each search result; display the results
-Autocomplete                                          | Init a `Storefront::SearchSuggestionViewModel` from each search result; display the name (and conditionally the image) for each result
 Product Recommendations                               | Pluck the MongoDB IDs from the results, and return the collection of IDs to the recommendations subsystem
 
 The table above hints at uses of search results that go beyond simply displaying results.
@@ -452,7 +450,10 @@ You will see the fields referenced this way within Elasticsearch request bodies 
 
 The namespaces (e.g. `active` and `content`) perform two primary functions.
 The `active` namespace is a special case which groups fields representing the activeness of products.
-This field allows for more accurate previewing of releases in the Storefront (inactive products are excluded from results).
+These fields allows for more accurate previewing of releases in the Storefront (inactive products are excluded from results).
+Before Workarea 3.5, these fields keyed off of releases (storing a per-release active value).
+Beginning in Workarea 3.5, separate documents track changes across releases, so the only field in the `active` namespace is `active.now`.
+
 All other namespaces exist primarily to perform dynamic field mapping.
 For example, all fields within the `content.*` namespace are mapped within Elasticsearch as _text_, while all fields in the `keywords.*` namespace are mapped as _keywords_.
 See [Change Storefront Search Results](change-storefront-search-results.html) to learn how to take advantage of this feature when adding fields to a search model.
@@ -528,6 +529,8 @@ The `"model"` fields in this namespace actually contain serialized Mongoid model
 
 Also notice that these cached fields and many other fields in this document contain data that is derived from the pricing SKU and inventory SKU models associated with this catalog product model.
 Search models are similar to view models in that they are initialized from a model, but they may cross bounded contexts to look up additional models as necessary to create a "view" of the original model that is suitable for a specific context (in this case, a Storefront search index).
+
+( Since Workarea 3.5, search documents are affected by the current release. See [Search, Search Models](/articles/searching.html#search-models_9) for an example of this. )
 
 Now that you've seen how search documents are created and how they are structured, let's look at how they are actually indexed into Elasticsearch.
 

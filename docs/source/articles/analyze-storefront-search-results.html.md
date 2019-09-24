@@ -157,6 +157,7 @@ Most likely you will want to examine the `#body`, which returns the request body
 Although the search query's params represent its own state, the state of the request body depends additionally on many external values.
 Depending on the search query class these may include the following:
 
+* The current release (if any) and current segments (segments were added in Workarea 3.5)
 * Administrable values, accessible to admins and developers
   * Search settings (administration of all searches)
     * Search settings views factor (product popularity multiplier)

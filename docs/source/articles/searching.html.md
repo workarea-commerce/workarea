@@ -460,20 +460,47 @@ product_storefront_search_model.model.name
 # => "Escape the Room"
 
 product_storefront_search_model.model.id
-# => "273E095F5A"
+# => "C204935012"
 ```
 
 Be aware that a search model and its originating Mongoid model have different, albeit similar, IDs.
 
 ```ruby
 product_storefront_search_model.id
-# => "product-273E095F5A"
+# => "product-C204935012"
 
 product_storefront_search_model.catalog_id
-# => "273E095F5A"
+# => "C204935012"
 
 product_storefront_search_model.model.id
-# => "273E095F5A"
+# => "C204935012"
+```
+
+Since Workarea 3.5, some Storefront search documents are specific to a release.
+In these cases, the search model ID also contains the release ID:
+
+```ruby
+# create a release
+release = Workarea::Release.create!(name: 'Catalog Cleanup')
+release.id.to_s
+# => "5d8a8ec63e474d3333402efb"
+
+# change the product within that release
+Workarea::Release.with_current(release) do
+  Workarea::Catalog::Product
+    .find(product.id)
+    .update_attribute(:name, 'Escape the Room 2')
+end
+
+# create a new, release-specific search model for the product
+Workarea::Release.with_current(release) do
+  product = Workarea::Catalog::Product.find(product.id)
+end
+product_storefront_search_model = Workarea::Search::Storefront::Product.new(product)
+
+# view the search model ID
+product_storefront_search_model.id
+# => "product-C204935012-5d8a8ec63e474d3333402efb"
 ```
 
 #### Saving & Destroying
@@ -488,7 +515,7 @@ product_storefront_search_model.save
 product_storefront_search_model.destroy
 ```
 
-These operations may affect multiple documents (in multiple indexes) if the application has multiple locales. These methods save or destroy one document per locale.
+These operations may affect multiple documents (in multiple indexes) if the application has multiple locales or releases.
 
 #### Creating Search Documents
 
@@ -497,78 +524,124 @@ When search models `save` documents, they must first create a document that is s
 The following examples create Admin and Storefront search documents from the same Mongoid source document. Notice how the fields of each search document are different.
 
 ```ruby
-pp product_admin_search_model.as_document
-# {:id=>"product-273E095F5A",
-# :name=>"Escape the Room",
-# :facets=>
-# {:status=>"inactive",
-# :type=>"product",
-# :tags=>[],
-# :upcoming_changes=>[],
-# :category=>"Automotive",
-# :category_id=>
-# ["5995eaf007dd42106a36021a",
-# "5995eaf007dd42106a360218",
-# "5995eaf007dd42106a360216",
-# "5995eaf007dd42106a360220",
-# "5995eaf007dd42106a360214",
-# "5995eaf007dd42106a360224"],
-# :on_sale=>false,
-# :issues=>["No Images", "No Description", "No Variants"],
-# :template=>"generic"},
-# :created_at=>Wed, 23 Aug 2017 18:46:23 UTC +00:00,
-# :updated_at=>Wed, 23 Aug 2017 18:46:23 UTC +00:00,
-# :search_text=>["273E095F5A", "Escape the Room", "product"],
-# :jump_to_text=>"Escape the Room (273E095F5A)",
-# :jump_to_search_text=>["273E095F5A", "Escape the Room", "product"],
-# :jump_to_position=>3,
-# :jump_to_route_helper=>"catalog_product_path",
-# :jump_to_param=>"escape-the-room",
-# :releasable=>true}
+product_admin_search_model = Workarea::Search::Admin::CatalogProduct.new(product)
+product_admin_search_document = product_admin_search_model.as_document
+puts JSON.pretty_generate(product_admin_search_document)
+# {
+#   "id": "product-C204935012",
+#   "name": "Escape the Room 2",
+#   "facets": {
+#     "status": "inactive",
+#     "type": "product",
+#     "tags": [
+# 
+#     ],
+#     "upcoming_changes": [
+#       "5d8a8ec63e474d3333402efb"
+#     ],
+#     "category": "New",
+#     "category_id": [
+# 
+#     ],
+#     "on_sale": false,
+#     "inventory_policies": [
+# 
+#     ],
+#     "issues": [
+#       "No Images",
+#       "No Description",
+#       "No Variants"
+#     ],
+#     "template": "generic"
+#   },
+#   "created_at": "2019-09-24 21:43:01 UTC",
+#   "updated_at": "2019-09-24 21:43:01 UTC",
+#   "keywords": [
+#     "c204935012"
+#   ],
+#   "search_text": [
+#     "C204935012",
+#     "Escape the Room 2",
+#     "product"
+#   ],
+#   "jump_to_text": "Escape the Room 2 (C204935012)",
+#   "jump_to_search_text": [
+#     "C204935012",
+#     "Escape the Room 2",
+#     "product"
+#   ],
+#   "jump_to_position": 3,
+#   "jump_to_route_helper": "catalog_product_path",
+#   "jump_to_param": "escape-the-room",
+#   "releasable": true
+# }
 ```
 
 ```ruby
-pp product_storefront_search_model.as_document
-# {:id=>"product-273E095F5A",
-# :type=>"product",
-# :slug=>"escape-the-room",
-# :active=>{:now=>false},
-# :suggestion_content=>
-# "Escape the Room Outdoors, Jewelry, Sports, Tools, Movies, Grocery ",
-# :created_at=>Wed, 23 Aug 2017 18:46:23 UTC +00:00,
-# :updated_at=>Wed, 23 Aug 2017 18:46:23 UTC +00:00,
-# :facets=>
-# {:category=>"Automotive",
-# :category_id=>
-# ["5995eaf007dd42106a36021a",
-# "5995eaf007dd42106a360218",
-# "5995eaf007dd42106a360216",
-# "5995eaf007dd42106a360220",
-# "5995eaf007dd42106a360214",
-# "5995eaf007dd42106a360224"],
-# :on_sale=>false},
-# :numeric=>{:price=>[0.0], :inventory=>0, :variant_count=>0},
-# :keywords=>{:catalog_id=>"273E095F5A", :sku=>[]},
-# :sorts=>
-# {BSON::ObjectId('5995eaf007dd42106a360214')=>nil,
-# BSON::ObjectId('5995eaf007dd42106a360216')=>nil,
-# BSON::ObjectId('5995eaf007dd42106a360218')=>nil,
-# BSON::ObjectId('5995eaf007dd42106a36021a')=>nil,
-# BSON::ObjectId('5995eaf007dd42106a360220')=>nil,
-# BSON::ObjectId('5995eaf007dd42106a360224')=>nil,
-# :price=>0.0,
-# :orders_score=>0.0,
-# :views_score=>0.0},
-# :content=>
-# {:name=>"Escape the Room",
-# :category_names=>"Outdoors, Jewelry, Sports, Tools, Movies, Grocery",
-# :description=>"",
-# :details=>" ",
-# :facets=>""},
-# :cache=>
-# {:image=>"/product_images/placeholder/small_thumb.jpg?c=1502997231",
-# :pricing=>[],
-# :inventory=>[]}}
+product_storefront_search_model = Workarea::Search::Storefront::Product.new(product)
+product_storefront_search_document = product_storefront_search_model.as_document
+puts JSON.pretty_generate(product_storefront_search_document)
+# {
+#   "id": "product-C204935012-5d8a8ec63e474d3333402efb",
+#   "type": "product",
+#   "slug": "escape-the-room",
+#   "active": {
+#     "now": false
+#   },
+#   "release_id": "5d8a8ec63e474d3333402efb",
+#   "changeset_release_ids": [
+#     "5d8a8ec63e474d3333402efb"
+#   ],
+#   "suggestion_content": "Escape the Room 2 New, Phone Cases, Gaming, Fiction, Puzzles, Board Games   ",
+#   "created_at": "2019-09-24 21:43:01 UTC",
+#   "updated_at": "2019-09-24 21:43:01 UTC",
+#   "facets": {
+#     "category": "New",
+#     "category_id": [
+# 
+#     ],
+#     "on_sale": false,
+#     "inventory_policies": [
+# 
+#     ]
+#   },
+#   "numeric": {
+#     "price": [
+#       0.0
+#     ],
+#     "inventory": 0,
+#     "variant_count": 0
+#   },
+#   "keywords": {
+#     "catalog_id": "c204935012",
+#     "sku": [
+# 
+#     ],
+#     "name": "escape the room 2"
+#   },
+#   "sorts": {
+#     "price": 0.0,
+#     "orders_score": 0,
+#     "views_score": 0,
+#     "inventory_score": 1
+#   },
+#   "content": {
+#     "name": "Escape the Room 2",
+#     "category_names": "New, Phone Cases, Gaming, Fiction, Puzzles, Board Games",
+#     "description": "",
+#     "details": " ",
+#     "facets": ""
+#   },
+#   "cache": {
+#     "image": "/product_images/placeholder/small_thumb.jpg?c=1567110494",
+#     "pricing": [
+# 
+#     ],
+#     "inventory": [
+# 
+#     ]
+#   }
+# }
 ```
 
 The fields of a search document should match the mapping for its type. Some fields appear in the mapping explicitly, as properties, while other match implicitly, via dynamic templates.

@@ -97,6 +97,8 @@ This allows more or fewer search documents to be indexed for each product.
 For example, with [Workarea Browse Option](https://github.com/workarea-commerce/workarea-browse-option) installed, a single MongoDB document may be represented by multiple search documents in each search index (e.g. one for each color of the product).
 In contrast, with [Workarea Package Products](https://github.com/workarea-commerce/workarea-package-products) installed, the child products of a package are not indexed at all (they produce an empty product entries collection).
 
+Furthermore, since Workarea 3.5, a product may have release-specific search documents, so an index may contain multiple documents for a product: one for the "live" representation and others used when previewing specific upcoming releases.
+
 The product entries abstraction also allows a different search model to be used conditionally.
 For example, Workarea Browse Option extends product entries to use a different search model for those products that "browse by option".
 This search model uses only variants of the given option (e.g. blue) to construct the search model.
