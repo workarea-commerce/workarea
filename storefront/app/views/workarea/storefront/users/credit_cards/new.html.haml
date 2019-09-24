@@ -2,8 +2,6 @@
 - params[:credit_card] ||= {}
 
 - content_for :breadcrumbs do
-  = render_schema_org(breadcrumb_list_schema([[t('workarea.storefront.layouts.home'), root_url], [t('workarea.storefront.users.account'), users_account_url], [t('workarea.storefront.users.add_credit_card'), new_users_credit_card_url]]))
-
   %p.breadcrumbs__node-group
     %span.breadcrumbs__node
       = link_to t('workarea.storefront.layouts.home'), root_path, rel: 'home', class: 'breadcrumbs__link'
