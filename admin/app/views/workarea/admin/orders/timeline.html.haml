@@ -21,7 +21,7 @@
         .grid__cell.grid__cell--80-at-medium
           .grid
             - @order.timeline.by_day.each do |day, entries|
-              .activity-group.activity-group--bordered
+              .activity-group
                 .grid__cell.grid__cell--20
                   .date-marker
                     -  if day == Date.today

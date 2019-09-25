@@ -6,6 +6,8 @@ $date-marker-min-width:        50px !default;
 $date-marker-background-color: $light-gray !default;
 $date-marker-month-font-size:  12px !default;
 $date-marker-day-font-size:    20px !default;
+$date-marker-arrow-size: 12px !default;
+$date-marker-border-radius: $global-border-radius !default;
 
 .date-marker {
     position: relative;
@@ -18,6 +20,19 @@ $date-marker-day-font-size:    20px !default;
     line-height: 1.2;
     text-align: center;
     background-color: $date-marker-background-color;
+    border-radius: $date-marker-border-radius;
+
+    &::before {
+        position: absolute;
+        top: 50%;
+        right: 0;
+        transform: translate(50%, -50%) rotate(45deg);
+        display: block;
+        width: $date-marker-arrow-size;
+        height: $date-marker-arrow-size;
+        background-color: $date-marker-background-color;
+        content: '';
+    }
 }
 
 .date-marker--no-date {
@@ -33,10 +48,13 @@ $date-marker-day-font-size:    20px !default;
 
     .date-marker__month {
         font-size: $date-marker-month-font-size;
+        line-height: 1;
+        text-transform: uppercase;
     }
 
     .date-marker__day {
         margin-bottom: 0;
         font-size: $date-marker-day-font-size;
+        line-height: 1;
     }
 

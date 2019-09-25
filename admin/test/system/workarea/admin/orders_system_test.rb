@@ -100,9 +100,9 @@ module Workarea
         )
 
         visit admin.order_path(order)
-        assert(page.has_content?(t('workarea.admin.orders.timeline.placed')))
-        assert(page.has_content?(shipped_content))
-        assert(page.has_content?(auth_content))
+        assert_match(t('workarea.admin.orders.timeline.placed'), page.body)
+        assert_match(shipped_content, page.body)
+        assert_match(auth_content, page.body)
 
         click_link t('workarea.admin.timeline.card.title')
 

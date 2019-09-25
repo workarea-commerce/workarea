@@ -12,7 +12,7 @@
         %p= t('workarea.admin.trash.index.description')
 
   .view__container.view__container--narrow
-    .activity-group.activity-group--bordered
+    .activity-group
       .activity-group__activities
         - @entries.each do |entry|
           = render_activity_entry(entry)

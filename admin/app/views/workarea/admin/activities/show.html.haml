@@ -24,20 +24,27 @@
 
         = render 'workarea/admin/shared/creation_date', search: @activity, form_path: catalog_categories_path
 
-    .activity-group.activity-group--bordered
+      %p.browsing-controls__count= t('workarea.admin.activities.show.activity', count: @activity.entries.count)
+
+  .view__container
+    .section
       - if @activity.entries.present?
         - @activity.days.each_with_index do |(day, entries), index|
-          - unless (index.zero? && @activity.hide_first_header?) || entries.blank?
-            .activity-group__header
-              - if day < Time.current.beginning_of_week.to_date
-                = day.to_s(:date_only)
-              - else
-                = relative_weekday(day)
-          .activity-group__activities
-            - entries.each do |entry|
-              = render_activity_entry(entry)
+          .activity-group
+            .grid
+              .grid__cell.grid__cell--20
+                .date-marker
+                  - if day == Date.today
+                    .date-marker__annotation= t('workarea.admin.timeline.today')
+                  .date-marker__month= local_time(day, format: '%b')
+                  .date-marker__day= local_time(day, format: '%e')
+              .grid__cell.grid__cell--80
+                .activity-group__activities
+                  - entries.each do |entry|
+                    = render_activity_entry(entry)
       - else
-        %p.heading.heading--3= t('workarea.admin.activities.show.no_activity')
+        .align-center
+          %p.heading.heading--3= t('workarea.admin.activities.show.no_activity')
 
     - if @activity.entries.total_pages > 1
       = render 'workarea/admin/shared/pagination', collection: @activity.entries

@@ -115,6 +115,9 @@ en:
         shipping_service_destroy_html: removed the %{name} shipping service
         shipping_service_update_html: updated %{fields} on the %{name} shipping service
         show:
+          activity:
+            one: 1 Activity
+            other: "%{count} Activities"
           activity_by: activity by
           admin_activity: Admin Activity
           main_dashboard: Main dashboard
