@@ -26,6 +26,10 @@ module Mongoid
         def tags
           super || []
         end
+
+        def tags=(tags)
+          super(tags&.uniq)
+        end
       end
 
 
