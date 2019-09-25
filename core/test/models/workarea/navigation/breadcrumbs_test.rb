@@ -23,10 +23,20 @@ module Workarea
       end
 
       def test_last
-        breadcrumbs = Breadcrumbs.new(@navigable, last: 'Test Taxon')
+        model = create_product
+        breadcrumbs = Breadcrumbs.new(@navigable, last: model)
+
         assert(breadcrumbs.last.is_a?(Navigation::Taxon))
         assert_equal(4, breadcrumbs.length) # including home
-        assert_equal('Test Taxon', breadcrumbs.last.name)
+        assert_equal(model, breadcrumbs.last.navigable)
+        assert_equal(model.name, breadcrumbs.last.name)
+
+        model = create_inventory
+        breadcrumbs = Breadcrumbs.new(@navigable, last: model.id)
+
+        assert(breadcrumbs.last.is_a?(Navigation::Taxon))
+        assert_equal(4, breadcrumbs.length) # including home
+        assert_equal(model.id, breadcrumbs.last.name)
       end
 
       def test_selected

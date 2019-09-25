@@ -13,7 +13,16 @@ module Workarea
 
       def initialize(navigable, last: nil)
         @navigable = navigable
-        @last = Taxon.new(name: last) if last.present?
+        @last = if last.class.include?(Navigable)
+                  Taxon.new(
+                    name: last.name,
+                    navigable: last,
+                    navigable_slug: last.slug,
+                    parent: breadcrumb_taxons.last
+                  )
+                elsif last.present?
+                  Taxon.new(name: last, parent: breadcrumb_taxons.last)
+                end
       end
 
       def to_global_id

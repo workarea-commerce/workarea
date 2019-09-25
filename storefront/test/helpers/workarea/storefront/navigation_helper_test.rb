@@ -15,6 +15,10 @@ module Workarea
 
         taxon = Navigation::SearchResults.new(q: 'foo').taxon
         assert_equal(search_path(q: 'foo'), storefront_path_for(taxon))
+
+        product = create_product
+        taxon = create_taxon(navigable: product)
+        assert_equal(storefront.product_path(product.slug), storefront_path_for(taxon))
       end
 
       def test_mobile_nav_return_path

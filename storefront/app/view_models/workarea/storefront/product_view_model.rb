@@ -1,7 +1,6 @@
 module Workarea
   module Storefront
     class ProductViewModel < ApplicationViewModel
-
       def self.wrap(model, options = {})
         if model.is_a?(Enumerable)
           model.map { |m| wrap(m, options) }
@@ -18,12 +17,12 @@ module Workarea
           if options[:via].present?
             Navigation::Breadcrumbs.from_global_id(
               options[:via],
-              last: model.name
+              last: model
             )
           else
             Navigation::Breadcrumbs.new(
               default_category,
-              last: model.name
+              last: model
             )
           end
       end
