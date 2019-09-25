@@ -87,6 +87,8 @@ en:
         search: search
         social: social
         unknown: unknown
+      errors:
+        count_limit: Orders cannot exceed %{size} items.
     messages:
       info: Info
       error: Error

@@ -175,5 +175,24 @@ module Workarea
       order.set_fraud_decision!(create_fraud_decision(decision: :declined))
       assert(order.fraud_suspected_at.present?)
     end
+
+    def test_item_count_limit
+      Workarea.config.item_count_limit = 2
+
+      order = Order.new(email: 'test@workarea.com')
+
+      order.items.build(sku: 'SKU1', product_id: 'PROD')
+      assert(order.valid?)
+
+      order.items.build(sku: 'SKU2', product_id: 'PROD', quantity: 2)
+      assert(order.valid?)
+
+      order.items.build(sku: 'SKU3', product_id: 'PROD')
+      refute(order.valid?)
+      assert_equal(
+        t('workarea.order.errors.count_limit', size: 2),
+        order.errors.full_messages.first
+      )
+    end
   end
 end
