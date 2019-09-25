@@ -25,14 +25,17 @@
       - if @fulfillment.packages.any?
         - @fulfillment.packages.each do |package|
           %h4.heading.heading--5
-            = t('workarea.admin.fulfillments.show.shipped')
-            - if package.carrier.present?
-              = t('workarea.admin.fulfillments.show.by_carrier', carrier: package.carrier)
-
-            - if package.tracking_number.present?
+            - if package.carrier.present? && package.tracking_number.present?
+              = t('workarea.admin.fulfillments.show.shipped_by_carrier', carrier: package.carrier)
+              = t('workarea.admin.fulfillments.show.with_tracking_number_html', tracking_number_link: link_to(package.tracking_number, package.tracking_link, target: '_blank', rel: 'noopener'))
+            - elsif package.carrier.present?
+              = t('workarea.admin.fulfillments.show.shipped_by_carrier', carrier: package.carrier)
+              = t('workarea.admin.fulfillments.show.with_no_tracking_number')
+            - elsif package.tracking_number.present?
+              = t('workarea.admin.fulfillments.show.shipped')
               = t('workarea.admin.fulfillments.show.with_tracking_number_html', tracking_number_link: link_to(package.tracking_number, package.tracking_link, target: '_blank', rel: 'noopener'))
             - else
-              = t('workarea.admin.fulfillments.show.with_no_tracking_number')
+              = t('workarea.admin.fulfillments.show.delivered')
 
             - if package.created_at.present?
               = t('workarea.admin.fulfillments.show.on_time_created_html', time: local_time(package.created_at, :long))
@@ -53,6 +56,38 @@
         %p= t('workarea.admin.fulfillments.show.no_items_marked_shipped')
 
       = append_partials('admin.orders_edit_packages')
+
+
+    - if @fulfillment.tokens.any?
+      %h2= t('workarea.admin.fulfillments.show.tokens')
+      .section
+        %table
+          %thead
+            %tr
+              %th
+              %th= t('workarea.admin.fields.id')
+              %th= t('workarea.admin.fields.sku')
+              %th.align-center= t('workarea.admin.fields.downloads')
+              %th= t('workarea.admin.fields.enabled')
+              %th.align-right= t('workarea.admin.fields.created_at')
+              %th
+          %tbody
+            - @fulfillment.tokens.each do |token|
+              %tr
+                %td
+                  = link_to "#token-tooltip-#{token.id}", data: { tooltip: { width: '600', interactive: true }.to_json } do
+                    = inline_svg('workarea/admin/icons/link.svg', class: 'svg-icon svg-icon--blue', title: t('workarea.admin.fulfillment_tokens.index.copy_title'))
+                  .tooltip-content{ id: "token-tooltip-#{token.id}" }
+                    .property.property--inline= text_field_tag 'url', storefront.download_url(token), class: 'text-box text-box--wide', id: "url-#{token.id}"
+                    = button_tag t('workarea.admin.fulfillment_tokens.index.copy_button'), class: 'button button--small', data: { copy_to_clipboard: "#url-#{token.id}" }
+                %td= token.id
+                %td= link_to token.sku, fulfillment_sku_path(token.sku)
+                %td.align-center= number_with_delimiter(token.downloads)
+                %td
+                  = form_tag fulfillment_sku_token_path(token.sku, token), method: 'patch', class: 'text-button text-button--update' do
+                    = hidden_field_tag 'return_to', fulfillment_path(@fulfillment)
+                    = toggle_button_for 'token[enabled]', token.enabled?, id: token.id, data: { form_submitting_control: '' }
+                %td.align-right= local_time_ago(token.updated_at)
 
     %h2= t('workarea.admin.fulfillments.show.cancellations')
     .section

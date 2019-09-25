@@ -14,6 +14,7 @@ module Workarea
       index(sku: 1)
 
       scope :for_sku, ->(sku) { where(sku: sku) }
+      scope :by_order, ->(id) { where(order_id: id) }
 
       def self.for_order_item(order_id, item_id)
         where(order_id: order_id.to_s, order_item_id: item_id.to_s).first

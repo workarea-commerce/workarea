@@ -1840,8 +1840,8 @@ en:
           type: Fulfillment SKU
       fulfillments:
         show:
-          by_carrier: by %{carrier}
           cancellations: Cancellations
+          delivered: Delivered
           no_items_marked_cancelled: There are no items marked as cancelled.
           no_items_marked_shipped: There are no items marked as shipped.
           on_time_created_html: on %{time}
@@ -1852,6 +1852,8 @@ en:
           product: Product
           quantity: Quantity
           shipped: Shipped
+          shipped_by_carrier: Shipped by %{carrier}
+          tokens: Tokens
           with_no_tracking_number: with no tracking number
           with_tracking_number_html: with tracking number %{tracking_number_link}
       guest_browsing:
@@ -2566,6 +2568,7 @@ en:
             pending: 'Pending:'
             status: 'Status:'
             title: Fulfillment
+            tokens: 'Tokens:'
             tracking_numbers: 'Tracking Numbers:'
             not_available: Fulfillment is not yet available for this order.
           fraud:

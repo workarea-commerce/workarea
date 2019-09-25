@@ -163,6 +163,9 @@
                 %strong= t('workarea.admin.orders.cards.fulfillment.packages')
                 = model.packages.size
               %li
+                %strong= t('workarea.admin.orders.cards.fulfillment.tokens')
+                = model.fulfillment.tokens.size
+              %li
                 %strong= t('workarea.admin.orders.cards.fulfillment.cancellations')
                 = model.cancellations.size
               %li
