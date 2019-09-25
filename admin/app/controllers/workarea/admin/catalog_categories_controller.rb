@@ -8,8 +8,15 @@ module Workarea
       after_action :track_index_filters, only: :index
 
       def index
+        exclude_ids = Catalog::Category.where(id: params[:exclude_ids])
+                                       .map do |category|
+                                         Search::Admin.for(category).id
+                                       end
         search = Search::AdminCategories.new(
-          params.merge(autocomplete: request.xhr?)
+          params.merge(
+            autocomplete: request.xhr?,
+            exclude_ids: exclude_ids
+          )
         )
 
         @search = SearchViewModel.new(search, view_model_options)
