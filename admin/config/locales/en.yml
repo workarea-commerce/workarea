@@ -765,7 +765,7 @@ en:
           clear_asset: Clear asset
           name_missing: "(none)"
           select_an_asset: Select an asset
-          alt_text_note_html: "Leave alt text blank to default to the asset's alt text: <strong>%{alt}</strong>"
+          alt_text_note: Leave alt text blank to default to the asset's alt text
         category:
           select_placeholder: Choose a category...
         flash_messages:
