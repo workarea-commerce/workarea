@@ -72,11 +72,7 @@ You can run a demo version of workarea by running the following command in your 
 curl -s https://raw.githubusercontent.com/workarea-commerce/workarea/master/demo/install | bash
 ```
 
-It requires you have Docker installed and running. Once complete, you can visit `http://localhost:3000` to view your app.
-
-The seed data provides an admin user with an email/password of `user@workarea.com/w0rkArea!`.
-
-It requires you have Docker installed and running. Once complete, you can visit `http://localhost:3000` to view your storefront app. For the Workarea Admin, you can visit 'http://localhost:3000/admin'. The seed data provides an admin user with an email/password of `user@workarea.com/w0rkArea!`.
+It requires you have Docker installed and running. Once complete, you can view the Workarea Storefront at <http://localhost:3000> and the Workarea Admin at <http://localhost:3000/admin>. The seed data provides an admin user with an email/password of `user@workarea.com/w0rkArea!`.
 
 See the [README](demo/README.md) in the `demo` directory for more information.
 
