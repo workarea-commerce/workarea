@@ -1,3 +1,5 @@
+require 'date'
+
 require 'rake/testtask'
 require File.expand_path('../core/lib/workarea/version', __FILE__)
 
@@ -24,6 +26,8 @@ GEMS.each do |gem|
   end
 end
 
+Rake::Task['test:db'].clear_comments
+Rake::Task['test:system'].clear_comments
 Rake::Task["test"].clear
 desc 'Run tests for all gems'
 task :test do
@@ -47,9 +51,6 @@ task :test do
       "#{executable} #{rel_path}:#{line}"
     end
   end
-
-  require 'simplecov'
-  SimpleCov.start('rails')
 
   Rails::TestUnit::Runner.rake_run(GEMS.map { |g| "#{g}/test" })
 end

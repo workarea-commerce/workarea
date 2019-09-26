@@ -117,10 +117,10 @@ configured. To save time finding and fixing those configurations. Or worse,
 dealing with bugs due to outdated configurations. You should run this command to
 update your application. Be sure to commit your work before running this, and
 check to ensure no custom configuration, which you may need to keep, was removed.
-**Run this script after you have bumped your application's Workarea version to v3.4.x**.
+**Run this script after you have bumped your application's Workarea version to the latest version of v3.4.x**.
 
 ```bash
-bundle exec rails app:template LOCATION=$(bundle show workarea)/docs/guides/source/app_template.rb
+bundle exec rails generate workarea:install
 ```
 
 This script will offer the `Ynaqdhm` CLI interface when conflicts are detected.
