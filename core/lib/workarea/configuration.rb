@@ -140,11 +140,6 @@ module Workarea
 
       config.credit_card_issuers['bogus'] = 'Test Card' unless Rails.env.production?
 
-      # Most credit card processors won't let a capture/purchase be refunded until
-      # the transaction settles. (Most processors settle once a day).  If your processor
-      # allows immediate refuding you can include extra tests around refund operations.
-      config.run_credit_card_refund_tests = false
-
       # Determines the order in which discounts are calculated.
       config.discount_application_order = %w(
         Workarea::Pricing::Discount::Product
