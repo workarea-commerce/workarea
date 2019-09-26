@@ -189,11 +189,8 @@ Seeding also provides access to the Admin, which is displaying order and analyti
 
 ![Seeded Admin](images/seeded-admin.png)
 
-In a development environment, the following credentials provide super admin privileges (assuming you haven't customized your admin user seeds):
+Refer to [`AdminSeeds#perform`](https://github.com/workarea-commerce/workarea/blob/master/core/app/seeds/workarea/admins_seeds.rb) in your instance of Workarea for administrator emails and passwords to log in to the Admin.
 
-| Email | user@workarea.com |
-|--|--|
-| Password | W3bl1nc! |
 
 ## Re-Seeding
 
