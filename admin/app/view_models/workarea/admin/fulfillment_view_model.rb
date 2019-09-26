@@ -36,6 +36,20 @@ module Workarea
           )
         end.compact
       end
+
+      def skus
+        @skus ||= FulfillmentSkusViewModel.wrap(
+          Fulfillment::Sku.in(id: order.items.map(&:sku).uniq).to_a,
+          options
+        )
+      end
+
+      def tokens
+        @tokens ||= FulfillmentTokenViewModel.wrap(
+          Fulfillment::Token.by_order(order.id).to_a,
+          options.merge(order: order)
+        )
+      end
     end
   end
 end

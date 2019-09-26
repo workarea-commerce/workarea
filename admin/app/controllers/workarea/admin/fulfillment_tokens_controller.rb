@@ -11,6 +11,7 @@ module Workarea
           Fulfillment::Token
             .for_sku(@sku.id)
             .page(params[:page])
+            .per(Workarea.config.per_page)
             .order_by(find_sort(Fulfillment::Token))
       end
 
@@ -37,7 +38,7 @@ module Workarea
           flash[:error] = t('workarea.admin.fulfillment_tokens.flash_messages.update_failed')
         end
 
-        redirect_to fulfillment_sku_tokens_path(@sku)
+        redirect_back_or fulfillment_sku_tokens_path(@sku)
       end
 
       private
