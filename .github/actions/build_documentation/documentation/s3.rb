@@ -44,7 +44,7 @@ module Documentation
 
       current_segments.first < new_segments.first || (
         current_segments.first <= new_segments.first &&
-        current_segments.second <= new_segments.second
+        current_segments.at(1) <= new_segments.at(1)
       )
     rescue Aws::S3::Errors::NoSuchKey
       true

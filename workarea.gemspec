@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.summary     = 'The Workarea Commerce Platform'
   s.description = 'Workarea is an enterprise-grade Ruby on Rails commerce platform.'
 
-  s.files = Dir['README.md', 'CHANGELOG.md', 'docs/**/*', '.rubocop.yml', 'docker-compose.yml']
+  s.files = Dir['README.md', 'CHANGELOG.md', '.rubocop.yml', 'docker-compose.yml']
   s.rdoc_options << '--exclude=docs'
 
   s.add_dependency 'workarea-core', Workarea::VERSION::STRING
