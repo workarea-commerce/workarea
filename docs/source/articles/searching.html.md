@@ -14,9 +14,9 @@ Workarea also provides query classes which encapsulate the complexity of the var
 
 ## Client & Server(s)
 
-Workarea uses a [Ruby client](http://www.rubydoc.info/gems/elasticsearch-transport/5.0.4/Elasticsearch/Transport/Client) to communicate with an Elasticsearch [cluster](https://www.elastic.co/guide/en/elasticsearch/reference/5.5/_basic_concepts.html#_cluster). In Workarea Cloud environments, the Elasticsearch cluster is already provisioned. You must provision your own cluster in other environments.
+Workarea uses a [Ruby client](http://www.rubydoc.info/gems/elasticsearch-transport/5.0.5/Elasticsearch/Transport/Client) to communicate with an Elasticsearch [cluster](https://www.elastic.co/guide/en/elasticsearch/reference/5.6/_basic_concepts.html#_cluster). In Workarea Cloud environments, the Elasticsearch cluster is already provisioned. You must provision your own cluster in other environments.
 
-The client instance, accessed as `Workarea.elasticsearch`, provides a [Ruby implementation](http://www.rubydoc.info/gems/elasticsearch-api/5.0.4/Elasticsearch/API) of the [Elasticsearch REST APIs](https://www.elastic.co/guide/en/elasticsearch/reference/5.5/index.html).
+The client instance, accessed as `Workarea.elasticsearch`, provides a [Ruby implementation](http://www.rubydoc.info/gems/elasticsearch-api/5.0.5/Elasticsearch/API) of the [Elasticsearch REST APIs](https://www.elastic.co/guide/en/elasticsearch/reference/5.6/index.html).
 
 ```ruby
 Workarea.elasticsearch.class
@@ -35,14 +35,14 @@ puts Workarea.elasticsearch.cat.health(v: true, h: %w(cluster status))
 
 ### Types
 
-Elasticsearch uses [types](https://www.elastic.co/guide/en/elasticsearch/reference/5.5/_basic_concepts.html#_type) to categorize documents according to their fields, or [mappings](https://www.elastic.co/guide/en/elasticsearch/reference/5.5/mapping.html). Workarea uses four types out of the box:
+Elasticsearch uses [types](https://www.elastic.co/guide/en/elasticsearch/reference/5.6/_basic_concepts.html#_type) to categorize documents according to their fields, or [mappings](https://www.elastic.co/guide/en/elasticsearch/reference/5.6/mapping.html). Workarea uses four types out of the box:
 
 - admin
 - help
 - storefront
 - category
 
-Workarea uses documents of type _category_ to index category queries for use with the [percolate query](https://www.elastic.co/guide/en/elasticsearch/reference/5.5/query-dsl-percolate-query.html), which can find the matching categories for a given product document. Because category documents are indexed and queried differently than the others, I do not cover them in this guide.
+Workarea uses documents of type _category_ to index category queries for use with the [percolate query](https://www.elastic.co/guide/en/elasticsearch/reference/5.6/query-dsl-percolate-query.html), which can find the matching categories for a given product document. Because category documents are indexed and queried differently than the others, I do not cover them in this guide.
 
 ### Indexes
 
@@ -109,7 +109,7 @@ Meanwhile, the following list of indexes could be used in an application with mu
 
 ### Mappings
 
-Elasticsearch mappings are typically declared for an index when the index is created, however, the mapping may be extended at index time, such as when an index's mapping includes [dynamic templates](https://www.elastic.co/guide/en/elasticsearch/reference/current/dynamic-templates.html).
+Elasticsearch mappings are typically declared for an index when the index is created, however, the mapping may be extended at index time, such as when an index's mapping includes [dynamic templates](https://www.elastic.co/guide/en/elasticsearch/reference/5.6/dynamic-templates.html).
 
 When creating a new index, Workarea looks for a configuration value declaring the mapping for that index. The configuration keys are named after the different document types. Each configured mapping includes _properties_ and _dynamic templates_.
 
@@ -812,7 +812,7 @@ Workarea::Seeds.run
 
 Workarea provides a variety of query classes which are responsible for complicated reads. This includes Elasticsearch searches, for which Workarea provides a variety of search queries.
 
-Search queries are initialized with params and construct and perform an [Elasticsearch request body search](https://www.elastic.co/guide/en/elasticsearch/reference/5.5/search-request-body.html). The query provides access to the raw Elasticsearch response in addition to "loaded" results, which returns the results as Mongoid documents, initialized from the serialized model cache within each Elasticsearch document.
+Search queries are initialized with params and construct and perform an [Elasticsearch request body search](https://www.elastic.co/guide/en/elasticsearch/reference/5.6/search-request-body.html). The query provides access to the raw Elasticsearch response in addition to "loaded" results, which returns the results as Mongoid documents, initialized from the serialized model cache within each Elasticsearch document.
 
 Each search query instance therefore represents the Elasticsearch request and response for a given set of params. UI code often wraps a query instance in a view model and presents the results.
 
@@ -1029,7 +1029,7 @@ product_search.results.first[:model].name
 
 ### Composing the Search Request Body
 
-As mentioned above, search queries perform an Elasticsearch request body search. These search requests use a request body constructed from the [Elasticsearch query DSL](https://www.elastic.co/guide/en/elasticsearch/reference/5.5/query-dsl.html).
+As mentioned above, search queries perform an Elasticsearch request body search. These search requests use a request body constructed from the [Elasticsearch query DSL](https://www.elastic.co/guide/en/elasticsearch/reference/5.6/query-dsl.html).
 
 Search queries provide a Ruby interface for composing these request bodies. The `body` method is responsible for returning a hash which represents the request body. Many other methods are potentially used to compose this final hash. Below is the default implementation of `Workarea::Search::Query#body`.
 
