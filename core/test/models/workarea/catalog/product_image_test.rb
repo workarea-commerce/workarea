@@ -34,6 +34,13 @@ module Workarea
         two = product.images.create!(image: product_image_file, position: 0)
         assert_equal([two, one], product.reload.images)
       end
+
+      def test_populate_fields
+        product = create_product
+        image = product.images.create!(image: product_image_file, position: 0)
+
+        assert_equal(1.0, image.image_inverse_aspect_ratio)
+      end
     end
   end
 end
