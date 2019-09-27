@@ -19,6 +19,39 @@
       .grid.grid--center
         .grid__cell.grid__cell--80-at-medium
           .grid
+            - @timeline.unscheduled_changesets.each_with_index do |changeset, index|
+              .activity-group.activity-group--bordered
+                .grid__cell.grid__cell--20
+                  - if index == 0
+                    .date-marker
+                      .date-marker__annotation= t('workarea.admin.timeline.unscheduled_changes')
+                      .date-marker__day ?
+                .grid__cell.grid__cell--80
+                  .activity
+                    .activity__header
+                      = inline_svg('workarea/admin/icons/release_timeline.svg', class: 'activity__avatar')
+                      %h3.activity__name= link_to changeset.release.name, release_path(changeset.release)
+                      %p.activity__time
+                        = changeset.publish_humanized
+                      .activity__actions
+                        .grid.grid--auto
+                          .grid__cell
+                            = form_tag release_session_path, method: :post do
+                              = hidden_field_tag :release_id, changeset.release.id
+                              = hidden_field_tag :return_to, url_for(@timeline.subject)
+                              = button_tag value: 'edit_changes', class: 'text-button' do
+                                %span= t('workarea.admin.timeline.edit')
+                                = inline_svg('workarea/admin/icons/edit.svg', class: 'text-button__icon')
+                          .grid__cell
+                            = form_tag release_changeset_path(changeset.release, changeset), method: :delete, class: 'action-group__item', data: { deletion_form: { message: t('workarea.admin.timeline.delete_confirmation') } } do
+                              = button_tag value: 'delete_changeset', class: 'text-button' do
+                                %span= t('workarea.admin.actions.delete')
+                                = inline_svg('workarea/admin/icons/delete.svg', class: 'text-button__icon')
+                    .activity__message
+                      .release-changeset.release-changeset--activity
+                        - changeset.changed_fields.each do |field|
+                          = render_changeset_field(changeset, field)
+
             - @timeline.upcoming_changesets.each_with_index do |changeset, index|
               .activity-group.activity-group--bordered
                 .grid__cell.grid__cell--20
