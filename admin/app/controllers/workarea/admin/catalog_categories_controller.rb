@@ -8,10 +8,6 @@ module Workarea
       after_action :track_index_filters, only: :index
 
       def index
-        exclude_ids = Catalog::Category.where(id: params[:exclude_ids])
-                                       .map do |category|
-                                         Search::Admin.for(category).id
-                                       end
         search = Search::AdminCategories.new(
           params.merge(
             autocomplete: request.xhr?,
@@ -50,6 +46,14 @@ module Workarea
       end
 
       private
+
+      def exclude_ids
+        if params[:exclude_ids].blank?
+          []
+        else
+          Catalog::Category.in(id: params[:exclude_ids]).map { |c| Search::Admin.for(c).id }
+        end
+      end
 
       def find_category
         if params[:id].present?
