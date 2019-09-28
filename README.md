@@ -112,6 +112,7 @@ We'll assume you have [Docker desktop](https://www.docker.com/products/docker-de
 
 For more information on getting started, see the [quick start](https://developer.workarea.com/articles/create-a-new-app.html) guide.
 
+[![Deploy to Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
 Plugins
 --------------------------------------------------------------------------------
