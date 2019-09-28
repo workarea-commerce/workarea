@@ -12,8 +12,8 @@ setup:
     RAILS_ENV: production
 build:
   docker:
-    web: demo/Dockerfile
-    worker: demo/Dockerfile
+    web: Dockerfile
+    worker: Dockerfile
 release:
   image: web
   command: bundle exec rails db:seed assets:precompile
