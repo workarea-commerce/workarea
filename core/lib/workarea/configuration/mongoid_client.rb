@@ -20,7 +20,7 @@ module Workarea
 
       def hosts
         env_hosts =
-          ENV.select { |k| k =~ /^#{env_key}_HOST(?:_\d+)?$/ }
+          ENV.select { |k| k =~ /^#{env_key}_(HOST|URL)(?:_\d+)?$/ }
              .map(&:last)
              .reject(&:blank?)
 

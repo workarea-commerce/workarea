@@ -43,8 +43,9 @@ module Workarea
           {
             host: ENV["WORKAREA_#{env_slug}_HOST"].presence || DEFAULT[:host],
             port: ENV["WORKAREA_#{env_slug}_PORT"].presence || DEFAULT[:port],
-            db: ENV["WORKAREA_#{env_slug}_DB"].presence || DEFAULT[:db]
-          }
+            db: ENV["WORKAREA_#{env_slug}_DB"].presence || DEFAULT[:db],
+            url: ENV["WORKAREA_#{env_slug}_URL"]
+          }.compact
         end
       end
 
@@ -53,13 +54,18 @@ module Workarea
 
       def initialize(config)
         @config = config.to_h.deep_symbolize_keys
+        @uri = URI.parse(@config[:url]) if @config.key?(:url)
       end
 
       def host
+        return @uri.host if @uri.present?
+
         @config[:host]
       end
 
       def port
+        return @uri.port if @uri.present?
+
         @config[:port]
       end
 
@@ -68,6 +74,8 @@ module Workarea
       end
 
       def to_url
+        return @config[:url] if @config.key?(:url)
+
         base = "redis://#{host}"
         base << ":#{port}" if port.present?
         base << "/#{db}" if db.present?

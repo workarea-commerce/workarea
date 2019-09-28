@@ -1,0 +1,50 @@
+{
+  "name": "Workarea Commerce",
+  "addons": [
+    {
+      "plan": "mongolab:sandbox",
+      "as": ["WORKAREA_MONGOID", "WORKAREA_MONGOID_METRICS"]
+    },
+    {
+      "plan": "heroku-redis:hobby-dev",
+      "as": "WORKAREA_REDIS"
+    },
+    {
+      "plan": "heroku-redis:hobby-dev",
+      "as": "WORKAREA_REDIS_CACHE"
+    }
+  ],
+  "repository": "https://github.com/workarea-commerce/megabuild"
+  "buildpacks": [
+    {
+      "url": "https://github.com/heroku/heroku-buildpack-ruby"
+    },
+    {
+      "url": "https://github.com/gunpowderlabs/buildpack-ruby-rake-deploy-tasks"
+    }
+  ],
+  "env": {
+    "SECRET_KEY_BASE": {
+      "generator": "secret",
+      "required": true
+    },
+    "WORKAREA_ELASTICSEARCH_URL": {
+      "required": true
+    },
+    "WORKAREA_S3_ACCESS_KEY_ID": {
+      "required": true
+    },
+    "WORKAREA_S3_SECRET_ACCESS_KEY": {
+      "required": true
+    },
+    "WORKAREA_S3_BUCKET_NAME": {
+      "required": true
+    },
+    "HEROKU_APP_NAME": {
+      "required": "true"
+    },
+    "HEROKU_PARENT_APP_NAME": {
+      "required": "true"
+    }
+  }
+}
