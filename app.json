@@ -7,21 +7,13 @@
     },
     {
       "plan": "heroku-redis:hobby-dev",
-      "as": "WORKAREA_REDIS"
-    },
-    {
-      "plan": "heroku-redis:hobby-dev",
-      "as": "WORKAREA_REDIS_CACHE"
+      "as": ["WORKAREA_REDIS", "WORKAREA_REDIS_CACHE"]
     }
   ],
-  "repository": "https://github.com/workarea-commerce/megabuild"
   "buildpacks": [
     {
       "url": "https://github.com/heroku/heroku-buildpack-ruby"
     },
-    {
-      "url": "https://github.com/gunpowderlabs/buildpack-ruby-rake-deploy-tasks"
-    }
   ],
   "env": {
     "SECRET_KEY_BASE": {
@@ -46,5 +38,9 @@
     "HEROKU_PARENT_APP_NAME": {
       "required": "true"
     }
-  }
+  },
+  "scripts": {
+    "postdeploy": "bundle exec rails db:seed"
+  },
+  "stack": "container"
 }

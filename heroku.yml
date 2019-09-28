@@ -1,0 +1,22 @@
+setup:
+  addons:
+    - plan: mongolab:sandbox
+      as:
+        - WORKAREA_MONGOID
+        - WORKAREA_MONGOID_METRICS
+    - plan: heroku-redis:hobby-dev
+      as:
+        - WORKAREA_REDIS
+        - WORKAREA_REDIS_CACHE
+  config:
+    RAILS_ENV: production
+build:
+  docker:
+    web: demo/Dockerfile
+    worker: demo/Dockerfile
+release:
+  image: web
+  command: bundle exec rails db:seed assets:precompile
+run:
+  web: bundle exec rails server -b 0.0.0.0
+  worker: bundle exec sidekiq -C config/sidekiq.yml
