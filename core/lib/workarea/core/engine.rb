@@ -67,6 +67,7 @@ module Workarea
         Configuration::Mongoid.load unless Mongoid::Config.configured?
         Configuration::Dragonfly.load
         Configuration::LocalizedActiveFields.load
+        Configuration::Heroku.load if Configuration::Heroku::APP_NAME.present?
 
         Workarea::ScheduledJobs.clean
         Workarea::Warnings.check
