@@ -4,7 +4,7 @@ module Workarea
 
     def show
       if stale?(etag: current_metrics, last_modified: current_metrics.updated_at)
-        @recent_views = Storefront::UserActivityViewModel.new(current_metrics)
+        @recent_views = Storefront::UserActivityViewModel.new(current_metrics, view_model_options)
         render params[:view].in?(allowed_alt_views) ? params[:view] : :show
       end
     end
