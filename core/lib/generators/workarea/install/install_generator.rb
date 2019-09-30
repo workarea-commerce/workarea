@@ -65,7 +65,7 @@ module Workarea
     private
 
     def app_name
-      Rails.application.class.parent_name.underscore
+      ENV.fetch("HEROKU_APP_NAME", Rails.application.class.parent_name.underscore)
     end
   end
 end
