@@ -112,8 +112,6 @@ We'll assume you have [Docker desktop](https://www.docker.com/products/docker-de
 
 For more information on getting started, see the [quick start](https://developer.workarea.com/articles/create-a-new-app.html) guide.
 
-[![Deploy to Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
-
 Plugins
 --------------------------------------------------------------------------------
 Workarea extends functionality with a library of plugins. These plugins add everything from additional content blocks, to wish lists, to payment gateway integrations and more. Here are some of the most popular plugins:
@@ -148,6 +146,7 @@ If you'd like to host on your own, we have some documentation to help:
 * [Required infrastructure](https://developer.workarea.com/articles/infrastructure.html)
 * [Configuring Workarea for hosting](https://developer.workarea.com/articles/configuration-for-hosting.html)
 
+[![Deploy to Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/workarea-commerce/workarea/tree/v3.4-stable/demo)
 
 Sites Running Workarea
 --------------------------------------------------------------------------------
