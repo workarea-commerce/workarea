@@ -44,7 +44,7 @@ module Workarea
             host: ENV["WORKAREA_#{env_slug}_HOST"].presence || DEFAULT[:host],
             port: ENV["WORKAREA_#{env_slug}_PORT"].presence || DEFAULT[:port],
             db: ENV["WORKAREA_#{env_slug}_DB"].presence || DEFAULT[:db],
-            url: ENV["WORKAREA_#{env_slug}_URL"]
+            url: ENV["WORKAREA_#{env_slug}_URL"] || ENV["WORKAREA_REDIS_URL"]
           }.compact
         end
       end

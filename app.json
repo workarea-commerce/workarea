@@ -3,11 +3,11 @@
   "addons": [
     {
       "plan": "mongolab:sandbox",
-      "as": ["WORKAREA_MONGOID", "WORKAREA_MONGOID_METRICS"]
+      "as": "WORKAREA_MONGOID"
     },
     {
       "plan": "heroku-redis:hobby-dev",
-      "as": ["WORKAREA_REDIS", "WORKAREA_REDIS_CACHE"]
+      "as": "WORKAREA_REDIS"
     }
   ],
   "buildpacks": [
