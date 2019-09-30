@@ -62,13 +62,9 @@
               - if @order.traffic_referrer&.uri.present?
                 = link_to t('workarea.admin.orders.attributes.checkout.view'), '#traffic_referrer_url_tooltip', data: { tooltip: { interactive: true, trigger: 'click' }.to_json }
                 #traffic_referrer_url_tooltip.tooltip-content
-                  .grid.grid--auto
-                    .grid__cell
-                      = text_field_tag nil, @order.traffic_referrer.uri, id: 'traffic_referrer_url', class: 'text-box'
-                    .grid__cell
-                      = button_tag t('workarea.admin.orders.attributes.checkout.copy_url'), data: { copy_to_clipboard: '#traffic_referrer_url' }, class: 'button button--small'
-
-
+                  .align-center
+                    %p= text_field_tag nil, @order.traffic_referrer.uri, id: 'traffic_referrer_url', class: 'text-box'
+                    = button_tag t('workarea.admin.orders.attributes.checkout.copy_url'), data: { copy_to_clipboard: '#traffic_referrer_url' }, class: 'button button--small'
               - else
                 = t('workarea.admin.orders.attributes.checkout.none')
             %li
