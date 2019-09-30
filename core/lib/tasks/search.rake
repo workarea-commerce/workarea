@@ -12,6 +12,13 @@ namespace :workarea do
       Rake::Task['workarea:search_index:help'].invoke
     end
 
+    desc 'Remove all search indexes'
+    task clean: :environment do
+      Workarea::Search::Admin.reset_indexes!
+      Workarea::Search::Storefront.reset_indexes!
+      Workarea::Search::Help.reset_indexes!
+    end
+
     desc 'Reindex admin'
     task admin: :environment do
       setup

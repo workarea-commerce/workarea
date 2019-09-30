@@ -40,7 +40,8 @@
     }
   },
   "scripts": {
-    "postdeploy": "bundle exec rails db:seed"
+    "postdeploy": "bundle exec rails db:seed",
+    "pr-predestroy": "bundle exec workarea:search_index:clean"
   },
   "stack": "container"
 }
