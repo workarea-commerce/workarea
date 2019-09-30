@@ -1,5 +1,20 @@
 {
   "name": "Workarea Commerce",
+  "description": "An enterprise-grade Ruby on Rails commerce platform",
+  "repository": "https://github.com/workarea-commerce/workarea",
+  "logo": "https://i.imgur.com/SPTlyze.png",
+  "keywords": [
+    "ruby",
+    "rails",
+    "ecommerce",
+    "commerce",
+    "mongodb",
+    "elasticsearch",
+    "redis",
+    "ecommerce-platform",
+    "ecommerce-framework",
+    "ruby-on-rails"
+  ],
   "addons": [
     {
       "plan": "mongolab:sandbox",
