@@ -1,3 +1,23 @@
+Workarea 3.4.18 (2019-10-01)
+--------------------------------------------------------------------------------
+
+*   Fix test failure due to iframe loading
+
+    This test has started failing due to Capybara or Selenium not finding
+    the release select in the iframe. A simple sleep fixes the problem, we
+    weren't able to track down a proper cause.
+
+    We'll be refactoring the admin toolbar away from an iframe in v3.6, so
+    this will be a temporary hack to fix. We'll remove this at that point in
+    time.
+    Ben Crouse
+
+*   Fix Faraday dependency issue
+
+    Curt Howard
+
+
+
 Workarea 3.4.17 (2019-10-01)
 --------------------------------------------------------------------------------
 
