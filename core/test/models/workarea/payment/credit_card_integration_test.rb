@@ -76,58 +76,6 @@ module Workarea
         end
       end
 
-      def test_auth_capture_refund
-        pass && return unless Workarea.config.run_credit_card_refund_tests
-
-        VCR.use_cassette 'credit_card/auth_capture_refund' do
-          transaction = tender.build_transaction(action: 'authorize')
-          Payment::Authorize::CreditCard.new(tender, transaction).complete!
-          assert(transaction.success?, 'expected transaction to be successful')
-          transaction.save!
-
-          assert(tender.token.present?)
-
-          capture = Payment::Capture.new(payment: payment)
-          capture.allocate_amounts!(total: 5.to_m)
-          assert(capture.valid?)
-          capture.complete!
-
-          capture_transaction = payment.transactions.detect(&:captures)
-          assert(capture_transaction.valid?)
-
-          refund = Payment::Refund.new(payment: payment)
-          refund.allocate_amounts!(total: 5.to_m)
-
-          assert(refund.valid?)
-          refund.complete!
-
-          refund_transaction = payment.credit_card.transactions.refunds.first
-          assert(refund_transaction.valid?)
-        end
-      end
-
-      def test_purchase_refund
-        pass && return unless Workarea.config.run_credit_card_refund_tests
-
-        VCR.use_cassette 'credit_card/purchase_refund' do
-          transaction = tender.build_transaction(action: 'purchase')
-          Payment::Purchase::CreditCard.new(tender, transaction).complete!
-          assert(transaction.success?)
-          transaction.save!
-
-          assert(tender.token.present?)
-
-          refund = Payment::Refund.new(payment: payment)
-          refund.allocate_amounts!(total: 5.to_m)
-
-          assert(refund.valid?)
-          refund.complete!
-
-          refund_transaction = payment.credit_card.transactions.refunds.first
-          assert(refund_transaction.valid?)
-        end
-      end
-
       private
 
       def gateway
