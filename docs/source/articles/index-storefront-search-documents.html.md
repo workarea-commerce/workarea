@@ -9,7 +9,7 @@ Index Storefront Search Documents
 This document provides procedures developers can use to manually index Storefront search documents.
 
 These procedures are for _manually_ indexing search documents. However, most search indexing is _automatic_, as explained in [Search, Indexing](searching.html#indexing_7).
-See also [Storefront Search Features, Indexing](storefront-search-features.html#indexing_12) for an overview of Storefront search document creation and indexing.
+See also [Storefront Search Features, Indexing](storefront-search-features.html#indexing_11) for an overview of Storefront search document creation and indexing.
 
 
 Index All Storefront Search Documents
@@ -53,7 +53,7 @@ catalog_category = Workarea::Catalog::Category.first
 Search::Storefront::Category.new(catalog_category).save
 ```
 
-See [Storefront Search Features, Search Models](storefront-search-features.html#search-models_13) for an explanation of Storefront search models.
+See [Storefront Search Features, Search Models](storefront-search-features.html#search-models_12) for an explanation of Storefront search models.
 
 
 ### Product Documents
@@ -96,6 +96,8 @@ The product entries collection (an instance of `Search::ProductEntries` is a col
 This allows more or fewer search documents to be indexed for each product.
 For example, with [Workarea Browse Option](https://github.com/workarea-commerce/workarea-browse-option) installed, a single MongoDB document may be represented by multiple search documents in each search index (e.g. one for each color of the product).
 In contrast, with [Workarea Package Products](https://github.com/workarea-commerce/workarea-package-products) installed, the child products of a package are not indexed at all (they produce an empty product entries collection).
+
+Furthermore, since Workarea 3.5, a product may have release-specific search documents, so an index may contain multiple documents for a product: one for the "live" representation and others used when previewing specific upcoming releases.
 
 The product entries abstraction also allows a different search model to be used conditionally.
 For example, Workarea Browse Option extends product entries to use a different search model for those products that "browse by option".

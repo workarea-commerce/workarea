@@ -14,9 +14,9 @@ Workarea also provides query classes which encapsulate the complexity of the var
 
 ## Client & Server(s)
 
-Workarea uses a [Ruby client](http://www.rubydoc.info/gems/elasticsearch-transport/5.0.4/Elasticsearch/Transport/Client) to communicate with an Elasticsearch [cluster](https://www.elastic.co/guide/en/elasticsearch/reference/5.5/_basic_concepts.html#_cluster). Workarea Hosting provisions each cloud environment with a cluster. You must provision your own cluster for local environments.
+Workarea uses a [Ruby client](http://www.rubydoc.info/gems/elasticsearch-transport/5.0.5/Elasticsearch/Transport/Client) to communicate with an Elasticsearch [cluster](https://www.elastic.co/guide/en/elasticsearch/reference/5.6/_basic_concepts.html#_cluster). In Workarea Cloud environments, the Elasticsearch cluster is already provisioned. You must provision your own cluster in other environments.
 
-The client instance, accessed as `Workarea.elasticsearch`, provides a [Ruby implementation](http://www.rubydoc.info/gems/elasticsearch-api/5.0.4/Elasticsearch/API) of the [Elasticsearch REST APIs](https://www.elastic.co/guide/en/elasticsearch/reference/5.5/index.html).
+The client instance, accessed as `Workarea.elasticsearch`, provides a [Ruby implementation](http://www.rubydoc.info/gems/elasticsearch-api/5.0.5/Elasticsearch/API) of the [Elasticsearch REST APIs](https://www.elastic.co/guide/en/elasticsearch/reference/5.6/index.html).
 
 ```ruby
 Workarea.elasticsearch.class
@@ -35,18 +35,20 @@ puts Workarea.elasticsearch.cat.health(v: true, h: %w(cluster status))
 
 ### Types
 
-Elasticsearch uses [types](https://www.elastic.co/guide/en/elasticsearch/reference/5.5/_basic_concepts.html#_type) to categorize documents according to their fields, or [mappings](https://www.elastic.co/guide/en/elasticsearch/reference/5.5/mapping.html). Workarea uses four types out of the box:
+Elasticsearch uses [types](https://www.elastic.co/guide/en/elasticsearch/reference/5.6/_basic_concepts.html#_type) to categorize documents according to their fields, or [mappings](https://www.elastic.co/guide/en/elasticsearch/reference/5.6/mapping.html). Workarea uses four types out of the box:
 
 - admin
 - help
 - storefront
 - category
 
-Workarea uses documents of type _category_ to index category queries for use with the [percolate query](https://www.elastic.co/guide/en/elasticsearch/reference/5.5/query-dsl-percolate-query.html), which can find the matching categories for a given product document. Because category documents are indexed and queried differently than the others, I do not cover them in this guide.
+Workarea uses documents of type _category_ to index category queries for use with the [percolate query](https://www.elastic.co/guide/en/elasticsearch/reference/5.6/query-dsl-percolate-query.html), which can find the matching categories for a given product document. Because category documents are indexed and queried differently than the others, I do not cover them in this guide.
 
 ### Indexes
 
-Documents of type _admin_, _help_, and _storefront_ are stored in separate indexes. Workarea applications use a varying number of Elasticsearch indexes. An index exists for each combination of site name, Rails environment, locale, and Elasticsearch document type. <sup><a href="#notes" id="note-1-context">[1]</a></sup>
+Documents of type _admin_, _help_, and _storefront_ are stored in separate indexes. Workarea applications use a varying number of Elasticsearch indexes. An index exists for each combination of site name, Rails environment, locale, and Elasticsearch document type.
+
+( Documents of type _category_ are stored in the same indexes as documents of type _storefront_. )
 
 For example, the indexes for a simple development application could be as follows.
 
@@ -54,7 +56,7 @@ For example, the indexes for a simple development application could be as follow
 - board\_games\_direct\_development\_en\_help
 - board\_games\_direct\_development\_en\_storefront
 
-Meanwhile, the following list of indexes could be used in an application with multiple site names (requires the [Multi Site](https://stash.tools.weblinc.com/projects/WL/repos/workarea-multi-site/browse) plugin), environments, and locales.
+Meanwhile, the following list of indexes could be used in an application with multiple site names (requires the [Multi Site](https://plugins.workarea.com/plugins/multi-site) plugin), environments, and locales.
 
 - board\_games\_direct\_development\_en\_admin
 - board\_games\_direct\_development\_en\_help
@@ -107,9 +109,11 @@ Meanwhile, the following list of indexes could be used in an application with mu
 
 ### Mappings
 
-Elasticsearch mappings are typically declared for an index when the index is created, however, the mapping may be extended at index time, such as when an index's mapping includes [dynamic templates](https://www.elastic.co/guide/en/elasticsearch/reference/current/dynamic-templates.html).
+Elasticsearch mappings are typically declared for an index when the index is created, however, the mapping may be extended at index time, such as when an index's mapping includes [dynamic templates](https://www.elastic.co/guide/en/elasticsearch/reference/5.6/dynamic-templates.html).
 
-When creating a new index, Workarea looks for a configuration value declaring the mapping for that index. The configuration keys are named after the different document types. <sup><a href="#notes" id="note-2-context">[2]</a></sup> Each configured mapping includes _properties_ and _dynamic templates_.
+When creating a new index, Workarea looks for a configuration value declaring the mapping for that index. The configuration keys are named after the different document types. Each configured mapping includes _properties_ and _dynamic templates_.
+
+( The _storefront_ key declares mappings for the _storefront_ **and** _category_ types, since both document types are stored in the same indexes. )
 
 For example, the default configuration of the mappings for _storefront_ indexes are shown below.
 
@@ -178,7 +182,9 @@ puts Workarea::Elasticsearch::Document.all
 # Workarea::Search::Storefront
 ```
 
-The classes listed above are used almost exclusively for _type_ and _index_ level concerns (see below), while the descendants of these classes (covered under Search Models) are used primarily for _document_ level concerns. <sup><a href="#notes" id="note-3-context">[3]</a></sup>
+The classes listed above are used almost exclusively for _type_ and _index_ level concerns (see below), while the descendants of these classes (covered under Search Models) are used primarily for _document_ level concerns.
+
+( `Workarea::Search::Help` has no descendants and is used directly to save and destroy documents. )
 
 These classes respond to `.type` and `.mappings`, which describe the type of documents for which they are responsible. (Note that `.mappings` returns the Workarea configuration, not the actual mappings on the index.)
 
@@ -454,20 +460,47 @@ product_storefront_search_model.model.name
 # => "Escape the Room"
 
 product_storefront_search_model.model.id
-# => "273E095F5A"
+# => "C204935012"
 ```
 
 Be aware that a search model and its originating Mongoid model have different, albeit similar, IDs.
 
 ```ruby
 product_storefront_search_model.id
-# => "product-273E095F5A"
+# => "product-C204935012"
 
 product_storefront_search_model.catalog_id
-# => "273E095F5A"
+# => "C204935012"
 
 product_storefront_search_model.model.id
-# => "273E095F5A"
+# => "C204935012"
+```
+
+Since Workarea 3.5, some Storefront search documents are specific to a release.
+In these cases, the search model ID also contains the release ID:
+
+```ruby
+# create a release
+release = Workarea::Release.create!(name: 'Catalog Cleanup')
+release.id.to_s
+# => "5d8a8ec63e474d3333402efb"
+
+# change the product within that release
+Workarea::Release.with_current(release) do
+  Workarea::Catalog::Product
+    .find(product.id)
+    .update_attribute(:name, 'Escape the Room 2')
+end
+
+# create a new, release-specific search model for the product
+Workarea::Release.with_current(release) do
+  product = Workarea::Catalog::Product.find(product.id)
+end
+product_storefront_search_model = Workarea::Search::Storefront::Product.new(product)
+
+# view the search model ID
+product_storefront_search_model.id
+# => "product-C204935012-5d8a8ec63e474d3333402efb"
 ```
 
 #### Saving & Destroying
@@ -482,7 +515,7 @@ product_storefront_search_model.save
 product_storefront_search_model.destroy
 ```
 
-These operations may affect multiple documents (in multiple indexes) if the application has multiple locales. These methods save or destroy one document per locale.
+These operations may affect multiple documents (in multiple indexes) if the application has multiple locales or releases.
 
 #### Creating Search Documents
 
@@ -491,78 +524,124 @@ When search models `save` documents, they must first create a document that is s
 The following examples create Admin and Storefront search documents from the same Mongoid source document. Notice how the fields of each search document are different.
 
 ```ruby
-pp product_admin_search_model.as_document
-# {:id=>"product-273E095F5A",
-# :name=>"Escape the Room",
-# :facets=>
-# {:status=>"inactive",
-# :type=>"product",
-# :tags=>[],
-# :upcoming_changes=>[],
-# :category=>"Automotive",
-# :category_id=>
-# ["5995eaf007dd42106a36021a",
-# "5995eaf007dd42106a360218",
-# "5995eaf007dd42106a360216",
-# "5995eaf007dd42106a360220",
-# "5995eaf007dd42106a360214",
-# "5995eaf007dd42106a360224"],
-# :on_sale=>false,
-# :issues=>["No Images", "No Description", "No Variants"],
-# :template=>"generic"},
-# :created_at=>Wed, 23 Aug 2017 18:46:23 UTC +00:00,
-# :updated_at=>Wed, 23 Aug 2017 18:46:23 UTC +00:00,
-# :search_text=>["273E095F5A", "Escape the Room", "product"],
-# :jump_to_text=>"Escape the Room (273E095F5A)",
-# :jump_to_search_text=>["273E095F5A", "Escape the Room", "product"],
-# :jump_to_position=>3,
-# :jump_to_route_helper=>"catalog_product_path",
-# :jump_to_param=>"escape-the-room",
-# :releasable=>true}
+product_admin_search_model = Workarea::Search::Admin::CatalogProduct.new(product)
+product_admin_search_document = product_admin_search_model.as_document
+puts JSON.pretty_generate(product_admin_search_document)
+# {
+#   "id": "product-C204935012",
+#   "name": "Escape the Room 2",
+#   "facets": {
+#     "status": "inactive",
+#     "type": "product",
+#     "tags": [
+# 
+#     ],
+#     "upcoming_changes": [
+#       "5d8a8ec63e474d3333402efb"
+#     ],
+#     "category": "New",
+#     "category_id": [
+# 
+#     ],
+#     "on_sale": false,
+#     "inventory_policies": [
+# 
+#     ],
+#     "issues": [
+#       "No Images",
+#       "No Description",
+#       "No Variants"
+#     ],
+#     "template": "generic"
+#   },
+#   "created_at": "2019-09-24 21:43:01 UTC",
+#   "updated_at": "2019-09-24 21:43:01 UTC",
+#   "keywords": [
+#     "c204935012"
+#   ],
+#   "search_text": [
+#     "C204935012",
+#     "Escape the Room 2",
+#     "product"
+#   ],
+#   "jump_to_text": "Escape the Room 2 (C204935012)",
+#   "jump_to_search_text": [
+#     "C204935012",
+#     "Escape the Room 2",
+#     "product"
+#   ],
+#   "jump_to_position": 3,
+#   "jump_to_route_helper": "catalog_product_path",
+#   "jump_to_param": "escape-the-room",
+#   "releasable": true
+# }
 ```
 
 ```ruby
-pp product_storefront_search_model.as_document
-# {:id=>"product-273E095F5A",
-# :type=>"product",
-# :slug=>"escape-the-room",
-# :active=>{:now=>false},
-# :suggestion_content=>
-# "Escape the Room Outdoors, Jewelry, Sports, Tools, Movies, Grocery ",
-# :created_at=>Wed, 23 Aug 2017 18:46:23 UTC +00:00,
-# :updated_at=>Wed, 23 Aug 2017 18:46:23 UTC +00:00,
-# :facets=>
-# {:category=>"Automotive",
-# :category_id=>
-# ["5995eaf007dd42106a36021a",
-# "5995eaf007dd42106a360218",
-# "5995eaf007dd42106a360216",
-# "5995eaf007dd42106a360220",
-# "5995eaf007dd42106a360214",
-# "5995eaf007dd42106a360224"],
-# :on_sale=>false},
-# :numeric=>{:price=>[0.0], :inventory=>0, :variant_count=>0},
-# :keywords=>{:catalog_id=>"273E095F5A", :sku=>[]},
-# :sorts=>
-# {BSON::ObjectId('5995eaf007dd42106a360214')=>nil,
-# BSON::ObjectId('5995eaf007dd42106a360216')=>nil,
-# BSON::ObjectId('5995eaf007dd42106a360218')=>nil,
-# BSON::ObjectId('5995eaf007dd42106a36021a')=>nil,
-# BSON::ObjectId('5995eaf007dd42106a360220')=>nil,
-# BSON::ObjectId('5995eaf007dd42106a360224')=>nil,
-# :price=>0.0,
-# :orders_score=>0.0,
-# :views_score=>0.0},
-# :content=>
-# {:name=>"Escape the Room",
-# :category_names=>"Outdoors, Jewelry, Sports, Tools, Movies, Grocery",
-# :description=>"",
-# :details=>" ",
-# :facets=>""},
-# :cache=>
-# {:image=>"/product_images/placeholder/small_thumb.jpg?c=1502997231",
-# :pricing=>[],
-# :inventory=>[]}}
+product_storefront_search_model = Workarea::Search::Storefront::Product.new(product)
+product_storefront_search_document = product_storefront_search_model.as_document
+puts JSON.pretty_generate(product_storefront_search_document)
+# {
+#   "id": "product-C204935012-5d8a8ec63e474d3333402efb",
+#   "type": "product",
+#   "slug": "escape-the-room",
+#   "active": {
+#     "now": false
+#   },
+#   "release_id": "5d8a8ec63e474d3333402efb",
+#   "changeset_release_ids": [
+#     "5d8a8ec63e474d3333402efb"
+#   ],
+#   "suggestion_content": "Escape the Room 2 New, Phone Cases, Gaming, Fiction, Puzzles, Board Games   ",
+#   "created_at": "2019-09-24 21:43:01 UTC",
+#   "updated_at": "2019-09-24 21:43:01 UTC",
+#   "facets": {
+#     "category": "New",
+#     "category_id": [
+# 
+#     ],
+#     "on_sale": false,
+#     "inventory_policies": [
+# 
+#     ]
+#   },
+#   "numeric": {
+#     "price": [
+#       0.0
+#     ],
+#     "inventory": 0,
+#     "variant_count": 0
+#   },
+#   "keywords": {
+#     "catalog_id": "c204935012",
+#     "sku": [
+# 
+#     ],
+#     "name": "escape the room 2"
+#   },
+#   "sorts": {
+#     "price": 0.0,
+#     "orders_score": 0,
+#     "views_score": 0,
+#     "inventory_score": 1
+#   },
+#   "content": {
+#     "name": "Escape the Room 2",
+#     "category_names": "New, Phone Cases, Gaming, Fiction, Puzzles, Board Games",
+#     "description": "",
+#     "details": " ",
+#     "facets": ""
+#   },
+#   "cache": {
+#     "image": "/product_images/placeholder/small_thumb.jpg?c=1567110494",
+#     "pricing": [
+# 
+#     ],
+#     "inventory": [
+# 
+#     ]
+#   }
+# }
 ```
 
 The fields of a search document should match the mapping for its type. Some fields appear in the mapping explicitly, as properties, while other match implicitly, via dynamic templates.
@@ -733,7 +812,7 @@ Workarea::Seeds.run
 
 Workarea provides a variety of query classes which are responsible for complicated reads. This includes Elasticsearch searches, for which Workarea provides a variety of search queries.
 
-Search queries are initialized with params and construct and perform an [Elasticsearch request body search](https://www.elastic.co/guide/en/elasticsearch/reference/5.5/search-request-body.html). The query provides access to the raw Elasticsearch response in addition to "loaded" results, which returns the results as Mongoid documents, initialized from the serialized model cache within each Elasticsearch document.
+Search queries are initialized with params and construct and perform an [Elasticsearch request body search](https://www.elastic.co/guide/en/elasticsearch/reference/5.6/search-request-body.html). The query provides access to the raw Elasticsearch response in addition to "loaded" results, which returns the results as Mongoid documents, initialized from the serialized model cache within each Elasticsearch document.
 
 Each search query instance therefore represents the Elasticsearch request and response for a given set of params. UI code often wraps a query instance in a view model and presents the results.
 
@@ -950,7 +1029,7 @@ product_search.results.first[:model].name
 
 ### Composing the Search Request Body
 
-As mentioned above, search queries perform an Elasticsearch request body search. These search requests use a request body constructed from the [Elasticsearch query DSL](https://www.elastic.co/guide/en/elasticsearch/reference/5.5/query-dsl.html).
+As mentioned above, search queries perform an Elasticsearch request body search. These search requests use a request body constructed from the [Elasticsearch query DSL](https://www.elastic.co/guide/en/elasticsearch/reference/5.6/query-dsl.html).
 
 Search queries provide a Ruby interface for composing these request bodies. The `body` method is responsible for returning a hash which represents the request body. Many other methods are potentially used to compose this final hash. Below is the default implementation of `Workarea::Search::Query#body`.
 
@@ -994,11 +1073,3 @@ Many search queries include some of the following modules, which help to build u
 - `Workarea::Search::ProductRules`
 - `Workarea::Search::AdminIndexSearch`
 - `Workarea::Search::AdminSorting`
-
-## Notes
-
-[1] Documents of type _category_ are stored in the same indexes as documents of type _storefront_.
-
-[2] The _storefront_ key declares mappings for the _storefront_ **and** _category_ types, since both document types are stored in the same indexes.
-
-[3] `Workarea::Search::Help` has no descendants and is used directly to save and destroy documents.

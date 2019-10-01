@@ -148,7 +148,7 @@ search.id == search2.id && search2.id == search3.id
 # => true
 ```
 
-Refer to [Storefront Search Features, Initialization & Parameters](storefront-search-features.html#initialization-amp-parameters_9) to see the search query class and initialization code path for each Storefront search feature.
+Refer to [Storefront Search Features, Initialization & Parameters](storefront-search-features.html#initialization-amp-parameters_8) to see the search query class and initialization code path for each Storefront search feature.
 From these points in the application you can examine or log attributes of actual search query instances.
 
 After initializing an equivalent search query object, you can inspect it.
@@ -157,6 +157,7 @@ Most likely you will want to examine the `#body`, which returns the request body
 Although the search query's params represent its own state, the state of the request body depends additionally on many external values.
 Depending on the search query class these may include the following:
 
+* The current release (if any) and current segments (segments were added in Workarea 3.5)
 * Administrable values, accessible to admins and developers
   * Search settings (administration of all searches)
     * Search settings views factor (product popularity multiplier)
@@ -208,7 +209,7 @@ To resolve an issue, you may need to manually re-index all documents or specific
 
 Finally, if your search documents are up to date but do not contain the correct fields, field mappings, or field values, review the logic of your search models.
 For example, you may have added a new field to the Mongoid model but it is absent in the corresponding search model, or mapped incorrectly.
-See [Storefront Search Features, Search Models](storefront-search-features.html#search-models_13) for coverage of search models, including dynamic mapping.
+See [Storefront Search Features, Search Models](storefront-search-features.html#search-models_12) for coverage of search models, including dynamic mapping.
 
 You may need to verify the field mappings for the `'storefront'` Elasticsearch type used for Storefront Elasticsearch documents.
 To do so, use the Elasticsearch _Get Mapping_ API, which is demonstrated below:
