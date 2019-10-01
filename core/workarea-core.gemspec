@@ -41,6 +41,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'image_optim_pack', '0.5.0.20171101'
   s.add_dependency 'faker', '~> 1.8.4'
   s.add_dependency 'fastimage', '~> 1.6.3'
+  s.add_dependency 'faraday', '~> 0.15.4' # compatibility issue with 0.16
   s.add_dependency 'rack-timeout', '~> 0.1.1'
   s.add_dependency 'net-sftp', '~> 2.1.2'
   s.add_dependency 'autoprefixer-rails', '~> 6.5.1'
