@@ -305,6 +305,44 @@ These messages are for display only, and their logic is therefore encapsulated i
 Review the implementation of that view model in your Workarea version to see the logic for each status.
 
 
+### Inventory Collection Status
+
+Since Workarea 3.5, the implementation of the messages described above depends on `Inventory::Collection#status`.
+This is an additional layer of inventory status added in Workarea 3.5 that provides a status for a collection of one or more inventory SKUs.
+This API call depends on [inventory SKU states](#inventory-policies-amp-sku-states_5) and is used to implement [inventory status messages](#inventory-status-messages_12), thus sitting in a new layer in between.
+
+To utilize this in your own code, initialize an inventory collection. Then query the status, or query for a specific status:
+
+```ruby
+sample_skus = Workarea::Inventory::Sku.sample(10)
+collection = Workarea::Inventory::Collection.new(sample_skus)
+
+collection.status
+# => :available
+
+collection.available?
+# => true
+collection.backordered?
+# => false
+collection.low_inventory?
+# => false
+collection.out_of_stock?
+# => false
+```
+
+The list of statuses is determined by a configurable collection (SwappableList) of inventory status calculators: `Workarea.config.inventory_status_calculators`.
+
+```ruby
+puts Workarea.config.inventory_status_calculators
+# Workarea::Inventory::CollectionStatus::Backordered
+# Workarea::Inventory::CollectionStatus::LowInventory
+# Workarea::Inventory::CollectionStatus::OutOfStock
+# Workarea::Inventory::CollectionStatus::Available
+```
+
+You can manipulate this collection, including adding your own statuses.
+
+
 Placing & Canceling Orders
 ----------------------------------------------------------------------
 
