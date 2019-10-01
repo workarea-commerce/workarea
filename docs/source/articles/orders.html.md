@@ -8,7 +8,7 @@ excerpt: 'Workarea applications facilitate orders: transactions between consumer
 
 Workarea applications facilitate <dfn>orders</dfn>: transactions between consumers and retailers. Due to their complexity, orders are enabled by and recorded across many models within the Workarea platform. More specifically, various models within the `Order`, `Shipping`, `Payment`, `Pricing`, `Inventory`, and `Fulfillment` modules enable and record these transactions.
 
-However, at the core of each of these transaction is an `Order` model. The order model uniquely identifies the transaction, and using its `id`, you can join the various models, providing a complete record of the transaction.
+However, at the core of each of these transactions is an `Order` model. The order model uniquely identifies the transaction, and using its `id`, you can join the various models, providing a complete record of the transaction.
 
 ## Seeding Order Data
 

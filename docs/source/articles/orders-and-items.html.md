@@ -6,7 +6,7 @@ excerpt: Orders are transactions between consumers and the retailer. Consumers c
 
 # Orders & Items
 
-[Orders](orders.html) are transactions between consumers and the retailer. Consumers create orders in the Storefront, as carts, to which they add items (and optionally promo codes). Consumers complete checkouts, thereby placing their orders. The placed orders, which act as permanent records of the transactions, are accessible to the retailer through the Admin.
+[Orders](orders.html) are transactions between consumers and the retailer. Consumers create orders in the Storefront, as carts, to which they add items (and optionally promo codes). Consumers complete [checkouts](/articles/checkout.html), thereby placing their orders. The placed orders, which act as permanent records of the transactions, are accessible to the retailer through the Admin.
 
 The `Order` class (which is also a module/namespace) is the primary model representing these transactions. Each order [document](application-document.html) represents an order through its entire life cycle, from cart through order management. An order model therefore fulfills the roles of purchase order, invoice, and detailed receipt for a transaction.
 
@@ -120,7 +120,8 @@ item.discountable
 # => true
 ```
 
-The forthcoming guide, “Managing Carts”, will describe API calls for fetching these details and storing them on the order item.
+Review the implementation of `Storefront::CartItemsController#create` ([source, v3.4.17](https://github.com/workarea-commerce/workarea/blob/v3.4.17/storefront/app/controllers/workarea/storefront/cart_items_controller.rb#L13)) for the API calls involved in adding an item to an order that ensure these details are present.
+
 
 ### Price Adjustments
 
@@ -141,12 +142,14 @@ price_adjustment.description
 ```
 
 Item pricing is volatile; prices fluctuate and vary based on quantity, sales, discounts, and other factors. The unit price of an item and the adjustments that may apply due to active discounts and other factors are likely to change from order to order, and may even change within the lifespan of a single cart. Therefore, each order is continually re-priced until it is placed.
+( See [Order Pricing](/articles/order-pricing.html) for detailed coverage. )
 
-While the details of order pricing and price adjustments are outside the scope of this guide, one detail is notable here: order items and [shippings](shipping.html) are the only models that embed price adjustments. All _order_ and _item_ adjustments are stored on an order’s _items_, while all _shipping_ and _tax_ adjustments are stored on the _shippings_ related to the order.
 
 ### Item Totals
 
-Additionally, each time an order is priced, the total price and value<sup><a href="#notes" id="note-2-context">[1]</a></sup> of each item are written onto the item as fields. These values provide a snapshot of the “agreed upon” price of the item, as calculated by the pricing module. The consumer can metaphorically “negotiate” this price by shopping at a different time (during a sale or promotion) or applying promo codes to the order.
+Additionally, each time an order is priced, the total price and value of each item are written onto the item as fields. These values provide a snapshot of the “agreed upon” price of the item, as calculated by the pricing module. The consumer can metaphorically “negotiate” this price by shopping at a different time (during a sale or promotion) or applying promo codes to the order.
+
+( See [Order Pricing](/articles/order-pricing.html) for coverage of price vs value. )
 
 In the case of a cart, these values may change before the order is placed. The values are displayed to the consumer when viewing the cart and throughout checkout. In the case of a placed order, these represent the price at which the item sold, which may differ for another consumer purchasing the same item or the same consumer when placing a different order.
 
@@ -167,7 +170,7 @@ order.promo_codes
 # => ["10PERCENTOFF"]
 ```
 
-The order model provides API calls to add promo codes, which ensure the collection contains only unique, uppercase string values. The forthcoming “Managing Carts” guide will cover this topic.
+Use the API call `Order#add_promo_code` to add promo codes, which ensures the collection contains only unique, uppercase string values.
 
 ## Order Totals
 
@@ -190,7 +193,8 @@ order.total_value.to_f
 => 137.91
 ```
 
-While the full details of pricing are outside the scope of this guide, note that subtotal price is derived from the price adjustments stored on the _items_, while the shipping and tax totals are derived from the price adjustments stored on the related _shippings_.
+Note that subtotal price is derived from the price adjustments stored on the _items_, while the shipping and tax totals are derived from the price adjustments stored on the related _shippings_.
+( See [Order Pricing](/articles/order-pricing.html) for detailed coverage. )
 
 ## Summary
 
@@ -198,7 +202,3 @@ While the full details of pricing are outside the scope of this guide, note that
 - Each item on an order contains the SKU and quantity, along with other details to accurately price the item
 - Consumers can add promo codes to the order, which may also affect pricing
 - Pricing is recorded on each item as granular price adjustments and calculated item-level totals, and on the order as calculated order-level totals
-
-## Notes
-
-[1] Upcoming pricing documentation will describe the concept of price vs value.

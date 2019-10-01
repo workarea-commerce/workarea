@@ -130,7 +130,9 @@ Workarea::Order.all.include?(order)
 order = Workarea::Order.create
 ```
 
-which embeds an item. This example assumes catalog data is already seeded. Beware: the following procedure for adding an item is suitable for demonstration but not suitable for production use.&nbsp;<sup><a href="#notes" id="note-1-context">[1]</a></sup>
+which embeds an item. This example assumes catalog data is already seeded.
+
+( The following procedure for adding an item is suitable for demonstration but not ideal for production use. For the latter, review the implementation of `Storefront::CartItemsController#create` ([source, v3.4.17](https://github.com/workarea-commerce/workarea/blob/v3.4.17/storefront/app/controllers/workarea/storefront/cart_items_controller.rb#L13). )
 
 ```
 product = Workarea::Catalog::Product.sample
@@ -259,7 +261,7 @@ order.status
 
 ### Order Reminding
 
-To help recover the potentially lost revenue of abandoned orders, Workarea applications send “reminder” emails when possible. Each email contains a token allowing the consumer to resume the cart.&nbsp;<sup><a href="#notes" id="note-2-context">[2]</a></sup>
+To help recover the potentially lost revenue of abandoned orders, Workarea applications send “reminder” emails when possible. Each email contains a token allowing the consumer to resume the cart.
 
 For an order to be considered <dfn>needs reminding</dfn>, it must have started checkout, become abandoned, and have an email. The example order does not qualify because it is an active checkout and does not have an email.
 
@@ -301,7 +303,9 @@ Workarea::Order.need_reminding.include?(order)
 
 ### Order Expiration After Starting Checkout
 
-If the reminder email does not entice the consumer to resume the cart, the order will likely expire and be cleaned. Notice in the following example the order is returned only by `Order.expired_in_checkout`, which was added in Workarea 3.3 to address the issue of orders never expiring after starting checkout.&nbsp;<sup><a href="#notes" id="note-3-context">[3]</a></sup>
+If the reminder email does not entice the consumer to resume the cart, the order will likely expire and be cleaned. Notice in the following example the order is returned only by `Order.expired_in_checkout`, which was added in Workarea 3.3 to address the issue of orders never expiring after starting checkout.
+
+( In Workarea versions prior to 3.3, this order will never expire unless checkout is explicitly reset, and the order is therefore never cleaned. )
 
 ```
 travel Workarea.config.order_expiration_period
@@ -368,7 +372,9 @@ order.place
 # => true
 ```
 
-The `place` method does little more than set the `placed_at` timestamp and save the order. However, it saves the order conservatively, waiting for the save to write to disk and (in hosted environments) replicate to other nodes before reporting success.&nbsp;<sup><a href="#notes" id="note-4-context">[4]</a></sup>
+The `place` method does little more than set the `placed_at` timestamp and save the order. However, it saves the order conservatively, waiting for the save to write to disk and (in hosted environments) replicate to other nodes before reporting success.
+
+( The `Order#place` method also runs the custom `:place` callback (see [Callbacks Worker](workers.html#callbacks-worker), which enqueues additional work to run in the background. However, those jobs are outside the scope of the `Order` module and are not covered here. )
 
 ```
 order.placed_at.present?
@@ -483,7 +489,7 @@ Workarea::Search::AdminOrders.new.results.first.id == placed_order.id
 
 ## Canceled Orders
 
-Workarea Core also allows <dfn>canceling</dfn> orders, however, this does not take into consideration the restocking of inventory, refunding of payment, and updating of fulfillment that may accompany such a change. Because of these additional concerns, this functionality is not exposed as a web interface in the base platform, but is available through the <cite>Workarea OMS</cite> plugin.
+Workarea Core also allows <dfn>canceling</dfn> orders, however, this does not take into consideration the restocking of inventory, refunding of payment, and updating of fulfillment that may accompany such a change. Because of these additional concerns, this functionality is not exposed as a web interface in the base platform, but is available through the [Workarea OMS](https://plugins.workarea.com/plugins/oms) plugin.
 
 From the `Order` document’s perspective, <dfn>canceling</dfn> an order (achieved through `Order#cancel`) is simply the process of recording the date and time at which the order was canceled. The presence of this additional timestamp causes the order to identify as canceled.
 
@@ -533,15 +539,3 @@ Workarea::Search::AdminOrders.new.results.first.id == placed_order.id
   - The predicate methods `abandoned?`, `started_checkout?`, `checking_out?`, `placed?`, and `canceled?`
   - The criteria class methods `.carts`, `.not_placed`, `.expired`, `.need_reminding`, `.placed`, and `.recent_placed`
  As well as the configurable durations `Workarea.config.order_active_period`, `Workarea.config.order_expiration_period`, and `Workarea.config.checkout_expiration`
-
-## Notes
-
-[1] The forthcoming <cite>Managing Carts</cite> guide will provide a more robust recipe for adding an item to an order.
-
-[2] The reminder email and the endpoint for resuming a cart are Storefront concerns and will be described in the <cite>Managing Carts</cite> guide.
-
-[3] In Workarea versions prior to 3.3, this order will never expire unless checkout is explicitly reset, and the order is therefore never cleaned.
-
-[4] The `Order#place` method also runs the custom `:place` callback (see [Callbacks Worker](workers.html#callbacks-worker), which enqueues additional work to run in the background. However, those jobs are outside the scope of the `Order` module and are not covered here.
-
-
