@@ -1,3 +1,84 @@
+Workarea 3.4.17 (2019-10-01)
+--------------------------------------------------------------------------------
+
+*   Add Inverse Aspect Ratio To Product Image Fields (#118)
+
+    Populate the `:image_inverse_aspect_ratio` automatically using
+    Dragonfly, in order to reduce the amount of requests made to S3 in order
+    to find out this information.
+
+    (#116)
+    Tom Scott
+
+*   Exclude docs/ from the gem build
+
+    Matt Duffy
+
+*   Ensure Tags Are Unique
+
+    When inserting tags into a taggable document, make sure their values are
+    unique. This addresses an issue where incorrect tag counts were being
+    displayed on the storefront.
+
+    Fixes #112
+    Tom Scott
+
+*   Display Referrer URL in tooltip on Order Attributes in Admin
+
+    Due to the length of URLs being displayed on Order Attributes in the
+    admin they will potentially break layout. Now they are displayed within
+    a tooltip behind a "View" link click. The resulting tooltip will prompt
+    the user to copy the contents of a text box containing the URL.
+
+    Fixes #60
+    Curt Howard
+
+*   Fix incorrect URL for workarea support on CLI documentation
+
+    Matt Duffy
+
+*   Add checkout confirmation append point (#76)
+
+    Adds append point below default order confirmation text.
+    Jeff Yucis
+
+*   Fix blank default category in admin ProductViewModel (#55)
+
+    `ProductViewModel#default_category` now protects against a `nil` value
+    for the default category before passing its value into a view model.
+
+    Fixes #33
+    Tom Scott
+
+*   Replace App Template Command With Install Generator in Upgrade Docs
+
+    In the upgrade guide for v3.4, we're instructing users to apply an app
+    template which no longer exists. Instead of using the app template, we
+    now rely on a generator called `workarea:install` to place the expected
+    files into your Rails app directory, so update the command in docs to
+    avoid confusion.
+    Tom Scott
+
+*   Improve plugin template
+
+    * Updates usage documentation at top of template
+    * Properly namespace directories under `app/assets`
+    * Set starting version to `1.0.0.pre`
+    * Point to HTTPS GitHub url instead of SSH
+    * Clean up generated README
+    * Add LICENSE
+    * Link license in gemspec and README
+    * Fix indentation and whitespace issues in gemspec
+    * Remove `script/` directory
+    * Clean up generated gitignore
+    * Fix link to developer documentation in README
+    * Fix flagrant quote fail for required Rails engines
+
+    Closes #25
+    Curt Howard
+
+
+
 Workarea 3.4.16 (2019-09-17)
 --------------------------------------------------------------------------------
 
