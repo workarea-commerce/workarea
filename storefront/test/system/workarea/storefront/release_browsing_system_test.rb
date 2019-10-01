@@ -29,6 +29,7 @@ module Workarea
         assert(page.has_no_content?('New Taxon'))
 
         within_frame find('.admin-toolbar') do
+          wait_for_iframe
           select 'Browse Release', from: 'release_id'
         end
         assert(page.has_content?('New Taxon'))
@@ -36,11 +37,13 @@ module Workarea
         visit storefront.page_path(page1)
 
         within_frame find('.admin-toolbar') do
+          wait_for_iframe
           select 'the live site', from: 'release_id'
         end
         assert(page.has_no_content?('Foo Changed'))
 
         within_frame find('.admin-toolbar') do
+          wait_for_iframe
           select 'Browse Release', from: 'release_id'
         end
         assert(page.has_content?('Foo Changed'))
@@ -48,11 +51,13 @@ module Workarea
         visit storefront.page_path(page2)
 
         within_frame find('.admin-toolbar') do
+          wait_for_iframe
           select 'the live site', from: 'release_id'
         end
         assert(page.has_no_content?('Bar Changed'))
 
         within_frame find('.admin-toolbar') do
+          wait_for_iframe
           select 'Browse Release', from: 'release_id'
         end
         assert(page.has_content?('Bar Changed'))
@@ -64,9 +69,25 @@ module Workarea
         visit storefront.root_path
 
         within_frame find('.admin-toolbar') do
+          wait_for_iframe
           select 'the live site', from: 'release_id'
         end
         assert(page.has_no_content?('New Taxon'))
+      end
+
+      private
+
+      # There is some kind of timing problem around waiting for this iframe that
+      # after a few hours we still can't find. This is a hack to keep this
+      # passing.
+      #
+      # May God have mercy on our souls.
+      #
+      # TODO v3.6
+      # Remove this after we stop using an iframe for the admin toolbar
+      #
+      def wait_for_iframe
+        sleep(0.5)
       end
     end
   end
