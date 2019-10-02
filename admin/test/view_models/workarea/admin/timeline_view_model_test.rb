@@ -15,22 +15,31 @@ module Workarea
         assert_equal(view_model.upcoming_changesets.length, 1)
         assert_equal(view_model.upcoming_changesets.first.release_id, release.id)
 
-        release = create_release(name: 'Bar')
+        release = create_release(name: 'Bar', publish_at: 4.days.from_now)
         release.as_current { @releasable.update_attributes!(name: 'Changed') }
 
         view_model = TimelineViewModel.new(@releasable)
         assert_equal(view_model.upcoming_changesets.length, 2)
         assert_equal(view_model.upcoming_changesets.second.release_id, release.id)
 
+        release = create_release(name: 'Baz')
+        release.as_current { @releasable.update_attributes!(name: 'Changed') }
+
+        view_model = TimelineViewModel.new(@releasable)
+        assert_equal(view_model.upcoming_changesets.length, 2)
+
         release = create_release(name: 'Foo', published_at: 3.days.ago)
         release.as_current { @releasable.update_attributes!(name: 'Changed') }
 
         view_model = TimelineViewModel.new(@releasable)
         assert_equal(view_model.upcoming_changesets.length, 2)
+
+        assert_equal('Foo', view_model.upcoming_changesets.first.release.name)
+        assert_equal('Bar', view_model.upcoming_changesets.last.release.name)
       end
 
       def test_upcoming_changesets_with_content
-        release = create_release
+        release = create_release(publish_at: 1.day.from_now)
         content = Content.for(@releasable)
         release.as_current { content.update_attributes!(browser_title: 'Foo') }
 

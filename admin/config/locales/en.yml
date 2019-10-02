@@ -3442,6 +3442,7 @@ en:
         no_activity: No activity to show
         timeline_for: Timeline For
         today: Today
+        unscheduled_changes: Unscheduled Changes
         upcoming_changes: Upcoming Changes
       toolbar:
         adjust_order_pricing: Adjust Order Pricing
