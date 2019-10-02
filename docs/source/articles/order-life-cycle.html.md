@@ -562,15 +562,18 @@ See [Add a Fraud Analyzer](/articles/add-a-fraud-analyzer.html) for more coverag
 
 ## Summary
 
-- Consumers create carts in the Storefront, which may become abandoned and expire, and are eventually cleaned
-- Carts progress through checkouts, which also expire and may become abandoned
-- Abandoned orders are reported and (when possible) reminded, which may result in resumed carts and checkouts
-- Completed checkouts produce placed orders, which are indexed into search for management by admins, and may be canceled
-- Since Workarea 3.5, orders may also be suspected of fraud, and such orders are additionally indexed into Admin search
-- These order statuses and states are defined largely by aspects of the `Order` interface, namely: 
-  - The `status` instance method
-  - The destructive instance methods `touch_checkout!`, `reset_checkout!`, `mark_as_reminded!`, `place`, `cancel`, and `set_fraud_decision!`
-  - The timestamp fields `created_at`, `updated_at`, `checkout_started_at`, `reminded_at`, `placed_at`, `canceled_at`, and `fraud_suspected_at`
-  - The predicate methods `abandoned?`, `started_checkout?`, `checking_out?`, `placed?`, `canceled?`, and `fraud_suspected?`
-  - The criteria class methods `.carts`, `.not_placed`, `.expired`, `.need_reminding`, `.placed`, and `.recent_placed`
- As well as the configurable durations `Workarea.config.order_active_period`, `Workarea.config.order_expiration_period`, and `Workarea.config.checkout_expiration`
+Consumers create carts in the Storefront, which may become abandoned and expire, and are eventually cleaned.
+Carts progress through checkouts, which also expire and may become abandoned.
+Abandoned orders are reported and (when possible) reminded, which may result in resumed carts and checkouts.
+Completed checkouts produce placed orders, which are indexed into search for management by admins, and may be canceled.
+Since Workarea 3.5, orders may also be suspected of fraud, and such orders are additionally indexed into Admin search.
+
+These order statuses and states are defined largely by aspects of the `Order` interface, namely: 
+
+* The `status` instance method
+* The destructive instance methods `touch_checkout!`, `reset_checkout!`, `mark_as_reminded!`, `place`, `cancel`, and `set_fraud_decision!`
+* The timestamp fields `created_at`, `updated_at`, `checkout_started_at`, `reminded_at`, `placed_at`, `canceled_at`, and `fraud_suspected_at`
+* The predicate methods `abandoned?`, `started_checkout?`, `checking_out?`, `placed?`, `canceled?`, and `fraud_suspected?`
+* The criteria class methods `.carts`, `.not_placed`, `.expired`, `.need_reminding`, `.placed`, and `.recent_placed`
+
+as well as the configurable durations `Workarea.config.order_active_period`, `Workarea.config.order_expiration_period`, and `Workarea.config.checkout_expiration`.
