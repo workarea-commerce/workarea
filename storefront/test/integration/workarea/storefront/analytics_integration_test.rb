@@ -52,11 +52,9 @@ module Workarea
 
       def test_merging_metrics_on_login
         create_user(email: 'bcrouse@workarea.com', password: 'W3bl1nc!')
-        login_metrics = Metrics::User.create!(
-          id: 'bcrouse@workarea.com',
-          orders: 1,
-          viewed: { product_ids: ['bar'] }
-        )
+        Metrics::User.save_order(email: 'bcrouse@workarea.com', revenue: 10)
+        Metrics::User.save_affinity(id: 'bcrouse@workarea.com', action: :viewed, product_ids: ['bar'])
+        login_metrics = Metrics::User.find('bcrouse@workarea.com')
 
         post storefront.analytics_product_view_path(product_id: 'foo')
         session_metrics = Metrics::User.find(session.id)

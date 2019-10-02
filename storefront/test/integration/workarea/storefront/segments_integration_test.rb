@@ -169,6 +169,21 @@ module Workarea
         get storefront.root_path
         assert_includes(response.body, '<p>Foo</p>')
       end
+
+      def test_logged_in_based_segments
+        logged_in = create_segment(rules: [Segment::Rules::LoggedIn.new(logged_in: true)])
+        logged_out = create_segment(rules: [Segment::Rules::LoggedIn.new(logged_in: false)])
+
+        get storefront.current_user_path(format: 'json')
+        assert_equal(logged_out.id.to_s, response.headers['X-Workarea-Segments'])
+
+        user = create_user(password: 'w0rkArea!')
+        post storefront.login_path,
+          params: { email: user.email, password: 'w0rkArea!' }
+
+        get storefront.current_user_path(format: 'json')
+        assert_equal(logged_in.id.to_s, response.headers['X-Workarea-Segments'])
+      end
     end
   end
 end

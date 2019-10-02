@@ -1,0 +1,5 @@
+%span
+  - if rule.logged_in?
+    = t('workarea.admin.segment_rules.summaries.logged_in.logged_in_html')
+  - else
+    = t('workarea.admin.segment_rules.summaries.logged_in.logged_out_html')

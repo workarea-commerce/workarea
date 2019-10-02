@@ -2,6 +2,7 @@ module Workarea
   module Metrics
     class User
       include Mongoid::Document
+      include Mongoid::Document::Taggable
       include Mongoid::Timestamps
 
       store_in client: :metrics
