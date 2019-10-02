@@ -21,8 +21,10 @@
     - if asset.name.present?
       .asset-picker-field__cell= button_tag t('workarea.admin.content_blocks.asset.clear_asset'), type: 'button', value: 'clear_asset', id: nil, class: 'text-button text-button--destroy', data: { asset_picker_field_clear: '' }
 
-  - if asset.alt_text.present?
-    %span.property__note= t('workarea.admin.content_blocks.asset.alt_text_note_html', alt: asset.alt_text)
+  %span.property__note
+    = t('workarea.admin.content_blocks.asset.alt_text_note')
+    - if asset.alt_text.present?
+      %strong= "(#{asset.alt_text})"
 
 - if field.tooltip.present?
   .tooltip-content{ id: "#{dom_id(block, field.slug)}_tooltip" }

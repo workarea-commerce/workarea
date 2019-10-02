@@ -1,7 +1,7 @@
 = link_to content_asset_path(model), class: 'summary', data: { asset: { id: model.id.to_s, name: model.name, url: model.url } } do
   .summary__image-container
     - if model.image?
-      = image_tag model.file.process(:medium).url, alt: model.name, class: 'summary__image'
+      = image_tag model.file.process(:medium).url, alt: model.name, class: 'summary__image', title: model.alt_text
   %span.summary__name= model.name
   .summary__info-container
     .summary__info= local_time_ago(model.updated_at)
