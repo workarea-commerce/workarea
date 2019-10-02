@@ -11,11 +11,15 @@ module Workarea
         def shippings
           @persisted_shippings
         end
+
+        def payment
+          @persisted_payment
+        end
       end
 
       included do
         attr_reader :request
-        delegate :order, :shippings, :pricing, :discounts, to: :request
+        delegate :order, :shippings, :payment, :pricing, :discounts, to: :request
       end
 
       module ClassMethods

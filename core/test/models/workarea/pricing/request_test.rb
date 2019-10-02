@@ -18,6 +18,11 @@ module Workarea
         @order.add_item(product_id: 'PRODUCT', sku: 'SKU', quantity: 2)
         @order.save!
 
+        @payment = create_payment(
+          id: @order.id,
+          address: factory_defaults_config.billing_address
+        )
+
         @discount = create_product_discount(promo_codes: ['promo-code'])
 
         @shipping = Shipping.create!(shipping_service: { name: 'Ground' })
@@ -79,6 +84,14 @@ module Workarea
         @shipping.shipping_service.name = 'Second Day'
         @shipping.save!
 
+        assert @request.stale?
+      end
+
+      def test_payment_breaks_cache
+        @payment.address.street = '225 Arch St.'
+        @payment.save!
+
+        @request = Request.new(@order, @shipping)
         assert @request.stale?
       end
     end

@@ -10,12 +10,14 @@ module Workarea
             :setup_order_item,
             :setup_shipping,
             :setup_pricing,
+            :setup_payment,
             :setup_cache_key
 
       def test_parts
         parts = @cache_key.parts.flatten
 
         assert_includes(parts, @pricing.cache_key)
+        assert_includes(parts, @payment.cache_key)
         assert_includes(parts, @discount.reload.cache_key)
         assert_includes(parts, @order.cache_key)
         assert_includes(parts, @shipping.cache_key)
@@ -59,8 +61,12 @@ module Workarea
         @request = Request.new(@order, @shipping)
       end
 
+      def setup_payment
+        @payment = create_payment(id: @order.id)
+      end
+
       def setup_cache_key
-        @cache_key = CacheKey.new(@order, [@shipping], @request)
+        @cache_key = CacheKey.new(@order, [@shipping], @payment, @request)
       end
     end
   end

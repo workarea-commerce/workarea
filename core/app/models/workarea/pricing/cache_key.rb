@@ -1,13 +1,14 @@
 module Workarea
   module Pricing
     class CacheKey
-      attr_reader :shippings
+      attr_reader :shippings, :payment
       attr_accessor :order
       delegate :pricing, :discounts, to: :@request
 
-      def initialize(order, shippings, request)
+      def initialize(order, shippings, payment, request)
         @order = order
         @shippings = shippings
+        @payment = payment
         @request = request
       end
 
@@ -17,8 +18,9 @@ module Workarea
           discount_key,
           order_key,
           shipping_service_key,
+          payment_key,
           tax_key
-        ]
+        ].compact
       end
 
       def to_s
@@ -41,6 +43,10 @@ module Workarea
 
       def shipping_service_key
         shippings.map(&:cache_key).join
+      end
+
+      def payment_key
+        payment&.cache_key
       end
 
       def tax_key
