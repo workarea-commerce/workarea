@@ -2801,6 +2801,7 @@ en:
           category:
             name: Category that does
             placeholder: Category A, Category B
+            choose: Choose a category...
       publish_authorization:
         unauthorized: You are not authorized to publish changes now. You may add these changes to a release.
       recommendations:

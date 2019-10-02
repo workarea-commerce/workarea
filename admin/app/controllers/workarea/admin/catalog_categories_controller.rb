@@ -9,7 +9,10 @@ module Workarea
 
       def index
         search = Search::AdminCategories.new(
-          params.merge(autocomplete: request.xhr?)
+          params.merge(
+            autocomplete: request.xhr?,
+            exclude_ids: exclude_ids
+          )
         )
 
         @search = SearchViewModel.new(search, view_model_options)
@@ -43,6 +46,14 @@ module Workarea
       end
 
       private
+
+      def exclude_ids
+        if params[:exclude_ids].blank?
+          []
+        else
+          Catalog::Category.in(id: params[:exclude_ids]).map { |c| Search::Admin.for(c).id }
+        end
+      end
 
       def find_category
         if params[:id].present?
