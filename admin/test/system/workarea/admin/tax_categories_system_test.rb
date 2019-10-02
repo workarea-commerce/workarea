@@ -77,7 +77,6 @@ module Workarea
           assert(page.has_content?('6.0%'))
           assert(page.has_content?('4.0%'))
           assert(page.has_content?('2.0%'))
-          assert(page.has_content?('12.0%'))
 
           assert(page.has_content?("#{Money.default_currency.symbol}5.00"))
           assert(page.has_content?("#{Money.default_currency.symbol}500.00"))
@@ -103,7 +102,6 @@ module Workarea
         within '.index-table__row' do
           assert(page.has_content?('10.0%'))
           assert(page.has_content?('20.5%'))
-          assert(page.has_content?('30.5%'))
         end
 
         #

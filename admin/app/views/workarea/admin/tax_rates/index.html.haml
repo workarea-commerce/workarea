@@ -38,7 +38,6 @@
             %th.align-center= t('workarea.admin.tax_rates.index.table.country_percentage')
             %th.align-center= t('workarea.admin.tax_rates.index.table.region_percentage')
             %th.align-center= t('workarea.admin.tax_rates.index.table.postal_code_percentage')
-            %th.align-center= t('workarea.admin.tax_rates.index.table.combined_percentage')
             %th.align-center
               = t('workarea.admin.tax_rates.index.table.min_value')
               = link_to '#min-value-tooltip', data: { tooltip: '' } do
@@ -60,8 +59,6 @@
               %td.align-center= number_to_percentage(rate.country_percentage * 100, precision: 1)
               %td.align-center= number_to_percentage(rate.region_percentage * 100, precision: 1)
               %td.align-center= number_to_percentage(rate.postal_code_percentage * 100, precision: 1)
-              %td.align-center
-                %strong= number_to_percentage(rate.percentage * 100, precision: 1)
               %td.align-center= rate.tier_min.present? ? number_to_currency(rate.tier_min) : t('workarea.admin.tax_rates.index.not_applicable')
               %td.align-center= rate.tier_max.present? ? number_to_currency(rate.tier_max) : t('workarea.admin.tax_rates.index.not_applicable')
               %td.align-center= rate.charge_on_shipping ? t('workarea.admin.true') : t('workarea.admin.false')
