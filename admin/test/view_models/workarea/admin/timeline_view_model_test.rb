@@ -16,7 +16,7 @@ module Workarea
         assert_equal(view_model.upcoming_changesets.first.release_id, release.id)
 
         release = create_release(name: 'Bar', publish_at: 4.days.from_now)
-        release.as_current { @releasable.update_attributes!(name: 'Changed') }
+        release.as_current { @releasable.update_attributes!(name: 'Changed Again') }
 
         view_model = TimelineViewModel.new(@releasable)
         assert_equal(view_model.upcoming_changesets.length, 2)
