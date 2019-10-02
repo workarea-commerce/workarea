@@ -7,7 +7,7 @@ module Workarea
             product_ids = model.viewed.recent_product_ids(max: display_count)
 
             Catalog::Product.find_ordered(product_ids).select(&:active?).map do |product|
-              ProductViewModel.wrap(product)
+              ProductViewModel.wrap(product, options)
             end
           end
       end

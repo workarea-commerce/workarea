@@ -3,7 +3,6 @@ require 'test_helper'
 module Workarea
   module Storefront
     class UserActivityViewModelTest < TestCase
-
       setup :set_display_count
       teardown :reset_display_count
 
@@ -19,7 +18,10 @@ module Workarea
       def test_products
         product_one = create_product
         product_two = create_product
-        product_three = create_product
+        product_three = create_product(
+          details:  { 'Material' => 'Wool', 'Style' => '12345' },
+          filters:  { 'Material' => 'Wool', 'Style' => '12345' }
+        )
         [product_three, product_two, product_one, product_one].each do |product|
           Metrics::User.save_affinity(id: 'foo', action: 'viewed', product_ids: product.id)
         end
@@ -36,6 +38,9 @@ module Workarea
 
         assert_equal(1, view_model.products.length)
         assert_equal(product_one, view_model.products.first.model)
+
+        view_model = UserActivityViewModel.new(metrics, 'Material' => 'Wool')
+        assert_equal 'Wool', view_model.products.first.options['Material']
       end
 
       def test_categories
