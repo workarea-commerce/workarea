@@ -44,6 +44,21 @@ module Workarea
         refute(results['results'].first['top'])
       end
 
+      def test_exclude_categories_from_search_results
+        category = create_category(name: 'Category')
+        ignored = create_category(name: 'Category')
+
+        get admin.catalog_categories_path(exclude_ids: ignored.id, q: category.name, format: :json)
+
+        results = JSON.parse(response.body).with_indifferent_access[:results]
+        values = results.map { |result| result[:value] }
+
+        assert_response(:success)
+        refute_empty(values)
+        assert_includes(values, category.id.to_s)
+        refute_includes(values, ignored.id.to_s)
+      end
+
       def test_returns_breadcrumb_as_title_with_json_response
         category = create_category(name: 'Test')
         create_taxon(

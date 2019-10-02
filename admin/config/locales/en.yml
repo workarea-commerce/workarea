@@ -2989,6 +2989,7 @@ en:
           category:
             name: Category that does
             placeholder: Category A, Category B
+            choose: Choose a category...
       publish_authorization:
         unauthorized: You are not authorized to publish changes now. You may add these changes to a release.
       recommendations:
@@ -3799,6 +3800,7 @@ en:
         no_activity: No activity to show
         timeline_for: Timeline For
         today: Today
+        unscheduled_changes: Unscheduled Changes
         upcoming_changes: Upcoming Changes
       toolbar:
         adjust_order_pricing: Adjust Order Pricing
