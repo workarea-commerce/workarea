@@ -7,33 +7,22 @@ module Workarea
 
           # TODO remove these in v3.6
           class_methods do
+            Workarea.deprecation.deprecate_methods(
+              self,
+              add_category: 'Use `Search::Storefront::CategoryQuery.new(category).create` instead',
+              delete_category: 'Use `Search::Storefront::CategoryQuery.new(category).delete` instead',
+              find_categories: 'Use `Workarea::Search::Storefront::CategoryQuery.find_by_product` instead'
+            )
+
             def add_category(category)
-              warn <<~eos
-                [DEPRECATION] Use `Workarea::Search::Storefront::CategoryQuery.new(category).create`
-                for adding category queries for percolation.
-                `Workarea::Search::Storefront::Product::Categories.add_category`
-                will be removed in v3.6.
-              eos
               CategoryQuery.new(category).create
             end
 
             def delete_category(category_id)
-              warn <<~eos
-                [DEPRECATION] Use `Workarea::Search::Storefront::CategoryQuery.new(category).delete`
-                for working with category queries for percolation.
-                `Workarea::Search::Storefront::Product::Categories.delete_category`
-                will be removed in v3.6.
-              eos
               CategoryQuery.new(category_id).delete
             end
 
             def find_categories(product)
-              warn <<~eos
-                [DEPRECATION] Use `Workarea::Search::Storefront::CategoryQuery.find_by_product`
-                for working with category queries for percolation.
-                `Workarea::Search::Storefront::Product::Categories.find_categories`
-                will be removed in v3.6.
-              eos
               CategoryQuery.find_by_product(product)
             end
           end

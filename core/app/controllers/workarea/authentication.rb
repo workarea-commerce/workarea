@@ -33,14 +33,14 @@ module Workarea
     end
 
     # TODO deprecated, remove in v3.6
-    def touch_auth_cookie
-      warn <<~eos
-        [DEPRECATION] `touch_auth_cookie` and `keep_auth_alive` are deprecated
-        and will be removed in version 3.6.0. Since session is handled with
-        Rails sessions now, you won't need either of these methods.
+    def touch_auth_cookie; end
+    alias_method :keep_auth_alive, :touch_auth_cookie
+    %w(keep_auth_alive touch_auth_cookie).each do |method|
+      Workarea.deprecation.deprecate_methods Authentication, method => <<~eos.squish
+        Session is handled with Rails sessions now, you won't need either of
+        these methods
       eos
     end
-    alias_method :keep_auth_alive, :touch_auth_cookie
 
     def logged_in?
       current_user.present? && current_user.valid_logged_in_request?(request)

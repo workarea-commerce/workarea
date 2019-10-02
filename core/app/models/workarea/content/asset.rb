@@ -46,15 +46,6 @@ module Workarea
     after_validation :set_name
     after_validation :set_type
 
-    # TODO v3.5 remove
-    def self.placeholder
-      warn <<~eos
-        [DEPRECATION] `Asset.placeholder` is deprecated and will be removed in
-        version 3.5.0. Please use `Asset.image_placeholder` instead.
-      eos
-      self.image_placeholder
-    end
-
     def self.image_placeholder
       find_by(file_name: Workarea.config.image_placeholder_image_name)
 
@@ -94,15 +85,6 @@ module Workarea
 
     def favicon?
       tags.any? { |t| t.starts_with?('favicon') }
-    end
-
-    # TODO v3.5 remove
-    def placeholder?
-      warn <<~eos
-        [DEPRECATION] `Asset#placeholder?` is deprecated and will be removed in
-        version 3.5.0. Please use `Asset#image_placeholder?` instead.
-      eos
-      image_placeholder?
     end
 
     def image_placeholder?
