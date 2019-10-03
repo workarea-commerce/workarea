@@ -29,7 +29,11 @@
                 %tr
                   %th
                     %span.data-pairs__name= t('workarea.admin.users.insights.average_order_value')
-                  %td= number_to_currency @user.insights.average_order_value
+                  %td
+                    - if @user.insights.average_order_value.blank?
+                      \-
+                    - else
+                      = number_to_currency @user.insights.average_order_value
                 %tr
                   %th
                     %span.data-pairs__name= t('workarea.admin.users.insights.discounts')
@@ -69,26 +73,38 @@
                   %th
                     %span.data-pairs__name= t('workarea.admin.users.insights.orders')
                   %td
-                    = @user.insights.orders_percentile.ordinalize
-                    = t('workarea.admin.users.insights.percentile')
+                    - if @user.insights.orders_percentile.blank?
+                      \-
+                    - else
+                      = @user.insights.orders_percentile.ordinalize
+                      = t('workarea.admin.users.insights.percentile')
                 %tr
                   %th
                     %span.data-pairs__name= t('workarea.admin.users.insights.revenue')
                   %td
-                    = @user.insights.revenue_percentile.ordinalize
-                    = t('workarea.admin.users.insights.percentile')
+                    - if @user.insights.revenue_percentile.blank?
+                      \-
+                    - else
+                      = @user.insights.revenue_percentile.ordinalize
+                      = t('workarea.admin.users.insights.percentile')
                 %tr
                   %th
                     %span.data-pairs__name= t('workarea.admin.users.insights.frequency')
                   %td
-                    = @user.insights.frequency_percentile.ordinalize
-                    = t('workarea.admin.users.insights.percentile')
+                    - if @user.insights.frequency_percentile.blank?
+                      \-
+                    - else
+                      = @user.insights.frequency_percentile.ordinalize
+                      = t('workarea.admin.users.insights.percentile')
                 %tr
                   %th
                     %span.data-pairs__name= t('workarea.admin.users.insights.aov')
                   %td
-                    = @user.insights.average_order_value_percentile.ordinalize
-                    = t('workarea.admin.users.insights.percentile')
+                    - if @user.insights.average_order_value_percentile.blank?
+                      \-
+                    - else
+                      = @user.insights.average_order_value_percentile.ordinalize
+                      = t('workarea.admin.users.insights.percentile')
 
     .section
       %h2.align-center= t('workarea.admin.users.insights.recently_viewed.title')

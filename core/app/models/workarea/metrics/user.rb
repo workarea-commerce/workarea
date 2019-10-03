@@ -14,12 +14,12 @@ module Workarea
       field :orders, type: Integer, default: 0
       field :revenue, type: Float, default: 0.0
       field :discounts, type: Float, default: 0.0
-      field :frequency, type: Float, default: 0.0
-      field :average_order_value, type: Float, default: 0.0
-      field :orders_percentile, type: Integer, default: 10
-      field :revenue_percentile, type: Integer, default: 10
-      field :frequency_percentile, type: Integer, default: 10
-      field :average_order_value_percentile, type: Integer, default: 10
+      field :frequency, type: Float
+      field :average_order_value, type: Float
+      field :orders_percentile, type: Integer
+      field :revenue_percentile, type: Integer
+      field :frequency_percentile, type: Integer
+      field :average_order_value_percentile, type: Integer
       field :cancellations, type: Integer, default: 0
       field :refund, type: Float, default: 0.0
 

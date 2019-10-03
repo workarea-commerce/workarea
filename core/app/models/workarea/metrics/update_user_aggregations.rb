@@ -13,13 +13,23 @@ module Workarea
           {
             '$addFields' => {
               'frequency' => {
-                '$divide' => [
-                  '$orders',
-                  { '$subtract' => [Time.current, '$first_order_at'] }
+                '$cond' => [
+                  { '$eq' => ['$orders', 0] },
+                  nil,
+                  {
+                    '$divide' => [
+                      '$orders',
+                      { '$subtract' => [Time.current, '$first_order_at'] }
+                    ]
+                  }
                 ]
               },
               'average_order_value' => {
-                '$divide' => ['$revenue', '$orders']
+                '$cond' => [
+                  { '$eq' => ['$orders', 0] },
+                  nil,
+                  { '$divide' => ['$revenue', '$orders'] }
+                ]
               }
             }
           },
@@ -45,15 +55,21 @@ module Workarea
         percentiles = CalculatePercentiles.new(User.collection, field)
 
         {
-          '$switch' => {
-            'branches' => 99.downto(1).map do |percentile|
-              {
-                'case' => {  '$gte' => ["$#{field}", percentiles[percentile.to_s]] },
-                'then' => percentile + 1
+          '$cond' => [
+            { '$eq' => ['$orders', 0] },
+            nil,
+            {
+              '$switch' => {
+                'branches' => 99.downto(1).map do |percentile|
+                  {
+                    'case' => {  '$gte' => ["$#{field}", percentiles[percentile.to_s]] },
+                    'then' => percentile + 1
+                  }
+                end,
+                'default' => 1
               }
-            end,
-            'default' => 1
-          }
+            }
+          ]
         }
       end
     end
