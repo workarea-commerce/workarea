@@ -4,70 +4,76 @@
 WORKAREA.registerModule('activeBySegmentTooltips', (function () {
     'use strict';
 
-    var initTooltip = function (index, trigger) {
-            var $link = $(trigger),
-                $form = $link.closest('form');
+    var hiddenInput = JST['workarea/core/templates/hidden_input'],
 
-            $link.tooltipster(
-                _.assign({}, WORKAREA.config.tooltipster, {
-                    interactive: true,
-                    content: $($link.attr('href')),
-                    functionAfter: function(instance) {
-                        var $tooltip = instance.content();
-                        addHiddenInputs($form, $tooltip);
-                        updateMessages($link, $tooltip);
-                    }
-                })
-            );
+        getSelectedOptionText = function ($select) {
+            return $select.find('option:selected').map(function (_i, option) {
+                return $.trim($(option).text());
+            }).toArray();
         },
 
-        addHiddenInputs = function ($form, $tooltip) {
-            $form.remove('input[type=hidden]:data(activeBySegmentInput)');
+        updateMessages = function ($link, $content) {
+            var $message = $link.find('.active-field__segments-message'),
+                names = getSelectedOptionText($content.find('select')),
+                text = I18n.t('workarea.admin.shared.active_field.by_segment', {
+                    count: names.length,
+                    name: names[0],
+                    more_count: names.length - 1
+                });
 
-            $tooltip.find('select').each(function (i, select) {
-                var $select = $(select),
-                    $input = null;
+            if (_.isEmpty(names)) {
+                $message.html($('<span />').text(text));
+            } else {
+                $message.html($('<strong />').text(text));
+            }
+        },
 
-                if (!$select.val().length) {
-                    $input = $('<input/>')
-                    .attr({ type: 'hidden', name: $select.attr('name'), value: '' })
-                    .data('activeBySegmentInput', true);
+        buildInput = function (name, value) {
+            var input = hiddenInput({ name: name, value: value });
+            return $(input).data('activeBySegmentInput', true);
+        },
 
-                    $form.append($input);
-                } else {
-                    $select.val().forEach(function(value) {
-                        $input = $('<input/>')
-                        .attr({ type: 'hidden', name: $select.attr('name'), value: value })
-                        .data('activeBySegmentInput', true);
+        addHiddenInputs = function ($form, $content) {
+            $content
+                .find('select')
+                .each(function (index, select) {
+                    var $select = $(select);
 
-                        $form.append($input);
-                    });
+                    if (_.isEmpty($select.val())) {
+                        $form.append(buildInput(select.name, ''));
+                    } else {
+                        _.forEach($select.val(), function (value) {
+                            $form.append(buildInput(select.name, value));
+                        });
+                    }
+                });
+        },
+
+        removeHiddenInputs = function ($form) {
+            $form
+                .find('[type=hidden]')
+                    .filter(function (index, input) {
+                        return $(input).data('activeBySegmentInput') === true;
+                    })
+                    .remove();
+        },
+
+        getConfig = function (trigger) {
+            var $link = $(trigger),
+                $form = $link.closest('form'),
+                $content = $(trigger.hash);
+
+            return _.assign({}, WORKAREA.config.tooltipster, {
+                trigger: 'click',
+                interactive: true,
+                content: $content,
+                functionAfter: function (instance) {
+                    var $tooltipContent = instance.content();
+                    removeHiddenInputs($form);
+                    addHiddenInputs($form, $tooltipContent);
+                    updateMessages($link, $tooltipContent);
                 }
             });
-        },
-
-        updateMessages = function ($link, $tooltip) {
-            var $target = $link.find('.active-field__segments-message'),
-                names = [],
-                text = null;
-
-            $tooltip.find('select').each(function (i, select) {
-                var $select = $(select),
-                    $options = $select.find('option:selected');
-
-                $options.each(function(i, option) { names.push($(option).text()); });
-            });
-
-            text = I18n.t(
-                'workarea.admin.shared.active_field.by_segment',
-                { count: names.length, names: names.join(', ') }
-            );
-
-            if (names.length) {
-                $target.html($('<strong/>').text(text));
-            } else {
-                $target.html($('<span/>').text(text));
-            }
         },
 
         /**
@@ -76,7 +82,13 @@ WORKAREA.registerModule('activeBySegmentTooltips', (function () {
          * @memberof WORKAREA.activeBySegmentTooltips
          */
         init = function ($scope) {
-            $('[data-active-by-segment-tooltip]', $scope).each(initTooltip);
+            $('[data-active-by-segment-tooltip]', $scope)
+            .on('click', function (event) {
+                event.preventDefault();
+            })
+            .each(function(index, trigger) {
+                $(trigger).tooltipster(getConfig(trigger));
+            });
         };
 
     return {
