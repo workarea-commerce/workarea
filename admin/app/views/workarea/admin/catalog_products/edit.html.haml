@@ -51,7 +51,8 @@
                 = inline_svg('workarea/admin/i18n.svg', class: 'svg-icon svg-icon--small') if locale_options.many? && Workarea.config.localized_active_fields
                 = link_to '#product-active-info', data: { tooltip: '' } do
                   = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.catalog_products.edit.active_info_title'))
-              = toggle_button_for 'product[active]', @product.active
+
+              = render 'workarea/admin/shared/active_field', scope: 'product', model: @product
               #product-active-info.tooltip-content
                 %p= t('workarea.admin.catalog_products.edit.active_info')
 

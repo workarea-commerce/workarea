@@ -5,16 +5,12 @@ module Workarea
 
     included do
       before_action :ensure_current_metrics
-      helper_method :current_visit, :current_segments, :current_metrics
+      helper_method :current_visit, :current_metrics
       delegate :current_metrics_id, :current_metrics_id=, to: :current_visit
     end
 
     def current_visit
       request.env['workarea.visit']
-    end
-
-    def current_segments
-      current_visit.segments
     end
 
     def current_metrics

@@ -329,6 +329,59 @@ module Workarea
         search = CategoryBrowse.new(sort: %w(featured), category_ids: [category.id])
         assert_equal(%w(1 2 3), search.results.map { |r| r[:model].id })
       end
+
+      def test_different_products_by_segment
+        segment_one = create_segment(name: 'One')
+        segment_two = create_segment(name: 'Two')
+        product_one = create_product(id: '1', active: true, active_segment_ids: [segment_one.id])
+        product_two = create_product(id: '2', active: true, active_segment_ids: [segment_two.id])
+        product_three = create_product(id: '3', active: false, active_segment_ids: [segment_one.id])
+        product_four = create_product(id: '4', active: true)
+        product_five = create_product(id: '5', active: false)
+        rules = [ProductRule.new(name: 'search', operator: 'equals', value: '*')]
+
+        search = CategoryBrowse.new(rules: rules)
+        result_ids = search.results.map { |r| r[:model].id }
+
+        assert_includes(result_ids, product_one.id)
+        assert_includes(result_ids, product_two.id)
+        refute_includes(result_ids, product_three.id)
+        assert_includes(result_ids, product_four.id)
+        refute_includes(result_ids, product_five.id)
+
+        Segment.with_current(segment_one) do
+          search = CategoryBrowse.new(rules: rules)
+          result_ids = search.results.map { |r| r[:model].id }
+
+          assert_includes(result_ids, product_one.id)
+          refute_includes(result_ids, product_two.id)
+          refute_includes(result_ids, product_three.id)
+          assert_includes(result_ids, product_four.id)
+          refute_includes(result_ids, product_five.id)
+        end
+
+        Segment.with_current(segment_two) do
+          search = CategoryBrowse.new(rules: rules)
+          result_ids = search.results.map { |r| r[:model].id }
+
+          refute_includes(result_ids, product_one.id)
+          assert_includes(result_ids, product_two.id)
+          refute_includes(result_ids, product_three.id)
+          assert_includes(result_ids, product_four.id)
+          refute_includes(result_ids, product_five.id)
+        end
+
+        Segment.with_current(segment_one, segment_two) do
+          search = CategoryBrowse.new(rules: rules)
+          result_ids = search.results.map { |r| r[:model].id }
+
+          assert_includes(result_ids, product_one.id)
+          assert_includes(result_ids, product_two.id)
+          refute_includes(result_ids, product_three.id)
+          assert_includes(result_ids, product_four.id)
+          refute_includes(result_ids, product_five.id)
+        end
+      end
     end
   end
 end

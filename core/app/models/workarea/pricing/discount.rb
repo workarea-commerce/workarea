@@ -91,7 +91,7 @@ module Workarea
       has_many :redemptions,
         class_name: 'Workarea::Pricing::Discount::Redemption'
 
-      index(active: 1)
+      index(created_at: 1) # for DeactivateStaleDiscounts
 
       validates :name, presence: true
 

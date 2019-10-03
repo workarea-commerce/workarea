@@ -55,7 +55,10 @@ module Workarea
       end
 
       def customization
-        @customization ||= Customization.active.find_by_query(params[:q])
+        return @customization if defined?(@customization)
+
+        result = Customization.find_by_query(params[:q])
+        @customization = result.active? ? result : nil
       end
 
       def boosts

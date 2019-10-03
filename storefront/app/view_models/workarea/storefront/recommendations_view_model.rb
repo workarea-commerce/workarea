@@ -7,12 +7,10 @@ module Workarea
       def products
         @products ||=
           begin
-            results = Catalog::Product.active.purchasable.find_ordered(product_ids)
+            results = find_displayable_products(product_ids)
 
             if results.size < result_count
-              results.push(
-                *Catalog::Product.active.purchasable.find_ordered(popular_product_ids)
-              )
+              results.push(*find_displayable_products(popular_product_ids))
             end
 
             ProductViewModel.wrap(results.uniq).take(result_count)
@@ -33,6 +31,12 @@ module Workarea
 
       def result_count
         raise NotImplementedError
+      end
+
+      private
+
+      def find_displayable_products(ids)
+        Catalog::Product.find_ordered(ids).select(&:active?).select(&:purchasable?)
       end
     end
   end

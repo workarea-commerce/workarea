@@ -182,6 +182,14 @@ module Workarea
     require_dependency Workarea::Core::Engine.root.join('app', 'models', 'workarea', 'content', 'block_type_definition')
     Content::BlockTypeDefinition.new.instance_eval(&block)
   end
+
+  # Use this deprecation to warn about the next minor release.
+  #
+  # @return [ActiveSupport::Deprecation]
+  #
+  def self.deprecation
+    @deprecation ||= ActiveSupport::Deprecation.new('3.6', 'Workarea')
+  end
 end
 
 require 'workarea/core'

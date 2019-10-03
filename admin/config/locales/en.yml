@@ -695,7 +695,9 @@ en:
           cancel: Cancel
           devices: Devices
           display: Display
+          exclusive_segments: Only show for these segments
           hide_for: Hide for
+          segments: Segments
         index:
           dashboard_link: Store dashboard
           help_link: Create your own pages
@@ -1566,6 +1568,7 @@ en:
       fields:
         action: Action
         active: Active
+        active_segments: Active for
         admin: Administrator
         allow_discounting: Allow Discounting
         allow_sale_items: Allow Sale Items
@@ -1646,6 +1649,8 @@ en:
         image: Image
         impersonate_after_create: Impersonate Now
         imports: Imports
+        inactive: Inactive
+        inactive_segments: Inactive for
         insights: Insights
         inventory: Inventory
         javascript: JavaScript
@@ -1657,6 +1662,7 @@ en:
         last_published: Last Published
         last_purchase: Last Purchase
         list: List
+        logged_in: Logged In
         matching_url: Matching URL
         medium: Medium
         meta_description: Meta Description
@@ -3464,6 +3470,7 @@ en:
         email: Email
         social: Social
         search: Search
+        tags_note: "Comma separated: just, like, this"
         fields:
           traffic_referrer:
             source_notes: You can use a regular expression here.
@@ -3487,6 +3494,9 @@ en:
             description_html:
               one: Ordered within <strong>1</strong> day ago
               other: Ordered within <string>%{count}</strong> days ago
+          logged_in:
+            logged_in_html: "The visitor is <strong>logged in</strong>."
+            logged_out_html: "The visitor is <strong>not logged in</strong>."
           orders:
             description_html: "Placed <strong>%{minimum}</strong> to <strong>%{maximum}</strong> orders"
             single_value_description_html:
@@ -3500,6 +3510,8 @@ en:
             single_value_description_html:
               one: "Has visited <strong>once</strong>"
               other: "Has visited <strong>%{count}</strong> times"
+          tags:
+            description_html: "Tagged with any of <strong>%{tags}</strong>"
       segments:
         cards:
           attributes:
@@ -3521,6 +3533,7 @@ en:
         index:
           page_title: Segments
           dashboard_link: People
+          description: Segments allow categorizing visitors to compare behavior and tailor the site's content. Throughout the admin you can control whether things are active per-segment.
           segment:
             one: 1 segment
             other: "%{count} segments"
@@ -3533,9 +3546,29 @@ en:
           orders: Orders
           revenue: Revenue
           average_order_value: Average Order Value
+        publish:
+          title: Publish by segment?
+          description: You can control which segments this publishes for below. If you leave these blank, it will show for everyone.
+        select:
+          reset: Reset
+      segment_overrides:
+        show:
+          title: Select Segments
+          description: Select the segments for storefront browsing. This can be helpful for testing site changes or helping a customer who's in certain segments.
+          button: Apply
       shared:
         activate_select:
           when_does_this_activate: When does this activate
+        active_field:
+          active_by_segment: Active by Segment
+          by_segment:
+            zero: by segment
+            one: "only for %{names}"
+            other: "only for %{names}"
+          description_html: 'If you select segments here this will only show for visitors in one of those segments.'
+          only_for: Only for
+          select_segments: Select segments...
+          only_these_segments: Only these segments will see this.
         bulk_actions:
           import: Import
           export: Export
@@ -3809,10 +3842,14 @@ en:
         edit_content: Edit Content
         inactive_message: '%{model} is not active'
         managing_changes_for: Managing changes for
+        more_segments:
+          one: and 1 more segment
+          other: "and %{count} more segments"
         open_primary_menu: Open Primary Menu
         search: search
         search_placeholder: search the admin for products, assets, categories, orders, etc
         search_title: find products, assets, categories, orders, etc...
+        select_segments: Select Segments
         stop_guest_browsing: Stop Guest Browsing
         stop_impersonation: Stop Impersonation
         view: view

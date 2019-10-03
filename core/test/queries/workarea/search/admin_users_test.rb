@@ -7,8 +7,8 @@ module Workarea
         one = create_user(email: 'foo@workarea.com')
         two = create_user(email: 'bar@workarea.com')
 
-        Metrics::User.create!(id: one.email, revenue: 50)
-        Metrics::User.create!(id: two.email, revenue: 5)
+        Metrics::User.save_order(email: one.email, revenue: 50)
+        Metrics::User.save_order(email: two.email, revenue: 5)
         Search::Admin::User.new(one).save
         Search::Admin::User.new(two).save
 

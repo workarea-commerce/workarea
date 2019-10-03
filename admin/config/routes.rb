@@ -366,6 +366,7 @@ Workarea::Admin::Engine.routes.draw do
         get :insights
       end
     end
+    resource :segment_override, only: [:show, :create]
 
     resources :create_segments, except: :show do
       member do

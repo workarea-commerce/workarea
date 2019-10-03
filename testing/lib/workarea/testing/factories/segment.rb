@@ -24,6 +24,10 @@ module Workarea
           result.cookies[:sessions] = overrides[:sessions]
         end
 
+        if overrides.key?(:logged_in)
+          result.stubs(logged_in?: overrides[:logged_in])
+        end
+
         result
       end
 
