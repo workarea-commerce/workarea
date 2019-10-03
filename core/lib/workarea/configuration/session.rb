@@ -5,7 +5,8 @@ module Workarea
       extend self
 
       def cookie_store?
-        Rails.application.config.session_store == ActionDispatch::Session::CookieStore
+        return @cookie_store if defined?(@cookie_store)
+        @cookie_store = Rails.application.config.session_store == ActionDispatch::Session::CookieStore
       end
 
       def key

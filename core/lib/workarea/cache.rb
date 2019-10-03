@@ -66,13 +66,12 @@ module Workarea
 
       def initialize(visit, varies = Workarea.config.cache_varies)
         @visit = visit
-        @varies = Array.wrap(varies) + [
-          lambda { Digest::SHA1.hexdigest(visit.segments.map(&:id).map(&:to_s).sort.join) }
-        ]
+        @varies = varies || []
       end
 
       def to_s
-        @to_s ||= @varies.map { |v| visit.instance_exec(&v).to_s }.join(':')
+        @to_s ||= @varies.map { |v| visit.instance_exec(&v).to_s }.join(':') +
+          visit.segments.map { |s| s.id.to_s }.sort.join
       end
     end
   end
