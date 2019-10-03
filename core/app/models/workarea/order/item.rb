@@ -35,14 +35,12 @@ module Workarea
     # @return [Boolean]
     #
     def digital?
-      warn <<~eos
-        [DEPRECATION] `item.digital?` is deprecated and will be removed in
-        version 3.6.0. Use `item.requires_shipping?` to determine if this item
-        is shipped.
-      eos
-
       !!product_attributes['digital']
     end
+    Workarea.deprecation.deprecate_methods(
+      Order::Item,
+      digital?: 'use `!item.requires_shipping?` to determine if this item is shipped.'
+    )
 
     # Adds a price adjustment to the item. Does not persist.
     #

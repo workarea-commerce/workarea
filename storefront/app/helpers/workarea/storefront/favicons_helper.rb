@@ -1,13 +1,12 @@
 module Workarea
   module Storefront
     module FaviconsHelper
-      def favicon_tags
-        warn <<~eos
-          DEPRECATION WARNING: favicons_helper is deprecated, use
-          `render 'workarea/storefront/favicons/tags'` directly in the layout
-          instead
-        eos
-      end
+      # TODO remove in v3.6
+      def favicon_tags; end
+      Workarea.deprecation.deprecate_methods(
+        FaviconsHelper,
+        favicon_tags: "Use `render 'workarea/storefront/favicons/tags'`"
+      )
 
       def favicons_present?
         Content::Asset.favicons.count.positive?

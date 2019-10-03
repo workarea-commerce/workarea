@@ -100,13 +100,16 @@ module Workarea
           Rails.root.to_s.split('/test/').first.eql?(calling_test.split('/test/').first)
       end
 
+      # TODO remove in v3.6
       def running_in_gem?
-        warn <<~eos
-          DEPRECATION WARNING: running_in_gem? is deprecated, use running_from_dummy_app? if
-          you want to know if the test suite is running from a plugin or
-          running_from_source? if you want to know if the currently executing test
-          is defined in the current Rails project.
-        eos
+        Workarea.deprecation.warn(
+          <<~eos.squish
+            running_in_gem? is deprecated, use running_from_dummy_app? if
+            you want to know if the test suite is running from a plugin or
+            running_from_source? if you want to know if the currently executing test
+            is defined in the current Rails project.
+          eos
+        )
         running_from_source?
       end
 
