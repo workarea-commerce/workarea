@@ -22,6 +22,10 @@ module Workarea
       @session ||= (cookies.signed_or_encrypted[Configuration::Session.key] || {}).with_indifferent_access
     end
 
+    def logged_in?
+      session[:user_id].present?
+    end
+
     def request
       @request ||= ActionDispatch::Request.new(env)
     end

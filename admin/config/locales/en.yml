@@ -1659,6 +1659,7 @@ en:
         last_published: Last Published
         last_purchase: Last Purchase
         list: List
+        logged_in: Logged In
         matching_url: Matching URL
         medium: Medium
         meta_description: Meta Description
@@ -3465,6 +3466,7 @@ en:
         email: Email
         social: Social
         search: Search
+        tags_note: "Comma separated: just, like, this"
         fields:
           traffic_referrer:
             source_notes: You can use a regular expression here.
@@ -3488,6 +3490,9 @@ en:
             description_html:
               one: Ordered within <strong>1</strong> day ago
               other: Ordered within <string>%{count}</strong> days ago
+          logged_in:
+            logged_in_html: "The visitor is <strong>logged in</strong>."
+            logged_out_html: "The visitor is <strong>not logged in</strong>."
           orders:
             description_html: "Placed <strong>%{minimum}</strong> to <strong>%{maximum}</strong> orders"
             single_value_description_html:
@@ -3501,6 +3506,8 @@ en:
             single_value_description_html:
               one: "Has visited <strong>once</strong>"
               other: "Has visited <strong>%{count}</strong> times"
+          tags:
+            description_html: "Tagged with any of <strong>%{tags}</strong>"
       segments:
         cards:
           attributes:

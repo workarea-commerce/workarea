@@ -1237,6 +1237,8 @@ module Workarea
         Workarea::Segment::Rules::TrafficReferrer
         Workarea::Segment::Rules::Sessions
         Workarea::Segment::Rules::LastOrder
+        Workarea::Segment::Rules::LoggedIn
+        Workarea::Segment::Rules::Tags
       )
 
       # Taxonomy for default seeds
