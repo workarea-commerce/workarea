@@ -12,6 +12,8 @@ Orders begin their lives driven largely by consumers. Consumers create carts, wh
 
 Completed checkouts result in placed orders, which unlike carts, are handled primarily by the retailer. Placed orders are indexed into search, through which admins access and manage the orders. Placed orders are permanent records that never become abandoned or expire, even when they are canceled.
 
+Since Workarea 3.5, orders can also be suspected of fraud, and such orders are additionally indexed into Admin search.
+
 This guide describes the preceding domain concepts in greater detail, providing as examples all the configurable values and aspects of the `Order` interface that effectively define this domain logic and affect the progression of an order through it’s various statuses and states.
 
 Copious examples use the Ruby interface provided by Workarea Core. Each example builds on those before it, as if run sequentially within the same Ruby process.
@@ -130,7 +132,9 @@ Workarea::Order.all.include?(order)
 order = Workarea::Order.create
 ```
 
-which embeds an item. This example assumes catalog data is already seeded. Beware: the following procedure for adding an item is suitable for demonstration but not suitable for production use.&nbsp;<sup><a href="#notes" id="note-1-context">[1]</a></sup>
+which embeds an item. This example assumes catalog data is already seeded.
+
+( The following procedure for adding an item is suitable for demonstration but not ideal for production use. For the latter, review the implementation of `Storefront::CartItemsController#create` ([source, v3.4.17](https://github.com/workarea-commerce/workarea/blob/v3.4.17/storefront/app/controllers/workarea/storefront/cart_items_controller.rb#L13). )
 
 ```
 product = Workarea::Catalog::Product.sample
@@ -259,9 +263,11 @@ order.status
 
 ### Order Reminding
 
-To help recover the potentially lost revenue of abandoned orders, Workarea applications send “reminder” emails when possible. Each email contains a token allowing the consumer to resume the cart.&nbsp;<sup><a href="#notes" id="note-2-context">[2]</a></sup>
+To help recover the potentially lost revenue of abandoned orders, Workarea applications send “reminder” emails when possible. Each email contains a token allowing the consumer to resume the cart.
 
-For an order to be considered <dfn>needs reminding</dfn>, it must have started checkout, become abandoned, and have an email. The example order does not qualify because it is an active checkout and does not have an email.
+For an order to be considered <dfn>needs reminding</dfn>, it must have started checkout, become abandoned, and have an email. Since Workarea 3.5, it must also not be suspected of fraud (see section [Suspected Fraud](#suspected-fraud_15) below).
+
+The example order does not qualify because it is an active checkout and does not have an email.
 
 ```
 order.checking_out?
@@ -301,7 +307,9 @@ Workarea::Order.need_reminding.include?(order)
 
 ### Order Expiration After Starting Checkout
 
-If the reminder email does not entice the consumer to resume the cart, the order will likely expire and be cleaned. Notice in the following example the order is returned only by `Order.expired_in_checkout`, which was added in Workarea 3.3 to address the issue of orders never expiring after starting checkout.&nbsp;<sup><a href="#notes" id="note-3-context">[3]</a></sup>
+If the reminder email does not entice the consumer to resume the cart, the order will likely expire and be cleaned. Notice in the following example the order is returned only by `Order.expired_in_checkout`, which was added in Workarea 3.3 to address the issue of orders never expiring after starting checkout.
+
+( In Workarea versions prior to 3.3, this order will never expire unless checkout is explicitly reset, and the order is therefore never cleaned. )
 
 ```
 travel Workarea.config.order_expiration_period
@@ -368,7 +376,9 @@ order.place
 # => true
 ```
 
-The `place` method does little more than set the `placed_at` timestamp and save the order. However, it saves the order conservatively, waiting for the save to write to disk and (in hosted environments) replicate to other nodes before reporting success.&nbsp;<sup><a href="#notes" id="note-4-context">[4]</a></sup>
+The `place` method does little more than set the `placed_at` timestamp and save the order. However, it saves the order conservatively, waiting for the save to write to disk and (in hosted environments) replicate to other nodes before reporting success.
+
+( The `Order#place` method also runs the custom `:place` callback (see [Callbacks Worker](workers.html#callbacks-worker), which enqueues additional work to run in the background. However, those jobs are outside the scope of the `Order` module and are not covered here. )
 
 ```
 order.placed_at.present?
@@ -456,7 +466,7 @@ order.status
 
 ### Searching Placed Orders
 
-Notably, search has been absent from this discussion so far. This is due to the fact that only _placed_ orders are indexed into Elasticsearch, in order for administrators to manage the placed orders through the Admin interface.
+Notably, search has been absent from this discussion so far. This is due to the fact that only _placed_ orders are indexed into Elasticsearch, in order for administrators to manage the placed orders through the Admin interface. (This changes in Workarea 3.5, which introduces fraud analysis. Orders suspected of fraud are also indexed into Admin search. See section [Suspected Fraud](#suspected-fraud_15) below.)
 
 The next example first resets the Admin search indexes and then manually indexes the cart and placed order which were created above. Only the placed order is returned in search results.
 
@@ -483,7 +493,7 @@ Workarea::Search::AdminOrders.new.results.first.id == placed_order.id
 
 ## Canceled Orders
 
-Workarea Core also allows <dfn>canceling</dfn> orders, however, this does not take into consideration the restocking of inventory, refunding of payment, and updating of fulfillment that may accompany such a change. Because of these additional concerns, this functionality is not exposed as a web interface in the base platform, but is available through the <cite>Workarea OMS</cite> plugin.
+Workarea Core also allows <dfn>canceling</dfn> orders, however, this does not take into consideration the restocking of inventory, refunding of payment, and updating of fulfillment that may accompany such a change. Because of these additional concerns, this functionality is not exposed as a web interface in the base platform, but is available through the [Workarea OMS](https://plugins.workarea.com/plugins/oms) plugin.
 
 From the `Order` document’s perspective, <dfn>canceling</dfn> an order (achieved through `Order#cancel`) is simply the process of recording the date and time at which the order was canceled. The presence of this additional timestamp causes the order to identify as canceled.
 
@@ -520,28 +530,50 @@ Workarea::Search::AdminOrders.new.results.first.id == placed_order.id
 # => true
 ```
 
+
+## Suspected Fraud
+
+Workarea 3.5 adds fraud analysis, and therefore introduces an additional order status: _suspected fraud_.
+
+The API call `Order#set_fraud_decision!` embeds the given `Order::FraudDecision` within the order and sets one or both of the timestamps `:fraud_decided_at` and `fraud_suspected_at`. When the fraud decision is declined, the query `#fraud_suspected?` returns `true`, and the order's status is `:suspected_fraud`.
+
+```ruby
+order.set_fraud_decision!(declined_decision)
+
+order.fraud_decision.class
+# => Workarea::Order::FraudDecision
+
+order.fraud_decided_at.present?
+# => true
+order.fraud_suspected_at.present?
+# => true
+
+order.fraud_suspected?
+# => true
+
+order.status
+# => :suspected_fraud
+```
+
+Additionally, orders suspected of fraud are indexed into Admin Elasticsearch indexes.
+
+See [Add a Fraud Analyzer](/articles/add-a-fraud-analyzer.html) for more coverage of fraud analysis.
+
+
 ## Summary
 
-- Consumers create carts in the Storefront, which may become abandoned and expire, and are eventually cleaned
-- Carts progress through checkouts, which also expire and may become abandoned
-- Abandoned orders are reported and (when possible) reminded, which may result in resumed carts and checkouts
-- Completed checkouts produce placed orders, which are indexed into search for management by admins, and may be canceled
-- These order statuses and states are defined largely by aspects of the `Order` interface, namely: 
-  - The `status` instance method
-  - The destructive instance methods `touch_checkout!`, `reset_checkout!`, `mark_as_reminded!`, `place`, and `cancel`
-  - The timestamp fields `created_at`, `updated_at`, `checkout_started_at`, `reminded_at`, `placed_at`, and `canceled_at`
-  - The predicate methods `abandoned?`, `started_checkout?`, `checking_out?`, `placed?`, and `canceled?`
-  - The criteria class methods `.carts`, `.not_placed`, `.expired`, `.need_reminding`, `.placed`, and `.recent_placed`
- As well as the configurable durations `Workarea.config.order_active_period`, `Workarea.config.order_expiration_period`, and `Workarea.config.checkout_expiration`
+Consumers create carts in the Storefront, which may become abandoned and expire, and are eventually cleaned.
+Carts progress through checkouts, which also expire and may become abandoned.
+Abandoned orders are reported and (when possible) reminded, which may result in resumed carts and checkouts.
+Completed checkouts produce placed orders, which are indexed into search for management by admins, and may be canceled.
+Since Workarea 3.5, orders may also be suspected of fraud, and such orders are additionally indexed into Admin search.
 
-## Notes
+These order statuses and states are defined largely by aspects of the `Order` interface, namely: 
 
-[1] The forthcoming <cite>Managing Carts</cite> guide will provide a more robust recipe for adding an item to an order.
+* The `status` instance method
+* The destructive instance methods `touch_checkout!`, `reset_checkout!`, `mark_as_reminded!`, `place`, `cancel`, and `set_fraud_decision!`
+* The timestamp fields `created_at`, `updated_at`, `checkout_started_at`, `reminded_at`, `placed_at`, `canceled_at`, and `fraud_suspected_at`
+* The predicate methods `abandoned?`, `started_checkout?`, `checking_out?`, `placed?`, `canceled?`, and `fraud_suspected?`
+* The criteria class methods `.carts`, `.not_placed`, `.expired`, `.need_reminding`, `.placed`, and `.recent_placed`
 
-[2] The reminder email and the endpoint for resuming a cart are Storefront concerns and will be described in the <cite>Managing Carts</cite> guide.
-
-[3] In Workarea versions prior to 3.3, this order will never expire unless checkout is explicitly reset, and the order is therefore never cleaned.
-
-[4] The `Order#place` method also runs the custom `:place` callback (see [Callbacks Worker](workers.html#callbacks-worker), which enqueues additional work to run in the background. However, those jobs are outside the scope of the `Order` module and are not covered here.
-
-
+as well as the configurable durations `Workarea.config.order_active_period`, `Workarea.config.order_expiration_period`, and `Workarea.config.checkout_expiration`.
