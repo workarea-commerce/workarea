@@ -55,4 +55,10 @@
         = render 'workarea/admin/shared/bulk_actions', klass: Workarea::Segment, search: @search
 
       .grid__cell.grid__cell--50.align-right
-        = link_to t('workarea.admin.segments.index.add_custom'), create_segments_path, id: 'add_segment', class: 'workflow-bar__button workflow-bar__button--create'
+        - if segments.size >= 15
+          = link_to t('workarea.admin.segments.index.add_custom'), '#max-segments-info', disabled: 'disabled', data: { tooltip: '' }, class: 'workflow-bar__button workflow-bar__button--create'
+          #max-segments-info.tooltip-content
+            %p= t('workarea.admin.segments.index.max_segments')
+
+        - else
+          = link_to t('workarea.admin.segments.index.add_custom'), create_segments_path, id: 'add_segment', class: 'workflow-bar__button workflow-bar__button--create'

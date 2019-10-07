@@ -3541,6 +3541,7 @@ en:
           life_cycle: Life Cycle
           custom: Custom
           sparkline_title: Based on orders over the last three months
+          max_segments: For performance reasons, Workarea doesn't allow more than 15 segments.
         insights:
           page_title: Insights on %{segment}
           orders: Orders
