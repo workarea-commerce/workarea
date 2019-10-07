@@ -10,7 +10,6 @@ module Workarea
       prepare_destination
 
       FileUtils.mkdir_p("#{destination_root}/config/initializers")
-      FileUtils.touch("#{destination_root}/config/puma.rb")
 
       File.open "#{destination_root}/config/application.rb", 'w' do |file|
         file.write "Bundler.require(*Rails.groups)"
@@ -64,12 +63,6 @@ module Workarea
     def test_sidekiq_inline
       assert_file 'config/environments/development.rb' do |file|
         assert_match(%(require 'sidekiq/testing/inline'), file)
-      end
-    end
-
-    def test_puma
-      assert_file 'config/puma.rb' do |file|
-        assert_match(%(require 'workarea/configuration/puma'), file)
       end
     end
 

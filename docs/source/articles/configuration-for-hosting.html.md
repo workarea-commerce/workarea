@@ -11,14 +11,7 @@ Here's what you'll need to configure Workarea for hosting. It'll outline commonl
 
 ### Web
 
-Workarea ships with a [default Puma configuration](https://github.com/workarea-commerce/workarea/blob/master/core/lib/workarea/configuration/puma.rb) out-of-the-box. If you want to configure this, remove the custom Workarea config from your `config/puma.rb`. Workarea will respect the following Puma environment variables if set:
-
-| Name | Default | Notes |
-|---|---|---|
-| `PORT` | `3000` | - |
-| `RAILS_MAX_THREADS` | `5` | - |
-| `RAILS_ENV` | `development` | - |
-| `WEB_CONCURRENCY` | | - |
+Please see workarea-commerce-cloud plugin for hosting configuration
 
 ### Sidekiq
 

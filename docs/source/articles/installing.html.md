@@ -38,16 +38,6 @@ require 'sidekiq/testing/inline'
 
 This tells sidekiq to run workers in process while working locally.
 
-### `puma.rb`
-
-Workarea provides puma configuration out of the box, and the install generator will replace the default rails-generated `config/puma.rb` with the following:
-
-```ruby
-require 'workarea/configuration/puma'
-Workarea::Configuration::Puma.load(self)
-```
-This configuration class allows for customizing the puma configuration through environment variables, eliminating the need to add custom configuration files for each environment.
-
 ### `test_helper.rb`
 
 Workarea provides robust [testing configuration](testing.html) for consistent and easy testing. The install generator will add `require workarea/test_help.rb` to your existing `test/test_helper.rb` file.
