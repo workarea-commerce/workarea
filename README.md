@@ -74,9 +74,8 @@ curl -s https://raw.githubusercontent.com/workarea-commerce/workarea/master/demo
 
 It requires you have Docker installed and running. Once complete, you can view the Workarea Storefront at <http://localhost:3000> and the Workarea Admin at <http://localhost:3000/admin>. The seed data provides an admin user with an email/password of `user@workarea.com/w0rkArea!`.
 
-See the [README](demo/README.md) in the `demo` directory for more information.
+See the [README](demo/README.md) in the [`demo`](https://github.com/workarea-commerce/workarea/tree/master/demo) directory for more information.
 
-For more information on usage and troubleshooting, see the [workarea-demo](https://github.com/workarea-commerce/workarea-demo) page.
 
 Getting Started
 --------------------------------------------------------------------------------
