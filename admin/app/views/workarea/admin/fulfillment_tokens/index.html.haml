@@ -60,7 +60,7 @@
                   = form_tag fulfillment_sku_token_path(@sku, token), method: 'patch', class: 'text-button text-button--update' do
                     = hidden_field_tag 'return_to', request.url
                     = toggle_button_for 'token[enabled]', token.enabled?, id: token.id, data: { form_submitting_control: '' }
-                %td.align-right= local_time_ago(token.updated_at)
+                %td.align-right= local_time_ago(token.created_at)
 
         - if @tokens.total_pages > 1
           = render 'workarea/admin/shared/pagination', collection: @tokens
