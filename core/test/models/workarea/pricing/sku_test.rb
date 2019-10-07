@@ -32,6 +32,15 @@ module Workarea
         end
       end
 
+      def test_unsupported_segmentation
+        sku = Sku.new(active_segment_ids: %w(foo bar))
+        refute(sku.valid?)
+        assert_includes(
+          sku.errors[:active_segment_ids],
+          t('workarea.errors.messages.unsupported_segmentation')
+        )
+      end
+
       private
 
       def configure_locales

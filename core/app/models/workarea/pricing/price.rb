@@ -3,6 +3,7 @@ module Workarea
     class Price
       include ApplicationDocument
       include Releasable
+      include UnsupportedSegmentation
 
       field :min_quantity, type: Integer, default: 1
       field :regular, type: Money, default: 0
