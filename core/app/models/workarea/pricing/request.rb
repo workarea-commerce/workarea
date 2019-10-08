@@ -4,6 +4,7 @@ module Workarea
       def initialize(order, shippings)
         @persisted_order = order
         @persisted_shippings = Array(shippings)
+        @persisted_payment = Workarea::Payment.find(order.id) rescue nil
       end
 
       # Builds a duplicate, non-persisted version of the {Workarea::Order}
@@ -41,6 +42,14 @@ module Workarea
           result.id = shipping.id # Ensure this isn't persisted
           result.reset_adjusted_shipping_pricing
           result
+        end
+      end
+
+      def payment
+        return unless @persisted_payment.present?
+
+        @payment ||= @persisted_payment.clone.tap do |payment|
+          payment.id = @persisted_payment.id # Ensure this isn't persisted
         end
       end
 
@@ -99,6 +108,7 @@ module Workarea
         @cache_key ||= CacheKey.new(
           @persisted_order,
           @persisted_shippings,
+          @persisted_payment,
           self
         )
       end

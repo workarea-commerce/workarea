@@ -13,8 +13,8 @@ module Workarea
         product = create_product(
           name: 'Digital Product',
           variants: [
-            { sku: 'SKU1', regular: 10.to_m },
-            { sku: 'SKU2', regular: 15.to_m }
+            { sku: 'SKU1', regular: 10.to_m, tax_code: '001' },
+            { sku: 'SKU2', regular: 15.to_m, tax_code: '001' }
           ]
         )
 
@@ -59,6 +59,8 @@ module Workarea
 
         assert(page.has_content?('Digital Product'))
         assert(page.has_content?('$10.00'))
+        assert(page.has_content?('$0.70'))
+        assert(page.has_content?('$10.70'))
         assert(page.has_content?(t('workarea.storefront.orders.download')))
       end
 

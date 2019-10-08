@@ -112,6 +112,46 @@ module Workarea
           assert_equal(1, shipping.price_adjustments.length)
           assert_equal('shipping', shipping.price_adjustments.last.price)
         end
+
+        def test_assign_tax_to_item_with_no_shipping_required
+          create_pricing_sku(
+            id: 'SKU',
+            tax_code: '001',
+            prices: [{ regular: 5.to_m }]
+          )
+
+          create_tax_category(
+            code:  '001',
+            rates: [{ percentage: 0.06, region: 'PA', country: 'US' }]
+          )
+
+          order = Order.new(
+            items: [
+              {
+                requires_shipping: false,
+                price_adjustments: [
+                  {
+                    price: 'item',
+                    amount: 5.to_m,
+                    data: { 'tax_code' => '001' }
+                  }
+                ]
+              }
+            ]
+          )
+
+          payment = create_payment(
+            id: order.id,
+            address: factory_defaults_config.billing_address
+          )
+
+          TaxCalculator.test_adjust(order)
+
+          item = order.items.first
+          assert_equal(2, item.price_adjustments.length)
+          assert_equal('tax', item.price_adjustments.last.price)
+          assert_equal(0.30.to_m, item.price_adjustments.last.amount)
+        end
       end
     end
   end

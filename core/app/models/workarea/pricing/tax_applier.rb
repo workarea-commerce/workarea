@@ -1,7 +1,7 @@
 module Workarea
   module Pricing
     class TaxApplier
-      include GuardNegativePrice
+      include TaxApplication
 
       def initialize(shipping, adjustments_to_tax)
         @shipping = shipping
@@ -54,19 +54,6 @@ module Workarea
         total = @adjustments_by_parent[order_item].taxable_share_for(adjustment)
         total *= partial_shipping_quantity / order_item.quantity.to_f if @shipping.partial?
         total
-      end
-
-      def calculate_tax_amounts(taxable_amount, rate)
-        {
-          'country_amount' => calculate_tax_amount(taxable_amount, rate.country_percentage),
-          'region_amount' => calculate_tax_amount(taxable_amount, rate.region_percentage),
-          'postal_code_amount' => calculate_tax_amount(taxable_amount, rate.postal_code_percentage)
-        }
-      end
-
-      def calculate_tax_amount(amount, percentage)
-        return 0.to_m unless percentage.present?
-        guard_negative_price { amount * percentage }
       end
 
       def assign_shipping_tax
