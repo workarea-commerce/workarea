@@ -50,7 +50,7 @@ class Workarea::Catalog::Customizations
     @attributes = attributes.with_indifferent_access
 
     attributes.each do |name, value|
-      instance_variable_set("@#{name.to_s.titleize.systemize}", value)
+      instance_variable_set("@#{name.to_s.underscore.optionize('_')}", value)
     end
   end
 
