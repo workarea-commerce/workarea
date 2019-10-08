@@ -30,7 +30,7 @@ module Workarea
     end
 
     def qualifies?(visit)
-      return false if rules.blank? || visit.blank?
+      return false if visit.blank?
       rules.all? { |r| r.qualifies?(visit) }
     end
   end

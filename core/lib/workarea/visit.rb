@@ -39,7 +39,7 @@ module Workarea
     end
 
     def metrics
-      return Metrics::User.new if current_metrics_id.blank?
+      return blank_metrics if current_metrics_id.blank?
       @metrics ||= Metrics::User.find_or_initialize_by(id: current_metrics_id)
     end
 
@@ -57,12 +57,20 @@ module Workarea
     end
 
     def current_metrics_id
-      @current_metrics_id || current_email.presence || session['session_id']
+      return @current_metrics_id if defined?(@current_metrics_id)
+      @current_metrics_id = current_email.presence || session['session_id']
     end
 
     def current_metrics_id=(id)
       @current_metrics_id = id
       @metrics = nil
+    end
+
+    private
+
+    # Memoizing this saves a lot of allocated objects
+    def blank_metrics
+      @blank_metrics ||= Metrics::User.new
     end
   end
 end
