@@ -8,14 +8,11 @@ module Workarea
 
       def test_breadcrumb_list_schema
         product = create_product
-        # so the product will have a parent.
-        create_category(product_ids: [product.id.to_s]).tap do |cat|
-          create_taxon(navigable: cat)
-        end
+        category = create_category(product_ids: [product.id]) # so the product will have a parent
+        create_taxon(navigable: category)
+
         view_model = ProductViewModel.wrap(product)
-        breadcrumbs = view_model.breadcrumbs.map do |taxon|
-          [taxon.name, storefront_url_for(taxon)]
-        end
+        breadcrumbs = view_model.breadcrumbs.map { |t| [t.name, storefront_url_for(t)] }
         schema = breadcrumb_list_schema(breadcrumbs)
         urls = schema[:itemListElement].map { |e| e[:item][:@id] }
         product_url = storefront.product_url(product, host: Workarea.config.host)
