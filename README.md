@@ -79,37 +79,11 @@ See the [README](demo/README.md) in the [`demo`](https://github.com/workarea-com
 
 Getting Started
 --------------------------------------------------------------------------------
-We'll assume you have [Docker desktop](https://www.docker.com/products/docker-desktop) and [Ruby >= 2.4.0, < 2.7.0](https://github.com/rbenv/rbenv#installation) installed.
+We'd suggest checking out our introductory overview article on Workarea to wrap your head around the technology. [Read the Workarea developer overview article](https://developer.workarea.com/articles/overview.html).
 
-1. Add the `workarea` gem to the `Gemfile` in your Rails 5.2 app:
+Then try following [our guide on creating a new Workarea Rails app](https://developer.workarea.com/articles/create-a-new-app.html)
 
-        gem 'workarea', '~> 3.4.6'
-
-2. Install the gems:
-
-        $ bundle install
-
-3. Start the workarea services (uses Docker):
-
-        $ bin/rails workarea:services:up
-
-4. Run the Workarea Rails generator:
-
-        $ bin/rails generate workarea:install
-
-   This generator will mount the Workarea engines in `config/routes.rb`, and add Workarea seeds to `db/seeds.rb`.
-
-5. Run the database seeds:
-
-        $ bin/rails db:seed
-
-5. Run the Rails server:
-
-        $ bin/rails server
-
-6. Visit `http://localhost:3000` in a browser and you'll see your Workarea storefront.
-
-For more information on getting started, see the [quick start](https://developer.workarea.com/articles/create-a-new-app.html) guide.
+If you have any problems, reach out on our [public Slack](https://www.workarea.com/slack). We're happy to help!
 
 
 Plugins
