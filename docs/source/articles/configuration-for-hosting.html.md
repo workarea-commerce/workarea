@@ -11,7 +11,7 @@ Here's what you'll need to configure Workarea for hosting. It'll outline commonl
 
 ### Web
 
-Please see workarea-commerce-cloud plugin for hosting configuration
+If you're a subscriber to the Workarea Commerce Cloud, you should use the [`workarea-commerce-cloud`](https://github.com/workarea-commerce/workarea-commerce-cloud) plugin for hosting configuration. Otherwise, we recommend a standard Rails Puma configuration.
 
 ### Sidekiq
 
