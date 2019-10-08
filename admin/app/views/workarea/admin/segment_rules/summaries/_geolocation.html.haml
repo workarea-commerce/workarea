@@ -1,1 +1,1 @@
-%span= t('workarea.admin.segment_rules.summaries.geolocation.description_html', city: rule.city, region: rule.region, country: rule.country)
+%span= t('workarea.admin.segment_rules.summaries.geolocation.description_html', locations: selected_segment_location_options(rule.locations).map { |o| %("#{o.first}") }.join(', '))

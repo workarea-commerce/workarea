@@ -1,3 +1,4 @@
-= text_field_tag 'rule[city]', rule.city, class: 'text-box text-box--medium', placeholder: t('workarea.admin.fields.city')
-= select_tag 'rule[region]', grouped_options_for_select(region_options, rule.region)
-= select_tag 'rule[country]', options_for_select(country_options, rule.country)
+.property
+  = label_tag 'rule_locations', t('workarea.admin.fields.locations'), class: 'property__name'
+  = select_tag 'rule[locations]', options_for_select(selected_segment_location_options(rule.locations), rule.locations), multiple: true, data: { remote_select: { options: { tags: true }, source: location_options_segment_rules_path(format: :json) }.to_json }
+  %span.property__note= t('workarea.admin.segment_rules.fields.geolocation.note')

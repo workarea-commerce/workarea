@@ -9,24 +9,24 @@ module Workarea
         visit admin.segments_path
         click_link 'add_segment'
 
-        fill_in 'segment[name]', with: 'Philadelphians'
+        fill_in 'segment[name]', with: 'Big Spenders'
         click_button 'save_setup'
 
         assert(page.has_content?('Success'))
-        select t('workarea.admin.fields.geolocation'), from: 'rule_type'
+        select t('workarea.admin.fields.revenue'), from: 'rule_type'
         click_button 'add_rule'
 
-        fill_in 'rule[city]', with: 'Philadelphia'
+        fill_in 'rule[minimum]', with: '10000'
         click_button 'save_rule'
 
         assert(page.has_content?('Success'))
-        assert(page.has_content?('Philadelphia'))
+        assert(page.has_content?('10,000'))
 
         click_link "#{t('workarea.admin.create_segments.rules.complete')} →"
         assert_current_path(admin.segment_path(Segment.first))
 
         visit admin.segments_path
-        assert(page.has_content?('Philadelphians'))
+        assert(page.has_content?('Big Spenders'))
       end
 
       def test_managing_segments

@@ -82,5 +82,25 @@ module Workarea
 
       assert_nil(location.region)
     end
+
+    def test_location_names
+      location = Geolocation.new
+      assert_equal([], location.names)
+
+      location = Geolocation.new(
+        'HTTP_GEOIP2_DATA_COUNTRY_CODE' => 'US',
+        'HTTP_GEOIP2_DATA_REGION_NAME' => 'Pennsylvania',
+        'HTTP_GEOIP2_DATA_CITY_NAME' => 'Philadelphia',
+        'HTTP_GEOIP_POSTAL_CODE' => '19106'
+      )
+
+      assert_includes(location.names, 'US')
+      assert_includes(location.names, 'USA')
+      assert_includes(location.names, 'United States of America')
+      assert_includes(location.names, 'PA')
+      assert_includes(location.names, 'Pennsylvania')
+      assert_includes(location.names, 'Philadelphia')
+      assert_includes(location.names, '19106')
+    end
   end
 end

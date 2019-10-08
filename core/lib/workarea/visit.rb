@@ -3,7 +3,7 @@ module Workarea
     class UnsupportedSessionAccess < RuntimeError; end
 
     attr_reader :env
-    delegate :city, :region, :country, to: :geolocation
+    delegate :postal_code, :city, :subdivision, :region, :country, to: :geolocation
 
     def initialize(env)
       @env = env
@@ -32,6 +32,10 @@ module Workarea
 
     def geolocation
       @geolocation ||= Workarea::Geolocation.new(env, request.remote_ip)
+    end
+
+    def location_names
+      geolocation.names
     end
 
     def current_email

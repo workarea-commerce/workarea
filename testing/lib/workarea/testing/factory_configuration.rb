@@ -92,7 +92,7 @@ defaults.admin_search = Proc.new { { results: [create_product, create_product, c
 defaults.product_browse_search_options = Proc.new { { products: [create_product, create_product, create_product], stats: {}, facets: { 'color' => { 'Red' => 2, 'Blue' => 1 } }, total: 3, page: 1, per_page: Workarea.config.per_page } }
 
 # factories/segments.rb
-defaults.segment = Proc.new { { name: 'Philadelphians', rules: [{ _type: 'Workarea::Segment::Rules::Geolocation', city: 'Philadelphia' }] } }
+defaults.segment = Proc.new { { name: 'Philadelphians', rules: [{ _type: 'Workarea::Segment::Rules::Geolocation', locations: %w(Philadelphia) }] } }
 
 # factories/user.rb
 defaults.user = Proc.new { { email: "user#{user_count}@workarea.com", password: 'W3bl1nc!', first_name: 'Ben', last_name: 'Crouse' } }

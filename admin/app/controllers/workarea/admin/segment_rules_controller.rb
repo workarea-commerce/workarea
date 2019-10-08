@@ -1,11 +1,15 @@
 module Workarea
   module Admin
     class SegmentRulesController < Admin::ApplicationController
-      before_action :find_segment
-      before_action :find_rules
-      before_action :find_rule, except: :index
+      before_action :find_segment, except: :location_options
+      before_action :find_rules, except: :location_options
+      before_action :find_rule, except: [:index, :location_options]
 
       def index
+      end
+
+      def location_options
+        @results = Segment::Rules::LocationOption.search(params[:q])
       end
 
       def create

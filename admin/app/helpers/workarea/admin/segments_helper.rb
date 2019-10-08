@@ -20,6 +20,10 @@ module Workarea
       def segments
         @segments ||= Segment.all
       end
+
+      def selected_segment_location_options(selected)
+        selected.map { |l| [Segment::Rules::LocationOption[l]&.name || l, l] }
+      end
     end
   end
 end

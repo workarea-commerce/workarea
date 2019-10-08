@@ -8,7 +8,7 @@ module Workarea
     end
 
     def country
-      Country[
+      @country ||= Country[
         @env['HTTP_GEOIP2_DATA_COUNTRY_CODE'].presence ||
           @env['HTTP_GEOIP_CITY_COUNTRY_CODE'].presence ||
             request.try(:country_code)
@@ -16,29 +16,35 @@ module Workarea
     end
 
     def region
-      region_from_geoip2.presence ||
+      @region ||= region_from_geoip2.presence ||
         @env['HTTP_GEOIP_REGION'].presence ||
         request_data['region_code']
     end
 
+    def subdivision
+      return @subdivision if defined?(@subdivision)
+      @subdivision = country&.subdivisions&.fetch(region) rescue nil
+    end
+
     def city
-      @env['HTTP_GEOIP2_DATA_CITY_NAME'].presence ||
+      @city ||= @env['HTTP_GEOIP2_DATA_CITY_NAME'].presence ||
         @env['HTTP_GEOIP_CITY'].presence ||
         request.try(:city)
     end
 
     def postal_code
-      @env['HTTP_GEOIP_POSTAL_CODE'].presence || request.try(:postal_code)
+      @postal_code ||= @env['HTTP_GEOIP_POSTAL_CODE'].presence ||
+        request.try(:postal_code)
     end
 
     def latitude
-      @env['HTTP_GEOIP2_DATA_LATITUDE'].presence ||
+      @latitude ||= @env['HTTP_GEOIP2_DATA_LATITUDE'].presence ||
         @env['HTTP_GEOIP_LATITUDE'].presence ||
         request.try(:latitude)
     end
 
     def longitude
-      @env['HTTP_GEOIP2_DATA_LONGITUDE'].presence ||
+      @longitude ||= @env['HTTP_GEOIP2_DATA_LONGITUDE'].presence ||
         @env['HTTP_GEOIP_LONGITUDE'].presence ||
         request.try(:longitude)
     end
@@ -48,6 +54,18 @@ module Workarea
     def coordinates
       return unless latitude.present? && longitude.present?
       [latitude, longitude]
+    end
+
+    def names
+      @names ||= [
+        postal_code,
+        city,
+        region,
+        subdivision&.name,
+        country&.alpha2,
+        country&.alpha3,
+        country&.name
+      ].reject(&:blank?)
     end
 
     private

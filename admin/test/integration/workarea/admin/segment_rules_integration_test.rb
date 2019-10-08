@@ -38,6 +38,12 @@ module Workarea
         delete admin.segment_rule_path(@segment, rule)
         assert_equal(0, @segment.reload.rules.size)
       end
+
+      def test_location_options
+        get admin.location_options_segment_rules_path(q: 'penn', format: 'json')
+        results = JSON.parse(response.body)['results']
+        assert_equal([{ 'label' => 'Pennsylvania, US', 'value' => 'US-PA' }], results)
+      end
     end
   end
 end
