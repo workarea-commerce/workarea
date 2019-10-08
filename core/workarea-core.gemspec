@@ -48,6 +48,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'sassc-rails', '~> 1.3.0'
   s.add_dependency 'ruby-stemmer', '~> 0.9.6'
   s.add_dependency 'sprockets-rails', '~> 3.2.0'
+  s.add_dependency 'sprockets', '~> 3.7.2'
   s.add_dependency 'predictor', '~> 2.3.0'
   s.add_dependency 'js-routes', '~> 1.3.0'
   s.add_dependency 'mongoid-active_merchant', '~> 0.2.0'
