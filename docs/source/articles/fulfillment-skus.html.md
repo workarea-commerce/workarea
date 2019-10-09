@@ -4,9 +4,9 @@ created_at: 2019/10/02
 excerpt: Define how products in your catalog are fulfilled. Fulfillment SKUs allow the automation of digital and similar items.
 ---
 
-# Fulfillment SKUS
+# Fulfillment SKUs
 
-Workarea v3.5 adds the concept of Fulfillment SKUs -- a model that defines policies for delivering ordered products to customers. This provides a more robust mechanism for the fulfillment of digital items while providing the flexibility to offer customized delivery behaviors at the SKU level.
+Workarea v3.5 adds the concept of a Fulfillment SKU -- a model that defines policies for delivering ordered products to customers. This provides a more robust mechanism for the fulfillment of digital items while providing the flexibility to offer customized delivery behaviors at the SKU level.
 
 a `Workarea::Fulfillment::Sku` is comprised of an ID and a policy. The ID corresponds to the SKU of a product variant, and aligns with the IDs of pricing, inventory, and shipping SKUs. The policy defines what is done to fulfill an item after an order has been placed.
 
@@ -40,7 +40,7 @@ The `download` policy will automatically generate a `Fulfillment::Token` for a c
 
 ## Fulfillment Tokens
 
-A `Fulfillment::Token` is a documented associated to the Fulfillment SKU that stores a secure random string. This association allows a URL with a unique token to be used to provide access to the `file` on the `Fulfillment::SKU` document. Tokens will also be associated to a user and an order if generated as a result of a customer placing an order. Tokens can also be generated via the admin UI.
+A `Fulfillment::Token` is a document associated to the Fulfillment SKU that stores a secure random string. This association allows a URL with a unique token to be used to provide access to the `file` on the `Fulfillment::SKU` document. Tokens will also be associated to a user and an order if generated as a result of a customer placing an order. Tokens can also be generated via the admin UI.
 
 Tokens do not expire, and the URLs they generate are not restricted to a specific user. However, the number of times a token is downloaded is tracked and displayed within the admin UI. If an admin user notices an unusually high number of downloads for a token, they can disable that token and prevent it from being used for any future downloads.
 
