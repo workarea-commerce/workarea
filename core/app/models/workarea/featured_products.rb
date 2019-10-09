@@ -10,10 +10,10 @@ module Workarea
       index({ product_ids: 1 })
     end
 
-    def self.changesets(product_id)
+    def self.changesets(*product_ids)
       Release::Changeset.any_of(
-        { 'changeset.product_ids' => product_id },
-        { 'original.product_ids' => product_id }
+        { 'changeset.product_ids' => { '$in' => product_ids } },
+        { 'original.product_ids' => { '$in' => product_ids } }
       )
     end
 

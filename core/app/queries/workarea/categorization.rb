@@ -57,7 +57,7 @@ module Workarea
 
     def manual_models
       return [] if @product.blank?
-      @manual_models ||= FeaturedCategorization.new(@product).to_a
+      @manual_models ||= FeaturedCategorization.new(@product.id).to_a
     end
   end
 end
