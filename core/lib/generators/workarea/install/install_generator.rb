@@ -36,14 +36,6 @@ module Workarea
       environment '# Run Sidekiq tasks synchronously so that Sidekiq is not required in Development', env: 'development'
     end
 
-    def configure_puma
-      remove_file 'config/puma.rb'
-      create_file 'config/puma.rb', <<~TEXT
-        require 'workarea/configuration/puma'
-        Workarea::Configuration::Puma.load(self)
-      TEXT
-    end
-
     def update_test_helper
       inject_into_file(
         'test/test_helper.rb',

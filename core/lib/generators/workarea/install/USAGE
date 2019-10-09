@@ -6,7 +6,6 @@ Example:
 
     This will create:
         config/initializers/workarea.rb
-        config/puma.rb
         db/seeds.rb
 
     This will modify:
