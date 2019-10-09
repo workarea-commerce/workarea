@@ -24,7 +24,7 @@ jobs:
         ruby-version: 2.6.x
     - uses: workarea-commerce/ci/test@v1
       with:
-        command: cd admin && bin/rails test
+        command: cd admin && bin/rails test -b
 
   admin_system_tests:
     runs-on: ubuntu-latest
@@ -35,7 +35,7 @@ jobs:
         ruby-version: 2.6.x
     - uses: workarea-commerce/ci/test@v1
       with:
-        command: cd admin && bin/rails test test/system/**/*_test.rb
+        command: cd admin && bin/rails test test/system/**/*_test.rb -b
 
   core_tests:
     runs-on: ubuntu-latest
@@ -46,7 +46,7 @@ jobs:
         ruby-version: 2.6.x
     - uses: workarea-commerce/ci/test@v1
       with:
-        command: cd core && bin/rails test test/**/*_test.rb
+        command: cd core && bin/rails test test/**/*_test.rb -b
 
   storefront_tests:
     runs-on: ubuntu-latest
@@ -57,7 +57,7 @@ jobs:
         ruby-version: 2.6.x
     - uses: workarea-commerce/ci/test@v1
       with:
-        command: cd storefront && bin/rails test
+        command: cd storefront && bin/rails test -b
 
   storefront_system_tests:
     runs-on: ubuntu-latest
@@ -68,4 +68,4 @@ jobs:
         ruby-version: 2.6.x
     - uses: workarea-commerce/ci/test@v1
       with:
-        command: cd storefront && bin/rails test test/system/**/*_test.rb
+        command: cd storefront && bin/rails test test/system/**/*_test.rb -b
