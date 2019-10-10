@@ -8,25 +8,40 @@ module Workarea
           refute(Geolocation.new.qualifies?(create_visit))
 
           visit = create_visit('HTTP_GEOIP_REGION' => 'PA')
-          refute(Geolocation.new(region: 'NJ').qualifies?(visit))
-          assert(Geolocation.new(region: 'pa').qualifies?(visit))
-          assert(Geolocation.new(region: 'PA ').qualifies?(visit))
-          assert(Geolocation.new(city: 'Philadelphia', region: 'PA').qualifies?(visit))
+          refute(Geolocation.new(locations: %w(NJ)).qualifies?(visit))
+          assert(Geolocation.new(locations: %w(pa)).qualifies?(visit))
+          assert(Geolocation.new(locations: %w(PA)).qualifies?(visit))
+          assert(Geolocation.new(locations: %w(NJ PA)).qualifies?(visit))
+          refute(Geolocation.new(locations: %w(NJ NY)).qualifies?(visit))
 
-          visit = create_visit('HTTP_GEOIP_REGION' => nil)
-          refute(Geolocation.new(region: 'pa').qualifies?(visit))
+          visit = create_visit(
+            'HTTP_GEOIP_REGION' => 'PA',
+            'HTTP_GEOIP_CITY_COUNTRY_CODE' => 'US'
+          )
+          assert(Geolocation.new(locations: %w(Pennsylvania)).qualifies?(visit))
+          assert(Geolocation.new(locations: %w(US-PA)).qualifies?(visit))
 
           visit = create_visit('HTTP_GEOIP_CITY' => 'Philadelphia')
-          assert(Geolocation.new(city: 'philadelphia').qualifies?(visit))
-          assert(Geolocation.new(city: 'Philadelphia ').qualifies?(visit))
-          assert(Geolocation.new(city: 'Philadelphia', country: 'US').qualifies?(visit))
-          refute(Geolocation.new(city: 'Harrisburg').qualifies?(visit))
-          refute(Geolocation.new(city: 'Harrisburg', region: 'PA').qualifies?(visit))
+          assert(Geolocation.new(locations: %w(philadelphia)).qualifies?(visit))
+          assert(Geolocation.new(locations: %w(Philadelphia)).qualifies?(visit))
+          assert(Geolocation.new(locations: %w(Philadelphia US)).qualifies?(visit))
+          refute(Geolocation.new(locations: %w(Harrisburg)).qualifies?(visit))
+          refute(Geolocation.new(locations: %w(Harrisburg PA)).qualifies?(visit))
+          assert(Geolocation.new(locations: %w(Philadelphia Harrisburg)).qualifies?(visit))
+          refute(Geolocation.new(locations: %w(Pittsburgh Harrisburg)).qualifies?(visit))
 
           visit = create_visit('HTTP_GEOIP_CITY_COUNTRY_CODE' => 'US')
-          refute(Geolocation.new(country: 'CA').qualifies?(visit))
-          assert(Geolocation.new(country: 'US').qualifies?(visit))
-          assert(Geolocation.new(city: 'Philadelphia', country: 'US').qualifies?(visit))
+          refute(Geolocation.new(locations: %w(CA)).qualifies?(visit))
+          assert(Geolocation.new(locations: %w(US)).qualifies?(visit))
+          assert(Geolocation.new(locations: %w(USA)).qualifies?(visit))
+          assert(Geolocation.new(locations: ['United States of America']).qualifies?(visit))
+          assert(Geolocation.new(locations: %w(Philadelphia US)).qualifies?(visit))
+          assert(Geolocation.new(locations: %w(US CA)).qualifies?(visit))
+          refute(Geolocation.new(locations: %w(MX CA)).qualifies?(visit))
+
+          visit = create_visit('HTTP_GEOIP_POSTAL_CODE' => '19106')
+          assert(Geolocation.new(locations: %w(19106)).qualifies?(visit))
+          refute(Geolocation.new(locations: %w(19147)).qualifies?(visit))
         end
       end
     end

@@ -1662,6 +1662,7 @@ en:
         last_published: Last Published
         last_purchase: Last Purchase
         list: List
+        locations: Locations
         logged_in: Logged In
         matching_url: Matching URL
         medium: Medium
@@ -3472,6 +3473,8 @@ en:
         search: Search
         tags_note: "Comma separated: just, like, this"
         fields:
+          geolocation:
+            note: You can enter countries, regions, states, or postal codes here.
           traffic_referrer:
             source_notes: You can use a regular expression here.
             source_notes_html: You can use a regular expression syntax in this field. For instance <code>twitter|facebook</code> will match either Twitter or Facebook. Matches are case-insensitive. Learn more about regular expressions <a href="https://en.wikipedia.org/wiki/Regular_expression" target="_blank" rel="noopener">here</a>.
@@ -3489,7 +3492,7 @@ en:
           categories:
             description_html: "%{strength} any of: <strong>%{categories}</strong>"
           geolocation:
-            description_html: "Browsing from <strong>%{city}</strong> <strong>%{region}</strong> <strong>%{country}</strong>"
+            description_html: "Browsing from <strong>%{locations}</strong>"
           last_order:
             description_html:
               one: Ordered within <strong>1</strong> day ago
@@ -3541,6 +3544,7 @@ en:
           life_cycle: Life Cycle
           custom: Custom
           sparkline_title: Based on orders over the last three months
+          max_segments: For performance reasons, Workarea doesn't allow more than 15 segments.
         insights:
           page_title: Insights on %{segment}
           orders: Orders

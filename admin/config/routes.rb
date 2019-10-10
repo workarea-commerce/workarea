@@ -367,6 +367,11 @@ Workarea::Admin::Engine.routes.draw do
       end
     end
     resource :segment_override, only: [:show, :create]
+    resources :segment_rules, only: [] do
+      collection do
+        get :location_options
+      end
+    end
 
     resources :create_segments, except: :show do
       member do

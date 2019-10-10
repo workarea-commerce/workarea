@@ -5,6 +5,7 @@ module Workarea
 
       include ApplicationDocument
       include Releasable
+      include UnsupportedSegmentation
 
       field :_id, type: String
       field :on_sale, type: Boolean, default: false

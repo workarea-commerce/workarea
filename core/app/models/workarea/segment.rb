@@ -6,7 +6,13 @@ module Workarea
 
     field :name, type: String
     embeds_many :rules, class_name: 'Workarea::Segment::Rules::Base', inverse_of: :segment
+
     validates :name, presence: true
+    validate do |segment| # Don't decorate this
+      if Segment.count >= 15
+        segment.errors.add(:base, I18n.t('workarea.errors.messages.max_allowed_segments'))
+      end
+    end
 
     def self.find_qualifying(visit)
       all.select { |s| s.qualifies?(visit) }

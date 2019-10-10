@@ -53,6 +53,15 @@ module Workarea
         price.on_sale = false
         refute(price.on_sale?)
       end
+
+      def test_unsupported_segmentation
+        price = Price.new(active_segment_ids: %w(foo bar))
+        refute(price.valid?)
+        assert_includes(
+          price.errors[:active_segment_ids],
+          t('workarea.errors.messages.unsupported_segmentation')
+        )
+      end
     end
   end
 end

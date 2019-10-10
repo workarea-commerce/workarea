@@ -68,5 +68,13 @@ module Workarea
       visit = create_visit(email: 'bcrouse@workarea.com', sessions: 5)
       assert(segment.qualifies?(visit))
     end
+
+    def test_validates_max_segments
+      15.times { create_segment }
+
+      segment = Segment.new
+      refute(segment.valid?)
+      assert_includes(segment.errors[:base], t('workarea.errors.messages.max_allowed_segments'))
+    end
   end
 end

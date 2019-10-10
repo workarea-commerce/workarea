@@ -70,6 +70,8 @@ en:
         must_be_unique: must be unique
         not_star_query: "cannot be '*'"
         undo_unpublished_release: cannot be set when Publish Date is blank
+        max_allowed_segments: You cannot have more than 15 total segments in Workarea.
+        unsupported_segmentation: aren't supported for pricing.
     facets:
       price_range:
         over: 'Over %{price}'

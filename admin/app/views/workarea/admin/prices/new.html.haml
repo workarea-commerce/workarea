@@ -52,7 +52,7 @@
             %td
               = text_field_tag 'price[min_quantity]', 1, class: 'text-box text-box--small', title: t('workarea.admin.fields.min_quantity'), min: '1'
             %td
-              = render 'workarea/admin/shared/active_field', scope: 'price', model: @sku
+              = toggle_button_for 'price[active]', true
             %td
               = toggle_button_for 'price[on_sale]', @sku.on_sale?
 
