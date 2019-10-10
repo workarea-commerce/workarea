@@ -74,6 +74,7 @@ orders:
   orders-and-items.html.md: /articles/orders-and-items.html.md
   order-life-cycle.html.md: /articles/order-life-cycle.html.md
   shipping.html.md: /articles/shipping.html.md
+  fulfillemnt-skus.html.md: /articles/fulfillment-skus.html.md
 users:
   configure-logins-and-authentication.html.md: /articles/configure-logins-and-authentication.html.md
 navigation:
