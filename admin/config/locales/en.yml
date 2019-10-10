@@ -3567,8 +3567,8 @@ en:
           active_by_segment: Active by Segment
           by_segment:
             zero: by segment
-            one: "only for %{names}"
-            other: "only for %{names}"
+            one: "only for %{name}"
+            other: "only for %{name} and %{more_count} more..."
           description_html: 'If you select segments here this will only show for visitors in one of those segments.'
           only_for: Only for
           select_segments: Select segments...

@@ -5,7 +5,7 @@
         .active-field__segments-message
           - selected_segments = segments.select { |s| model.active_segment_ids.map(&:to_s).include?(s.id.to_s) }
           - haml_tag_if selected_segments.present?, :strong do
-            = t('workarea.admin.shared.active_field.by_segment', names: selected_segments.map(&:name).to_sentence, count: selected_segments.size)
+            = t('workarea.admin.shared.active_field.by_segment', name: selected_segments.map(&:name).first, count: selected_segments.size, more_count: selected_segments.size - 1)
 
       #active-by-segment.tooltip-content
         %h3
@@ -15,4 +15,4 @@
 
         .property
           = label_tag "#{scope}_active_segment_ids", t('workarea.admin.shared.active_field.only_for'), class: 'property__name'
-          = select_tag "#{scope}[active_segment_ids]", options_from_collection_for_select(segments, :id, :name, model.active_segment_ids), multiple: true, data: { select_two: { placeholder: t('workarea.admin.shared.active_field.select_segments'), allowClear: true, dropdownParentSelector: '#active-by-segment' } }
+          = select_tag "#{scope}[active_segment_ids]", options_from_collection_for_select(segments, :id, :name, model.active_segment_ids), multiple: true, data: { select: { placeholder: t('workarea.admin.shared.active_field.select_segments'), allowClear: true, dropdownParent: '#active-by-segment' } }

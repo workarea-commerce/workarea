@@ -31,7 +31,7 @@
         %span.heading.heading--4= t('workarea.admin.content.form.segments')
         .property
           = label_tag 'block_active_segment_ids', t('workarea.admin.content.form.exclusive_segments'), class: 'property__name'
-          = select_tag 'block[active_segment_ids]', options_from_collection_for_select(segments, :id, :name, block.active_segment_ids), multiple: true, data: { select_two: { placeholder: t('workarea.admin.shared.active_field.select_segments'), allowClear: true } }, id: nil
+          = select_tag 'block[active_segment_ids]', options_from_collection_for_select(segments, :id, :name, block.active_segment_ids), multiple: true, data: { select: { placeholder: t('workarea.admin.shared.active_field.select_segments'), allowClear: true } }, id: nil
 
       .section
         %span.heading.heading--4= t('workarea.admin.content.form.hide_for')
