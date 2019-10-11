@@ -34,7 +34,7 @@ module Workarea
 
     def authorized?
       current_user.admin? && Array(required_permissions).all? do |area|
-        current_user.send("#{area}_access?")
+        current_user.try("#{area}_access?") || current_user.try("#{area}?")
       end
     end
 

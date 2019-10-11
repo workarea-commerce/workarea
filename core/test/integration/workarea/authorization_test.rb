@@ -65,6 +65,11 @@ module Workarea
       AuthorizationController.required_permissions(:store)
       @user.update_attributes!(admin: true, store_access: true)
       assert_authorized
+
+      AuthorizationController.reset_permissions!
+      AuthorizationController.required_permissions(:orders_manager)
+      @user.update_attributes!(admin: true, orders_manager: true)
+      assert_authorized
     end
 
     def test_non_admins

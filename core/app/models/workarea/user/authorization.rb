@@ -16,9 +16,9 @@ module Workarea
         field :settings_access, type: Boolean, default: false
         field :reports_access, type: Boolean, default: false
         field :marketing_access, type: Boolean, default: false
-        field :orders_management_access, type: Boolean, default: false
         field :help_admin, type: Boolean, default: false
         field :permissions_manager, type: Boolean, default: false
+        field :orders_manager, type: Boolean, default: false
         field :can_publish_now, type: Boolean
         field :can_restore, type: Boolean
         field :status_email_recipient, type: Boolean, default: false
