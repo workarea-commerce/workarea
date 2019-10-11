@@ -11,7 +11,7 @@ This will be a brief overview of what you'll need to host a Workarea app on your
 
 ### Web
 
-Workarea ships with a [default Puma configuration](https://github.com/workarea-commerce/workarea/blob/master/core/lib/workarea/configuration/puma.rb) out-of-the-box, which is the application server we recommend. Workarea is known to work with [Passenger](https://www.phusionpassenger.com), and will probably work with most any application server that supports Rails.
+Workarea recommends [Puma](https://puma.io/) for most applications, but is known to work with [Passenger](https://www.phusionpassenger.com), and will probably work with most any application server that supports Rails.
 
 ### Sidekiq
 

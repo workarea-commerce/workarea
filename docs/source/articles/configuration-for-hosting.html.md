@@ -5,13 +5,13 @@ excerpt: How to configure Workarea for hosting in practice.
 
 # Configuration for Hosting
 
-Here's what you'll need to configure Workarea for hosting. It'll outline commonly set configurations and why. To learn more about Workarea infrastructure configuration, check out the code here: [https://github.com/workarea-commerce/workarea/tree/master/core/lib/workarea/configuration](https://github.com/workarea-commerce/workarea/tree/master/core/lib/workarea/configuration).
+Here's what you'll need to configure Workarea for hosting. It'll outline commonly set configurations and why. To learn more about Workarea infrastructure configuration, check out the code here: https://github.com/workarea-commerce/workarea/tree/master/core/lib/workarea/configuration
 
 ## Application
 
 ### Web
 
-Workarea ships with a [default Puma configuration](https://github.com/workarea-commerce/workarea/blob/master/core/lib/workarea/configuration/puma.rb) out-of-the-box. If you want to configure this, remove the custom Workarea config from your `config/puma.rb`. Workarea will respect the following Puma environment variables if set:
+If using Puma (default when running `rails server`), you can set the following environment variables to configure the web server.
 
 | Name | Default | Notes |
 |---|---|---|
