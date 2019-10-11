@@ -2071,6 +2071,7 @@ en:
         icons:
           top_selling: Top Selling
           trending: Trending
+          segments: Only shows for certain segments
         revenue:
           other_label: Other %{name}
           top_label: Top %{name}

@@ -40,6 +40,8 @@
               = link_to navigation_menus_path(menu_id: menu), class: 'navigation-builder__node-link', data: { tooltip: { content_id: "#navigation-builder__tooltip-#{menu.id}", interactive: true, allow_click: true }.to_json } do
                 = inline_svg("workarea/admin/icons/grip.svg", title: t('workarea.admin.navigation_menus.index.drag_to_rearrange'), class: 'navigation-builder__node-icon svg-icon svg-icon--small')
                 %span.navigation-builder__node-text= menu.name
+                = segments_icon_for(menu)
+
               .tooltip-content{ id: "navigation-builder__tooltip-#{menu.id}" }
                 .navigation-builder__actions
                   = link_to edit_navigation_menu_path(menu), class: 'navigation-builder__action' do
