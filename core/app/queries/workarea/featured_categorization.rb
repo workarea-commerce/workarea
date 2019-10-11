@@ -3,8 +3,8 @@ module Workarea
     include Enumerable
     delegate :blank?, :present?, :size, :length, :to_a, to: :all
 
-    def initialize(product)
-      @product = product
+    def initialize(*product_ids)
+      @product_ids = product_ids
     end
 
     def all
@@ -12,7 +12,7 @@ module Workarea
         result = live
 
         categories_affected_by_current_release.each do |category|
-          if category.featured_product?(@product.id)
+          if product_featured_in_category?(category)
             result += [category] unless result.include?(category)
           else
             result -= [category]
@@ -24,7 +24,7 @@ module Workarea
     end
 
     def live
-      @live ||= Catalog::Category.by_product(@product.id).to_a
+      @live ||= Catalog::Category.by_product(@product_ids).to_a
     end
 
     def categories_affected_by_current_release
@@ -39,9 +39,15 @@ module Workarea
       return [] if Release.current.blank?
 
       FeaturedProducts
-        .changesets(@product.id)
+        .changesets(*@product_ids)
         .where(releasable_type: Catalog::Category.name)
         .in(release_id: Release.current.preview.releases.map(&:id))
+    end
+
+    private
+
+    def product_featured_in_category?(category)
+      @product_ids.any? { |id| category.featured_product?(id) }
     end
   end
 end

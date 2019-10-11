@@ -20,7 +20,7 @@ module Workarea
         category_one.update!(product_ids: [@product.id])
         assert_equal(
           [category_two, category_one],
-          FeaturedCategorization.new(@product).to_a
+          FeaturedCategorization.new(@product.id).to_a
         )
       end
 
@@ -29,24 +29,24 @@ module Workarea
 
       release.as_current do
         category_one.update!(product_ids: [])
-        assert_equal([category_two], FeaturedCategorization.new(@product).to_a)
+        assert_equal([category_two], FeaturedCategorization.new(@product.id).to_a)
       end
 
       create_release(publish_at: 2.days.from_now).as_current do
-        assert_equal([category_two], FeaturedCategorization.new(@product).to_a)
+        assert_equal([category_two], FeaturedCategorization.new(@product.id).to_a)
       end
     end
 
     def test_categories_affected_by_current_release
       create_category
-      assert_empty(FeaturedCategorization.new(@product).categories_affected_by_current_release)
+      assert_empty(FeaturedCategorization.new(@product.id).categories_affected_by_current_release)
 
       category_one = create_category
       release_one = create_release(publish_at: 1.day.from_now)
       release_one.as_current do
         category_one.update!(product_ids: [@product.id])
 
-        categorization = FeaturedCategorization.new(@product)
+        categorization = FeaturedCategorization.new(@product.id)
         assert_equal([category_one], categorization.categories_affected_by_current_release)
         assert(categorization.categories_affected_by_current_release.first.featured_product?(@product.id))
       end
@@ -55,12 +55,12 @@ module Workarea
       release_two.as_current do
         category_one.update!(product_ids: ['foo'])
 
-        categorization = FeaturedCategorization.new(@product)
+        categorization = FeaturedCategorization.new(@product.id)
         assert_equal([category_one], categorization.categories_affected_by_current_release)
         refute(categorization.categories_affected_by_current_release.first.featured_product?(@product.id))
       end
 
-      assert_empty(FeaturedCategorization.new(@product).categories_affected_by_current_release)
+      assert_empty(FeaturedCategorization.new(@product.id).categories_affected_by_current_release)
     end
   end
 end
