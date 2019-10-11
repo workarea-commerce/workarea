@@ -1795,7 +1795,7 @@ en:
         card:
           header: Tokens
           button: View tokens
-          not_available: Tokens are not available for this sku.
+          not_available: Tokens are not available for this SKU.
           download_pluralize:
             one: download
             other: downloads
