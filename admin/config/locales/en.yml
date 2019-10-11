@@ -1106,6 +1106,7 @@ en:
           redeem_once_per_email: Redeem once per email address
           redeem_unlimited_times: Redeem an unlimited number of times for anyone
           sale_items: Sale Items
+          segments_note: Only these segments can qualify for this discount
           single_use: Single Use
           title: Setup for new discount
           what_does_it_discount: "%{discount_name}: What does it discount?"
@@ -1734,6 +1735,7 @@ en:
         search_id: Search ID
         search_terms: Search Terms
         searches: Searches
+        segments: Segments
         send_account_creation_email: Notify Them by Email
         service: Service
         services_file: Services File
@@ -2864,6 +2866,7 @@ en:
           application_promo_code: when promo code
           code_list_select: select a promo code list
           for_everyone: for everyone
+          when_in_segment: when in segment
           promo_code_is: is
           promo_code_is_from: is from
           unlimited_applications: unlimited
@@ -2887,6 +2890,7 @@ en:
               item: Sale items won't receive a discount.
               order: Deduction is based on the sum of regular priced items only.
               shipping: Orders made of only sale items don't qualify.
+          segments_note: Only these segments can qualify for this discount
         show:
           deactivated_html: This discount was automatically deactivated on %{time} because it had not been redeemed in %{timespan}.
           disable_auto_deactivation: Turn off auto deactivation for this discount

@@ -18,6 +18,10 @@ module Workarea
             [
               t('workarea.admin.pricing_discounts.options.when_user_is_tagged'),
               'user_tag'
+            ],
+            [
+              t('workarea.admin.pricing_discounts.options.when_in_segment'),
+              'segments'
             ]
           ]
         end
