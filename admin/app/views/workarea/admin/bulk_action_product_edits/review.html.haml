@@ -13,11 +13,18 @@
             .bulk-actions__section
               %h2.bulk-actions__section-heading= t('workarea.admin.bulk_action_product_edits.settings.title')
               .bulk-actions__sub-section
-                - if @bulk_action.settings.present?
-                  - @bulk_action.settings.each do |name, value|
-                    %p <strong>#{name.humanize.titleize}</strong>: #{value}
-                - else
+                - if @bulk_action.settings.blank?
                   %p= t('workarea.admin.bulk_action_product_edits.review.no_change')
+                - else
+                  - @bulk_action.settings.except('active_segment_ids').each do |name, value|
+                    %p
+                      %strong= t("workarea.admin.fields.#{name}", default: name.titleize)
+                      #{change_display_value(value)}
+
+                  - if @bulk_action.segments.present?
+                    %p
+                      %strong= t('workarea.admin.fields.active_segment_ids')
+                      = @bulk_action.segments.map(&:name).to_sentence
 
             .bulk-actions__section
               %h2.bulk-actions__section-heading= t('workarea.admin.fields.tags')

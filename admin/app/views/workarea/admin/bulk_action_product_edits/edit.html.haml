@@ -24,6 +24,10 @@
                         = inline_svg('workarea/admin/i18n.svg', class: 'svg-icon svg-icon--small') if locale_options.many? && Workarea.config.localized_active_fields
                       = toggle_button_for 'bulk_action[settings][active]', @bulk_action.selected_true?('settings', 'active'), disabled: !@bulk_action.selected?('settings', 'active')
 
+                    .property
+                      = label_tag 'bulk_action_settings_active_segment_ids', t('workarea.admin.shared.active_field.only_for'), class: 'property__name'
+                      = select_tag 'bulk_action[settings][active_segment_ids]', options_from_collection_for_select(segments, :id, :name, @bulk_action.settings['active_segment_ids'] || []), multiple: true, data: { select: { placeholder: t('workarea.admin.shared.active_field.select_segments'), allowClear: true } }
+
               .bulk-actions__sub-section
                 .grid
                   .grid__cell

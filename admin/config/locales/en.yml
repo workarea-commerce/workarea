@@ -1569,6 +1569,7 @@ en:
         action: Action
         active: Active
         active_segments: Active for
+        active_segment_ids: Active Segments
         admin: Administrator
         allow_discounting: Allow Discounting
         allow_sale_items: Allow Sale Items
