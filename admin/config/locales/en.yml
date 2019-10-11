@@ -680,6 +680,7 @@ en:
           description: Add associated content blocks to be displayed with this in the storefront.
           title: Content
         edit:
+          active_for_html: Only active for <strong>%{segments}</strong>
           add: Add a Block
           add_block_above: Add Block Above
           add_block_below: Add Block Below

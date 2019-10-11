@@ -11,7 +11,6 @@ $content-block-list-item-bg-color:  $white !default;
 $content-block-icon-size:   24px !default;
 $content-block-icon-color:  $gray !default;
 
-
 .content-block-list {
     @extend %list-reset;
     border-bottom: $content-block-list-border;
@@ -38,10 +37,14 @@ $content-block-icon-color:  $gray !default;
             fill: $content-block-icon-color;
         }
 
+        .content-block-list__segments {
+            float: right;
+        }
+
         .content-block-list__name {
             @extend %truncate;
             padding: 0 ($spacing-unit * 2);
-            width: calc(100% - #{$content-block-icon-size * 2});
+            width: calc(100% - #{$content-block-icon-size * 3});
             float: left;
             font-size: 1.16rem;
             line-height: $content-block-icon-size;
@@ -55,4 +58,3 @@ $content-block-icon-color:  $gray !default;
         .content-block-list__icon--move {
             cursor: move;
         }
-

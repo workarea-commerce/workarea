@@ -3,9 +3,8 @@
     .toggle-button__more.toggle-button__more--to-right{ data: { toggle_button_positive_element: '' } }
       = link_to '#active-by-segment', data: { active_by_segment_tooltip: '' } do
         .active-field__segments-message
-          - selected_segments = segments.select { |s| model.active_segment_ids.map(&:to_s).include?(s.id.to_s) }
-          - haml_tag_if selected_segments.present?, :strong do
-            = t('workarea.admin.shared.active_field.by_segment', name: selected_segments.map(&:name).first, count: selected_segments.size, more_count: selected_segments.size - 1)
+          - haml_tag_if model.segments.present?, :strong do
+            = t('workarea.admin.shared.active_field.by_segment', name: model.segments.map(&:name).first, count: model.segments.size, more_count: model.segments.size - 1)
 
       #active-by-segment.tooltip-content
         %h3
