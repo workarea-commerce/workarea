@@ -138,7 +138,7 @@ module Workarea
         choose 'Ground'
       end
 
-      def disable_analytics_events
+      def disable_analytics_dom_events
         page.execute_script('WORKAREA.analytics.disableDomEvents();')
       end
 
