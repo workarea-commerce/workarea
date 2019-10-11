@@ -5,7 +5,7 @@ excerpt: System emails are sent from both the admin and storefront engines. All 
 
 # System Emails
 
-System emails are sent from both the admin and storefront engines. All system emails may be customized like any other view in the system, by first [overriding](overriding.html) the mailer views and associated stylesheets.
+System emails are sent from both the admin and storefront engines. All system emails may be customized like any other view in the system, by first [overriding](overriding.html) the mailer views and associated stylesheets. Emails are sent from the system using [Action Mailer](https://guides.rubyonrails.org/action_mailer_basics.html#), which does most of the heavy lifting. If you're making a new mailer, be sure to read that guide for more information.
 
 In both the admin and storefront emails are comprised of
 
@@ -99,4 +99,38 @@ Rails provides functionality to [preview emails in a browser](http://api.rubyonr
 
 View an index of email previews at the following path in your app: _/rails/mailers/_
 
+## Writing Unit Tests for a Mailer
 
+To write unit tests for a mailer that you created, create a file at **test/mailers/workarea/path/to/your_mailer_test.rb** with the following contents:
+
+```ruby
+require 'test_helper'
+
+module Workarea
+  module Storefront
+    class YourMailerTest < Workarea::TestCase
+      include TestCase::Mail
+      include ActionMailer::TestCase::Behavior
+    end
+  end
+end
+```
+
+(If you generated a mailer with `rails generate mailer`, this file should already exist, so just change the contents of the existing file into what's described above.)
+
+You can now use assertions to determine whether mails have been sent:
+
+```ruby
+def test_mail_was_sent
+  assert_emails(1) do
+    valid_user = create_user
+    valid_user.send_an_email! # calls YourMailer.some_email.deliver_later
+  end
+  assert_no_enqueued_emails do
+    invalid_user = create_user(send_email: false)
+    invalid_user.send_an_email! # fails to call YourMailer.some_email.deliver_later
+  end
+end
+```
+
+[ActionMailer::TestHelper](https://api.rubyonrails.org/v5.2.3/classes/ActionMailer/TestHelper.html) has more information about the assertions you can use here.
