@@ -14,7 +14,7 @@ _See also:_ [Workarea 3.5.0 Release Notes](/release-notes/workarea-3-5-0.html) a
 
 ### What's Changing?
 
-Undoing a release in versions up to v3.5 was separate code and a Sidekiq job to revert the changes made based on a time specified on the release. To set up releases for more capabilities going forward (like segments and A/B testing), we're moving the release undo functionality to actually be a workflow to create a mirrored, reverting release. The new undo release has a publish like any other, and can be edited like any other. This allows administrators to resolve conflicts and make other edits to the undo with full control.
+Undoing a release in versions up to v3.5 was separate code and a Sidekiq job to revert the changes made based on a time specified on the release. To set up releases for more capabilities going forward (like A/B testing), we're moving the release undo functionality to actually be a workflow to create a mirrored, reverting release. The new undo release has a publish like any other, and can be edited like any other. This allows administrators to resolve conflicts and make other edits to the undo with full control.
 
 ### What Do You Need to Do?
 
@@ -117,7 +117,7 @@ We've removed the default Search Autocomplete functionality from the Storefront 
 
 ### What Do You Need To Do?
 
-To keep this functionality present in your application you'll need to install the `workarea-classic_search_autocomplete` plugin. 
+To keep this functionality present in your application you'll need to install the `workarea-classic_search_autocomplete` plugin.
 
 ## jQuery UI Autocomplete Widget Removed
 
@@ -135,3 +135,13 @@ and the following referenced in your Stylesheet application manifest:
 
 * `@import 'jquery_ui/storefront/ui_autocomplete';`
 * `@import 'jquery_ui/storefront/ui_menu';`
+
+## Segments Plugin Deprecated
+
+### What's Changing?
+
+Segments functionality has been moved into the base Workarea platform. We believe this is important for all retailers. Consequently, the `workarea-segmentation` plugin is deprecated, and will not be supported going forward. The new segmenting engine is far more powerful than the plugin was and will allow much more flexibility. In the future, we will be expanding functionality on this new segmentation engine.
+
+### What Do You Need To Do?
+
+You'll need to remove `workarea-segmentation` from your Gemfile. We've added code in the migration script (`bin/rails workarea:migrate:v3_5`) to help with the transition. The script will do its best to migrate segments to the new v3.5 MongoDB document structure. However, not all conditions from the plugin are supported in base at this point, so some segments may not migrate. The script will output this. Please reach out to the Workarea team for assistance if this creates a problem.

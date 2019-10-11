@@ -46,7 +46,61 @@ namespace :workarea do
       end
 
       puts "✅ #{count} fulfillment skus for digital product have been created."
-      puts "Migration complete!"
+
+      count = 0
+      failed_ids = []
+      backup = Mongo::Collection.new(Mongoid::Clients.default.database, 'workarea_legacy_segments')
+
+      legacy_segments = Workarea::Segment.collection.find.to_a
+      legacy_segments.each do |doc|
+        backup.insert_one(doc)
+        Workarea::Segment.collection.delete_one(doc.slice('_id'))
+
+        segment = Workarea::Segment.new(
+          id: doc['_id'],
+          name: doc['name'],
+          subscribed_user_ids: doc['subscribed_user_ids'],
+          created_at: doc['created_at'],
+          updated_at: doc['updated_at']
+        )
+
+        doc['conditions'].each do |condition|
+          if condition['_type'] =~ /UserTag/
+            segment.rules << Workarea::Segment::Rules::Tags.new(tags: condition['tags'])
+          elsif condition['_type'] =~ /TotalSpent/
+            rule = Workarea::Segment::Rules::Revenue.new
+
+            if condition['operator'] == 'equals'
+              rule.minimum = rule.maximum = Money.demongoize(condition['amount'])
+            elsif condition['operator'] == 'less_than_or_equals'
+              rule.maximum = Money.demongoize(condition['amount'])
+            elsif condition['operator'] == 'less_than'
+              rule.maximum = (Money.demongoize(condition['amount']) - 0.01.to_m)
+            elsif condition['operator'] == 'greater_than_or_equals'
+              rule.minimum = Money.demongoize(condition['amount'])
+            elsif condition['operator'] == 'greater_than'
+              rule.minimum = (Money.demongoize(condition['amount']) + 0.01.to_m)
+            end
+
+            segment.rules << rule
+          end
+        end
+
+        if doc['conditions'].size == segment.rules.size && segment.save
+          count += 1
+        else
+          failed_ids << doc['_id']
+        end
+      end
+
+      puts "✅ #{count} segments have been migrated." if count > 0
+      if failed_ids.any?
+        puts "⛔️ #{failed_ids.count} segments failed to migrate."
+        puts "You can find copies of the original segments in the workarea_legacy_segments collection."
+        puts "The segments that failed are #{failed_ids.to_sentence}."
+      end
+
+      puts "\nMigration complete!"
     end
   end
 end
