@@ -24,7 +24,7 @@ Workarea provides various _designed_ points of extension that employ conventions
 - [Content block types](add-a-content-block-type.html)
 - [Discount types](create-a-custom-discount.html)
 - Inventory policies
-- [Payment gateways](integrate-a-payment-gateway.html)
+- [Payment tender types](/articles/payment-tender-types.html)
 - [Pricing calculators](customize-pricing.html)
 - Product templates
 - Seeds

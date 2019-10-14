@@ -63,11 +63,15 @@ search:
   index-storefront-search-documents.html.md: /articles/index-storefront-search-documents.html.md
   add-remove-sort-and-group-storefront-search-filters.html.md: /articles/add-remove-sort-and-group-storefront-search-filters.html.md
   change-the-storefront-search-filters-ui.html.md: /articles/change-the-storefront-search-filters-ui.html.md
+payment:
+  payment-tender-types.html.md: /articles/payment-tender-types.html.md
+  implementing-payment-tender-types.html.md: /articles/implementing-payment-tender-types.html.md
+  implement-the-credit-card-tender-type.html.md: /articles/implement-the-credit-card-tender-type.html.md
+  implement-a-primary-tender-type.html.md: /articles/implement-a-primary-tender-type.html.md
+  implement-an-advance-payment-tender-type.html.md: /articles/implement-an-advance-payment-tender-type.html.md
 cart-and-checkout:
   checkout.html.md: /articles/checkout.html.md
-  configure-a-payment-gateway.html.md: /articles/configure-a-payment-gateway.html.md
-  integrate-a-payment-gateway.html.md: /articles/integrate-a-payment-gateway.html.md
-  test-a-credit-card-transaction.html.md: /articles/test-a-credit-card-transaction.html.md
+  manually-test-credit-card-transactions.html.md: /articles/manually-test-credit-card-transactions.html.md
   add-a-fraud-analyzer.html.md: /articles/add-a-fraud-analyzer.html.md
 orders:
   orders.html.md: /articles/orders.html.md
