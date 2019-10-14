@@ -1,16 +1,15 @@
 ---
 title: Test a Credit Card Transaction
-excerpt: Active Merchant provides the following credit card numbers for use in development environments.
+excerpt: How to use the default "bogus" gateway to test credit card transactions in development environments
+created_at: 2018/07/31
 ---
 
-# Test a Credit Card Transaction
+Test a Credit Card Transaction
+======================================================================
 
-[Active Merchant](http://activemerchant.org/) provides the following credit card numbers for use in development environments.
+By default, Workarea configures the credit card tender type to use a bogus gateway in development environments. This gateway, an instance of [`ActiveMerchant::Billing::BogusGateway`](https://www.rubydoc.info/gems/activemerchant/1.99.0/ActiveMerchant/Billing/BogusGateway), provides the following useful features for local development and testing:
 
-| Card Number | Result |
-| --- | --- |
-| 1 | Successful tansaction |
-| 2 | Declined transaction |
-| 3 | Payment processing error |
+* Use credit card number ending in 1 for success, 2 for exception, and anything else for error
+* Use amount ending in 00 for success, 05 for failure, and anything else for exception
 
-
+If your application is using a different gateway in Development, consult the documentation for your gateway.
