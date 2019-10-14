@@ -184,6 +184,13 @@ module Workarea
         get storefront.current_user_path(format: 'json')
         assert_equal(logged_in.id.to_s, response.headers['X-Workarea-Segments'])
       end
+
+      def test_endpoints_without_a_visit
+        assert_nothing_raised do
+          get storefront.internal_error_path(format: 'png')
+          refute(response.headers.key?('X-Workarea-Segments'))
+        end
+      end
     end
   end
 end

@@ -6,7 +6,7 @@ module Workarea
     included do
       before_action :ensure_current_metrics
       helper_method :current_visit, :current_metrics
-      delegate :current_metrics_id, :current_metrics_id=, to: :current_visit
+      delegate :current_metrics_id, :current_metrics_id=, to: :current_visit, allow_nil: true
     end
 
     def current_visit
@@ -21,7 +21,7 @@ module Workarea
       if email.blank?
         cookies.delete(:email)
       elsif email != cookies.signed[:email]
-        Metrics::User.find_or_initialize_by(id: email).merge!(current_visit.metrics)
+        Metrics::User.find_or_initialize_by(id: email).merge!(current_visit&.metrics)
         cookies.permanent.signed[:email] = email
       end
 
