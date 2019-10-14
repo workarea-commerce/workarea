@@ -50,7 +50,7 @@ module Workarea
 
         @payment ||=
           Workarea::Payment.instantiate(@persisted_payment.as_document).tap do |payment|
-            payment.id = @persisted_payment.id # Ensure this isn't persisted
+            payment.new_record = true # Ensure this isn't persisted by raising duplicate key if saved
           end
       end
 
