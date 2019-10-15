@@ -26,7 +26,7 @@ module Workarea
     end
 
     def apply_segments
-      segments = logged_in? && current_user.admin? ? override_segments : current_visit.segments
+      segments = logged_in? && current_user.admin? ? override_segments : current_visit&.segments
       Segment.with_current(segments) { yield }
     end
   end
