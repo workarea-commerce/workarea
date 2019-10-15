@@ -16,10 +16,9 @@
         .grid__cell.grid__cell--50
           .align-center
             %h2= t('workarea.admin.segment_rules.index.rules')
-            .box
-              %ul.list-reset
-                - @segment.rules.each do |rule|
-                  %li.text--large= render "workarea/admin/segment_rules/summaries/#{rule.slug}", rule: rule
+            - @segment.rules.each do |rule|
+              .box.box--rounded.box--padded
+                = render "workarea/admin/segment_rules/summaries/#{rule.slug}", rule: rule
 
           .section.align-center
             %h5= t('workarea.admin.segment_rules.index.no_edit')

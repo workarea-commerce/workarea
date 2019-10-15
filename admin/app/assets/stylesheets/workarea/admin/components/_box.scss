@@ -24,7 +24,9 @@ $box-rounded-border-radius:  $global-border-radius !default;
     border-radius: $box-rounded-border-radius;
 }
 
-.box--no-padding {}
+.box--padded {
+    padding: $spacing-unit;
+}
 
 
     .box__head {

@@ -29,9 +29,10 @@
 
       - if local_assigns[:active].blank?
         .card__body
-          %ul
+          - if model.rules.any?
             - model.rules.each do |rule|
-              %li= render "workarea/admin/segment_rules/summaries/#{rule.slug}", rule: rule
+              .box.box--padded.box--rounded
+                = render "workarea/admin/segment_rules/summaries/#{rule.slug}", rule: rule
 
           = link_to segment_rules_path(model), class: 'card__button' do
             %span.button.button--small= t('workarea.admin.segments.cards.rules.button')
