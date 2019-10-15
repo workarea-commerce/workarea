@@ -43,8 +43,8 @@
                 %p= t('workarea.admin.users.permissions.can_publish_now_message')
 
             .property
-              = check_box :user, :orders_management_access, disabled: @user.super_admin?
-              = label_tag 'user[orders_management_access]', t('workarea.admin.users.permissions.can_manage_orders'), class: 'property__name'
+              = check_box :user, :orders_manager, disabled: @user.super_admin?
+              = label_tag 'user[orders_manager]', t('workarea.admin.users.permissions.can_manage_orders'), class: 'property__name'
               = link_to '#can-manage-orders', data: { tooltip: '' } do
                 = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.users.permissions.can_publish_now_info'))
 

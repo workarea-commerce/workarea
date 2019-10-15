@@ -982,7 +982,7 @@ module Workarea
       config.permissions_fields = %i(admin releases_access store_access
         catalog_access search_access orders_access people_access reports_access
         settings_access marketing_access help_admin permissions_manager
-        can_publish_now can_restore orders_management_access)
+        can_publish_now can_restore orders_manager)
 
       # Whitelist of sizes that will be processed with AssetEndpoints::Favicons
       # Used for favicons_path(size)
