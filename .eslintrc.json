@@ -30,6 +30,7 @@
       "expect": true,
       "sinon": true,
       "fixture": true,
-      "chai": true
+      "chai": true,
+      "Tribute": true
     }
 }

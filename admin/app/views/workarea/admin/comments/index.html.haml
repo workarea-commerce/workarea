@@ -44,21 +44,19 @@
       .section
         .comments__new-comment
           %h2= t('workarea.admin.comments.index.new')
-
           - if @comment.errors.present?
             - @comment.errors.full_messages.each do |message|
               = render_message 'error', message
 
           = form_tag commentable_comments_path(@commentable.to_global_id), method: 'post', id: 'comment_form', data: { unsaved_changes: '' } do
-
             .property.property--required
               = label_tag 'comment[body]', t('workarea.admin.fields.body'), class: 'property__name'
-              = text_area_tag 'comment[body]', @comment.body, class: 'text-box text-box--multi-line', required: true
+              = text_area_tag 'comment[body]', @comment.body, class: 'text-box text-box--multi-line', required: true, data: { tribute_area: users_path(exclude_current_user: true, format: :json) }
+              %span.property__note= t('workarea.admin.comments.index.mention_note')
 
-            .property
-              = label_tag 'subscribed_user_ids', t('workarea.admin.fields.subscribed_user_ids'), class: 'property__name'
-              = select_tag 'subscribed_user_ids', nil, multiple: true,  data: { remote_select: { source: users_path(exclude_current_user: true, format: :json) } }
-              %span.property__note= t('workarea.admin.comments.index.email_authentication')
+              - if @commentable.subscribed_users.any?
+                %strong= t('workarea.admin.comments.index.users_currently_subscribed')
+                = @commentable.subscribed_users.map(&:email).to_sentence
 
             .workflow-bar
               .grid.grid--auto.grid--right.grid--middle

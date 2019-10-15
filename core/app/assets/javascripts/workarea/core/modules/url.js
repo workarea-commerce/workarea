@@ -61,6 +61,19 @@ WORKAREA.registerModule('url', (function () {
 
         /**
          * @method
+         * @name addQuery
+         * @memberof WORKAREA.url
+         */
+        addToQuery = function (url, queryToAppend) {
+            if (_.includes(url, '?')) {
+                return [url, queryToAppend].join('&');
+            } else {
+                return addQuery(url, queryToAppend);
+            }
+        },
+
+        /**
+         * @method
          * @name removeQuery
          * @memberof WORKAREA.url
          */
@@ -114,6 +127,7 @@ WORKAREA.registerModule('url', (function () {
     return {
         parse: parse,
         addQuery: addQuery,
+        addToQuery: addToQuery,
         removeQuery: removeQuery,
         replaceQuery: replaceQuery,
         current: current,

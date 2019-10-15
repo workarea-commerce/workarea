@@ -16,6 +16,10 @@ module Workarea
       def comments
         @comments ||= CommentViewModel.wrap(model.comments)
       end
+
+      def subscribed_users
+        @users ||= User.in(id: subscribed_user_ids)
+      end
     end
   end
 end

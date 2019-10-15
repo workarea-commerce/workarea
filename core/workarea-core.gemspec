@@ -75,6 +75,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'haml', '~> 5.0.1'
   s.add_dependency 'ejs', '~> 1.1.1'
   s.add_dependency 'jbuilder', '~> 2.7.0'
+  s.add_dependency 'tribute', '~> 3.6.0.0'
   s.add_dependency 'turbolinks', '~> 5.0.1'
   s.add_dependency 'jquery-validation-rails', '~> 1.19.0'
   s.add_dependency 'minitest', '~> 5.10.3', '>= 5.10.1'
