@@ -14,6 +14,7 @@
   = render 'workarea/admin/pricing_discounts/conditions/order_total', discount: @discount
   = render 'workarea/admin/pricing_discounts/conditions/item_quantity', discount: @discount
   = render 'workarea/admin/pricing_discounts/conditions/user_tags', discount: @discount
+  = render 'workarea/admin/pricing_discounts/conditions/segments', discount: @discount
   = append_partials('admin.discount_conditions', discount: @discount)
 
   %p.discount__node-group

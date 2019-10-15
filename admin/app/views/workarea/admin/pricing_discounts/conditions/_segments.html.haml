@@ -1,0 +1,5 @@
+%fieldset.discount__rules-fields
+  %legend.discount__rules-legend
+    %span.discount__rules-heading Segments
+  %p.discount__optional-node-group{ data: { discount_options_menu_condition_group: { type: 'segments' }.to_json } }
+    %span.discount__node= select_tag 'discount[active_segment_ids]', options_from_collection_for_select(segments, :id, :name, discount.active_segment_ids), multiple: true, data: { select: { placeholder: t('workarea.admin.shared.active_field.select_segments'), allowClear: true } }

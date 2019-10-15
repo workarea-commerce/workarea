@@ -20,6 +20,11 @@ module Workarea
       def pricing_prices
         pricing.fetch('prices', []).first || {}
       end
+
+      def segments
+        return [] if settings['active_segment_ids'].blank?
+        @segments ||= Segment.in(id: settings['active_segment_ids']).to_a
+      end
     end
   end
 end

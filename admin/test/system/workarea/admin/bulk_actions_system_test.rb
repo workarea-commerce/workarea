@@ -156,7 +156,7 @@ module Workarea
         assert(page.has_content?(t('workarea.admin.bulk_action_product_edits.review.title')))
         assert(page.has_content?(t('workarea.admin.bulk_action_product_edits.worflow.selected', label: '2 Products')))
 
-        assert(page.has_content?("#{t('workarea.admin.fields.active')}: false"))
+        assert(page.has_content?("#{t('workarea.admin.fields.active')} false"))
         assert(page.has_content?('add_tag_2, add_tag_3'))
         assert(page.has_content?('remove_tag_1'))
         assert(page.has_content?('add_filter_1'))

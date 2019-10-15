@@ -44,7 +44,7 @@
               %span.property__name
                 = t('workarea.admin.catalog_products.edit.active_title')
                 = inline_svg('workarea/admin/i18n.svg', class: 'svg-icon svg-icon--small') if locale_options.many? && Workarea.config.localized_active_fields
-              = toggle_button_for 'product[active]', @product.active?
+              = render 'workarea/admin/shared/active_field', scope: 'product', model: @product
 
           .grid__cell.grid__cell--25
             .property

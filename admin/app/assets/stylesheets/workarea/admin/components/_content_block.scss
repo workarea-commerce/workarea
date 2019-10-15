@@ -96,6 +96,12 @@ $content-block-inactive-overlay-bg-color:  rgba($off-black, 0.75) !default;
         }
     }
 
+    .content-block__segments {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
     /**
      * 1. do not display in edit mode unless the block is active
      */

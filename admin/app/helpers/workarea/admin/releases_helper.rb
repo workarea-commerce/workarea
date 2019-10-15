@@ -99,6 +99,10 @@ module Workarea
       model_links(Pricing::Discount, ids)
     end
 
+    def segment_links(ids)
+      model_links(Segment, ids)
+    end
+
     def for_each_content_block_from_changeset(content, change_hash)
       change_hash.each do |id, changes|
         block = content.blocks.detect { |b| b.id.to_s == id.to_s }

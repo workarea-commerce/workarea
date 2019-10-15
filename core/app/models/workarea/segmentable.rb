@@ -47,5 +47,9 @@ module Workarea
         Segment.current.any? { |s| allowed_ids.include?(s.id.to_s) }
       end
     end
+
+    def segments
+      @segments ||= active_segment_ids.blank? ? [] : Segment.in(id: active_segment_ids)
+    end
   end
 end

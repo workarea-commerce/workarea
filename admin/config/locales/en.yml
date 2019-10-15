@@ -680,6 +680,7 @@ en:
           description: Add associated content blocks to be displayed with this in the storefront.
           title: Content
         edit:
+          active_for_html: Only active for <strong>%{segments}</strong>
           add: Add a Block
           add_block_above: Add Block Above
           add_block_below: Add Block Below
@@ -1106,6 +1107,7 @@ en:
           redeem_once_per_email: Redeem once per email address
           redeem_unlimited_times: Redeem an unlimited number of times for anyone
           sale_items: Sale Items
+          segments_note: Only these segments can qualify for this discount
           single_use: Single Use
           title: Setup for new discount
           what_does_it_discount: "%{discount_name}: What does it discount?"
@@ -1569,6 +1571,7 @@ en:
         action: Action
         active: Active
         active_segments: Active for
+        active_segment_ids: Active Segments
         admin: Administrator
         allow_discounting: Allow Discounting
         allow_sale_items: Allow Sale Items
@@ -1733,6 +1736,7 @@ en:
         search_id: Search ID
         search_terms: Search Terms
         searches: Searches
+        segments: Segments
         send_account_creation_email: Notify Them by Email
         service: Service
         services_file: Services File
@@ -2067,6 +2071,7 @@ en:
         icons:
           top_selling: Top Selling
           trending: Trending
+          segments: Only shows for certain segments
         revenue:
           other_label: Other %{name}
           top_label: Top %{name}
@@ -2863,6 +2868,7 @@ en:
           application_promo_code: when promo code
           code_list_select: select a promo code list
           for_everyone: for everyone
+          when_in_segment: when in segment
           promo_code_is: is
           promo_code_is_from: is from
           unlimited_applications: unlimited
@@ -2886,6 +2892,7 @@ en:
               item: Sale items won't receive a discount.
               order: Deduction is based on the sum of regular priced items only.
               shipping: Orders made of only sale items don't qualify.
+          segments_note: Only these segments can qualify for this discount
         show:
           deactivated_html: This discount was automatically deactivated on %{time} because it had not been redeemed in %{timespan}.
           disable_auto_deactivation: Turn off auto deactivation for this discount
