@@ -48,6 +48,11 @@ module Workarea
         false
       end
 
+      def image_inverse_aspect_ratio
+        return if image_aspect_ratio.blank? || image_aspect_ratio.zero?
+        1 / image_aspect_ratio.to_f
+      end
+
       def respond_to_missing?(method_name, include_private = false)
         super || image.respond_to?(method_name)
       end
