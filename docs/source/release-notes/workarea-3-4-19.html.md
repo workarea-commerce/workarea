@@ -100,3 +100,13 @@ updated.
 ### Issues
 
 - [52](https://github.com/workarea-commerce/workarea/pull/52)
+
+## Fix missing aspect ratio magic attribute
+
+This magic attribute doesn't need to be calculated, it's the inverse of 
+the aspect ratio we already have. Relying on the magic attributes for 
+this would require re-saving each model instance.
+
+### Pull Requests
+
+- [170](https://github.com/workarea-commerce/workarea/pull/170)
