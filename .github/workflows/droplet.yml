@@ -1,0 +1,18 @@
+name: Build DigitalOcean One-Click Droplet Image
+on:
+  release:
+    types: [published]
+jobs:
+  build:
+    name: Build Image with Packer
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone Droplet Repository
+        uses: actions/checkout@v1
+        with:
+          repository: workarea-commerce/one-click-droplet
+      - name: Build Image on DigitalOcean
+        uses: dawitnida/packer-github-actions/build@master
+        env:
+          TEMPLATE_FILE_NAME: marketplace-image.json
+          DIGITALOCEAN_TOKEN: ${{ secrets.digitalocean_token }}
