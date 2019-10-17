@@ -70,7 +70,7 @@ module Workarea
     # before going nuts on the page. Theoretically, Capybara does this for you.
     # Of course in theory, theory works.
     #
-    (%i(visit refresh go_back go_forward within) + Capybara::Session::NODE_METHODS).each do |method|
+    (%i(visit refresh go_back go_forward within within_frame) + Capybara::Session::NODE_METHODS).each do |method|
       class_eval <<-ruby
         def #{method}(*)
           return super unless javascript?
@@ -148,6 +148,19 @@ module Workarea
           STDERR.puts log_entry.message
         end
       end
+    end
+
+    # There is some kind of timing problem around waiting for this iframe that
+    # after a few hours we still can't find. This is a hack to keep this
+    # passing.
+    #
+    # May God have mercy on our souls.
+    #
+    # TODO v3.6
+    # Remove this after we stop using an iframe for the admin toolbar
+    #
+    def wait_for_iframe
+      sleep(0.5)
     end
 
     private
