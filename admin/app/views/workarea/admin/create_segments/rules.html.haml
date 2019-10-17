@@ -6,39 +6,38 @@
       .grid__cell.grid__cell--50
         .view__heading
           %h1.heading.heading--no-margin= t('workarea.admin.create_segments.rules.title', name: @segment.name)
+          - if params[:action] == 'new_rule'
+            = link_to "← #{t('workarea.admin.actions.back')}", rules_create_segment_path(@segment)
 
-  .view__container
+  .view__container.view__container--narrow
     .section
-      .grid.grid--center
-        .grid__cell.grid__cell--50
-          %table
-            - @rules.each do |rule|
-              %tr
-                %td
-                  - if rule == @rule
-                    = render 'workarea/admin/segment_rules/form', segment: @segment, rule: rule, return_to: rules_create_segment_path(@segment)
-                  - else
-                    = render "workarea/admin/segment_rules/summaries/#{rule.slug}", rule: rule
-                %td
-                  - if rule == @rule
-                    = link_to t('workarea.admin.actions.cancel'), rules_create_segment_path(@segment)
-                  - else
-                    = link_to inline_svg('workarea/admin/icons/edit.svg', class: 'svg-icon svg-icon--small', title: t('workarea.admin.actions.edit')), edit_rule_create_segment_path(@segment, rule)
-                    = link_to inline_svg('workarea/admin/icons/delete.svg', class: 'svg-icon svg-icon--small', title: t('workarea.admin.actions.remove')), segment_rule_path(@segment, rule, return_to: rules_create_segment_path(@segment)), data: { method: 'delete' }
-
-            %tr
-              - if params[:action] == 'new_rule'
-                %td
-                  = render 'workarea/admin/segment_rules/form', segment: @segment, rule: @rule, return_to: rules_create_segment_path(@segment)
+      - if @rules.any?
+        - @rules.each do |rule|
+          .box.box--rounded.box--padded
+            - if rule == @rule
+              .grid.grid--auto.grid--center.grid--middle
+                .grid__cell
+                  = render 'workarea/admin/segment_rules/form', segment: @segment, rule: rule, return_to: rules_create_segment_path(@segment)
+                .grid__cell
                   = link_to t('workarea.admin.actions.cancel'), rules_create_segment_path(@segment)
+            - else
+              .grid.grid--right.grid--middle
+                .grid__cell.grid__cell--50
+                  .align-center= render "workarea/admin/segment_rules/summaries/#{rule.slug}", rule: rule
+                .grid__cell.grid__cell--25
+                  .align-right
+                    = link_to inline_svg('workarea/admin/icons/edit.svg', class: 'svg-icon svg-icon--small', title: t('workarea.admin.actions.edit')), edit_rule_create_segment_path(@segment, rule)
+                    = link_to inline_svg('workarea/admin/icons/delete.svg', class: 'svg-icon svg-icon--small svg-icon--red', title: t('workarea.admin.actions.remove')), segment_rule_path(@segment, rule, return_to: rules_create_segment_path(@segment)), data: { method: 'delete' }
 
-              - else
-                %td
-                  = form_tag new_rule_create_segment_path(@segment), method: 'get' do
-                    %span= t('workarea.admin.create_segments.rules.add_rule')
-                    = select_tag 'rule_type', options_for_select(segment_rule_types_options)
-                    = button_tag inline_svg('workarea/admin/icons/add_circle.svg', class: 'svg-icon svg-icon--medium svg-icon--green', title: t('workarea.admin.create_segments.rules.add_rule')), value: 'add_rule', class: 'text-button'
-                %td
+      - if params[:action] == 'new_rule'
+        = render 'workarea/admin/segment_rules/form', segment: @segment, rule: @rule, return_to: rules_create_segment_path(@segment)
+
+      - else
+        = form_tag new_rule_create_segment_path(@segment), method: 'get' do
+          .grid.grid--auto.grid--center.grid--middle
+            .grid__cell= t('workarea.admin.create_segments.rules.add_rule')
+            .grid__cell= select_tag 'rule_type', options_for_select(segment_rule_types_options)
+            .grid__cell= button_tag inline_svg('workarea/admin/icons/add_circle.svg', class: 'svg-icon svg-icon--medium svg-icon--green', title: t('workarea.admin.create_segments.rules.add_rule')), value: 'add_rule', class: 'text-button'
 
     .workflow-bar
       .grid.grid--middle

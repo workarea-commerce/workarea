@@ -57,7 +57,8 @@ module Workarea
     end
 
     def referrer
-      @referrer ||= Workarea.referrer_parser.parse(request.referrer)
+      return @referrer if defined?(@referrer)
+      @referrer = Workarea.referrer_parser.parse(request.referrer) rescue {}
     end
 
     def current_metrics_id

@@ -48,14 +48,14 @@
         .box__actions
           = link_to 'Box Action', '#', class: 'text-button'
 
-#box--no-padding.style-guide__subsection
+#box--padded.style-guide__subsection
 
-  %h3= link_to_style_guide('components', 'box__subsection')
+  %h3= link_to_style_guide('components', 'box__padded')
 
-  %p should remove the padding from the box.
+  %p should add padding to the box.
 
   .style-guide__example-block
-    .box.box--no-padding
+    .box.box--padded
       .box__head
         %span.box__heading Header Text
       .box__body
