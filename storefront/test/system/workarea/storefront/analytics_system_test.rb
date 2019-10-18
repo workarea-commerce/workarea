@@ -144,7 +144,7 @@ module Workarea
       def test_announcing_product_click_event
         visit storefront.category_path(@category)
 
-        disable_analytics_events
+        disable_analytics_dom_events
         within '.product-summary__name', match: :first do
           click_link 'Test Product 2'
         end
@@ -191,7 +191,7 @@ module Workarea
 
         visit storefront.cart_path
 
-        disable_analytics_events
+        disable_analytics_dom_events
         fill_in 'quantity', with: '1'
 
         events = find_analytics_events(for_event: 'updateCartItem')
@@ -217,7 +217,7 @@ module Workarea
         click_button t('workarea.storefront.products.add_to_cart')
         click_link t('workarea.storefront.carts.view_cart')
 
-        disable_analytics_events
+        disable_analytics_dom_events
         click_button t('workarea.storefront.carts.remove')
 
         events = find_analytics_events(for_event: 'removeFromCart')
@@ -468,7 +468,7 @@ module Workarea
 
         fill_in 'footer_email_signup_field', with: 'foo@bar.com'
 
-        disable_analytics_events
+        disable_analytics_dom_events
         click_button t('workarea.storefront.users.join')
 
         events = find_analytics_events(for_event: 'emailSignup')
@@ -483,7 +483,7 @@ module Workarea
 
         visit storefront.checkout_path
 
-        disable_analytics_events
+        disable_analytics_dom_events
         click_link t('workarea.storefront.users.login')
 
         events = find_analytics_events(for_event: 'checkoutLogin')
@@ -507,7 +507,7 @@ module Workarea
 
         fill_in 'password', with: 'W3bl1nc!'
 
-        disable_analytics_events
+        disable_analytics_dom_events
         click_button t('workarea.storefront.users.create_account')
 
         events = find_analytics_events(for_event: 'checkoutSignup')
@@ -524,7 +524,7 @@ module Workarea
           fill_in 'email', with: 'bcrouse@workarea.com'
           fill_in 'password', with: 'W3bl1nc!'
 
-          disable_analytics_events
+          disable_analytics_dom_events
           click_button t('workarea.storefront.users.login')
         end
 
@@ -540,7 +540,7 @@ module Workarea
         within '#forgot_password_form' do
           fill_in 'email', with: 'bcrouse@workarea.com'
 
-          disable_analytics_events
+          disable_analytics_dom_events
           click_button t('workarea.storefront.forms.send')
         end
 
@@ -557,7 +557,7 @@ module Workarea
           fill_in 'email', with: 'bcrouse@workarea.com'
           fill_in 'password', with: 'W3bl1nc!'
 
-          disable_analytics_events
+          disable_analytics_dom_events
           click_button t('workarea.storefront.users.create_account')
         end
 
@@ -573,7 +573,7 @@ module Workarea
 
         visit storefront.root_path
 
-        disable_analytics_events
+        disable_analytics_dom_events
         click_link 'First Level'
 
         events = find_analytics_events(for_event: 'primaryNavigationClick')
@@ -593,7 +593,7 @@ module Workarea
         fill_in_shipping_address
         click_button t('workarea.storefront.checkouts.continue_to_shipping')
 
-        disable_analytics_events
+        disable_analytics_dom_events
         click_link t('workarea.storefront.forms.edit')
 
         events = find_analytics_events(for_event: 'checkoutEdit')
