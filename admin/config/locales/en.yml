@@ -636,6 +636,8 @@ en:
           new: New Comment
           notify: Notify Admins
           title: Comments on %{name}
+          mention_note: Notify other admins by typing the @ symbol. Once notified they may unsubscribe at any time via a link sent in the notification email.
+          users_currently_subscribed: "Users currently subscribed:"
         icon:
           viewed: Comments
           unviewed: Unread Comments
