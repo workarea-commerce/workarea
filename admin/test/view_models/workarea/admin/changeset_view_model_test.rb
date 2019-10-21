@@ -112,6 +112,11 @@ module Workarea
         assert_equal('bar', view_model.old_value_for('name'))
         assert_equal('foo', @releasable.name)
       end
+
+      def test_missing_root
+        @releasable.destroy
+        assert_nil(@view_model.root)
+      end
     end
   end
 end
