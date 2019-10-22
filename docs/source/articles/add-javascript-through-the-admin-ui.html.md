@@ -18,7 +18,7 @@ Click the "Advanced" link at the top of the Content Editor UI.
 
 <!-- TODO: add image of Content Editing UI, "Advanced" link highlighted -->
 
-Type JavaScript into the "JavaScript" field and save.
+Here you are able to append JavaScript to either the `head` or `body` elements via the __Content Appended to Head Element__ or __JavaScript Appended to Body Element__ fields, respectively. The former field allows content other than JavaScript, so be sure to wrap your JavaScript in a `<script>` tag. The latter field only accepts JavaScript, so you should omit the `<script>` tag.
 
 <!-- TODO: update image
     <p><%= image_tag "images/js-admin-ui.png", alt: "CSS field in Admin" %></p>

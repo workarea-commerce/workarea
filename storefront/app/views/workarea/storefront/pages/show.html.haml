@@ -3,6 +3,7 @@
 
 - add_css(@page.css)
 - add_javascript(@page.javascript)
+- add_head_content(@page.head_content)
 
 - content_for :head do
   - cache "#{@page.cache_key}/head", expires_in: Workarea.config.cache_expirations.pages_fragment_cache do

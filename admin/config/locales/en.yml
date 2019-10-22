@@ -665,6 +665,7 @@ en:
           do_not_automate: Do not Automate
           javascript: JavaScript
           javascript_note: The JavaScript is output before the end of the body. The content of this block is automatically wrapped in script tags.
+          head_content_note: Use this field to add external style or script tags, meta elements, or custom JavaScript.
           learn_more: Learn More
           metadata_description: Metadata Description
           metadata_description_note: Provides a summary that is displayed on search engine result pages.
@@ -1648,6 +1649,7 @@ en:
         fulfillment_status: Fulfillment Status
         geolocation: Geolocation
         merchandise: Merchandise
+        head_content: Content Appended to Head Element
         hidden_breakpoints: Hidden Breakpoints
         id: ID
         image: Image
@@ -1657,7 +1659,7 @@ en:
         inactive_segments: Inactive for
         insights: Insights
         inventory: Inventory
-        javascript: JavaScript
+        javascript: JavaScript Appended to Body Element
         last_impersonated_at: Last Impersonated At
         last_impersonated_by: Last Impersonated By
         last_name: Last Name

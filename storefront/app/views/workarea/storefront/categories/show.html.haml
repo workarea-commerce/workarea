@@ -3,6 +3,7 @@
 
 - add_css(@category.css)
 - add_javascript(@category.javascript)
+- add_head_content(@category.head_content)
 
 - content_for :head do
   - cache "#{@category.cache_key}/head", expires_in: Workarea.config.cache_expirations.categories_fragment_cache do
