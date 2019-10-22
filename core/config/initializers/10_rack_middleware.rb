@@ -7,7 +7,6 @@ if !app.config.action_dispatch.rack_cache
 else
   require 'rack/cache'
   app.config.middleware.insert_after Rack::Cache, Dragonfly::Middleware, :workarea
-  app.config.middleware.insert_before Rack::Cache, Workarea::RackCacheConfigMiddleware
 end
 
 unless Rails.env.test? || Rails.env.development?
@@ -23,9 +22,5 @@ Rails.application.config.middleware.insert_after(
 )
 
 app.config.middleware.use Workarea::EnforceHostMiddleware
-
-if Rails.env.test?
-  app.config.middleware.insert(0, Workarea::StripHttpCachingMiddleware)
-end
-
-app.config.middleware.insert(0, Workarea::TrackingMiddleware)
+app.config.middleware.insert(0, Workarea::ApplicationMiddleware)
+app.config.middleware.insert(0, Workarea::StripHttpCachingMiddleware) if Rails.env.test?

@@ -2,7 +2,7 @@ module Workarea
   module Search
     class StorefrontSearch
       class ExactMatches
-        include Middleware
+        include StorefrontSearch::Middleware
 
         def call(response)
           exact_match = find_exact_match(response)

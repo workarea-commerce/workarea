@@ -118,7 +118,6 @@ module Workarea
         segment_one = create_segment(rules: [Segment::Rules::Sessions.new(minimum: 1, maximum: 1)])
         segment_two = create_segment(rules: [Segment::Rules::Sessions.new(minimum: 2, maximum: 2)])
 
-
         content = Content.for('home_page')
         content.blocks.create!(
           type: 'html',
@@ -190,6 +189,79 @@ module Workarea
           get storefront.internal_error_path(format: 'png')
           refute(response.headers.key?('X-Workarea-Segments'))
         end
+      end
+
+      def test_segmented_discounts
+        new_visitors = create_segment(rules: [Segment::Rules::Sessions.new(minimum: 0)])
+        returning_visitors = create_segment(rules: [Segment::Rules::Sessions.new(minimum: 2)])
+        product = create_product(variants: [{ sku: 'SKU', regular: 5.to_m }])
+        discount = create_product_discount(
+          amount_type: 'flat',
+          amount: 1.to_m,
+          product_ids: [product.id],
+          active: true,
+          active_segment_ids: [returning_visitors.id]
+        )
+
+        post storefront.cart_items_path,
+           params: { product_id: product.id, sku: product.skus.first, quantity: 1 }
+
+        order = Order.first
+        assert_equal(5.to_m, order.total_price)
+
+        cookies[:sessions] = 2
+        get storefront.cart_path # reprice the order
+        assert_equal(4.to_m, order.reload.total_price)
+      end
+
+      def test_http_caching_headers_for_segmented_content
+        Workarea.config.strip_http_caching_in_tests = false
+        segment = create_segment(rules: [Segment::Rules::Sessions.new(maximum: 999)])
+
+        get storefront.root_path
+        refute_match(/private/, response.headers['Cache-Control'])
+        assert_match(/public/, response.headers['Cache-Control'])
+        assert(response.headers['X-Workarea-Segmented-Content'].blank?)
+
+        content = Content.for('home_page')
+        content.blocks.create!(
+          type: 'html',
+          data: { 'html' => '<p>Foo</p>' },
+          active_segment_ids: [segment.id]
+        )
+
+        get storefront.root_path
+        assert_match(/private/, response.headers['Cache-Control'])
+        refute_match(/public/, response.headers['Cache-Control'])
+        assert_equal('true', response.headers['X-Workarea-Segmented-Content'])
+
+        product = create_product(active: true, active_segment_ids: [])
+        get storefront.product_path(product)
+        assert(response.ok?)
+        refute_match(/private/, response.headers['Cache-Control'])
+        assert_match(/public/, response.headers['Cache-Control'])
+        assert(response.headers['X-Workarea-Segmented-Content'].blank?)
+
+        product.update!(active_segment_ids: [segment.id])
+        get storefront.product_path(product)
+        assert(response.ok?)
+        assert_match(/private/, response.headers['Cache-Control'])
+        refute_match(/public/, response.headers['Cache-Control'])
+        assert_equal('true', response.headers['X-Workarea-Segmented-Content'])
+
+        category = create_category(active: true, active_segment_ids: [])
+        get storefront.category_path(category)
+        assert(response.ok?)
+        refute_match(/private/, response.headers['Cache-Control'])
+        assert_match(/public/, response.headers['Cache-Control'])
+        assert(response.headers['X-Workarea-Segmented-Content'].blank?)
+
+        category.update!(product_ids: [product.id])
+        get storefront.category_path(category)
+        assert(response.ok?)
+        assert_match(/private/, response.headers['Cache-Control'])
+        refute_match(/public/, response.headers['Cache-Control'])
+        assert_equal('true', response.headers['X-Workarea-Segmented-Content'])
       end
     end
   end

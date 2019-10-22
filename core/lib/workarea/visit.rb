@@ -9,10 +9,6 @@ module Workarea
       @env = env
     end
 
-    def varies
-      @varies ||= Cache::Varies.new(self)
-    end
-
     def cookies
       request.cookie_jar
     end

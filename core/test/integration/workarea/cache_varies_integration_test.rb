@@ -42,8 +42,7 @@ module Workarea
     def app
       @app ||= Rack::Builder.new do
         use AddEnvMiddleware
-        use TrackingMiddleware
-        use RackCacheConfigMiddleware
+        use ApplicationMiddleware
         use Rack::Cache, metastore: 'heap:/', entitystore: 'heap:/'
         run Rails.application
       end
