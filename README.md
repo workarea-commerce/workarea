@@ -64,20 +64,17 @@ Workarea combines commerce, content, search, and insights into a unified platfor
 
 Demo
 --------------------------------------------------------------------------------
-
-You can run a demo version of workarea by running the following command in your terminal:
+You can run a demo version of Workarea via Docker by running the following command:
 
 ```bash
 curl -s https://raw.githubusercontent.com/workarea-commerce/workarea/master/demo/install | bash
 ```
 
-It requires you have Docker installed and running. Once complete, you can visit `http://localhost:3000` to view your app.
+**If you are using MacOS or Windows, this will require you to increase Docker's memory allocation to at least 4GB**. Go to your Docker preferences, select the  advanced tab, and adjust the memory slider.
 
-The seed data provides an admin user with an email/password of `user@workarea.com/w0rkArea!`.
+Once complete, you can view the Workarea Storefront at <http://localhost:3000> and the Workarea Admin at <http://localhost:3000/admin>. The seed data provides an admin user with an email/password of `user@workarea.com/w0rkArea!`.
 
 See the [README](demo/README.md) in the `demo` directory for more information.
-
-For more information on usage and troubleshooting, see the [workarea-demo](https://github.com/workarea-commerce/workarea-demo) page.
 
 Getting Started
 --------------------------------------------------------------------------------

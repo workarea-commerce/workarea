@@ -9,24 +9,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
+
       - name: Docker Login
-        uses: actions/docker/login@master
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
       - name: Build Image
-        uses: actions/docker/cli@master
-        with:
-          args: 'build -t demo_app demo/'
-      - name: Tag Image
-        uses: actions/docker/tag@master
-        with:
-          args: demo_app workarea/demo_app --no-sha --env
-      - name: Push Version
-        uses: actions/docker/cli@master
-        with:
-          args: push workarea/demo_app:$IMAGE_REF
-      - name: Push Latest
-        uses: actions/docker/cli@master
-        with:
-          args: push workarea/demo_app:latest
+        run: 'docker build -t demo_app demo/'
+      - name: Tag & Push Version Image
+        run: |
+          VERSION_TAG=$(echo $GITHUB_REF | sed "s/.*\///")
+          docker tag demo_app workarea/demo_app:$VERSION_TAG
+          docker push workarea/demo_app:$VERSION_TAG
+      - name: Tag & Push Latest Image
+        run: |
+          docker tag demo_app workarea/demo_app:latest
+          docker push workarea/demo_app:latest
