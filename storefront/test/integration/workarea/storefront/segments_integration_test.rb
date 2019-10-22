@@ -54,18 +54,22 @@ module Workarea
         product_one = create_product(active: true, active_segment_ids: [segment_two.id])
         product_two = create_product(active: true, active_segment_ids: [segment_one.id])
 
-        cookies[:sessions] = 0
-        get storefront.product_path(product_one)
-        assert(response.ok?)
+        assert_raise InvalidDisplay do
+          cookies[:sessions] = 0
+          get storefront.product_path(product_one)
+          assert(response.not_found?)
+        end
 
-        cookies[:sessions] = 0
-        get storefront.product_path(product_two)
-        assert(response.ok?)
+        assert_raise InvalidDisplay do
+          cookies[:sessions] = 0
+          get storefront.product_path(product_two)
+          assert(response.not_found?)
+        end
 
         cookies[:sessions] = 0
         get storefront.search_path(q: '*')
-        assert_includes(response.body, product_one.id)
-        assert_includes(response.body, product_two.id)
+        refute_includes(response.body, product_one.id)
+        refute_includes(response.body, product_two.id)
 
         assert_raise InvalidDisplay do
           cookies[:sessions] = 1
@@ -164,10 +168,10 @@ module Workarea
         set_current_user(create_user(admin: true))
 
         get storefront.search_path(q: '*')
-        assert_includes(response.body, product.id)
+        refute_includes(response.body, product.id)
 
         get storefront.root_path
-        assert_includes(response.body, '<p>Foo</p>')
+        refute_includes(response.body, '<p>Foo</p>')
       end
 
       def test_logged_in_based_segments
@@ -190,6 +194,29 @@ module Workarea
           get storefront.internal_error_path(format: 'png')
           refute(response.headers.key?('X-Workarea-Segments'))
         end
+      end
+
+      def test_segmented_discounts
+        new_visitors = create_segment(rules: [Segment::Rules::Sessions.new(minimum: 0)])
+        returning_visitors = create_segment(rules: [Segment::Rules::Sessions.new(minimum: 2)])
+        product = create_product(variants: [{ sku: 'SKU', regular: 5.to_m }])
+        discount = create_product_discount(
+          amount_type: 'flat',
+          amount: 1.to_m,
+          product_ids: [product.id],
+          active: true,
+          active_segment_ids: [returning_visitors.id]
+        )
+
+        post storefront.cart_items_path,
+           params: { product_id: product.id, sku: product.skus.first, quantity: 1 }
+
+        order = Order.first
+        assert_equal(5.to_m, order.total_price)
+
+        cookies[:sessions] = 2
+        get storefront.cart_path # reprice the order
+        assert_equal(4.to_m, order.reload.total_price)
       end
     end
   end

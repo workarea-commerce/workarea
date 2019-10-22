@@ -40,7 +40,7 @@ module Workarea
       default = super
       return false unless default
 
-      if active_segment_ids.blank? || Segment.current.blank?
+      if active_segment_ids.blank?
         true
       else
         allowed_ids = active_segment_ids.map(&:to_s)
