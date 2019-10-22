@@ -145,3 +145,33 @@ Segments functionality has been moved into the base Workarea platform. We believ
 ### What Do You Need To Do?
 
 You'll need to remove `workarea-segmentation` from your Gemfile. We've added code in the migration script (`bin/rails workarea:migrate:v3_5`) to help with the transition. The script will do its best to migrate segments to the new v3.5 MongoDB document structure. However, not all conditions from the plugin are supported in base at this point, so some segments may not migrate. The script will output this. Please reach out to the Workarea team for assistance if this creates a problem.
+
+## Configuration management added to Admin UI
+
+### What's Changing?
+
+There is now an Admin page for configuration values. This page allows admin users to edit some of the runtime configuration values that were previously static configuration defined within the code.
+
+### What Do You Need To Do?
+
+Review the Admin configuration page. If your application has defined any static configuration values that conflict with fields that are now administrable, those fields will have a red "!" icon next to them with a message indicating they are being overridden by static configuration. If you want to allow those fields to be changed by admin users, you should remove those values from your configuration file, and instead redefine the default value of the admin configuration field ([See the article on developer.workarea.com](https://developer.workarea.com/articles/configuration-fields.html)). Otherwise, you can leave them alone and they will continue to function as before.
+
+
+## Encrypted fields are now available
+
+## What's Changing?
+
+This is a purely additive feature that was included to support encrypted configuration fields within the Admin. Any model field can now define the `encrypted` option to automatically be encrypted for writing to the database, and decrypted upon reading from the database. This uses Rails's built-in encryption used for credentials via a master key.
+
+```ruby
+class SomeModel
+  include Mongoid::Document
+  include Mongoid::Encrypted
+
+  field :secret_text, type: :string, encrypted: true
+end
+```
+
+## What Do You Need To Do?
+
+If your application, or any plugin you application is using defines an encrypted field, you will need to make sure your project has a master key configured and present to prevent errors when accessing models with an encrypted field. [See the Rails guide for more information on using a master key](https://edgeguides.rubyonrails.org/security.html?utm_source=twitterfeed&utm_medium=twitter#custom-credentials).
