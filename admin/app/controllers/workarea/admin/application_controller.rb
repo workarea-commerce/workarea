@@ -88,7 +88,7 @@ module Workarea
       end
 
       def inline_cache_busting
-        Sidekiq::Callbacks.inline(BustDiscountCache, BustNavigationCache, BustSkuCache) { yield }
+        Sidekiq::Callbacks.inline(BustNavigationCache, BustSkuCache) { yield }
       end
 
       def enable_auto_redirect
