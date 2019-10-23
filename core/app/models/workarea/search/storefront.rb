@@ -37,13 +37,17 @@ module Workarea
         model.try(:release_id).presence || 'live'
       end
 
-      # Whether the product is active. Stored this way for upgrade support to
-      # v3.5 without requiring reindexing.
+      # Whether the product is active. Stored as `:now` way for upgrade support
+      # to v3.5 without requiring reindexing.
+      #
+      # Uses `active` over `active?` because we don't want the current computed
+      # value, this will be `false` if set to be active for segments but there
+      # are no current segments. When indexing, there are no segments.
       #
       # return [Hash]
       #
       def active
-        { now: model.active? }
+        { now: model.active }
       end
 
       def active_segment_ids

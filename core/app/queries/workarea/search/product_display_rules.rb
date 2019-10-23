@@ -40,20 +40,21 @@ module Workarea
       end
 
       def active_for_segments_clause
-        result = { bool: { must: [{ term: { 'active.now' => true } }] } }
-
-        if Segment.current.present?
-          result[:bool][:must] << {
-            bool: {
-              should: [
-                { bool: { must_not: { exists: { field: 'active_segment_ids' } } } },
-                { terms: { 'active_segment_ids' => Segment.current.map(&:id) } }
-              ]
-            }
+        {
+          bool: {
+            must: [
+              { term: { 'active.now' => true } },
+              {
+                bool: {
+                  should: [
+                    { bool: { must_not: { exists: { field: 'active_segment_ids' } } } },
+                    { terms: { 'active_segment_ids' => Segment.current.map(&:id) } }
+                  ]
+                }
+              }
+            ]
           }
-        end
-
-        result
+        }
       end
 
       def preview_current_release_clause
