@@ -38,6 +38,7 @@ module Workarea
 
     def active?
       default = super
+      return default unless Segment.enabled?
       return false unless default
 
       if active_segment_ids.blank?
