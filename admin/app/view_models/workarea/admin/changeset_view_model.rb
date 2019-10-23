@@ -15,7 +15,8 @@ module Workarea
       end
 
       def root
-        @root ||= Mongoid::DocumentPath.find(model.document_path.take(1))
+        return @root if defined?(@root)
+        @root = Mongoid::DocumentPath.find(model.document_path.take(1)) rescue nil
       end
 
       def localized_change?(field, value)
