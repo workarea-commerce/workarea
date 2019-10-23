@@ -41,7 +41,21 @@ RUN mkdir /demo \
       --skip-yarn \
       --skip-bundle \
  && echo "gem 'workarea'" >> Gemfile \
+ && echo "gem 'workarea-api'" >> Gemfile \
+ && echo "gem 'workarea-blog'" >> Gemfile \
+ && echo "gem 'workarea-content_search'" >> Gemfile \
+ && echo "gem 'workarea-gift_cards'" >> Gemfile \
+ && echo "gem 'workarea-gift_wrapping'" >> Gemfile \
  && echo "gem 'workarea-nvy_theme'" >> Gemfile \
+ && echo "gem 'workarea-package_products'" >> Gemfile \
+ && echo "gem 'workarea-product_quickview'" >> Gemfile \
+ && echo "gem 'workarea-reviews'" >> Gemfile \
+ && echo "gem 'workarea-save_for_later'" >> Gemfile \
+ && echo "gem 'workarea-share'" >> Gemfile \
+ && echo "gem 'workarea-swatches'" >> Gemfile \
+ && echo "gem 'workarea-styled_selects'" >> Gemfile \
+ && echo "gem 'workarea-slick_slider'" >> Gemfile \
+ && echo "gem 'workarea-wish_lists'" >> Gemfile \
  && bundle install
 
 RUN cd /demo && bin/rails g workarea:install

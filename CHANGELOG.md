@@ -1,3 +1,74 @@
+Workarea 3.4.19 (2019-10-16)
+--------------------------------------------------------------------------------
+
+*   Fix missing aspect ratio magic attribute
+
+    This magic attribute doesn't need to be calculated, it's the inverse of the aspect ratio we already have.
+    Ben Crouse
+
+*   v3.4.19 Patch Release Notes
+
+    Tom Scott
+
+*   Improve Mailer Documentation
+
+    Direct readers to ActionMailer resources when they're looking to create
+    new mailers rather than style or modify existing ones. Also added some
+    information about unit testing mailer classes.
+    Tom Scott
+
+*   Lock Down Sprockets to v3.7.2
+
+    Sprockets v4.0 was released on 10/8/2019, which removed the
+    `.register_engine` method that is depended on by many extensions to
+    Sprockets at the current moment. Lock down Sprockets to v3.7.2 to avoid
+    these issues, which will show up when the app is loaded or tests are
+    run.
+
+    WORKAREA-18
+    Tom Scott
+
+*   Keep `_id` Suffix In Customized Fields
+
+    When adding a customized field to a `Customizations` class that ends in
+    `_id`, Workarea was previously stripping this suffix from the computed
+    instance variable name that is converted into snake case from any kind
+    of input. This causes issues because the data doesn't appear to be
+    making it into customizations, but is really there under a different
+    instance variable name. To resolve the issue, Workarea is now using the
+    `#underscore` String helper prior to calling `#optionize`, which will
+    cause the value to be properly cased before it's displayed to the end
+    user.
+
+    (#144)
+    Tom Scott
+
+*   Fix Self-Referential Category Rules
+
+    Adding the same ID to a category product rule matching the product list
+    that contains it results in some wonky results coming back. This was
+    originally diagnosed as an issue when combining category rules, but in
+    reality, it has to do with an admin mis-using the product rules
+    interface and perhaps accidentally using the category's own ID in a
+    product rule. To prevent this from happening, prevent the category's own
+    ID from being selectable in the admin interface.
+
+    (#52)
+    Tom Scott
+
+*   Improve order of changesets in Timeline UI (#124)
+
+    The Timeline UI should now display:
+
+    1. Unscheduled changesets
+    1. Scheduled changesets, ordered by the release's publish date,
+    descending
+    1. Today (if applicable)
+    1. Historical changesets
+    Curt Howard
+
+
+
 Workarea 3.4.18 (2019-10-01)
 --------------------------------------------------------------------------------
 
