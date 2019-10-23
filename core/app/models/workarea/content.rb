@@ -8,6 +8,7 @@ module Workarea
     field :browser_title, type: String, localize: true
     field :meta_description, type: String, localize: true
     field :javascript, type: String
+    field :head_content, type: String
     field :css, type: String
     field :automate_metadata, type: Boolean, default: true
     field :open_graph_asset_id, type: String

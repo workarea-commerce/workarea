@@ -44,6 +44,11 @@
         %span.property__note= t('workarea.admin.content.advanced.css_note')
 
       .property
+        = label_tag 'content_head_content', t('workarea.admin.fields.head_content'), class: 'property__name'
+        = text_area_tag 'content[head_content]', @content.head_content, class: 'text-box text-box--code text-box--multi-line'
+        %span.property__note= t('workarea.admin.content.advanced.head_content_note')
+
+      .property
         = label_tag 'content_javascript', t('workarea.admin.fields.javascript'), class: 'property__name'
         = text_area_tag 'content[javascript]', @content.javascript, class: 'text-box text-box--code text-box--multi-line'
         %span.property__note= t('workarea.admin.content.advanced.javascript_note')

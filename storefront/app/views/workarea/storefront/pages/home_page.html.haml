@@ -2,6 +2,7 @@
 
 - add_css(@page.css)
 - add_javascript(@page.javascript)
+- add_head_content(@page.head_content)
 
 - content_for :breadcrumbs do
   = render_schema_org(breadcrumb_list_schema([[t('workarea.storefront.layouts.home'), root_url]]))

@@ -1,5 +1,6 @@
 - add_css(layout_content.css)
 - add_javascript(layout_content.javascript)
+- add_head_content(layout_content.head_content)
 
 !!!
 /
@@ -33,6 +34,9 @@
 
     = render_schema_org(web_site_schema)
     = render_schema_org(web_page_schema)
+
+    = yield :head_content
+    = yield :javascript_head
 
   %body
     = append_partials('storefront.body_top')

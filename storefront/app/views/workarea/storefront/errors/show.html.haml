@@ -2,6 +2,7 @@
 
 - add_css(@content.css)
 - add_javascript(@content.javascript)
+- add_head_content(@content.head_content)
 
 - content_for :head do
   %meta{ property: 'global-id', content: @content.to_global_id.to_param }
