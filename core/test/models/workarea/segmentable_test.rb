@@ -19,19 +19,22 @@ module Workarea
       assert(model.active?)
 
       model.update!(active_segment_ids: [segment_one.id])
-      refute(model.active?)
+      assert(model.active?)
+      Segment.with_current { refute(model.active?) }
       Segment.with_current(segment_one) { assert(model.active?) }
       Segment.with_current(segment_two) { refute(model.active?) }
       Segment.with_current(segment_one, segment_two) { assert(model.active?) }
 
       model.update!(active_segment_ids: [segment_two.id])
-      refute(model.active?)
+      assert(model.active?)
+      Segment.with_current { refute(model.active?) }
       Segment.with_current(segment_one) { refute(model.active?) }
       Segment.with_current(segment_two) { assert(model.active?) }
       Segment.with_current(segment_one, segment_two) { assert(model.active?) }
 
       model.update!(active_segment_ids: [segment_one.id, segment_two.id])
-      refute(model.active?)
+      assert(model.active?)
+      Segment.with_current { refute(model.active?) }
       Segment.with_current(segment_one) { assert(model.active?) }
       Segment.with_current(segment_two) { assert(model.active?) }
       Segment.with_current(segment_one, segment_two) { assert(model.active?) }
@@ -45,6 +48,11 @@ module Workarea
       model = Foo.create!(activate_with: release.id, active_segment_ids: [segment_one.id])
       refute(model.reload.active?)
 
+      Segment.with_current do
+        refute(model.reload.active?)
+        release.as_current { refute(model.reload.active?) }
+      end
+
       Segment.with_current(segment_one) do
         refute(model.reload.active?)
         release.as_current { assert(model.reload.active?) }
@@ -56,8 +64,9 @@ module Workarea
       end
 
       release.publish!
-      refute(model.reload.active?)
+      assert(model.reload.active?)
 
+      Segment.with_current { refute(model.reload.active?) }
       Segment.with_current(segment_one) { assert(model.reload.active?) }
       Segment.with_current(segment_two) { refute(model.reload.active?) }
     end
