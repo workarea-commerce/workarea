@@ -22,6 +22,7 @@ module Workarea
 
         visit storefront.root_path
         within_frame find('.admin-toolbar') do
+          wait_for_iframe
           click_link 'select_segments'
         end
 
@@ -33,6 +34,7 @@ module Workarea
         assert_content('Foo')
         assert_no_content('Bar')
         within_frame find('.admin-toolbar') do
+          wait_for_iframe
           assert_content('Test One')
           click_link 'select_segments'
         end
@@ -46,6 +48,7 @@ module Workarea
         assert_no_content('Foo')
         assert_content('Bar')
         within_frame find('.admin-toolbar') do
+          wait_for_iframe
           refute_content('Test One')
           assert_content('Test Two')
         end
