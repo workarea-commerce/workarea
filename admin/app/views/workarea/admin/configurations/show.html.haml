@@ -18,7 +18,7 @@
         .box.box--rounded
           - unless fieldset.id == :application
             .box__head
-              %h2.box__heading{ data: { jump_to_menu_heading: 1 }, id: fieldset.name.systemize  }= t('workarea.admin.dashboards.settings.fieldset_name', fieldset: fieldset.name)
+              %h2.box__heading{ data: { jump_to_menu_heading: 1 }, id: fieldset.name.systemize  }= fieldset.name
           .box__body.box__body--pad-top
             - fieldset.fields.each do |field|
               .box__section

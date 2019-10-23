@@ -1460,7 +1460,6 @@ en:
           searches_to_improve_info: Searches to Improve Info
           searches_to_improve_info_tooltip_html: "<p>Your top 3% most searched over the last four weeks, sorted by worst abandonment rate. Suggestions for improvement:</p><ul><li>Select and sort featured products to improve results<li>Rewrite the query string to match customer expectations</li><li>Redirect to a curated category or page</li></ul>"
         settings:
-          fieldset_name: '%{fieldset} Configuration'
           configuration: Configuration
           redirects: Redirects
           search: Search
