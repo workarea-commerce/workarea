@@ -175,3 +175,19 @@ end
 ## What Do You Need To Do?
 
 If your application, or any plugin you application is using defines an encrypted field, you will need to make sure your project has a master key configured and present to prevent errors when accessing models with an encrypted field. [See the Rails guide for more information on using a master key](https://edgeguides.rubyonrails.org/security.html?utm_source=twitterfeed&utm_medium=twitter#custom-credentials).
+
+
+## S3 isn't the default asset store anymore
+
+### What's Changing?
+
+To play nicer with non Commerce Cloud hosting solutions, we removed the default behavior of setting the Dragonfly asset store
+to S3 when in an environment that isn't `test` or `development`.
+
+### What Do You Need To Do?
+
+To retain the old behavior (which you'll want if you're on the Workarea Commerce Cloud) drop this into an initializer:
+
+```ruby
+Workarea.config.asset_store = (Rails.env.test? || Rails.env.development?) ? :file_system : :s3
+```
