@@ -10,8 +10,7 @@
           %p= t('workarea.admin.content_assets.index.description')
 
   .view__container
-
-    - if Workarea::Configuration::S3.configured?
+    - if s3?
       .direct-upload{ data: { direct_upload: { type: 'asset' }.to_json, unsaved_changes: '' } }
         .direct-upload__content
           .direct-upload__heading= t('workarea.admin.direct_uploads.drop_files_here')

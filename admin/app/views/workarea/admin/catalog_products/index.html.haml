@@ -8,8 +8,9 @@
           = link_to "↑ #{t('workarea.admin.catalog.dashboard_link')}", catalog_dashboards_path, class: 'view__dashboard-button'
           %h1= t('workarea.admin.catalog_products.index.heading')
       .grid__cell.grid__cell--25
-        .align-right
-          = link_to t('workarea.admin.catalog_products.index.upload_images'), product_images_direct_uploads_path
+        - if s3?
+          .align-right
+            = link_to t('workarea.admin.catalog_products.index.upload_images'), product_images_direct_uploads_path
 
   .view__container
     .browsing-controls.browsing-controls--with-divider.browsing-controls--center{ class: ('browsing-controls--filters-displayed' unless @search.toggle_facets?) }
