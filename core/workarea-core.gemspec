@@ -87,7 +87,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'spectrum-rails', '~> 1.8.0'
   s.add_dependency 'rufus-scheduler', '< 3.5.0' # 3.5.0 breaks sidekiq-cron v0.6.x
   s.add_dependency 'dragonfly-s3_data_store', '~> 1.3.0'
-  s.add_dependency 'loofah', '~> 2.2.3'
+  s.add_dependency 'loofah', '~> 2.3.1'
   s.add_dependency 'referer-parser', '~> 0.3.0'
   s.add_dependency 'serviceworker-rails', '~> 0.5.5'
   s.add_dependency 'logstasher', '~> 1.2.2'
