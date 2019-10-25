@@ -58,22 +58,35 @@ WORKAREA.registerModule('activeBySegmentTooltips', (function () {
                     .remove();
         },
 
-        getConfig = function (trigger) {
-            var $link = $(trigger),
-                $form = $link.closest('form'),
-                $content = $(trigger.hash);
+        updateFields = function ($content, $trigger) {
+            var $form = $trigger.closest('form');
 
+            removeHiddenInputs($form);
+            addHiddenInputs($form, $content);
+            updateMessages($trigger, $content);
+        },
+
+        getConfig = function (trigger, $content) {
             return _.assign({}, WORKAREA.config.tooltipster, {
-                trigger: 'click',
                 interactive: true,
                 content: $content,
-                functionAfter: function (instance) {
-                    var $tooltipContent = instance.content();
-                    removeHiddenInputs($form);
-                    addHiddenInputs($form, $tooltipContent);
-                    updateMessages($link, $tooltipContent);
+                trigger: 'custom',
+                triggerOpen: {
+                    click: true
+                },
+                triggerClose: {
+                    mouseleave: true
                 }
             });
+        },
+
+        setup = function (index, trigger) {
+            var $content = $(trigger.hash),
+                $select = $content.find('[data-select]'),
+                handleChange = _.partial(updateFields, $content, $(trigger));
+
+                $select.on('change', handleChange);
+                $(trigger).tooltipster(getConfig(trigger, $content));
         },
 
         /**
@@ -83,11 +96,9 @@ WORKAREA.registerModule('activeBySegmentTooltips', (function () {
          */
         init = function ($scope) {
             $('[data-active-by-segment-tooltip]', $scope)
+            .each(setup)
             .on('click', function (event) {
                 event.preventDefault();
-            })
-            .each(function(index, trigger) {
-                $(trigger).tooltipster(getConfig(trigger));
             });
         };
 
