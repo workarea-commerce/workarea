@@ -126,7 +126,17 @@ module Workarea
       end
 
       def active?
-        super && variants.active.any?
+        super && active_by_relations?
+      end
+
+      # This hook allows plugins extending this model a place to hook into
+      # #active? without overriding all the logic in that method's `super`. For
+      # example, package products.
+      #
+      # @return [Boolean]
+      #
+      def active_by_relations?
+        variants.active.any?
       end
 
       # Whether to allow purchasing on this product. This is always false if
