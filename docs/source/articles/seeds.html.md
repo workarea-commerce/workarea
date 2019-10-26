@@ -5,16 +5,16 @@ excerpt: Seeds are default data appropriate for developing, testing, or otherwis
 
 # Seeds
 
-<dfn>Seeds</dfn> are default data appropriate for developing, testing, or otherwise using a Workarea application, particularly in a development environment. <dfn>Seeding</dfn> is the process of writing the seeds within a particular environment.
+_Seeds_ are default data appropriate for developing, testing, or otherwise using a Workarea application, particularly in a development environment. _Seeding_ is the process of writing the seeds within a particular environment.
 
-Be careful! **Seeding is a destructive process** that purges all existing MongoDB and Elasticsearch data before writing. Be certain you are willing to lose all data before running seeds in an environment.
+**Be careful!:** Seeding is a destructive process that purges all existing MongoDB and Elasticsearch data before writing. Be certain you are willing to lose all data before running seeds in an environment.
 
-Seeding is performed exclusively through a command line interface. To seed an environment, bundle the application and run the db:seed task:
+Seeding is performed exclusively through a command line interface. To seed an environment, bundle the application and run the _db:seed_ task:
 
 ```bash
-$ cd application_directory
-$ bundle
-$ bin/rails db:seed
+cd <your_application_directory>
+bundle
+bin/rails db:seed
 ```
 
 See below for a detailed example.
@@ -23,7 +23,7 @@ The base platform includes the seeds necessary to use a generic Workarea applica
 
 ## Seeding a New Development Environment
 
-To demonstrate seeds, consider the fictional Workarea application <cite>Boardgamz</cite>, newly created within a fresh [Workarea app](create-a-new-app.html).
+To demonstrate seeds, consider a fictional, newly created Workarea application named _Boardgamz_.
 
 ### Before Seeding
 
@@ -194,7 +194,7 @@ Refer to [`AdminSeeds#perform`](https://github.com/workarea-commerce/workarea/bl
 
 ## Re-Seeding
 
-The seeds included with Core use some random data, so seeding is not idempotent.&nbsp;<sup><a href="#notes" id="note-2-context">[1]</a></sup> However, re-seeding should produce data that is uniform—having the same general “shape”—each time.
+The seeds included with Core use some random data, so seeding is not idempotent. However, re-seeding should produce data that is uniform—having the same general “shape”—each time.
 
 To demonstrate, use Mongoid to query the number of products and the first product in the Boardgamz development database:
 
@@ -248,25 +248,13 @@ As an application developer, you can define your own seeds. You can also [decora
 
 Therefore, let's instead take a look at how your installed plugins affect your seeds. Plugins typically add _new_ seeds, which support the other extensions applied within the plugin. For example, the blog plugin seeds blogs, entries, and comments; while the clothing and package products plugins seed additional products.
 
-To see this, add some plugins to the application, as shown in the following git patch:
+To see this, add some plugins to the application. Add the following lines to the Gemfile:
 
-```diff
-diff --git a/Gemfile b/Gemfile
-index 0efec88..b3f9095 100644
---- a/Gemfile
-+++ b/Gemfile
-@@ -45,4 +45,11 @@ end
-
- source 'https://gems.workarea.com' do
-   gem 'workarea', '3.1.5'
-+ gem 'workarea-blog', '3.1.1'
-+ gem 'workarea-clothing', '2.1.3'
-+ gem 'workarea-gift_cards', '3.2.1'
-+ gem 'workarea-package_products', '3.1.2'
-+ gem 'workarea-reviews', '2.1.0'
-+ gem 'workarea-store_locator', '4.0.0'
-+ gem 'workarea-wish_lists', '2.0.3'
- end
+```ruby
+gem 'workarea-blog'
+gem 'workarea-gift_cards'
+gem 'workarea-package_products'
+gem 'workarea-wish_lists'
 ```
 
 Bundle the app; then re-seed and capture the seeding output to the same file as above.
@@ -294,7 +282,6 @@ index 1fc7ea7..7c4d768 100644
  Adding categories...
  Adding products...
 +Adding package products...
-+Adding clothing products...
  Adding auxiliary pages...
  Adding browsing pages...
  Adding discounts...
@@ -311,7 +298,6 @@ index 1fc7ea7..7c4d768 100644
  Adding analytics...
 +Adding gift cards...
 +Adding reviews...
-+Adding store locations...
 +Adding wish lists...
 
  == Loading Elasticsearch data
@@ -325,7 +311,7 @@ $ bin/rails r 'puts Workarea::Catalog::Product.count'
 103
 ```
 
-If you compare the result to the same query above, you can see there are additional products in the database. These additional products include data to support the functionality of the clothing, package products, and gift cards plugins. To boot, the reviews plugin adds rating and review data to _all_ products. You can see some of these new products and additional data in the following view of the Storefront:
+If you compare the result to the same query above, you can see there are additional products in the database. These additional products include data to support the functionality of the package products and gift cards plugins. To boot, the reviews plugin adds rating and review data to some of the products. You can see some of these new products and additional data in the following view of the Storefront:
 
 ![Seeds from plugins](images/seeds-from-plugins.png)
 
@@ -336,7 +322,3 @@ If you compare the result to the same query above, you can see there are additio
 - Re-seeding should produce uniform, but not identical, data each time
 - You should re-seed your development environment as needed to resolve data issues and after you or another developer extends seeds or changes installed plugins
 - Plugins often include their own seeds to support the plugins' other extensions to the platform
-
-## Notes
-
-[1] Of course, since seeds are extensible, you can write your own seeds to be idempotent if you so desire.
