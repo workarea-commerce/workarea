@@ -1592,6 +1592,7 @@ en:
         backordered_until: Backordered Until
         body: Body
         breadcrumbs: Breadcrumbs
+        browser_info: Browser Info
         browser_title: Browser Title
         cancellations: Cancellations
         categories: Categories
@@ -1623,6 +1624,7 @@ en:
         description: Description
         destination: Destination
         details: Details
+        device: Device
         digital: Digital # TODO: remove in v3.6
         dimensions: Dimensions
         discountable: Allow Discounting
@@ -1701,6 +1703,7 @@ en:
         period: Period
         permissions_manager: Permissions Manager
         placed_at: Placed
+        platform: Platform
         policy: Policy
         prefix: Prefix
         price: Price
@@ -3483,7 +3486,29 @@ en:
         social: Social
         search: Search
         tags_note: "Comma separated: just, like, this"
+        browser_info:
+          bot: Bot
+          chrome: Chrome
+          edge: Edge
+          firefox: Firefox
+          ie: Internet Explorer
+          opera: Opera
+          safari: Safari
+        devices:
+          console: Console
+          ipad: iPad
+          iphone: iPhone
+          ipod_touch: iPod Touch
+          kindle: Kindle
+          mobile: Mobile
+          nintendo: Nintendo
+          playstation: Playstation
+          tablet: Tablet
+          tv: TV
+          xbox: Xbox
         fields:
+          browser_info:
+            note_html: Any selections made below will cause a match. This is based on the visitor's <a href="https://en.wikipedia.org/wiki/User_agent" target="_blank" rel="noopener">user agent</a>.
           geolocation:
             note: You can enter countries, regions, states, or postal codes here.
           traffic_referrer:
@@ -3499,6 +3524,13 @@ en:
           no_edit: Why can't I edit these?
           no_edit_description_html: Changing the rules for a segment changes who's in that segment, and invalidates all data and insights collected for those people. Try %{link} instead.
           creating_a_new_segment: creating a new segment
+        platform:
+          android: Android
+          blackberry: BlackBerry
+          ios: iOS
+          linux: Linux
+          mac: macOS
+          windows: Windows
         summaries:
           categories:
             description_html: "%{strength} any of: <strong>%{categories}</strong>"

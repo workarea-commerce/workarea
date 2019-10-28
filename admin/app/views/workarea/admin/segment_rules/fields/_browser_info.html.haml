@@ -1,0 +1,13 @@
+%p= t('workarea.admin.segment_rules.fields.browser_info.note_html')
+
+.property
+  = label_tag 'rule_general', t('workarea.admin.fields.browser_info'), class: 'property__name'
+  = select_tag 'rule[general]', options_for_select(browser_info_options, rule.general), multiple: true, data: { select: { placeholder: t('workarea.admin.fields.browser_info') + '...', allowClear: true } }
+
+.property
+  = label_tag 'rule_device', t('workarea.admin.fields.device'), class: 'property__name'
+  = select_tag 'rule[device]', options_for_select(device_type_options, rule.device), multiple: true, data: { select: { placeholder: t('workarea.admin.fields.device') + '...', allowClear: true } }
+
+.property
+  = label_tag 'rule_platform', t('workarea.admin.fields.platform'), class: 'property__name'
+  = select_tag 'rule[platform]', options_for_select(platform_options, rule.platform), multiple: true, data: { select: { placeholder: t('workarea.admin.fields.platform') + '...', allowClear: true } }

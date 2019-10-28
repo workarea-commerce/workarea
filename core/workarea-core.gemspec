@@ -94,6 +94,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'logstasher', '~> 1.2.2'
   s.add_dependency 'chartkick', '~> 3.2.0'
   s.add_dependency 'puma', '~> 4.0'
+  s.add_dependency 'browser', '~> 2.6.1'
 
   # HACK for vendoring active_shipping
   s.add_dependency 'active_utils', '~> 3.3.1'

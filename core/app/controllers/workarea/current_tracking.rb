@@ -6,7 +6,9 @@ module Workarea
     included do
       before_action :ensure_current_metrics
       helper_method :current_visit, :current_metrics
-      delegate :current_metrics_id, :current_metrics_id=, to: :current_visit, allow_nil: true
+
+      delegate :current_metrics_id, :current_metrics_id=, :browser,
+        to: :current_visit, allow_nil: true
     end
 
     def current_visit

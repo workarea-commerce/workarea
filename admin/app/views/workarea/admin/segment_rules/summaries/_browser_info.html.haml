@@ -1,0 +1,11 @@
+- if rule.general.present?
+  %span.text.text--large
+    = rule.general.map { |g| t("workarea.admin.segment_rules.browser_info.#{g}") }.to_sentence
+
+- if rule.device.present?
+  %span.text.text--large
+    = rule.device.map { |d| t("workarea.admin.segment_rules.devices.#{d}") }.to_sentence
+
+- if rule.platform.present?
+  %span.text.text--large
+    = rule.platform.map { |p| t("workarea.admin.segment_rules.platform.#{p}") }.to_sentence

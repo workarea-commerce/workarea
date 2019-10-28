@@ -108,6 +108,7 @@ require 'serviceworker-rails'
 require 'chartkick'
 require 'logstasher' if ENV['WORKAREA_LOGSTASH'] =~ /true/i
 require 'mongoid/encrypted'
+require 'browser'
 
 #
 # Extensions
@@ -194,7 +195,6 @@ require 'workarea/plugin'
 require 'workarea/plugin/asset_appends_helper'
 require 'workarea/image_optim_processor'
 require 'workarea/url_token'
-require 'workarea/robots'
 require 'workarea/paged_array'
 require 'workarea/geolocation'
 require 'workarea/autoexpire_cache_redis'
