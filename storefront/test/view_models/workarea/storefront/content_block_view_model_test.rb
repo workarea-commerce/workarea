@@ -19,7 +19,7 @@ module Workarea
       end
 
       def test_wrap
-        Workarea.define_content_block_types do
+        Content::BlockTypeDefinition.define do
           block_type 'Bar' do
             view_model FooBarViewModel.name
             field 'Display', :string
@@ -36,7 +36,7 @@ module Workarea
       end
 
       def test_find_asset
-        Workarea.define_content_block_types do
+        Content::BlockTypeDefinition.define do
           block_type 'Bar' do
             view_model FooBarViewModel.name
             field 'Image', :asset
@@ -53,7 +53,7 @@ module Workarea
       end
 
       def test_series
-        Workarea.define_content_block_types do
+        Content::BlockTypeDefinition.define do
           block_type 'Bar' do
             view_model FooBarViewModel.name
 
@@ -95,7 +95,7 @@ module Workarea
         asset_1 = create_asset
         asset_2 = create_asset
 
-        Workarea.define_content_block_types do
+        Content::BlockTypeDefinition.define do
           block_type 'Foo' do
             view_model FooBarViewModel.name
 
@@ -104,7 +104,7 @@ module Workarea
           end
         end
 
-        Workarea.define_content_block_types do
+        Content::BlockTypeDefinition.define do
           block_type 'Bar' do
             view_model FooBarViewModel.name
 
@@ -113,7 +113,7 @@ module Workarea
           end
         end
 
-        Workarea.define_content_block_types do
+        Content::BlockTypeDefinition.define do
           block_type 'Baz' do
             view_model FooBarViewModel.name
 
@@ -122,7 +122,7 @@ module Workarea
           end
         end
 
-        Workarea.define_content_block_types do
+        Content::BlockTypeDefinition.define do
           block_type 'Qux' do
             view_model FooBarViewModel.name
 
@@ -165,7 +165,7 @@ module Workarea
       def test_asset_alt_text
         asset = create_asset(alt_text: 'Foo Bar')
 
-        Workarea.define_content_block_types do
+        Content::BlockTypeDefinition.define do
           block_type 'Foo' do
             view_model FooBarViewModel.name
 
@@ -187,7 +187,7 @@ module Workarea
         asset = create_asset
         asset_with_alt = create_asset(alt_text: 'Foo Bar')
 
-        Workarea.define_content_block_types do
+        Content::BlockTypeDefinition.define do
           block_type 'Foo' do
             view_model FooBarViewModel.name
 

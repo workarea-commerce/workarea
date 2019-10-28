@@ -13,6 +13,10 @@ module Workarea
     end
 
     class BlockTypeDefinition
+      def self.define(&block)
+        new.instance_eval(&block)
+      end
+
       def block_type(name, &block)
         block_type = BlockType.new(name)
 
