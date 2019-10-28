@@ -44,13 +44,14 @@ module Workarea
     end
 
     def test_saving_active_segment_ids
+      segment = create_segment
       product = create_product(active: false)
       release = create_release
 
       save = SavePublishing.new(
         product,
         activate: release.id,
-        active_segment_ids: %w(foo bar)
+        active_segment_ids: [segment.id]
       )
 
       assert(save.perform)
@@ -60,8 +61,8 @@ module Workarea
       assert_equal([], product.active_segment_ids)
 
       release.as_current do
-        assert(product.reload.active?)
-        assert_equal(%w(foo bar), product.active_segment_ids)
+        Segment.with_current(segment) { assert(product.reload.active?) }
+        assert_equal([segment.id], product.active_segment_ids)
       end
     end
   end

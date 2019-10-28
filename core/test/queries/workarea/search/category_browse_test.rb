@@ -343,8 +343,8 @@ module Workarea
         search = CategoryBrowse.new(rules: rules)
         result_ids = search.results.map { |r| r[:model].id }
 
-        assert_includes(result_ids, product_one.id)
-        assert_includes(result_ids, product_two.id)
+        refute_includes(result_ids, product_one.id)
+        refute_includes(result_ids, product_two.id)
         refute_includes(result_ids, product_three.id)
         assert_includes(result_ids, product_four.id)
         refute_includes(result_ids, product_five.id)

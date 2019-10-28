@@ -20,42 +20,24 @@ module Workarea
 
       model.update!(active_segment_ids: [segment_one.id])
       assert(model.active?)
+      Segment.with_current { refute(model.active?) }
       Segment.with_current(segment_one) { assert(model.active?) }
       Segment.with_current(segment_two) { refute(model.active?) }
       Segment.with_current(segment_one, segment_two) { assert(model.active?) }
 
       model.update!(active_segment_ids: [segment_two.id])
       assert(model.active?)
+      Segment.with_current { refute(model.active?) }
       Segment.with_current(segment_one) { refute(model.active?) }
       Segment.with_current(segment_two) { assert(model.active?) }
       Segment.with_current(segment_one, segment_two) { assert(model.active?) }
 
       model.update!(active_segment_ids: [segment_one.id, segment_two.id])
       assert(model.active?)
+      Segment.with_current { refute(model.active?) }
       Segment.with_current(segment_one) { assert(model.active?) }
       Segment.with_current(segment_two) { assert(model.active?) }
       Segment.with_current(segment_one, segment_two) { assert(model.active?) }
-
-      model.update!(active: false, active_segment_ids: [])
-      refute(model.active?)
-
-      model.update!(active_segment_ids: [segment_one.id])
-      refute(model.active?)
-      Segment.with_current(segment_one) { refute(model.active?) }
-      Segment.with_current(segment_two) { refute(model.active?) }
-      Segment.with_current(segment_one, segment_two) { refute(model.active?) }
-
-      model.update!(active_segment_ids: [segment_two.id])
-      refute(model.active?)
-      Segment.with_current(segment_one) { refute(model.active?) }
-      Segment.with_current(segment_two) { refute(model.active?) }
-      Segment.with_current(segment_one, segment_two) { refute(model.active?) }
-
-      model.update!(active_segment_ids: [segment_one.id, segment_two.id])
-      refute(model.active?)
-      Segment.with_current(segment_one) { refute(model.active?) }
-      Segment.with_current(segment_two) { refute(model.active?) }
-      Segment.with_current(segment_one, segment_two) { refute(model.active?) }
     end
 
     def test_segments_and_activate_with
@@ -65,6 +47,11 @@ module Workarea
 
       model = Foo.create!(activate_with: release.id, active_segment_ids: [segment_one.id])
       refute(model.reload.active?)
+
+      Segment.with_current do
+        refute(model.reload.active?)
+        release.as_current { refute(model.reload.active?) }
+      end
 
       Segment.with_current(segment_one) do
         refute(model.reload.active?)
@@ -79,6 +66,7 @@ module Workarea
       release.publish!
       assert(model.reload.active?)
 
+      Segment.with_current { refute(model.reload.active?) }
       Segment.with_current(segment_one) { assert(model.reload.active?) }
       Segment.with_current(segment_two) { refute(model.reload.active?) }
     end

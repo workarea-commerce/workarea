@@ -667,6 +667,7 @@ en:
           do_not_automate: Do not Automate
           javascript: JavaScript
           javascript_note: The JavaScript is output before the end of the body. The content of this block is automatically wrapped in script tags.
+          head_content_note: Use this field to add external style or script tags, meta elements, or custom JavaScript.
           learn_more: Learn More
           metadata_description: Metadata Description
           metadata_description_note: Provides a summary that is displayed on search engine result pages.
@@ -1460,7 +1461,6 @@ en:
           searches_to_improve_info: Searches to Improve Info
           searches_to_improve_info_tooltip_html: "<p>Your top 3% most searched over the last four weeks, sorted by worst abandonment rate. Suggestions for improvement:</p><ul><li>Select and sort featured products to improve results<li>Rewrite the query string to match customer expectations</li><li>Redirect to a curated category or page</li></ul>"
         settings:
-          fieldset_name: '%{fieldset} Configuration'
           configuration: Configuration
           redirects: Redirects
           search: Search
@@ -1650,6 +1650,7 @@ en:
         fulfillment_status: Fulfillment Status
         geolocation: Geolocation
         merchandise: Merchandise
+        head_content: Content Appended to Head Element
         hidden_breakpoints: Hidden Breakpoints
         id: ID
         image: Image
@@ -1659,7 +1660,7 @@ en:
         inactive_segments: Inactive for
         insights: Insights
         inventory: Inventory
-        javascript: JavaScript
+        javascript: JavaScript Appended to Body Element
         last_impersonated_at: Last Impersonated At
         last_impersonated_by: Last Impersonated By
         last_name: Last Name
@@ -3650,6 +3651,7 @@ en:
           system_pages: System Pages
           tax_categories: Tax Categories
           taxonomy: Taxonomy
+          timeline: Timeline
           todays_orders: Today's Orders
           todays_signups: Today's Signups
           transactional_emails: Transactional Emails

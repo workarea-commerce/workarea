@@ -37,8 +37,8 @@ module Workarea
         model.try(:release_id).presence || 'live'
       end
 
-      # Whether the product is active. Stored this way for upgrade support to
-      # v3.5 without requiring reindexing.
+      # Whether the product is active. Stored as `:now` way for upgrade support
+      # to v3.5 without requiring reindexing.
       #
       # return [Hash]
       #

@@ -26,11 +26,22 @@ module Workarea
       Thread.current[:current_segments] = Array.wrap(segments).flatten
     end
 
+    def self.enabled?
+      !!Thread.current[:enable_segmentation]
+    end
+
+    def self.enabled
+      Thread.current[:enable_segmentation] = true
+      yield
+    ensure
+      Thread.current[:enable_segmentation] = nil
+    end
+
     def self.with_current(*segments)
       previous = current
 
       self.current = segments
-      yield
+      enabled { yield }
     ensure
       self.current = previous
     end

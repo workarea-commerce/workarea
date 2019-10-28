@@ -21,7 +21,7 @@
       - next if fieldset.fields.none?
 
       .insight
-        .insight__heading{ data: { jump_to_menu_heading: 1 }, id: fieldset.name.systemize }= t('workarea.admin.dashboards.settings.fieldset_name', fieldset: fieldset.name)
+        .insight__heading{ data: { jump_to_menu_heading: 1 }, id: fieldset.name.systemize }= fieldset.name
         .insight__body.insight__body--pad-sides
           - fieldset.fields.each do |field|
             - value = field.encrypted? ? ("•" * 10) : @configuration.send(field.key)

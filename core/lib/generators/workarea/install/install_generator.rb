@@ -24,6 +24,7 @@ module Workarea
     def mount_routes
       route "mount Workarea::Storefront::Engine => '/', as: 'storefront'"
       route "mount Workarea::Admin::Engine => '/admin', as: 'admin'"
+      route "mount Workarea::Api::Engine => '/api', as: 'api'" if Workarea::Plugin.installed?(:api)
       route "mount Workarea::Core::Engine => '/'"
     end
 

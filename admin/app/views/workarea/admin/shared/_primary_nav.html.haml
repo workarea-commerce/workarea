@@ -94,11 +94,11 @@
       .primary-nav__section
         .primary-nav__heading= link_to t('workarea.admin.shared.primary_nav.reports'), reports_dashboards_path, tabindex: 0, class: 'primary-nav__heading-link'
         %ul.primary-nav__children
+          %li{ class: "primary-nav__item" }= link_to t('workarea.admin.shared.primary_nav.timeline'), timeline_report_path, class: navigation_link_classes(timeline_report_path)
           %li{ class: "primary-nav__item" }= link_to t('workarea.admin.shared.primary_nav.insights'), insights_report_path, class: navigation_link_classes(insights_report_path)
           %li{ class: "primary-nav__item" }= link_to t('workarea.admin.shared.primary_nav.sales_over_time'), sales_over_time_report_path, class: navigation_link_classes(sales_over_time_report_path)
           %li{ class: "primary-nav__item" }= link_to t('workarea.admin.shared.primary_nav.average_order_value'), average_order_value_report_path, class: navigation_link_classes(average_order_value_report_path)
           %li{ class: "primary-nav__item" }= link_to t('workarea.admin.shared.primary_nav.sales_by_product'), sales_by_product_report_path, class: navigation_link_classes(sales_by_product_report_path)
-          %li{ class: "primary-nav__item" }= link_to t('workarea.admin.shared.primary_nav.sales_by_traffic_referrer'), sales_by_traffic_referrer_report_path, class: navigation_link_classes(sales_by_traffic_referrer_report_path)
           %li{ class: "primary-nav__item" }= link_to t('workarea.admin.shared.primary_nav.customers'), customers_report_path, class: navigation_link_classes(customers_report_path)
           %li{ class: "primary-nav__item" }= link_to t('workarea.admin.shared.primary_nav.searches'), searches_report_path, class: navigation_link_classes(searches_report_path)
           = append_partials('admin.reports_menu')

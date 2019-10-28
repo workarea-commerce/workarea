@@ -37,6 +37,14 @@ module Workarea
         end
       end
 
+      def add_head_content(content)
+        return unless content.present?
+
+        content_for(:head_content) do
+          content.html_safe
+        end
+      end
+
       def flash_messages
         flash.keys.inject('') do |memo, name|
           msg = flash[name]

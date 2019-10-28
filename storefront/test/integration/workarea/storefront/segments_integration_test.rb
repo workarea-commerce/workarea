@@ -54,18 +54,22 @@ module Workarea
         product_one = create_product(active: true, active_segment_ids: [segment_two.id])
         product_two = create_product(active: true, active_segment_ids: [segment_one.id])
 
-        cookies[:sessions] = 0
-        get storefront.product_path(product_one)
-        assert(response.ok?)
+        assert_raise InvalidDisplay do
+          cookies[:sessions] = 0
+          get storefront.product_path(product_one)
+          assert(response.not_found?)
+        end
 
-        cookies[:sessions] = 0
-        get storefront.product_path(product_two)
-        assert(response.ok?)
+        assert_raise InvalidDisplay do
+          cookies[:sessions] = 0
+          get storefront.product_path(product_two)
+          assert(response.not_found?)
+        end
 
         cookies[:sessions] = 0
         get storefront.search_path(q: '*')
-        assert_includes(response.body, product_one.id)
-        assert_includes(response.body, product_two.id)
+        refute_includes(response.body, product_one.id)
+        refute_includes(response.body, product_two.id)
 
         assert_raise InvalidDisplay do
           cookies[:sessions] = 1
@@ -163,10 +167,10 @@ module Workarea
         set_current_user(create_user(admin: true))
 
         get storefront.search_path(q: '*')
-        assert_includes(response.body, product.id)
+        refute_includes(response.body, product.id)
 
         get storefront.root_path
-        assert_includes(response.body, '<p>Foo</p>')
+        refute_includes(response.body, '<p>Foo</p>')
       end
 
       def test_logged_in_based_segments
