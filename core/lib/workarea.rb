@@ -172,15 +172,7 @@ module Workarea
   # fields provided.
   #
   def self.define_content_block_types(&block)
-    # Requiring this file here so as not to trigger autoloading of the Content
-    # model, which shouldn't be done while initializing the app (This method
-    # is almost always called in an initializer).
-    #
-    # Autoloading Content before initialization is complete prevents it from
-    # receiving decorations to ApplicationDocument or other modules that
-    # composes it.
-    require_dependency Workarea::Core::Engine.root.join('app', 'models', 'workarea', 'content', 'block_type_definition')
-    Content::BlockTypeDefinition.new.instance_eval(&block)
+    Configuration::ContentBlocks.building_blocks << block
   end
 
   # Use this deprecation to warn about the next minor release.
