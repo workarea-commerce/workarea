@@ -7,6 +7,16 @@ excerpt: Patch release notes for Workarea 3.4.20.
 
 Patch release notes for Workarea 3.4.20.
 
+## Fix logout from pages without authenticity tokens
+
+On pages without authenticity tokens (like HTTP cached pages), clicking
+log out won't work because Rails is checking for that. This disables
+that check for logout to fix.
+
+### Pull Requests
+
+- [199](https://github.com/workarea-commerce/workarea/pull/199)
+
 ## Update Loofah to Gain Security Fixes
 
 Loofah was updated due to [a security

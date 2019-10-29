@@ -152,6 +152,23 @@ module Workarea
         results = JSON.parse(response.body)
         assert_equal(0, results['cart_quantity'])
       end
+
+      def test_it_doesnt_care_about_csrf_for_logout
+        current_forgery_protection = ActionController::Base.allow_forgery_protection
+
+        post storefront.login_path,
+          params: {
+            email: 'existing-account@workarea.com',
+            password: 'W3bl1nc!'
+          }
+
+        ActionController::Base.allow_forgery_protection = true
+        delete storefront.logout_path
+        assert(response.headers['Set-Cookie'].present?)
+
+      ensure
+        ActionController::Base.allow_forgery_protection = current_forgery_protection
+      end
     end
   end
 end
