@@ -66,7 +66,36 @@ module Workarea
         serialize_hash(result, name, flatten_hash(value.as_json))
       end
 
+      def deserialize_time(hash, name, model)
+        return unless parsable_timestamp?(hash[name])
+        Time.parse(hash[name])
+      end
+
+      def deserialize_datetime(hash, name, model)
+        return unless parsable_timestamp?(hash[name])
+        DateTime.parse(hash[name])
+      end
+
+      def deserialize_date(hash, name, model)
+        return unless parsable_timestamp?(hash[name])
+        Date.parse(hash[name])
+      end
+
       private
+
+      # Mongoid uses ActiveSupport::TimeWithZone to mongoize strings into
+      # times and dates. TimeWithZone uses Date.parse, just as this method does,
+      # which can cause unpadded years to be returned. When parsing a CSV we
+      # can make sure the year is above a sensible threshold of 1970 to ensure
+      # marshalling data from mongoid models to elasticsearch does not cause
+      # errors.
+      #
+      def parsable_timestamp?(value)
+        return unless value.present?
+        Date.parse(value, false).year >= 1970
+      rescue ArgumentError
+        false
+      end
 
       def flatten_hash(hash, key = nil)
         return { key => hash } unless hash.is_a?(Hash)
