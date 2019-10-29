@@ -23,7 +23,8 @@ module Workarea
 
     def set_vary_headers
       response.headers['X-Requested-With'] = request.headers['X-Requested-With'] || ''
-      response.headers['Vary'] = 'X-Requested-With'
+      response.headers['Vary'] = 'X-Requested-With, X-Workarea-Segments'
+      fresh_when(last_modified: Time.current)
     end
   end
 end

@@ -4,6 +4,7 @@ module Workarea
 
     included do
       field :active_segment_ids, type: Array, default: [], localize: true
+      after_find :mark_segmented_content
     end
 
     class_methods do
@@ -51,6 +52,15 @@ module Workarea
 
     def segments
       @segments ||= active_segment_ids.blank? ? [] : Segment.in(id: active_segment_ids)
+    end
+
+    private
+
+    def mark_segmented_content
+      # If loaded with `.only` this might be missing
+      return if attribute_missing?(:active_segment_ids)
+
+      CurrentSegments.has_segmented_content! if active_segment_ids.any?
     end
   end
 end
