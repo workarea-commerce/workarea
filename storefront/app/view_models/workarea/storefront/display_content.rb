@@ -22,18 +22,22 @@ module Workarea
       end
 
       def open_graph_asset
-        @open_graph_asset ||=
-          if content.open_graph_asset_id.present?
-            Content::Asset.find(content.open_graph_asset_id)
-          else
-            Content::Asset.open_graph_placeholder
-          end
+        @open_graph_asset ||= Content::Asset.find(open_graph_asset_ids)&.first ||
+                              Content::Asset.open_graph_placeholder
       rescue Mongoid::Errors::DocumentNotFound
         @open_graph_asset = Content::Asset.open_graph_placeholder
       end
 
+      def open_graph_asset_ids
+        [content.open_graph_asset_id, layout.open_graph_asset_id].compact
+      end
+
       def content
         @content ||= Content.for(content_lookup)
+      end
+
+      def layout
+        @layout ||= Content.for('layout')
       end
 
       def content_blocks

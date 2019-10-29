@@ -99,6 +99,25 @@ module Workarea
         og_asset = view_model.open_graph_asset
 
         refute(og_asset.open_graph_placeholder?)
+
+        layout = Content.for('layout').tap(&:save!)
+        layout_asset = create_asset
+
+        assert(layout.update_attributes(open_graph_asset_id: layout_asset.id))
+        assert(content.update_attributes(open_graph_asset_id: nil))
+
+        view_model = ContentViewModel.wrap(content)
+        og_asset = view_model.open_graph_asset
+
+        refute(og_asset.open_graph_placeholder?)
+        assert_equal(og_asset, layout_asset)
+
+        layout_asset.destroy!
+
+        view_model = ContentViewModel.wrap(content)
+        og_asset = view_model.open_graph_asset
+
+        assert(og_asset.open_graph_placeholder?)
       end
     end
   end
