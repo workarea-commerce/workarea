@@ -47,7 +47,6 @@ module Workarea
           t('workarea.admin.segment_rules.devices.mobile') => 'mobile',
           t('workarea.admin.segment_rules.devices.nintendo') => 'nintendo',
           t('workarea.admin.segment_rules.devices.playstation') => 'playstation',
-          t('workarea.admin.segment_rules.devices.playstation') => 'playstation',
           t('workarea.admin.segment_rules.devices.tablet') => 'tablet',
           t('workarea.admin.segment_rules.devices.tv') => 'tv',
           t('workarea.admin.segment_rules.devices.xbox') => 'xbox'
