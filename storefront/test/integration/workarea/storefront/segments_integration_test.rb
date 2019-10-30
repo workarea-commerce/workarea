@@ -25,27 +25,26 @@ module Workarea
         complete_checkout
 
         get storefront.current_user_path(format: 'json')
-        segments = response.headers['X-Workarea-Segments'].split(',')
-        assert_equal(2, segments.size)
-        assert_includes(segments, Segment::FirstTimeCustomer.instance.id.to_s)
-        assert_includes(segments, Segment::ReturningVisitor.instance.id.to_s)
+        assert_equal(
+          Segment::FirstTimeCustomer.instance.id.to_s,
+          response.headers['X-Workarea-Segments']
+        )
 
         complete_checkout
 
         get storefront.current_user_path(format: 'json')
-        segments = response.headers['X-Workarea-Segments'].split(',')
-        assert_equal(2, segments.size)
-        assert_includes(segments, Segment::ReturningVisitor.instance.id.to_s)
-        assert_includes(segments, Segment::ReturningCustomer.instance.id.to_s)
+        assert_equal(
+          Segment::ReturningCustomer.instance.id.to_s,
+          response.headers['X-Workarea-Segments']
+        )
 
         complete_checkout
 
         get storefront.current_user_path(format: 'json')
-        segments = response.headers['X-Workarea-Segments'].split(',')
-        assert_equal(3, segments.size)
-        assert_includes(segments, Segment::ReturningVisitor.instance.id.to_s)
-        assert_includes(segments, Segment::ReturningCustomer.instance.id.to_s)
-        assert_includes(segments, Segment::LoyalCustomer.instance.id.to_s)
+        assert_equal(
+          Segment::LoyalCustomer.instance.id.to_s,
+          response.headers['X-Workarea-Segments']
+        )
       end
 
       def test_products_active_by_segment
