@@ -58,6 +58,19 @@ module Workarea
       find_by('blocks._id' => block_id) rescue nil
     end
 
+    # @deprecated Use `Workarea.define_content_block_types` instead.
+    class << self
+      def define_block_types(&block)
+        require_dependency 'workarea/content/block_type_definition'
+        definition = BlockTypeDefinition.new
+        definition.instance_eval(&block)
+      end
+      Workarea.deprecation.deprecate_methods(
+        self,
+        define_block_types: 'Use `Workarea.define_content_block_types` instead.'
+      )
+    end
+
     # The name for this content, returns the name of the contentable
     # if that is present.
     #

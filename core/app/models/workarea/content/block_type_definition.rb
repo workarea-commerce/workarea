@@ -1,17 +1,5 @@
 module Workarea
   class Content
-    # @deprecated Use `Workarea.define_content_block_types` instead.
-    class << self
-      def define_block_types(&block)
-        definition = BlockTypeDefinition.new
-        definition.instance_eval(&block)
-      end
-      Workarea.deprecation.deprecate_methods(
-        self,
-        define_block_types: 'Use `Workarea.define_content_block_types` instead.'
-      )
-    end
-
     class BlockTypeDefinition
       def self.define(&block)
         new.instance_eval(&block)
