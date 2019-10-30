@@ -1231,6 +1231,7 @@ module Workarea
 
       # The list of types of rules for setting up custom segments in the admin
       config.segment_rule_types = %w(
+        Workarea::Segment::Rules::BrowserInfo
         Workarea::Segment::Rules::Geolocation
         Workarea::Segment::Rules::Orders
         Workarea::Segment::Rules::Revenue

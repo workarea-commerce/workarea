@@ -57,6 +57,10 @@ module Workarea
       @referrer = Workarea.referrer_parser.parse(request.referrer) rescue {}
     end
 
+    def browser
+      @browser ||= Browser.new(env['HTTP_USER_AGENT'], accept_language: env['HTTP_ACCEPT_LANGUAGE'])
+    end
+
     def current_metrics_id
       return @current_metrics_id if defined?(@current_metrics_id)
       @current_metrics_id = current_email.presence || session['session_id']
