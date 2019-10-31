@@ -56,7 +56,7 @@ module Workarea
       config.page_cache_ttl = 15.minutes
 
       # Where to store Dragonfly asset files
-      config.asset_store = (Rails.env.test? || Rails.env.development?) ? :file_system : :s3
+      config.asset_store = :file_system
 
       # Different types of available Content::Assets
       config.asset_types = %w(image pdf flash video audio text)

@@ -156,6 +156,10 @@ module Workarea
         new_query_string_params = request.query_parameters.merge(page: page)
         "#{request.path}?#{new_query_string_params.to_query}"
       end
+
+      def s3?
+        Configuration::S3.configured?
+      end
     end
   end
 end
