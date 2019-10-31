@@ -42,12 +42,6 @@
           .content-block__iframe-placeholder
           = link_to inline_svg('workarea/admin/icons/add_circle.svg', class: 'content-block__add-icon svg-icon svg-icon--extra-large svg-icon--green', title: t('workarea.admin.content.edit.add_block_below')), content_area_blocks_path(content, content.current_area, position: block.position + 1, return_to: params.to_h), class: 'content-block__add-button content-block__add-button--bottom', data: { add_content_block_button: '' }
 
-          - if block.segments.any?
-            = link_to "##{dom_id(block, :overlay_segments_tooltip)}", data: { tooltip: { interactive: true } }, class: 'content-block__segments' do
-              = inline_svg('workarea/admin/icons/user.svg', class: 'svg-icon svg-icon--large svg-icon--white')
-            .tooltip-content{ id: dom_id(block, :overlay_segments_tooltip) }
-              %span= t('workarea.admin.content.edit.active_for_html', segments: block.segments.map(&:name).to_sentence)
-
           .content-block__floating-actions
             - unless block.new_record?
               .content-block__action
