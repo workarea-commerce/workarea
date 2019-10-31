@@ -29,8 +29,14 @@ module Workarea
 
         private
 
+        def date_range
+          starts_at.to_date..ends_at.to_date
+        end
+
         def grouped_data
-          results.group_by(&:starts_at)
+          date_range.each_with_object({}) do |date, group|
+            group[date] = results.select { |r| r.starts_at.to_date == date }
+          end
         end
 
         def data_for(type)

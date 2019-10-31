@@ -45,7 +45,7 @@ WORKAREA.registerModule('timelineReportChart', (function () {
 
         transformDataset = function (dataset) {
             return _.map(dataset, function (data) {
-                return { x: new Date(data.x), y: data.y };
+                return { x: new Date(data.x), y: data.y || 0 };
             });
         },
 
