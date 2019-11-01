@@ -2,6 +2,7 @@ module Workarea
   class Storefront::Users::LoginsController < Storefront::ApplicationController
     before_action :ensure_not_locked, only: :create
     skip_before_action :require_password_changes, only: :destroy
+    skip_before_action :verify_authenticity_token, only: :destroy
 
     def new
       @user = User.new

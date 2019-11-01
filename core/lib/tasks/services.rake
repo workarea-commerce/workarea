@@ -15,7 +15,7 @@ See https://docs.docker.com/compose/install/ for how to install.
     end
 
     def compose_file_path
-      File.join(`bundle show workarea`, 'docker-compose.yml').gsub("\n", '')
+      File.join(Gem::Specification.find_by_name('workarea').gem_dir, 'docker-compose.yml')
     end
 
     def compose_env

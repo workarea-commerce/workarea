@@ -1,3 +1,70 @@
+Workarea 3.4.20 (2019-10-30)
+--------------------------------------------------------------------------------
+
+*   Fix logout from pages without authenticity tokens
+
+    On pages without authenticity tokens (like HTTP cached pages), clicking
+    log out won't work because Rails is checking for that. This disables
+    that check for logout to fix.
+
+    WORKAREA-66
+    Ben Crouse
+
+*   [DOCS] Fix/improve various docs based on community feedback
+
+    Navigating the Code
+
+    * Fix typos and difficult wording
+    * More clearly define the term "meta-gem"
+
+    Seeds:
+
+    * Remove vestiges of previous build system
+    * Make some code blocks easier to copy and paste
+    * Update plugin examples to use only plugins that
+    are published to RubyGems.org
+
+    Create a New App:
+
+    * Update introduction and outline to latest style
+    * Fix incorrect command for seeding
+    * Make code blocks easier to copy and paste
+    * Explain how to get help if experiencing issues
+
+    WORKAREA-62
+    Chris Cressman
+
+*   Bump Loofah dependency to fix bundler-audit error
+
+    Ben Crouse
+
+*   Mount api engine in routes during workarea:install if api is installed
+
+    Matt Duffy
+
+*   Update Docker image build workflow
+
+    Matt Duffy
+
+*   Update demo Dockerfile to use plugins
+
+    WORKAREA-7
+    Matt Duffy
+
+*   Update README with docker memory messaging
+
+    WORKAREA-8
+    Matt Duffy
+
+*   Modify SystemTest to help increase reliability of #within_frame
+
+    * Move #wait_for_iframe to SystemTest class
+    * Add #within_frame to methods that wait for xhr requests
+    * Use #wait_for_iframe on spotty ImpersonationSystem Test
+    Matt Duffy
+
+
+
 Workarea 3.4.19 (2019-10-16)
 --------------------------------------------------------------------------------
 
