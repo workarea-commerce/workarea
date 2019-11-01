@@ -46,7 +46,18 @@ module Workarea
         click_button 'create_comment'
 
         assert(page.has_content?('Success'))
-        assert(page.has_content?('baz@workarea.com'))
+      end
+
+      def test_subscribing_to_comments
+        user = create_user(email: 'bcrouse-test@workarea.com')
+        visit admin.user_path(user)
+
+        click_link 'Comments'
+        click_button t('workarea.admin.comments.index.subscribe')
+        assert(page.has_content?('Success'))
+
+        click_button t('workarea.admin.comments.index.unsubscribe')
+        assert(page.has_content?('Success'))
       end
     end
   end
