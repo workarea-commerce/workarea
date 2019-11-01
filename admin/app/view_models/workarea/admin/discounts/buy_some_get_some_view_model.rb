@@ -31,6 +31,8 @@ module Workarea
             'order_total'
           elsif user_tag?
             'user_tag'
+          elsif active_segment_ids.present?
+            'segments'
           end
         end
       end

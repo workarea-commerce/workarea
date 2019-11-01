@@ -36,6 +36,8 @@ module Workarea
             'item_quantity'
           elsif user_tag?
             'user_tag'
+          elsif active_segment_ids.present?
+            'segments'
           end
         end
       end
