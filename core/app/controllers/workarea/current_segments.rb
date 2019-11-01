@@ -4,7 +4,9 @@ module Workarea
     include CurrentTracking
 
     included do
+      delegate :override_segments, to: :current_visit
       helper_method :current_segments, :override_segments
+
       after_action :mark_segmented_content
     end
 
@@ -20,11 +22,6 @@ module Workarea
       Thread.current[:segmented_content] = nil
     end
 
-    def override_segments
-      return [] if session[:segment_ids].blank?
-      @override_segments ||= Segment.in(id: session[:segment_ids]).to_a
-    end
-
     def override_segments=(segments)
       if segments.blank?
         session.delete(:segment_ids)
@@ -32,6 +29,7 @@ module Workarea
       end
 
       session[:segment_ids] = segments.map(&:id)
+      current_visit.override_segments = segments
     end
 
     def current_segments
@@ -39,8 +37,7 @@ module Workarea
     end
 
     def apply_segments
-      segments = logged_in? && current_user.admin? ? override_segments : current_visit&.segments
-      Segment.with_current(segments) { yield }
+      Segment.with_current(current_visit&.applied_segments) { yield }
     end
 
     def mark_segmented_content

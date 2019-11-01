@@ -296,6 +296,11 @@ module Workarea
       user = create_user(admin: true, releases_access: true)
       user.update_attributes!(admin: false)
       refute(user.releases_access?)
+
+      user = create_user(super_admin: true, releases_access: true)
+      user.update!(super_admin: false)
+      refute(user.admin?)
+      refute(user.releases_access?)
     end
 
     def test_status_email_recipients_only_admins

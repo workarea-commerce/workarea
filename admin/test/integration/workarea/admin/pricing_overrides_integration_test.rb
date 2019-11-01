@@ -60,8 +60,7 @@ module Workarea
       end
 
       def test_not_having_permission
-        admin_user.update(super_admin: false, orders_manager: false)
-
+        admin_user.update(super_admin: false, admin: true, orders_manager: false)
         get admin.edit_pricing_override_path(order.id)
 
         assert_redirected_to(admin.root_path)

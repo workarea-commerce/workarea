@@ -30,7 +30,7 @@ class Rack::Attack
   #
   # Key: "rack::attack:ignore/cookies/admin"
   safelist('ignore/admins') do |request|
-    request.cookies['cache'] == 'false'
+    request.env['workarea.visit']&.admin?
   end
 
   #

@@ -27,7 +27,8 @@ module Workarea
 
         before_validation :set_all_permissions, if: :super_admin?
         before_validation :set_default_admin_permissions, if: :admin?
-        before_save :reset_permissions_if_no_longer_admin
+        before_validation :unset_all_permissions, if: :no_longer_admin?
+        before_save :reset_token, if: :no_longer_admin?
 
         scope :admins, -> { where(admin: true) }
         index({ admin: 1 })
@@ -46,12 +47,22 @@ module Workarea
         )
       end
 
+      def super_admin=(value)
+        super.tap { super_admin ? set_all_permissions : unset_all_permissions }
+      end
+
+      def no_longer_admin?
+        !admin? && !super_admin && (admin_was || super_admin_was)
+      end
+
       private
 
       def set_all_permissions
-        Workarea.config.permissions_fields.each do |field|
-          send("#{field}=", true)
-        end
+        Workarea.config.permissions_fields.each { |field| send("#{field}=", true) }
+      end
+
+      def unset_all_permissions
+        Workarea.config.permissions_fields.each { |field| send("#{field}=", false) }
       end
 
       def set_default_admin_permissions
@@ -59,14 +70,8 @@ module Workarea
         self.can_restore = true if can_restore.nil?
       end
 
-      def reset_permissions_if_no_longer_admin
-        if admin_was && !admin
-          Workarea.config.permissions_fields.each do |field|
-            send("#{field}=", false)
-          end
-
-          self.token = self.class.generate_unique_secure_token
-        end
+      def reset_token
+        self.token = self.class.generate_unique_secure_token
       end
     end
   end
