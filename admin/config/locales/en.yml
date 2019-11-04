@@ -46,6 +46,8 @@ en:
         comment_create_html: posted a comment
         comment_destroy_html: removed a comment
         comment_update_html: updated a comment
+        configuration_admin: configuration settings
+        configuration_admin_update_html: updated %{fields} within the %{name}
         content_asset_create_html: created the %{name} asset
         content_asset_destroy_html: removed the %{name} asset
         content_asset_update_html: updated %{fields} on the %{name} asset
