@@ -630,16 +630,21 @@ en:
           removed: Your comment has been removed
           saved: Your comment has been saved
           saved_error: There was a problem saving your comment
+          comment_subscribed: Your comments subscription has been added. You will be notified of any future comments.
+          comment_unsubscribed: You have been unsubscribed from future comments.
         index:
           body: Comment Body
           create: Create Comment
           email_authentication: Each admin will receive an email notification about this comment
           heading: Comments on %{name}
+          mention_note: Notify other admins by typing the @ symbol. Once notified they may unsubscribe at any time via a link sent in the notification email.
           new: New Comment
           notify: Notify Admins
+          subscribe: Subscribe
+          subscribe_message: to receive emails about future comments.
           title: Comments on %{name}
-          mention_note: Notify other admins by typing the @ symbol. Once notified they may unsubscribe at any time via a link sent in the notification email.
-          users_currently_subscribed: "Users currently subscribed:"
+          unsubscribe: Unsubscribe
+          unsubscribe_message: to stop receiving emails about future comments.
         icon:
           viewed: Comments
           unviewed: Unread Comments

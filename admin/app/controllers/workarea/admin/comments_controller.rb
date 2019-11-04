@@ -48,6 +48,15 @@ module Workarea
         redirect_to commentable_comments_path(@commentable.to_global_id)
       end
 
+      def subscribe
+        @commentable.add_subscription(current_user.id)
+        flash[:success] = t(
+          'workarea.admin.comments.flash_messages.comment_subscribed',
+          commentable: @commentable.name
+        )
+        redirect_to commentable_comments_path(@commentable.to_global_id)
+      end
+
       def unsubscribe
         @commentable.remove_subscription(current_user.id)
         flash[:success] = t(

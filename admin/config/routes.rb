@@ -50,7 +50,12 @@ Workarea::Admin::Engine.routes.draw do
       only: [:show, :edit, :update], controller: :bulk_action_exports
 
     resources :commentables, only: [] do
-      resources :comments, except: :new
+      resources :comments, except: :new do
+        collection do
+          put :subscribe
+          put :unsubscribe
+        end
+      end
     end
 
     resources :content_assets do

@@ -145,6 +145,23 @@ module Workarea
         assert_equal('Foo', product.name)
         release.as_current { assert_equal('Bar', product.reload.name) }
       end
+
+      def test_subscribing_to_comments
+        put admin.subscribe_commentable_comments_path(commentable.to_global_id)
+
+        assert_redirected_to(admin.commentable_comments_path(commentable.to_global_id))
+        assert(flash[:success].present?)
+        assert_includes(commentable.reload.subscribed_user_ids, current_user.id.to_s)
+      end
+
+      def test_unsubscribing_to_comments
+        commentable.update!(subscribed_user_ids: [current_user.id])
+        put admin.unsubscribe_commentable_comments_path(commentable.to_global_id)
+
+        assert_redirected_to(admin.commentable_comments_path(commentable.to_global_id))
+        assert(flash[:success].present?)
+        refute_includes(commentable.reload.subscribed_user_ids, current_user.id.to_s)
+      end
     end
   end
 end
