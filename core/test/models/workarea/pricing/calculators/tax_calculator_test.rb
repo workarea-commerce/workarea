@@ -107,7 +107,7 @@ module Workarea
             postal_code: '19106'
           )
 
-          TaxCalculator.test_adjust(shipping)
+          TaxCalculator.test_adjust(Order.new, shipping)
 
           assert_equal(1, shipping.price_adjustments.length)
           assert_equal('shipping', shipping.price_adjustments.last.price)
