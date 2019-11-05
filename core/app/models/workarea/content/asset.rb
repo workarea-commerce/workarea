@@ -83,6 +83,10 @@ module Workarea
       tagged_with(['favicon', type].compact.join('-'))
     end
 
+    def self.open_graph_default
+      tagged_with('og-default').first
+    end
+
     def favicon?
       tags.any? { |t| t.starts_with?('favicon') }
     end

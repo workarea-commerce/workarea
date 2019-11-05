@@ -25,6 +25,8 @@ module Workarea
         @open_graph_asset ||=
           if content.open_graph_asset_id.present?
             Content::Asset.find(content.open_graph_asset_id)
+          elsif (og_default = Content::Asset.open_graph_default).present?
+            og_default
           else
             Content::Asset.open_graph_placeholder
           end
