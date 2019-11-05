@@ -27,10 +27,23 @@ module Workarea
           }
         end
 
+        def releases
+          @releases ||= Release.published_between(
+            starts_at: starts_at,
+            ends_at: ends_at
+          ).to_a
+        end
+
         private
 
+        def date_range
+          starts_at.to_date..ends_at.to_date
+        end
+
         def grouped_data
-          results.group_by(&:starts_at)
+          date_range.each_with_object({}) do |date, group|
+            group[date] = results.select { |r| r.starts_at.to_date == date }
+          end
         end
 
         def data_for(type)
@@ -40,28 +53,20 @@ module Workarea
         end
 
         def release_data
-          grouped_data.transform_values do |values|
-            (values || []).map { |v| count_releases(v.starts_at.to_date) }
+          date_range.each_with_object({}) do |date, group|
+            data = releases.select { |r| r.published_at.to_date == date }
+            group[date] = [data.count]
           end
         end
 
         def transform(data)
-          data.map { |k, v| Hash[x: k, y: v.first] }.reverse
+          data.map { |k, v| Hash[x: k.to_time, y: v.first] }.reverse
         end
 
         def summarize(data)
-          data.reduce(0) { |sum, (_k, v)| sum + v.first }
-        end
-
-        def releases
-          @releases ||= Release.published_between(
-            starts_at: starts_at,
-            ends_at: ends_at
-          ).to_a
-        end
-
-        def count_releases(date)
-          releases.count { |r| r.published_at.to_date == date }
+          data
+            .select { |_, v| ! v.empty? }
+            .reduce(0) { |sum, (_k, v)| sum + v.first }
         end
       end
     end

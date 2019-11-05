@@ -32,48 +32,44 @@ WORKAREA.registerModule('timelineReportChart', (function () {
                 .trigger('change');
         },
 
-        transformReleaseDataset = function (dataset) {
-            return _.chain(dataset)
-                    .filter(function (data) {
-                        return data.y > 0;
-                    })
-                    .map(function (data) {
-                        return { x: data.x, y: 0, count: data.y };
-                    })
-                    .value();
-        },
+        transformDataset = function (dataset, type) {
+            return _.map(dataset, function (item) {
+                var data = { x: new Date(item.x) };
 
-        transformDataset = function (dataset) {
-            return _.map(dataset, function (data) {
-                return { x: new Date(data.x), y: data.y };
+                if (type === 'releases') {
+                    data.y = item.y > 0 ? 0 : null;
+                    data.releaseCount = item.y;
+                } else {
+                    data.y = item.y || 0;
+                }
+
+                return data;
             });
         },
 
         buildDatasets = function (datasets) {
-            return _.map(datasets, function (dataset, key) {
+            return _.map(datasets, function (dataset, type) {
                 var config = WORKAREA.config.timelineReportChart.datasets,
-                    color = WORKAREA.config.timelineReportChart.colors[key],
+                    color = WORKAREA.config.timelineReportChart.colors[type],
                     dataConfig = _.merge({}, config, {
-                        label: I18n.t('workarea.admin.reports.timeline.' + key),
+                        label: I18n.t('workarea.admin.reports.timeline.' + type),
                         borderColor: color,
                         backgroundColor: color,
-                    }),
-                    data = transformDataset(dataset);
+                    });
 
-                if (key === 'revenue') {
+                if (type === 'revenue') {
                     dataConfig.yAxisID = 'money-axis';
                 } else {
                     dataConfig.yAxisID = 'unit-axis';
                 }
 
-                if (key === 'releases') {
-                    dataConfig.data = transformReleaseDataset(data);
+                if (type === 'releases') {
                     dataConfig.pointStyle = 'triangle';
                     dataConfig.radius = 10;
                     dataConfig.hoverRadius = 13;
-                } else {
-                    dataConfig.data = data;
                 }
+
+                dataConfig.data = transformDataset(dataset, type);
 
                 return dataConfig;
             });

@@ -52,21 +52,23 @@ module Workarea
           view_model = TimelineViewModel.wrap(report)
 
           labels = view_model.graph_data[:labels]
-          assert_equal(2, labels.size)
-          assert_equal(2.days.ago, labels.first)
-          assert_equal(1.day.ago, labels.second)
+          assert_equal(3, labels.size)
+
+          assert_equal(Time.zone.local(2018, 1, 3).to_date, labels.first)
+          assert_equal(Time.zone.local(2018, 1, 2).to_date, labels.second)
+          assert_equal(Time.zone.local(2018, 1, 1).to_date, labels.third)
 
           datasets = view_model.graph_data[:datasets]
-          assert_equal({ x: labels.first, y: 14.99 }, datasets[:revenue].first)
-          assert_equal({ x: labels.second, y: 34.22 }, datasets[:revenue].second)
-          assert_equal({ x: labels.first, y: 10 }, datasets[:orders].first)
-          assert_equal({ x: labels.second, y: 5 }, datasets[:orders].second)
-          assert_equal({ x: labels.first, y: 15 }, datasets[:units_sold].first)
-          assert_equal({ x: labels.second, y: 9 }, datasets[:units_sold].second)
-          assert_equal({ x: labels.first, y: 3 }, datasets[:customers].first)
-          assert_equal({ x: labels.second, y: 13 }, datasets[:customers].second)
-          assert_equal({ x: labels.first, y: 1 }, datasets[:releases].first)
-          assert_equal({ x: labels.second, y: 0 }, datasets[:releases].second)
+          assert_equal({ x: labels.third.to_time, y: 14.99 }, datasets[:revenue].third)
+          assert_equal({ x: labels.second.to_time, y: 34.22 }, datasets[:revenue].second)
+          assert_equal({ x: labels.third.to_time, y: 10 }, datasets[:orders].third)
+          assert_equal({ x: labels.second.to_time, y: 5 }, datasets[:orders].second)
+          assert_equal({ x: labels.third.to_time, y: 15 }, datasets[:units_sold].third)
+          assert_equal({ x: labels.second.to_time, y: 9 }, datasets[:units_sold].second)
+          assert_equal({ x: labels.third.to_time, y: 3 }, datasets[:customers].third)
+          assert_equal({ x: labels.second.to_time, y: 13 }, datasets[:customers].second)
+          assert_equal({ x: labels.third.to_time, y: 1 }, datasets[:releases].third)
+          assert_equal({ x: labels.second.to_time, y: 0 }, datasets[:releases].second)
         end
       end
     end
