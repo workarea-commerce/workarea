@@ -40,6 +40,10 @@ module Workarea
           model.updated_at
       end
 
+      def segments
+        @segments ||= Segment.in(id: model.segment_ids).to_a
+      end
+
       #
       # Shipping
       #

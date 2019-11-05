@@ -68,6 +68,10 @@
               - else
                 = t('workarea.admin.orders.attributes.checkout.none')
             %li
+              %strong= t('workarea.admin.orders.attributes.checkout.segments')
+              - @order.segments.each do |segment|
+                = link_to segment.name, segment
+            %li
               %strong= t('workarea.admin.fields.updated_at')
               #{local_time_ago(@order.updated_at)}
             %li

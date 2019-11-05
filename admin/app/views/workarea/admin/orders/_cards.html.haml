@@ -53,11 +53,9 @@
               %strong= t('workarea.admin.orders.attributes.checkout.traffic_referrer_url')
               = model.traffic_referrer&.uri.presence || t('workarea.admin.cards.attributes.no_value')
             %li
-              %strong= t('workarea.admin.fields.updated_at')
-              #{local_time_ago(model.updated_at)}
-            %li
-              %strong= t('workarea.admin.fields.created_at')
-              #{local_time_ago(model.created_at)}
+              %strong= t('workarea.admin.orders.attributes.checkout.segments')
+              = model.segments.map(&:name).to_sentence || t('workarea.admin.cards.attributes.no_value')
+
           = link_to attributes_order_path(model), class: 'card__button' do
             %span.button.button--small= t('workarea.admin.orders.cards.attributes.button')
 
