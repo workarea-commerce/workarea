@@ -361,6 +361,7 @@ Workarea::Admin::Engine.routes.draw do
 
     resources :segments, except: [:new, :create] do
       resources :rules, except: [:show, :new, :edit], controller: 'segment_rules'
+      resources :segmentables, only: [:index]
 
       member do
         get :insights

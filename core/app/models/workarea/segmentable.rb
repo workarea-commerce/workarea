@@ -54,6 +54,15 @@ module Workarea
       @segments ||= active_segment_ids.blank? ? [] : Segment.in(id: active_segment_ids)
     end
 
+    def active_segment_ids_with_children
+      children = embedded_children.reduce([]) do |memo, child|
+        memo += child.active_segment_ids if child.respond_to?(:active_segment_ids)
+        memo
+      end
+
+      (active_segment_ids + children).uniq
+    end
+
     private
 
     def mark_segmented_content

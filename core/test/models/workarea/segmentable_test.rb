@@ -6,6 +6,13 @@ module Workarea
       include Mongoid::Document
       include Releasable
       include Segmentable
+      embeds_many :bars
+    end
+
+    class Bar
+      include Mongoid::Document
+      include Releasable
+      include Segmentable
     end
 
     def test_active_by_segment
@@ -69,6 +76,17 @@ module Workarea
       Segment.with_current { refute(model.reload.active?) }
       Segment.with_current(segment_one) { assert(model.reload.active?) }
       Segment.with_current(segment_two) { refute(model.reload.active?) }
+    end
+
+    def test_active_segment_ids_with_children
+      model = Foo.new
+      assert_equal([], model.active_segment_ids_with_children)
+
+      model.active_segment_ids = %w(foo)
+      assert_equal(%w(foo), model.active_segment_ids_with_children)
+
+      model.bars = [{ active_segment_ids: %w(bar) }, { active_segment_ids: %w(baz) }]
+      assert_equal(%w(foo bar baz), model.active_segment_ids_with_children)
     end
   end
 end

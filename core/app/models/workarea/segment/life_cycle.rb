@@ -14,11 +14,15 @@ module Workarea
         end
 
         def instance
-          first || create!(rules: default_rules)
+          first || create!(name: instance_name, rules: default_rules)
         end
 
         def instance_id
           name.demodulize.underscore.to_sym
+        end
+
+        def instance_name
+          name.demodulize.underscore.titleize
         end
       end
 
@@ -30,10 +34,6 @@ module Workarea
           ReturningCustomer,
           LoyalCustomer
         ].each(&:instance)
-      end
-
-      def name
-        self.class.name.demodulize.underscore.titleize
       end
 
       def destroy

@@ -6,6 +6,8 @@ module Workarea
           value
         elsif facet.system_name == 'upcoming_changes'
           Release.where(id: value).pluck(:name).first
+        elsif facet.system_name == 'active_by_segment'
+          Segment.where(id: value).pluck(:name).first
         else
           value.titleize
         end

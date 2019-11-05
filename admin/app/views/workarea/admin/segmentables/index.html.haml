@@ -1,0 +1,46 @@
+- @page_title = t('workarea.admin.segmentables.index.title', name: @segment.name)
+
+.view
+  .view__header
+    .grid.grid--center
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@segment)
+          %h1= @segment.name
+
+  .view__container
+    = render_cards_for(@segment, :content)
+
+    .section
+      - if @search.results.empty?
+        .grid.grid--center
+          .grid__cell.grid__cell--50
+            %h2.align-center= t('workarea.admin.segmentables.index.no_content')
+            %p.align-center= t('workarea.admin.segmentables.index.no_content_instructions_html')
+
+      - else
+        %h2.align-center= t('workarea.admin.segmentables.index.title', name: @segment.name)
+        .browsing-controls.browsing-controls--with-divider.browsing-controls--center{ class: ('browsing-controls--filters-displayed' unless @search.toggle_facets?) }
+          = form_tag search_path, method: 'get', class: 'browsing-controls__form' do
+            = facet_hidden_inputs(@search.facets)
+            .browsing-controls__sort
+              .property.property--inline
+                = label_tag 'sort', t('workarea.admin.searches.show.sort_by'), class: 'property__name'
+                = select_tag :sort, options_for_select(@search.sorts, selected: @search.sort), data: { form_submitting_control: '' }
+
+            .browsing-controls__search
+              .search-form
+                = text_field_tag :q, params[:q], class: 'search-form__input', id: 'search_again', title: t('workarea.admin.search.keywords'), placeholder: t('workarea.admin.search.keywords')
+                = submit_tag 'search_again', class: 'search-form__button'
+
+          %p.browsing-controls__count= pluralize(@search.results.total, 'result')
+
+        - if @search.results.present?
+          - if @search.results.any?
+            .section
+              .grid.grid--auto.grid--flush.grid--center
+                - @search.results.each do |result|
+                  .grid__cell= render_summary_for(result)
+
+              - if @search.results.total_pages > 1
+                = render 'workarea/admin/shared/pagination', collection: @search.results
