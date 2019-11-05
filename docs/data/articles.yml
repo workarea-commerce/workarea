@@ -66,7 +66,7 @@ cart-and-checkout:
   checkout.html.md: /articles/checkout.html.md
   configure-a-payment-gateway.html.md: /articles/configure-a-payment-gateway.html.md
   integrate-a-payment-gateway.html.md: /articles/integrate-a-payment-gateway.html.md
-  test-a-credit-card-transaction.html.md: /articles/test-a-credit-card-transaction.html.md
+  manually-test-credit-card-transactions.html.md: /articles/manually-test-credit-card-transactions.html.md
 orders:
   orders.html.md: /articles/orders.html.md
   orders-and-items.html.md: /articles/orders-and-items.html.md
