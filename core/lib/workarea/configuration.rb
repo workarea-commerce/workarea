@@ -1269,6 +1269,10 @@ module Workarea
 
       # Class used to determine if an order is fraudlent
       config.fraud_analyzer = 'Workarea::Checkout::Fraud::NoDecisionAnalyzer'
+
+      # Max number of non-unique affinity items that will be stored, older items
+      # will be evicted first.
+      config.max_affinity_items = 50
     end
   end
 end

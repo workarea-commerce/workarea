@@ -91,9 +91,9 @@ module Workarea
         assert_equal(1, User.count)
         user = User.first
         assert_equal('bcrouse@workarea.com', user.id)
-        assert_equal(%w(foo bar), user.viewed.product_ids)
-        assert_equal(%w(baz), user.viewed.category_ids)
-        assert_equal(%w(qoo), user.viewed.search_ids)
+        assert_equal(%w(foo bar foo bar), user.viewed.product_ids)
+        assert_equal(%w(baz baz), user.viewed.category_ids)
+        assert_equal(%w(qoo qoo), user.viewed.search_ids)
 
         assert_changes -> { user.reload.updated_at } do
           User.save_affinity(
@@ -106,10 +106,29 @@ module Workarea
         assert_equal(1, User.count)
         user.reload
         assert_equal('bcrouse@workarea.com', user.id)
-        assert_equal(%w(foo bar), user.viewed.product_ids)
-        assert_equal(%w(baz), user.viewed.category_ids)
-        assert_equal(%w(qoo), user.viewed.search_ids)
+        assert_equal(%w(foo bar foo bar), user.viewed.product_ids)
+        assert_equal(%w(baz baz), user.viewed.category_ids)
+        assert_equal(%w(qoo qoo), user.viewed.search_ids)
         assert_equal(%w(foo bar), user.purchased.product_ids)
+      end
+
+      def test_save_affinity_limits_storage
+        Workarea.config.max_affinity_items = 3
+
+        4.times do
+          User.save_affinity(
+            id: 'bcrouse@workarea.com',
+            action: 'viewed',
+            product_ids: %w(foo bar),
+            category_ids: 'baz',
+            search_ids: %(qoo)
+          )
+        end
+
+        user = User.first
+        assert_equal(%w(foo bar foo), user.viewed.product_ids)
+        assert_equal(%w(baz baz baz), user.viewed.category_ids)
+        assert_equal(%w(qoo qoo qoo), user.viewed.search_ids)
       end
 
       def test_merging_metrics

@@ -19,11 +19,11 @@ module Workarea
       end
 
       def recent_product_ids
-        @metrics.viewed.recent_product_ids
+        @metrics.viewed.recent_product_ids(unique: true)
       end
 
       def recent_category_ids
-        @metrics.viewed.recent_category_ids
+        @metrics.viewed.recent_category_ids(unique: true)
       end
 
       def popular_product_ids
