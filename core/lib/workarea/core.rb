@@ -141,6 +141,7 @@ require 'workarea/ext/mongoid/lookup_hash'
 require 'workarea/ext/active_shipping/workarea'
 require 'workarea/ext/mongoid/audit_log_entry.decorator'
 require 'workarea/ext/mongoid/find_ordered'
+require 'workarea/ext/mongoid/embedded_children'
 require 'workarea/ext/sprockets/ruby_processor'
 require 'workarea/ext/jbuilder/jbuilder_append_partials'
 

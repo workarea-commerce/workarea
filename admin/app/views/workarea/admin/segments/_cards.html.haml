@@ -75,6 +75,27 @@
             %span.button.button--small= t('workarea.admin.segments.cards.insights.button')
 
   .grid__cell
+    .card{ class: card_classes(:segmentables, local_assigns[:active]) }
+      = link_to segment_segmentables_path(model), class: 'card__header' do
+        %span.card__header-text= t('workarea.admin.segments.cards.segmentables.header')
+        = inline_svg 'workarea/admin/icons/attributes.svg', class: 'card__icon'
+
+      - if local_assigns[:active].blank?
+        .card__body
+          = t('workarea.admin.segments.cards.segmentables.content_html', count: model.segmentables_count)
+
+          .section
+            %ul
+              - model.segmentables.take(5).each do |model|
+                %li= link_to model.name, model
+              - if model.segmentables_count > 5
+                %li.align-center
+                  = link_to t('workarea.admin.cards.more', amount: model.segmentables_count - 5), segment_segmentables_path(model)
+
+          = link_to segment_segmentables_path(model), class: 'card__button' do
+            %span.button.button--small= t('workarea.admin.segments.cards.segmentables.button')
+
+  .grid__cell
     = render 'workarea/admin/timeline/card', timeline: model.timeline, active: local_assigns[:active]
 
   .grid__cell

@@ -32,11 +32,9 @@ module Workarea
         { releasable_type: self.class.name, releasable_id: id }
       )
 
-      embedded_relations.each do |name, metadata|
-        Array.wrap(send(name)).each do |child|
-          if child.respond_to?(:changesets_with_children)
-            criteria.merge!(child.changesets_with_children)
-          end
+      embedded_children.each do |child|
+        if child.respond_to?(:changesets_with_children)
+          criteria.merge!(child.changesets_with_children)
         end
       end
 
