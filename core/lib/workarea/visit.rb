@@ -3,7 +3,10 @@ module Workarea
     class UnsupportedSessionAccess < RuntimeError; end
 
     attr_reader :env
+    attr_writer :override_segments
+
     delegate :postal_code, :city, :subdivision, :region, :country, to: :geolocation
+    delegate :admin?, to: :metrics
 
     def initialize(env)
       @env = env
@@ -50,6 +53,14 @@ module Workarea
 
     def segments
       @segments ||= Segment.find_qualifying(self)
+    end
+
+    def override_segments
+      @override_segments ||= Segment.in(id: session[:segment_ids]).to_a
+    end
+
+    def applied_segments
+      admin? ? override_segments : segments
     end
 
     def referrer

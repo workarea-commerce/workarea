@@ -4,7 +4,7 @@ module Workarea
   module Storefront
     class SegmentOverridesSystemTest < Workarea::SystemTest
       def test_previewing_a_segment
-        set_current_user(create_user(super_admin: true))
+        admin = create_user(super_admin: true)
         segment_one = create_segment(name: 'Test One', rules: [])
         segment_two = create_segment(name: 'Test Two', rules: [])
 
@@ -19,6 +19,17 @@ module Workarea
           data: { 'html' => '<p>Bar</p>' },
           active_segment_ids: [segment_two.id]
         )
+
+        # Don't use `set_current_user` because we need to test middleware stack
+        visit storefront.login_path
+
+        within '#login_form' do
+          fill_in 'email', with: admin.email
+          fill_in 'password', with: admin.password
+          click_button t('workarea.storefront.users.login')
+        end
+
+        assert(page.has_content?('Success'))
 
         visit storefront.root_path
         within_frame find('.admin-toolbar') do

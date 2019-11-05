@@ -42,7 +42,7 @@ module Workarea
       end
 
       def test_not_having_permission_to_override
-        admin_user.update(super_admin: false, orders_manager: false)
+        admin_user.update!(super_admin: false, admin: true, orders_manager: false)
 
         visit storefront.cart_path
 

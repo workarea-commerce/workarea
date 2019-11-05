@@ -15,6 +15,11 @@ module Workarea
         user.update!(tags: %w(foo bar))
       end
 
+      assert_difference -> { SynchronizeUserMetrics.jobs.size }, 2 do
+        user = create_user
+        user.update!(admin: true)
+      end
+
       assert_difference -> { SynchronizeUserMetrics.jobs.size }, 1 do
         create_user.update!(password: 's0m3th1ng_3ls3!')
       end
@@ -31,6 +36,22 @@ module Workarea
       user.update!(tags: %w(bar baz))
       assert_equal(1, Metrics::User.count)
       assert_equal(%w(bar baz), metrics.reload.tags)
+
+      user.update!(admin: true)
+      assert_equal(1, Metrics::User.count)
+      assert(metrics.reload.admin?)
+
+      user.update!(admin: false)
+      assert_equal(1, Metrics::User.count)
+      refute(metrics.reload.admin?)
+
+      user.update!(super_admin: true)
+      assert_equal(1, Metrics::User.count)
+      assert(metrics.reload.admin?)
+
+      user.update!(super_admin: false)
+      assert_equal(1, Metrics::User.count)
+      refute(metrics.reload.admin?)
     end
   end
 end

@@ -25,27 +25,26 @@ module Workarea
         complete_checkout
 
         get storefront.current_user_path(format: 'json')
-        segments = response.headers['X-Workarea-Segments'].split(',')
-        assert_equal(2, segments.size)
-        assert_includes(segments, Segment::FirstTimeCustomer.instance.id.to_s)
-        assert_includes(segments, Segment::ReturningVisitor.instance.id.to_s)
+        assert_equal(
+          Segment::FirstTimeCustomer.instance.id.to_s,
+          response.headers['X-Workarea-Segments']
+        )
 
         complete_checkout
 
         get storefront.current_user_path(format: 'json')
-        segments = response.headers['X-Workarea-Segments'].split(',')
-        assert_equal(2, segments.size)
-        assert_includes(segments, Segment::ReturningVisitor.instance.id.to_s)
-        assert_includes(segments, Segment::ReturningCustomer.instance.id.to_s)
+        assert_equal(
+          Segment::ReturningCustomer.instance.id.to_s,
+          response.headers['X-Workarea-Segments']
+        )
 
         complete_checkout
 
         get storefront.current_user_path(format: 'json')
-        segments = response.headers['X-Workarea-Segments'].split(',')
-        assert_equal(3, segments.size)
-        assert_includes(segments, Segment::ReturningVisitor.instance.id.to_s)
-        assert_includes(segments, Segment::ReturningCustomer.instance.id.to_s)
-        assert_includes(segments, Segment::LoyalCustomer.instance.id.to_s)
+        assert_equal(
+          Segment::LoyalCustomer.instance.id.to_s,
+          response.headers['X-Workarea-Segments']
+        )
       end
 
       def test_products_active_by_segment
@@ -150,27 +149,6 @@ module Workarea
         get storefront.root_path
         assert_includes(response.body, '<p>Foo</p>')
         assert_includes(response.body, '<p>Bar</p>')
-      end
-
-      def test_admins_ignore_segments
-        create_life_cycle_segments
-        first_time_visitor = Segment::FirstTimeVisitor.instance
-        returning_visitor = Segment::ReturningVisitor.instance
-        product = create_product(active: true, active_segment_ids: [returning_visitor.id])
-        content = Content.for('home_page')
-        content.blocks.create!(
-          type: 'html',
-          data: { 'html' => '<p>Foo</p>' },
-          active_segment_ids: [returning_visitor.id]
-        )
-
-        set_current_user(create_user(admin: true))
-
-        get storefront.search_path(q: '*')
-        refute_includes(response.body, product.id)
-
-        get storefront.root_path
-        refute_includes(response.body, '<p>Foo</p>')
       end
 
       def test_logged_in_based_segments

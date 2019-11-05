@@ -22,6 +22,7 @@ module Workarea
       field :average_order_value_percentile, type: Integer
       field :cancellations, type: Integer, default: 0
       field :refund, type: Float, default: 0.0
+      field :admin, type: Boolean, default: false
 
       index(first_order_at: 1)
       index(last_order_at: 1)

@@ -18,8 +18,6 @@ module Workarea
     def login(user)
       @current_user = user
       session[:user_id] = user.id.to_s
-      cookies.permanent[:cache] = false if user.admin?
-
       user.update_login!(request)
       update_tracking!
       user

@@ -6,6 +6,7 @@ module Workarea
       required_permissions :people
 
       before_action :find_user, except: :index
+      around_action :inline_metrics_synchronizing
       after_action :track_index_filters, only: :index
 
       def index
@@ -85,6 +86,10 @@ module Workarea
 
       def find_user
         @user = Admin::UserViewModel.new(User.find(params[:id]))
+      end
+
+      def inline_metrics_synchronizing
+        Sidekiq::Callbacks.inline(SynchronizeUserMetrics) { yield }
       end
     end
   end

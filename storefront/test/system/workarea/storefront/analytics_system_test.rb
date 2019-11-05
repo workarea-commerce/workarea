@@ -719,7 +719,7 @@ module Workarea
         assert_equal(1, find_analytics_events(for_event: 'newSession').size)
         assert_equal(3, Metrics::SalesByDay.today.sessions)
         assert_equal(1, Metrics::SegmentByDay.find_by(segment_id: 'first_time_visitor').sessions)
-        assert_equal(2, Metrics::SegmentByDay.find_by(segment_id: 'returning_visitor').sessions)
+        assert_equal(1, Metrics::SegmentByDay.find_by(segment_id: 'returning_visitor').sessions)
         assert_equal(1, Metrics::SegmentByDay.find_by(segment_id: 'first_time_customer').sessions)
       end
 

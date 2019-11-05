@@ -4,8 +4,10 @@ module Workarea
   class AuthenticationTest < IntegrationTest
     class AuthenticationController < Workarea::ApplicationController
       include Authentication
+      include HttpCaching
       include Storefront::CurrentCheckout
 
+      before_action :cache_page, only: :cached
       before_action :require_login, only: :logged_in
       before_action :require_logout, only: :logged_out
       before_action :require_password_changes
@@ -31,6 +33,10 @@ module Workarea
       def logged_out
         head :ok
       end
+
+      def cached
+        render plain: 'cached'
+      end
     end
 
     setup do
@@ -40,6 +46,7 @@ module Workarea
         get 'login_required', to: 'workarea/authentication_test/authentication#logged_in'
         get 'logout_required', to: 'workarea/authentication_test/authentication#logged_out'
         get 'foo', to: 'workarea/authentication_test/authentication#foo'
+        get 'cached', to: 'workarea/authentication_test/authentication#cached'
       end
       Rails.application.reload_routes!
 
@@ -135,14 +142,21 @@ module Workarea
     end
 
     def test_turning_off_cache_for_admins
+      Workarea.config.strip_http_caching_in_tests = false
+
+      get '/cached'
+      assert_match(/public/, response.headers['Cache-Control'])
+
       get '/test_login', params: { user_id: @user.id }
-      assert(cookies['cache'].blank?)
+      get '/cached'
+      assert_match(/public/, response.headers['Cache-Control'])
 
       get '/test_logout'
-      @user.update_attributes!(admin: true)
-
+      @user.update!(admin: true)
       get '/test_login', params: { user_id: @user.id }
-      assert_equal(cookies['cache'], 'false')
+
+      get '/cached'
+      assert_match(/private/, response.headers['Cache-Control'])
     end
 
     def test_show_change_password_form_when_password_expires
