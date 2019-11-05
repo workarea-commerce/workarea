@@ -21,8 +21,8 @@ module Workarea
         @segments ||= Segment.all
       end
 
-      def selected_segment_location_options(selected)
-        selected.map { |l| [Segment::Rules::LocationOption[l]&.name || l, l] }
+      def selected_segment_geolocation_options(selected)
+        selected.map { |l| [Segment::Rules::GeolocationOption[l]&.name || l, l] }
       end
 
       def browser_info_options

@@ -1,7 +1,7 @@
 module Workarea
   class Segment
     module Rules
-      class LocationOption
+      class GeolocationOption
         class << self
           delegate :[], to: :all
 

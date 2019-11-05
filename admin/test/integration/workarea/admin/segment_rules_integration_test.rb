@@ -39,8 +39,8 @@ module Workarea
         assert_equal(0, @segment.reload.rules.size)
       end
 
-      def test_location_options
-        get admin.location_options_segment_rules_path(q: 'penn', format: 'json')
+      def test_geolocation_options
+        get admin.geolocation_options_segment_rules_path(q: 'penn', format: 'json')
         results = JSON.parse(response.body)['results']
         assert_equal([{ 'label' => 'Pennsylvania, US', 'value' => 'US-PA' }], results)
       end

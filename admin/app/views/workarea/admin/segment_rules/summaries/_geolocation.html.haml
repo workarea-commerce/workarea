@@ -1,2 +1,2 @@
 %span.text.text--large
-  = t('workarea.admin.segment_rules.summaries.geolocation.description_html', locations: selected_segment_location_options(rule.locations).map { |o| %("#{o.first}") }.join(', '))
+  = t('workarea.admin.segment_rules.summaries.geolocation.description_html', locations: selected_segment_geolocation_options(rule.locations).map { |o| %("#{o.first}") }.join(', '))

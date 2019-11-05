@@ -374,7 +374,7 @@ Workarea::Admin::Engine.routes.draw do
     resource :segment_override, only: [:show, :create]
     resources :segment_rules, only: [] do
       collection do
-        get :location_options
+        get :geolocation_options
       end
     end
 
