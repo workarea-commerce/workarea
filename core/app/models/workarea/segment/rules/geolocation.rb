@@ -17,8 +17,8 @@ module Workarea
         def matchable_locations_for(visit)
           option_ids = [
             visit.postal_code,
-            LocationOption.from_subdivision(visit.country, visit.subdivision)&.id,
-            LocationOption.from_country(visit.country)&.id
+            GeolocationOption.from_subdivision(visit.country, visit.subdivision)&.id,
+            GeolocationOption.from_country(visit.country)&.id
           ]
 
           (visit.location_names + option_ids).reject(&:blank?).map(&:downcase)
