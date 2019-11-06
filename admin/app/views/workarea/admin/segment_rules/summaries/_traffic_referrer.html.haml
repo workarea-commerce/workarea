@@ -1,10 +1,2 @@
-- if rule.medium.present?
-  %span.text.text--large
-    %span #{t('workarea.admin.fields.medium')}:
-    %strong= rule.medium.titleize
-    ,
-
-- if rule.source.present?
-  %span.text.text--large
-    %span #{t('workarea.admin.fields.source')}:
-    %strong= rule.source
+%span.text.text--large
+  %strong= [rule.medium.try(:titleize), rule.source, rule.url].flatten.reject(&:blank?).to_sentence

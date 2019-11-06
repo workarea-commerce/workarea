@@ -3489,7 +3489,7 @@ en:
           sort_by: Sort by
           title: Search results
       segment_rules:
-        unknown: Unknown
+        select_a_medium: Select a medium
         email: Email
         social: Social
         search: Search
@@ -3520,8 +3520,9 @@ en:
           geolocation:
             note: You can enter countries, regions, states, or postal codes here.
           traffic_referrer:
-            source_notes: You can use a regular expression here.
-            source_notes_html: You can use a regular expression syntax in this field. For instance <code>twitter|facebook</code> will match either Twitter or Facebook. Matches are case-insensitive. Learn more about regular expressions <a href="https://en.wikipedia.org/wiki/Regular_expression" target="_blank" rel="noopener">here</a>.
+            note_html: Any selections made below will cause a match.
+            url_notes: You can use a regular expression here.
+            url_notes_html: You can use a regular expression syntax in this field. For instance <code>twitter|facebook</code> will match either Twitter or Facebook. Matches are case-insensitive. Learn more about regular expressions <a href="https://en.wikipedia.org/wiki/Regular_expression" target="_blank" rel="noopener">here</a>.
         flash_messages:
           destroyed: Your rule has been removed.
           error: There was a problem saving your rule.

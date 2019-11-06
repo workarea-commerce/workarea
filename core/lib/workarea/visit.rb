@@ -64,8 +64,11 @@ module Workarea
     end
 
     def referrer
-      return @referrer if defined?(@referrer)
-      @referrer = Workarea.referrer_parser.parse(request.referrer) rescue {}
+      @referrer ||= begin
+        value = cookies['workarea_referrer'].presence || request.referrer
+        attributes = Workarea.referrer_parser.parse(value) rescue {}
+        TrafficReferrer.new(attributes)
+      end
     end
 
     def browser
