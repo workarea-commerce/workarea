@@ -2559,6 +2559,7 @@ en:
             status: 'Status:'
             traffic_referrer: 'Traffic Referrer:'
             traffic_referrer_url: 'Referrer URL:'
+            segments: 'Segments:'
             view: View
             copy_url: Copy URL
           items:

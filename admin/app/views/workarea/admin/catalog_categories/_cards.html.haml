@@ -11,6 +11,7 @@
             %li
               %strong= t('workarea.admin.fields.active')
               = check_box_tag 'category', 'active', model.active, disabled: true
+              = inline_svg('workarea/admin/icons/user.svg', class: 'svg-icon svg-icon--small svg-icon--blue') if model.active? && model.segments.any?
             %li
               %strong #{t('workarea.admin.fields.client_id')}:
               = model.client_id.presence || t('workarea.admin.cards.attributes.no_value')

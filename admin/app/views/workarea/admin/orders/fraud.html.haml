@@ -14,29 +14,30 @@
     = render_cards_for(@order, :fraud)
 
   .view__container.view__container--narrow
-    .grid.grid--center
-      .grid__cell.grid__cell--25
-        %h2= t('workarea.admin.orders.fraud.title')
-      .grid__cell.grid__cell--33-at-medium
-        - if @order.fraud_decision.blank?
-          %p= t('workarea.admin.orders.fraud.no_fraud_decision_available')
-        - else
-          %table.data-pairs
-            %tbody
-              %tr
-                %th
-                  %span.data-pairs__name= t('workarea.admin.orders.fraud.decision')
-                %td= @order.fraud_decision.decision.to_s.titleize || '-'
-              %tr
-                %th
-                  %span.data-pairs__name= t('workarea.admin.orders.fraud.message')
-                %td= @order.fraud_decision.message.presence || '-'
-              %tr
-                %th
-                  %span.data-pairs__name= t('workarea.admin.orders.fraud.response')
-                %td
-                  = @order.fraud_decision.response || '-'
-                  = link_to '#response-help', data: { tooltip: '' } do
-                    = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.orders.fraud.more_link'))
-                  #response-help.tooltip-content
-                    %p= t('workarea.admin.orders.fraud.response_tooltip')
+    .section
+      .grid.grid--center
+        .grid__cell.grid__cell--25
+          %h2= t('workarea.admin.orders.fraud.title')
+        .grid__cell.grid__cell--33-at-medium
+          - if @order.fraud_decision.blank?
+            %p= t('workarea.admin.orders.fraud.no_fraud_decision_available')
+          - else
+            %table.data-pairs
+              %tbody
+                %tr
+                  %th
+                    %span.data-pairs__name= t('workarea.admin.orders.fraud.decision')
+                  %td= @order.fraud_decision.decision.to_s.titleize || '-'
+                %tr
+                  %th
+                    %span.data-pairs__name= t('workarea.admin.orders.fraud.message')
+                  %td= @order.fraud_decision.message.presence || '-'
+                %tr
+                  %th
+                    %span.data-pairs__name= t('workarea.admin.orders.fraud.response')
+                  %td
+                    = @order.fraud_decision.response || '-'
+                    = link_to '#response-help', data: { tooltip: '' } do
+                      = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.orders.fraud.more_link'))
+                    #response-help.tooltip-content
+                      %p= t('workarea.admin.orders.fraud.response_tooltip')
