@@ -9,10 +9,10 @@ module Workarea
       end
 
       def customization
-        return @customization if defined?(@customization)
-
-        result = Customization.find_by_query(params[:q].try(:strip).to_s)
-        @customization = result.active? ? result : nil
+        @customization ||= begin
+          match = Customization.find_by_query(params[:q].try(:strip).to_s)
+          match.active? ? match : Customization.new
+        end
       end
 
       def response
