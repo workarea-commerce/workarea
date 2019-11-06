@@ -100,6 +100,12 @@ namespace :workarea do
         puts "The segments that failed are #{failed_ids.to_sentence}."
       end
 
+      admin_ids = Workarea::User.admins.pluck(:id)
+      admin_ids.each do |id|
+        Workarea::SynchronizeUserMetrics.new.perform(id)
+      end
+      puts "✅ #{admin_ids.count} admins have had their metrics synchronized." if admin_ids.count > 0
+
       puts "\nMigration complete!"
     end
   end

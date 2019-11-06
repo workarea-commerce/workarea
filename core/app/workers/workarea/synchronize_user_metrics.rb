@@ -8,6 +8,15 @@ module Workarea
       queue: 'low'
     )
 
+    # It's essential for the {Metrics::User#admin} field always be in sync, so
+    # we always want this worker enabled.
+    #
+    # @return [Boolean]
+    #
+    def self.enabled?
+      true
+    end
+
     def perform(id)
       user = User.find(id)
       metrics = Metrics::User.find_or_create_by(id: user.email)
