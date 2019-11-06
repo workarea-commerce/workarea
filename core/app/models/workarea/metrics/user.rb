@@ -82,8 +82,11 @@ module Workarea
             { _id: id },
             {
               '$set' => { updated_at: Time.current.utc },
-              '$addToSet' => data.each_with_object({}) do |(field, values), update|
-                update["#{action}.#{field}"] = { '$each' => Array.wrap(values) }
+              '$push' => data.each_with_object({}) do |(field, values), update|
+                update["#{action}.#{field}"] = {
+                  '$each' => Array.wrap(values),
+                  '$slice' => Workarea.config.max_affinity_items
+                }
               end
             },
             upsert: true

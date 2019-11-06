@@ -4,7 +4,7 @@ module Workarea
       def products
         @products ||=
           begin
-            product_ids = model.viewed.recent_product_ids(max: display_count)
+            product_ids = model.viewed.recent_product_ids(max: display_count, unique: true)
 
             Catalog::Product.find_ordered(product_ids).select(&:active?).map do |product|
               ProductViewModel.wrap(product, options)
@@ -15,7 +15,7 @@ module Workarea
       def categories
         @categories ||=
           begin
-            category_ids = model.viewed.recent_category_ids(max: display_count)
+            category_ids = model.viewed.recent_category_ids(max: display_count, unique: true)
             Catalog::Category.find_ordered(category_ids).select(&:active?)
           end
       end

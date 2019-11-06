@@ -9,16 +9,24 @@ module Workarea
 
       embedded_in :user, class_name: 'Workarea::Metrics::User'
 
-      def recent_product_ids(max: Workarea.config.affinity_default_recent_size)
-        product_ids.reverse.take(max)
+      def recent_product_ids(max: Workarea.config.affinity_default_recent_size, unique: false)
+        recent_ids(product_ids, max: max, unique: unique)
       end
 
-      def recent_category_ids(max: Workarea.config.affinity_default_recent_size)
-        category_ids.reverse.take(max)
+      def recent_category_ids(max: Workarea.config.affinity_default_recent_size, unique: false)
+        recent_ids(category_ids, max: max, unique: unique)
       end
 
-      def recent_search_ids(max: Workarea.config.affinity_default_recent_size)
-        search_ids.reverse.take(max)
+      def recent_search_ids(max: Workarea.config.affinity_default_recent_size, unique: false)
+        recent_ids(search_ids, max: max, unique: unique)
+      end
+
+      private
+
+      def recent_ids(ids, max:, unique:)
+        ids = ids.reverse
+        ids.uniq! if unique
+        ids.take(max)
       end
     end
   end
