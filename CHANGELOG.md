@@ -1,3 +1,370 @@
+Workarea 3.5.0.beta.1 (2019-11-07)
+--------------------------------------------------------------------------------
+
+*   Allow storing non-unique recently viewed items
+
+    This will allow us to do better segmenting in the future with rules like
+    "viewed this product more than once".
+
+    WORKAREA-88
+    Ben Crouse
+
+*   Fix Incorrect Test Setup
+
+    The `Pricing::Calculators::Calculator.test_adjust` method accepts two
+    arguments, and expects the first argument is going to be of type
+    `Order`, but in a `TaxCalculator` test only a shipping was being passed
+    in. Update this test to use the correct syntax so that other downstream
+    projects that expect data to be on an Order won't get confused.
+    Tom Scott
+
+*   Allow an asset to be tagged 'og-default' to use for open graph images
+
+    WORKAREA-76
+    Matt Duffy
+
+*   Move segment overriding into middleware
+
+    To enable correct segment headers and caching, segment overriding will
+    need to happen in middleware. To accomplish this, we'll need to store
+    whether someone is an admin in their metrics.
+
+    This has a nice side-effect of not needing the `cache` cookie anymore,
+    so that's being removed.
+    Ben Crouse
+
+*   Add buttons to allow admin users to subscribe/unsubscribe from comments
+
+    WORKAREA-75
+    Matt Duffy
+
+*   Add browser info options for segment rules
+
+    This also replaces Workarea's `Robots` class with use of the `browser`
+    gem, which keeps far better and updated checks.
+    Ben Crouse
+
+*   Adds graceful handling of timestamps from CSV imports
+
+    WORKAREA-24
+    Matt Duffy
+
+*   Don't default to S3 asset store
+
+    This causes problems spinning up environments in other hosting setups
+    where S3 isn't available or desired.
+
+    To retain the old behavior (which you'll want if you're on the Workarea
+    Commerce Cloud) drop this into an initializer:
+    `Workarea.config.asset_store = (Rails.env.test? || Rails.env.development?) ?
+    :file_system : :s3`
+
+    WORKAREA-32
+    Ben Crouse
+
+*   Use private HTTP caching headers for responses with segmented content
+
+    If a page has segmented content, it can't be cached by any upstream HTTP
+    caches because the user's segments can change request-by-request.
+
+    Our solution is to use the headers we've been using for cached responses
+    if the page has no segmented content. If it does have segmented content,
+    change those headers to force refetching every time, while allowing the
+    server to return a 304 to eliminate sending unnecessary responses.
+
+    This is being done in a piece of middleware to ensure to
+    Rack::Cache the headers look the same. This allows us to still cache
+    complete responses in Rack::Cache for requests with segmented content.
+
+    This commit also refactors the middleware that sets this all up into a
+    single ApplicationMiddleware so it's easier to see everything going on
+    in one file.
+
+    WORKAREA-36
+    Ben Crouse
+
+*   Don't shell out to bundler to get gem path
+
+    This can cause problems if bundler outputs warnings/errors. There's a safe way to do it in Ruby, so use that instead.
+
+    Fixes #191
+    Ben Crouse
+
+*   Add a hook method to allow extending product's activeness
+
+    Plugins like package products need a place to add more logic to a
+    product's activeness without having to reimplement all of active's
+    `super`. With the addition of segments, this becomes a bunch of
+    code.
+    Ben Crouse
+
+*   Allow content to be appended to head element in Content
+
+    WORKAREA-4
+    Curt Howard
+
+*   Add notes about admin config fields and encryption to upgrade guide
+
+    WORKAREA-25
+    Matt Duffy
+
+*   Integrate segments into discount cache keys
+
+    Also, since we won't be able to expire keys in a performant way
+    (delete_matched is O(N) on the number of keys in Redis), we'll have to
+    remove discount cache busting.
+    Ben Crouse
+
+*   Fix changeset loading missing root
+
+    Can raise an error when rendering changesets on the release's show page.
+    Ben Crouse
+
+*   Implement Tribute.js for comment notifications
+
+    WORKAREA-6
+    Curt Howard
+
+*   Fix issue around Visit#referrer and Puma
+
+    Curt Howard
+
+*   Add segmented icons to index pages
+
+    Ben Crouse
+
+*   Add segment icon to content blocks UI
+
+    Ben Crouse
+
+*   Rework FeaturedCategorizations to allow easier decoration
+
+    WORKAREA-21
+    Matt Duffy
+
+*   Removes Puma auto-configuration (#151)
+
+    This is going to part of the `workarea-commerce_cloud` gem going forward. If you're a subscriber to the Workarea Commerce Cloud service, you should include that gem in your project to get Puma and other configuration for that service.
+    Jesse McPherson
+
+*   Fix Product URL In Breadcrumbs
+
+    The `storefront_url_for` method doesn't handle models other than taxons,
+    but the Schema.org helpers use it to render breadcrumb URLs in the
+    `BreadcrumbList` for any model that's in the breadcrumbs. To prevent
+    incorrect URLs from showing up in the breadcrumbs, the
+    `Navigation::Breadcrumbs` class has been modified to accept a model
+    object as its `:last` parameter, instead of just a name, to be added to
+    an arbitrary `Navigation::Taxon` created for the purpose of rendering
+    both the name and URL of the final navigation taxon. This wasn't needed
+    prior to the introduction of Schema.org's `BreadcrumbList`, because the
+    final URL of breadcrumbs was always left out. The helper methods that
+    render the breadcrumbs will continue to leave out the final taxon's URL,
+    but for breadcrumbs in Schema.org, the URL will now be included.
+
+    (#83)
+    Tom Scott
+
+*   Apply tax to items that do not require shipping
+
+    * Adds Payment lookup to pricing request
+    * Modifies TaxCalculator to check shipped and not shipped items
+    * Renames TaxApplier to ShippedTaxApplier, Uses TaxApplier for not shipped items
+    Matt Duffy
+
+*   Update order documentation for Workarea 3.5
+
+    Cover suspected fraud.
+
+    Closes #99
+    Chris Cressman
+
+*   Allow setting active by segment
+
+    This allows configuring releasable resources to be active only for
+    certain segments. If no segments are specified, it will be active
+    globally. If segments are specified, only those segments will be able to
+    see it.
+
+    For #102
+    Ben Crouse
+
+*   Pass Options To `Storefront::UserActivityViewModel`
+
+    This was an oversight that got caught and fixed in the `flow-io` plugin,
+    but should really be in base since it will allow more control over the
+    product summaries on the recent views action. The `view_model_options`
+    were not getting passed into the `UserActivityViewModel`, and thus the
+    `ProductViewModel` instances that it creates, causing some stale content
+    to appear in the view.
+    Tom Scott
+
+*   Surface Asset alt text and behavior within Content Blocks (#95)
+
+    In an effort to make the recent updates to alt text overridding in
+    Content Blocks a bit clearer, alt text is now being output:
+
+    - On the content assets index view
+    - In the title for a content asset summary
+
+    Default alt text has been removed from the Content block DSL, which
+    makes the default text come directly from the Asset itself.
+
+    The help text displayed on Asset Content Blocks always appears now,
+    better explaining the behavior of this feature.
+    Curt Howard
+
+*   Spruce up Timeline UI (#58)
+
+    The `activity`, `activity-group`, and `date-marker` UIs couple together
+    to create, what's unofficially referred to as, The Timeline UI. These
+    components have been neglected for a long time... until now!
+    Curt Howard
+
+*   Update inventory docs for Workarea 3.5 (#98)
+
+    Add coverage of inventory collection status, a new concept
+    in Workarea 3.5
+    Chris Cressman
+
+*   Update search docs for Workarea 3.5 (#97)
+
+    * Remove references to Storefront autocomplete
+    * Update examples to reflect release-specific search documents
+    * Call out the impact of current release and current segments on search documents
+    Chris Cressman
+
+*   Remove Refund Tests
+
+    Since we're no longer able to regenerate VCR cassettes at-will (due to
+    credentials needing to be scrubbed before pushing to GitHub), this
+    configuration setting is no longer necessary, and furthermore, could
+    potentially prevent legitimate tests from running and catching bugs in
+    the wild. They're only used in one plugin, so remove the tests from base
+    and copy them into the plugin.
+    Tom Scott
+
+*   Refine fullfillment UI around skus and tokens
+
+    * Change package messaging for items with no carrier and tracking number
+    * Add table of fulfillment tokens associated to an order
+    * Fix paginating fulfillment tokens
+
+    Closes #93
+    Matt Duffy
+
+*   Remove Schema.org structured data from unspiderable pages
+
+    There seems to be little reason to bloat the markup of pages explicitly
+    disallowed in our default `robots.txt` file.
+
+    Closes #82
+    Curt Howard
+
+*   Remove /wish_lists entry from Robots.txt
+
+    This was a relic from a more monolithic age and will be readded by
+    workarea-commerce/workarea-wish-lists#2.
+
+    Closes #106
+    Curt Howard
+
+*   Add config field to limit total item count for a single cart
+
+    Matt Duffy
+
+*   Update docs to reflect changes in Workarea 3.5
+
+    * Storefront price partial removed
+    * `Workarea.with_config` obsoleted by automatic resetting
+    of configuration between tests
+    * Changes to headless Chrome configuration
+    * Changes to Sidekiq queues
+    * Addition of `query_cache` Sidekiq option
+    Chris Cressman
+
+*   Add Workarea 3.5 release notes
+
+    * Add 3.5 release notes doc
+    * Link to 3.5 release notes doc from release notes index
+    * Rename and modify 3.5 upgrade guide for consistency with 3.4 upgrade guide
+    * Cross-reference 3.5 release notes and upgrade guide
+    * Clean up upgrade guide
+    * Fix title of doc added for v3.5
+    Chris Cressman
+
+*   Factor release id into discount cache keys
+
+    closes #43
+    Matt Duffy
+
+*   Update content block helper to use view helper cache method.
+
+    This was previously using Rails low level caching, which does not
+    factor in varies headers or prevent caching for admins.
+    Matt Duffy
+
+*   Fix showing comments without authors in admin
+
+    Comments generated in plugins don't have an author; update the view to
+    handle rendering when the `author_id` is nil.
+    Eric Pigeon
+
+*   add query_cache flag to index workers
+
+    Matt Duffy
+
+*   Eliminate n+1 query from ProductPrimaryNavigation
+
+    Matt Duffy
+
+*   Eliminate n+1 query from FeaturedCategorization
+
+    Matt Duffy
+
+*   Add query cache middleware for sidekiq to provide options for enabling query caches
+
+    Matt Duffy
+
+*   Use the same Mongo connection options for the index enforcement warning.
+
+    Fixes #31
+    Ben Crouse
+
+*   Only check notablescan in development
+
+    #31
+    Jesse McPherson
+
+*   Completely remove jQuery UI Autocomplete
+
+    Curt Howard
+
+*   Remove Search Autocomplete
+
+    Porting to
+    https://github.com/workarea-commerce/workarea-classic-search-autocomplete
+    Curt Howard
+
+*   Update sales report queries and metric indexes for cancellations (#14)
+
+    Matt Duffy
+
+*   Remove Search Autocomplete (#16)
+
+    This functionality is being moved to `workarea-classic-search-autocomplete` to maintain compatibility. Going forward, a new improved `workarea-search-autocomplete` is the preferred search autocomplete for Workarea. It's much improved.
+    Curt Howard
+
+*   Remove artifact from conflict resolution
+
+    Jake Beresford
+
+*   Initial commit for v3.5
+
+    Ben Crouse
+
+
+
 Workarea 3.4.20 (2019-10-30)
 --------------------------------------------------------------------------------
 
