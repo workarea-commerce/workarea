@@ -3,7 +3,7 @@ module Workarea
     MAJOR = 3
     MINOR = 5
     PATCH = 0
-    PRE   = 'pre'
+    PRE   = 'beta.1'
     STRING = [MAJOR, MINOR, PATCH, PRE].compact.join('.')
 
     module MONGODB
