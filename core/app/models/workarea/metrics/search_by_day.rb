@@ -17,6 +17,8 @@ module Workarea
       field :revenue, type: Float, default: 0.0
 
       index(reporting_on: 1, total_results: 1)
+      index(query_id: 1)
+
       scope :by_query_id, ->(id) { where(query_id: id) }
 
       def self.save_search(query_string, total_results, at: Time.current)
