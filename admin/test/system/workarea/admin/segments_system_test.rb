@@ -47,11 +47,11 @@ module Workarea
       end
 
       def test_managing_active_by_segment
-        one = create_segment(name: 'Foo')
-        two = create_segment(name: 'Bar')
-        three = create_segment(name: 'Baz')
+        create_segment(name: 'Foo')
+        bar_segment = create_segment(name: 'Bar')
+        create_segment(name: 'Baz')
 
-        category = create_category(active: false, active_segment_ids: [])
+        category = create_category(name: 'Test Category', active: false, active_segment_ids: [])
         visit admin.edit_catalog_category_path(category)
 
         within '.active-field' do
@@ -95,6 +95,11 @@ module Workarea
 
         assert_selector('.select2-selection__choice', text: 'Bar')
         assert_selector('.select2-selection__choice', text: 'Baz')
+
+        visit admin.segment_path(bar_segment)
+        assert_content('Test Category')
+        click_link t('workarea.admin.segments.cards.segmentables.header')
+        assert_content('Test Category')
       end
 
       def test_insights

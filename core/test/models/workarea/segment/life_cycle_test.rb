@@ -8,6 +8,11 @@ module Workarea
         self.default_rules = [Rules::Orders.new(maximum: 0)]
       end
 
+      def test_name_given
+        life_cycle = FooSegment.instance # create it
+        assert_equal('Foo Segment', life_cycle.name)
+      end
+
       def test_cannot_destroy
         life_cycle = FooSegment.instance # create it
 

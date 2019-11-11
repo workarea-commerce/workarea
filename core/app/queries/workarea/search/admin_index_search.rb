@@ -119,7 +119,8 @@ module Workarea
           TermsFacet.new(self, 'type'),
           TermsFacet.new(self, 'status'),
           TermsFacet.new(self, 'tags'),
-          TermsFacet.new(self, 'upcoming_changes')
+          TermsFacet.new(self, 'upcoming_changes'),
+          TermsFacet.new(self, 'active_by_segment')
         ]
       end
     end

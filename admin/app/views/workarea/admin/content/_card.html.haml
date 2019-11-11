@@ -15,6 +15,9 @@
             %li.content-block-list__item
               = content_block_icon(block.icon, title: block.name, class: 'content-block-list__icon')
               %span.content-block-list__name= block.name
+              - if block.segments.any?
+                %span.content-block-list__segments
+                  = inline_svg('workarea/admin/icons/user.svg', class: 'svg-icon svg-icon--small svg-icon--blue')
 
           - if content.blocks.length > 5
             %li.content-block-list__item.align-center
