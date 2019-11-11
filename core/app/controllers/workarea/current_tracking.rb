@@ -19,6 +19,10 @@ module Workarea
       current_visit.metrics
     end
 
+    def current_referrer
+      current_visit.referrer
+    end
+
     def update_tracking!(email: current_user&.email)
       if email.blank?
         cookies.delete(:email)

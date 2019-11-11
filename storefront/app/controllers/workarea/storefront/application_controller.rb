@@ -6,7 +6,6 @@ module Workarea
       include CurrentCheckout
       include CurrentRelease
       include OrderLookup
-      include CurrentReferrer
 
       layout :current_layout
 

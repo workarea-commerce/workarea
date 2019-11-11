@@ -10,11 +10,15 @@ module Workarea
 
       def traffic_referrer_medium_options
         {
-          t('workarea.admin.segment_rules.unknown') => 'unknown',
+          t('workarea.admin.segment_rules.select_a_medium') => nil,
           t('workarea.admin.segment_rules.email') => 'email',
           t('workarea.admin.segment_rules.social') => 'social',
           t('workarea.admin.segment_rules.search') => 'search'
         }
+      end
+
+      def traffic_referrer_source_options
+        Workarea.referrer_parser.sources
       end
 
       def segments

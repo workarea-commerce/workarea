@@ -245,6 +245,32 @@ module Workarea
         refute_match(/public/, response.headers['Cache-Control'])
         assert_equal('true', response.headers['X-Workarea-Segmented-Content'])
       end
+
+      def test_referrer_based_segments
+        google = create_segment(rules: [Segment::Rules::TrafficReferrer.new(source: %w(Google))])
+        facebook = create_segment(rules: [Segment::Rules::TrafficReferrer.new(url: 'facebook')])
+
+        get storefront.current_user_path(format: 'json'),
+          headers: { 'HTTP_REFERER' => 'https://www.google.com/' }
+        assert_equal(google.id.to_s, response.headers['X-Workarea-Segments'])
+
+        get storefront.current_user_path(format: 'json'),
+          headers: { 'HTTP_REFERER' => 'https://www.facebook.com/' }
+        assert_equal(facebook.id.to_s, response.headers['X-Workarea-Segments'])
+
+        cookies[:workarea_referrer] = 'https://www.google.com/'
+        get storefront.current_user_path(format: 'json')
+        assert_equal(google.id.to_s, response.headers['X-Workarea-Segments'])
+
+        cookies[:workarea_referrer] = 'https://www.facebook.com/'
+        get storefront.current_user_path(format: 'json')
+        assert_equal(facebook.id.to_s, response.headers['X-Workarea-Segments'])
+
+        cookies[:workarea_referrer] = 'https://www.google.com/'
+        get storefront.current_user_path(format: 'json'),
+          headers: { 'HTTP_REFERER' => 'https://www.facebook.com/' }
+        assert_equal(google.id.to_s, response.headers['X-Workarea-Segments'])
+      end
     end
   end
 end

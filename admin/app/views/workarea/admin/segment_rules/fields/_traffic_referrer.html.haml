@@ -1,13 +1,19 @@
+%p= t('workarea.admin.segment_rules.fields.traffic_referrer.note_html')
+
 .property
   = label_tag 'rule[medium]', t('workarea.admin.fields.medium'), class: 'property__name'
   = select_tag 'rule[medium]', options_for_select(traffic_referrer_medium_options, rule.medium)
 
 .property
   = label_tag 'rule[source]', t('workarea.admin.fields.source'), class: 'property__name'
-  = text_field_tag 'rule[source]', rule.medium, class: 'text-box text-box--wide'
+  = select_tag 'rule[source]', options_for_select(traffic_referrer_source_options, rule.source), multiple: true, data: { select: { placeholder: t('workarea.admin.fields.source') + '...', allowClear: true } }
+
+.property
+  = label_tag 'rule[url]', t('workarea.admin.fields.url'), class: 'property__name'
+  = text_field_tag 'rule[url]', rule.url, class: 'text-box text-box--wide'
   %span.property__note
-    = t('workarea.admin.segment_rules.fields.traffic_referrer.source_notes')
-    = link_to '#source-help', data: { tooltip: { interactive: true } } do
-      = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.segment_rules.fields.traffic_referrer.source'))
-  #source-help.tooltip-content
-    %p= t('workarea.admin.segment_rules.fields.traffic_referrer.source_notes_html')
+    = t('workarea.admin.segment_rules.fields.traffic_referrer.url_notes')
+    = link_to '#url-help', data: { tooltip: { interactive: true } } do
+      = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.segment_rules.fields.traffic_referrer.url'))
+  #url-help.tooltip-content
+    %p= t('workarea.admin.segment_rules.fields.traffic_referrer.url_notes_html')

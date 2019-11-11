@@ -12,18 +12,20 @@ module Workarea
           refute(TrafficReferrer.new.qualifies?(visit))
 
           visit = create_visit('HTTP_REFERER' => 'https://www.google.com/')
-          assert(TrafficReferrer.new(source: 'google').qualifies?(visit))
-          assert(TrafficReferrer.new(source: ' Google').qualifies?(visit))
+          assert(TrafficReferrer.new(source: %w(Google)).qualifies?(visit))
+          refute(TrafficReferrer.new(source: %w(Yahoo!)).qualifies?(visit))
           assert(TrafficReferrer.new(medium: 'Search').qualifies?(visit))
-          refute(TrafficReferrer.new(source: 'Facebook ').qualifies?(visit))
-          refute(TrafficReferrer.new(source: 'social').qualifies?(visit))
+          refute(TrafficReferrer.new(medium: 'Social').qualifies?(visit))
+          assert(TrafficReferrer.new(url: 'google').qualifies?(visit))
+          refute(TrafficReferrer.new(url: 'twitter').qualifies?(visit))
 
           visit = create_visit('HTTP_REFERER' => 'https://www.facebook.com/')
-          refute(TrafficReferrer.new(source: ' Google').qualifies?(visit))
-          refute(TrafficReferrer.new(medium: 'search').qualifies?(visit))
-          assert(TrafficReferrer.new(source: 'facebook ').qualifies?(visit))
+          assert(TrafficReferrer.new(source: %w(Facebook)).qualifies?(visit))
+          refute(TrafficReferrer.new(source: %w(Google)).qualifies?(visit))
           assert(TrafficReferrer.new(medium: 'Social').qualifies?(visit))
-          assert(TrafficReferrer.new(medium: 'Social', source: 'facebook|twitter').qualifies?(visit))
+          refute(TrafficReferrer.new(medium: 'Search').qualifies?(visit))
+          assert(TrafficReferrer.new(url: 'www').qualifies?(visit))
+          refute(TrafficReferrer.new(url: 'facebook$').qualifies?(visit))
         end
       end
     end
