@@ -34,7 +34,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'sidekiq-throttled', '~> 0.8.2'
   s.add_dependency 'geocoder', '~> 1.4.4'
   s.add_dependency 'redis-rails', '~> 5.0.0'
-  s.add_dependency 'redis-rack-cache', '~> 2.0.2'
+  s.add_dependency 'redis-rack-cache', '~> 2.2.0'
   s.add_dependency 'easymon', '~> 1.4.0'
   s.add_dependency 'image_optim', '~> 0.26.0'
   s.add_dependency 'image_optim_pack', '0.5.0.20171101'
