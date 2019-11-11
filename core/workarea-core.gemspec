@@ -90,7 +90,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'referer-parser', '~> 0.3.0'
   s.add_dependency 'serviceworker-rails', '~> 0.5.5'
   s.add_dependency 'logstasher', '~> 1.2.2'
-  s.add_dependency 'chartkick', '~> 3.2.0'
+  s.add_dependency 'chartkick', '~> 3.3.0'
   s.add_dependency 'puma', '~> 4.0'
 
   # HACK for vendoring active_shipping
