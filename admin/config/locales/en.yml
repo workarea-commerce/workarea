@@ -3562,7 +3562,7 @@ en:
         index:
           title: Content Active for "%{name}"
           no_content: There's no content setup specifically for this segment.
-          no_content_instructions_html: Throughout the admin, you can setup personalized experiences for this segment. Anywhere you see an <strong>Active</strong> field, you can click the "by segment" link next to it to make that only for a selection of segments. For content blocks, you can do this in the "Display" tab on the right in the block editing screen.
+          no_content_instructions_html: Throughout the admin, you can setup personalized experiences for this segment. Anywhere you see an <strong>Active</strong> field, you can click the "by segment" link next set active only for a selection of segments. For content blocks, you can do this in the "Display" tab on the right in the block editing screen.
       segments:
         cards:
           attributes:
