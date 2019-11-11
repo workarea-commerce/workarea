@@ -87,3 +87,28 @@
 
 
         = link_to inline_svg('workarea/admin/icons/arrow_down.svg', title: t('workarea.admin.releases.calendar.next_week'), class: 'calendar__control-icon'), releases_path(start_date: @calendar.next_week), class: 'calendar__control calendar__control--next'
+
+    .workflow-bar
+      .grid.grid--auto.grid--right
+        - calendar_feed_url = calendar_feed_releases_url(token: current_user.token, protocol: 'webcal')
+        .grid__cell= button_tag t('workarea.admin.releases.index.add_to_calendar.link_text'), class: 'workflow-bar__button', data: { add_to_calendar_button: { initial: '#calendar-tooltip', moreInfo: '#google-calendar-info' }.as_json }
+      #calendar-tooltip.tooltip-content.tooltip-content--no-padding
+        .add-to-calendar
+          %ul.add-to-calendar__list
+            %li.add-to-calendar__item
+              = link_to calendar_feed_url, class: 'grid grid--auto grid--middle grid--large', data: { add_to_calendar_button_toggle: '' } do
+                %span.grid__cell= image_tag 'workarea/admin/icons/google_calendar.svg', size: '24x24'
+                %span.grid__cell
+                  %span.add-to-calendar__link= t('workarea.admin.releases.index.add_to_calendar.tooltip.google_calendar')
+            %li.add-to-calendar__item
+              = link_to calendar_feed_url, class: 'grid grid--auto grid--middle grid--large' do
+                %span.grid__cell= image_tag 'workarea/admin/icons/apple_calendar.svg', size: '24x24'
+                %span.grid__cell
+                  %span.add-to-calendar__link= t('workarea.admin.releases.index.add_to_calendar.tooltip.apple_calendar')
+            %li.add-to-calendar__item
+              = link_to calendar_feed_url, class: 'grid grid--auto grid--middle grid--large' do
+                %span.grid__cell= image_tag 'workarea/admin/icons/outlook.svg', size: '24x24'
+                %span.grid__cell
+                  %span.add-to-calendar__link= t('workarea.admin.releases.index.add_to_calendar.tooltip.outlook')
+        .hidden
+          #google-calendar-info= t('workarea.admin.releases.index.add_to_calendar.tooltip.google_calendar_instructions_html', calendar_feed_url: calendar_feed_url)
