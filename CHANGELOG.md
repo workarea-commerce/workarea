@@ -1,3 +1,61 @@
+Workarea 3.4.21 (2019-11-12)
+--------------------------------------------------------------------------------
+
+*   Update `Redis::Rack::Cache` to v2.2.0
+
+    This new version requires `Rack::Cache` v1.10 and enables over-the-wire
+    gzip compression to the Redis server. This feature is useful for
+    extremely high traffic sites, but should be used with caution since it
+    will increase the CPU/RAM load on your application server. You should
+    use this if the trade-off between RAM increase and bandwidth decrease
+    makes sense.
+
+    WORKAREA-94
+    Tom Scott
+
+*   Bump Chartkick dependency to fix security warning
+
+    Fixes bundler-audit failures in builds.
+    Ben Crouse
+
+*   Add index to SearchByDay model
+
+    Bryan Alexander
+
+*   Remove now-unneeded version restriction on the BSON gem
+
+    If we remove this restriction, we can use newer versions of the `mongo` gem, which contain cluster fixes.
+    Ben Crouse
+
+*   [DOCS] Rename and update doc for testing CC transactions
+
+    Rename "Test a Credit Card Transaction" to
+    "Manually Test Credit Card Transactions" and update the content.
+
+    The content was specific to a particular gateway and didn't make that
+    clear. These changes provide a generic solution in addition to the
+    specifics for the default gateway.
+
+    The title confused devs who reviewed this doc in a different PR,
+    thinking that it had to do with automated testing.
+
+    WORKAREA-13
+    Chris Cressman
+
+*   Adds graceful handling of timestamps from CSV imports
+
+    WORKAREA-24
+    Matt Duffy
+
+*   Don't shell out to bundler to get gem path
+
+    This can cause problems if bundler outputs warnings/errors. There's a safe way to do it in Ruby, so use that instead.
+
+    Fixes #191
+    Ben Crouse
+
+
+
 Workarea 3.4.20 (2019-10-30)
 --------------------------------------------------------------------------------
 
