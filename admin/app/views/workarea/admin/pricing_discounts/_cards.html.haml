@@ -137,6 +137,8 @@
           = link_to pricing_discount_redemptions_path(model), class: 'card__button' do
             %span.button.button--small= t('workarea.admin.pricing_discounts.cards.redemptions.view')
 
+  = append_partials('admin.discount_cards', discount: model, active: local_assigns[:active])
+
   .grid__cell
     = render 'workarea/admin/timeline/card', timeline: model.timeline, active: local_assigns[:active]
 
