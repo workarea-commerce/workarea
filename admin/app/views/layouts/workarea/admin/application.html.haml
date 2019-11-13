@@ -71,6 +71,7 @@
                   %span.menu__heading= t('workarea.admin.layout.handy_links')
                 %li.menu__item= link_to t('workarea.admin.layout.visit_storefront'), storefront.root_path, class: 'menu__link'
                 %li.menu__item= link_to t('workarea.admin.layout.your_account_on_the_storefront'), storefront.users_account_path, class: 'menu__link'
+                %li.menu__item= link_to t('workarea.admin.layout.browse_storefront_as_guest'), guest_browsing_path, class: 'menu__link', data: { method: :post }
                 %li.menu__item= link_to t('workarea.admin.layout.edit_the_home_page'), edit_content_path(current_system_page_content_for(:home_page)), class: 'menu__link'
                 %li.menu__item.menu__item--heading
                   %span.menu__heading= t('workarea.admin.layout.most_visited')

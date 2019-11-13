@@ -35,7 +35,7 @@ module Workarea
           click_button t('workarea.admin.toolbar.stop_guest_browsing')
         end
 
-        assert_current_path(admin.users_path)
+        assert_current_path(admin.root_path)
         assert(page.has_content?('Success'))
       end
 

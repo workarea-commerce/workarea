@@ -17,7 +17,7 @@ module Workarea
         clear_current_order
 
         flash[:success] = t('workarea.admin.guest_browsing.flash_messages.stopped')
-        redirect_to (current_user.people_access? ? users_path : root_path)
+        redirect_back_or root_path
       end
     end
   end

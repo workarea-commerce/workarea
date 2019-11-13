@@ -68,6 +68,7 @@
                 .header__user-menu
                   .header__user-menu-cell
                     = form_tag guest_browsing_path, method: 'delete', data: { disable_delete_confirmation: '' } do
+                      = hidden_field_tag :return_to, root_path
                       = button_tag t('workarea.admin.toolbar.stop_guest_browsing'), class: 'text-button text-button--destroy'
             - elsif impersonating?
               .header__action
