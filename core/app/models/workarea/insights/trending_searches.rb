@@ -7,7 +7,13 @@ module Workarea
         end
 
         def generate_monthly!
-          results = generate_results.map { |r| r.merge(query_id: r['_id']) }
+          results = generate_results.map do |result|
+            result.merge(
+              query_id: result['_id'],
+              query_string: result['query_string'].presence || result['_id']
+            )
+          end
+
           create!(results: results) if results.present?
         end
 
@@ -33,6 +39,7 @@ module Workarea
           {
             '$group' => {
               '_id' => '$query_id',
+              'query_string' => { '$first' => '$query_string' },
               'improving_weeks' => { '$sum' => 1 },
               'revenue_changes' => { '$push' => '$revenue_change' },
               'orders' => { '$sum' => '$orders' }

@@ -16,6 +16,6 @@
             %td.align-center
               = form_tag search_customizations_path, method: 'post' do
                 = hidden_field_tag 'q', result.query_id, id: nil
-                = button_tag result.query_id, class: 'button button--small'
+                = button_tag result.query_string, class: 'button button--small'
             %td.align-center= insights_number_to_percentage(result.conversion_rate)
             %td.align-center= number_with_delimiter(result.searches)
