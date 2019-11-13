@@ -5,25 +5,25 @@ module Workarea
     class StarSearchesTest < TestCase
       def test_generate_weekly!
         create_search_by_week(
-          query_id: 'foo',
+          query_string: 'foo',
           searches_percentile: 100,
           reporting_on: Time.current.last_week,
           conversion_rate: 0.1
         )
         create_search_by_week(
-          query_id: 'bar',
+          query_string: 'bar',
           searches_percentile: 90,
           reporting_on: Time.current.last_week,
           conversion_rate: 0.2
         )
         create_search_by_week(
-          query_id: 'baz',
+          query_string: 'baz',
           searches_percentile: 100,
           reporting_on: Time.current.last_week,
           conversion_rate: 0.01
         )
         create_search_by_week(
-          query_id: 'qoo',
+          query_string: 'qoo',
           searches_percentile: 100,
           reporting_on: Time.current.last_week,
           conversion_rate: 0.02
@@ -35,6 +35,7 @@ module Workarea
         star_searches = StarSearches.first
         assert_equal(1, star_searches.results.size)
         assert_equal('foo', star_searches.results.first['query_id'])
+        assert_equal('foo', star_searches.results.first['query_string'])
         assert_equal(0.1, star_searches.results.first['conversion_rate'])
       end
 

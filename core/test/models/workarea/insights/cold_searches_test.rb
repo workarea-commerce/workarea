@@ -5,32 +5,32 @@ module Workarea
     class ColdSearchesTest < TestCase
       def test_results
         create_search_by_week(
-          query_id: 'foo',
+          query_string: 'foo',
           revenue_change: -1,
           reporting_on: Time.current.last_week
         )
         create_search_by_week(
-          query_id: 'bar',
+          query_string: 'bar',
           revenue_change: -4,
           reporting_on: Time.current.last_week
         )
         create_search_by_week(
-          query_id: 'baz',
+          query_string: 'baz',
           revenue_change: -2,
           reporting_on: Time.current.last_week
         )
         create_search_by_week(
-          query_id: 'qoo',
+          query_string: 'qoo',
           revenue_change: -5,
           reporting_on: Time.current.last_week
         )
         create_search_by_week(
-          query_id: 'quz',
+          query_string: 'quz',
           revenue_change: -15,
           reporting_on: Time.current.last_week
         )
         create_search_by_week(
-          query_id: 'qux',
+          query_string: 'qux',
           revenue_change: 0,
           reporting_on: Time.current.last_week
         )
@@ -41,32 +41,33 @@ module Workarea
         cold_searches = ColdSearches.first
         assert_equal(1, cold_searches.results.size)
         assert_equal('quz', cold_searches.results.first['query_id'])
+        assert_equal('quz', cold_searches.results.first['query_string'])
         assert_equal(-15, cold_searches.results.first['revenue_change'])
       end
 
       def test_falling_back_to_fewer_deviations
         create_search_by_week(
-          query_id: 'foo',
+          query_string: 'foo',
           revenue_change: -1,
           reporting_on: Time.current.last_week
         )
         create_search_by_week(
-          query_id: 'bar',
+          query_string: 'bar',
           revenue_change: -4,
           reporting_on: Time.current.last_week
         )
         create_search_by_week(
-          query_id: 'baz',
+          query_string: 'baz',
           revenue_change: -2,
           reporting_on: Time.current.last_week
         )
         create_search_by_week(
-          query_id: 'qoo',
+          query_string: 'qoo',
           revenue_change: -5,
           reporting_on: Time.current.last_week
         )
         create_search_by_week(
-          query_id: 'qux',
+          query_string: 'qux',
           revenue_change: 0,
           reporting_on: Time.current.last_week
         )
@@ -77,6 +78,7 @@ module Workarea
         cold_searches = ColdSearches.first
         assert_equal(1, cold_searches.results.size)
         assert_equal('qoo', cold_searches.results.first['query_id'])
+        assert_equal('qoo', cold_searches.results.first['query_string'])
         assert_equal(-5, cold_searches.results.first['revenue_change'])
       end
 

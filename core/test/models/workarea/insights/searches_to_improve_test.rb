@@ -5,25 +5,25 @@ module Workarea
     class SearchesToImproveTest < TestCase
       def test_results
         create_search_by_week(
-          query_id: 'foo',
+          query_string: 'foo',
           searches_percentile: 100,
           reporting_on: Time.current.last_week,
           conversion_rate: 0.1
         )
         create_search_by_week(
-          query_id: 'bar',
+          query_string: 'bar',
           searches_percentile: 90,
           reporting_on: Time.current.last_week,
           conversion_rate: 0.2
         )
         create_search_by_week(
-          query_id: 'baz',
+          query_string: 'baz',
           searches_percentile: 100,
           reporting_on: Time.current.last_week,
           conversion_rate: 0.01
         )
         create_search_by_week(
-          query_id: 'qoo',
+          query_string: 'qoo',
           searches_percentile: 100,
           reporting_on: Time.current.last_week,
           conversion_rate: 0.02
@@ -35,20 +35,22 @@ module Workarea
         searches_to_improve = SearchesToImprove.first
         assert_equal(2, searches_to_improve.results.size)
         assert_equal('baz', searches_to_improve.results.first['query_id'])
+        assert_equal('baz', searches_to_improve.results.first['query_string'])
         assert_equal(0.01, searches_to_improve.results.first['conversion_rate'])
         assert_equal('qoo', searches_to_improve.results.second['query_id'])
+        assert_equal('qoo', searches_to_improve.results.second['query_string'])
         assert_equal(0.02, searches_to_improve.results.second['conversion_rate'])
       end
 
       def test_falling_back_to_second_pass
         create_search_by_week(
-          query_id: 'foo',
+          query_string: 'foo',
           searches_percentile: 90,
           reporting_on: Time.current.last_week,
           conversion_rate: 0.1
         )
         create_search_by_week(
-          query_id: 'bar',
+          query_string: 'bar',
           searches_percentile: 80,
           reporting_on: Time.current.last_week,
           conversion_rate: 0.2
@@ -62,6 +64,7 @@ module Workarea
         searches_to_improve = SearchesToImprove.first
         assert_equal(1, searches_to_improve.results.size)
         assert_equal('foo', searches_to_improve.results.first['query_id'])
+        assert_equal('foo', searches_to_improve.results.first['query_string'])
         assert_equal(0.1, searches_to_improve.results.first['conversion_rate'])
       end
 
