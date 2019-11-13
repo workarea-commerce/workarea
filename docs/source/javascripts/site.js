@@ -266,7 +266,7 @@ window.modules.skipTo = (function () {
 
         addLinks = function ($skipTo) {
             var $article = $skipTo.closest('.grid').find('.article'),
-                $headings = $article.find('h2, h3, h4, h5, h6');
+                $headings = $article.find('h2, h3');
 
             if ($headings.length < 2) {
                 $skipTo.remove();
