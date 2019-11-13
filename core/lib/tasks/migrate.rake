@@ -100,6 +100,9 @@ namespace :workarea do
         puts "The segments that failed are #{failed_ids.to_sentence}."
       end
 
+      Workarea::Segment::LifeCycle.create!
+      puts "✅ Life cycle segments have been created."
+
       admin_ids = Workarea::User.admins.pluck(:id)
       admin_ids.each do |id|
         Workarea::SynchronizeUserMetrics.new.perform(id)
