@@ -10,11 +10,11 @@ WORKAREA.registerModule('toggleElement', (function () {
      * @memberof WORKAREA.toggleElement
      */
     var toggle = function (event) {
-            var $target = $(event.target).data('toggle');
+            var target = $(event.target).data('toggleElement');
 
             event.preventDefault();
 
-            $target.toggleClass('hidden');
+            $(target).toggleClass('hidden');
         },
 
         init = function ($scope) {
