@@ -2,16 +2,12 @@ module Workarea
   class IntegrationTest < ActionDispatch::IntegrationTest
     module Configuration
       extend ActiveSupport::Concern
+      include TestCase::Setup
+      include TestCase::Teardown
 
       included do
         setup do
-          Mongoid.truncate!
-          Workarea.redis.flushdb
           default_url_options[:locale] = nil
-        end
-
-        teardown do
-          travel_back
         end
       end
 
