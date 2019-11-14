@@ -86,6 +86,7 @@
           - if admin_browsing_as_guest?
             .grid__cell
               = form_tag guest_browsing_path, method: 'delete', data: { disable_delete_confirmation: '' } do
+                = hidden_field_tag :return_to, users_path
                 = button_tag t('workarea.admin.users.index.stop_guest_browsing'), class: 'workflow-bar__button workflow-bar__button--delete'
           - else
             .grid__cell= link_to t('workarea.admin.users.index.browse_as_guest'), guest_browsing_path, class: 'workflow-bar__button', data: { method: :post }
