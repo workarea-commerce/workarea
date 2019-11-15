@@ -120,6 +120,12 @@ module Workarea
         end
       end
 
+      def as_json(*)
+        json = attributes.to_h.stringify_keys
+        json['response'] = response.as_json
+        json.as_json
+      end
+
       private
 
       def set_success

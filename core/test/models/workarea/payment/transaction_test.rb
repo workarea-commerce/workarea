@@ -121,6 +121,28 @@ module Workarea
         transaction = Transaction.new(response: response)
         assert_equal('An error occurred while processing your payment.', transaction.message)
       end
+
+      def test_as_json
+        response = ActiveMerchant::Billing::Response.new(true, 'Message')
+        transaction = Transaction.new(response: response)
+        json = {
+          "success" => true,
+          "message" => "Message",
+          "params" => {},
+          "options" => {
+            "test" => false,
+            "avs_result" => {
+              "code" => nil,
+              "message" => nil,
+              "street_match" => nil,
+              "postal_match" => nil
+            },
+            "cvv_result"=>nil
+          }
+        }
+
+        assert_equal(json, transaction.as_json['response'])
+      end
     end
   end
 end
