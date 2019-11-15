@@ -1,7 +1,7 @@
 module Workarea
   module Configuration
     class Redis
-      DEFAULT = { host: 'localhost', port: 6379, db: 0 }.freeze
+      DEFAULT = { host: 'localhost', port: 6379, db: 0, scheme: 'redis' }.freeze
 
       class << self
         # Used for Sidekiq and Predictor
@@ -41,6 +41,7 @@ module Workarea
           env_slug = name.to_s.underscore.upcase
 
           {
+            scheme: ENV["WORKAREA_#{env_slug}_SCHEME"].presence || DEFAULT[:scheme],
             host: ENV["WORKAREA_#{env_slug}_HOST"].presence || DEFAULT[:host],
             port: ENV["WORKAREA_#{env_slug}_PORT"].presence || DEFAULT[:port],
             db: ENV["WORKAREA_#{env_slug}_DB"].presence || DEFAULT[:db]
@@ -49,10 +50,13 @@ module Workarea
       end
 
       attr_reader :config
-      alias_method :to_h, :config
 
       def initialize(config)
         @config = config.to_h.deep_symbolize_keys
+      end
+
+      def scheme
+        @config[:scheme]
       end
 
       def host
@@ -67,8 +71,14 @@ module Workarea
         @config[:db]
       end
 
+      def to_h
+        {
+          url: to_url
+        }
+      end
+
       def to_url
-        base = "redis://#{host}"
+        base = "#{scheme}://#{host}"
         base << ":#{port}" if port.present?
         base << "/#{db}" if db.present?
         base
