@@ -3534,6 +3534,9 @@ en:
           no_edit: Why can't I edit these?
           no_edit_description_html: Changing the rules for a segment changes who's in that segment, and invalidates all data and insights collected for those people. Try %{link} instead.
           creating_a_new_segment: creating a new segment
+        last_order:
+          not_ordered: Not ordered
+          ordered: Ordered
         platform:
           android: Android
           blackberry: BlackBerry
@@ -3547,9 +3550,12 @@ en:
           geolocation:
             description_html: "Browsing from <strong>%{locations}</strong>"
           last_order:
-            description_html:
-              one: Ordered within <strong>1</strong> day ago
-              other: Ordered within <string>%{count}</strong> days ago
+            within_description_html:
+              one: Ordered within the last <strong>1</strong> day
+              other: Ordered within the last <string>%{count}</strong> days
+            not_within_description_html:
+              one: Not ordered within the last <strong>1</strong> day
+              other: Not ordered within the last <string>%{count}</strong> days
           logged_in:
             logged_in_html: "The visitor is <strong>logged in</strong>."
             logged_out_html: "The visitor is <strong>not logged in</strong>."

@@ -1,3 +1,4 @@
-%span Ordered in the last
+= select_tag 'rule[within]', options_for_select(last_order_options, rule.within)
+%span within the last
 = number_field_tag 'rule[days]', rule.days.presence || Workarea.config.loyal_customers_last_order_days_ago, class: 'text-box text-box--small'
 %span days
