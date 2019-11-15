@@ -208,8 +208,34 @@ module Workarea
       end
     end
 
+    module Setup
+      extend ActiveSupport::Concern
+
+      included do
+        setup do
+          Mongoid.truncate!
+          Workarea.redis.flushdb
+          WebMock.disable_net_connect!(allow_localhost: true)
+          ActionMailer::Base.deliveries.clear
+        end
+      end
+    end
+
+    module Teardown
+      extend ActiveSupport::Concern
+
+      included do
+        teardown do
+          travel_back
+          CurrentSegments.reset_segmented_content
+        end
+      end
+    end
+
     extend Decoration
     extend RunnerLocation
+    include Setup
+    include Teardown
     include Configuration
     include Factories
     include Workers
@@ -219,20 +245,12 @@ module Workarea
     include Encryption
 
     setup do
-      Mongoid.truncate!
-      Workarea.redis.flushdb
-      WebMock.disable_net_connect!(allow_localhost: true)
       Workarea.config.send_email = false
       Workarea.config.send_transactional_emails = false
-      ActionMailer::Base.deliveries.clear
 
       Sidekiq::Testing.inline!
       Sidekiq::Callbacks.inline
       Sidekiq::Callbacks.disable
-    end
-
-    teardown do
-      travel_back
     end
   end
 end
