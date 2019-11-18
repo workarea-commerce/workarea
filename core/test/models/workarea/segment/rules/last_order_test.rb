@@ -16,15 +16,27 @@ module Workarea
 
           metrics.update_attributes!(last_order_at: 8.days.ago)
           visit = create_visit(email: 'bcrouse@workarea.com')
-          refute(LastOrder.new(days: 7).qualifies?(visit))
+          refute(LastOrder.new(days: 7, within: true).qualifies?(visit))
 
           metrics.update_attributes!(last_order_at: 7.days.ago)
           visit = create_visit(email: 'bcrouse@workarea.com')
-          assert(LastOrder.new(days: 7).qualifies?(visit))
+          assert(LastOrder.new(days: 7, within: true).qualifies?(visit))
 
           metrics.update_attributes!(last_order_at: 6.days.ago)
           visit = create_visit(email: 'bcrouse@workarea.com')
-          assert(LastOrder.new(days: 7).qualifies?(visit))
+          assert(LastOrder.new(days: 7, within: true).qualifies?(visit))
+
+          metrics.update_attributes!(last_order_at: 8.days.ago)
+          visit = create_visit(email: 'bcrouse@workarea.com')
+          assert(LastOrder.new(days: 7, within: false).qualifies?(visit))
+
+          metrics.update_attributes!(last_order_at: 7.days.ago)
+          visit = create_visit(email: 'bcrouse@workarea.com')
+          refute(LastOrder.new(days: 7, within: false).qualifies?(visit))
+
+          metrics.update_attributes!(last_order_at: 6.days.ago)
+          visit = create_visit(email: 'bcrouse@workarea.com')
+          refute(LastOrder.new(days: 7, within: false).qualifies?(visit))
         end
       end
     end

@@ -1,2 +1,5 @@
 %span.text.text--large
-  = t('workarea.admin.segment_rules.summaries.last_order.description_html', count: rule.days)
+  - if rule.within?
+    = t('workarea.admin.segment_rules.summaries.last_order.within_description_html', count: rule.days)
+  - else
+    = t('workarea.admin.segment_rules.summaries.last_order.not_within_description_html', count: rule.days)

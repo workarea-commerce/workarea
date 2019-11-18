@@ -67,6 +67,13 @@ module Workarea
           t('workarea.admin.segment_rules.platform.windows') => 'windows'
         }
       end
+
+      def last_order_options
+        {
+          t('workarea.admin.segment_rules.last_order.ordered') => true,
+          t('workarea.admin.segment_rules.last_order.not_ordered') => false
+        }
+      end
     end
   end
 end
