@@ -5,10 +5,13 @@ excerpt: Changes requiring attention when upgrading to Workarea 3.5.0
 
 # Workarea 3.5.0 Upgrade Guide
 
+---
+
+__Upgrading to Workarea 3.5?__ &mdash; Check out the [Workarea 3.5 Release Notes](/release-notes/workarea-3-5-0.html)
+
+---
+
 Before upgrading to Workarea 3.5.0, review the following changes.
-
-_See also:_ [Workarea 3.5.0 Release Notes](/release-notes/workarea-3-5-0.html) and [Workarea Upgrade](https://plugins.workarea.com/plugins/upgrade) (tool you should use for all upgrades).
-
 
 ## Change releases to undo using new releases
 
@@ -45,8 +48,7 @@ If you're relying on the autoconfig of Sidekiq that Workarea provides, you don't
 
 **Switching from the microdata format to the JSON-LD format is not mandatory** as valid microdata is still an accepted format. It is, however, highly recommended that apps are upgraded to use the new format, as views that have not been overridden in the app will automatically begin using the new format. Offering a mixture of both microdata and JSON-LD is not recommended.
 
-
-### Removal of Storefront product price partial
+## Removal of Storefront product price partial
 
 ### What's Changing?
 
@@ -60,7 +62,6 @@ The contents of this partial are now directly rendered within the `workarea/stor
 ### What Do You Need to Do?
 
 These changes will be caught and displayed via the diffing functionality of the [Upgrade plugin](https://stash.tools.weblinc.com/projects/WL/repos/workarea-upgrade/browse).
-
 
 ## Updates to Headless Chrome Configuration
 
@@ -121,7 +122,7 @@ To keep this functionality present in your application you'll need to install th
 
 ## jQuery UI Autocomplete Widget Removed
 
-### What's Changing
+### What's Changing?
 
 Due to the removal of Search Autocomplete, the jQuery UI Autocomplete widget is also no longer necessary from a base platform perspective.
 
@@ -156,10 +157,9 @@ There is now an Admin page for configuration values. This page allows admin user
 
 Review the Admin configuration page. If your application has defined any static configuration values that conflict with fields that are now administrable, those fields will have a red "!" icon next to them with a message indicating they are being overridden by static configuration. If you want to allow those fields to be changed by admin users, you should remove those values from your configuration file, and instead redefine the default value of the admin configuration field ([See the article on developer.workarea.com](https://developer.workarea.com/articles/configuration-fields.html)). Otherwise, you can leave them alone and they will continue to function as before.
 
-
 ## Encrypted fields are now available
 
-## What's Changing?
+### What's Changing?
 
 This is a purely additive feature that was included to support encrypted configuration fields within the Admin. Any model field can now define the `encrypted` option to automatically be encrypted for writing to the database, and decrypted upon reading from the database. This uses Rails's built-in encryption used for credentials via a master key.
 
@@ -172,10 +172,9 @@ class SomeModel
 end
 ```
 
-## What Do You Need To Do?
+### What Do You Need To Do?
 
 If your application, or any plugin you application is using defines an encrypted field, you will need to make sure your project has a master key configured and present to prevent errors when accessing models with an encrypted field. [See the Rails guide for more information on using a master key](https://edgeguides.rubyonrails.org/security.html?utm_source=twitterfeed&utm_medium=twitter#custom-credentials).
-
 
 ## S3 isn't the default asset store anymore
 

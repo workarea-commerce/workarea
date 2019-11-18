@@ -6,7 +6,13 @@ excerpt: Release notes for Workarea 3.5.0
 Workarea 3.5.0 Release Notes
 ======================================================================
 
-__Upgrading to Workarea 3.5?__ See also [Workarea 3.5.0 Upgrade Guide](/upgrade-guides/workarea-3-5-0.html) and [Workarea Upgrade](https://plugins.workarea.com/plugins/upgrade).
+---
+
+__Prefer a video?__ &mdash; Watch the [Workarea 3.5 Community Preview](https://vimeo.com/workarea/review/370155912/3384f63954)
+
+__Upgrading to Workarea 3.5?__ &mdash; Check out the [Workarea 3.5 Upgrade Guide](/upgrade-guides/workarea-3-5-0.html)
+
+---
 
 Workarea 3.5 improves releases and introduces segmentation to the base platform.
 The accuracy of release previews has improved in several ways. Most notably, all releases scheduled to publish before the previewed release are reflected in the preview.
@@ -43,7 +49,8 @@ Major Features / Changes
 [4092](https://stash.tools.weblinc.com/projects/WL/repos/workarea/pull-requests/4092/overview),
 [4125](https://stash.tools.weblinc.com/projects/WL/repos/workarea/pull-requests/4125/overview),
 [4157](https://stash.tools.weblinc.com/projects/WL/repos/workarea/pull-requests/4157/overview),
-[44](https://github.com/workarea-commerce/workarea/pull/44)
+[44](https://github.com/workarea-commerce/workarea/pull/44),
+[220](https://github.com/workarea-commerce/workarea/pull/220)
 
 
 ### Segmentation
@@ -51,9 +58,26 @@ Major Features / Changes
 * Adds segmentation feature to the base platform
 * Adds segment-based metrics and insights
 * Adds per-segment activeness to allow segmented site experiences
+* Adds "active by segment" as a filter on Admin index pages
 
 [4055](https://stash.tools.weblinc.com/projects/WL/repos/workarea/pull-requests/4055/overview),
-[4095](https://stash.tools.weblinc.com/projects/WL/repos/workarea/pull-requests/4095/overview)
+[4095](https://stash.tools.weblinc.com/projects/WL/repos/workarea/pull-requests/4095/overview),
+[135](https://github.com/workarea-commerce/workarea/pull/135),
+[138](https://github.com/workarea-commerce/workarea/pull/138),
+[150](https://github.com/workarea-commerce/workarea/pull/150),
+[155](https://github.com/workarea-commerce/workarea/pull/155),
+[159](https://github.com/workarea-commerce/workarea/pull/159),
+[162](https://github.com/workarea-commerce/workarea/pull/162),
+[166](https://github.com/workarea-commerce/workarea/pull/166),
+[181](https://github.com/workarea-commerce/workarea/pull/181),
+[183](https://github.com/workarea-commerce/workarea/pull/183),
+[184](https://github.com/workarea-commerce/workarea/pull/184),
+[189](https://github.com/workarea-commerce/workarea/pull/189),
+[193](https://github.com/workarea-commerce/workarea/pull/193),
+[205](https://github.com/workarea-commerce/workarea/pull/205),
+[210](https://github.com/workarea-commerce/workarea/pull/210),
+[214](https://github.com/workarea-commerce/workarea/pull/214),
+[219](https://github.com/workarea-commerce/workarea/pull/219)
 
 
 ### Sessions
@@ -67,13 +91,17 @@ Major Features / Changes
 
 ### Digital Products
 
-* Adds concept of fulfillment SKU
+* Adds concept of fulfillment SKU (see [Fulfillment SKUs](/articles/fulfillment-skus.html))
 * Deprecates `digital` field on products
 * Allows capturing payment for digital items when the order is placed
+* Applies tax to items that don't require shipping
 
 [4142](https://stash.tools.weblinc.com/projects/WL/repos/workarea/pull-requests/4142/overview),
 [4119](https://stash.tools.weblinc.com/projects/WL/repos/workarea/pull-requests/4119/overview),
-[4123](https://stash.tools.weblinc.com/projects/WL/repos/workarea/pull-requests/4123/overview)
+[4123](https://stash.tools.weblinc.com/projects/WL/repos/workarea/pull-requests/4123/overview),
+[111](https://github.com/workarea-commerce/workarea/pull/111),
+[139](https://github.com/workarea-commerce/workarea/pull/139),
+[149](https://github.com/workarea-commerce/workarea/pull/149)
 
 
 ### Payment & Fraud
@@ -138,7 +166,8 @@ Minor Features / Changes
 * __Content Block Asset Alt Text__:
   Allows the alt text of a content block asset to fall back to the alt text stored on the content asset.
   [3988](https://stash.tools.weblinc.com/projects/WL/repos/workarea/pull-requests/3988/overview),
-  [4130](https://stash.tools.weblinc.com/projects/WL/repos/workarea/pull-requests/4130/overview)
+  [4130](https://stash.tools.weblinc.com/projects/WL/repos/workarea/pull-requests/4130/overview),
+  [120](https://github.com/workarea-commerce/workarea/pull/120)
 * __Admin Access to Password Resets and Locked Logins__:
   Allows administrators to unlock logins and send password resets from the Admin.
   [3955](https://stash.tools.weblinc.com/projects/WL/repos/workarea/pull-requests/3955/overview),
@@ -151,7 +180,8 @@ Minor Features / Changes
   [3993](https://stash.tools.weblinc.com/projects/WL/repos/workarea/pull-requests/3993/overview)
 * __Admin Order Permissions__:
   Adds separate permission for management of orders.
-  [3991](https://stash.tools.weblinc.com/projects/WL/repos/workarea/pull-requests/3991/overview)
+  [3991](https://stash.tools.weblinc.com/projects/WL/repos/workarea/pull-requests/3991/overview),
+  [163](https://github.com/workarea-commerce/workarea/pull/163)
 * __Search Autocomplete__:
   Moves search autocomplete from the base platform into two plugins:
   [Workarea Search Autocomplete](https://github.com/workarea-commerce/workarea-search-autocomplete) and
@@ -169,8 +199,20 @@ Minor Features / Changes
   [4080](https://stash.tools.weblinc.com/projects/WL/repos/workarea/pull-requests/4080/overview)
 * __Content Block DSL__:
   Deprecates `Workarea::Content.define_block_types` in favor of `Workarea.define_content_block_types`.
-  [4082](https://stash.tools.weblinc.com/projects/WL/repos/workarea/pull-requests/4082/overview)
+  [4082](https://stash.tools.weblinc.com/projects/WL/repos/workarea/pull-requests/4082/overview),
+  [195](https://github.com/workarea-commerce/workarea/pull/195),
+  [201](https://github.com/workarea-commerce/workarea/pull/201)
 * __Sidekiq Query Cache Middleware__:
   Adds additional Sidekiq option.
   Improves search indexing performance.
   [48](https://github.com/workarea-commerce/workarea/pull/48)
+* __Administrable Open Graph Image__:
+  Allows choosing a default open graph image from the Admin.
+  Tag a content asset `og-default` to use it as the default open graph image in the Storefront.
+  [208](https://github.com/workarea-commerce/workarea/pull/208)
+* __Admin Comment Notifications__:
+  Changes the UI for "subscribing" administrators to comment notifications.
+  Uses  _@name_ syntax within the comment body instead of a separate form field.
+  Also adds option to add/remove yourself from receiving notifications.
+  [173](https://github.com/workarea-commerce/workarea/pull/173),
+  [203](https://github.com/workarea-commerce/workarea/pull/203)
