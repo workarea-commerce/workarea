@@ -8,7 +8,7 @@ module Workarea
 
       def sample
         filename = "#{@import.name.downcase.underscore}.#{@import.file_type}"
-        send_data @import.sample_file_content, filename: filename, type: @import.file_type
+        send_data @import.sample_file_content, filename: filename, type: @import.mime_type, disposition: :attachment
       end
 
       def create
