@@ -473,11 +473,60 @@ module Workarea
       end
 
       def test_reports_chart
+        yesterday = 1.day.ago
+        last_week = 1.week.ago
+
+        create_release(name: 'Foo Release', published_at: yesterday)
+
+        visit admin.timeline_report_path
+
         # Since we don't explicitly depend on Chart.js, but rather depend on
         # ChartKick which depends on Chart.js, we want to make sure the library
         # still works as we upgrade ChartKick.
-        visit admin.timeline_report_path
         assert_match(/class=('|")chartjs-render-monitor/, page.body)
+
+        within '.timeline-report__sidebar' do
+          assert_text 'Foo Release'
+          click_link 'Foo Release'
+        end
+
+        within '.tooltipster-box' do
+          assert_text 'Foo Release'
+        end
+
+        find('body').click # close tooltip
+
+        click_link t('workarea.admin.reports.timeline.add_custom')
+
+        within '.tooltipster-box' do
+          fill_in 'custom_event[name]', with: 'Foo Event'
+          fill_in 'custom_event_occurred_at_date', with: yesterday.strftime('%Y-%m-%d')
+          click_button t('workarea.admin.reports.timeline.add_custom_event')
+        end
+
+        within '.timeline-report__event-group' do
+          assert_text 'Foo Release'
+          assert_text 'Foo Event'
+          click_link 'Foo Event'
+        end
+
+        within '.tooltipster-box' do
+          fill_in 'custom_event[name]', with: 'Bar Event'
+          fill_in t('workarea.admin.js.datetime_picker.date'), with: last_week.strftime('%Y-%m-%d')
+          click_button t('workarea.admin.reports.timeline.update_event')
+        end
+
+        within '.timeline-report__event-group:first-of-type' do
+          refute_text 'Foo Release'
+          refute_text 'Foo Event'
+          assert_text 'Bar Event'
+        end
+
+        within '.timeline-report__event-group:last-of-type' do
+          assert_text 'Foo Release'
+          refute_text 'Foo Event'
+          refute_text 'Bar Event'
+        end
       end
     end
   end

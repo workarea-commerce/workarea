@@ -4,13 +4,44 @@ module Workarea
       class TimelineViewModel < ApplicationViewModel
         include GroupByTime
 
+        class Event
+          def self.build(releases, custom_events)
+            result = Hash.new { |h, k| h[k] = [] }
+
+            releases.each do |release|
+              result[release.published_at.to_date] << new(
+                Workarea::Admin::ReleaseViewModel.wrap(release),
+                type: 'release'
+              )
+            end
+
+            custom_events.each do |event|
+              result[event.occurred_at.to_date] << new(
+                event,
+                type: 'custom_event'
+              )
+            end
+
+            result.sort.to_h
+          end
+
+          delegate_missing_to :@model
+          attr_reader :model, :type
+
+          def initialize(model, type:)
+            @model = model
+            @type = type
+          end
+        end
+
         def summary
           {
-            revenue: summarize(data_for('revenue')),
-            orders: summarize(data_for('orders')),
-            units_sold: summarize(data_for('units_sold')),
-            customers: summarize(data_for('customers')),
-            releases: summarize(release_data)
+            revenue: summarize(graph_data_for('revenue')),
+            orders: summarize(graph_data_for('orders')),
+            units_sold: summarize(graph_data_for('units_sold')),
+            customers: summarize(graph_data_for('customers')),
+            releases: summarize(graph_data_for('releases')),
+            custom_events: summarize(graph_data_for('custom_events'))
           }
         end
 
@@ -18,14 +49,21 @@ module Workarea
           {
             labels: grouped_data.keys.reverse,
             datasets: {
-              revenue: transform(data_for('revenue')),
-              orders: transform(data_for('orders')),
-              units_sold: transform(data_for('units_sold')),
-              customers: transform(data_for('customers')),
-              releases: transform(release_data)
+              revenue: transform(graph_data_for('revenue')),
+              orders: transform(graph_data_for('orders')),
+              units_sold: transform(graph_data_for('units_sold')),
+              customers: transform(graph_data_for('customers')),
+              releases: transform(graph_data_for('releases')),
+              custom_events: transform(graph_data_for('custom_events'))
             }
           }
         end
+
+        def events
+          @events ||= Event.build(releases, custom_events)
+        end
+
+        private
 
         def releases
           @releases ||= Release.published_between(
@@ -34,7 +72,12 @@ module Workarea
           ).to_a
         end
 
-        private
+        def custom_events
+          @custom_events ||= Workarea::Reports::CustomEvent.occurred_between(
+            starts_at: starts_at.to_date,
+            ends_at: ends_at.to_date
+          ).to_a
+        end
 
         def date_range
           starts_at.to_date..ends_at.to_date
@@ -46,15 +89,25 @@ module Workarea
           end
         end
 
-        def data_for(type)
+        def graph_data_for(type)
+          return release_graph_data if type == 'releases'
+          return custom_event_graph_data if type == 'custom_events'
+
           grouped_data.transform_values do |values|
             (values || []).map { |v| v[type] }
           end
         end
 
-        def release_data
+        def release_graph_data
           date_range.each_with_object({}) do |date, group|
             data = releases.select { |r| r.published_at.to_date == date }
+            group[date] = [data.count]
+          end
+        end
+
+        def custom_event_graph_data
+          date_range.each_with_object({}) do |date, group|
+            data = custom_events.select { |r| r.occurred_at.to_date == date }
             group[date] = [data.count]
           end
         end

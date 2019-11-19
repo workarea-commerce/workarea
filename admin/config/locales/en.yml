@@ -3339,14 +3339,22 @@ en:
           title: Searches
         unknown: Unknown
         timeline:
+          add_custom: Add Custom
+          add_custom_event: Add Custom Event
           chart_title: Timeline Report
-          date: Date
-          title: Timeline
-          revenue: Revenue
-          orders: Orders
-          units_sold: Units Sold
+          custom_events: Custom Events
           customers: Customers
+          date: Date
+          events: Events
+          no_events: There are no events for this date range.
+          no_planned_changes: There are no changes planned for this release
+          orders: Orders
           releases: Releases
+          revenue: Revenue
+          title: Timeline
+          units_sold: Units Sold
+          update_event: Update Event
+          view_release: View Release
           summary:
             intro_html:
               one: Over the last <strong>3 Months</strong> there has been <strong>%{count} Release</strong> with
@@ -3355,6 +3363,10 @@ en:
             orders_html: <strong>%{orders}</strong> orders
             units_sold_html: <strong>%{units_sold}</strong> units sold
             customers_html: <strong>%{customers}</strong> new customers
+          flash_messages:
+            created: Custom Event created successfully
+            success: Custom Event updated successfully
+            error: Custom Event failed to save
       reports_mailer:
         export:
           subject: Here's your %{name} export

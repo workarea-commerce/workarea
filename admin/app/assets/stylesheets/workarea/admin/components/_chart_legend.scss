@@ -2,7 +2,8 @@
     #CHART-LEGEND
 \*------------------------------------*/
 
-$chart-legend-list-item-disabled-opacity: .25 !default;
+$chart-legend-list-item-disabled-opacity: 0.25 !default;
+$chart-legend-item-border-color: $border-color !default;
 
 .chart-legend {}
 
@@ -12,8 +13,24 @@ $chart-legend-list-item-disabled-opacity: .25 !default;
 
         .chart-legend__list-item {
             margin: 0 $spacing-unit;
+            border: 1px solid $chart-legend-item-border-color;
+            border-radius: $global-border-radius;
+            padding: ($spacing-unit / 2) $spacing-unit;
         }
 
         .chart-legend__list-item--disabled {
             opacity: $chart-legend-list-item-disabled-opacity;
+        }
+
+        .chart-legend__list-item--no-interact {
+            cursor: not-allowed;
+
+            .checkbox__label {
+                cursor: not-allowed;
+            }
+
+            .checkbox__label::before,
+            .checkbox__label::after {
+                display: none;
+            }
         }

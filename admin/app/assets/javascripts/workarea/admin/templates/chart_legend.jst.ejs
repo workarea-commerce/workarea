@@ -1,7 +1,8 @@
 <div class="chart-legend">
     <ul class="chart-legend__list">
         <% _.forEach(datasets, function (dataset, index) { %>
-            <li class="chart-legend__list-item" style="color: <%= dataset.backgroundColor %>">
+            <% disable = _.includes(noInteract, dataset.label) %>
+            <li class="chart-legend__list-item <%= disable ? 'chart-legend__list-item--no-interact' : '' %>" style="color: <%= dataset.backgroundColor %>">
                 <span class="checkbox">
                     <% checked = !!enabled[dataset.label] %>
                     <input type="checkbox" value="<%= index %>" class="checkbox__input" id="chart_dataset_<%= index %>"<% if (checked) { %> checked="checked"<% } %>>

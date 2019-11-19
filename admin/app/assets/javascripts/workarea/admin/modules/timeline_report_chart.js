@@ -8,6 +8,12 @@ WORKAREA.registerModule('timelineReportChart', (function () {
             var $item = $(event.target).closest('.chart-legend__list-item'),
                 dataset = chart.data.datasets[event.target.value];
 
+            if ($item.is('.chart-legend__list-item--no-interact')) {
+                event.preventDefault();
+                event.stopPropagation();
+                return;
+            }
+
             if (event.target.checked) {
                 dataset.hidden = false;
                 $item.removeClass('chart-legend__list-item--disabled');
@@ -19,10 +25,58 @@ WORKAREA.registerModule('timelineReportChart', (function () {
             chart.update();
         },
 
+        closeTooltip = function (chart) {
+            chart.tooltip._active = [];
+        },
+
+        showTooltip = function (chart, indiciesGroup) {
+            var activeElements = chart.tooltip._active || [];
+
+            _.forEach(indiciesGroup, function (indicies) {
+                activeElements.push(
+                    chart.getDatasetMeta(indicies[0]).data[indicies[1]]
+                );
+            });
+
+            chart.tooltip._active = activeElements;
+        },
+
+        toggleTooltip = function (toggle, chart, event) {
+            var $target = $(event.currentTarget),
+                date = new Date($target.data('timelineReportChartEvent')),
+                indiciesGroup = [];
+
+            _.forEach(chart.data.datasets, function (dataset, datasetIndex) {
+                _.forEach(dataset.data, function (data, pointIndex) {
+                    if (data.x.getTime() === date.getTime()) {
+                        indiciesGroup.push([datasetIndex, pointIndex]);
+                    }
+                });
+            });
+
+            if (toggle === 'open') {
+                showTooltip(chart, indiciesGroup);
+            } else if (toggle === 'close') {
+                closeTooltip(chart);
+            }
+
+            chart.tooltip.update(true);
+            chart.draw();
+        },
+
+        setupSidebar = function (chart) {
+            $(chart.canvas)
+                .closest('.view')
+                    .find('[data-timeline-report-chart-event]')
+                    .on('mouseenter', _.partial(toggleTooltip, 'open', chart))
+                    .on('mouseleave', _.partial(toggleTooltip, 'close', chart));
+        },
+
         setupLegend = function (chart) {
             var legend = JST['workarea/admin/templates/chart_legend']({
                 datasets: chart.data.datasets,
-                enabled: WORKAREA.config.timelineReportChart.initiallyActive
+                enabled: WORKAREA.config.timelineReportChart.initiallyActive,
+                noInteract: ['Releases', 'Custom Events']
             });
 
             $('#timeline-report-chart-legend')
@@ -36,9 +90,8 @@ WORKAREA.registerModule('timelineReportChart', (function () {
             return _.map(dataset, function (item) {
                 var data = { x: new Date(item.x) };
 
-                if (type === 'releases') {
+                if (type === 'releases' || type === 'custom_events') {
                     data.y = item.y > 0 ? 0 : null;
-                    data.releaseCount = item.y;
                 } else {
                     data.y = item.y || 0;
                 }
@@ -63,10 +116,11 @@ WORKAREA.registerModule('timelineReportChart', (function () {
                     dataConfig.yAxisID = 'unit-axis';
                 }
 
-                if (type === 'releases') {
-                    dataConfig.pointStyle = 'triangle';
+                if (_.includes(['releases', 'custom_events'], type)) {
                     dataConfig.radius = 10;
                     dataConfig.hoverRadius = 13;
+                    dataConfig.showLine = false;
+                    dataConfig.pointStyle = 'triangle';
                 }
 
                 dataConfig.data = transformDataset(dataset, type);
@@ -93,11 +147,20 @@ WORKAREA.registerModule('timelineReportChart', (function () {
                 chart = new Chart(canvas.getContext('2d'), getConfig(data));
 
             setupLegend(chart);
+            setupSidebar(chart);
+        },
+
+        destroyEventTooltips = function () {
+            $('[data-tooltip]').each(function (_, trigger) {
+                $(trigger).tooltipster('destroy');
+            });
         },
 
         init = function ($scope) {
             $('[data-timeline-report-chart]', $scope).each(setup);
         };
+
+    $(document).on('turbolinks:before-cache', destroyEventTooltips);
 
     return {
         init: init

@@ -1,0 +1,30 @@
+/*------------------------------------*\
+    #TIMELINE-REPORT
+\*------------------------------------*/
+
+$timeline-report-add-new-color: $green !default;
+
+.timeline-report {}
+
+
+    .timeline-report__sidebar-header {
+        margin-bottom: $spacing-unit;
+        padding-bottom: $spacing-unit;
+        border-bottom: 1px solid $border-color;
+    }
+
+
+    .timeline-report__event-group {
+        transition: opacity 0.2s ease;
+        opacity: 0.75;
+    }
+
+    .timeline-report__event-group:hover {
+        opacity: 1;
+    }
+
+
+    .timeline-report__events-list {
+        margin-left: $spacing-unit / 2;
+    }
+

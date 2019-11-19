@@ -685,7 +685,9 @@
     WORKAREA.config.timelineReportChart = {
         initiallyActive: {
             'Revenue': true,
-            'Releases': true
+            'Orders': true,
+            'Releases': true,
+            'Custom Events': true
         },
 
         datasets: {
@@ -698,7 +700,8 @@
             orders: '#011eff',
             units_sold: '#ff4070',
             customers: '#ff8100',
-            releases: '#303541'
+            releases: '#303541',
+            custom_events: '#999999'
         },
 
         options: {
@@ -715,8 +718,14 @@
             tooltips: {
                 mode: 'index',
                 filter: function (item, data) {
-                    var label = data.datasets[item.datasetIndex].label;
-                    return label !== I18n.t('workarea.admin.reports.timeline.releases');
+                    var label = data.datasets[item.datasetIndex].label,
+                        dataset = data.datasets[item.datasetIndex],
+                        blockedLabels = [
+                            I18n.t('workarea.admin.reports.timeline.releases'),
+                            I18n.t('workarea.admin.reports.timeline.custom_events')
+                        ];
+
+                    return ! (dataset.hidden || _.includes(blockedLabels, label));
                 }
             },
             scales: {
