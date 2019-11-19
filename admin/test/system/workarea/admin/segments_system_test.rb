@@ -102,6 +102,29 @@ module Workarea
         assert_content('Test Category')
       end
 
+      def test_publishing_by_segment
+        create_segment(name: 'Bar')
+        visit admin.create_catalog_categories_path
+        fill_in 'category[name]', with: 'Test Category'
+        click_button 'save_setup'
+
+        assert(page.has_content?('Success'))
+        click_link t('workarea.admin.create_catalog_categories.workflow.skip_this')
+        click_link t('workarea.admin.create_catalog_categories.workflow.skip_this')
+        click_link t('workarea.admin.create_catalog_categories.workflow.skip_this')
+
+
+        find('#publish-segments').click
+        assert_content(t('workarea.admin.segments.publish.description'))
+        find('.select2-selection--multiple').click
+        find('.select2-results__option', text: 'Bar').click
+        click_button 'publish'
+
+        assert(page.has_content?('Success'))
+        click_link t('workarea.admin.cards.attributes.title')
+        assert_content('Bar')
+      end
+
       def test_insights
         segment = create_segment
 
