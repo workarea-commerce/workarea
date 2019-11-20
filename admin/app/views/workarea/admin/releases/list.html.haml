@@ -78,9 +78,9 @@
 
     .workflow-bar
       .grid
-        .grid__cell.grid__cell--80
+        .grid__cell.grid__cell--50
           = render 'workarea/admin/shared/bulk_actions', klass: Workarea::Release, search: @search, import: false, export: false
-        .grid__cell.grid__cell--20
+        .grid__cell.grid__cell--50
           .grid.grid--auto.grid--right
             - calendar_feed_url = calendar_feed_releases_url(token: current_user.token, protocol: 'webcal')
             .grid__cell= button_tag t('workarea.admin.releases.index.add_to_calendar.link_text'), class: 'workflow-bar__button', data: { add_to_calendar_button: { initial: '#calendar-tooltip', moreInfo: '#google-calendar-info' }.as_json }

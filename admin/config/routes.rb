@@ -148,6 +148,8 @@ Workarea::Admin::Engine.routes.draw do
       get :searches
       get :timeline
 
+      resources :custom_events, only: [:create, :update, :destroy]
+
       post :export
       get '/:id/download', action: :download, as: :download
     end

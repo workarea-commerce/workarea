@@ -9,7 +9,9 @@ $button-disabled-opacity: 0.5 !default;
 
 $button-font-size:        16px !default;
 $button-small-font-size:  14px !default;
+$button-tiny-font-size:   12px !default;
 $button-padding:          0.58em 1em !default;
+$button-tiny-padding:     0.3em 0.6em !default;
 
 $button-create-bg-color:        $green !default;
 $button-create-hover-bg-color:  $bright-green !default;
@@ -56,6 +58,11 @@ $button-destroy-hover-bg-color:  $bright-red !default;
 
 .button--small {
     font-size: $button-small-font-size;
+}
+
+.button--tiny {
+    padding: $button-tiny-padding;
+    font-size: $button-tiny-font-size;
 }
 
 .button--create {
