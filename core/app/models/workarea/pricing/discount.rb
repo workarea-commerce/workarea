@@ -92,6 +92,7 @@ module Workarea
         class_name: 'Workarea::Pricing::Discount::Redemption'
 
       index(active: 1)
+      index(updated_at: 1)
 
       validates :name, presence: true
 
@@ -242,7 +243,7 @@ module Workarea
       # @return [Time]
       #
       def auto_deactivates_at
-        start = last_redemption.try(:created_at) || created_at
+        start = last_redemption.try(:created_at) || updated_at
         start + Workarea.config.discount_staleness_ttl
       end
 

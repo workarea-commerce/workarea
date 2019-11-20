@@ -1502,6 +1502,7 @@ en:
         allow_sale_items: Allow Sale Items
         allow_sale_items: Allow Sale Items
         amount: Amount
+        auto_deactivate: Auto Deactivate
         automate_metadata: Automate Metadata
         available: Available Units
         avatar: Avatar
@@ -2661,6 +2662,7 @@ en:
             list_help: You can allow more than one user tag for this discount by separating them with commas, e.g. vip, employee.
         edit:
           page_title: Attributes for %{name}
+          auto_deactivate_info: A discount that can be auto-deactivated will becomes inactive automatically if it has not been updated or redeemed in the last %{duration}.
         flash_messages:
           removed: These changes have been removed
           saved: Your changes have been saved

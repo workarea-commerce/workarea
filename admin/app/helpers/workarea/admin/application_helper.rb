@@ -156,6 +156,16 @@ module Workarea
         new_query_string_params = request.query_parameters.merge(page: page)
         "#{request.path}?#{new_query_string_params.to_query}"
       end
+
+      def duration_in_words(duration)
+        parts = duration.parts
+        return t('workarea.duration.seconds', count: 0) if parts.empty?
+
+        parts
+          .sort_by { |unit,  _ | ActiveSupport::Duration::PARTS.index(unit) }
+          .map     { |unit, val| t("workarea.duration.#{unit}", count: val) }
+          .to_sentence
+      end
     end
   end
 end
