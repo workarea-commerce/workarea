@@ -1,0 +1,90 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://rubygems.org/api/v1/gems/workarea.json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=utf-8
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET
+      Access-Control-Max-Age:
+      - '1728000'
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - d6394d50-39fa-47e9-8bf2-95934b5a81f2
+      X-Runtime:
+      - '0.016960'
+      Strict-Transport-Security:
+      - max-age=120
+      X-Backend:
+      - F_Rails 54.186.104.15:443
+      Accept-Ranges:
+      - bytes
+      - bytes
+      Age:
+      - '0'
+      - '0'
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Wed, 20 Nov 2019 17:06:57 GMT
+      Via:
+      - 1.1 varnish
+      Connection:
+      - keep-alive
+      X-Served-By:
+      - cache-mia17625-MIA
+      X-Cache:
+      - MISS
+      X-Cache-Hits:
+      - '0'
+      X-Timer:
+      - S1574269618.874178,VS0,VE106
+      Vary:
+      - Accept-Encoding,Fastly-SSL
+      Etag:
+      - '"867cab3200a545c2c4f8be4b5ae4398a"'
+      Server:
+      - RubyGems.org
+    body:
+      encoding: ASCII-8BIT
+      string: '{"name":"workarea","downloads":6177,"version":"3.4.21","version_downloads":240,"platform":"ruby","authors":"Ben
+        Crouse","info":"Workarea is an enterprise-grade Ruby on Rails commerce platform.","licenses":["Business
+        Software License"],"metadata":{},"yanked":false,"sha":"ec79083b5dde751f4bca7a384ef132afbded16660344d4343144b0b3f4d3b57d","project_uri":"https://rubygems.org/gems/workarea","gem_uri":"https://rubygems.org/gems/workarea-3.4.21.gem","homepage_uri":"http://www.workarea.com","wiki_uri":null,"documentation_uri":"http://www.rubydoc.info/gems/workarea/3.4.21","mailing_list_uri":null,"source_code_uri":null,"bug_tracker_uri":null,"changelog_uri":null,"dependencies":{"development":[],"runtime":[{"name":"workarea-admin","requirements":"=
+        3.4.21"},{"name":"workarea-core","requirements":"= 3.4.21"},{"name":"workarea-storefront","requirements":"=
+        3.4.21"},{"name":"workarea-testing","requirements":"= 3.4.21"}]}}'
+    http_version: 
+  recorded_at: Wed, 20 Nov 2019 17:06:57 GMT
+recorded_with: VCR 2.9.3

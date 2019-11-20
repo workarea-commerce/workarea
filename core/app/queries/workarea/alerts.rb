@@ -78,5 +78,12 @@ module Workarea
                                     .asc(:publish_at)
                                     .reject(&:has_changes?)
     end
+
+    def latest_workarea_version
+      return if Rails.env.test?
+      return if Rails.env.development? && ENV.fetch('SKIP_VERSION_CHECK', 'true') =~ /true/i
+
+      Workarea::LatestVersion.get
+    end
   end
 end

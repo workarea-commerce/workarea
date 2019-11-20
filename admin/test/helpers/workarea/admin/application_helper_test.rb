@@ -78,6 +78,14 @@ module Workarea
         result = pagination_path_for(page: 2)
         assert_equal('/foo?asdf=blah&page=2', result)
       end
+
+      def test_workarea_release_notes_url
+        result = workarea_release_notes_url('3.5.0')
+        assert_equal(
+          'https://developer.workarea.com/release-notes/workarea-3-5-0.html',
+          result
+        )
+      end
     end
   end
 end

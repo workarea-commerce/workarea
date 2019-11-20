@@ -17,6 +17,7 @@ module Workarea
         result = 0
         predicate_alerts.each { |m| result += 1 if send(m) }
         result += empty_upcoming_releases.length
+        result += 1 if workarea_version_outdated?
         result
       end
 
@@ -54,6 +55,11 @@ module Workarea
 
       def show_products_inconsistent_variant_details?
         products_inconsistent_variant_details > 0
+      end
+
+      def workarea_version_outdated?
+        latest_workarea_version.present? &&
+          Gem::Version.new(latest_workarea_version) > Gem::Version.new(Workarea::VERSION::STRING)
       end
     end
   end

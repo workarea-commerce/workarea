@@ -6,7 +6,6 @@ module Workarea
     class << self
       def ping
         begin
-          ENV['HTTP_PROXY'] || ENV['HTTPS_PROXY']
           request = Net::HTTP::Post.new('/ping')
           request['X-WeblincClientName'] = Workarea.config.site_name
           request['X-WeblincAuthToken'] = auth_token
