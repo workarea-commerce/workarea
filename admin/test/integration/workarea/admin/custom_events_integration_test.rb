@@ -6,6 +6,8 @@ module Workarea
       include Admin::IntegrationTest
 
       def test_creation
+        freeze_time
+
         assert_difference 'Workarea::Reports::CustomEvent.count', 1 do
           post admin.report_custom_events_path,
             params: {
@@ -15,6 +17,10 @@ module Workarea
               }
             }
         end
+
+        custom_event = Workarea::Reports::CustomEvent.first
+        assert_equal('Foo', custom_event.name)
+        assert_equal(1.week.ago, custom_event.occurred_at)
       end
 
       def test_updating
