@@ -14,9 +14,7 @@ WORKAREA.registerModule('impersonationNotification', (function () {
 
         confirm = function ($form) {
             var confirmed = window.confirm(
-                I18n.t('workarea.admin.actions.impersonation_confirmation', {
-                    name: $form.data('impersonationNotification')
-                })
+                $form.data('impersonationNotification')
             );
 
             if (confirmed) { return; }
