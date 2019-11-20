@@ -738,7 +738,7 @@ en:
             button: View Original
             title: Original
         edit:
-          alt_text_note: Used as default Alt text in Content
+          alt_text_note: Used as default alt text in content blocks
           file_label: Choose File
           name_label: Name
           page_title: Attributes for %{asset}
@@ -765,7 +765,7 @@ en:
           page_title: Choose an Asset
           title: Select Asset
         new:
-          alt_text_note: Used as default Alt text in Content
+          alt_text_note: Used as default alt text in content blocks
           create_asset: Create Asset
           create_asset_disabled_text: Creating Asset...
           file_label: Choose File
@@ -782,7 +782,8 @@ en:
           clear_asset: Clear asset
           name_missing: "(none)"
           select_an_asset: Select an asset
-          alt_text_note: Leave alt text blank to default to the asset's alt text
+          alt_text_note_html: "Default alt text: <strong>%{text}</strong>"
+          no_default_alt_text: "No default alt text"
         category:
           select_placeholder: Choose a category...
         flash_messages:
