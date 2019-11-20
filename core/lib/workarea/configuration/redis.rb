@@ -39,17 +39,21 @@ module Workarea
           return from_config if from_config.present?
 
           env_slug = name.to_s.underscore.upcase
+          scheme = ENV["WORKAREA_#{env_slug}_SCHEME"].presence || DEFAULT[:scheme]
 
           {
-            scheme: ENV["WORKAREA_#{env_slug}_SCHEME"].presence || DEFAULT[:scheme],
+            scheme: scheme,
             host: ENV["WORKAREA_#{env_slug}_HOST"].presence || DEFAULT[:host],
             port: ENV["WORKAREA_#{env_slug}_PORT"].presence || DEFAULT[:port],
-            db: ENV["WORKAREA_#{env_slug}_DB"].presence || DEFAULT[:db]
+            db: ENV["WORKAREA_#{env_slug}_DB"].presence || DEFAULT[:db],
+            password: ENV["WORKAREA_#{env_slug}_PASSWORD"].presence,
+            ssl: scheme == 'rediss' ? true : false
           }
         end
       end
 
       attr_reader :config
+      alias_method :to_h, :config
 
       def initialize(config)
         @config = config.to_h.deep_symbolize_keys
@@ -59,8 +63,16 @@ module Workarea
         @config[:scheme]
       end
 
+      def ssl
+        @config[:ssl]
+      end
+
       def host
         @config[:host]
+      end
+
+      def password
+        @config[:password]
       end
 
       def port
@@ -71,14 +83,10 @@ module Workarea
         @config[:db]
       end
 
-      def to_h
-        {
-          url: to_url
-        }
-      end
-
       def to_url
-        base = "#{scheme}://#{host}"
+        base = "#{scheme}://"
+        base << "admin:#{password}@" if password.present?
+        base << "#{host}"
         base << ":#{port}" if port.present?
         base << "/#{db}" if db.present?
         base
