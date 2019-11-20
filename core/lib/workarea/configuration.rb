@@ -1267,7 +1267,7 @@ module Workarea
       # setting to configure the `:encoding` options for `CSV.foreach`
       # if your CSV files are failing to import with a UTF-8 encoding
       # error.
-      config.csv_import_options = {}
+      config.csv_import_options = { encoding: 'bom|utf-8' }
     end
   end
 end
