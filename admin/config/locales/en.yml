@@ -3641,6 +3641,7 @@ en:
             one: "only for %{name}"
             other: "only for %{name} and %{more_count} more..."
           description_html: 'If you select segments here this will only show for visitors in one of those segments.'
+          no_segments: Set up for segmentation, but no current segments found. This won't display in the storefront.
           only_for: Only for
           select_segments: Select segments...
           only_these_segments: Only these segments will see this.

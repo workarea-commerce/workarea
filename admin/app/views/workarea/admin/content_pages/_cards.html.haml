@@ -11,7 +11,7 @@
             %li
               %strong= t('workarea.admin.fields.active')
               = check_box_tag 'page', 'active', model.active, disabled: true
-              = inline_svg('workarea/admin/icons/user.svg', class: 'svg-icon svg-icon--small svg-icon--blue') if model.active? && model.segments.any?
+              = segments_icons_for(model)
             %li
               %strong= t('workarea.admin.fields.show_left_navigation')
               = model.show_navigation?.to_s.titleize

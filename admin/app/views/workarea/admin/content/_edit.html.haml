@@ -75,8 +75,16 @@
                 = content_block_icon(block.icon, title: block.name, class: 'content-block-list__icon')
                 %span.content-block-list__name= block.name
 
-                - if block.segments.any?
+                - if block.segmented?
                   = link_to "##{dom_id(block, :segments_tooltip)}", data: { tooltip: { interactive: true } }, class: 'content-block-list__segments' do
-                    = inline_svg('workarea/admin/icons/user.svg', class: 'svg-icon svg-icon--small svg-icon--blue')
+                    - if block.segments.any?
+                      = inline_svg('workarea/admin/icons/user.svg', class: 'svg-icon svg-icon--small svg-icon--blue')
+                    - else
+                      = inline_svg('workarea/admin/icons/alert.svg', class: 'svg-icon svg-icon--small svg-icon--red')
+
                   .tooltip-content{ id: dom_id(block, :segments_tooltip) }
-                    %span= t('workarea.admin.content.edit.active_for_html', segments: block.segments.map(&:name).to_sentence)
+                    %span
+                      - if block.segments.any?
+                        = t('workarea.admin.content.edit.active_for_html', segments: block.segments.map(&:name).to_sentence)
+                      - else
+                        = t('workarea.admin.shared.active_field.no_segments')
