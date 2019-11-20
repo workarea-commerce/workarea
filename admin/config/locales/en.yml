@@ -169,7 +169,7 @@ en:
           confirm: Confirm and delete
           confirmation: Are you sure you want to delete %{count}, including the ones below?
         flash_messages:
-          created: Your deletion request is being processed and will complete shortly.
+          created: Your deletion is being processed.
         generic_name: Item
       bulk_action_product_edits:
         details:
