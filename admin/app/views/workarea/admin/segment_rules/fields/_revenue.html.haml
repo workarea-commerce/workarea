@@ -1,9 +1,8 @@
 %span
-  From
+  Spent
   = Money.default_currency.symbol
 = number_field_tag 'rule[minimum]', rule.minimum, class: 'text-box text-box--small'
 %span
-  To
+  to
   = Money.default_currency.symbol
 = number_field_tag 'rule[maximum]', rule.maximum, class: 'text-box text-box--small'
-%span in revenue
