@@ -28,7 +28,14 @@
     .tabs__panel
       %h2.tabs__heading= t('workarea.admin.content.form.display')
       .section
-        %span.heading.heading--4= t('workarea.admin.content.form.segments')
+        %span.heading.heading--4
+          = t('workarea.admin.content.form.segments')
+          - if block.segmented? && block.segments.blank?
+            = link_to '#missing-segments-tooltip', data: { tooltip: '' } do
+              = inline_svg('workarea/admin/icons/alert.svg', class: 'svg-icon svg-icon--small svg-icon--red')
+            #missing-segments-tooltip.tooltip-content
+              %p= t('workarea.admin.shared.active_field.no_segments')
+
         .property
           = label_tag 'block_active_segment_ids', t('workarea.admin.content.form.exclusive_segments'), class: 'property__name'
           = select_tag 'block[active_segment_ids]', options_from_collection_for_select(segments, :id, :name, block.active_segment_ids), multiple: true, data: { select: { placeholder: t('workarea.admin.shared.active_field.select_segments'), allowClear: true } }, id: nil

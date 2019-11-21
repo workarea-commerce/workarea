@@ -5,6 +5,11 @@
         .active-field__segments-message
           - haml_tag_if model.segments.present?, :strong do
             = t('workarea.admin.shared.active_field.by_segment', name: model.segments.map(&:name).first, count: model.segments.size, more_count: model.segments.size - 1)
+          - if model.segmented? && model.segments.blank?
+            = link_to '#missing-segments-tooltip', data: { tooltip: '' } do
+              = inline_svg('workarea/admin/icons/alert.svg', class: 'svg-icon svg-icon--small svg-icon--red')
+            #missing-segments-tooltip.tooltip-content
+              %p= t('workarea.admin.shared.active_field.no_segments')
 
       #active-by-segment.tooltip-content
         %h3

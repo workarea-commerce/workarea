@@ -107,14 +107,23 @@ module Workarea
         )
       end
 
-      def segments_icon_for(model)
-        return unless model.active_segment_ids.present?
+      def segments_icons_for(model)
+        return unless model.segmented?
 
-        inline_svg(
+        result = inline_svg(
           'workarea/admin/icons/user.svg',
           title: t('workarea.admin.insights.icons.segments'),
           class: 'svg-icon svg-icon--small svg-icon--link-color'
         )
+
+        if model.segments.blank?
+          result += inline_svg(
+            'workarea/admin/icons/alert.svg',
+            class: 'svg-icon svg-icon--small svg-icon--red'
+          )
+        end
+
+        result
       end
     end
   end

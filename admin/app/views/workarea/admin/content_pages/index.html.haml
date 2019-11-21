@@ -61,7 +61,7 @@
                 = link_to result.name, content_page_path(result)
                 = upcoming_changesets_icon_for(result)
                 = comments_icon_for(result)
-                = segments_icon_for(result)
+                = segments_icons_for(result)
               %td
                 - if result.breadcrumbs.blank?
                   %em= t('workarea.admin.fields.no_taxonomy')
