@@ -134,7 +134,8 @@
             .header__action
               .header__user-menu
                 .header__user-menu-cell
-                  = form_tag guest_browsing_path, method: 'delete', data: { disable_delete_confirmation: '' } do
+                  = form_tag guest_browsing_path, method: 'delete', data: { disable_delete_confirmation: '', impersonation_notification: t('workarea.admin.actions.guest_browsing_confirmation') } do
+                    = hidden_field_tag :return_to, request.path
                     = button_tag t('workarea.admin.toolbar.stop_guest_browsing'), class: 'text-button text-button--destroy'
           - elsif impersonating?
             .header__action
@@ -144,7 +145,7 @@
                   %strong
                     = link_to current_impersonation.email, user_path(current_impersonation)
                   %br
-                  = form_tag impersonations_path, method: 'delete', data: { disable_delete_confirmation: '', impersonation_notification: current_impersonation.name } do
+                  = form_tag impersonations_path, method: 'delete', data: { disable_delete_confirmation: '', impersonation_notification: t('workarea.admin.actions.impersonation_confirmation', name: current_impersonation.name) } do
                     = button_tag t('workarea.admin.toolbar.stop_impersonation'), class: 'text-button text-button--destroy'
           - else
             .header__action

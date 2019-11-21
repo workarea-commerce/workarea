@@ -7,6 +7,7 @@ en:
         delete: Delete
         delete_confirmation: Are you sure you want to delete?
         impersonation_confirmation: You are currently impersonating %{name}. Would you like to continue as this user?
+        guest_browsing_confirmation: You are currently browsing as a guest. Would you like to continue guest browsing?
         drag: Drag
         edit: Edit
         remove: Remove
