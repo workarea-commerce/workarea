@@ -56,7 +56,7 @@ module Workarea
       end
 
       def activity_model_name(entry)
-        entry.audited_type.gsub(/Workarea::/, '').gsub(/::/, ' ')
+        entry.audited_type.gsub(/Workarea::/, '').gsub(/::/, ' ').titleize
       end
 
       def link_to_restore_for(entry)
