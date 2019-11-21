@@ -10,7 +10,7 @@ module Workarea
           params: {
             sku: {
               id: 'SKU1',
-              policy: 'ignore',
+              policy: 'shipping',
             }
           }
 
@@ -19,7 +19,7 @@ module Workarea
 
         sku = Fulfillment::Sku.first
         assert_equal('SKU1', sku.id)
-        assert_equal('ignore', sku.policy)
+        assert_equal('shipping', sku.policy)
       end
 
       def test_update

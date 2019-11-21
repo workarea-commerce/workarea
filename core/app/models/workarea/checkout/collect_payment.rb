@@ -36,12 +36,12 @@ module Workarea
         # TODO deprecated, remove in v3.6
         return 'purchase!' if Workarea.config.auto_capture
 
-        if @order.items.all?(&:requires_shipping?)
-          Workarea.config.checkout_payment_action[:shipped]
-        elsif @order.items.any?(&:requires_shipping?)
-          Workarea.config.checkout_payment_action[:mixed]
+        if @order.items.all?(&:shipping?)
+          Workarea.config.checkout_payment_action[:shipping]
+        elsif @order.items.any?(&:shipping?)
+          Workarea.config.checkout_payment_action[:partial_shipping]
         else
-          Workarea.config.checkout_payment_action[:not_shipped]
+          Workarea.config.checkout_payment_action[:no_shipping]
         end
       end
     end

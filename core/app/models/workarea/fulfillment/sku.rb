@@ -15,8 +15,6 @@ module Workarea
       dragonfly_accessor :file, app: :workarea
       validates :file, presence: true, if: -> { download? }
 
-      delegate :requires_shipping?, to: :policy_object
-
       def self.policies
         Workarea.config.fulfillment_policies.map(&:demodulize).map(&:underscore)
       end

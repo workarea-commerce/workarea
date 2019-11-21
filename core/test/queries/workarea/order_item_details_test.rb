@@ -12,20 +12,12 @@ module Workarea
       assert_nil(OrderItemDetails.find('SKU1'))
     end
 
-    def test_requires_shipping?
+    def test_fulfillment
       product = create_product(variants: [{ sku: 'SKU', regular: 5.00 }])
+      assert_equal('shipping', OrderItemDetails.find('SKU').to_h[:fulfillment])
 
-      assert(OrderItemDetails.find('SKU').requires_shipping?)
-
-      product.update(digital: true)
-      refute(OrderItemDetails.find('SKU').requires_shipping?)
-
-      product.update(digital: false)
-      sku = create_fulfillment_sku(id: 'SKU', policy: :ignore)
-      refute(OrderItemDetails.find('SKU').requires_shipping?)
-
-      sku.update(policy: :download, file: product_image_file)
-      refute(OrderItemDetails.find('SKU').requires_shipping?)
+      sku = create_fulfillment_sku(id: 'SKU', policy: 'download', file: product_image_file)
+      assert_equal('download', OrderItemDetails.find('SKU').to_h[:fulfillment])
     end
 
     def test_to_h

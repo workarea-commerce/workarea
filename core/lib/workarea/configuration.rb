@@ -821,8 +821,7 @@ module Workarea
       # recommended as the default policy.
       config.fulfillment_policies = SwappableList.new(
         %w(
-          Workarea::Fulfillment::Policies::Ship
-          Workarea::Fulfillment::Policies::Ignore
+          Workarea::Fulfillment::Policies::Shipping
           Workarea::Fulfillment::Policies::Download
         )
       )
@@ -1262,9 +1261,9 @@ module Workarea
       # Determines what payment action happens when "place order" is submitted.
       # These correspond to methods on the {Checkout}'s instance of {Payment}
       config.checkout_payment_action = {
-        shipped: 'authorize!',
-        not_shipped: 'purchase!',
-        mixed: 'purchase!'
+        shipping: 'authorize!',
+        partial_shipping: 'purchase!',
+        no_shipping: 'purchase!'
       }
 
       # Class used to determine if an order is fraudlent

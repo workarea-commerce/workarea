@@ -26,7 +26,7 @@ module Workarea
     module Fraud
       class CustomAnalyzer < Analyzer
         def make_decision
-          if order.total_price > 1000.to_m && order.items.none?(&:requires_shipping?)
+          if order.total_price > 1000.to_m && order.items.none?(&:shipping?)
             Workarea::Order::FraudDecision.new(
               decision: :declined,
               message: "Order exceeds price limit for an all digital cart contents"

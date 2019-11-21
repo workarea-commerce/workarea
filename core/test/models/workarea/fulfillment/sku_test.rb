@@ -4,7 +4,7 @@ module Workarea
   class Fulfillment
     class SkuTest < TestCase
       def test_validation
-        sku = Sku.new(id: 'SKU1', policy: 'ignore')
+        sku = Sku.new(id: 'SKU1', policy: 'shipping')
         assert(sku.valid?)
 
         sku.policy = 'download'
@@ -16,10 +16,10 @@ module Workarea
       end
 
       def test_find_or_initialize_all
-        create_fulfillment_sku(id: 'sku1', policy: 'ignore')
+        create_fulfillment_sku(id: 'sku1')
         skus = Sku.find_or_initialize_all(%w(sku1 sku2))
 
-        assert(2, skus.size)
+        assert_equal(2, skus.size)
         assert(skus.first.persisted?)
         refute(skus.second.persisted?)
       end
@@ -28,7 +28,7 @@ module Workarea
         order = Order.new
         item = order.items.build(sku: 'SKU1')
 
-        sku = Sku.new(id: 'SKU1', policy: 'ignore')
+        sku = Sku.new(id: 'SKU1', policy: 'shipping')
         assert_nil(sku.process!(order_item: item))
 
         sku = Sku.new(id: 'SKU1', policy: 'foobar')
@@ -40,7 +40,7 @@ module Workarea
       end
 
       def test_downloadable?
-        sku = Sku.new(id: 'SKU1', policy: 'ignore')
+        sku = Sku.new(id: 'SKU1', policy: 'shipping')
         refute(sku.downloadable?)
 
         sku.policy = 'download'

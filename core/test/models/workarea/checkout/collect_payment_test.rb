@@ -39,19 +39,19 @@ module Workarea
 
       def test_action
         Workarea.config.checkout_payment_action = {
-          not_shipped: 'foo!',
-          shipped: 'bar!',
-          mixed: 'baz!'
+          shipping: 'bar!',
+          partial_shipping: 'baz!',
+          no_shipping: 'foo!'
         }
 
-        order.items.build(requires_shipping: false)
+        order.items.build(fulfillment: 'download')
         assert_equal('foo!', collect_payment.action)
 
-        order.items.build(requires_shipping: true)
+        order.items.build(fulfillment: 'shipping')
         assert_equal('baz!', collect_payment.action)
 
         order.items.clear
-        order.items.build(requires_shipping: true)
+        order.items.build(fulfillment: 'shipping')
         assert_equal('bar!', collect_payment.action)
       end
     end

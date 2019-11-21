@@ -1,8 +1,8 @@
 module Workarea
   class Fulfillment
     module Policies
-      class Ignore < Base
-        def process(*args)
+      class Shipping < Base
+        def process(*)
           # no op
         end
       end

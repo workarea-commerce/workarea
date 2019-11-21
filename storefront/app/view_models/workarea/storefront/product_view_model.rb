@@ -192,9 +192,9 @@ module Workarea
         if current_variant.present?
           fulfillment_skus
             .detect { |sku| sku.id == current_variant.sku }
-            .requires_shipping?
+            .shipping?
         else
-          fulfillment_skus.any?(&:requires_shipping?)
+          fulfillment_skus.any?(&:shipping?)
         end
       end
     end

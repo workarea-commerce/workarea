@@ -89,7 +89,7 @@ module Workarea
     end
 
     def shippable_items
-      @order.items.select(&:requires_shipping?)
+      @order.items.select(&:shipping?)
     end
 
     def stacked_dimensions

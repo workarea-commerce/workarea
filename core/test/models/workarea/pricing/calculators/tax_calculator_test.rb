@@ -128,7 +128,7 @@ module Workarea
           order = Order.new(
             items: [
               {
-                requires_shipping: false,
+                fulfillment: 'download',
                 price_adjustments: [
                   {
                     price: 'item',

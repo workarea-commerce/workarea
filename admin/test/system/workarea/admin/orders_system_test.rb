@@ -57,9 +57,9 @@ module Workarea
 
       def test_payment
         Workarea.config.checkout_payment_action = {
-          not_shipped: 'authorize!',
-          shipped: 'authorize!',
-          mixed: 'authorize!'
+          shipping: 'authorize!',
+          partial_shipping: 'authorize!',
+          no_shipping: 'authorize!'
         }
 
         order = create_placed_order

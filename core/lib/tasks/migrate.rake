@@ -35,18 +35,6 @@ namespace :workarea do
 
       puts "✅ #{count} tax categories updated."
 
-      Workarea::Catalog::Product.each_by(500) do |product|
-        next unless product.digital?
-
-        product.skus.each do |sku|
-          fulfillment = Workarea::Fulfillment::Sku.find_or_initialize_by(id: sku)
-          fulfillment.policy = 'ignore'
-          fulfillment.save!
-        end
-      end
-
-      puts "✅ #{count} fulfillment skus for digital product have been created."
-
       count = 0
       failed_ids = []
       backup = Mongo::Collection.new(Mongoid::Clients.default.database, 'workarea_legacy_segments')

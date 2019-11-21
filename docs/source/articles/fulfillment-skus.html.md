@@ -15,10 +15,6 @@ module Workarea
   class Fulfillment
     module Policies
       class Download
-        def requires_shipping?
-          # true or false, will be factored into checkout behavior
-        end
-
         def process(order_item:, fulfillment: nil)
           # will be called when an SKU with this policy is purchased.
         end
@@ -30,11 +26,9 @@ end
 
 ## Fulfillment Policies
 
-By default, Workarea offers three policies -- `ignore`, `ship`, and `download`. Each policy dictates if the SKU will require shipping. This will control the flow of checkout, which will not ask a customer for a shipping address or shipping method when it is not required for the items in their cart.
+By default, Workarea offers two policies -- `shipping`, and `download`. Picking a policy will do two things: first, it will control the flow of checkout, which will not ask a customer for a shipping address or shipping method when it is not required for the items in their cart. Second, it will allow any automated behavior (such as creating a download token or sending a gift card) when the order is placed.
 
-The `ignore` policy is a simple no-op policy that takes no action on items ordered and does not require shipping.
-
-The `ship` policy requires shipping, but takes no automated action when a SKU with this policy is ordered. **This is the default policy used when no policy exists for a SKU.**
+The `shipping` policy will require shipping info selection during checkout. It does nothing automatically when the order is placed. **This is the default policy used when no policy exists for a SKU.**
 
 The `download` policy will automatically generate a `Fulfillment::Token` for a customer when they purchase a SKU with that policy. This token provides a unique URL to the customer that is specific to their order and account. This will allow them to download the `file` tied to the Fulfillment SKU from the provided link on the order confirmation page, in the confirmation email, and/or in their order history.  
 
@@ -57,10 +51,6 @@ module Workarea
   class Fulfillment
     module Policies
       class GenerateTicket < Base
-        def requires_shipping?
-          false
-        end
-
         def process(order_item:, fulfillment: nil)
           # use order_item information to generate ticket
           # update the fulfillment to reflect the generation of the ticket
