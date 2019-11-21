@@ -66,9 +66,9 @@ en:
         fulfillment_sku_create_html: created %{name}
         fulfillment_sku_destroy_html: removed %{name}
         fulfillment_sku_update_html: updated %{fields} on %{name}
-        generic_create_html: created %{model} %{id}
-        generic_update_html: updated %{model} %{id}
-        generic_destroy_html: removed %{model} %{id}
+        generic_create_html: created %{model}
+        generic_update_html: updated %{model}
+        generic_destroy_html: removed %{model}
         help_article_create_html: created the %{name} help article
         help_article_destroy_html: removed the %{name} help article
         help_article_update_html: updated %{fields} on the %{name} help article
