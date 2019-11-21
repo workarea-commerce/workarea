@@ -11,14 +11,16 @@ module Workarea
             releases.each do |release|
               result[release.published_at.to_date] << new(
                 Workarea::Admin::ReleaseViewModel.wrap(release),
-                type: 'release'
+                type: 'release',
+                occurred_at: release.published_at
               )
             end
 
             custom_events.each do |event|
               result[event.occurred_at.to_date] << new(
                 event,
-                type: 'custom_event'
+                type: 'custom_event',
+                occurred_at: event.occurred_at
               )
             end
 
@@ -26,11 +28,12 @@ module Workarea
           end
 
           delegate_missing_to :@model
-          attr_reader :model, :type
+          attr_reader :model, :type, :occurred_at
 
-          def initialize(model, type:)
+          def initialize(model, type:, occurred_at:)
             @model = model
             @type = type
+            @occurred_at = occurred_at
           end
         end
 
@@ -49,18 +52,26 @@ module Workarea
           {
             labels: grouped_data.keys.reverse,
             datasets: {
+              # Note: Order is important. Chart.js layers chart data from the
+              # top down.
+              releases: transform(graph_data_for('releases')),
+              custom_events: transform(graph_data_for('custom_events')),
               revenue: transform(graph_data_for('revenue')),
               orders: transform(graph_data_for('orders')),
               units_sold: transform(graph_data_for('units_sold')),
-              customers: transform(graph_data_for('customers')),
-              releases: transform(graph_data_for('releases')),
-              custom_events: transform(graph_data_for('custom_events'))
+              customers: transform(graph_data_for('customers'))
             }
           }
         end
 
         def events
-          @events ||= Event.build(releases, custom_events)
+          @events ||= begin
+            Event
+              .build(releases, custom_events)
+              .each_with_object({}) do |(date, events), group|
+                group[date] = events.sort_by(&:occurred_at)
+              end
+          end
         end
 
         private

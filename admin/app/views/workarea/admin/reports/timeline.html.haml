@@ -54,7 +54,7 @@
               - else
                 %ol.list-reset
                   - @report.events.each do |date, events|
-                    %li.timeline-report__event-group{ data: { timeline_report_chart_event: date.to_time } }
+                    %li.timeline-report__event-group{ data: { timeline_report_chart_event: date.strftime('%Y|%m|%d').split('|') } }
                       %strong= date.strftime('%B %d, %Y')
                       %ul.timeline-report__events-list
                         - events.each do |event|
