@@ -747,6 +747,20 @@ en:
           save_asset: Save Asset
           tags_label: Tags
           tags_note: 'Comma separated: just, like, this'
+          tags_tooltip_html: |
+            <p>Use the following tags to set an asset as a favicon or Open Graph image for your site:</p>
+
+            <ul>
+              <li><code>favicon</code> - The default favicon</li>
+              <li><code>favicon-WxH</code>, e.g. "favicon-32x32" - The favicon for the given size</li>
+              <li><code>og-default</code> - The default Open Graph image</li>
+            </ul>
+
+            <p>
+              The default favicon is used when a device does not request a specific size or when the requested size is not available.
+              <br/>
+              The default Open Graph image is used when sharing a content page that does not specify an Open Graph image.
+            </p>
           type_label: Type
         flash_messages:
           created: Asset has been created.
