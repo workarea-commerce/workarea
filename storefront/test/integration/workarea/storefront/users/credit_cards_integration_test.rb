@@ -49,14 +49,14 @@ module Workarea
             params: {
               credit_card: {
                 month: '2',
-                year: '2020',
+                year: next_year.to_s,
                 cvv: '999'
               }
             }
 
           credit_card.reload
           assert_equal(2, credit_card.month)
-          assert_equal(2020, credit_card.year)
+          assert_equal(next_year, credit_card.year)
         end
 
         def test_removes_credit_cards
