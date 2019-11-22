@@ -78,7 +78,12 @@ See the [README](demo/README.md) in the `demo` directory for more information.
 
 Getting Started
 --------------------------------------------------------------------------------
+
+**Watch the Quickstart Video:** <https://vimeo.com/370085475>
+
 We'll assume you have [Docker desktop](https://www.docker.com/products/docker-desktop) and [Ruby >= 2.4.0, < 2.7.0](https://github.com/rbenv/rbenv#installation) installed.
+
+Feel free to refer to 
 
 1. Add the `workarea` gem to the `Gemfile` in your Rails 5.2 app:
 
