@@ -2385,6 +2385,7 @@ en:
           missing_images: "%{product} missing images"
           missing_prices: "%{product} missing prices"
           missing_variants: "%{product} missing variants"
+          missing_segments: "%{count} segmented resources with no matching segments"
           low_inventory: "%{product} with low inventory"
           variants_missing_details: "%{product} with variants missing details"
           inconsistent_variant_details: "%{product} with inconsistent variant details"
@@ -3649,6 +3650,7 @@ en:
           orders: Orders
           revenue: Revenue
           average_order_value: Average Order Value
+        missing: Missing Segment %{id}...
         publish:
           title: Publish by segment?
           description: You can control which segments this publishes for below. If you leave these blank, it will show for everyone.
@@ -3823,6 +3825,7 @@ en:
           products_with_low_inventory: Products with low inventory
           products_with_variants_missing_details: Products with variants missing details
           products_with_inconsistent_variant_details: Products with inconsistent variant details
+          segmented_resoures_missing_segments: Segmented resources with no matching segments
           title: Alerts
           upcoming_empty_releases: Upcoming empty releases
         orders:

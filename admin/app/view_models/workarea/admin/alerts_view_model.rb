@@ -11,7 +11,8 @@ module Workarea
           :show_products_missing_categories?,
           :show_products_low_inventory?,
           :show_products_variants_missing_details?,
-          :show_products_inconsistent_variant_details?
+          :show_products_inconsistent_variant_details?,
+          :show_missing_segments?
         ]
 
         result = 0
@@ -54,6 +55,10 @@ module Workarea
 
       def show_products_inconsistent_variant_details?
         products_inconsistent_variant_details > 0
+      end
+
+      def show_missing_segments?
+        missing_segments.length > 0
       end
     end
   end

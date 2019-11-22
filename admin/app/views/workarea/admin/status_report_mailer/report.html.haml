@@ -78,6 +78,11 @@
               = link_to catalog_products_url(issues: [t('workarea.alerts.issues.inconsistent_variant_details')]) do
                 = @alerts.products_inconsistent_variant_details
                 = t('workarea.admin.status_report_mailer.alerts.products_with_inconsistent_variant_details')
+          - if @alerts.show_missing_segments?
+            %li
+              = link_to search_url(active_by_segment: @alerts.missing_segments) do
+                = @alerts.missing_segments.length
+                = t('workarea.admin.status_report_mailer.alerts.segmented_resoures_missing_segments')
           - if @alerts.empty_upcoming_releases.any?
             %li
               = link_to releases_url do
