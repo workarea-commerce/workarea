@@ -37,6 +37,10 @@ module Workarea
           Workarea.config.data_file_formats.first
       end
 
+      def mime_type
+        "#{MIME::Types.type_for(file_type).first.to_s}; charset=utf-8"
+      end
+
       def process!
         raise NotImplementedError
       end
