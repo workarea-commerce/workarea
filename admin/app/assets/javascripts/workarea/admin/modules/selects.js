@@ -20,7 +20,17 @@ WORKAREA.registerModule('selects', (function () {
         },
 
         setup = function(index, select) {
-            $(select).select2(getConfig(select));
+            var config = getConfig(select),
+                $select = $(select);
+
+            if (config.allowClear) {
+                $select.before(JST['workarea/core/templates/hidden_input']({
+                    name: $select.attr('name'),
+                    value: ''
+               }));
+            }
+
+            $select.select2(config);
         },
 
         init = function ($scope) {
