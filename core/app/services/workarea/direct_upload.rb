@@ -7,6 +7,9 @@ module Workarea
       url = "#{uri.scheme}://#{uri.host}"
       url += ":#{uri.port}" unless uri.port.in? [80, 443]
 
+      redis_key = "cors_#{url.optionize}"
+      return if Workarea.redis.get(redis_key) == 'true'
+
       Workarea.s3.put_bucket_cors(
         Configuration::S3.bucket,
         'CORSConfiguration' => [
@@ -18,6 +21,8 @@ module Workarea
           }
         ]
       )
+
+      Workarea.redis.set(redis_key, 'true')
     end
 
     attr_reader :type, :filename
