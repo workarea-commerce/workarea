@@ -2375,7 +2375,7 @@ en:
           product: product
           publishes_on_and_has_no_changes: "%{release_name} publishes on %{release_publish_date} and has no changes"
           variant: variant
-          workarea_version_outdated: A newer version of Workarea is availble! Contact your system integration team about upgrading.
+          workarea_version_outdated: A newer version of Workarea is available! Contact your implementer about upgrading.
         avatar_title: Avatar for %{name}
         browse_storefront_as_guest: Browse the Storefront as a Guest
         close_primary_menu: Close Primary Menu
