@@ -17,4 +17,92 @@
         -# Generated via JS
 
     .section
-      %canvas#timeline-report{ data: { timeline_report_chart: @report.graph_data.to_json } }
+      .timeline-report
+        .grid.grid--huge
+          .grid__cell.grid__cell--80-at-medium
+            %canvas#timeline-report{ data: { timeline_report_chart: @report.graph_data.to_json } }
+
+          .grid__cell.grid__cell--20-at-medium
+            .timeline-report__sidebar
+              .timeline-report__sidebar-header
+                .grid.grid--middle
+                  .grid__cell.grid__cell--40
+                    %strong.heading.heading--3.heading--no-margin
+                      = t('workarea.admin.reports.timeline.events')
+                  .grid__cell.grid__cell--60
+                    .align-right
+                      = link_to '#add_custom_event', class: 'button button--create button--tiny', data: { tooltip: { trigger: 'click', interactive: true }.to_json } do
+                        %span.grid.grid--auto.grid--middle.grid--tiny
+                          %span.grid__cell
+                            = t('workarea.admin.reports.timeline.add_custom')
+                          %span.grid__cell
+                            = inline_svg('workarea/admin/icons/add.svg', class: 'svg-icon svg-icon--white svg-icon--small', title: t('workarea.admin.reports.timeline.add_custom'))
+
+              #add_custom_event.tooltip-content
+                = form_tag report_custom_events_path, method: 'post' do
+                  .property
+                    = label_tag 'custom_event_name', t('workarea.admin.fields.name'),  class: 'property__name'
+                    = text_field_tag 'custom_event[name]', nil, class: 'text-box'
+                  .property
+                    .box.box--rounded.box--padded
+                      = hidden_field_tag 'custom_event[occurred_at]', nil, data: { datetimepicker_field: { inline: true } }
+                  .align-center
+                    = submit_tag t('workarea.admin.reports.timeline.add_custom_event'), class: 'button button--create button--small'
+
+              - if @report.events.empty?
+                %p= t('workarea.admin.reports.timeline.no_events')
+              - else
+                %ol.list-reset
+                  - @report.events.each do |date, events|
+                    %li.timeline-report__event-group{ data: { timeline_report_chart_event: date.strftime('%Y|%m|%d').split('|') } }
+                      %strong= date.strftime('%B %d, %Y')
+                      %ul.timeline-report__events-list
+                        - events.each do |event|
+                          %li
+                            = link_to event.name, "##{dom_id(event)}", { data: { tooltip: { trigger: 'click', interactive: true }.to_json } }
+
+- if @report.events.any?
+  - @report.events.each do |date, events|
+    - events.each do |event|
+      .tooltip-content{ id: dom_id(event) }
+
+        - if event.type == 'release'
+          .card
+            = link_to release_path(id: event.id), class: 'card__header' do
+              %span.card__header-text= event.name
+            .card__body
+              - if event.model.changesets_with_releasable.empty?
+                %p.card__empty-note= t('workarea.admin.reports.timeline.no_planned_changes')
+              - else
+                - event.model.changesets_with_releasable.take(3).each do |changeset|
+                  .activity
+                    .activity__header
+                      .activity__avatar
+                        = changeset_icon changeset, { class: 'svg-icon'}
+                      .activity__name= changeset.name
+                      .activity__time
+                        = changeset.publish_humanized
+                        - if changeset.release_date.present?
+                          = local_time(changeset.release_date, :long)
+                    .activity__message
+                      .release-changeset.release-changeset--activity
+                        .release-changeset__body
+                          - changeset.changed_fields.each do |field|
+                            = render_changeset_field(changeset, field)
+
+              = link_to release_path(id: event.id), class: 'card__button' do
+                %span.button.button--small= t('workarea.admin.reports.timeline.view_release')
+        - else
+          = form_tag report_custom_event_path(id: event.id), method: 'patch' do
+            .property
+              = label_tag 'custom_event_name', t('workarea.admin.fields.name'),  class: 'property__name'
+              = text_field_tag 'custom_event[name]', event.name, class: 'text-box', id: dom_id(event, 'name')
+            .property
+              .box.box--rounded.box--padded
+                = hidden_field_tag 'custom_event[occurred_at]', event.occurred_at, data: { datetimepicker_field: { inline: true } }, id: dom_id(event, 'date_picker')
+            .grid.grid--middle
+              .grid__cell.grid__cell--50
+                = link_to t('workarea.admin.actions.delete'), report_custom_event_path(id: event.id), class: 'text-button text-button--destroy', rel: 'nofollow', data: { method: 'delete' }
+              .grid__cell.grid__cell--50
+                .align-right
+                  = submit_tag t('workarea.admin.reports.timeline.update_event'), class: 'button button--create button--small'

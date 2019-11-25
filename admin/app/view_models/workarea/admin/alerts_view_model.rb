@@ -11,7 +11,8 @@ module Workarea
           :show_products_missing_categories?,
           :show_products_low_inventory?,
           :show_products_variants_missing_details?,
-          :show_products_inconsistent_variant_details?
+          :show_products_inconsistent_variant_details?,
+          :show_missing_segments?
         ]
 
         result = 0
@@ -60,6 +61,10 @@ module Workarea
       def workarea_version_outdated?
         latest_workarea_version.present? &&
           Gem::Version.new(latest_workarea_version) > Gem::Version.new(Workarea::VERSION::STRING)
+      end
+        
+      def show_missing_segments?
+        missing_segments.length > 0
       end
     end
   end

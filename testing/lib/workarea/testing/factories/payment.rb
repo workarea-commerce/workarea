@@ -32,6 +32,10 @@ module Workarea
 
         capture.complete!
       end
+
+      def next_year
+        1.year.from_now.year
+      end
     end
   end
 end

@@ -6,8 +6,10 @@ module Workarea
       include Admin::IntegrationTest
 
       def test_admins_see_a_list_of_alerts
+        segment = create_segment
+
         create_product(images: [], description: nil)
-        create_product(variants: [])
+        create_product(variants: [], active_segment_ids: [segment.id])
         create_product(variants: [{ sku: 'NODETAILS' }])
         create_product(
           variants: [
@@ -19,9 +21,10 @@ module Workarea
         create_release(name: 'Foo', publish_at: 1.hour.from_now)
         create_inventory(id: 'NODETAILS', policy: :standard, available: 1)
 
+        segment.destroy!
         visit admin.root_path
-        assert(page.has_content?('9 Alerts'))
-        find('button', text: '9 Alerts').hover
+        assert(page.has_content?('10 Alerts'))
+        find('button', text: '10 Alerts').hover
 
         within '#alert_menu' do
           assert(page.has_content?('1 empty category'))
@@ -32,6 +35,7 @@ module Workarea
           assert(page.has_content?('1 product with low inventory'))
           assert(page.has_content?('2 products with variants missing details'))
           assert(page.has_content?('1 product with inconsistent variant details'))
+          assert(page.has_content?(t('workarea.admin.layout.alert.missing_segments', count: 1)))
           assert_match(/Foo publishes on/, page.text)
         end
 

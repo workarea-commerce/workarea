@@ -21,6 +21,11 @@ code {
   display: inline-block;
   padding: 0 0.55em;
   background: $almost-white;
+  a & {
+    display: inline;
+    padding: 0;
+    background: none;
+  }
 }
 
 

@@ -118,6 +118,8 @@
                   %li.menu__item= link_to t('workarea.admin.layout.alert.variants_missing_details', product: "#{pluralize(@alerts.products_variants_missing_details, t('workarea.admin.layout.alert.product'))}"), catalog_products_path(issues: [t('workarea.alerts.issues.variants_missing_details')]), class: 'menu__link'
                 - if @alerts.show_products_inconsistent_variant_details?
                   %li.menu__item= link_to t('workarea.admin.layout.alert.inconsistent_variant_details', product: "#{pluralize(@alerts.products_inconsistent_variant_details, t('workarea.admin.layout.alert.product'))}"), catalog_products_path(issues: [t('workarea.alerts.issues.inconsistent_variant_details')]), class: 'menu__link'
+                - if @alerts.show_missing_segments?
+                  %li.menu__items= link_to t('workarea.admin.layout.alert.missing_segments', count: @alerts.missing_segments.length), search_path(active_by_segment: @alerts.missing_segments), class: 'menu__link'
                 - @alerts.empty_upcoming_releases.each do |release|
                   %li.menu__item= link_to t('workarea.admin.layout.alert.publishes_on_and_has_no_changes', release_name: release.name, release_publish_date: release.publish_at.to_date.to_s(:long)), release_path(release) , class: 'menu__link'
                 - if @alerts.workarea_version_outdated?
@@ -136,7 +138,8 @@
             .header__action
               .header__user-menu
                 .header__user-menu-cell
-                  = form_tag guest_browsing_path, method: 'delete', data: { disable_delete_confirmation: '' } do
+                  = form_tag guest_browsing_path, method: 'delete', data: { disable_delete_confirmation: '', impersonation_notification: t('workarea.admin.actions.guest_browsing_confirmation') } do
+                    = hidden_field_tag :return_to, request.path
                     = button_tag t('workarea.admin.toolbar.stop_guest_browsing'), class: 'text-button text-button--destroy'
           - elsif impersonating?
             .header__action
@@ -146,7 +149,7 @@
                   %strong
                     = link_to current_impersonation.email, user_path(current_impersonation)
                   %br
-                  = form_tag impersonations_path, method: 'delete', data: { disable_delete_confirmation: '', impersonation_notification: current_impersonation.name } do
+                  = form_tag impersonations_path, method: 'delete', data: { disable_delete_confirmation: '', impersonation_notification: t('workarea.admin.actions.impersonation_confirmation', name: current_impersonation.name) } do
                     = button_tag t('workarea.admin.toolbar.stop_impersonation'), class: 'text-button text-button--destroy'
           - else
             .header__action

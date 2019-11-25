@@ -50,6 +50,10 @@ module Workarea
       end
     end
 
+    def segmented?
+      active_segment_ids.present?
+    end
+
     def segments
       @segments ||= active_segment_ids.blank? ? [] : Segment.in(id: active_segment_ids)
     end

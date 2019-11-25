@@ -127,5 +127,16 @@ module Workarea
 
       assert_equal([empty], Alerts.new.empty_upcoming_releases)
     end
+
+    def test_missing_segments
+      segment = create_segment
+      product = create_product(active: true, active_segment_ids: [segment.id])
+      IndexAdminSearch.perform(product)
+
+      assert_equal([], Alerts.new.missing_segments)
+
+      segment.destroy!
+      assert_equal([segment.id.to_s], Alerts.new.missing_segments)
+    end
   end
 end

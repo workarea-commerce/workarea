@@ -1,7 +1,7 @@
 module Workarea
   module Configuration
     class Redis
-      DEFAULT = { host: 'localhost', port: 6379, db: 0 }.freeze
+      DEFAULT = { host: 'localhost', port: 6379, db: 0, scheme: 'redis' }.freeze
 
       class << self
         # Used for Sidekiq and Predictor
@@ -39,11 +39,15 @@ module Workarea
           return from_config if from_config.present?
 
           env_slug = name.to_s.underscore.upcase
+          scheme = ENV["WORKAREA_#{env_slug}_SCHEME"].presence || DEFAULT[:scheme]
 
           {
+            scheme: scheme,
             host: ENV["WORKAREA_#{env_slug}_HOST"].presence || DEFAULT[:host],
             port: ENV["WORKAREA_#{env_slug}_PORT"].presence || DEFAULT[:port],
-            db: ENV["WORKAREA_#{env_slug}_DB"].presence || DEFAULT[:db]
+            db: ENV["WORKAREA_#{env_slug}_DB"].presence || DEFAULT[:db],
+            password: ENV["WORKAREA_#{env_slug}_PASSWORD"].presence,
+            ssl: scheme == 'rediss' ? true : false
           }
         end
       end
@@ -55,8 +59,20 @@ module Workarea
         @config = config.to_h.deep_symbolize_keys
       end
 
+      def scheme
+        @config[:scheme]
+      end
+
+      def ssl
+        @config[:ssl]
+      end
+
       def host
         @config[:host]
+      end
+
+      def password
+        @config[:password]
       end
 
       def port
@@ -68,7 +84,9 @@ module Workarea
       end
 
       def to_url
-        base = "redis://#{host}"
+        base = "#{scheme}://"
+        base << "admin:#{password}@" if password.present?
+        base << "#{host}"
         base << ":#{port}" if port.present?
         base << "/#{db}" if db.present?
         base

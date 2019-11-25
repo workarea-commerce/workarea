@@ -74,7 +74,7 @@ module Workarea
         assert_equal('Crouse', credit_card.last_name)
         assert_equal('XXXX-XXXX-XXXX-1', credit_card.display_number)
         assert_equal(1, credit_card.month)
-        assert_equal(2020, credit_card.year)
+        assert_equal(next_year, credit_card.year)
         refute(credit_card.token.blank?)
 
         complete_checkout('bcrouse@workarea.com', 'W3bl1nc!')

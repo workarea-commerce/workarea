@@ -85,5 +85,19 @@ module Workarea
 
       Workarea::LatestVersion.get
     end
+      
+    def missing_segments
+      @missing_segments ||= begin
+        search = Search::AdminSearch.new
+        active_by_segment_facet =
+          search.facets.detect { |f| f.name == 'active_by_segment' }
+
+        if active_by_segment_facet.present?
+          active_by_segment_facet.results.keys - Segment.pluck(:id).map(&:to_s)
+        else
+          []
+        end
+      end
+    end
   end
 end

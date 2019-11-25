@@ -7,7 +7,8 @@ module Workarea
         elsif facet.system_name == 'upcoming_changes'
           Release.where(id: value).pluck(:name).first
         elsif facet.system_name == 'active_by_segment'
-          Segment.where(id: value).pluck(:name).first
+          Segment.where(id: value).pluck(:name).first ||
+          t('workarea.admin.segments.missing', id: value[0..4])
         else
           value.titleize
         end
