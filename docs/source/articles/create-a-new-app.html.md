@@ -32,6 +32,11 @@ The steps that follow assume the following:
 
 For more details, see [Prerequisites and Dependencies](prerequisites-and-dependencies.html).
 
+## TL;DR Video Walkthrough
+
+<iframe src="https://player.vimeo.com/video/370085475" width="640" height="360" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+<p><a href="https://vimeo.com/370085475">Workarea Dev Quickstart</a> from <a href="https://vimeo.com/workarea">Workarea Commerce Platform</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
+
 ## Create a Rails 5.2 application
 
 This creates a barebones Rails app for Workarea to install into:
