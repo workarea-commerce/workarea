@@ -4,16 +4,13 @@ Workarea Builds
 ## Workarea Edge
 [![Workarea Edge](https://github.com/workarea-commerce/workarea/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea/actions)
 
-## Megabuild
-
-### Edge
+## Mega-Build
 
 [![Megabuild Edge](https://github.com/workarea-commerce/mega-build/workflows/Edge%20Build/badge.svg)](https://github.com/workarea-commerce/mega-build/actions)
 
-### Patch
+[![Megabuild Patch](https://github.com/workarea-commerce/mega-build/workflows/Patch%20Build/badge.svg)](https://github.com/workarea-commerce/mega-build/actions)
 
-## Megabuild Edge
-[![Megabuild Edge](https://github.com/workarea-commerce/mega-build/workflows/Patch%20Build/badge.svg)](https://github.com/workarea-commerce/mega-build/actions)
+## Plugins
 
 | Plugin | Status |
 | --- | --- |
