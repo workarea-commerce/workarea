@@ -8,10 +8,6 @@ module Workarea
           @sku = sku
         end
 
-        def requires_shipping?
-          false
-        end
-
         def process(order_item:, fulfillment: nil)
           raise(NotImplementedError)
         end

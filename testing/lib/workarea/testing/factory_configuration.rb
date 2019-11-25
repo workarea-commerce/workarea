@@ -38,7 +38,7 @@ defaults.import = { model_type: 'Workarea::Catalog::Product' }
 defaults.export = Proc.new { { model_type: 'Workarea::Catalog::Product', query_id: Workarea::Search::AdminProducts.new.to_global_id } }
 
 # factories/fulfillment.rb
-defaults.fulfillment_sku = { id: '2134', policy: 'ship' }
+defaults.fulfillment_sku = { id: '2134', policy: 'shipping' }
 defaults.fulfillment_token = { order_id: '1234', order_item_id: '3456', sku: '2134' }
 
 # factories/insights.rb

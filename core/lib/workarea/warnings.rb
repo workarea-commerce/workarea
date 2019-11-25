@@ -75,16 +75,16 @@ of items in the order.
 You should set Workarea.config.checkout_payment_action instead. You can set it
 for each type of order, here are the defaults:
   {
-    shipped: 'authorize!',
-    not_shipped: 'purchase!',
-    mixed: 'authorize!'
+    shipping: 'authorize!',
+    partial_shipping: 'authorize!',
+    no_shipping: 'purchase!'
   }
 
 To achieve the same functionality as Workarea.config.auto_capture, you'd set:
   {
-    shipped: 'purchase!',
-    not_shipped: 'purchase!',
-    mixed: 'purchase!'
+    shipping: 'purchase!',
+    partial_shipping: 'purchase!',
+    no_shipping: 'purchase!'
   }
 
 **************************************************

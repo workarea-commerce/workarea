@@ -19,7 +19,7 @@ module Workarea
         assert_equal(1, token.reload.downloads)
 
         token.update!(enabled: true)
-        sku.update!(policy: 'ignore')
+        sku.update!(policy: 'shipping')
 
         get storefront.download_path(token)
         assert_redirected_to(storefront.root_path)

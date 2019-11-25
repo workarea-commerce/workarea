@@ -13,7 +13,7 @@ module Workarea
     field :total_value, type: Money, default: 0
     field :total_price, type: Money, default: 0
     field :via, type: String
-    field :requires_shipping, type: Boolean, default: true
+    field :fulfillment, type: String, default: -> { Workarea.config.fulfillment_policies.first.demodulize.underscore }
 
     scope :by_newest, -> { desc(:created_at) }
 
@@ -30,6 +30,32 @@ module Workarea
         only_integer: true
       }
 
+    # To allow for custom policies defining their own methods here
+    Workarea.config.fulfillment_policies.each do |class_name|
+      define_method "#{class_name.demodulize.underscore}?" do
+        fulfillment == class_name.demodulize.underscore
+      end
+    end
+
+    # These methods exist for findability
+    def shipping?
+      fulfillment == 'shipping'
+    end
+
+    def download?
+      fulfillment == 'download'
+    end
+
+    # Whether this order has any items that need to be fulfilled by a particular
+    # fulfillment policy.
+    #
+    # @param [Array<String,Symbol>]
+    # @return [Boolean]
+    #
+    def fulfilled_by?(*types)
+      types.any? { |t| send("#{t}?") }
+    end
+
     # Whether this item is a digital (not-shipped) type of item.
     #
     # @return [Boolean]
@@ -39,7 +65,7 @@ module Workarea
     end
     Workarea.deprecation.deprecate_methods(
       Order::Item,
-      digital?: 'use `!item.requires_shipping?` to determine if this item is shipped.'
+      digital?: :fulfilled_by?
     )
 
     # Adds a price adjustment to the item. Does not persist.

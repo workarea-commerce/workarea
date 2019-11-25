@@ -191,7 +191,7 @@ Here is the addresses step as a returning user:
 
 * Order is valid (`Order#valid?`)
 * Payment address is present and valid (`Payment#address`, `Payment::Address#valid?`)
-* If order requires shipping (`Order#requires_shipping?`), all shippings are shippable (`Shipping#shippable?`)
+* If order requires shipping (`Order#fulfilled_by?(:shipping)`), all shippings are shippable (`Shipping#shippable?`)
 
 
 ### Code
@@ -248,7 +248,7 @@ These features are provided by plugins and are not covered in this doc.
 ### `complete?` Conditions
 
 * Order is valid (`Order#valid?`)
-* If order requires shipping (`Order#requires_shipping?`), first shipping is valid (`Shipping#valid?`)
+* If order requires shipping (`Order#fulfilled_by?(:shipping)`), first shipping is valid (`Shipping#valid?`)
 
 
 ### Code

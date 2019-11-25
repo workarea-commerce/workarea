@@ -29,13 +29,13 @@ module Workarea
 
         def shipped_items_price_adjustments
           PriceAdjustmentSet.new(
-            order.items.select(&:requires_shipping?).flat_map(&:price_adjustments)
+            order.items.select(&:shipping?).flat_map(&:price_adjustments)
           )
         end
 
         def not_shipped_items_price_adjustments
           PriceAdjustmentSet.new(
-            order.items.reject(&:requires_shipping?).flat_map(&:price_adjustments)
+            order.items.reject(&:shipping?).flat_map(&:price_adjustments)
           )
         end
 

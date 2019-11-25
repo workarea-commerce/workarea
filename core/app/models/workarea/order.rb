@@ -183,12 +183,22 @@ module Workarea
       save!
     end
 
-    # Whether this order needs to be shipped
+    # Check to see if this order delivers with any of the fulfillment policies
+    # passed in.
+    #
+    # @param [String,Symbol]
+    # @return [Boolean]
+    #
+    def fulfilled_by?(*types)
+      items.any? { |i| i.fulfilled_by?(*types) }
+    end
+
+    # Whether any of the order's items require physical shipping.
     #
     # @return [Boolean]
     #
     def requires_shipping?
-      items.present? && items.any?(&:requires_shipping?)
+      fulfilled_by?(:shipping)
     end
 
     # Whether this order can be purchased, which is defined here as the order
