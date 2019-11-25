@@ -46,13 +46,23 @@ module Workarea
     end
 
     def to_h
-      {
-        product_id: product.id,
-        product_attributes: product.as_document,
-        category_ids: category_ids,
-        discountable: pricing.discountable?,
-        fulfillment: fulfillment.policy
-      }
+      Rails.cache.fetch(cache_key, expires_in: cache_expiration) do
+        {
+          product_id: product.id,
+          product_attributes: product.as_document,
+          category_ids: category_ids,
+          discountable: pricing.discountable?,
+          fulfillment: fulfillment.policy
+        }
+      end
+    end
+
+    def cache_key
+      "order_item_details/#{product.cache_key}/#{sku}"
+    end
+
+    def cache_expiration
+      Workarea.config.cache_expirations.order_item_details
     end
   end
 end

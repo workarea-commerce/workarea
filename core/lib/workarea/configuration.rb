@@ -876,6 +876,7 @@ module Workarea
       config.cache_expirations.sitemap_fragment_cache = 1.day
       config.cache_expirations.free_gift_attributes = 1.hour
       config.cache_expirations.reports = 1.hour
+      config.cache_expirations.order_item_details = 15.minutes
 
       # Send transactional emails. Allows default transaction emails to be
       # disabled when using third-party email services.
