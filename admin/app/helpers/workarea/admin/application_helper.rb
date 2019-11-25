@@ -165,6 +165,16 @@ module Workarea
         version_path = "workarea-#{version.gsub('.', '-')}.html"
         "https://developer.workarea.com/release-notes/#{version_path}"
       end
+
+      def duration_in_words(duration)
+        parts = duration.parts
+        return t('workarea.duration.seconds', count: 0) if parts.empty?
+
+        parts
+          .sort_by { |unit,  _ | ActiveSupport::Duration::PARTS.index(unit) }
+          .map     { |unit, val| t("workarea.duration.#{unit}", count: val) }
+          .to_sentence
+      end
     end
   end
 end

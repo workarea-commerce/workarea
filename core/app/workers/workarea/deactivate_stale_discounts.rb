@@ -29,7 +29,7 @@ module Workarea
 
     def all_active_discount_ids
       Pricing::Discount
-        .where(:created_at.lt => Workarea.config.discount_staleness_ttl.ago)
+        .where(:updated_at.lt => Workarea.config.discount_staleness_ttl.ago)
         .select(&:active?)
         .map(&:id)
         .map(&:to_s)

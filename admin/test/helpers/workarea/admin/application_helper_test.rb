@@ -86,6 +86,22 @@ module Workarea
           result
         )
       end
+
+      def test_duration_in_words
+        assert_equal(
+          t('workarea.duration.days', count: 2),
+          duration_in_words(2.days)
+        )
+
+        assert_equal(
+          [
+            t('workarea.duration.years', count: 1),
+            t('workarea.duration.months', count: 2),
+            t('workarea.duration.days', count: 12),
+          ].to_sentence,
+          duration_in_words(2.months + 1.years + 12.days)
+        )
+      end
     end
   end
 end
