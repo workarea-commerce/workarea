@@ -160,6 +160,11 @@ module Workarea
       def s3?
         Configuration::S3.configured?
       end
+
+      def workarea_release_notes_url(version)
+        version_path = "workarea-#{version.gsub('.', '-')}.html"
+        "https://developer.workarea.com/release-notes/#{version_path}"
+      end
     end
   end
 end

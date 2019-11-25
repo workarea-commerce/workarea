@@ -79,6 +79,13 @@ module Workarea
                                     .reject(&:has_changes?)
     end
 
+    def latest_workarea_version
+      return if Rails.env.test?
+      return if Rails.env.development? && ENV.fetch('SKIP_VERSION_CHECK', 'true') =~ /true/i
+
+      Workarea::LatestVersion.get
+    end
+      
     def missing_segments
       @missing_segments ||= begin
         search = Search::AdminSearch.new

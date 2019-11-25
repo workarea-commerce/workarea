@@ -122,6 +122,8 @@
                   %li.menu__items= link_to t('workarea.admin.layout.alert.missing_segments', count: @alerts.missing_segments.length), search_path(active_by_segment: @alerts.missing_segments), class: 'menu__link'
                 - @alerts.empty_upcoming_releases.each do |release|
                   %li.menu__item= link_to t('workarea.admin.layout.alert.publishes_on_and_has_no_changes', release_name: release.name, release_publish_date: release.publish_at.to_date.to_s(:long)), release_path(release) , class: 'menu__link'
+                - if @alerts.workarea_version_outdated?
+                  %li.menu__item= link_to t('workarea.admin.layout.alert.workarea_version_outdated'), workarea_release_notes_url(@alerts.latest_workarea_version), class: 'menu__link'
 
           .header__action
             %button#help_menu{ type: 'button', class: 'header__action-link', data: { tooltip: { menu: true, content_id: '#help', interactive: true, arrow: false, distance: 0, multiple: false, trigger: 'hover' }.to_json, turbolinks: false } }

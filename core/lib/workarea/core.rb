@@ -220,6 +220,7 @@ require 'workarea/string_id'
 require 'workarea/mail_interceptor'
 require 'workarea/visit'
 require 'workarea/warnings'
+require 'workarea/latest_version'
 
 #
 # Core
