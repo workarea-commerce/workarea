@@ -1,14 +1,21 @@
 Workarea Builds
 ================================================================================
 
-## Workarea Edge
-[![Workarea Edge](https://github.com/workarea-commerce/workarea/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea/actions)
+## Base
+
+| Branch | Status |
+| --- | --- |
+| [master](https://github.com/workarea-commerce/workarea) | [![master](https://github.com/workarea-commerce/workarea/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea/actions) |
+| [v3.4-stable](https://github.com/workarea-commerce/workarea/tree/v3.4-stable) | [![v3.4-stable](https://github.com/workarea-commerce/workarea/workflows/CI/badge.svg?branch=v3.4-stable)](https://github.com/workarea-commerce/workarea/actions) |
+
 
 ## Mega-Build
 
-[![Megabuild Edge](https://github.com/workarea-commerce/mega-build/workflows/Edge%20Build/badge.svg)](https://github.com/workarea-commerce/mega-build/actions)
+| Branch | Status |
+| --- | --- |
+| [master](https://github.com/workarea-commerce/mega-build) | [![Megabuild Edge](https://github.com/workarea-commerce/mega-build/workflows/Edge%20Build/badge.svg)](https://github.com/workarea-commerce/mega-build/actions) |
+| [patch](https://github.com/workarea-commerce/mega-build/tree/patch) | [![Megabuild Patch](https://github.com/workarea-commerce/mega-build/workflows/Patch%20Build/badge.svg?branch=patch)](https://github.com/workarea-commerce/mega-build/actions) |
 
-[![Megabuild Patch](https://github.com/workarea-commerce/mega-build/workflows/Patch%20Build/badge.svg)](https://github.com/workarea-commerce/mega-build/actions)
 
 ## Plugins
 
