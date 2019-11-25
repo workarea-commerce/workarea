@@ -50,6 +50,28 @@ en:
         unit: instance
       csv:
         unit: row
+    duration:
+      years:
+        one: '%{count} year'
+        other: '%{count} years'
+      months:
+        one: '%{count} month'
+        other: '%{count} months'
+      weeks:
+        one: '%{count} week'
+        other: '%{count} weeks'
+      days:
+        one: '%{count} day'
+        other: '%{count} days'
+      hours:
+        one: '%{count} hour'
+        other: '%{count} hours'
+      minutes:
+        one: '%{count} minute'
+        other: '%{count} minutes'
+      seconds:
+        one: '%{count} second'
+        other: '%{count} seconds'
     errors:
       messages:
         contains_type: cannot contain 'type'

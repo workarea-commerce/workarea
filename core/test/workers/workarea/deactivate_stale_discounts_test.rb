@@ -4,7 +4,7 @@ module Workarea
   class DeactivateStaleDiscountsTest < TestCase
     def create_category_discount(attributes = {})
       before_ttl = (Workarea.config.discount_staleness_ttl + 1.day).ago
-      super(attributes.reverse_merge(created_at: before_ttl))
+      super(attributes.reverse_merge(updated_at: before_ttl))
     end
 
     def test_perform
@@ -71,7 +71,7 @@ module Workarea
     end
 
     def test_all_active_discount_ids
-      too_new = create_category_discount(active: true, created_at: Time.current)
+      too_new = create_category_discount(active: true, updated_at: Time.current)
       active = create_category_discount(active: true)
 
       worker = DeactivateStaleDiscounts.new
