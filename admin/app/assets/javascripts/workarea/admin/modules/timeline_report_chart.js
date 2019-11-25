@@ -43,7 +43,8 @@ WORKAREA.registerModule('timelineReportChart', (function () {
 
         toggleTooltip = function (toggle, chart, event) {
             var $target = $(event.currentTarget),
-                date = new Date($target.data('timelineReportChartEvent')),
+                dateChunks = $target.data('timelineReportChartEvent'),
+                date = new Date(dateChunks[0], dateChunks[1] - 1, dateChunks[2]),
                 indiciesGroup = [];
 
             _.forEach(chart.data.datasets, function (dataset, datasetIndex) {

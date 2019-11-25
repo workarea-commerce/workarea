@@ -23,7 +23,20 @@ module Workarea
             customers: 13
           )
 
-          create_release(published_at: Time.zone.local(2018, 1, 1))
+          create_release(
+            name: 'Foo Release',
+            published_at: Time.zone.local(2018, 1, 1)
+          )
+
+          Workarea::Reports::CustomEvent.create!(
+            name: 'Foo Event',
+            occurred_at: Time.zone.local(2018, 1, 2, 12)
+          );
+
+          Workarea::Reports::CustomEvent.create!(
+            name: 'Bar Event',
+            occurred_at: Time.zone.local(2018, 1, 2, 6)
+          );
 
           travel_to Time.zone.local(2018, 1, 3)
         end
@@ -41,6 +54,7 @@ module Workarea
           assert_equal(24, view_model.summary[:units_sold])
           assert_equal(16, view_model.summary[:customers])
           assert_equal(1, view_model.summary[:releases])
+          assert_equal(2, view_model.summary[:custom_events])
         end
 
         def test_graph_data
@@ -69,6 +83,23 @@ module Workarea
           assert_equal({ x: labels.second.to_time, y: 13 }, datasets[:customers].second)
           assert_equal({ x: labels.third.to_time, y: 1 }, datasets[:releases].third)
           assert_equal({ x: labels.second.to_time, y: 0 }, datasets[:releases].second)
+          assert_equal({ x: labels.second.to_time, y: 2 }, datasets[:custom_events].second)
+        end
+
+        def test_events
+          report = Workarea::Reports::SalesOverTime.new(
+            starts_at: 2.days.ago,
+            group_by: 'day'
+          )
+
+          view_model = TimelineViewModel.wrap(report)
+
+          assert_equal(1, view_model.events[Time.zone.local(2018, 1, 1).to_date].count)
+          assert_equal(2, view_model.events[Time.zone.local(2018, 1, 2).to_date].count)
+
+          assert_equal('Foo Release', view_model.events[Time.zone.local(2018, 1, 1).to_date].first.name)
+          assert_equal('Bar Event', view_model.events[Time.zone.local(2018, 1, 2).to_date].first.name)
+          assert_equal('Foo Event', view_model.events[Time.zone.local(2018, 1, 2).to_date].second.name)
         end
       end
     end

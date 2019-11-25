@@ -55,13 +55,28 @@ WORKAREA.registerModule('tooltips', (function () {
         // Otherwise If the trigger is a link with href use that to populate tooltip
         // If neither are present, throw an error.
         getContent = function(trigger, options) {
+            var $content;
+
             if (!_.isEmpty(options.content)) {
-                return options.content;
+                $content = $('<div />').html(options.content);
             } else if (!_.isEmpty(options.content_id)) {
-                return $(options.content_id);
+                $content = $(options.content_id);
             } else if(!_.isEmpty($(trigger).attr('href'))) {
-                return $($(trigger).attr('href'));
+                $content = $($(trigger).attr('href'));
+            } else {
+                $content = $('<div />');
             }
+
+            // Prevent interactive UIs within a tooltip from accidentally
+            // closing the tooltip. A good example of this would be jQuery UI
+            // Datepicker or Datetimepicker being embedded in a tooltip.
+            if (options.interactive && options.trigger === 'click') {
+                $content.on('click', function (event) {
+                    event.stopPropagation();
+                });
+            }
+
+            return $content;
         },
 
         customTriggerToggle = function ($trigger) {
