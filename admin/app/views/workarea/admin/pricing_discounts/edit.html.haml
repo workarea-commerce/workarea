@@ -36,7 +36,6 @@
               %span.property__name
                 = t('workarea.admin.fields.active')
                 = inline_svg('workarea/admin/i18n.svg', class: 'svg-icon svg-icon--small') if locale_options.many? && Workarea.config.localized_active_fields
-              = toggle_button_for 'discount[active]', @discount.active?
               = render 'workarea/admin/shared/active_field', scope: 'discount', model: @discount
 
           .grid__cell.grid__cell--50.grid__cell--25-at-medium
