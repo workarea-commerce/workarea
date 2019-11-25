@@ -63,6 +63,52 @@ module Workarea
         assert(page.has_selector?('.ui-sortable'))
       end
 
+      def test_active_by_segment
+        create_life_cycle_segments
+        create_content(name: 'home_page')
+
+        visit admin.content_index_path
+        click_link 'Home Page'
+        within '.card--content' do
+          click_link 'Content'
+        end
+
+        click_link 'add_new_block'
+        click_link 'HTML'
+
+        fill_in 'block[data][html]', with: '<h1>Some Content!</h1>'
+        click_button 'create_block'
+        assert(page.has_content?('Success'))
+
+        find('.content-block-list__name', text: 'HTML').click
+        find('.tabs__menu-link', text: t('workarea.admin.content.form.display')).click
+
+        within '.tabs__panel' do
+          find('.select2-selection--multiple').click
+        end
+
+        find('.select2-results__option:first-of-type').click
+
+        find('body').click # close the select2 UI
+
+        click_button t('workarea.admin.form.save_changes')
+        assert(page.has_content?('Success'))
+
+        find('.content-block-list__name', text: 'HTML').click
+        click_link t('workarea.admin.content.form.display')
+
+        assert_selector('.select2-selection__choice')
+        find('.select2-selection__choice__remove').click
+
+        click_button t('workarea.admin.form.save_changes')
+        assert(page.has_content?('Success'))
+
+        find('.content-block-list__name', text: 'HTML').click
+        click_link t('workarea.admin.content.form.display')
+
+        refute_selector('.select2-selection__choice')
+      end
+
       def test_managing_content_blocks_for_a_release
         home = create_content(name: 'home_page', blocks: [])
         release = create_release(name: 'Foo')
