@@ -85,7 +85,7 @@ module Workarea
 
       Workarea::LatestVersion.get
     end
-      
+
     def missing_segments
       @missing_segments ||= begin
         search = Search::AdminSearch.new

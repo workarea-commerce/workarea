@@ -62,7 +62,7 @@ module Workarea
         latest_workarea_version.present? &&
           Gem::Version.new(latest_workarea_version) > Gem::Version.new(Workarea::VERSION::STRING)
       end
-        
+
       def show_missing_segments?
         missing_segments.length > 0
       end
