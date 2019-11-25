@@ -25,8 +25,6 @@ module Workarea
         }
       end
 
-      private
-
       def inventory_display_clause(allow_displayable_when_out_of_stock: true)
         result = { bool: { should: [{ range: { 'numeric.inventory': { gt: 0 } } }] } }
 
