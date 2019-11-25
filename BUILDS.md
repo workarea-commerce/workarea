@@ -15,8 +15,10 @@ Workarea Builds
 | Plugin | Status |
 | --- | --- |
 | A11y | [![A11y](https://github.com/workarea-commerce/workarea-a11y/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-a11y) |
+| Afterpay | [![Afterpay](https://github.com/workarea-commerce/workarea-afterpay/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-afterpay) |
 | API | [![API](https://github.com/workarea-commerce/workarea-api/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-api) |
 | Authorize.NET CIM | [![Authorize.NET CIM](https://github.com/workarea-commerce/workarea-authorize-cim/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-authorize-cim) |
+| Avatax | [![Avatax](https://github.com/workarea-commerce/workarea-avatax/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-avatax) |
 | Basic Auth | [![Basic Auth](https://github.com/workarea-commerce/workarea-basic-auth/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-basic-auth) |
 | Blog | [![Blog](https://github.com/workarea-commerce/workarea-blog/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-blog) |
 | Browse Option | [![Browse Option](https://github.com/workarea-commerce/workarea-browse-option/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-browse-option) |
@@ -36,6 +38,7 @@ Workarea Builds
 | Listrak | [![Listrak](https://github.com/workarea-commerce/workarea-listrak/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-listrak) |
 | Mailchimp | [![Mailchimp](https://github.com/workarea-commerce/workarea-mailchimp/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-mailchimp) |
 | Nvy Theme | [![Nvy Theme](https://github.com/workarea-commerce/workarea-nvy-theme/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-nvy-theme) |
+| One Theme | [![One Theme](https://github.com/workarea-commerce/workarea-one-theme/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-one-theme) |
 | Package Products | [![Package Products](https://github.com/workarea-commerce/workarea-package-products/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-package-products) |
 | Paypal | [![Paypal](https://github.com/workarea-commerce/workarea-paypal/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-paypal) |
 | Product Badges | [![Product Badges](https://github.com/workarea-commerce/workarea-product-badges/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-product-badges) |
@@ -47,6 +50,7 @@ Workarea Builds
 | Segment Analytics | [![Segment Analytics](https://github.com/workarea-commerce/workarea-segment-analytics/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-segment-analytics) |
 | Share | [![Share](https://github.com/workarea-commerce/workarea-share/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-share) |
 | Shipping Estimation | [![Shipping Estimation](https://github.com/workarea-commerce/workarea-shipping-estimation/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-shipping-estimation) |
+| Shipping Message | [![Shipping Message](https://github.com/workarea-commerce/workarea-shipping-message/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-shipping-message) |
 | Sitemaps | [![Sitemaps](https://github.com/workarea-commerce/workarea-sitemaps/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-sitemaps) |
 | Styled Selects | [![Styled Selects](https://github.com/workarea-commerce/workarea-styled-selects/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-styled-selects) |
 | Super Hero | [![Super Hero](https://github.com/workarea-commerce/workarea-super-hero/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-super-hero) |
