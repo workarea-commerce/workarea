@@ -401,6 +401,21 @@ module Workarea
           assert_equal("Bowl Light\u0099", product.name)
         end
       end
+
+      def test_bom_characters_in_unicode
+        csv = %(\xEF\xBB\xBF_id,name,slug,details_keywords\n653911,Bowl Light,Bowl_Light,"testing")
+        import = create_import(
+          model_type: Catalog::Product.name,
+          file: create_tempfile(csv, extension: 'csv'),
+          file_type: 'csv'
+        )
+
+        Csv.new(import).import!
+
+        product = Catalog::Product.find_by(slug: 'bowl_light')
+
+        assert_equal('653911', product.id)
+      end
     end
   end
 end

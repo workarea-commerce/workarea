@@ -6,12 +6,14 @@ module Workarea
       include Admin::IntegrationTest
 
       def test_ensures_cors_policy_for_bulk_upload
-        DirectUpload.expects(:ensure_cors!).once
+        Workarea.s3.expects(:put_bucket_cors).once
         get admin.content_assets_path
         assert(response.ok?)
 
-        DirectUpload.expects(:ensure_cors!).never
         get admin.content_assets_path, xhr: true
+        assert(response.ok?)
+
+        get admin.content_assets_path
         assert(response.ok?)
       end
 

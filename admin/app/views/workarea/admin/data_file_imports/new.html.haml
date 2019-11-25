@@ -35,7 +35,7 @@
               - Workarea.config.data_file_formats.each do |file_type|
                 = link_to_unless @import.file_type.to_s == file_type.to_s, file_type.upcase, url_for(import: { model_type: @import.model_type, file_type: file_type }), data: { turbolinks: false }
               %br
-              = link_to t('workarea.admin.data_file_imports.new.download_sample'), url_for(params.merge(action: 'sample')) if @import.samples.present?
+              = link_to t('workarea.admin.data_file_imports.new.download_sample'), url_for(params.merge(action: 'sample', format: @import.file_type)) if @import.samples.present?
 
             - if @import.samples.blank?
               %p.align-center= t('workarea.admin.data_file_imports.new.no_samples')

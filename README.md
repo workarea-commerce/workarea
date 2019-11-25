@@ -87,6 +87,8 @@ Then try following [our guide on creating a new Workarea Rails app](https://deve
 
 If you have any problems, reach out on our [public Slack](https://www.workarea.com/slack). We're happy to help!
 
+**Watch the Quickstart Video:** <https://vimeo.com/370085475>
+
 
 Plugins
 --------------------------------------------------------------------------------
