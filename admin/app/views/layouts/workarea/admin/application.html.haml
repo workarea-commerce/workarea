@@ -119,7 +119,7 @@
                 - if @alerts.show_products_inconsistent_variant_details?
                   %li.menu__item= link_to t('workarea.admin.layout.alert.inconsistent_variant_details', product: "#{pluralize(@alerts.products_inconsistent_variant_details, t('workarea.admin.layout.alert.product'))}"), catalog_products_path(issues: [t('workarea.alerts.issues.inconsistent_variant_details')]), class: 'menu__link'
                 - if @alerts.show_missing_segments?
-                  %li.menu__item= link_to t('workarea.admin.layout.alert.missing_segments', count: @alerts.missing_segments.length), search_path(active_by_segment: @alerts.missing_segments), class: 'menu__link'
+                  %li.menu__item= link_to t('workarea.admin.layout.alert.missing_segments', resource: "#{pluralize(@alerts.missing_segments.length, t('workarea.admin.layout.alert.segmented_resource'))}"), search_path(active_by_segment: @alerts.missing_segments), class: 'menu__link'
                 - @alerts.empty_upcoming_releases.each do |release|
                   %li.menu__item= link_to t('workarea.admin.layout.alert.publishes_on_and_has_no_changes', release_name: release.name, release_publish_date: release.publish_at.to_date.to_s(:long)), release_path(release) , class: 'menu__link'
                 - if @alerts.workarea_version_outdated?

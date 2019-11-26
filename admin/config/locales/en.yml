@@ -2386,7 +2386,7 @@ en:
           missing_images: "%{product} missing images"
           missing_prices: "%{product} missing prices"
           missing_variants: "%{product} missing variants"
-          missing_segments: "%{count} segmented resources with no matching segments"
+          missing_segments: "%{resource} with no matching segments"
           low_inventory: "%{product} with low inventory"
           variants_missing_details: "%{product} with variants missing details"
           inconsistent_variant_details: "%{product} with inconsistent variant details"
@@ -2394,6 +2394,7 @@ en:
           publishes_on_and_has_no_changes: "%{release_name} publishes on %{release_publish_date} and has no changes"
           variant: variant
           workarea_version_outdated: A newer version of Workarea is available! Contact your implementer about upgrading.
+          segmented_resource: segmented resource
         avatar_title: Avatar for %{name}
         browse_storefront_as_guest: Browse the Storefront as a Guest
         close_primary_menu: Close Primary Menu
