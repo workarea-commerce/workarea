@@ -4,7 +4,7 @@ on:
     types: [published]
   push:
     branches:
-      - 'v3.4-stable'
+      - 'master'
     paths:
       - 'docs/*'
       - 'docs/*/*'
