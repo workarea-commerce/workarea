@@ -2,7 +2,6 @@ module Workarea
   class Content
     class BlockDraft
       include ApplicationDocument
-      include Releasable
 
       field :content_id, type: String
       Block.fields.except('_id').each do |name, field_instance|
