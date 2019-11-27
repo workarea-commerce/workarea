@@ -31,6 +31,10 @@ module Workarea
 
         Workarea::Inventory::Collection.new(inventory.map(&:id), inventory)
       end
+
+      def source_filter
+        ['model_class', 'model', 'keywords.*', 'cache.*']
+      end
     end
   end
 end

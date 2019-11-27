@@ -44,6 +44,10 @@ module Workarea
       def current_sort
         AdminOrders.available_sorts.find(params[:sort])
       end
+
+      private
+
+      def source_filter; end
     end
   end
 end

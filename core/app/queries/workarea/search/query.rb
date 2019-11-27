@@ -50,7 +50,8 @@ module Workarea
         {
           query: query,
           post_filter: post_filter,
-          aggs: aggregations
+          aggs: aggregations,
+          _source: source_filter
         }
         .merge(additional_options)
         .delete_if { |_, v| v.blank? }
@@ -125,6 +126,9 @@ module Workarea
             source
           end
         end
+      end
+
+      def source_filter
       end
     end
   end

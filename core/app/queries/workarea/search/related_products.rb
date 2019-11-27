@@ -91,6 +91,10 @@ module Workarea
           .reject(&:blank?)
           .uniq
       end
+
+      def source_filter
+        ['id', 'model_class', 'model']
+      end
     end
   end
 end

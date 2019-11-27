@@ -69,7 +69,8 @@ module Workarea
                     ]
                   }
                 }
-              end
+              end,
+              _source: false
             )
 
             results['hits']['hits'].map { |h| h['_id'].split('-').first }
