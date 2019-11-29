@@ -106,6 +106,31 @@ module Workarea
 
         refute(og_asset.open_graph_placeholder?)
       end
+
+      def test_ambiguous_new_block_position
+        content = create_content
+        refute(ContentViewModel.wrap(content).ambiguous_new_block_position?)
+
+        new_block_params = { type_id: 'text', position: 0 }
+        view_model = ContentViewModel.wrap(content, new_block: new_block_params)
+        refute(view_model.ambiguous_new_block_position?)
+
+        view_model = ContentViewModel.wrap(content, new_block: new_block_params.merge(position: 1))
+        assert(view_model.ambiguous_new_block_position?)
+
+        release = create_release
+        content.blocks.create!(type_id: 'text', position: 0, activate_with: release.id)
+        content.blocks.create!(type_id: 'text', position: 1)
+
+        view_model = ContentViewModel.wrap(content, new_block: new_block_params)
+        refute(view_model.ambiguous_new_block_position?)
+
+        view_model = ContentViewModel.wrap(content, new_block: new_block_params.merge(position: 1))
+        assert(view_model.ambiguous_new_block_position?)
+
+        view_model = ContentViewModel.wrap(content, new_block: new_block_params.merge(position: 2))
+        refute(view_model.ambiguous_new_block_position?)
+      end
     end
   end
 end

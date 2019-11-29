@@ -30,7 +30,7 @@
 
   - else
     .content-editor__area
-      - if content.new_block? && content.new_block.position == 0
+      - if content.new_block?(at: 0) || content.ambiguous_new_block_position?
         .content-block{ id: dom_id(content.new_block), data: { content_block: storefront.draft_content_block_path(content.new_block_draft) }, class: ('content-block--active' if content.new_block?), style: "order: #{content.new_block.position}" }
           .content-block__iframe-placeholder
         = form_tag content_area_blocks_path(content, content.current_area), method: :post, class: 'content-editor__form', data: { content_editor_form: { previewId: "##{dom_id(content.new_block)}", params: { 'block[content_id]': content.id, 'block[type_id]': content.new_block.type_id, 'block[area]': content.current_area } }.to_json, unsaved_changes: '' } do
@@ -54,7 +54,7 @@
         = form_tag content_area_block_path(content, content.current_area, block), method: :patch, class: 'content-editor__form', data: { content_editor_form: { previewId: "##{dom_id(block)}", params: { 'block[content_id]': content.id, 'block[type_id]': block.type_id, 'block[area]': content.current_area } }.to_json, unsaved_changes: '' } do
           = render 'workarea/admin/content/form', content: content, block: block
 
-        - if content.new_block? && content.new_block.position == block.position + 1
+        - if content.new_block?(at: block.position + 1)
           .content-block{ id: dom_id(content.new_block), data: { content_block: storefront.draft_content_block_path(content.new_block_draft) }, class: ('content-block--active' if content.new_block?), style: "order: #{content.new_block.position}" }
             .content-block__iframe-placeholder
           = form_tag content_area_blocks_path(content, content.current_area), method: :post, class: 'content-editor__form', data: { content_editor_form: { previewId: "##{dom_id(content.new_block)}", params: { 'block[content_id]': content.id, 'block[type_id]': content.new_block.type_id, 'block[area]': content.current_area } }.to_json, unsaved_changes: '' } do
