@@ -83,7 +83,8 @@ module Workarea
         find('.content-block-list__name', text: 'HTML').click
         find('.tabs__menu-link', text: t('workarea.admin.content.form.display')).click
 
-        within '.tabs__panel' do
+        wait_for_xhr # required because jQuery UI Tabs is awful
+        within '#display-1-tab-panel-0' do
           find('.select2-selection--multiple').click
         end
 
@@ -95,18 +96,24 @@ module Workarea
         assert(page.has_content?('Success'))
 
         find('.content-block-list__name', text: 'HTML').click
-        click_link t('workarea.admin.content.form.display')
+        find('.tabs__menu-link', text: t('workarea.admin.content.form.display')).click
 
-        assert_selector('.select2-selection__choice')
-        find('.select2-selection__choice__remove').click
+        wait_for_xhr # required because jQuery UI Tabs is awful
+        within '#display-1-tab-panel-0' do
+          assert_selector('.select2-selection__choice')
+          find('.select2-selection__choice__remove').click
+        end
 
         click_button t('workarea.admin.form.save_changes')
         assert(page.has_content?('Success'))
 
         find('.content-block-list__name', text: 'HTML').click
-        click_link t('workarea.admin.content.form.display')
+        find('.tabs__menu-link', text: t('workarea.admin.content.form.display')).click
 
-        refute_selector('.select2-selection__choice')
+        wait_for_xhr # required because jQuery UI Tabs is awful
+        within '#display-1-tab-panel-0' do
+          refute_selector('.select2-selection__choice')
+        end
       end
 
       def test_managing_content_blocks_for_a_release
