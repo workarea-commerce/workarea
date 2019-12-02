@@ -8,6 +8,10 @@ module Workarea
         field name, field_instance.options.except(:klass)
       end
 
+      # Added as a field to ensure copying this value to any blocks created
+      # from a draft.
+      field :activate_with, type: String
+
       index(
         { created_at: 1 },
         { expire_after_seconds: 1.hour.seconds.to_i }
