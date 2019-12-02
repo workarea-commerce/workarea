@@ -1,5 +1,11 @@
 name: CI
-on: [push]
+on:
+  push:
+    paths-ignore:
+      - '.github/**'
+      - 'demo/**'
+      - 'docs/**'
+      - '**.md'
 
 jobs:
   static_analysis:
