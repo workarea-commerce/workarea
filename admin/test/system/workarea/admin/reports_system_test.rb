@@ -504,7 +504,7 @@ module Workarea
           click_button t('workarea.admin.reports.timeline.add_custom_event')
         end
 
-        within '.timeline-report__event-group' do
+        within '.timeline-report' do
           assert_text 'Foo Release'
           assert_text 'Foo Event'
           click_link 'Foo Event'

@@ -37,10 +37,10 @@
                       .tooltip-content{ id: dom_id(image, 'action_group') }
                         .grid.grid--middle
                           .grid__cell.grid__cell--50
-                            = link_to inline_svg('workarea/admin/icons/edit.svg', class: 'svg-icon svg-icon--small svg-icon--dark-gray svg-icon--block', title: t('workarea.admin.catalog_product_images.index.edit_image')), edit_catalog_product_image_path(@product, image), id: dom_id(image, 'edit_image')
+                            = link_to inline_svg_tag('workarea/admin/icons/edit.svg', class: 'svg-icon svg-icon--small svg-icon--dark-gray svg-icon--block', title: t('workarea.admin.catalog_product_images.index.edit_image')), edit_catalog_product_image_path(@product, image), id: dom_id(image, 'edit_image')
                           .grid__cell.grid__cell--50
                             = link_to catalog_product_image_path(@product, image), data: { method: 'delete', confirm: t('workarea.admin.catalog_product_images.index.delete_confirmation') }, id: dom_id(image, 'delete_image') do
-                              = inline_svg('workarea/admin/icons/delete.svg', class: 'svg-icon svg-icon--small svg-icon--red', title: t('workarea.admin.catalog_product_images.index.delete_image'))
+                              = inline_svg_tag('workarea/admin/icons/delete.svg', class: 'svg-icon svg-icon--small svg-icon--red', title: t('workarea.admin.catalog_product_images.index.delete_image'))
                     = form_tag catalog_product_image_path(@product, image), method: :patch, class: 'hidden', data: { product_images_sortable_position_form: '' } do
                       %p= number_field_tag 'image[position]', image.position, class: 'text-box text-box--small', id: dom_id(image, 'image_position')
                       %p= button_tag t('workarea.admin.actions.update'), value: 'update_position', class: 'button button--small'

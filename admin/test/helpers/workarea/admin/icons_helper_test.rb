@@ -9,7 +9,7 @@ module Workarea
         @user ||= create_user(admin: true)
       end
 
-      def inline_svg(path, options = {})
+      def inline_svg_tag(path, options = {})
         [path, *options.values]
       end
 

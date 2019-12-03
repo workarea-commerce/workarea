@@ -2,7 +2,7 @@
 To generate a new plugin, run:
 
 rails plugin new path/to/my_plugin \
-  --template=https://raw.githubusercontent.com/workarea-commerce/workarea/v3.4-stable/plugin_template.rb \
+  --template=https://raw.githubusercontent.com/workarea-commerce/workarea/master/plugin_template.rb \
   --full \
   --skip-spring \
   --skip-active-record \
@@ -11,7 +11,8 @@ rails plugin new path/to/my_plugin \
   --skip-coffee \
   --skip-turbolinks \
   --skip-bootsnap \
-  --skip-yarn
+  --skip-yarn \
+  --skip-webpack-install
 =end
 
 #
@@ -20,9 +21,6 @@ rails plugin new path/to/my_plugin \
 remove_file "lib/#{name}.rb"
 create_file "lib/workarea/#{name}.rb", <<~CODE
   require 'workarea'
-  require 'workarea/storefront'
-  require 'workarea/admin'
-
   require 'workarea/#{name}/engine'
   require 'workarea/#{name}/version'
 
@@ -82,7 +80,6 @@ rails_requires = <<~CODE
   require 'action_mailer/railtie'
   require 'rails/test_unit/railtie'
   require 'sprockets/railtie'
-  require 'teaspoon-mocha'
 CODE
 
 gsub_file 'bin/rails', /.+rails\/all.+/, rails_requires
@@ -94,9 +91,7 @@ gsub_file 'test/dummy/config/application.rb', /.+rails\/all.+/, rails_requires
 require_workarea = <<~CODE
   # Workarea must be required before other gems to ensure control over Rails.env
   # for running tests
-  require 'workarea/core'
-  require 'workarea/admin'
-  require 'workarea/storefront'
+  require 'workarea'
 CODE
 
 inject_into_file 'test/dummy/config/application.rb', require_workarea, before: 'Bundler.require(*Rails.groups)'

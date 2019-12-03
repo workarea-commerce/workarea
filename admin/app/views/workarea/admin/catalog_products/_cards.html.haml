@@ -3,7 +3,7 @@
     .card{ class: card_classes(:attributes, local_assigns[:active]) }
       = link_to edit_catalog_product_path(model), class: 'card__header' do
         %span.card__header-text= t('workarea.admin.cards.attributes.title')
-        = inline_svg 'workarea/admin/icons/attributes.svg', class: 'card__icon'
+        = inline_svg_tag 'workarea/admin/icons/attributes.svg', class: 'card__icon'
 
       - if local_assigns[:active].blank?
         .card__body
@@ -49,7 +49,7 @@
     .card{ class: card_classes(:images, local_assigns[:active]) }
       = link_to catalog_product_images_path(model), class: 'card__header' do
         %span.card__header-text= t('workarea.admin.catalog_products.cards.images.title')
-        = inline_svg 'workarea/admin/icons/images.svg', class: 'card__icon'
+        = inline_svg_tag 'workarea/admin/icons/images.svg', class: 'card__icon'
 
       - if local_assigns[:active].blank?
         .card__body
@@ -73,7 +73,7 @@
     .card{ class: card_classes(:variants, local_assigns[:active]) }
       = link_to catalog_product_variants_path(model), class: 'card__header' do
         %span.card__header-text= t('workarea.admin.catalog_products.cards.variants.title')
-        = inline_svg 'workarea/admin/icons/variants.svg', class: 'card__icon'
+        = inline_svg_tag 'workarea/admin/icons/variants.svg', class: 'card__icon'
 
       - if local_assigns[:active].blank?
         .card__body
@@ -118,7 +118,7 @@
     .card{ class: card_classes(:content, local_assigns[:active]) }
       = link_to content_catalog_product_path(model), class: 'card__header' do
         %span.card__header-text= t('workarea.admin.catalog_products.cards.content.title')
-        = inline_svg 'workarea/admin/icons/content.svg', class: 'card__icon'
+        = inline_svg_tag 'workarea/admin/icons/content.svg', class: 'card__icon'
 
       - if local_assigns[:active].blank?
         .card__body
@@ -140,7 +140,7 @@
     .card{ class: card_classes(:categories, local_assigns[:active]) }
       = link_to catalog_product_categorizations_path(model), class: 'card__header' do
         %span.card__header-text= t('workarea.admin.catalog_products.cards.categories.title')
-        = inline_svg 'workarea/admin/icons/categories.svg', class: 'card__icon'
+        = inline_svg_tag 'workarea/admin/icons/categories.svg', class: 'card__icon'
 
       - if local_assigns[:active].blank?
         .card__body
@@ -176,7 +176,7 @@
     .card{ class: card_classes(:recommendations, local_assigns[:active]) }
       = link_to edit_catalog_product_recommendations_path(model), class: 'card__header' do
         %span.card__header-text= t('workarea.admin.catalog_products.cards.recommendations.title')
-        = inline_svg 'workarea/admin/icons/recommendations.svg', class: 'card__icon'
+        = inline_svg_tag 'workarea/admin/icons/recommendations.svg', class: 'card__icon'
 
       - if local_assigns[:active].blank?
         .card__body
@@ -200,7 +200,7 @@
     .card{ class: card_classes(:insights, local_assigns[:active]) }
       = link_to insights_catalog_product_path(model), class: 'card__header' do
         %span.card__header-text= t('workarea.admin.catalog_products.cards.insights.title')
-        = inline_svg 'workarea/admin/icons/insights.svg', class: 'card__icon'
+        = inline_svg_tag 'workarea/admin/icons/insights.svg', class: 'card__icon'
 
       - if local_assigns[:active].blank?
         .card__body

@@ -87,9 +87,9 @@ module Workarea
 
           if unnamespaced_attrs.values.any?(&:present?)
             klass = attrs["#{name}_type"].constantize if attrs["#{name}_type"].present?
-            klass ||= root.relations[name].class_name.constantize
+            klass ||= root.relations[name].klass
 
-            if metadata.many?
+            if metadata.is_a?(Mongoid::Association::Embedded::EmbedsMany)
               id = attrs["#{name}_id"]
               instance = root.send(name).find_by(id: id) rescue nil
               instance ||= root.send(name).build({}, klass)
@@ -122,7 +122,7 @@ module Workarea
         result = [serialize_model(model)]
 
         model.class.embedded_relations.values.each do |metadata|
-          if metadata.many?
+          if metadata.is_a?(Mongoid::Association::Embedded::EmbedsMany)
             append_many_embedded(result, model, metadata)
           else
             append_one_embedded(result, model, metadata)

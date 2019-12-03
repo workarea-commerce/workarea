@@ -40,7 +40,7 @@ The Workarea platform uses the `inline_svg` Rails helper for the Admin's WYSIWYG
   ...
 
   <a class='wysiwyg__toolbar-button' data-wysihtml-command='bold'>
-    #{ inline_svg('workarea/admin/icons/wysiwyg/bold.svg', class: 'wysiwyg__toolbar-button-icon svg-icon', title: I18n.t('workarea.admin.js.wysiwyg.bold')) }
+    #{ inline_svg_tag('workarea/admin/icons/wysiwyg/bold.svg', class: 'wysiwyg__toolbar-button-icon svg-icon', title: I18n.t('workarea.admin.js.wysiwyg.bold')) }
 created_at: 2018/07/31
   </a>
 

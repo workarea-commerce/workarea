@@ -14,6 +14,6 @@
   %span.property__note
     = t('workarea.admin.segment_rules.fields.traffic_referrer.url_notes')
     = link_to '#url-help', data: { tooltip: { interactive: true } } do
-      = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.segment_rules.fields.traffic_referrer.url'))
+      = inline_svg_tag('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.segment_rules.fields.traffic_referrer.url'))
   #url-help.tooltip-content
     %p= t('workarea.admin.segment_rules.fields.traffic_referrer.url_notes_html')

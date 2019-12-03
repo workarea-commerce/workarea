@@ -1,14 +1,13 @@
 module Workarea
   class SaveTaxonomy
     def self.build(navigable)
-      navigable.taxon || navigable.build_taxon(
-        name: navigable.name,
+      result = navigable.taxon || navigable.build_taxon(name: navigable.name)
 
-        # These two fields necessary because Mongoid isn't setting them
-        # automatically :(
-        navigable_type: navigable.class.name,
-        navigable_id: navigable.id
-      )
+      # These two fields necessary because Mongoid isn't setting them
+      # automatically :(
+      result.navigable_type = navigable.class.name
+      result.navigable_id = navigable.id
+      result
     end
 
     def initialize(taxon, params)

@@ -37,7 +37,7 @@
           = label_tag 'asset_tag_list', class: 'property__name' do
             %span= t('workarea.admin.fields.tags')
             = link_to '#tags-info', data: { tooltip: '' } do
-              = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue')
+              = inline_svg_tag('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue')
           = text_field_tag 'asset[tag_list]', @asset.tag_list, class: 'text-box'
           %span.property__note= t('workarea.admin.content_assets.new.tags_note')
 

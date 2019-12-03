@@ -1,7 +1,7 @@
 .release-select{release_select_attributes}
   .release-select__container
     .release-select__container-cell
-      = inline_svg('workarea/admin/icons/calendar.svg', title: 'Managing changes for', class: 'release-select__icon')
+      = inline_svg_tag('workarea/admin/icons/calendar.svg', title: 'Managing changes for', class: 'release-select__icon')
       = select_tag :release_id, release_options_for_select, class: 'release-select__input', data: { publish_with_release_menu: '' }
       - if current_release.present?
         = link_to t('workarea.admin.releases.select.view'), release_path(current_release), class: 'release-select__link', title: t('workarea.admin.releases.select.view_release')

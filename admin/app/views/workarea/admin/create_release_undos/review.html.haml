@@ -28,7 +28,7 @@
                       = form_tag release_changeset_path(@undo_release, changeset), method: :delete, class: 'grid__cell', data: { deletion_form: { message: t('workarea.admin.changesets.delete_confirmation') } } do
                         = button_tag value: 'delete_changeset', class: 'text-button text-button--destroy' do
                           = t('workarea.admin.actions.delete')
-                          = inline_svg('workarea/admin/icons/delete.svg', class: 'text-button__icon')
+                          = inline_svg_tag('workarea/admin/icons/delete.svg', class: 'text-button__icon')
 
                 .release-changeset__body
                   - changeset.changed_fields.each do |field|

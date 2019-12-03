@@ -10,7 +10,7 @@
           .card{ class: card_classes(:planned_changes) }
             = link_to release_changesets_path(result.release), class: 'card__header' do
               %span.card__header-text= result.release.name
-              = inline_svg 'workarea/admin/icons/planned_changes.svg', class: 'card__icon'
+              = inline_svg_tag 'workarea/admin/icons/planned_changes.svg', class: 'card__icon'
 
             .card__body
               - if result.release.changesets_with_releasable.empty?

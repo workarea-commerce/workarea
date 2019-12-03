@@ -11,11 +11,11 @@ module Workarea
         assert_equal(2, view_model.pending_items.first.quantity)
 
         fulfillment.ship_items('1Z', [{ id: order.items.first.id, quantity: 1 }])
-        view_model = FulfillmentViewModel.wrap(fulfillment)
+        view_model = FulfillmentViewModel.wrap(fulfillment.reload)
         assert_equal(1, view_model.pending_items.first.quantity)
 
         fulfillment.cancel_items([{ id: order.items.first.id, quantity: 1 }])
-        view_model = FulfillmentViewModel.wrap(fulfillment)
+        view_model = FulfillmentViewModel.wrap(fulfillment.reload)
         assert(view_model.pending_items.blank?)
       end
 
@@ -29,7 +29,7 @@ module Workarea
         fulfillment.ship_items('1Z', [{ id: order.items.first.id, quantity: 1 }])
         fulfillment.cancel_items([{ id: order.items.first.id, quantity: 1 }])
 
-        view_model = FulfillmentViewModel.wrap(fulfillment)
+        view_model = FulfillmentViewModel.wrap(fulfillment.reload)
         assert_equal(1, view_model.cancellations.first.quantity)
       end
     end

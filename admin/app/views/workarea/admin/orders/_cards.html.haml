@@ -3,7 +3,7 @@
     .card{ class: card_classes(:attributes, local_assigns[:active]) }
       = link_to attributes_order_path(model), class: 'card__header' do
         %span.card__header-text= t('workarea.admin.cards.attributes.title')
-        = inline_svg 'workarea/admin/icons/attributes.svg', class: 'card__icon'
+        = inline_svg_tag 'workarea/admin/icons/attributes.svg', class: 'card__icon'
 
       - if local_assigns[:active].blank?
         .card__body
@@ -63,7 +63,7 @@
     .card{ class: card_classes(:shipping, local_assigns[:active]) }
       = link_to order_shippings_path(model), class: 'card__header' do
         %span.card__header-text= t('workarea.admin.orders.attributes.shipping.title')
-        = inline_svg 'workarea/admin/icons/shipping.svg', class: 'card__icon'
+        = inline_svg_tag 'workarea/admin/icons/shipping.svg', class: 'card__icon'
 
       - if local_assigns[:active].blank?
         .card__body
@@ -92,7 +92,7 @@
       .card{ class: card_classes(:payment, local_assigns[:active]) }
         = link_to payment_path(model.payment), class: 'card__header' do
           %span.card__header-text= t('workarea.admin.orders.attributes.payment.title')
-          = inline_svg 'workarea/admin/icons/payment.svg', class: 'card__icon'
+          = inline_svg_tag 'workarea/admin/icons/payment.svg', class: 'card__icon'
 
         - if local_assigns[:active].blank?
           .card__body
@@ -118,7 +118,7 @@
     .card{ class: card_classes(:fraud, local_assigns[:active]) }
       = link_to fraud_order_path(model), class: 'card__header' do
         %span.card__header-text= t('workarea.admin.orders.attributes.fraud.title')
-        = inline_svg 'workarea/admin/icons/alert.svg', class: 'card__icon'
+        = inline_svg_tag 'workarea/admin/icons/alert.svg', class: 'card__icon'
 
       - if local_assigns[:active].blank?
         .card__body
@@ -136,11 +136,11 @@
       - if model.fulfillment.persisted?
         = link_to fulfillment_path(model.fulfillment), class: 'card__header' do
           %span.card__header-text= t('workarea.admin.orders.cards.fulfillment.title')
-          = inline_svg 'workarea/admin/icons/fulfillment.svg', class: 'card__icon'
+          = inline_svg_tag 'workarea/admin/icons/fulfillment.svg', class: 'card__icon'
       - else
         .card__header
           %span.card__header-text= t('workarea.admin.orders.cards.fulfillment.title')
-          = inline_svg 'workarea/admin/icons/fulfillment.svg', class: 'card__icon'
+          = inline_svg_tag 'workarea/admin/icons/fulfillment.svg', class: 'card__icon'
 
       - if local_assigns[:active].blank?
         .card__body
@@ -181,7 +181,7 @@
     .card{ class: card_classes(:timeline, local_assigns[:active]) }
       = link_to timeline_order_path(model), class: 'card__header' do
         %span.card__header-text= t('workarea.admin.timeline.card.title')
-        = inline_svg 'workarea/admin/icons/timeline.svg', class: 'card__icon'
+        = inline_svg_tag 'workarea/admin/icons/timeline.svg', class: 'card__icon'
 
       - if local_assigns[:active].blank?
         .card__body

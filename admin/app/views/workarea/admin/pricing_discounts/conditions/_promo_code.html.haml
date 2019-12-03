@@ -8,7 +8,7 @@
         %span.property.property--inline
           = text_field_tag 'discount[promo_codes_list]', discount.promo_codes_list, class: 'text-box text-box--medium', title: 'Promo Code', placeholder: 'SAVE20'
           = link_to '#promo-code-help', data: { tooltip: '' } do
-            = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue')
+            = inline_svg_tag('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue')
 
     %span.discount__optional-node-group{ data: { discount_options_menu_promo_code_group: { type: 'generated_codes_id' }.to_json } }
       %span.discount__node= select_tag 'discount[generated_codes_id]', options_for_select(discount.code_list_options, discount.generated_codes_id), title: 'Promo Code List'

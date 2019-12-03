@@ -10,11 +10,11 @@
         .release-select{ class: ('release-select--emphasize' if current_release.present?) }
           .release-select__container
             .release-select__container-cell
-              = inline_svg('workarea/admin/icons/calendar.svg', title: 'Managing changes for', class: 'release-select__icon')
+              = inline_svg_tag('workarea/admin/icons/calendar.svg', title: 'Managing changes for', class: 'release-select__icon')
               = select_tag :release_id, release_options_for_select(nil), class: 'release-select__input', disabled: true
               - unless current_release.present?
                 = link_to '#release-select-reminder', data: { tooltip: { interactive: true }.to_json } do
-                  = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue')
+                  = inline_svg_tag('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue')
 
               #release-select-reminder.tooltip-content
                 .align-center
@@ -32,7 +32,7 @@
 
         .menu-editor__head
           - if root.root?
-            %span= inline_svg 'workarea/admin/icons/home.svg', class: 'menu-editor__icon menu-editor__icon--head'
+            %span= inline_svg_tag 'workarea/admin/icons/home.svg', class: 'menu-editor__icon menu-editor__icon--head'
             %span.menu-editor__head-label= t('workarea.admin.navigation_taxons.index.home')
           - else
             = taxon_icon(root, class: 'menu-editor__icon menu-editor__icon--head')
@@ -40,7 +40,7 @@
             .menu-editor__head-actions
               = link_to edit_navigation_taxon_path(root), title: t('workarea.admin.navigation_taxons.index.edit_name_navigation', name: root.name), class: 'menu-editor__head-link' do
                 %span.menu-editor__head-link-text= t('workarea.admin.navigation_taxons.index.navigation')
-                = inline_svg 'workarea/admin/icons/edit.svg', class: 'menu-editor__icon'
+                = inline_svg_tag 'workarea/admin/icons/edit.svg', class: 'menu-editor__icon'
 
         %ul.menu-editor__menu-list
           - root.children.each_with_index do |taxon, index|
@@ -50,5 +50,5 @@
             .menu-editor__list-item-cell= t('workarea.admin.navigation_taxons.index.drag_items_here')
 
         = link_to new_navigation_taxon_path(parent_id: root.id), title: t('workarea.admin.navigation_taxons.index.add_new_item'), class: 'menu-editor__add-item-button menu-editor__add-item-button--last-position' do
-          = inline_svg 'workarea/admin/icons/add_circle.svg', class: 'menu-editor__icon menu-editor__icon--add'
+          = inline_svg_tag 'workarea/admin/icons/add_circle.svg', class: 'menu-editor__icon menu-editor__icon--add'
           %span.menu-editor__add-item-button-text= t('workarea.admin.navigation_taxons.index.add_new_item')

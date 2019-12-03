@@ -4,7 +4,7 @@
 //= require webcomponentsjs-rails/MutationObserver
 //= require i18n
 //= require i18n/translations
-//= require local_time
+//= require local-time
 //= require lodash
 //= require jquery3
 //= require jquery-ui/core

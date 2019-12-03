@@ -12,7 +12,7 @@ module Workarea
             configured_asset_file.named filename
           end
         rescue InlineSvg::AssetFile::FileNotFound
-          return inline_svg('workarea/admin/content_block_types/custom_block.svg', transform_params)
+          return inline_svg_tag('workarea/admin/content_block_types/custom_block.svg', transform_params)
         end
 
         InlineSvg::TransformPipeline.generate_html_from(svg_file, transform_params).html_safe

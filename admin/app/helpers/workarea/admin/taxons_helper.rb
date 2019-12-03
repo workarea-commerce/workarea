@@ -42,11 +42,11 @@ module Workarea
 
     def taxon_icon(taxon, options = {})
       if taxon.resource_name.category?
-        inline_svg('workarea/admin/icons/categories.svg', options)
+        inline_svg_tag('workarea/admin/icons/categories.svg', options)
       elsif taxon.resource_name.page?
-        inline_svg('workarea/admin/icons/pages.svg', options)
+        inline_svg_tag('workarea/admin/icons/pages.svg', options)
       else
-        inline_svg('workarea/admin/icons/link.svg', options)
+        inline_svg_tag('workarea/admin/icons/link.svg', options)
       end
     end
 

@@ -27,7 +27,7 @@ module Workarea
       return self.class.all unless embedded?
       return self.class.none unless _parent.present?
 
-      _parent.send(relation_metadata.name).criteria
+      _parent.send(association_name).criteria
     end
 
     def set_position

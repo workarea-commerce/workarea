@@ -3,7 +3,7 @@
     .card{ class: card_classes(:attributes, local_assigns[:active]) }
       = link_to edit_release_path(model), class: 'card__header' do
         %span.card__header-text= t('workarea.admin.releases.cards.attributes.title')
-        = inline_svg 'workarea/admin/icons/attributes.svg', class: 'card__icon'
+        = inline_svg_tag 'workarea/admin/icons/attributes.svg', class: 'card__icon'
 
       - if local_assigns[:active].blank?
         .card__body
@@ -37,7 +37,7 @@
     .card{ class: card_classes(:plan_changes, local_assigns[:active]) }
       = link_to release_releasables_path(model), class: 'card__header' do
         %span.card__header-text= t('workarea.admin.releases.cards.plan_changes.title')
-        = inline_svg 'workarea/admin/icons/plan_changes.svg', class: 'card__icon'
+        = inline_svg_tag 'workarea/admin/icons/plan_changes.svg', class: 'card__icon'
 
       - if local_assigns[:active].blank?
         .card__body
@@ -58,7 +58,7 @@
           - if model.upcoming?
             = t('workarea.admin.releases.cards.planned_changes.planned')
           = t('workarea.admin.releases.cards.planned_changes.changes')
-        = inline_svg 'workarea/admin/icons/planned_changes.svg', class: 'card__icon'
+        = inline_svg_tag 'workarea/admin/icons/planned_changes.svg', class: 'card__icon'
 
       - if local_assigns[:active].blank?
         .card__body
@@ -92,7 +92,7 @@
       .card{ class: card_classes(:original, local_assigns[:active]) }
         = link_to original_release_path(model), class: 'card__header' do
           %span.card__header-text= t('workarea.admin.releases.cards.original.title')
-          = inline_svg 'workarea/admin/icons/planned_changes.svg', class: 'card__icon'
+          = inline_svg_tag 'workarea/admin/icons/planned_changes.svg', class: 'card__icon'
 
         - if local_assigns[:active].blank?
           .card__body
@@ -113,7 +113,7 @@
       .card{ class: card_classes(:undo, local_assigns[:active]) }
         = link_to undo_release_path(model), class: 'card__header' do
           %span.card__header-text= t('workarea.admin.releases.cards.undo.title')
-          = inline_svg 'workarea/admin/icons/planned_changes.svg', class: 'card__icon'
+          = inline_svg_tag 'workarea/admin/icons/planned_changes.svg', class: 'card__icon'
 
         - if local_assigns[:active].blank?
           .card__body

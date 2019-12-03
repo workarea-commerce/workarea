@@ -65,7 +65,7 @@
           .grid.grid--middle
             .grid__cell.grid__cell--20
               = link_to menus_path, id: 'mobile_nav_button', role: 'button', aria: { label: t('workarea.storefront.layouts.mobile_navigation') } do
-                = inline_svg('workarea/storefront/icons/menu.svg', class: 'svg-icon svg-icon--large svg-icon--blue visible visible--for-small-only', title: t('workarea.storefront.layouts.mobile_navigation'))
+                = inline_svg_tag('workarea/storefront/icons/menu.svg', class: 'svg-icon svg-icon--large svg-icon--blue visible visible--for-small-only', title: t('workarea.storefront.layouts.mobile_navigation'))
 
             .grid__cell.grid__cell--80
               .grid.grid--auto.grid--right

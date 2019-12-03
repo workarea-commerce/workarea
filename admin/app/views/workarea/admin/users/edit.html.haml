@@ -40,7 +40,7 @@
           = label_tag 'user[avatar]', class: 'property__name' do
             = t('workarea.admin.fields.avatar')
             = link_to '#user-avatar-info', data: { tooltip: '' } do
-              = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.users.edit.avatar_tooltip'))
+              = inline_svg_tag('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.users.edit.avatar_tooltip'))
 
           = avatar_for @user
           = file_field_tag 'user[avatar]'

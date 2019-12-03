@@ -37,7 +37,7 @@
               %td
                 = link_to email_signup_path(signup), class: 'text-button text-button--destroy', data: { method: 'delete', confirm: t('workarea.admin.actions.delete_confirmation') } do
                   = t('workarea.admin.actions.delete')
-                  = inline_svg('workarea/admin/icons/delete.svg', class: 'text-button__icon', title: t('workarea.admin.actions.delete'))
+                  = inline_svg_tag('workarea/admin/icons/delete.svg', class: 'text-button__icon', title: t('workarea.admin.actions.delete'))
       - if @email_signups.total_pages > 1
         = render 'workarea/admin/shared/pagination', collection: @email_signups
 

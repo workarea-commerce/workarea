@@ -3,7 +3,7 @@
     .card{ class: card_classes(:attributes, local_assigns[:active]) }
       = link_to edit_content_asset_path(model), class: 'card__header' do
         %span.card__header-text= t('workarea.admin.cards.attributes.title')
-        = inline_svg 'workarea/admin/icons/attributes.svg', class: 'card__icon'
+        = inline_svg_tag 'workarea/admin/icons/attributes.svg', class: 'card__icon'
 
       - if local_assigns[:active].blank?
         .card__body
@@ -34,14 +34,14 @@
     .card{ class: card_classes(:original, local_assigns[:active]) }
       = link_to url_to_asset(model.url), class: 'card__header' do
         %span.card__header-text= t('workarea.admin.content_assets.cards.original.title')
-        = inline_svg 'workarea/admin/icons/original.svg', class: 'card__icon'
+        = inline_svg_tag 'workarea/admin/icons/original.svg', class: 'card__icon'
 
       - if local_assigns[:active].blank?
         .card__body
           - if model.image?
             = image_tag model.large_thumb.url, alt: model.name, class: 'card__photo'
           - else
-            = inline_svg 'workarea/admin/icons/asset.svg', title: model.name, class: 'card__photo'
+            = inline_svg_tag 'workarea/admin/icons/asset.svg', title: model.name, class: 'card__photo'
           = link_to url_to_asset(model.url), class: 'card__button' do
             %span.button.button--small= t('workarea.admin.content_assets.cards.original.button')
 

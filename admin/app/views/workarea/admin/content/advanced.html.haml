@@ -22,7 +22,7 @@
         %span.property__name= t('workarea.admin.fields.automate_metadata')
         = toggle_button_for 'content[automate_metadata]', @content.automate_metadata?, title_true: t('workarea.admin.content.advanced.automate'), title_false: t('workarea.admin.content.advanced.do_not_automate'), data: { toggle_button: '' } do
           = link_to '#automation-help', data: { tooltip: '' } do
-            = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.content.advanced.learn_more'))
+            = inline_svg_tag('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.content.advanced.learn_more'))
           %span#automation-help.tooltip-content= t('workarea.admin.content.advanced.automation_help_content')
 
           .toggle-button__more.toggle-button__more--below{ data: { toggle_button_positive_element: '' } }

@@ -22,7 +22,7 @@
       .product-summary__media
         .product-summary__image-wrapper
           = image_tag 'workarea/core/placeholder.png', size: '64x88', class: 'product-summary__image'
-      = link_to inline_svg('workarea/admin/icons/close.svg', class: 'svg-icon svg-icon--small svg-icon--red', title: t('workarea.admin.actions.remove')), '#', class: 'product-summary__remove'
+      = link_to inline_svg_tag('workarea/admin/icons/close.svg', class: 'svg-icon svg-icon--small svg-icon--red', title: t('workarea.admin.actions.remove')), '#', class: 'product-summary__remove'
       %span.product-summary__name Very Long Product Title 3
       %span.product-summary__graph
         %span.spark {#{(0..9).to_a.shuffle.join(',')}}

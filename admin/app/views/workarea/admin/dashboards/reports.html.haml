@@ -13,7 +13,7 @@
         .card{ class: card_classes(:timeline_report, local_assigns[:active]) }
           = link_to timeline_report_path, class: 'card__header' do
             %span.card__header-text= t('workarea.admin.reports.timeline.title')
-            = inline_svg 'workarea/admin/icons/insights.svg', class: 'card__icon'
+            = inline_svg_tag 'workarea/admin/icons/insights.svg', class: 'card__icon'
 
           .card__body
             .card__centered-content
@@ -31,7 +31,7 @@
         .card{ class: card_classes(:insights_report, local_assigns[:active]) }
           = link_to insights_report_path, class: 'card__header' do
             %span.card__header-text= t('workarea.admin.reports.insights.title')
-            = inline_svg 'workarea/admin/icons/insights.svg', class: 'card__icon'
+            = inline_svg_tag 'workarea/admin/icons/insights.svg', class: 'card__icon'
 
           .card__body
             .card__centered-content
@@ -49,7 +49,7 @@
         .card{ class: card_classes(:sales_over_time_report, local_assigns[:active]) }
           = link_to sales_over_time_report_path, class: 'card__header' do
             %span.card__header-text= t('workarea.admin.reports.sales_over_time.title')
-            = inline_svg 'workarea/admin/icons/insights.svg', class: 'card__icon'
+            = inline_svg_tag 'workarea/admin/icons/insights.svg', class: 'card__icon'
 
           .card__body
             .card__centered-content= area_chart @dashboard.sales_over_time.graph_data, Workarea.config.default_chartkick_options.merge(prefix: Money.default_currency.symbol)
@@ -61,7 +61,7 @@
         .card{ class: card_classes(:average_order_value_report, local_assigns[:active]) }
           = link_to average_order_value_report_path, class: 'card__header' do
             %span.card__header-text= t('workarea.admin.reports.average_order_value.title')
-            = inline_svg 'workarea/admin/icons/insights.svg', class: 'card__icon'
+            = inline_svg_tag 'workarea/admin/icons/insights.svg', class: 'card__icon'
 
           .card__body
             .card__centered-content
@@ -74,7 +74,7 @@
         .card{ class: card_classes(:sales_by_traffic_referrer_report, local_assigns[:active]) }
           = link_to sales_by_traffic_referrer_report_path, class: 'card__header' do
             %span.card__header-text= t('workarea.admin.reports.sales_by_traffic_referrer.title')
-            = inline_svg 'workarea/admin/icons/insights.svg', class: 'card__icon'
+            = inline_svg_tag 'workarea/admin/icons/insights.svg', class: 'card__icon'
 
           .card__body
             .card__centered-content
@@ -87,7 +87,7 @@
         .card{ class: card_classes(:sales_by_product_report, local_assigns[:active]) }
           = link_to sales_by_product_report_path, class: 'card__header' do
             %span.card__header-text= t('workarea.admin.reports.sales_by_product.title')
-            = inline_svg 'workarea/admin/icons/insights.svg', class: 'card__icon'
+            = inline_svg_tag 'workarea/admin/icons/insights.svg', class: 'card__icon'
 
           .card__body
             .card__centered-content
@@ -105,7 +105,7 @@
         .card{ class: card_classes(:sales_by_category_report, local_assigns[:active]) }
           = link_to sales_by_category_report_path, class: 'card__header' do
             %span.card__header-text= t('workarea.admin.reports.sales_by_category.title')
-            = inline_svg 'workarea/admin/icons/insights.svg', class: 'card__icon'
+            = inline_svg_tag 'workarea/admin/icons/insights.svg', class: 'card__icon'
 
           .card__body
             .card__centered-content
@@ -123,7 +123,7 @@
         .card{ class: card_classes(:sales_by_sku_report, local_assigns[:active]) }
           = link_to sales_by_sku_report_path, class: 'card__header' do
             %span.card__header-text= t('workarea.admin.reports.sales_by_sku.title')
-            = inline_svg 'workarea/admin/icons/insights.svg', class: 'card__icon'
+            = inline_svg_tag 'workarea/admin/icons/insights.svg', class: 'card__icon'
 
           .card__body
             .card__centered-content
@@ -141,7 +141,7 @@
         .card{ class: card_classes(:sales_by_discount_report, local_assigns[:active]) }
           = link_to sales_by_discount_report_path, class: 'card__header' do
             %span.card__header-text= t('workarea.admin.reports.sales_by_discount.title')
-            = inline_svg 'workarea/admin/icons/insights.svg', class: 'card__icon'
+            = inline_svg_tag 'workarea/admin/icons/insights.svg', class: 'card__icon'
 
           .card__body
             .card__centered-content
@@ -159,7 +159,7 @@
         .card{ class: card_classes(:sales_by_country_report, local_assigns[:active]) }
           = link_to sales_by_country_report_path, class: 'card__header' do
             %span.card__header-text= t('workarea.admin.reports.sales_by_country.title')
-            = inline_svg 'workarea/admin/icons/insights.svg', class: 'card__icon'
+            = inline_svg_tag 'workarea/admin/icons/insights.svg', class: 'card__icon'
 
           .card__body
             .card__centered-content
@@ -172,7 +172,7 @@
         .card{ class: card_classes(:sales_by_country_report, local_assigns[:active]) }
           = link_to sales_by_tender_report_path, class: 'card__header' do
             %span.card__header-text= t('workarea.admin.reports.sales_by_tender.title')
-            = inline_svg 'workarea/admin/icons/insights.svg', class: 'card__icon'
+            = inline_svg_tag 'workarea/admin/icons/insights.svg', class: 'card__icon'
 
           .card__body
             .card__centered-content
@@ -185,7 +185,7 @@
         .card{ class: card_classes(:customers_report, local_assigns[:active]) }
           = link_to customers_report_path, class: 'card__header' do
             %span.card__header-text= t('workarea.admin.reports.customers.title')
-            = inline_svg 'workarea/admin/icons/insights.svg', class: 'card__icon'
+            = inline_svg_tag 'workarea/admin/icons/insights.svg', class: 'card__icon'
 
           .card__body
             .card__centered-content
@@ -203,7 +203,7 @@
         .card{ class: card_classes(:first_time_vs_returning_sales_report, local_assigns[:active]) }
           = link_to first_time_vs_returning_sales_report_path, class: 'card__header' do
             %span.card__header-text= t('workarea.admin.reports.first_time_vs_returning_sales.title')
-            = inline_svg 'workarea/admin/icons/insights.svg', class: 'card__icon'
+            = inline_svg_tag 'workarea/admin/icons/insights.svg', class: 'card__icon'
 
           .card__body
             .card__centered-content
@@ -216,7 +216,7 @@
         .card{ class: card_classes(:searches_report, local_assigns[:active]) }
           = link_to searches_report_path, class: 'card__header' do
             %span.card__header-text= t('workarea.admin.reports.searches.title')
-            = inline_svg 'workarea/admin/icons/insights.svg', class: 'card__icon'
+            = inline_svg_tag 'workarea/admin/icons/insights.svg', class: 'card__icon'
 
           .card__body
             .card__centered-content
@@ -234,7 +234,7 @@
         .card{ class: card_classes(:low_inventory_report, local_assigns[:active]) }
           = link_to low_inventory_report_path, class: 'card__header' do
             %span.card__header-text= t('workarea.admin.reports.low_inventory.title')
-            = inline_svg 'workarea/admin/icons/insights.svg', class: 'card__icon'
+            = inline_svg_tag 'workarea/admin/icons/insights.svg', class: 'card__icon'
 
           .card__body
             .card__centered-content

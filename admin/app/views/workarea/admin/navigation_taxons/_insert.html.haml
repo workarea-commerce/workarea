@@ -11,12 +11,12 @@
             - if ancestor.root?
 
               %button.menu-editor__breadcrumbs-home-button{ type: 'button', data: {root_taxon_id: ancestor.id} }
-                = inline_svg('workarea/admin/icons/home.svg', class: 'menu-editor__icon')
+                = inline_svg_tag('workarea/admin/icons/home.svg', class: 'menu-editor__icon')
                 %span.menu-editor__head-label= ancestor.name
             - else
               = select_tag nil, options_for_select(ancestor.siblings_and_self.map { |c| [c.name, c.id] }, ancestor.id)
 
-            = inline_svg('workarea/admin/icons/navigate_next.svg', class: 'menu-editor__icon')
+            = inline_svg_tag('workarea/admin/icons/navigate_next.svg', class: 'menu-editor__icon')
           - if ancestor == parent.ancestors_and_self.last && ancestor.has_children?
             %li.menu-editor__breadcrumbs-node
               = select_tag nil, options_for_select([[taxon.name, nil]] + ancestor.children.map { |c| [c.name, c.id] })
@@ -29,7 +29,7 @@
     .menu-editor__menu
       .menu-editor__head
         - if parent.root?
-          %span= inline_svg 'workarea/admin/icons/home.svg', class: 'menu-editor__icon menu-editor__icon--head'
+          %span= inline_svg_tag 'workarea/admin/icons/home.svg', class: 'menu-editor__icon menu-editor__icon--head'
           %span.menu-editor__head-label= t('workarea.admin.navigation_taxons.insert.home')
         - else
           = taxon_icon(parent, class: 'menu-editor__icon menu-editor__icon--head')
@@ -48,6 +48,6 @@
         - unless parent.children.include?(taxon)
           %li.menu-editor__list-item.menu-editor__list-item--added.handle
             .menu-editor__menu-link.menu-editor__menu-link--draggable
-              = inline_svg("workarea/admin/icons/grip.svg", title: 'Drag to rearrange', class: 'menu-editor__link-grip svg-icon svg-icon--small svg-icon--white')
+              = inline_svg_tag("workarea/admin/icons/grip.svg", title: 'Drag to rearrange', class: 'menu-editor__link-grip svg-icon svg-icon--small svg-icon--white')
               = taxon_icon(taxon, class: 'menu-editor__icon menu-editor__icon--link')
               %strong.menu-editor__menu-link-text= taxon.name

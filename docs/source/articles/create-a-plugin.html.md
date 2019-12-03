@@ -9,7 +9,18 @@ excerpt: To create a Workarea plugin, use the rails plugin new command with a Wo
 To create a Workarea plugin, use the _rails plugin new_ command with a Workarea plugin template.
 
 ```bash
-$ rails plugin new path/to/my_plugin --full -m path/to/plugin_template.rb --skip-spring --skip-active-record --skip-action-cable
+rails plugin new path/to/my_plugin \
+  --template=https://raw.githubusercontent.com/workarea-commerce/workarea/master/plugin_template.rb \
+  --full \
+  --skip-spring \
+  --skip-active-record \
+  --skip-action-cable \
+  --skip-puma \
+  --skip-coffee \
+  --skip-turbolinks \
+  --skip-bootsnap \
+  --skip-yarn \
+  --skip-webpack-install
 ```
 
 This template can be found in the [workarea repository](https://github.com/workarea-commerce/workarea) at [https://github.com/workarea-commerce/workarea/blob/master/plugin_template.rb](https://github.com/workarea-commerce/workarea/blob/master/plugin_template.rb).

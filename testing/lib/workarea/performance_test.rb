@@ -32,7 +32,7 @@ module Workarea
       with_info_handler do
         time_it do
           capture_exceptions do
-            pass && (return self) unless ENV['PERF_TEST'] =~ /true/
+            pass && (return Minitest::Result.from(self)) unless ENV['PERF_TEST'] =~ /true/
 
             before_setup
             setup
@@ -47,7 +47,7 @@ module Workarea
         end
       end
 
-      self # per contract
+      Minitest::Result.from(self) # per contract
     end
 
     def with_benchmarking(&block)

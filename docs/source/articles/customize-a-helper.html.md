@@ -7,7 +7,7 @@ excerpt: Workarea developers can use the following two-step procedure to add or 
 Customize a Helper
 ======================================================================
 
-[Rails helpers](https://api.rubyonrails.org/v5.2.3/classes/ActionView/Helpers.html) are modules that define methods for use in views and controllers (helper methods).
+[Rails helpers](https://api.rubyonrails.org/v6.0.0/classes/ActionView/Helpers.html) are modules that define methods for use in views and controllers (helper methods).
 Occasionally, you may encounter the following use cases involving helper methods:
 
 * From a plugin, you need to define a new helper method

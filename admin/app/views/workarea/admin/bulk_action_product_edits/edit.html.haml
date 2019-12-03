@@ -21,7 +21,7 @@
                     .property
                       %span.property__name
                         = t('workarea.admin.fields.active')
-                        = inline_svg('workarea/admin/i18n.svg', class: 'svg-icon svg-icon--small') if locale_options.many? && Workarea.config.localized_active_fields
+                        = inline_svg_tag('workarea/admin/i18n.svg', class: 'svg-icon svg-icon--small') if locale_options.many? && Workarea.config.localized_active_fields
                       = toggle_button_for 'bulk_action[settings][active]', @bulk_action.selected_true?('settings', 'active'), disabled: !@bulk_action.selected?('settings', 'active')
 
                     .property
@@ -164,7 +164,7 @@
                 %h3.bulk-actions__sub-heading
                   = t('workarea.admin.bulk_action_product_edits.pricing.prices')
                   = link_to '#prices-warning', data: { tooltip: '' } do
-                    = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.bulk_action_product_edits.pricing.info'))
+                    = inline_svg_tag('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.bulk_action_product_edits.pricing.info'))
                 #prices-warning.tooltip-content
                   %p= t('workarea.admin.bulk_action_product_edits.pricing.info_message')
                 .grid
@@ -202,7 +202,7 @@
                 = t('workarea.admin.bulk_action_product_edits.inventory.title')
 
                 = link_to '#inventory-warning', data: { tooltip: '' } do
-                  = inline_svg('workarea/admin/icons/alert.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.bulk_action_product_edits.inventory.warning'))
+                  = inline_svg_tag('workarea/admin/icons/alert.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.bulk_action_product_edits.inventory.warning'))
               #inventory-warning.tooltip-content
                 %p= t('workarea.admin.bulk_action_product_edits.inventory.warning_message')
 

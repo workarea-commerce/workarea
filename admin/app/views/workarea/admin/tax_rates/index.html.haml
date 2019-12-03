@@ -41,12 +41,12 @@
             %th.align-center
               = t('workarea.admin.tax_rates.index.table.min_value')
               = link_to '#min-value-tooltip', data: { tooltip: '' } do
-                = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.tax_rates.index.table.min_value_link'))
+                = inline_svg_tag('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.tax_rates.index.table.min_value_link'))
               %span#min-value-tooltip.tooltip-content= t('workarea.admin.tax_rates.index.table.min_value_tooltip')
             %th.align-center
               = t('workarea.admin.tax_rates.index.table.max_value')
               = link_to '#max-value-tooltip', data: { tooltip: '' } do
-                = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.tax_rates.index.table.max_value_link'))
+                = inline_svg_tag('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.tax_rates.index.table.max_value_link'))
               %span#max-value-tooltip.tooltip-content= t('workarea.admin.tax_rates.index.table.max_value_tooltip')
             %th.align-center= t('workarea.admin.tax_rates.index.table.charge_on_shipping')
             %th.align-right= t('workarea.admin.tax_rates.index.table.actions')
@@ -68,12 +68,12 @@
                     = link_to edit_tax_category_rate_path(@category, rate), class: 'text-button' do
                       %span.grid.grid--auto.grid--middle.grid--flush
                         %span.grid__cell= t('workarea.admin.actions.edit')
-                        %span.grid__cell= inline_svg('workarea/admin/icons/edit.svg', class: 'text-button__icon')
+                        %span.grid__cell= inline_svg_tag('workarea/admin/icons/edit.svg', class: 'text-button__icon')
                   .grid__cell
                     = link_to tax_category_rate_path(@category, rate), class: 'text-button text-button--destroy', data: { method: 'delete', confirm: t('workarea.admin.actions.delete_confirmation') } do
                       %span.grid.grid--auto.grid--middle.grid--flush
                         %span.grid__cell= t('workarea.admin.actions.delete')
-                        %span.grid__cell= inline_svg('workarea/admin/icons/delete.svg', class: 'text-button__icon')
+                        %span.grid__cell= inline_svg_tag('workarea/admin/icons/delete.svg', class: 'text-button__icon')
 
 
     - if @rates.total_pages > 1

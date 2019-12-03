@@ -56,7 +56,7 @@
             %h3.align-center
               = t('workarea.admin.search_customizations.analyze.tokens')
               = link_to '#token-info', data: { tooltip: '' } do
-                = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.search_customizations.analyze.tokens'))
+                = inline_svg_tag('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.search_customizations.analyze.tokens'))
               #token-info.tooltip-content
                 %p= t('workarea.admin.search_customizations.analyze.token_help')
 
@@ -76,7 +76,7 @@
             %h3.align-center
               = t('workarea.admin.search_customizations.analyze.rendering')
               = link_to '#rendering-info', data: { tooltip: '' } do
-                = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.search_customizations.analyze.rendering'))
+                = inline_svg_tag('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.search_customizations.analyze.rendering'))
               #rendering-info.tooltip-content
                 %p= t('workarea.admin.search_customizations.analyze.rendering_help')
 
@@ -93,7 +93,7 @@
             %h3.align-center
               = t('workarea.admin.search_customizations.analyze.ranking')
               = link_to '#ranking-info', data: { tooltip: { interactive: true } } do
-                = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.search_customizations.analyze.rendering'))
+                = inline_svg_tag('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.search_customizations.analyze.rendering'))
               #ranking-info.tooltip-content
                 %p= t('workarea.admin.search_customizations.analyze.ranking_help_html')
 

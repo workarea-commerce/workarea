@@ -5,7 +5,7 @@ require 'capybara/chromedriver/logger'
 require 'workarea/integration_test'
 require 'workarea/testing/custom_capybara_matchers'
 require 'workarea/testing/headless_chrome'
-require 'workarea/testing/capybara_chromedriver_logger_collector.decorator'
+require 'workarea/testing/chromedriver_logger_cleaner'
 
 # get options on load to ensure initial configuration is captured.
 # Capybara.register_driver does not execute the passed block immediately, which
@@ -73,6 +73,7 @@ module Workarea
     include TestCase::Encryption
     include Factories
     include IntegrationTest::Configuration
+    include Rails.application.routes.mounted_helpers
 
     driven_by :headless_chrome
 

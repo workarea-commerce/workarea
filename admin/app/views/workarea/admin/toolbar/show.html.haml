@@ -20,10 +20,10 @@
       .page-container
 
         #header.header
-          = inline_svg('workarea/admin/logo.svg', class: 'header__logo', title: 'Workarea')
+          = inline_svg_tag('workarea/admin/logo.svg', class: 'header__logo', title: 'Workarea')
 
-          = link_to inline_svg('workarea/admin/icons/menu.svg', class: 'header__menu-icon', title: t('workarea.admin.toolbar.open_primary_menu')), '#primary_nav', class: 'header__menu-button header__menu-button--open'
-          = button_tag inline_svg('workarea/admin/icons/close.svg', class: 'header__menu-icon', title: t('workarea.admin.toolbar.close_primary_menu')), class: 'header__menu-button header__menu-button--close', type: 'button', id: 'takeover_close_button'
+          = link_to inline_svg_tag('workarea/admin/icons/menu.svg', class: 'header__menu-icon', title: t('workarea.admin.toolbar.open_primary_menu')), '#primary_nav', class: 'header__menu-button header__menu-button--open'
+          = button_tag inline_svg_tag('workarea/admin/icons/close.svg', class: 'header__menu-icon', title: t('workarea.admin.toolbar.close_primary_menu')), class: 'header__menu-button header__menu-button--close', type: 'button', id: 'takeover_close_button'
 
           .header__contents
 
@@ -35,7 +35,7 @@
             - if @model.present?
               - unless @model.active?
                 .header__alert
-                  = inline_svg('workarea/admin/icons/alert.svg', class: 'header__alert-icon', title: t('workarea.admin.toolbar.inactive_message', model: @model.name), data: { tooltip: { content_id: "#inactive-info", side: 'left' }.to_json })
+                  = inline_svg_tag('workarea/admin/icons/alert.svg', class: 'header__alert-icon', title: t('workarea.admin.toolbar.inactive_message', model: @model.name), data: { tooltip: { content_id: "#inactive-info", side: 'left' }.to_json })
 
                 #inactive-info.tooltip-content= t('workarea.admin.toolbar.inactive_message', model: @model.name)
 
@@ -46,7 +46,7 @@
 
             .header__action
               = link_to segment_override_path(return_to: params[:return_to]), title: t('workarea.admin.toolbar.select_segments'), id: 'select_segments', class: 'header__action-link' do
-                = inline_svg('workarea/admin/icons/user.svg', class: 'svg-icon svg-icon--medium svg-icon--blue') unless Rails.env.test? # Capybara cannot find this link by content, id, or title if this is present
+                = inline_svg_tag('workarea/admin/icons/user.svg', class: 'svg-icon svg-icon--medium svg-icon--blue') unless Rails.env.test? # Capybara cannot find this link by content, id, or title if this is present
                 - if override_segments.blank?
                   = t('workarea.admin.toolbar.select_segments')
                 - else
@@ -57,7 +57,7 @@
 
             .header__action
               = form_tag release_session_path(return_to: params[:return_to]), method: :post, class: 'header__action-link' do
-                = inline_svg('workarea/admin/icons/calendar.svg', title: t('workarea.admin.toolbar.managing_changes_for'), class: 'release-select__icon')
+                = inline_svg_tag('workarea/admin/icons/calendar.svg', title: t('workarea.admin.toolbar.managing_changes_for'), class: 'release-select__icon')
                 = select_tag :release_id, release_options_for_select, data: { form_submitting_control: '' }, id: nil, aria: { label: t('workarea.admin.toolbar.managing_changes_for') }
 
                 - if current_release.present?

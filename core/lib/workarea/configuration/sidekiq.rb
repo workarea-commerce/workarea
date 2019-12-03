@@ -24,14 +24,6 @@ module Workarea
       end
 
       def configure_workarea!
-        ::Sidekiq::Logging.logger = Logger.new(
-          File.join(Rails.root, 'log', 'sidekiq.log')
-        )
-
-        ::Sidekiq.default_worker_options = {
-          log_duplicate_payload: true
-        }
-
         ::Sidekiq.configure_server do |config|
           config.server_middleware do |chain|
             chain.add I18nServerMiddleware

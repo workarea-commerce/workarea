@@ -44,7 +44,7 @@
               %tr.index-table__row{ class: ('index-table__row--highlight' if params[:new_token].present? && params[:new_token] == token.id) }
                 %td
                   = link_to "#token-tooltip-#{token.id}", data: { tooltip: { width: '600', interactive: true }.to_json } do
-                    = inline_svg('workarea/admin/icons/link.svg', class: 'svg-icon svg-icon--blue', title: t('workarea.admin.fulfillment_tokens.index.copy_title'))
+                    = inline_svg_tag('workarea/admin/icons/link.svg', class: 'svg-icon svg-icon--blue', title: t('workarea.admin.fulfillment_tokens.index.copy_title'))
                   .tooltip-content{ id: "token-tooltip-#{token.id}" }
                     .property.property--inline= text_field_tag 'url', storefront.download_url(token), class: 'text-box text-box--wide', id: "url-#{token.id}"
                     = button_tag t('workarea.admin.fulfillment_tokens.index.copy_button'), class: 'button button--small', data: { copy_to_clipboard: "#url-#{token.id}" }

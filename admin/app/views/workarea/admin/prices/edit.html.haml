@@ -25,7 +25,7 @@
             %th= t('workarea.admin.prices.minimum_quantity')
             %th
               = t('workarea.admin.fields.active')
-              = inline_svg('workarea/admin/i18n.svg', class: 'svg-icon svg-icon--small') if locale_options.many? && Workarea.config.localized_active_fields
+              = inline_svg_tag('workarea/admin/i18n.svg', class: 'svg-icon svg-icon--small') if locale_options.many? && Workarea.config.localized_active_fields
             %th= t('workarea.admin.fields.on_sale')
             = append_partials('admin.price_table_columns', sku: @sku)
             %th

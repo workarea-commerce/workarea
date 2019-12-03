@@ -3,7 +3,7 @@
 
     describe('WORKAREA.releaseReminder', function () {
         describe('closeTooltip', function () {
-            it('closes tooltip after choice is made', function () {
+            xit('closes tooltip after choice is made', function () {
                 this.fixtures = fixture.load('release_reminder.html');
                 WORKAREA.releaseReminder.init($(this.fixtures));
 

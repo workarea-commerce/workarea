@@ -11,7 +11,7 @@ __If you experience a problem while following these instructions, get help on th
 
 After reviewing the [assumptions](#assumptions_1), complete the following steps to create a new Workarea application and open it in your browser:
 
-1. [Create a Rails 5.2 application](#create-a-rails-5-2-application_2)
+1. [Create a Rails application](#create-a-rails-application_2)
 2. [Add the Workarea gem](#add-the-workarea-gem_3)
 3. [Install Workarea into the Rails application](#install-workarea-into-the-rails-application_4)
 4. [Start Workarea service dependencies](#start-workarea-service-dependencies_5)
@@ -37,14 +37,14 @@ For more details, see [Prerequisites and Dependencies](prerequisites-and-depende
 <iframe src="https://player.vimeo.com/video/370085475" width="640" height="360" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
 <p><a href="https://vimeo.com/370085475">Workarea Dev Quickstart</a> from <a href="https://vimeo.com/workarea">Workarea Commerce Platform</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
 
-## Create a Rails 5.2 application
+## Create a Rails application
 
 This creates a barebones Rails app for Workarea to install into:
 
 ```bash
 mkdir my-store && cd my-store
 echo "source 'https://rubygems.org'" > Gemfile
-echo "gem 'rails', '~> 5.2'" >> Gemfile
+echo "gem 'rails'" >> Gemfile
 bundle install
 bundle exec rails new ./ --force \
 --skip-spring \
@@ -55,7 +55,8 @@ bundle exec rails new ./ --force \
 --skip-turbolinks \
 --skip-bootsnap \
 --skip-yarn \
---skip-bundle
+--skip-bundle \
+--skip-webpack-install
 ```
 
 ## Add the Workarea gem

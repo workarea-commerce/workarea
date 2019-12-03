@@ -10,7 +10,7 @@
         = content_block_icon(block_type.icon, title: block_type.name, class: 'new-block-button__icon')
         %span.new-block-button__name= block_type.name
         %span.new-block-button__help
-          = inline_svg 'workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', data: { tooltip: { content_id: "##{block_type.id}-description" }.to_json }
+          = inline_svg_tag 'workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', data: { tooltip: { content_id: "##{block_type.id}-description" }.to_json }
       .tooltip-content{ id: "#{block_type.id}-description" }= block_type.description
 
 - if @content_presets.any?
@@ -26,6 +26,6 @@
           = content_block_icon(preset.type.icon, title: preset.name, class: 'new-block-button__icon')
           %span.new-block-button__name= preset.name
           %span.new-block-button__help
-            = inline_svg 'workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', data: { tooltip: { content_id: "##{preset.id}-description" }.to_json }
+            = inline_svg_tag 'workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', data: { tooltip: { content_id: "##{preset.id}-description" }.to_json }
         .align-center= link_to t('workarea.admin.actions.delete'), content_preset_path(preset), data: { method: 'delete', confirm: t('workarea.admin.actions.delete_confirmation'), dom_remove: '.grid__cell' }
         .tooltip-content{ id: "#{preset.id}-description" }= preset.type.description

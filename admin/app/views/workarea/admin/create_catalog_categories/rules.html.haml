@@ -26,8 +26,8 @@
                   - if rule == @product_rule
                     = link_to t('workarea.admin.actions.cancel'), rules_create_catalog_category_path(@category)
                   - else
-                    = link_to inline_svg('workarea/admin/icons/edit.svg', class: 'svg-icon svg-icon--small', title: t('workarea.admin.actions.edit')), edit_rule_create_catalog_category_path(@category, rule)
-                    = link_to inline_svg('workarea/admin/icons/delete.svg', class: 'svg-icon svg-icon--small', title: t('workarea.admin.actions.remove')), product_list_product_rule_path(@category.to_global_id, rule, return_to: rules_create_catalog_category_path(@category)), data: { method: 'delete' }
+                    = link_to inline_svg_tag('workarea/admin/icons/edit.svg', class: 'svg-icon svg-icon--small', title: t('workarea.admin.actions.edit')), edit_rule_create_catalog_category_path(@category, rule)
+                    = link_to inline_svg_tag('workarea/admin/icons/delete.svg', class: 'svg-icon svg-icon--small', title: t('workarea.admin.actions.remove')), product_list_product_rule_path(@category.to_global_id, rule, return_to: rules_create_catalog_category_path(@category)), data: { method: 'delete' }
 
             %tr
               - if params[:action] == 'new_rule'
@@ -40,7 +40,7 @@
                     = hidden_field_tag 'show_all', params[:show_all], id: nil
                     %span= t('workarea.admin.product_rules.index.add_rule')
                     = select_tag 'product_rule[name]', options_for_select(product_rule_types_options)
-                    = button_tag inline_svg('workarea/admin/icons/add_circle.svg', class: 'svg-icon svg-icon--medium svg-icon--green', title: t('workarea.admin.product_rules.index.add_rule')), value: 'add_rule', class: 'text-button'
+                    = button_tag inline_svg_tag('workarea/admin/icons/add_circle.svg', class: 'svg-icon svg-icon--medium svg-icon--green', title: t('workarea.admin.product_rules.index.add_rule')), value: 'add_rule', class: 'text-button'
                 %td
 
     - if @product_rules.present? || params[:action] == 'new_rule'

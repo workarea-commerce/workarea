@@ -26,7 +26,7 @@
           = label_tag 'sku[policy]', class: 'property__name' do
             %span.property__text= t('workarea.admin.fields.policy')
             = link_to '#policy-info', data: { tooltip: '' } do
-              = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.fields.policy'))
+              = inline_svg_tag('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.fields.policy'))
 
           #policy-info.tooltip-content
             %p= t('workarea.admin.fulfillment_skus.edit.policy_info_html')

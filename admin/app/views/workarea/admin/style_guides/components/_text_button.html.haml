@@ -12,7 +12,7 @@
   .style-guide__example-block
     = button_tag class: 'text-button', type: 'button' do
       Text Button
-      = inline_svg('workarea/core/icon.svg', class: 'text-button__icon')
+      = inline_svg_tag('workarea/core/icon.svg', class: 'text-button__icon')
 
   %p should work with <code>button[type=submit]</code> elements:
   .style-guide__example-block
@@ -42,7 +42,7 @@
   .style-guide__example-block
     = button_tag class: 'text-button text-button--create', type: 'button' do
       Text Button
-      = inline_svg('workarea/core/icon.svg', class: 'text-button__icon')
+      = inline_svg_tag('workarea/core/icon.svg', class: 'text-button__icon')
 
 #text-button--destroy.style-guide__subsection
 
@@ -55,4 +55,4 @@
   .style-guide__example-block
     = button_tag class: 'text-button text-button--destroy', type: 'button' do
       Text Button
-      = inline_svg('workarea/core/icon.svg', class: 'text-button__icon')
+      = inline_svg_tag('workarea/core/icon.svg', class: 'text-button__icon')

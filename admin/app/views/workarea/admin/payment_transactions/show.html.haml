@@ -42,7 +42,7 @@
             %td
               = @transaction.response.params
               = link_to '#params-help', data: { tooltip: '' } do
-                = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.payment_transactions.show.transaction.more_link'))
+                = inline_svg_tag('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.payment_transactions.show.transaction.more_link'))
               #params-help.tooltip-content
                 %p= t('workarea.admin.payment_transactions.show.transaction.response_tooltip')
           %tr

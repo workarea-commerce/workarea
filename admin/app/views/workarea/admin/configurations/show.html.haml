@@ -27,7 +27,7 @@
                     %strong
                       - if field.overridden?
                         = link_to '#overridden-field', data: { tooltip: '' } do
-                          = inline_svg('workarea/admin/icons/alert.svg', class: 'svg-icon svg-icon--small svg-icon--red', title: t('workarea.admin.configurations.show.field_overridden'))
+                          = inline_svg_tag('workarea/admin/icons/alert.svg', class: 'svg-icon svg-icon--small svg-icon--red', title: t('workarea.admin.configurations.show.field_overridden'))
                       = field.name
                     - if field.description.present?
                       %br

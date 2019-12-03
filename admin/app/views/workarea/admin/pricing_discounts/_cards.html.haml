@@ -3,7 +3,7 @@
     .card{ class: card_classes(:attributes, local_assigns[:active]) }
       = link_to edit_pricing_discount_path(model), class: 'card__header' do
         %span.card__header-text= t('workarea.admin.pricing_discounts.cards.attributes.header')
-        = inline_svg 'workarea/admin/icons/attributes.svg', class: 'card__icon'
+        = inline_svg_tag 'workarea/admin/icons/attributes.svg', class: 'card__icon'
 
       - if local_assigns[:active].blank?
         .card__body
@@ -35,7 +35,7 @@
     .card{ class: card_classes(:rules, local_assigns[:active]) }
       = link_to rules_pricing_discount_path(model), class: 'card__header' do
         %span.card__header-text= t('workarea.admin.pricing_discounts.cards.rules.header')
-        = inline_svg 'workarea/admin/icons/rules.svg', class: 'card__icon'
+        = inline_svg_tag 'workarea/admin/icons/rules.svg', class: 'card__icon'
 
       - if local_assigns[:active].blank?
         .card__body
@@ -82,7 +82,7 @@
     .card{ class: card_classes(:insights, local_assigns[:active]) }
       = link_to insights_pricing_discount_path(model), class: 'card__header' do
         %span.card__header-text= t('workarea.admin.pricing_discounts.cards.insights.title')
-        = inline_svg 'workarea/admin/icons/insights.svg', class: 'card__icon'
+        = inline_svg_tag 'workarea/admin/icons/insights.svg', class: 'card__icon'
 
       - if local_assigns[:active].blank?
         .card__body
@@ -120,7 +120,7 @@
     .card{ class: card_classes(:redemptions, local_assigns[:active]) }
       = link_to pricing_discount_redemptions_path(model), class: 'card__header' do
         %span.card__header-text= t('workarea.admin.pricing_discounts.cards.redemptions.header')
-        = inline_svg 'workarea/admin/icons/permissions.svg', class: 'card__icon'
+        = inline_svg_tag 'workarea/admin/icons/permissions.svg', class: 'card__icon'
 
       - if local_assigns[:active].blank?
         .card__body

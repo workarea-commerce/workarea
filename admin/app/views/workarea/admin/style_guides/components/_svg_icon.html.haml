@@ -7,7 +7,7 @@
     - style_guide_icons.each do |path|
       .grid__cell
         .align-center
-          = inline_svg path, title: File.basename(path), class: 'svg-icon'
+          = inline_svg_tag path, title: File.basename(path), class: 'svg-icon'
           %p= File.basename(path, '.svg')
 
 
@@ -20,7 +20,7 @@
     - style_guide_icons.each do |path|
       .grid__cell
         .align-center
-          = inline_svg path, title: File.basename(path), class: 'svg-icon svg-icon--small'
+          = inline_svg_tag path, title: File.basename(path), class: 'svg-icon svg-icon--small'
           %p= File.basename(path, '.svg')
 
 
@@ -33,7 +33,7 @@
     - style_guide_icons.each do |path|
       .grid__cell
         .align-center
-          = inline_svg path, title: File.basename(path), class: 'svg-icon svg-icon--large'
+          = inline_svg_tag path, title: File.basename(path), class: 'svg-icon svg-icon--large'
           %p= File.basename(path, '.svg')
 
 
@@ -47,5 +47,5 @@
       - style_guide_icons.each do |path|
         .grid__cell
           .align-center
-            = inline_svg path, title: File.basename(path), class: "svg-icon svg-icon--#{color}"
+            = inline_svg_tag path, title: File.basename(path), class: "svg-icon svg-icon--#{color}"
             %p= File.basename(path, '.svg')

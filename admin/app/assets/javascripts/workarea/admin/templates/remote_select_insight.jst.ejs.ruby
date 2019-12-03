@@ -10,13 +10,13 @@
 
         <% if (top) { %>
             <span class="select2-results__option-icon">
-                #{ inline_svg('workarea/admin/icons/star.svg', title: I18n.t('workarea.admin.insights.icons.top_selling'), class: 'svg-icon svg-icon--small') }
+                #{ inline_svg_tag('workarea/admin/icons/star.svg', title: I18n.t('workarea.admin.insights.icons.top_selling'), class: 'svg-icon svg-icon--small') }
             </span>
         <% } %>
 
         <% if (trending) { %>
             <span class="select2-results__option-icon">
-                #{ inline_svg('workarea/admin/icons/fire.svg', title: I18n.t('workarea.admin.insights.icons.trending'), class: 'svg-icon svg-icon--small') }
+                #{ inline_svg_tag('workarea/admin/icons/fire.svg', title: I18n.t('workarea.admin.insights.icons.trending'), class: 'svg-icon svg-icon--small') }
             </span>
         <% } %>
 

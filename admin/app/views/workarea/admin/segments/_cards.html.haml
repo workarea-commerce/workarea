@@ -3,7 +3,7 @@
     .card{ class: card_classes(:attributes, local_assigns[:active]) }
       = link_to edit_segment_path(model), class: 'card__header' do
         %span.card__header-text= t('workarea.admin.segments.cards.attributes.header')
-        = inline_svg 'workarea/admin/icons/attributes.svg', class: 'card__icon'
+        = inline_svg_tag 'workarea/admin/icons/attributes.svg', class: 'card__icon'
 
       - if local_assigns[:active].blank?
         .card__body
@@ -25,7 +25,7 @@
     .card{ class: card_classes(:rules, local_assigns[:active]) }
       = link_to segment_rules_path(model), class: 'card__header' do
         %span.card__header-text= t('workarea.admin.segments.cards.rules.header')
-        = inline_svg 'workarea/admin/icons/rules.svg', class: 'card__icon'
+        = inline_svg_tag 'workarea/admin/icons/rules.svg', class: 'card__icon'
 
       - if local_assigns[:active].blank?
         .card__body
@@ -41,7 +41,7 @@
     .card{ class: card_classes(:insights, local_assigns[:active]) }
       = link_to insights_segment_path(model), class: 'card__header' do
         %span.card__header-text= t('workarea.admin.segments.cards.insights.header')
-        = inline_svg 'workarea/admin/icons/insights.svg', class: 'card__icon'
+        = inline_svg_tag 'workarea/admin/icons/insights.svg', class: 'card__icon'
 
       - if local_assigns[:active].blank?
         .card__body
@@ -78,7 +78,7 @@
     .card{ class: card_classes(:segmentables, local_assigns[:active]) }
       = link_to segment_segmentables_path(model), class: 'card__header' do
         %span.card__header-text= t('workarea.admin.segments.cards.segmentables.header')
-        = inline_svg 'workarea/admin/icons/attributes.svg', class: 'card__icon'
+        = inline_svg_tag 'workarea/admin/icons/attributes.svg', class: 'card__icon'
 
       - if local_assigns[:active].blank?
         .card__body

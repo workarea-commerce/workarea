@@ -48,7 +48,7 @@ require 'dragonfly'
 require 'net/ftp'
 require 'net/sftp'
 require 'geocoder'
-require 'rack/timeout'
+require 'rack-timeout'
 require 'easymon'
 require 'mail'
 require 'exifr/jpeg'
@@ -223,14 +223,11 @@ require 'workarea/warnings'
 require 'workarea/latest_version'
 
 #
-# Core
+# Base Engines
 #
 #
 require 'workarea/version'
 require 'workarea/core/engine'
-
-#
-# Testing
-#
-#
+require 'workarea/admin/engine'
+require 'workarea/storefront/engine'
 require 'workarea/testing/engine' if Rails.env.test?

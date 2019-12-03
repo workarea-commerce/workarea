@@ -5,7 +5,7 @@
     = field.name
     - if field.tooltip.present?
       = link_to "##{dom_id(block, field.slug)}_tooltip", data: { tooltip: '' } do
-        = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.content_blocks.tooltips.more_info'))
+        = inline_svg_tag('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.content_blocks.tooltips.more_info'))
 
   - if field.note.present?
     %span.property__note= field.note
