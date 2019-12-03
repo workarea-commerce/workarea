@@ -47,6 +47,10 @@ module Workarea
         embedded_in :foo
       end
 
+      class Qoo < Bar
+        field :qoo, type: String
+      end
+
       def test_merging_rows_for_embedded
         model = Foo.create!(
           bars: [{ name: '1' }, { name: '2' }],
@@ -417,6 +421,34 @@ module Workarea
         product = Catalog::Product.find_by(slug: 'bowl_light')
 
         assert_equal('653911', product.id)
+      end
+
+      def test_embedded_subclasses
+        model = Foo.create!(bars: [{ name: '1' }, { _type: Qoo.name, qoo: '2' }])
+        csv = Csv.new.serialize(model)
+        results = CSV.parse(csv, headers: :first_row).map(&:to_h)
+
+        assert_equal(2, results.size)
+        results.each { |r| assert_equal(model.id.to_s, r['_id']) }
+        assert_equal('1', results.first['bars_name'])
+        assert_equal(Qoo.name, results.second['bars_type'])
+        assert_equal('2', results.second['bars_qoo'])
+
+        import = create_import(
+          model_type: Foo.name,
+          file: create_tempfile(csv, extension: 'csv'),
+          file_type: 'csv'
+        )
+
+        model.destroy
+        Csv.new(import).import!
+
+        model = Foo.first
+        assert_equal(2, model.bars.size)
+        assert_equal(Bar, model.bars.first.class)
+        assert_equal('1', model.bars.first.name)
+        assert_equal(Qoo, model.bars.second.class)
+        assert_equal('2', model.bars.second.qoo)
       end
     end
   end
