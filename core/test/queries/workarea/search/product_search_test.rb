@@ -277,11 +277,13 @@ module Workarea
       end
 
       def test_only_finds_active_customizations
-        Search::Customization.find_by_query('*').tap do |c|
-          c.active = false
-          c.save
-        end
-        search = ProductSearch.new(q: '*')
+        customization = Search::Customization.find_by_query('foo')
+        search = ProductSearch.new(q: 'foo')
+        assert_equal(customization, search.customization)
+
+        customization.update!(active: false)
+        search = ProductSearch.new(q: 'foo')
+        refute_equal(customization, search.customization)
         refute(search.customization.persisted?)
       end
 
