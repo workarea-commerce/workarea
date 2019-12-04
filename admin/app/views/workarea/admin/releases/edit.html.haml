@@ -31,7 +31,7 @@
               = label_tag 'release_publish_at', t('workarea.admin.fields.publish_at'), class: 'property__name'
 
               - if current_user.can_publish_now?
-                .box.box--rounded= hidden_field_tag 'release[publish_at]', @release.publish_at, data: { datetimepicker_field: { inline: true } }
+                .box.box--rounded= hidden_field_tag 'release[publish_at]', @release.publish_at, data: { datetimepicker_field: { inline: true, uiOptions: { minDate: 0 } }.to_json }
               - elsif @release.publish_at.present?
                 = local_time(@release.publish_at)
               - else
@@ -49,7 +49,7 @@
               = label_tag 'release_undo_at', t('workarea.admin.fields.undo_at'), class: 'property__name'
 
               - if current_user.can_publish_now?
-                .box.box--rounded= hidden_field_tag 'release[undo_at]', @release.undo_at, data: { datetimepicker_field: { inline: true } }
+                .box.box--rounded= hidden_field_tag 'release[undo_at]', @release.undo_at, data: { datetimepicker_field: { inline: true, uiOptions: { minDate: 0 } }.to_json }
               - elsif @release.undo_at.present?
                 = local_time(@release.undo_at)
               - else

@@ -28,4 +28,4 @@
       - if current_user.can_publish_now?
         .property
           = label_tag 'release[publish_at]', t('workarea.admin.releases.publish.when_does_it_publish'), class: 'property__name'
-          = hidden_field_tag 'release[publish_at]', nil, placeholder: t('workarea.admin.releases.publish.when_does_it_publish'), data: { datetimepicker_field: { inline: true } }
+          = hidden_field_tag 'release[publish_at]', nil, placeholder: t('workarea.admin.releases.publish.when_does_it_publish'), data: { datetimepicker_field: { inline: true, uiOptions: { minDate: 0 } }.to_json }
