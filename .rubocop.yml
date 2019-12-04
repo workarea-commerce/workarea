@@ -95,7 +95,7 @@ Layout/EmptyLinesAroundModuleBody:
     - 'storefront/app/view_models/workarea/storefront/search_customization_content.rb'
     - 'testing/lib/workarea/testing/warning_suppressor.rb'
 
-Layout/IndentFirstArgument:
+Layout/FirstArgumentIndentation:
   Enabled: true
   Exclude:
     - 'admin/test/helpers/workarea/admin/releases_helper_test.rb'
@@ -204,7 +204,7 @@ Layout/Tab:
     - 'core/vendor/active_shipping/lib/active_shipping/carriers/canada_post.rb'
 
 # Blank lines should not have any spaces.
-Layout/TrailingBlankLines:
+Layout/TrailingEmptyLines:
   Enabled: true
 
 # No trailing whitespace.
