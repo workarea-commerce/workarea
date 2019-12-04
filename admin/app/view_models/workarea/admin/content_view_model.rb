@@ -80,8 +80,29 @@ module Workarea
       #
       # @return [Boolean]
       #
-      def new_block?
-        options[:new_block].present?
+      def new_block?(at: nil)
+        return false unless options[:new_block].present?
+        at.blank? || new_block.position == at
+      end
+
+      # HACK
+      #
+      # This method returns whether we can reliably determine the position of
+      # the new block being added. This can be very difficult to generate due to
+      # possible resorting of blocks within a release combined with release
+      # previewing based on publishing time.
+      #
+      # The only time this has caused an issue in use is adding a new first
+      # block, so this is used in combination with the above `new_block?` to
+      # decide whether to render the first block.
+      #
+      # @return [Boolean]
+      #
+      def ambiguous_new_block_position?
+        return false unless options[:new_block].present?
+
+        known_positions = [0] + current_blocks.map { |b| b.position + 1 }
+        known_positions.exclude?(new_block.position)
       end
 
       # An instance of the new block being created.
