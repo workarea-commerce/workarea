@@ -84,9 +84,23 @@
           </nav>
 
           <section class='feedback'>
-            <h2>How'd We Do?</h2>
-            <p>If you found this article was missing information or wasn't quite what you were looking for, we are open to any suggestions or feedback on what we could do better.</p>
-            <a><%= link_to 'Help Us Out', config[:feedback_url] + current_page.url, class: 'button', target: '_blank' %></a>
+            <h2>Help Us Improve this Doc</h2>
+            <p>Was this helpful? Open a GitHub issue to report a problem with this doc, suggest an improvement, or otherwise provide feedback. Thanks!</p>
+            <p>
+              <%=
+                link_to(
+                  'Open GitHub Issue',
+                  "https://github.com/workarea-commerce/workarea/issues/new" +
+                    "?template=documentation-request.md" +
+                    "&labels=documentation" +
+                    "&assignees=chriscressman" +
+                    "&title=Feedback for \"#{current_page.data.title}\" doc" +
+                    "&body=Feedback for \"#{current_page.data.title}\" (#{current_page.url}):",
+                  class: 'button',
+                  target: '_blank'
+                )
+              %>
+            </p>
           </section>
         </article>
 
