@@ -86,17 +86,17 @@ module Workarea
           ]
 
           if unnamespaced_attrs.values.any?(&:present?)
+            klass = attrs["#{name}_type"].constantize if attrs["#{name}_type"].present?
+            klass ||= root.relations[name].class_name.constantize
+
             if metadata.many?
               id = attrs["#{name}_id"]
-              instance = if id.present?
-                root.send(name).find_or_initialize_by(id: id)
-              else
-                root.send(name).build
-              end
+              instance = root.send(name).find_by(id: id) rescue nil
+              instance ||= root.send(name).build({}, klass)
 
               assign_attributes(instance, unnamespaced_attrs)
             else
-              instance = root.send(name) || root.send("build_#{name}")
+              instance = root.send(name) || root.send("build_#{name}", {}, klass)
               assign_attributes(instance, unnamespaced_attrs)
             end
           end
