@@ -210,7 +210,7 @@ module Workarea
     private
 
     def publish_at_status
-      if !published? && publish_at.present? && publish_at <= Time.current
+      if publish_at.present? && publish_at <= Time.current
         errors.add(:publish_at, I18n.t('workarea.errors.messages.must_be_future'))
       end
     end
