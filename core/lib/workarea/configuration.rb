@@ -1273,6 +1273,9 @@ module Workarea
       # Max number of non-unique affinity items that will be stored, older items
       # will be evicted first.
       config.max_affinity_items = 50
+
+      # How long a password reset URL stays valid
+      config.password_reset_timeout = 2.hours
     end
   end
 end
