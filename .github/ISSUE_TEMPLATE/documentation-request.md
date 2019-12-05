@@ -1,9 +1,9 @@
 ---
-name: Documentation request
-about: Suggest documentation
+name: Documentation feedback/request
+about: Provide documentation feedback
 title: ''
 labels: documentation
-assignees: ''
+assignees: chriscressman
 
 ---
 

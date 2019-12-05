@@ -8,8 +8,6 @@ set :markdown, fenced_code_blocks: true, tables: true, no_intra_emphasis: true, 
 
 set :relative_links, true
 
-set :feedback_url, 'https://docs.google.com/forms/d/e/1FAIpQLSdwBiHq_F8TVPAcBQFGf9e--yCE6rbGvGuiAF-W2lB2zrRbtg/viewform?usp=pp_url&entry.1298659050='
-
 activate :search do |search|
   search.resources = Dir['source/**/*.html*'].map do |path|
     path.split('/').drop(1).join('/').gsub(/\.erb|\.md/, '')
