@@ -29,7 +29,6 @@ module Workarea
         Configuration::CacheStore.load
         Configuration::AssetHost.load
         Configuration::ActionMailer.load
-        Configuration::Logstasher.load
         Configuration::ErrorHandling.load
         Configuration::I18n.load
       end
