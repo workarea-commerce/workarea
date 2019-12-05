@@ -208,11 +208,14 @@ require 'workarea/string_id'
 require 'workarea/mail_interceptor'
 
 #
-# Core
+# Engines
 #
 #
 require 'workarea/version'
 require 'workarea/core/engine'
+require 'workarea/admin/engine'
+require 'workarea/storefront/engine'
+require 'workarea/testing/engine' if Rails.env.test?
 
 #
 # Testing
