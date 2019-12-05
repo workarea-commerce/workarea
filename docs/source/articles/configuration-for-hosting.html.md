@@ -89,11 +89,3 @@ Workarea ships with support for the asset host as an environment variable. This 
 | Name | Default | Notes |
 |---|---|---|
 | `WORKAREA_ASSET_HOST` | | set this to your CDN |
-
-### Logstash
-
-Workarea depends on the [logstasher gem](https://github.com/shadabahmed/logstasher) to provide [Logstash](https://www.elastic.co/products/logstash) support out-of-the-box. This will only be enabled if the environment variable is set.
-
-| Name | Default | Notes |
-|---|---|---|
-| `WORKAREA_LOGSTASH` | | set this to `true` to enable `logstasher` |
