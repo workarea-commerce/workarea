@@ -142,6 +142,11 @@ module Workarea
         page.execute_script('WORKAREA.analytics.disableDomEvents();')
       end
 
+      def disable_dom_events
+        Workarea.deprecation.warn('#disable_dom_events is deprecated, use #disable_analytics_dom_events instead')
+        disable_analytics_dom_events
+      end
+
       def find_analytics_events(for_event: nil)
         all_events = page.evaluate_script('WORKAREA.analytics.events')
 
