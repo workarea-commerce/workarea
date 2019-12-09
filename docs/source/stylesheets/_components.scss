@@ -619,7 +619,8 @@
   opacity: 0;
   transition: opacity $animation-speed;
 
-  .heading:hover &, h2:hover &, h3:hover &, h4:hover &, h5:hover &, h6:hover & {
+  .heading:hover &, h2:hover &, h3:hover &, h4:hover &, h5:hover &, h6:hover &,
+  .heading:target &, h2:target &, h3:target &, h4:target &, h5:target &, h6:target & {
     opacity: 1;
   }
 }

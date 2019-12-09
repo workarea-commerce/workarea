@@ -173,12 +173,20 @@ window.modules.asideMenu = (function () {
 }());
 
 window.modules.uniqueArticleIDs = (function () {
-    var init = function () {
-            $('.article')
-                .find('h1, h2, h3, h4, h5, h6')
-                .each(function (index, heading) {
-                    $(heading).attr('id', heading.id + '_' + index);
-                });
+    var uniqueId = function (index, id) {
+            if (index > 0) {
+                return id + '-' + (index + 1);
+            } else {
+                return id;
+            }
+        },
+
+        ensureUniqueId = function (index, element) {
+            $('[id="' + element.id + '"]').attr('id', uniqueId);
+        },
+
+        init = function () {
+            $('[id]').each(ensureUniqueId);
         };
 
     return { init: init };
@@ -210,7 +218,8 @@ window.modules.quickLinks = (function () {
 
         appendLinks = function (heading) {
             $(heading).append(function () {
-                var href = window.location.href + '#' + heading.id;
+                var href = window.location.href.split('#')[0] + '#' + heading.id;
+
                 return $('<a>')
                             .attr({
                                 href: href,
@@ -239,18 +248,7 @@ window.modules.quickLinks = (function () {
 }());
 
 window.modules.skipTo = (function () {
-    var scrollToSection = function (event) {
-            var $section = $(event.target.hash),
-                $header = $('#header');
-
-            event.preventDefault();
-
-            $(window).scrollTop(function () {
-                return $section.offset().top - $header.outerHeight(true) - 20;
-            });
-        },
-
-        buildLinks = function ($headings) {
+    var buildLinks = function ($headings) {
             return $headings.map(function (index, heading) {
                 var $link = $('<a>'),
                     tagName = heading.tagName.toLowerCase();
@@ -283,9 +281,7 @@ window.modules.skipTo = (function () {
         },
 
         init = function () {
-            $('.skip-to')
-            .each(setup)
-            .on('click', '.skip-to__link', scrollToSection);
+            $('.skip-to').each(setup);
         };
 
     return { init: init };
