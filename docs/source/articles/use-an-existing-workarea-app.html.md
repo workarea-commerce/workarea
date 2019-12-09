@@ -13,7 +13,7 @@ This is a quick start guide for getting started on an existing Workarea applicat
 * You have ImageMagick installed. We recommend using [Homebrew](https://brew.sh).
 * You have the repository cloned locally.
 
-For more details, see [Prerequisites and Dependencies](prerequisites-and-dependencies.html).
+For more details, see [Prerequisites and Dependencies](/articles/prerequisites-and-dependencies.html).
 
 ## Setup an Existing Workarea Application
 
@@ -54,7 +54,7 @@ so running Rails seeds will add sample Workarea data.
 $ bin/rails db:seeds
 ```
 
-For more details on working with seed data, see [Seeds](seeds.html).
+For more details on working with seed data, see [Seeds](/articles/seeds.html).
 
 ### 6. Start the Rails server
 
@@ -87,13 +87,13 @@ rails workarea:test:plugins      # Run all installed workarea plugin tests (with
 rails workarea:test:storefront   # Run workarea storefront tests (with decorators)
 ```
 
-This will run the Workarea test suite (with any [decoration to the tests](decoration.html) this app adds):
+This will run the Workarea test suite (with any [decoration to the tests](/articles/decoration.html) this app adds):
 
 ```bash
 $ bin/rails workarea:test
 ```
 
-For more details on Workarea's testing functionality, see [Testing](testing.html).
+For more details on Workarea's testing functionality, see [Testing](/articles/testing.html).
 
 ### 9. Stop the Services
 

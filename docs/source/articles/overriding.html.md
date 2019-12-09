@@ -16,7 +16,7 @@ To override any of these files, simply copy the file to the same path within you
 
 UI customizations can be extensive, but I'll use a simple example to demonstrate the concept of overriding. By default, product pages in the Storefront display recommendations below the full product description. Refer to the following image.
 
-![Storefront product page before overriding](images/storefront-product-before-overriding.png)
+![Storefront product page before overriding](/images/storefront-product-before-overriding.png)
 
 The following example overrides the _products#show_ view in order to change the rendered HTML, moving the recommendations _above_ the product description.
 
@@ -100,7 +100,7 @@ index 1ef4ec4..6969e5e 100644
 
 Browsing to the same page demonstrates the final result: the recommendations display above the product description.
 
-![Storefront product page after overriding](images/storefront-product-after-overriding.png)
+![Storefront product page after overriding](/images/storefront-product-after-overriding.png)
 
 ## Override Generator
 
@@ -149,7 +149,7 @@ To mitigate this problem, Workarea provides [Workarea Upgrade](https://stash.too
 
 ## Overrides within Plugins
 
-Unlike other [extension](extension-overview.html) techniques, overriding is used almost exclusively by applications and is used by plugins in only rare cases. Although plugins are technically able to override files, it becomes problematic when other plugins or the application in which they are installed also want to override the same files. Plugins therefore override files only when they can assume they are the canonical source for the files, such as a theme plugin overriding the Storefront layout and assets.
+Unlike other [extension](/articles/extension-overview.html) techniques, overriding is used almost exclusively by applications and is used by plugins in only rare cases. Although plugins are technically able to override files, it becomes problematic when other plugins or the application in which they are installed also want to override the same files. Plugins therefore override files only when they can assume they are the canonical source for the files, such as a theme plugin overriding the Storefront layout and assets.
 
 ## Notes
 

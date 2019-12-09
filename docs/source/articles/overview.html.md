@@ -29,15 +29,15 @@ Workarea is written in Ruby, and is built on the [Ruby on Rails](https://rubyonr
 
 ## Customization
 
-Workarea is designed to be customized to work for merchants with different needs. The four primary ways of customizing Workarea's behaviors are [configuration](configuration.html), [plugins](plugins-overview.html), [decoration](decoration.html), and Rails' overrides system ([overriding](overriding.html)).
+Workarea is designed to be customized to work for merchants with different needs. The four primary ways of customizing Workarea's behaviors are [configuration](/articles/configuration.html), [plugins](/articles/plugins-overview.html), [decoration](/articles/decoration.html), and Rails' overrides system ([overriding](/articles/overriding.html)).
 
 ## Testing
 
-Workarea inherits the Rails' community's ethic of testing. In this spirit, Workarea distributes its test suite as runnable and customizable, just like any application code using decoration techniques. This helps implementers of Workarea to ensure their customizations don't break Workarea out-of-the-box functionality and helps with upgrades to new versions. [Read more on testing.](testing.html)
+Workarea inherits the Rails' community's ethic of testing. In this spirit, Workarea distributes its test suite as runnable and customizable, just like any application code using decoration techniques. This helps implementers of Workarea to ensure their customizations don't break Workarea out-of-the-box functionality and helps with upgrades to new versions. [Read more on testing.](/articles/testing.html)
 
 ## How do I get started?
 
 You have two options for jumping in with Workarea.
 
 1. Try out a user-facing demo, using [instructions from our README](https://github.com/workarea-commerce/workarea#demo)
-2. [Create a new app](create-a-new-app.html) and start coding
+2. [Create a new app](/articles/create-a-new-app.html) and start coding

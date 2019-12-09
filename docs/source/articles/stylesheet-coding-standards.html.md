@@ -8,11 +8,11 @@ excerpt: The files that make up the Workarea CSS Framework adhere to specific ar
 
 ## Architecture
 
-The files that make up the Workarea CSS Framework adhere to specific architectural guidelines. The architecture defines specific layers to which each CSS file should belong. For more information, read through the [CSS Architectural Overview](css-architectural-overview.html) section.
+The files that make up the Workarea CSS Framework adhere to specific architectural guidelines. The architecture defines specific layers to which each CSS file should belong. For more information, read through the [CSS Architectural Overview](/articles/css-architectural-overview.html) section.
 
 ## BEM
 
-The term block comes from BEM: Block, Element, Modifier. The [BEM philosophy and syntax](http://csswizardry.com/2013/01/mindbemding-getting-your-head-round-bem-syntax/) is used when constructing [Components](css-architectural-overview.html#the-components-layer) in the Workarea platform.
+The term block comes from BEM: Block, Element, Modifier. The [BEM philosophy and syntax](http://csswizardry.com/2013/01/mindbemding-getting-your-head-round-bem-syntax/) is used when constructing [Components](/articles/css-architectural-overview.html#the-components-layer) in the Workarea platform.
 
 ## CSS Style Guide
 

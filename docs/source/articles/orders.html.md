@@ -12,7 +12,7 @@ However, at the core of each of these transactions is an `Order` model. The orde
 
 ## Seeding Order Data
 
-Workarea provides [seeds](seeds.html) for orders, which are defined in `Workarea::OrdersSeeds`. This seeds script creates a variety of placed orders, as well as the user, shipping, and payment data needed to place those orders.
+Workarea provides [seeds](/articles/seeds.html) for orders, which are defined in `Workarea::OrdersSeeds`. This seeds script creates a variety of placed orders, as well as the user, shipping, and payment data needed to place those orders.
 
 Each order is placed through <dfn>checkout</dfn>, a process that joins an order with the other models necessary to represent a complete consumer/retailer transaction.
 
@@ -20,7 +20,7 @@ Finally, the script _fulfills_ each order, which involves capturing the associat
 
 ## Joining Order Data
 
-Using the first seeded order as its subject, the following example demonstrates how you can join an order model with the corresponding shippings, payment, inventory transactions, and fulfillment. In practice, this sort of in-application join is typically performed in a [view model](view-models.html).
+Using the first seeded order as its subject, the following example demonstrates how you can join an order model with the corresponding shippings, payment, inventory transactions, and fulfillment. In practice, this sort of in-application join is typically performed in a [view model](/articles/view-models.html).
 
 ```
 order = Workarea::Order.first
@@ -45,7 +45,7 @@ As you can see in the example above, the `id` of the Order model is what relates
 
 The following order module topics are pertinent to Workarea application and plugin developers:
 
-- [The _order_ and _order item_ abstractions](orders-and-items.html)
+- [The _order_ and _order item_ abstractions](/articles/orders-and-items.html)
   - What they represent
   - How they are structured
 - Order statuses and states

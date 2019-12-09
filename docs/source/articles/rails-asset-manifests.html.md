@@ -25,10 +25,10 @@ your\_app/app/assets/javascripts/application.js:
 //...
 ```
 
-You add a manifest like this to your app using [rails asset view helpers](rails-asset-view-helpers.html) provided by Rails. In a development environment, each file in the manfest is included as a separate `script` element. In production, the assets are concatenated into a single file (named after the manifest) and minified.
+You add a manifest like this to your app using [rails asset view helpers](/articles/rails-asset-view-helpers.html) provided by Rails. In a development environment, each file in the manfest is included as a separate `script` element. In production, the assets are concatenated into a single file (named after the manifest) and minified.
 
 ## Workarea Asset Manifests
 
-Workarea asset manifests leverage the Rails asset pipeline, but **Workarea's manifest files look a bit different**. See [Add JavaScript through a Manifest](add-javascript-through-a-manifest.html) for a detailed look at the Workarea manifest files.
+Workarea asset manifests leverage the Rails asset pipeline, but **Workarea's manifest files look a bit different**. See [Add JavaScript through a Manifest](/articles/add-javascript-through-a-manifest.html) for a detailed look at the Workarea manifest files.
 
 

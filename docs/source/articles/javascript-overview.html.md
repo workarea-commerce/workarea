@@ -6,7 +6,7 @@ excerpt: A new Workarea application includes no JavaScript of its own. Create on
 
 # JavaScript Overview
 
-A new Workarea application includes no JavaScript of its own. [Create one to see for yourself](create-a-new-app.html). However, the Workarea platform adds an Admin and a Storefront to the application, and each of those includes its own JavaScript files that are fully customizable.
+A new Workarea application includes no JavaScript of its own. [Create one to see for yourself](/articles/create-a-new-app.html). However, the Workarea platform adds an Admin and a Storefront to the application, and each of those includes its own JavaScript files that are fully customizable.
 
 This guide provides an overview of (1) how to get JavaScript on the page and (2) understanding JavaScript provided by Workarea.
 
@@ -42,22 +42,22 @@ And:
 
 `application-2c3748f10d7452eaa5d2572fabc099650b49f8a372d0cc69c414aaeaf16ae62a.js`
 
-**These are the head and application JavaScript manifests, the primary mechanisms for adding and removing JavaScript files in your app**. Unless you have a good reason to do otherwise, **[Add and remove JavaScripts using a manifest](add-javascript-through-a-manifest.html)**. Not familiar with asset manifests? [I've got you covered](add-javascript-through-a-manifest.html).
+**These are the head and application JavaScript manifests, the primary mechanisms for adding and removing JavaScript files in your app**. Unless you have a good reason to do otherwise, **[Add and remove JavaScripts using a manifest](/articles/add-javascript-through-a-manifest.html)**. Not familiar with asset manifests? [I've got you covered](/articles/add-javascript-through-a-manifest.html).
 
-So what if you do have a good reason to do otherwise? Then you can [add JavaScript through a view](add-javascript-through-a-view.html) or [add JavaScript through the Admin UI](add-javascript-through-the-admin-ui.html).
+So what if you do have a good reason to do otherwise? Then you can [add JavaScript through a view](/articles/add-javascript-through-a-view.html) or [add JavaScript through the Admin UI](/articles/add-javascript-through-the-admin-ui.html).
 
-Plugins can add their own assets to your app as well, so check out [Appending](appending.html) to take control of that process.
+Plugins can add their own assets to your app as well, so check out [Appending](/articles/appending.html) to take control of that process.
 
 ## The JavaScript Universe According to Workarea
 
-To understand the JavaScript provided by Workarea you should familiarize yourself with [Workarea modules](javascript-modules.html) and [JST/EJS templates](javascript-templates.html).
+To understand the JavaScript provided by Workarea you should familiarize yourself with [Workarea modules](/articles/javascript-modules.html) and [JST/EJS templates](/articles/javascript-templates.html).
 
-Also good to know are how to [access Rails routes in JavaScript](access-routes-in-javascript.html) and how to [configure JavaScript](configuration.html).
+Also good to know are how to [access Rails routes in JavaScript](/articles/access-routes-in-javascript.html) and how to [configure JavaScript](/articles/configuration.html).
 
-Regarding JavaScript dependencies, Feature.js behaves a bit differently than the others, and Workarea also has a feature test helper file that interacts with Feature.js. Those topics are covered in the cleverly named [Feature.js & Feature Test Helper](featurejs-and-feature-spec-helper.html) guide.
+Regarding JavaScript dependencies, Feature.js behaves a bit differently than the others, and Workarea also has a feature test helper file that interacts with Feature.js. Those topics are covered in the cleverly named [Feature.js & Feature Test Helper](/articles/featurejs-and-feature-spec-helper.html) guide.
 
 ## Some Last Words on JavaScript
 
-Lastly, [JavaScript reference documentation](javascript-reference-documentation.html) is available, which covers each of the public functions and their signatures.
+Lastly, [JavaScript reference documentation](/articles/javascript-reference-documentation.html) is available, which covers each of the public functions and their signatures.
 
-If you'd care to [contribute](contribute-code.html) code back to the platform, or if you obsess over code style, check out the Workarea [JavaScript coding standards](javascript-coding-standards.html).
+If you'd care to [contribute](/articles/contribute-code.html) code back to the platform, or if you obsess over code style, check out the Workarea [JavaScript coding standards](/articles/javascript-coding-standards.html).

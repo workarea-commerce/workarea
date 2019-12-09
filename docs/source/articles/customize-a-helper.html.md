@@ -65,7 +65,7 @@ Do this using the `.helper` class method on the controller.
 
 The following examples accomplish this in different ways, and both techniques are applicable to applications and plugins.
 
-The first [decorates](decoration.html) the chosen controller:
+The first [decorates](/articles/decoration.html) the chosen controller:
 
 ```ruby
 # workarea-blog/app/controllers/workarea/storefront/application_controller.decorator

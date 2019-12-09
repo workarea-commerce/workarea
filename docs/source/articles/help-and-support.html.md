@@ -22,14 +22,14 @@ Use Slack to:
 
 ## Workarea Support
 
-The Workarea Support team provides support and training services to merchants and partners. Visit [https://support.workarea.com] (https://support.workarea.com) to open an issue or contact us for support.
+The Workarea Support team provides support and training services to merchants and partners. Visit [https://support.workarea.com](https://support.workarea.com) to open an issue or contact us for support.
 
 ### Submit an Incident Report
-Go to [https://support.workarea.com] (https://support.workarea.com) and submit an [Incident Report] (https://jira.tools.weblinc.com/servicedesk/customer/portal/16/create/248) detailing the observed issue. Provide as much detail as possible (screen shots, error codes, steps to reproduce, etc.) to reduce the need to further diagnose and resolve more quickly.
+Go to [https://support.workarea.com](https://support.workarea.com) and submit an [Incident Report](https://jira.tools.weblinc.com/servicedesk/customer/portal/16/create/248) detailing the observed issue. Provide as much detail as possible (screen shots, error codes, steps to reproduce, etc.) to reduce the need to further diagnose and resolve more quickly.
 
 Please include your Solution Partner primary contact on all incidents and requests, so communication can be facilitated as needed.
 
-Alternatively, email [support@workarea.com] (mailto:support@workarea.com) and include your priority in the subject of the email.
+Alternatively, email [support@workarea.com](mailto:support@workarea.com) and include your priority in the subject of the email.
 
 ### After Hours Escalation
 To escalate the issue after Hours of Support, call __[+1 (215) 398-7814] (tel:+1-215-398-7814)__ and leave a message for on-call support and request a call back.

@@ -48,7 +48,7 @@ $
 
 You can start the application within the development environment, but you can't do much with it:
 
-![Before seeding](images/before-seeding.png)
+![Before seeding](/images/before-seeding.png)
 
 There is no navigation and nothing to search for. There are no products, categories, or content to browse. The Admin is inaccessible because there are no users who can authenticate as administrators.
 
@@ -182,13 +182,13 @@ $
 
 The upshot of this is a usable Storefront, complete with products, categories, content, navigation, and other data:
 
-![After seeding](images/after-seeding.png)
+![After seeding](/images/after-seeding.png)
 
 ### Admin Access
 
 Seeding also provides access to the Admin, which is displaying order and analytics data that was also seeded:
 
-![Seeded Admin](images/seeded-admin.png)
+![Seeded Admin](/images/seeded-admin.png)
 
 Refer to [`AdminSeeds#perform`](https://github.com/workarea-commerce/workarea/blob/master/core/app/seeds/workarea/admins_seeds.rb) in your instance of Workarea for administrator emails and passwords to log in to the Admin.
 
@@ -227,7 +227,7 @@ $
 
 As another example, the image below shows the Storefront after re-seeding. Comparing it to the Storefront image above, you can see the “Header Promo Body” is identical, while the navigation is similar but different:
 
-![After re-seeding](images/after-re-seeding.png)
+![After re-seeding](/images/after-re-seeding.png)
 
 The uniformity of seeds makes them valuable for the following additional use cases:
 
@@ -245,7 +245,7 @@ It is therefore sensible to re-seed your development environment in the followin
 
 ## Extending Seeds
 
-As an application developer, you can define your own seeds. You can also [decorate](decoration.html) and [configure](configuration.html) existing seeds. This provides the flexibility to add, modify, replace, and remove seeds to better suite the requirements of your application.
+As an application developer, you can define your own seeds. You can also [decorate](/articles/decoration.html) and [configure](/articles/configuration.html) existing seeds. This provides the flexibility to add, modify, replace, and remove seeds to better suite the requirements of your application.
 
 ### Remove Seeds
 
@@ -377,7 +377,7 @@ $ bin/rails r 'puts Workarea::Catalog::Product.count'
 
 If you compare the result to the same query above, you can see there are additional products in the database. These additional products include data to support the functionality of the package products and gift cards plugins. To boot, the reviews plugin adds rating and review data to some of the products. You can see some of these new products and additional data in the following view of the Storefront:
 
-![Seeds from plugins](images/seeds-from-plugins.png)
+![Seeds from plugins](/images/seeds-from-plugins.png)
 
 ## Summary
 

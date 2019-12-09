@@ -6,7 +6,7 @@ excerpt: Each Workarea user interface includes a style guide page that provides 
 
 # Style Guides
 
-Each Workarea user interface includes a style guide page that provides tests and documentation for each layer of the [CSS Architecture](css-architectural-overview.html). The only exception to this rule is Tools, who's documentation is included in their respective files. These pages are available by default at the following paths:
+Each Workarea user interface includes a style guide page that provides tests and documentation for each layer of the [CSS Architecture](/articles/css-architectural-overview.html). The only exception to this rule is Tools, who's documentation is included in their respective files. These pages are available by default at the following paths:
 
 - `/style_guides`
 - `/admin/style_guides`

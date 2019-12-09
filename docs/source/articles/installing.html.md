@@ -40,12 +40,12 @@ This tells sidekiq to run workers in process while working locally.
 
 ### `test_helper.rb`
 
-Workarea provides robust [testing configuration](testing.html) for consistent and easy testing. The install generator will add `require workarea/test_help.rb` to your existing `test/test_helper.rb` file.
+Workarea provides robust [testing configuration](/articles/testing.html) for consistent and easy testing. The install generator will add `require workarea/test_help.rb` to your existing `test/test_helper.rb` file.
 
 ### `favicon.ico`
 
-Workarea provides [favicon support](favicon-support.html) through content assets within the admin UI. As a result, the install generator removes the `public/favicon.ico` file generated with a new rails application so that it does not interfere with that functionality.
+Workarea provides [favicon support](/articles/favicon-support.html) through content assets within the admin UI. As a result, the install generator removes the `public/favicon.ico` file generated with a new rails application so that it does not interfere with that functionality.
 
 ### `seeds.rb`
 
-Workarea provides a large set of [seed data](seeds.html) to get your application started. The install generator adds the `db/seeds.rb` file so that you can run seeds like any other rails application.
+Workarea provides a large set of [seed data](/articles/seeds.html) to get your application started. The install generator adds the `db/seeds.rb` file so that you can run seeds like any other rails application.

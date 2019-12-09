@@ -387,11 +387,11 @@ This multiple decoration is best defined in the file **app/view_models/workarea/
 
 Before applying this decoration, your filters might look like something like this:
 
-![Before applying the decoration](../images/filters-control.png)
+![Before applying the decoration](/images/filters-control.png)
 
 After the decoration is applied, you should see the price filters appearing first:
 
-![After applying the decoration](../images/filters-pinned.png)
+![After applying the decoration](/images/filters-pinned.png)
 
 ## Grouping Filters
 
@@ -485,7 +485,7 @@ index d90fcb09a..99453b389 100644
 
 Make sure `Search::Settings#terms_facets` includes the "Material" filter, and your new grouped filter will render in the storefront!
 
-![Filter groups](../images/filters-groups.png)
+![Filter groups](/images/filters-groups.png)
 
 ## Additional Considerations
 

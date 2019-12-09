@@ -19,7 +19,7 @@ The most obvious of the features are _searches_ (i.e. search results pages).
 Storefront searches match products to queries entered by shoppers.
 These queries are built via a user interface and include a query string and optionally additional parameters such as filters, a sort, and a page.
 
-![Storefront search](../images/storefront-search.png)
+![Storefront search](/images/storefront-search.png)
 
 Admins can customize the results of all searches via _search settings_ (terms facets, range facets, field boosts, product popularity multiplier), and they can customize specific searches via _search customizations_ (featured products, product rules, query rewrite).
 
@@ -30,7 +30,7 @@ Less evidently, _categories_ (i.e. category pages) in the Storefront are also a 
 Category pages and search results pages share a similar UI containing product results, filters, sorts, and pagination.
 This UI is known as the _product browsing_ interface.
 
-![Storefront category](../images/storefront-category.png)
+![Storefront category](/images/storefront-category.png)
 
 A category differs from a search in that the query is determined primarily by the retailer (via administrators and developers), although shoppers may filter, sort, and paginate the results.
 Admins define the category logic by setting featured products and product rules for each category, similar to the administration for a search customization.
@@ -39,9 +39,9 @@ Admins can also set terms facets, range facets, and default sort for each catego
 
 ### Category Summary Content Blocks
 
-_Category summary content blocks_ are [content blocks](content.html#block_6) which display the first _n_ product results for a given category.
+_Category summary content blocks_ are [content blocks](/articles/content.html#block) which display the first _n_ product results for a given category.
 
-![Storefront category summary content block](../images/storefront-category-summary-content-block.png)
+![Storefront category summary content block](/images/storefront-category-summary-content-block.png)
 
 These blocks use the same search query as a full category page. Admins can therefore manage the results for these blocks through the admin for the particular category.
 
@@ -60,7 +60,7 @@ Products are recommended to shoppers in various contexts throughout the Storefro
 
 The following figure shows recommendations on a product detail page:
 
-![Storefront category summary content block](../images/storefront-product-recommendations.png)
+![Storefront category summary content block](/images/storefront-product-recommendations.png)
 
 The recommendations subsystem uses a variety of recommendations _sources_ when determining which products to recommend.
 One of these sources, _similar products_, uses an Elasticsearch query to determine the results.
@@ -78,7 +78,7 @@ Elasticsearch responds to these requests, and the application processes the resu
 
 The following figure illustrates this process:
 
-![Storefront requests and search requests](../images/storefront-requests-and-search-requests.png)
+![Storefront requests and search requests](/images/storefront-requests-and-search-requests.png)
 
 Furthermore, the following table provides specific examples of Storefront requests and their corresponding search requests.
 
@@ -110,7 +110,7 @@ The following table maps each search feature to its corresponding search query c
 
 Search Feature                                 | Search Query Class          | Potential Callers
 ---------------------------------------------- | --------------------------- | ---------------------------------------------------------------------------------------------------
-Searches                                       | `Search::ProductSearch`     | See [Storefront Searches](storefront-searches.html)
+Searches                                       | `Search::ProductSearch`     | See [Storefront Searches](/articles/storefront-searches.html)
 Categories and category summary content blocks | `Search::CategoryBrowse`    | `Storefront::CategoryViewModel#search_query`
 Product recommendations                        | `Search::RelatedProducts`   | `Recommendations::ProductBased`, `Recommendations::OrderBased`, `Recommendations::UserActivityBased`
 
@@ -264,7 +264,7 @@ Be aware that each request body is very stateful. It depends on various values, 
 * Various administrative values accessible to admins (e.g. search settings, search customizations, categories)
 * Various configuration values accessible to developers
 
-For more details, see [Analyze Storefront Searches, Analyzing Queries](analyze-storefront-search-results.html#analyzing-queries_5).
+For more details, see [Analyze Storefront Searches, Analyzing Queries](/articles/analyze-storefront-search-results.html#analyzing-queries).
 
 The request body is sent to Elasticsearch when any of the "results" methods (see above) are called on the search query object.
 The results depend on the state of the request body _and_ the state of the indexes and documents being searched.
@@ -456,7 +456,7 @@ Beginning in Workarea 3.5, separate documents track changes across releases, so 
 
 All other namespaces exist primarily to perform dynamic field mapping.
 For example, all fields within the `content.*` namespace are mapped within Elasticsearch as _text_, while all fields in the `keywords.*` namespace are mapped as _keywords_.
-See [Change Storefront Search Results](change-storefront-search-results.html) to learn how to take advantage of this feature when adding fields to a search model.
+See [Change Storefront Search Results](/articles/change-storefront-search-results.html) to learn how to take advantage of this feature when adding fields to a search model.
 
 
 ### Product Search Documents
@@ -530,7 +530,7 @@ The `"model"` fields in this namespace actually contain serialized Mongoid model
 Also notice that these cached fields and many other fields in this document contain data that is derived from the pricing SKU and inventory SKU models associated with this catalog product model.
 Search models are similar to view models in that they are initialized from a model, but they may cross bounded contexts to look up additional models as necessary to create a "view" of the original model that is suitable for a specific context (in this case, a Storefront search index).
 
-( Since Workarea 3.5, search documents are affected by the current release. See [Search, Search Models](/articles/searching.html#search-models_9) for an example of this. )
+( Since Workarea 3.5, search documents are affected by the current release. See [Search, Search Models](/articles/searching.html#search-models) for an example of this. )
 
 Now that you've seen how search documents are created and how they are structured, let's look at how they are actually indexed into Elasticsearch.
 
@@ -553,7 +553,7 @@ If the application has multiple locales, the `#save` call repeats this process f
 
 While `#save` is the primary "public" API of a search model, you rarely need to call it as a developer.
 This is in part because most search indexing is automatic or is manual indexing of the "index everything" variety.
-(See  [Search, Indexing](searching.html#indexing_7).)
+(See  [Search, Indexing](/articles/searching.html#indexing).)
 
 When you _do_ need to index a specific document or documents, they are usually _product_ documents, and there are specific APIs you must go through to index products.
-(See  [Index Storefront Search Documents](index-storefront-search-documents.html).)
+(See  [Index Storefront Search Documents](/articles/index-storefront-search-documents.html).)

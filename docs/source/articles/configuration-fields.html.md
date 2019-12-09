@@ -136,4 +136,4 @@ It is important to note that any configuration field that shares an ID with an e
 
 Within the admin configuration page, there is a red `!` indicator along with a tooltip next to any field that is being overidden by a static configuration value.
 
-![Static configuration override warning](images/static-config-indicator.png)
+![Static configuration override warning](/images/static-config-indicator.png)
