@@ -36,6 +36,11 @@ jobs:
     - uses: workarea-commerce/ci/test@v1
       with:
         command: cd admin && bin/rails test test/system/**/*_test.rb -b
+    - uses: actions/upload-artifact@v1
+      if: failure()
+      with:
+        name: Admin Screenshots
+        path: admin/test/dummy/tmp/screenshots
 
   core_tests:
     runs-on: ubuntu-latest
@@ -69,3 +74,8 @@ jobs:
     - uses: workarea-commerce/ci/test@v1
       with:
         command: cd storefront && bin/rails test test/system/**/*_test.rb -b
+    - uses: actions/upload-artifact@v1
+      if: failure()
+      with:
+        name: Storefront Screenshots
+        path: storefront/test/dummy/tmp/screenshots
