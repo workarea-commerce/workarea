@@ -17,7 +17,7 @@ module Workarea
       def filter
         result = {
           '$match' => {
-            'reporting_on' => { '$gte' => starts_at, '$lte' => ends_at },
+            'reporting_on' => { '$gte' => starts_at.utc, '$lte' => ends_at.utc },
             '$or' => [
               { 'orders' => { '$gt' => 0 } },
               { 'units_sold' => { '$gt' => 0 } }

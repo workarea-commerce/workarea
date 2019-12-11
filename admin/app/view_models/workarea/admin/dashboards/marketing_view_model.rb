@@ -37,17 +37,17 @@ module Workarea
                   {
                     '$match' => {
                       'created_at' => {
-                        '$gte' => starts_at.beginning_of_day,
-                        '$lte' => ends_at.end_of_day
+                        '$gte' => starts_at.beginning_of_day.utc,
+                        '$lte' => ends_at.end_of_day.utc
                       }
                     }
                   },
                   {
                     '$group' => {
                       '_id' => {
-                        'day' => { '$dayOfMonth' => '$created_at' },
-                        'month' => { '$month' => '$created_at' },
-                        'year' => { '$year' => '$created_at' }
+                        'day' => { '$dayOfMonth' => created_at_in_time_zone },
+                        'month' => { '$month' => created_at_in_time_zone },
+                        'year' => { '$year' => created_at_in_time_zone }
                       },
                       'created_at' => { '$first' => '$created_at' },
                       'count' => { '$sum' => 1 }
@@ -59,6 +59,10 @@ module Workarea
 
               find_graph_data(query.to_a, :count)
             end
+        end
+
+        def created_at_in_time_zone
+          { 'date' => '$created_at', 'timezone' => Time.zone.tzinfo.name }
         end
 
         def insights

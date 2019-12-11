@@ -14,7 +14,7 @@ module Workarea
       def filter_date_range_and_zeroes
         {
           '$match' => {
-            'reporting_on' => { '$gte' => starts_at, '$lte' => ends_at },
+            'reporting_on' => { '$gte' => starts_at.utc, '$lte' => ends_at.utc },
             'orders' => { '$gt' => 0 },
             'revenue' => { '$gt' => 0 }
           }

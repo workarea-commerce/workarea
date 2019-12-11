@@ -35,8 +35,8 @@ module Workarea
           {
             '$match' => {
               'reporting_on' => {
-                '$gte' => Time.current.last_week,
-                '$lte' => Time.current.last_week.end_of_week
+                '$gte' => Time.current.last_week.utc,
+                '$lte' => Time.current.last_week.end_of_week.utc
               }
             }
           }
@@ -70,8 +70,8 @@ module Workarea
                     '$expr' => {
                       '$and' => [
                         { '$eq' => ['$product_id', '$$product_id'] },
-                        { '$gte' => ['$reporting_on', Time.current.last_week - 1.week] },
-                        { '$lte' => ['$reporting_on', Time.current.last_week.end_of_week - 1.week] }
+                        { '$gte' => ['$reporting_on', (Time.current.last_week - 1.week).utc] },
+                        { '$lte' => ['$reporting_on', (Time.current.last_week.end_of_week - 1.week).utc] }
                       ]
                     }
                   }
@@ -144,7 +144,13 @@ module Workarea
             '$addFields' => {
               '_id' => {
                 '$concat' => [
-                  { '$dateToString' => { 'format' => '%Y%m%d', 'date' => '$reporting_on' } },
+                  {
+                    '$dateToString' => {
+                      'format' => '%Y%m%d',
+                      'date' => '$reporting_on',
+                      'timezone' => Time.zone.tzinfo.name
+                    }
+                  },
                   '-',
                   '$product_id'
                 ]

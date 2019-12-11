@@ -74,7 +74,7 @@ module Workarea
                 'frequency' => {
                   '$divide' => [
                     '$orders',
-                    { '$subtract' => [Time.current, '$first_order_at'] }
+                    { '$subtract' => [Time.current.utc, '$first_order_at'] }
                   ]
                 },
                 'average_order_value' => {
