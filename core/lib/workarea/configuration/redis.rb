@@ -34,41 +34,37 @@ module Workarea
         def find_config(name)
           config_slug = name.to_s.underscore.downcase
           from_config = Workarea.config[config_slug].presence ||
-                          Rails.application.secrets[config_slug]
-
-          return from_config if from_config.present?
+                          Rails.application.secrets[config_slug] ||
+                          {}
 
           env_slug = name.to_s.underscore.upcase
-          scheme = ENV["WORKAREA_#{env_slug}_SCHEME"].presence || DEFAULT[:scheme]
-
-          {
-            scheme: scheme,
-            host: ENV["WORKAREA_#{env_slug}_HOST"].presence || DEFAULT[:host],
-            port: ENV["WORKAREA_#{env_slug}_PORT"].presence || DEFAULT[:port],
-            db: ENV["WORKAREA_#{env_slug}_DB"].presence || DEFAULT[:db],
-            password: ENV["WORKAREA_#{env_slug}_PASSWORD"].presence,
-            ssl: scheme == 'rediss' ? true : false
-          }
+          from_config.symbolize_keys.reverse_merge(
+            scheme: ENV["WORKAREA_#{env_slug}_SCHEME"],
+            host: ENV["WORKAREA_#{env_slug}_HOST"],
+            port: ENV["WORKAREA_#{env_slug}_PORT"],
+            db: ENV["WORKAREA_#{env_slug}_DB"],
+            password: ENV["WORKAREA_#{env_slug}_PASSWORD"]
+          )
         end
       end
 
       attr_reader :config
-      alias_method :to_h, :config
 
       def initialize(config)
         @config = config.to_h.deep_symbolize_keys
       end
 
       def scheme
-        @config[:scheme]
+        @config[:scheme].presence || DEFAULT[:scheme]
       end
 
-      def ssl
-        @config[:ssl]
+      def ssl?
+        scheme == 'rediss'
       end
+      alias_method :ssl, :ssl?
 
       def host
-        @config[:host]
+        @config[:host].presence || DEFAULT[:host]
       end
 
       def password
@@ -76,19 +72,30 @@ module Workarea
       end
 
       def port
-        @config[:port]
+        @config[:port].presence || DEFAULT[:port]
       end
 
       def db
-        @config[:db]
+        @config[:db].presence || DEFAULT[:db]
+      end
+
+      def to_h
+        {
+          scheme: scheme,
+          host: host,
+          port: port,
+          db: db,
+          password: password,
+          ssl: ssl?
+        }
       end
 
       def to_url
         base = "#{scheme}://"
         base << "admin:#{password}@" if password.present?
         base << "#{host}"
-        base << ":#{port}" if port.present?
-        base << "/#{db}" if db.present?
+        base << ":#{port}"
+        base << "/#{db}"
         base
       end
     end
