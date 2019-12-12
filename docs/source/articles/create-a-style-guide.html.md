@@ -6,7 +6,7 @@ excerpt: To add a style guide, use the style guide generator.
 
 # Create a Style Guide
 
-To add a [style guide](style-guides.html), use the style guide generator.
+To add a [style guide](/articles/style-guides.html), use the style guide generator.
 
 Run the generator without arguments to view help:
 

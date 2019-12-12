@@ -9,20 +9,20 @@ Workarea Storefront provides an errors controller through which it routes all 40
 
 - Each error page renders with administrable system content, specific to the error type (404 or 500)
 - The error pages use the Storefront layout, providing a consistent look and feel, as well as global functionality such as search and navigation
-- The errors view is a standard Workarea view, which you can [override](overriding.html) to extend as necessary
+- The errors view is a standard Workarea view, which you can [override](/articles/overriding.html) to extend as necessary
 
 For these reasons, **Workarea 3.3 changes error page rendering to _always_ use Workarea error pages instead of the Rails defaults**.
 
 ## Use Workarea Error Pages
 
-To use the Storefront errors view with administrable content in place of the default Rails error pages, ensure [system contents](content.html#system-content) with the following names exist within each environment:
+To use the Storefront errors view with administrable content in place of the default Rails error pages, ensure [system contents](/articles/content.html#system-content) with the following names exist within each environment:
 
 - `'Not Found'` for 404 pages
 - `'Internal Server Error'` for 500 pages
 
 (Since Workarea 3.3, the errors controller creates these contents on demand, so it isn't necessary to create them in advance. However, you should create them if the retailer would like to customize the content for these pages.)
 
-The default customer service pages [seeds](seeds.html) create these system contents within development environments. For all other environments, create these contents through any Ruby interface to which you have access (e.g.&nbsp;Rails console/runner/task). Refer to the example in Listing 1.
+The default customer service pages [seeds](/articles/seeds.html) create these system contents within development environments. For all other environments, create these contents through any Ruby interface to which you have access (e.g.&nbsp;Rails console/runner/task). Refer to the example in Listing 1.
 
 <!-- <figure id="listing-1">
   <figcaption>

@@ -7,7 +7,7 @@ Checkout
 ======================================================================
 
 Checkout is the process that completes and records a transaction (a sale) between a shopper and the retailer.
-Checkout gets the [order](orders.html), [shippings](shipping.html), and payment into the states necessary to place the order.
+Checkout gets the [order](/articles/orders.html), [shippings](/articles/shipping.html), and payment into the states necessary to place the order.
 
 This doc first covers checkout from the perspective of models (modeling) and controller actions (flow).
 Then it covers each step in more detail, including shared implementation.
@@ -120,15 +120,15 @@ After all steps are complete, the order is placed, and the shopper is redirected
 The entire flow is illustrated in the following diagram.
 The sections following the diagram provide additional details for each step.
 
-![Checkout flow](../images/checkout-flow-0.png)
+![Checkout flow](/images/checkout-flow-0.png)
 
-![Checkout flow](../images/checkout-flow-1.png)
+![Checkout flow](/images/checkout-flow-1.png)
 
-![Checkout flow](../images/checkout-flow-2.png)
+![Checkout flow](/images/checkout-flow-2.png)
 
-![Checkout flow](../images/checkout-flow-3.png)
+![Checkout flow](/images/checkout-flow-3.png)
 
-![Checkout flow](../images/checkout-flow-4.png)
+![Checkout flow](/images/checkout-flow-4.png)
 
 
 Entry Point
@@ -162,7 +162,7 @@ The billing address may also be entered by choosing "Same as Shipping", which is
 
 Addresses step, guest checkout:
 
-![Checkout addresses, guest checkout](../images/checkout-addresses-guest.png)
+![Checkout addresses, guest checkout](/images/checkout-addresses-guest.png)
 
 (
 The screenshot above includes shipping to multiple addresses and address autocomplete.
@@ -171,7 +171,7 @@ These features are provided by plugins and are not covered in this doc.
 
 Here is the addresses step as a returning user:
 
-![Checkout addresses, returning user](../images/checkout-addresses-user.png)
+![Checkout addresses, returning user](/images/checkout-addresses-user.png)
 
 
 ### Routes
@@ -225,7 +225,7 @@ The shipping instructions field is a simple text field that is hidden by default
 
 The shipping step:
 
-![Checkout shipping](../images/checkout-shipping.png)
+![Checkout shipping](/images/checkout-shipping.png)
 
 (
 The screenshot above includes shipping to multiple addresses, gift message, and gift wrapping.
@@ -278,7 +278,7 @@ Payment may be the ID of a saved credit card, or it may be a new credit card (in
 
 The payment step, guest checkout:
 
-![Checkout payment, guest](../images/checkout-payment-guest.png)
+![Checkout payment, guest](/images/checkout-payment-guest.png)
 
 (
 The "Enter a Promo Code" button, shown above, reveals an additional promo code form, which is separate from the checkout form.
@@ -291,7 +291,7 @@ These features are provided by plugins and are not covered in this doc.
 
 Here is the payment step as a returning user:
 
-![Checkout payment, returning user](../images/checkout-payment-user.png)
+![Checkout payment, returning user](/images/checkout-payment-user.png)
 
 Placing the order has various effects; some inline with the original web request, others deferred as background jobs.
 Investigate the following Ruby API calls to see all the effects:
@@ -363,7 +363,7 @@ After the order is placed, the shopper is redirected to a view of the placed ord
 If the shopper is an administrator with `:order` permissions, they are redirected to the placed order in the Admin.
 Otherwise, the shopper is redirected to the _checkout confirmation_: a Storefront view of the placed order.
 
-![Checkout confirmation](../images/checkout-confirmation.png)
+![Checkout confirmation](/images/checkout-confirmation.png)
 
 If the checkout was a guest checkout, the checkout confirmation page includes a form which allows the shopper to create a user account.
 If the shopper creates their account, a background job copies details from the checkout (e.g. addresses, payment) to their user account.
@@ -434,7 +434,7 @@ You can extend checkout, either to change an existing step or to add a new step 
 
 ### Change an Existing Step
 
-To change an existing step, [decorate](decoration.html) the models and/or extend the UI code using the appropriate [extension](extension.html) techniques.
+To change an existing step, [decorate](/articles/decoration.html) the models and/or extend the UI code using the appropriate [extension](/articles/extension.html) techniques.
 If decorating the model, extend `#update` to change which params are expected for an update, and extend `#complete?` to change the conditions for step completion.
 For UI changes, refer to the listings of source files in the step-specific sections above.
 

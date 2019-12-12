@@ -8,7 +8,7 @@ excerpt: Workarea applications persist model data to MongoDB, using it as the da
 
 Workarea applications persist model data to MongoDB, using it as the database of record. However, to provide near-real-time search, Workarea persists many of the same models to Elasticsearch, after first transforming them into a format suitable for search.
 
-Workarea [callbacks workers](workers.html#callbacks-worker) enqueue in response to changes to Mongoid documents, and when run, these workers synchronize these data changes to Elasticsearch.
+Workarea [callbacks workers](/articles/workers.html#callbacks-worker) enqueue in response to changes to Mongoid documents, and when run, these workers synchronize these data changes to Elasticsearch.
 
 Workarea also provides query classes which encapsulate the complexity of the various search requests to Elasticsearch needed by Workarea applications. Each search query provides the search results for a given set of query parameters. Results are Mongoid models, initialized directly from a serialized copy in Elasticsearch, so it is not necessary to query MongoDB for results.
 
@@ -244,7 +244,7 @@ I do not cover this abstraction in detail because it is used internally and rare
 
 ## Indexing
 
-Most search indexing is performed by [callbacks workers](workers.html#callbacks-worker) running in response to changes to application documents, and by workers run [on a schedule](workers.html#sidekiq-cron-job). Internally, workers use search models to transform the affected application documents into search documents, which involves serializing in-memory objects into strings. The search models then index the transformed documents into Elasticsearch.
+Most search indexing is performed by [callbacks workers](/articles/workers.html#callbacks-worker) running in response to changes to application documents, and by workers run [on a schedule](/articles/workers.html#sidekiq-cron-job). Internally, workers use search models to transform the affected application documents into search documents, which involves serializing in-memory objects into strings. The search models then index the transformed documents into Elasticsearch.
 
 To a lesser extent, rake tasks and seeds are also used to index documents for search.
 

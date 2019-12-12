@@ -6,9 +6,9 @@ excerpt: Orders are transactions between consumers and the retailer. Consumers c
 
 # Orders & Items
 
-[Orders](orders.html) are transactions between consumers and the retailer. Consumers create orders in the Storefront, as carts, to which they add items (and optionally promo codes). Consumers complete [checkouts](/articles/checkout.html), thereby placing their orders. The placed orders, which act as permanent records of the transactions, are accessible to the retailer through the Admin.
+[Orders](/articles/orders.html) are transactions between consumers and the retailer. Consumers create orders in the Storefront, as carts, to which they add items (and optionally promo codes). Consumers complete [checkouts](/articles/checkout.html), thereby placing their orders. The placed orders, which act as permanent records of the transactions, are accessible to the retailer through the Admin.
 
-The `Order` class (which is also a module/namespace) is the primary model representing these transactions. Each order [document](application-document.html) represents an order through its entire life cycle, from cart through order management. An order model therefore fulfills the roles of purchase order, invoice, and detailed receipt for a transaction.
+The `Order` class (which is also a module/namespace) is the primary model representing these transactions. Each order [document](/articles/application-document.html) represents an order through its entire life cycle, from cart through order management. An order model therefore fulfills the roles of purchase order, invoice, and detailed receipt for a transaction.
 
 The `Order` model and its embedded items identify the consumer and the items that make up the transaction and their prices. More specifically, a placed order is composed of the following data:
 

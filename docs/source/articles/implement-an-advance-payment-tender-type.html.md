@@ -18,11 +18,11 @@ However, there are many such payment services, and a retailer may choose a servi
 In that case, you will need to implement the advance payment tender type yourself, either directly within an application or within a plugin that can be re-used across applications.
 This document provides the procedure to complete this work, which can be summarized as:
 
-1. [Integrate the _gateway_](#gateway-integration_1) for the payment service into the Workarea application
-2. [Define _operation implementations_](#operation-implementations_6) which use the gateway to process payments of the new type
-3. [Integrate the tender type with the _payment model_](#payment-model-integration_22) to manage tender-specific data and logic
-6. [Integrate the tender type with the _Storefront_](#storefront-integration_32) to collect and show data specific to the tender type
-7. [Integrate the tender type with the _Admin_](#admin-integration_37) to facilitate display and administration for the new tender type
+1. [Integrate the _gateway_](#gateway-integration) for the payment service into the Workarea application
+2. [Define _operation implementations_](#operation-implementations) which use the gateway to process payments of the new type
+3. [Integrate the tender type with the _payment model_](#payment-model-integration) to manage tender-specific data and logic
+6. [Integrate the tender type with the _Storefront_](#storefront-integration) to collect and show data specific to the tender type
+7. [Integrate the tender type with the _Admin_](#admin-integration) to facilitate display and administration for the new tender type
 
 
 Gateway Integration
@@ -40,8 +40,8 @@ That task is outside the scope of this document.
 Once you have access to the necessary gateway class(es), you must integrate the gateway into the Workarea application.
 To do so, complete the following steps:
 
-1. [Define a _gateway module method_](#gateway-module-method_2) to provide a consistent interface for initializing the gateway when needed
-2. [Edit the _proxy configuration_](#proxy-configuration_5) to allow communication with the payment service over the network (Commerce Cloud only)
+1. [Define a _gateway module method_](#gateway-module-method) to provide a consistent interface for initializing the gateway when needed
+2. [Edit the _proxy configuration_](#proxy-configuration) to allow communication with the payment service over the network (Commerce Cloud only)
 
 
 ### Gateway Module Method
@@ -168,14 +168,14 @@ Each operation implementation class defines `#complete!`, which completes transa
 
 You must define each operation implementation for your tender type, which you can do in the following steps:
 
-1. [Implement a _tender-specific operation mixin_](#tender-specific-operation-mixin_7) to encapsulate shared logic for operations of your tender type
-2. [Implement _authorize_](#authorize-implementation_10) for your tender type
-3. [Implement _purchase_](#purchase-implementation_13) for your tender type
-4. [Implement _capture_](#capture-implementation_16) for your tender type
-5. [Implement _refund_](#refund-implementation_19) for your tender type
+1. [Implement a _tender-specific operation mixin_](#tender-specific-operation-mixin) to encapsulate shared logic for operations of your tender type
+2. [Implement _authorize_](#authorize-implementation) for your tender type
+3. [Implement _purchase_](#purchase-implementation) for your tender type
+4. [Implement _capture_](#capture-implementation) for your tender type
+5. [Implement _refund_](#refund-implementation) for your tender type
 
 Be aware that operation implementations depend on data from the payment model.
-Therefore, the _Operation Implementations_ step overlaps with the [Payment Model Integration](#payment-model-integration_22) step.
+Therefore, the _Operation Implementations_ step overlaps with the [Payment Model Integration](#payment-model-integration) step.
 You will likely need to develop them concurrently.
 
 
@@ -224,7 +224,7 @@ Replace `your_tender_type_operation` and `YourTenderTypeOperation` with a name m
 
 __[3]__
 Implement `#gateway` as an alias for the gateway module method you already implemented.
-See section [Gateway Module Method](#gateway-module-method_2).
+See section [Gateway Module Method](#gateway-module-method).
 Keep the gateway initialization logic in that module (rather than here) so it can be shared by automated tests and any other code that requires gateway access.
 
 __[4]__
@@ -314,7 +314,7 @@ end
 ```
 
 __[8]__
-You must include this module to have access to `transaction`, `tender`, and `options`, which depend on the [Payment Model Integration](#payment-model-integration_22).
+You must include this module to have access to `transaction`, `tender`, and `options`, which depend on the [Payment Model Integration](#payment-model-integration).
 
 __[9]__
 Rename this module to be specific to your tender type, such as `RewardPointsOperation`.
@@ -340,7 +340,7 @@ The correct API call is often `authorize`, but refer to your gateway's documenta
 __[14]__
 Pass the proper arguments for the gateway API call.
 The first argument is typically the amount in cents.
-To construct this data, you have access to `transaction`, `tender`, and `options`, which depend on the [Payment Model Integration](#payment-model-integration_22).
+To construct this data, you have access to `transaction`, `tender`, and `options`, which depend on the [Payment Model Integration](#payment-model-integration).
 
 __[15]__
 You must assign `transaction.response` to fulfill the contract for `#complete!`.
@@ -374,7 +374,7 @@ The correct API call is often `void`, `cancel`, or `refund`, but refer to your g
 __[22]__
 Pass the proper arguments for the gateway API call.
 The first argument is typically a reference to the original authorization, such as `transaction.response.authorization` or `transaction.response.params['transaction_id']`.
-To construct this data, you have access to `transaction`, `tender`, and `options`, which depend on the [Payment Model Integration](#payment-model-integration_22).
+To construct this data, you have access to `transaction`, `tender`, and `options`, which depend on the [Payment Model Integration](#payment-model-integration).
 
 __[23]__
 You must assign `transaction.cancellation` to fulfill the contract for `#cancel!`.
@@ -516,7 +516,7 @@ __[27]__
 Pass the proper arguments for the gateway API call.
 The first argument is typically the amount in cents.
 The second argument is typically a reference to the original transaction's authorization, such as `transaction.reference.response.authorization` or `transaction.reference.response.params['transaction_id']`.
-To construct this data, you have access to `transaction`, `tender`, and `options`, which depend on the [Payment Model Integration](#payment-model-integration_22).
+To construct this data, you have access to `transaction`, `tender`, and `options`, which depend on the [Payment Model Integration](#payment-model-integration).
 
 __[28]__
 For most payment services, it doesn't make sense to cancel a capture, so this method should be implemented to do nothing.
@@ -605,11 +605,11 @@ This data is persisted to a [`Payment`](https://github.com/workarea-commerce/wor
 
 You must therefore integrate your tender type with the payment model, which requires three steps:
 
-1. [Define a _tender model_](#embedded-tender-model_23) to embed within the payment model
-2. [Decorate the _payment model_](#payment-decorator_26) to embed the tender model and provide supporting methods
-3. [Add a _tender types initializer_](#tender-types-initializer_29) to add your tender type to the embedded collection of all tenders
+1. [Define a _tender model_](#embedded-tender-model) to embed within the payment model
+2. [Decorate the _payment model_](#payment-decorator) to embed the tender model and provide supporting methods
+3. [Add a _tender types initializer_](#tender-types-initializer) to add your tender type to the embedded collection of all tenders
 
-The _Payment Model Integration_ is effectively a bridge between the [Operation Implementations](#operation-implementations_6) and [Storefront Integration](#storefront-integration_32).
+The _Payment Model Integration_ is effectively a bridge between the [Operation Implementations](#operation-implementations) and [Storefront Integration](#storefront-integration).
 You will likely need to develop those steps concurrently.
 
 
@@ -694,7 +694,7 @@ Implement the appropriate call to the gateway here.
 __[8]__
 Delegate to the gateway module method you implemented.
 Replace `YourTenderType` with the name of your module.
-See section [Gateway Module Method](#gateway-module-method_2).
+See section [Gateway Module Method](#gateway-module-method).
 
 
 #### Embedded Tender Model Example
@@ -756,19 +756,19 @@ If developing a plugin, replace `your_engine` with a slug identifying your plugi
 
 __[3]__
 Replace `:your_tender_type` with a symbol that matches the embedded tender, such as `:reward_points`.
-(See [Embedded Tender Model](#embedded-tender-model_23).)
+(See [Embedded Tender Model](#embedded-tender-model).)
 In some cases, you may want to embed a collection instead of a single object.
-For an example, see [Payment Decorator Example](#payment-decorator-example_28).
+For an example, see [Payment Decorator Example](#payment-decorator-example).
 
 __[4]__
 Replace `'Workarea::Payment::Tender::YourTenderType'` with the class name of the embedded tender model, such as `'Workarea::Payment::Tender::RewardPoints'`.
-(See [Embedded Tender Model](#embedded-tender-model_23).)
+(See [Embedded Tender Model](#embedded-tender-model).)
 
 __[5]__
 Define a setter for your embedded tender document.
 Name the method after your tender type, for example: `set_reward_points`.
 If embedding a collection, implement an "adder" instead of a setter.
-For an example, see [Payment Decorator Example](#payment-decorator-example_28).
+For an example, see [Payment Decorator Example](#payment-decorator-example).
 
 __[6]__
 Build the embedded tender, mutate it as necessary, and save the payment.
@@ -852,12 +852,12 @@ You must integrate your new tender type into the Storefront by extending some or
 Advance payment tender types vary considerably in their Storefront integrations, but there are a few commonalities.
 To integrate your tender type into the Storefront, complete the following:
 
-1. [Extend the _order pricing view models_](#order-pricing-view-models_33) to provide data about the new tender type for order summaries and checkout display logic
-2. [Append _order summary partials_](#order-summary-partials_34) to display a subtotal for the new tender type within order summaries
-3. [Create _order tender partials_](#order-tender-partials_35) to handle the display of the new tender type when showing placed orders
-4. [Complete other _tender specific integrations_](#tender-specific-integrations_36) as needed for your tender type
+1. [Extend the _order pricing view models_](#order-pricing-view-models) to provide data about the new tender type for order summaries and checkout display logic
+2. [Append _order summary partials_](#order-summary-partials) to display a subtotal for the new tender type within order summaries
+3. [Create _order tender partials_](#order-tender-partials) to handle the display of the new tender type when showing placed orders
+4. [Complete other _tender specific integrations_](#tender-specific-integrations) as needed for your tender type
 
-Data collected by the _Storefront Integration_ is persisted by the [Payment Model Integration](#payment-model-integration_22).
+Data collected by the _Storefront Integration_ is persisted by the [Payment Model Integration](#payment-model-integration).
 These steps therefore overlap.
 You will likely need to develop them concurrently.
 
@@ -960,8 +960,8 @@ Your tender type may require or benefit from additional Admin integration, but t
 
 The process to integrate your tender type into the Admin therefore looks like this:
 
-1. [Create an _order tender partial_](#order-tender-partial_38) to handle the display of the new tender type when showing placed orders
-2. [Complete other _tender-specific integrations_](#tender-specific-integrations_39) as needed for your tender type
+1. [Create an _order tender partial_](#order-tender-partial) to handle the display of the new tender type when showing placed orders
+2. [Complete other _tender-specific integrations_](#tender-specific-integrations-2) as needed for your tender type
 
 
 ### Order Tender Partial

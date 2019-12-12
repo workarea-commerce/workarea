@@ -159,7 +159,7 @@ You can extend platform tests by decorating test case classes the same way you d
 
 ### Writing Test Decorators
 
-To [decorate](decoration.html) a test case, create a _.decorator_ file within your application with the same base name and path as the test case file in Workarea. Require the application test helper at the top of your decorator, and use the `decorate` method to decorate the test case class.
+To [decorate](/articles/decoration.html) a test case, create a _.decorator_ file within your application with the same base name and path as the test case file in Workarea. Require the application test helper at the top of your decorator, and use the `decorate` method to decorate the test case class.
 
 The following annotated examples show the `BulkIndexProductsTest` test case from Core, and a decorator for that test case from the [Workarea Browse Option](https://github.com/workarea-commerce/workarea-browse-option) plugin. Decorating tests works the same way in plugins as it does in applications. <sup><a href="#notes" id="note-2-context">[2]</a></sup>
 
@@ -327,7 +327,7 @@ end
 
 Write new test cases to cover functionality not covered by platform tests, such as new features unique to your application.
 
-When writing new tests, follow Workarea conventions (such as file names/paths and method names). The following examples show the boilerplate for a new [worker](workers.html) and its associated test case.
+When writing new tests, follow Workarea conventions (such as file names/paths and method names). The following examples show the boilerplate for a new [worker](/articles/workers.html) and its associated test case.
 
 ```ruby
 # app/workers/workarea/import_inventory.rb
@@ -671,7 +671,7 @@ The Workarea test help file loads a large Ruby API into memory, including the Wo
 The following modules provide additional test setup and/or teardown.
 
 - `Workarea::TestCase::Workers`
-  - Setup and teardown for [workers](workers.html)
+  - Setup and teardown for [workers](/articles/workers.html)
   - Included in `Workarea::TestCase`, `Workarea::IntegrationTest`, and `Workarea::SystemTest` by default
 - `Workarea::TestCase::SearchIndexing`
   - Setup for Elasticsearch indexes
@@ -981,6 +981,6 @@ end
 
 ## Notes
 
-[1] If you're migrating to Workarea 3 from an earlier version, review the [<cite>Testing</cite> section of the 3.0 release notes](workarea-3-0-0.html#testing) for a summary of changes.
+[1] If you're migrating to Workarea 3 from an earlier version, review the [<cite>Testing</cite> section of the 3.0 release notes](/release-notes/workarea-3-0-0.html#testing) for a summary of changes.
 
 [2] An exception to this is the `with` option for `decorate`. By convention, plugins must include this option while applications can omit it.

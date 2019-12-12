@@ -12,13 +12,13 @@ Workarea provides a mechanism to assign tax codes to both pricing SKUs and shipp
 
 Tax configuration begins with creating tax categories. Tax categories enable a business to tax different goods at different rates to accommodate exemptions or product-specific tax rates. A tax category is nothing more than a name and a code. Once created, tax rates can be defined for the category.
 
-![Create a new tax category](images/new-tax-category.png)
+![Create a new tax category](/images/new-tax-category.png)
 
 
 
 Tax rates can be defined within Workarea one at a time, or a CSV can be imported. Tax rate importing is compatible with files provided by [Avalara](https://www.avalara.com/taxrates/en/download-tax-tables.html) for US tax tables. This makes it easy to pull current tax rates for the US into your application.
 
-![Tax Category Rates](images/tax-category-rates.png)
+![Tax Category Rates](/images/tax-category-rates.png)
 
 Tax rates allow an admin user to define the country, region, and postal code for which the rate will apply. The less specific the rate, the more broadly the rate will apply. However, Workarea will always attempt to find the most specific tax rate for an order first, before using a more generic tax rate (See specificity below for more information).
 

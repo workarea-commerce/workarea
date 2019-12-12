@@ -8,7 +8,7 @@ Storefront Searches
 
 Each Storefront search feature uses a search query object to send a search request and receive a response from Elasticsearch.
 However, the code path to initialize the search query is different for each feature.
-(See [Storefront Search Features](storefront-search-features.html), specifically [Initialization & Parameters](storefront-search-features.html#initialization-amp-parameters_9).)
+(See [Storefront Search Features](/articles/storefront-search-features.html), specifically [Initialization & Parameters](/articles/storefront-search-features.html#initialization-amp-parameters).)
 
 Storefront searches (i.e. search results pages) have the most complicated path to search query initialization.
 A Storefront search request may be redirected to another URL, or the search query may be rewritten, possibly several times, in an attempt to provide better search results.
@@ -30,7 +30,7 @@ Otherwise, the controller wraps the response in a `Storefront::SearchViewModel` 
 
 The following figure illustrates this process:
 
-![Storefront search request handling](../images/storefront-search-request-handling.png)
+![Storefront search request handling](/images/storefront-search-request-handling.png)
 
 The `Response#query` is the search query object, an instance of `Search::ProductSearch`.
 The view model wrapping the response adds the method `#products`, which wraps each result from the search query object in a `Storefront::ProductViewModel`, preparing the results for display in the Storefront.
@@ -50,7 +50,7 @@ The Storefront search object creates a _search middleware chain_ and passes the 
 Each search middleware has the opportunity to mutate the response, and each has the opportunity to "break" the chain, preventing the remaining middleware in the chain from running.
 The following figure represents this flow:
 
-![Storefront search response creation](../images/storefront-search-response-creation.png)
+![Storefront search response creation](/images/storefront-search-response-creation.png)
 
 All but the first of these middleware send the search query to Elasticsearch and examine the results.
 Each middleware may decide to:
@@ -63,7 +63,7 @@ Each middleware may decide to:
 
 ## Search Middleware Chain
 
-The value of `Workarea.config.storefront_search_middleware` is a [SwappableList](swappable-list-data-structure.html) which declares which search middleware are to run and in what order.
+The value of `Workarea.config.storefront_search_middleware` is a [SwappableList](/articles/swappable-list-data-structure.html) which declares which search middleware are to run and in what order.
 The following example lists the default middleware chain.
 
 ```ruby
@@ -76,7 +76,7 @@ puts Workarea.config.storefront_search_middleware
 ```
 
 Developers can manipulate this config to add, swap, remove, or sort search middleware.
-Developers can also [decorate](decoration.html) middleware to modify their behavior.
+Developers can also [decorate](/articles/decoration.html) middleware to modify their behavior.
 
 The following sections provide a brief explanation of each of the default search middleware.
 

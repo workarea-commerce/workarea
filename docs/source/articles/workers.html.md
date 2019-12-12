@@ -6,7 +6,7 @@ excerpt: Workarea applications use Sidekiq as a job queuing backend to perform u
 
 # Workers
 
-Workarea applications use [Sidekiq](https://github.com/mperham/sidekiq) as a job queuing backend to perform units of work asynchronously in the background. These jobs, which include search indexing, cache busting, and cleanup of expired data, are defined as <dfn>workers</dfn>. Workarea workers build on Sidekiq's worker concept and are typically enqueued on a schedule or in response to callbacks on [application documents](application-document.html).
+Workarea applications use [Sidekiq](https://github.com/mperham/sidekiq) as a job queuing backend to perform units of work asynchronously in the background. These jobs, which include search indexing, cache busting, and cleanup of expired data, are defined as <dfn>workers</dfn>. Workarea workers build on Sidekiq's worker concept and are typically enqueued on a schedule or in response to callbacks on [application documents](/articles/application-document.html).
 
 ## Sidekiq Workers
 
@@ -173,7 +173,7 @@ end
 
 ## Callbacks Worker
 
-Instead of binding to a schedule, many workers are run or enqueued in response to callbacks representing the life cycles of [application documents](application-document.html) or other objects. These workers are referred to as <dfn>callbacks workers</dfn>.
+Instead of binding to a schedule, many workers are run or enqueued in response to callbacks representing the life cycles of [application documents](/articles/application-document.html) or other objects. These workers are referred to as <dfn>callbacks workers</dfn>.
 
 Callbacks workers include the module `Sidekiq::CallbacksWorker`, which is a Workarea extension to Sidekiq. Among other things, this module provides the `enqueue_on` Sidekiq worker option, which allows a worker to register itself to be run or enqueued in response to any [ActiveSupport callback](http://api.rubyonrails.org/classes/ActiveSupport/Callbacks.html).
 

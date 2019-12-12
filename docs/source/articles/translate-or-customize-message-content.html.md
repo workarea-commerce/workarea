@@ -6,7 +6,7 @@ excerpt: Message text is translated/customized in the same manner as all static 
 
 # Translate or Customize Message Content
 
-Message text is translated/customized in the same manner as all [static text](translate-or-customize-static-content.html).
+Message text is translated/customized in the same manner as all [static text](/articles/translate-or-customize-static-content.html).
 
 To customize or translate message text, create a local file in your app for each locale (if you haven't already) and edit the values for the keys that correspond to the messages you'd like to change.
 

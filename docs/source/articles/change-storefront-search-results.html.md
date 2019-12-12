@@ -6,13 +6,13 @@ excerpt: This document provides a specific example of changing Storefront search
 Change Storefront Search Results
 ================================================================================
 
-After familiarizing yourself with the [Storefront search features](storefront-search-features.html) and learning how to [analyze Storefront search results](analyze-storefront-search-results.html), you may want to go a step further and actually _change_ Storefront search results.
+After familiarizing yourself with the [Storefront search features](/articles/storefront-search-features.html) and learning how to [analyze Storefront search results](/articles/analyze-storefront-search-results.html), you may want to go a step further and actually _change_ Storefront search results.
 Specifically, you'll likely want to change _which_ documents match a given search query (matching) and/or _how well_ each document matches the query (relevance).
 
 Search results are created by matching _search documents_, created by _search models_, to a _search request body_, created by a _search query object_. These are therefore your extension points.
 To an extent, you can apply changes to these features via administration and configuration, particularly to manipulate a search request body.
 (Review the documents linked above for coverage of these concepts and a list of relevant administration and configuration.)
-However, many changes require deeper extension of these features through [decoration](decoration.html).
+However, many changes require deeper extension of these features through [decoration](/articles/decoration.html).
 
 This document provides a specific example of such a change, as well as commentary on how to adapt these ideas to your own use cases.
 
@@ -23,7 +23,7 @@ Example
 For the sake of having a concrete example, we'll use the following:
 
 You're developing an application, and the retailer has previously extended the platform to establish the concept of "promo" products.
-These products are typically shared via email campaigns and other marketing and are not intended to be [merchandised](products.html#merchandising-amp-browsing-the-storefront_14) within the Storefront.
+These products are typically shared via email campaigns and other marketing and are not intended to be [merchandised](/articles/products.html#merchandising-amp-browsing-the-storefront) within the Storefront.
 The retailer has therefore opened a change request for you to exclude promo products from _all_ Storefront search results, since most of Workarea's merchandising features are driven by search.
 
 
@@ -31,7 +31,7 @@ Setup
 --------------------------------------------------------------------------------
 
 In order to work on this change request, first set up some test data.
-While you could do this entirely through automated tests, for the sake of this document we'll set up [seeds](seeds.html) and work in a development environment, which is more visual.
+While you could do this entirely through automated tests, for the sake of this document we'll set up [seeds](/articles/seeds.html) and work in a development environment, which is more visual.
 
 Let's assume that as part of a previous change request, another developer has already decorated the catalog product model to add a `:promo` field to all products.
 
@@ -121,22 +121,22 @@ $ bin/rails db:seed
 Now the setup is complete.
 At this point, searching for "promo" returns all 4 test products.
 
-![Before: promo products included in search results](../images/promo-products-included-search-results-before.png)
+![Before: promo products included in search results](/images/promo-products-included-search-results-before.png)
 
 To complete the change request, you must write the code necessary to exclude the promo products from these results.
 However, the retailer wants to exclude these products from _all_ search results, which includes categories, and product recommendations as well.
 
 And all four products are included in the "Promo Search" category, which merchandises the products using a product rule:
 
-![Before: promo products included in search-based category results](../images/promo-products-included-search-category-results-before.png)
+![Before: promo products included in search-based category results](/images/promo-products-included-search-category-results-before.png)
 
 Additionally, the products are all included in the results for the "Promo Featured" category, which merchandises the products using featured products:
 
-![Before: promo products included in featured-product-based category results](../images/promo-products-included-featured-category-results-before.png)
+![Before: promo products included in featured-product-based category results](/images/promo-products-included-featured-category-results-before.png)
 
 Finally, at least one promo product is returned in search results:
 
-![Before: promo products included in recommendations results](../images/promo-products-included-recommendations-results-before.png)
+![Before: promo products included in recommendations results](/images/promo-products-included-recommendations-results-before.png)
 
 (In this doc we won't go into exactly how recommendations work; we'll only cover how to exclude the promo products from the search-based results.)
 
@@ -148,12 +148,12 @@ Most search extensions require changes to the _documents_ and the _query_.
 In the case of our example, we need to add the "promo" flag to product search documents.
 While another developer previously extended the catalog product model (for MongoDB documents), the `:promo` field does not yet exist within the search documents.
 
-To add a field to search documents, identify and decorate the relevant [Storefront search model](storefront-search-features.html#search-models_13) and then [re-index](index-storefront-search-documents.html) the documents.
+To add a field to search documents, identify and decorate the relevant [Storefront search model](/articles/storefront-search-features.html#search-models) and then [re-index](/articles/index-storefront-search-documents.html) the documents.
 
 In the case of our example, the relevant search model is `Search::Storefront::Product`, to which you must add the `:promo` field from the catalog model.
 An important consideration when adding a field to a search model is the field's mapping (data type).
 The promo field in MongoDB is a boolean value.
-Search models provide [field namespaces](storefront-search-features.html#field-namespaces_16) to map fields to their correct types.
+Search models provide [field namespaces](/articles/storefront-search-features.html#field-namespaces) to map fields to their correct types.
 Review the source for the search model you are decorating to see which namespaces are available.
 
 Looking at the Storefront product search model, there is no boolean namespace, but the `keywords` namespace is a good choice for the promo field.
@@ -186,7 +186,7 @@ Changing Search Queries
 
 After changing the data within the search indexes, you can leverage these changes within your search queries.
 First determine which search queries you need to change.
-(Refer to the table in [Storefront Search Features, Initialization & Parameters](storefront-search-features.html#initialization-amp-parameters_9).)
+(Refer to the table in [Storefront Search Features, Initialization & Parameters](/articles/storefront-search-features.html#initialization-amp-parameters).)
 Our fictional change request requires changing all queries used within the Storefront.
 
 Ultimately, for each query, you want to change the hash returned by `#body`, which is the search request body that is sent to Elasticsearch.
@@ -231,17 +231,17 @@ In each case, the "Not promo" products continue to match, but the promo products
 
 Search results:
 
-![After: promo products excluded from search results](../images/promo-products-excluded-search-results-after.png)
+![After: promo products excluded from search results](/images/promo-products-excluded-search-results-after.png)
 
 Categories:
 
-![After: promo products excluded from search-based category results](../images/promo-products-excluded-search-category-results-after.png)
+![After: promo products excluded from search-based category results](/images/promo-products-excluded-search-category-results-after.png)
 
-![After: promo products excluded from featured-product-based category results](../images/promo-products-excluded-featured-category-results-after.png)
+![After: promo products excluded from featured-product-based category results](/images/promo-products-excluded-featured-category-results-after.png)
 
 And recommendations:
 
-![After: promo products excluded from recommendations results](../images/promo-products-excluded-recommendations-results-after.png)
+![After: promo products excluded from recommendations results](/images/promo-products-excluded-recommendations-results-after.png)
 
 
 Automated Testing
@@ -251,4 +251,4 @@ In this doc we used manual testing to confirm the results because it allowed a v
 However, to avoid regressions, take the time to write automated tests for your changes.
 This particular example avoids the need to decorate any existing tests, but other use cases may break existing functionality and require test decoration.
 
-See [Testing](testing.html) for coverage of this topic.
+See [Testing](/articles/testing.html) for coverage of this topic.

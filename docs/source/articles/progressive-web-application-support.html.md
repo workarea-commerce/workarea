@@ -12,7 +12,7 @@ The following sections cover an overview of the files involved and some more inf
 
 ## Overview
 
-Support for Service Workers in the platform is provided by the [serviceworker-rails gem](https://github.com/rossta/serviceworker-rails). The main benefit this gem provides is its middleware, which allows us to serve each Service Worker from the website's root context and more granularly control response headers. It should be noted that the gem also provides a generator which is disabled by the platform, as its functionality is not useful to the host application. Overriding of each file can be done using the [workarea:override generator](articles/overriding.html).
+Support for Service Workers in the platform is provided by the [serviceworker-rails gem](https://github.com/rossta/serviceworker-rails). The main benefit this gem provides is its middleware, which allows us to serve each Service Worker from the website's root context and more granularly control response headers. It should be noted that the gem also provides a generator which is disabled by the platform, as its functionality is not useful to the host application. Overriding of each file can be done using the [workarea:override generator](/articles/overriding.html).
 
 ### Configuration
 
@@ -32,7 +32,7 @@ end
 app.config.assets.precompile += %w(pwa_cache.js)
 ```
 
-Each Service Worker written for the website will need to be handled similarly. You can [adjust this configuration in an initializer](articles/configuration.html) within the host application.
+Each Service Worker written for the website will need to be handled similarly. You can [adjust this configuration in an initializer](/articles/configuration.html) within the host application.
 
 ### Registering a Service Worker
 

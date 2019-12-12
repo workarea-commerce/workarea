@@ -6,9 +6,9 @@ excerpt: A contentable is an application document that includes the Workarea::Co
 
 # Contentable
 
-A <dfn>contentable</dfn> is an [application document](application-document.html) that includes the `Workarea::Contentable` module, and thereby has a 1:1 relationship with a [content](content.html#content).
+A <dfn>contentable</dfn> is an [application document](/articles/application-document.html) that includes the `Workarea::Contentable` module, and thereby has a 1:1 relationship with a [content](/articles/content.html#content).
 
-Creating a contentable does not create its associated content, so a contentable is not guaranteed to have content. Pass a contentable to `Content.for` to `find_or_create` its associated content. The following examples use a [content page](content.html#page) as the contentable.
+Creating a contentable does not create its associated content, so a contentable is not guaranteed to have content. Pass a contentable to `Content.for` to `find_or_create` its associated content. The following examples use a [content page](/articles/content.html#page) as the contentable.
 
 ```
 # Create a content page

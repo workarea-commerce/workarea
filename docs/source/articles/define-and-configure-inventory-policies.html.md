@@ -7,7 +7,7 @@ Define & Configure Inventory Policies
 ======================================================================
 
 Workarea includes multiple inventory policies, which encapsulate the logic for translating the administrable inventory values (e.g. `:available` and `:backordered`) into inventory SKU states (e.g. `#purchasable` and `#displayable`).
-( See [Inventory: Inventory Policies & SKU States](inventory.html#inventory-policies-amp-sku-states_5) for a full explanation. )
+( See [Inventory: Inventory Policies & SKU States](/articles/inventory.html#inventory-policies-amp-sku-states) for a full explanation. )
 The included policies cover most use cases, but in order to satisfy the business requirements of a retailer, you may need to add one or more additional policies, or you may need to otherwise configure which policies are available (e.g. remove policies or re-order them within the Admin).
 
 To perform these tasks, you need to know how to define and configure inventory policies, which is the subject of this document.
@@ -30,7 +30,7 @@ Finally, implement or re-implement any of the following methods that are unique 
 * `#displayable?`
 * `#purchase(quantity)`
 
-If you are unfamiliar with any of these methods, see [Inventory: Inventory Policies & SKU States](inventory.html#inventory-policies-amp-sku-states_5) and [Inventory: Purchasing, Capturing, and Releasing Inventory](inventory.html#purchasing-capturing-amp-releasing-inventory_14), and refer to the implementations of these methods within the existing inventory policies.
+If you are unfamiliar with any of these methods, see [Inventory: Inventory Policies & SKU States](/articles/inventory.html#inventory-policies-amp-sku-states) and [Inventory: Purchasing, Capturing, and Releasing Inventory](/articles/inventory.html#purchasing-capturing-amp-releasing-inventory), and refer to the implementations of these methods within the existing inventory policies.
 The following command will print the pathnames of the inventory policies available to your application:
 
 ```bash
@@ -101,7 +101,7 @@ Add your new policy to the configurable collection of available inventory polici
 Workarea.config.inventory_policies << 'Workarea::Inventory::Policies::Offline'
 ```
 
-You can also remove or sort the policies using the methods of [SwappableList](swappable-list-data-structure.html).
+You can also remove or sort the policies using the methods of [SwappableList](/articles/swappable-list-data-structure.html).
 When saving an inventory policy, its policy is validated to ensure it is a member of this collection.
 And this is the list of policies that is presented for selection within the inventory SKU administration screens.
 The first policy in this collection is the default policy for new inventory SKUs.

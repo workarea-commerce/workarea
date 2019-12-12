@@ -31,7 +31,7 @@ Inventory Management
 ----------------------------------------------------------------------
 
 A retailer can manage inventory within Workarea directly or within a separate inventory management system that is integrated with Workarea.
-( Regarding the latter, see [Integrate an Inventory Management System](integrate-an-inventory-management-system.html). )
+( Regarding the latter, see [Integrate an Inventory Management System](/articles/integrate-an-inventory-management-system.html). )
 In either case, the retailer manages inventory via several administrable fields on inventory SKUs.
 
 
@@ -39,7 +39,7 @@ In either case, the retailer manages inventory via several administrable fields 
 
 An _inventory SKU_ is a MongoDB-backed model representing the inventory for an item in the retailer's catalog.
 Each inventory SKU is identified by the item's SKU, a retailer-specific ID that relates the inventory SKU to other models representing the same item within Workarea.
-( See [Products](products.html) for a more thorough explanation of the models that represent merchandise, and their relationships. )
+( See [Products](/articles/products.html) for a more thorough explanation of the models that represent merchandise, and their relationships. )
 
 Administrators, developers, and automated systems manage inventory by manipulating several administrable fields on each inventory SKU, including the inventory SKU's policy.
 
@@ -75,7 +75,7 @@ Introduced above, an _inventory policy_ is a class of object that declares the l
 An inventory policy also declares the logic for purchasing a SKU's inventory, which is covered below.
 
 Workarea includes several inventory policies, and plugins and applications can define and configure their own policies.
-( For a more in-depth look at policy class definitions and configuration, see [Define & Configure Inventory Policies](define-and-configure-inventory-policies.html). )
+( For a more in-depth look at policy class definitions and configuration, see [Define & Configure Inventory Policies](/articles/define-and-configure-inventory-policies.html). )
 The following example enumerates the available policies:
 
 ```ruby
@@ -251,10 +251,10 @@ inventory_sku.displayable?
 
 ### Searches, Categories & Recommendations
 
-Workarea presents the items of the retailer's catalog as [products](products.html), which are (generally small) collections of items that share a name, description, and some details, while varying on other details (such as color, size, etc).
+Workarea presents the items of the retailer's catalog as [products](/articles/products.html), which are (generally small) collections of items that share a name, description, and some details, while varying on other details (such as color, size, etc).
 When a product document is indexed into Elasticsearch, it contains inventory information from all the items that make up the product.
 
-[Storefront search features](storefront-search-features.html), such as searches, categories, and product recommendations, take inventory into account when deciding which products match and how they are sorted in results.
+[Storefront search features](/articles/storefront-search-features.html), such as searches, categories, and product recommendations, take inventory into account when deciding which products match and how they are sorted in results.
 The inventory-related display logic can be summarized as follows:
 
 * To match a search or category, a product must have at least one displayable SKU
@@ -301,7 +301,7 @@ The inventory status shown is one of the following:
 * Backordered
 * Out of Stock
 
-These messages are for display only, and their logic is therefore encapsulated in a [view model](view-models.html): `Storefront::InventoryStatusViewModel`.
+These messages are for display only, and their logic is therefore encapsulated in a [view model](/articles/view-models.html): `Storefront::InventoryStatusViewModel`.
 Review the implementation of that view model in your Workarea version to see the logic for each status.
 
 
@@ -309,7 +309,7 @@ Review the implementation of that view model in your Workarea version to see the
 
 Since Workarea 3.5, the implementation of the messages described above depends on `Inventory::Collection#status`.
 This is an additional layer of inventory status added in Workarea 3.5 that provides a status for a collection of one or more inventory SKUs.
-This API call depends on [inventory SKU states](#inventory-policies-amp-sku-states_5) and is used to implement [inventory status messages](#inventory-status-messages_12), thus sitting in a new layer in between.
+This API call depends on [inventory SKU states](#inventory-policies-amp-sku-states) and is used to implement [inventory status messages](#inventory-status-messages), thus sitting in a new layer in between.
 
 To utilize this in your own code, initialize an inventory collection. Then query the status, or query for a specific status:
 
@@ -378,7 +378,7 @@ When an order is placed, the details of the inventory captured are recorded in a
 Inventory transactions are used to manage the capturing of inventory and to provide a permanent record of what was captured.
 They are also used in the event of a cancellation to free the appropriate amount of inventory.
 
-( Inventory transactions are also covered in [Integrate an Inventory Management System](integrate-an-inventory-management-system.html). )
+( Inventory transactions are also covered in [Integrate an Inventory Management System](/articles/integrate-an-inventory-management-system.html). )
 
 
 ### Reports & Insights
