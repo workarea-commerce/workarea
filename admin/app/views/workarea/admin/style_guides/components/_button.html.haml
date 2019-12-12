@@ -25,6 +25,10 @@
     = link_to '#' do
       %span.button Span Button
 
+  %p should support disabled state:
+  .style-guide__example-block
+    = button_tag 'Button', class: 'button', type: 'button', disabled: true
+
 
 #button--small.style-guide__subsection
 
@@ -43,6 +47,10 @@
   .style-guide__example-block
     = button_tag 'Button Element', class: 'button button--create'
 
+  %p should support disabled state:
+  .style-guide__example-block
+    = button_tag 'Button Element', class: 'button button--create', disabled: true
+
 
 #button--destroy.style-guide__subsection
 
@@ -51,3 +59,7 @@
   %p should change the color of a button:
   .style-guide__example-block
     = button_tag 'Button Element', class: 'button button--destroy'
+
+  %p should support disabled state:
+  .style-guide__example-block
+    = button_tag 'Button Element', class: 'button button--destroy', disabled: true

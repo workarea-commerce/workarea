@@ -5,7 +5,6 @@
 $button-color:            $white !default;
 $button-bg-color:         $blue !default;
 $button-hover-bg-color:   $bright-blue !default;
-$button-disabled-opacity: 0.5 !default;
 
 $button-font-size:        16px !default;
 $button-small-font-size:  14px !default;
@@ -40,11 +39,6 @@ $button-destroy-hover-bg-color:  $bright-red !default;
     &:hover {
         text-decoration: none; /* [1] */
         background-color: $button-hover-bg-color;
-    }
-
-    &[disabled] {
-        opacity: $button-disabled-opacity;
-        cursor: not-allowed;
     }
 
     .card__button & {
