@@ -21,30 +21,12 @@ Note that you need access to Workarea stash to install the CLI.
 
 ### Using a Linux Machine
 
-To install Workarea CLI on linux run
-
-```bash
-wget --content-disposition https://packagecloud.io/weblinc/workarea-cli/packages/ubuntu/trusty/workarea-cli_2.1.0+20190424223847-1_amd64.deb/download.deb?read_token=632fa363936e9202ef857c752d851b1cc8d8cb4db166e515
-```
+Open a [Support](https://support.workarea.com/) issue to install on Linux.
 
 ## Setup Application
 
 ```bash
 workarea setup --client-id={client_id} --aws-secret-access-key={key} --aws-access-key-id={key}
-```
-
-## Create a New Application or Plugin
-
-To create a new application:
-
-```bash
-workarea new app {app_name}
-```
-
-To create a new plugin:
-
-```bash
-workarea new plugin {plugin_name}
 ```
 
 ## Doctor
@@ -62,6 +44,28 @@ To open a rails console in an environment use:
 ```bash
 workarea {env} console
 ```
+
+## Edit
+
+You can edit secrets on your server with:
+
+```bash
+workarea {env} edit secrets
+```
+
+And edit proxy configuration with:
+
+```bash
+workarea {env} edit proxy
+```
+
+## Running Rake Tasks
+
+```bash
+workarea {env} rake {args}
+```
+
+Rake tasks should be run from the CLI to ensure they have enough resources to run.
 
 ## Debugging
 
@@ -138,26 +142,17 @@ From remote
 workarea {env} cp --source=test.txt --destination=test.txt
 ```
 
-## Edit
+## Create a New Application or Plugin
 
-You can edit secrets on your server with:
-
-```bash
-workarea {env} edit secrets
-```
-
-And edit proxy configuration with:
+To create a new application:
 
 ```bash
-workarea {env} edit proxy
+workarea new app {app_name}
 ```
 
-## Kibana
-
-The Workarea CLI allows you to connect to your application's Kibana instance using port forwarding. This gives you access to the Kibana dev tools (including Elasticsearch console) and Logstash.
-
-This feature is currently experimental and not available for all environments or applications, if you need access and the following command does not work, please contact Workarea support at <https://support.workarea.com>
+To create a new plugin:
 
 ```bash
-workarea {env} fwd kibana 5601:5601
+workarea new plugin {plugin_name}
 ```
+
