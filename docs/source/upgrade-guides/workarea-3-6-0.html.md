@@ -17,7 +17,7 @@ Before upgrading to Workarea 3.6.0, review the following changes.
 
 ### What's Changing?
 
-Workarea is technology forward platform, and we want to be as up-to-date and possible with our dependencies. As such, v3.6 updates Workarea's Rails dependency to Rails 6. You can read [the Rails release notes](https://edgeguides.rubyonrails.org/6_0_release_notes.html) if you're curious about the changes.
+Workarea is a technology forward platform, and we want to be as up-to-date as possible with our dependencies. As such, v3.6 updates Workarea's Rails dependency to Rails 6. You can read [the Rails release notes](https://edgeguides.rubyonrails.org/6_0_release_notes.html) if you're curious about the changes.
 
 Many other dependencies, like Mongoid and Sidekiq, have been updated as well.
 
