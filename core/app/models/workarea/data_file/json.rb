@@ -45,10 +45,29 @@ module Workarea
 
         if id.present?
           result = model_class.find_or_initialize_by(id: id)
-          result.attributes = attributes
+          result.attributes = attributes_without_updated_at(attributes)
           result
         else
           model_class.new(attributes)
+        end
+      end
+
+      def attributes_without_updated_at(attrs)
+        return attrs unless attrs.respond_to?(:each_with_object)
+
+        attrs.each_with_object({}) do |(key, value), attributes|
+          next if key.to_s == 'updated_at'
+
+          attributes[key] = case value
+                            when Hash
+                              attributes_without_updated_at(value)
+                            when Array
+                              value.map do |item|
+                                attributes_without_updated_at(item)
+                              end
+                            else
+                              value
+                            end
         end
       end
     end

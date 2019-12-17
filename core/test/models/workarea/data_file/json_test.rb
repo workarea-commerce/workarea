@@ -7,6 +7,16 @@ module Workarea
         include ApplicationDocument
         field :name, type: String
         field :ignore, type: Integer
+
+        embeds_many :bars, class_name: Foo.name
+      end
+
+      class Bar
+        include ApplicationDocument
+
+        field :name, type: String
+
+        embedded_in :foo, class_name: Foo.name
       end
 
       def test_ignored_fields
@@ -72,6 +82,36 @@ module Workarea
         Json.new(data).import!
 
         assert_equal 'Bar', user.reload.first_name
+      end
+
+      def test_exclude_updated_at
+        model = Foo.create!(name: '1', updated_at: 2.days.ago)
+        json = [model.as_json.merge(name: '2')].to_json
+        import = create_import(
+          model_type: Foo.name,
+          file: create_tempfile(json, extension: 'json'),
+          file_type: 'json'
+        )
+
+        assert_changes -> { model.reload.updated_at.to_date } do
+          Json.new(import).import!
+        end
+      end
+
+      def test_exclude_updated_at_when_embedded
+        original_date = 2.days.ago
+        parent = Foo.create!(updated_at: original_date)
+        model = parent.bars.create!(name: '1', updated_at: original_date)
+        json = [model.as_json.merge(name: '2')].to_json
+        import = create_import(
+          model_type: Foo.name,
+          file: create_tempfile(json, extension: 'json'),
+          file_type: 'json'
+        )
+
+        assert_changes -> { model.reload.updated_at.to_date } do
+          Json.new(import).import!
+        end
       end
     end
   end

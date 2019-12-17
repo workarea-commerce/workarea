@@ -28,8 +28,8 @@ module Workarea
           {
             '$match' => {
               'reporting_on' => {
-                '$gte' => beginning_of_last_month,
-                '$lte' => end_of_last_month
+                '$gte' => beginning_of_last_month.utc,
+                '$lte' => end_of_last_month.utc
               }
             }
           }

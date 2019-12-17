@@ -448,6 +448,22 @@ module Workarea
         assert_equal(Qoo, model.bars.second.class)
         assert_equal('2', model.bars.second.qoo)
       end
+
+      def test_exclude_updated_at
+        original_date = 2.days.ago
+        model = Foo.create!(name: '1', updated_at: original_date)
+        model.name = '2'
+        csv = Csv.new.serialize(model)
+        import = create_import(
+          model_type: Foo.name,
+          file: create_tempfile(csv, extension: 'csv'),
+          file_type: 'csv'
+        )
+
+        assert_changes -> { model.reload.updated_at.to_date } do
+          Csv.new(import).import!
+        end
+      end
     end
   end
 end

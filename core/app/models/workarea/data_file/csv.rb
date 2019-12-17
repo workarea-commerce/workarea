@@ -48,6 +48,8 @@ module Workarea
 
       def assign_attributes(model, attrs)
         model.fields.each do |name, metadata|
+          next if name == 'updated_at'
+
           value = CsvFields.deserialize_from(attrs, field: metadata, model: model)
           model.send("#{name}=", value) if value.present?
         end
