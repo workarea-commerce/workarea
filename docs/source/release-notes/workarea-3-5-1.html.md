@@ -72,5 +72,5 @@ won't cause test failures when you change your Rails time zone.
 
 ### Pull Requests
 
-- [278](https://github.com/workarea-commerce/workarea/issues/279)
+- [279](https://github.com/workarea-commerce/workarea/pull/279)
 
