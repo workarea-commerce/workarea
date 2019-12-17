@@ -1,4 +1,12 @@
 require 'bundler'
+require 'bundler/inline'
+
+gemfile do
+  source 'https://rubygems.org'
+  gem 'aws-sdk-s3', '~> 1.9.1'
+  gem 'actionpack', '~> 5.2.0'
+end
+
 require 'fileutils'
 require 'aws-sdk-s3'
 require 'action_dispatch/http/mime_type'

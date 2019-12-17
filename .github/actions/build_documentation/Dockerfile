@@ -10,8 +10,7 @@ RUN apt-get update \
     build-essential \
     nodejs \
  && gem install bundler \
- && cd documentation \
- && bundle install
+ && cd documentation
 
 COPY entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
