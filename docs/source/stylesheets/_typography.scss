@@ -58,6 +58,18 @@ h4, .heading--4 { font-size: 1.25rem; }
 h5, .heading--5 { font-size: 1.1rem; }
 h6, .heading--6 { font-size: 1rem; }
 
+// when a fragment ID is present, push the targeted heading
+// down below the fixed site header
+h2:target:before,
+h3:target:before,
+h4:target:before,
+h5:target:before,
+h6:target:before {
+  display: block;
+  content: '';
+  margin-top: -125px;
+  height: 125px;
+}
 
 .alt-heading {
   text-align: center;

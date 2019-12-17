@@ -10,4 +10,4 @@ If you've created a plugin for your team to re-use across projects or to share w
 
 Core team plugins generally follow [Semantic Versioning](http://semver.org/) to determine how many releases to do and the type of releases. The first public release of a plugin is 0.1.0 or 1.0.0. From there, bugs are fixed in patch releases (e.g. 0.1.1) features are added or changed in minor releases (e.g. 0.2.0). Version 1.0.0 should be released when the plugin's API is considered stable. Version 2.0.0 (and subsequent major releases) would introduce breaking API changes.
 
-Long living git branches exist that correspond to version numbers, as explained in the [contributing guide](contribute-code.html). Work is completed in topic branches and then merged into these long living branches once approved.
+Long living git branches exist that correspond to version numbers, as explained in the [contributing guide](/articles/contribute-code.html). Work is completed in topic branches and then merged into these long living branches once approved.

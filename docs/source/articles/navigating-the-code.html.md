@@ -51,7 +51,7 @@ $ bundle show workarea
 
 This is where it can get tricky. Open the directory that your application provides the path to and you'll see this:
 
-![Bundled workarea gem](../images/bundle-show-workarea.png)
+![Bundled workarea gem](/images/bundle-show-workarea.png)
 
 Not quite what you were hoping to see, right? Well, because Workarea is a meta-gem, the `workarea` gem itself doesn't contain any of the source code. Instead what you need to do is determine the specific gem that's needed to find the code you're looking for. Use the breakdown above for each gem to get an idea.
 
@@ -64,7 +64,7 @@ $ bundle show workarea-core
 
 Open the path in your editor, and you'll see:
 
-![Bundled workarea-core gem](../images/bundle-show-workarea-core.png)
+![Bundled workarea-core gem](/images/bundle-show-workarea-core.png)
 
 That's more like it! From there you can follow normal Rails conventions and look at `app/models/workarea/` to find the model you're looking for.
 

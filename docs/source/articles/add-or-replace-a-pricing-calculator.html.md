@@ -6,7 +6,7 @@ excerpt: Learn how to manipulate pricing calculators to affect how products and 
 
 # Add or Replace a Pricing Calculator
 
-In this article, you'll learn how to extend the pricing logic in Workarea to fit the needs of your application, by [generating](#generating-pricing-calculators_1) and [configuring](#configuring-pricing-calculators_2) its pricing calculators. Workarea's pricing system is constructed in such a way that it is possible to replace, rather than decorate, the way by which pricing is calculated on items and products. This includes adding pricing calculators for adjusting price, removing pricing calculators to omit certain price adjustments, and replacing out-of-box pricing calculators with your additional functionality.
+In this article, you'll learn how to extend the pricing logic in Workarea to fit the needs of your application, by [generating](#generating-pricing-calculators) and [configuring](#configuring-pricing-calculators) its pricing calculators. Workarea's pricing system is constructed in such a way that it is possible to replace, rather than decorate, the way by which pricing is calculated on items and products. This includes adding pricing calculators for adjusting price, removing pricing calculators to omit certain price adjustments, and replacing out-of-box pricing calculators with your additional functionality.
 
 But before diving into creating your own pricing calculators, let's have a look at the calculators Workarea provides for you out-of-the-box...
 
@@ -14,7 +14,7 @@ Four pricing calculators are included in Workarea, each addressing a different p
 
 1. **Workarea::Pricing::Calculators::ItemCalculator** sets the base unit price of the item. Override this to change the base item price, such as when working within segmentation.
 2. **Workarea::Pricing::Calculators::CustomizationsCalculator** adjusts the price based on whether any customizations to the item were set.
-3. **Workarea::Pricing::Calculators::DiscountCalculator** uses the [discounts subsystem](create-a-custom-discount.html) to apply discounts to the order. This should typically not be overridden or replaced. Instead, admins can create discounts that surpass the functionality of a simple pricing calculator.
+3. **Workarea::Pricing::Calculators::DiscountCalculator** uses the [discounts subsystem](/articles/create-a-custom-discount.html) to apply discounts to the order. This should typically not be overridden or replaced. Instead, admins can create discounts that surpass the functionality of a simple pricing calculator.
 3. **Workarea::Pricing::Calculators::TaxCalculator** applies tax to the order using the built-in tax tables that are available in the database. These tax tables can be imported by the user in Avalara format, or created manually through the admin. This also does not typically need to be changed, since the default functionality is to not charge tax when there are no tax tables present for your locale.
 
 ## Generating Pricing Calculators

@@ -33,7 +33,7 @@ A Metric intended for daily data collecting should `include ByDay`, which is mod
 
 ## Integrate tracking
 
-For the purpose of this scenario, let's assume there is an analytics event setup to fire when a user clicks a download link and an analytics adapter that makes a XHR request to the server with the ID of the file being downloaded. [See the analytics overview](analytics-overview.html) for information on how analytics are integration into Workarea.
+For the purpose of this scenario, let's assume there is an analytics event setup to fire when a user clicks a download link and an analytics adapter that makes a XHR request to the server with the ID of the file being downloaded. [See the analytics overview](/articles/analytics-overview.html) for information on how analytics are integration into Workarea.
 
 In this example, a controller action can be setup to increment the `clicks` field on the appropriate document in the `Workarea::Metrics::DownloadsByDay` collection.
 
@@ -55,4 +55,4 @@ end
 
 ## Using metrics data
 
-Once the model has been created, and the mechanism by which it is populated is integrated into the site, that data can be aggregated and analyzed for insights and for [new reports](add-a-report.html) offered within the Workarea admin.
+Once the model has been created, and the mechanism by which it is populated is integrated into the site, that data can be aggregated and analyzed for insights and for [new reports](/articles/add-a-report.html) offered within the Workarea admin.

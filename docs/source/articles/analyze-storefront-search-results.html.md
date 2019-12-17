@@ -9,7 +9,7 @@ Analyze Storefront Search Results
 Use the following tools and techniques to analyze and debug search results in the Storefront.
 
 While the search analysis admin is specific to Storefront searches (i.e. search results pages), the other tools and techniques apply to search results for any of the Storefront search features.
-(See [Storefront Search Features](storefront-search-features.html).)
+(See [Storefront Search Features](/articles/storefront-search-features.html).)
 
 
 Search Analysis Admin
@@ -19,7 +19,7 @@ Each Storefront search feature uses a search query object to query Elasticsearch
 However, the code path to initialize the search query object is different for each Storefront search feature.
 
 Of these features, Storefront searches have the most complicated code path to initialize the search query, and the business logic represented by this code path may not be evident to administrators and developers when searching for products in the Storefront.
-(See [Storefront Searches](storefront-searches.html).)
+(See [Storefront Searches](/articles/storefront-searches.html).)
 
 The _search analysis admin_ is a feature within the Workarea Admin that aims to help developers and technically inclined admins understand specific Storefront searches.
 To analyze a search using this feature, you must create a search customization for the specific query you'd like to analyze.
@@ -27,9 +27,9 @@ After creating (or finding) the search customization in the Admin, use the _Anal
 
 The following figures show two examples of the search analysis admin:
 
-![Search analysis admin](../images/search-analysis-admin.png)
+![Search analysis admin](/images/search-analysis-admin.png)
 
-![Search analysis admin with alternate rendering section](../images/search-analysis-admin-alternate-rendering.png)
+![Search analysis admin with alternate rendering section](/images/search-analysis-admin-alternate-rendering.png)
 
 The figures above illustrate the various sections of the search analysis admin, which are described below.
 
@@ -44,7 +44,7 @@ The figures above illustrate the various sections of the search analysis admin, 
 * _Rendering_
   * Displays a UI representing the flow of the search response through the search middleware chain
   * (Refer to the inline help tooltip for the meaning of the icons)
-  * (See [Storefront Searches, Creating the Response](storefront-searches.html#creating-the-response_2) for an explanation of this flow)
+  * (See [Storefront Searches, Creating the Response](/articles/storefront-searches.html#creating-the-response) for an explanation of this flow)
 * _Ranking_
   * Lists the top hits from the final search response
   * Indicates results which appear due to being featured (manually administrated)
@@ -108,12 +108,12 @@ If you need access to a particular environment, open a [support request](http://
 
 One useful feature in Kibana is the dev tools console, which allows you to construct requests using the Elasticsearch query DSL and view the results:
 
-![Kibana dev tools console](../images/kibana-dev-tools-console.png)
+![Kibana dev tools console](/images/kibana-dev-tools-console.png)
 
 As with the Ruby client, you are responsible for choosing the indexes you'd like to search and analyze.
 Kibana allows you to configure index patterns, which identify the indexes to be used for searches and analysis within Kibana:
 
-![Configuring an index pattern in Kibana](../images/configuring-an-index-pattern-in-kibana.png)
+![Configuring an index pattern in Kibana](/images/configuring-an-index-pattern-in-kibana.png)
 
 
 Analyzing Queries
@@ -148,7 +148,7 @@ search.id == search2.id && search2.id == search3.id
 # => true
 ```
 
-Refer to [Storefront Search Features, Initialization & Parameters](storefront-search-features.html#initialization-amp-parameters_8) to see the search query class and initialization code path for each Storefront search feature.
+Refer to [Storefront Search Features, Initialization & Parameters](/articles/storefront-search-features.html#initialization-amp-parameters) to see the search query class and initialization code path for each Storefront search feature.
 From these points in the application you can examine or log attributes of actual search query instances.
 
 After initializing an equivalent search query object, you can inspect it.
@@ -204,12 +204,12 @@ Use the Elasticsearch clients listed above to examine documents on their own or 
 For example, the Elasticsearch [Explain](https://www.elastic.co/guide/en/elasticsearch/reference/5.5/search-explain.html) API "computes a score explanation for a query and a specific document."
 
 Be aware that a particular search document may be missing or stale due to changes in MongoDB that have not yet migrated to Elasticsearch.
-Search indexing jobs may be pending in your Sidekiq queue, or there may be an issue with automated search indexing in your environment (See [Search, Indexing](searching.html#indexing_7)).
-To resolve an issue, you may need to manually re-index all documents or specific documents (See [Index Storefront Search Documents](index-storefront-search-documents.html)).
+Search indexing jobs may be pending in your Sidekiq queue, or there may be an issue with automated search indexing in your environment (See [Search, Indexing](/articles/searching.html#indexing)).
+To resolve an issue, you may need to manually re-index all documents or specific documents (See [Index Storefront Search Documents](/articles/index-storefront-search-documents.html)).
 
 Finally, if your search documents are up to date but do not contain the correct fields, field mappings, or field values, review the logic of your search models.
 For example, you may have added a new field to the Mongoid model but it is absent in the corresponding search model, or mapped incorrectly.
-See [Storefront Search Features, Search Models](storefront-search-features.html#search-models_12) for coverage of search models, including dynamic mapping.
+See [Storefront Search Features, Search Models](/articles/storefront-search-features.html#search-models) for coverage of search models, including dynamic mapping.
 
 You may need to verify the field mappings for the `'storefront'` Elasticsearch type used for Storefront Elasticsearch documents.
 To do so, use the Elasticsearch _Get Mapping_ API, which is demonstrated below:
@@ -255,6 +255,6 @@ Storefront Caching
 
 As a final concern, be aware of caching within the Storefront.
 In environments where caching is enabled, the entire HTTP response may be cached, or fragments of the response may be cached.
-(See [HTTP Caching](http-caching.html) and [HTML Fragment Caching](html-fragment-caching.html).)
+(See [HTTP Caching](/articles/http-caching.html) and [HTML Fragment Caching](/articles/html-fragment-caching.html).)
 
 All Storefront search features except for autocomplete (which is an async/XHR feature) may be affected by both types of caching.

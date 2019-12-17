@@ -6,11 +6,11 @@ excerpt: Within a Workarea application, navigables and other nodes are organized
 
 # Navigation
 
-Within a Workarea application, [navigables](navigable.html) and other nodes are organized into a tree of taxons, which is then used to build tree-based navigation, such as breadcrumbs, and content-based navigation, such as menus.
+Within a Workarea application, [navigables](/articles/navigable.html) and other nodes are organized into a tree of taxons, which is then used to build tree-based navigation, such as breadcrumbs, and content-based navigation, such as menus.
 
 ## Taxon
 
-A <dfn>navigation taxon</dfn> (`Workarea::Navigation::Taxon`) is an [application document](application-document.html) that represents a node of the site's taxonomy tree.
+A <dfn>navigation taxon</dfn> (`Workarea::Navigation::Taxon`) is an [application document](/articles/application-document.html) that represents a node of the site's taxonomy tree.
 
 ### Tree Structure
 
@@ -99,7 +99,7 @@ Workarea::Navigation::Taxon.root.url
 # => "/"
 ```
 
-A taxon is not [releasable](releasable.html) and does not have an `active` attribute. However, a taxon will respond to the `active?` method. A taxon with a URL is always considered active and will always respond `true`.
+A taxon is not [releasable](/articles/releasable.html) and does not have an `active` attribute. However, a taxon will respond to the `active?` method. A taxon with a URL is always considered active and will always respond `true`.
 
 ```
 blog_taxon.active?
@@ -108,7 +108,7 @@ blog_taxon.active?
 
 ### Navigable
 
-Instead of referencing an arbitrary URL or path, a taxon may reference a [navigable](navigable.html). If not given an explicit name, the taxon will copy the name of the navigable. Taxon navigables are validated for uniqueness, so no two taxons may reference the same navigable.
+Instead of referencing an arbitrary URL or path, a taxon may reference a [navigable](/articles/navigable.html). If not given an explicit name, the taxon will copy the name of the navigable. Taxon navigables are validated for uniqueness, so no two taxons may reference the same navigable.
 
 ```
 fit_guide_page = Workarea::Content::Page.create!(name: 'Fit Guide')
@@ -220,7 +220,7 @@ clothing_category_taxon.in_menu?
 
 ## Breadcrumbs
 
-A <dfn>breadcrumbs</dfn> (`Workarea::Navigation::Breadcrumbs`) is an enumerable representing a collection of taxons. A breadcrumbs instance is initialized with a [navigable](navigable.html) and represents the breadcrumb nodes for that navigable.
+A <dfn>breadcrumbs</dfn> (`Workarea::Navigation::Breadcrumbs`) is an enumerable representing a collection of taxons. A breadcrumbs instance is initialized with a [navigable](/articles/navigable.html) and represents the breadcrumb nodes for that navigable.
 
 ```
 clothing_category = Workarea::Catalog::Category.create!(name: 'Clothing')
@@ -291,7 +291,7 @@ Workarea::Navigation::Breadcrumbs
 
 ## Menu
 
-A <dfn>navigation menu</dfn> (`Workarea::Navigation::Menu`) is a [contentable](contentable.html) and [releasable](releasable.html) [application document](application-document.html) that represents a menu within a navigation.
+A <dfn>navigation menu</dfn> (`Workarea::Navigation::Menu`) is a [contentable](/articles/contentable.html) and [releasable](/articles/releasable.html) [application document](/articles/application-document.html) that represents a menu within a navigation.
 
 ### Taxon
 
@@ -318,7 +318,7 @@ clothing_menu.name
 
 ### Active
 
-A menu's `active?` status (see [Releasable](releasable.html)) also depends on the taxon. For a menu to be active, both the menu and the corresponding taxon must be active. Note that a taxon with a navigable delegates its active status to its navigable.
+A menu's `active?` status (see [Releasable](/articles/releasable.html)) also depends on the taxon. For a menu to be active, both the menu and the corresponding taxon must be active. Note that a taxon with a navigable delegates its active status to its navigable.
 
 ```
 clothing_category = Workarea::Catalog::Category.create!(
@@ -378,10 +378,10 @@ The primary navigation uses `Storefront::NavigationHelper#navigation_menus` to o
 
 ### Taxonomy Content Blocks
 
-Taxonomy [content blocks](content.html#block) allow admins to display a subset of the site's taxonomy tree within a content, such as the content of a navigation menu. Storefront navigation is often implemented as a list of menus, each of which has content that is displayed as a drop down and includes lists of links that are "plucked" from the taxonomy.
+Taxonomy [content blocks](/articles/content.html#block) allow admins to display a subset of the site's taxonomy tree within a content, such as the content of a navigation menu. Storefront navigation is often implemented as a list of menus, each of which has content that is displayed as a drop down and includes lists of links that are "plucked" from the taxonomy.
 
-Taxonomy content blocks make use of a taxonomy [field](content.html#field) (`Content::Fields::Taxonomy`), which allows admins to provide the starting position within the taxonomy and output a list of links from that starting position. For example, if the taxon selected as the starting position has children, those children will be output as a list within the content block. Some taxonomy blocks include multiple taxonomy fields to allow for multiple lists of links that can be displayed in columns or another arrangement.
+Taxonomy content blocks make use of a taxonomy [field](/articles/content.html#field) (`Content::Fields::Taxonomy`), which allows admins to provide the starting position within the taxonomy and output a list of links from that starting position. For example, if the taxon selected as the starting position has children, those children will be output as a list within the content block. Some taxonomy blocks include multiple taxonomy fields to allow for multiple lists of links that can be displayed in columns or another arrangement.
 
-The starting taxon is stored in the block's [data](content.html#data) as the string id of the taxon, and the view model for the particular [block type](content.html#block-type) looks up the correct taxon for display.
+The starting taxon is stored in the block's [data](/articles/content.html#data) as the string id of the taxon, and the view model for the particular [block type](/articles/content.html#block-type) looks up the correct taxon for display.
 
 

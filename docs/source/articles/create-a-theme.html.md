@@ -44,7 +44,7 @@ Workarea `theme_cleanup` rake task and should not be deleted.
 Having overridden most of the files you will need to develop your theme, you are
 now ready to start implementing your designs. Should you need to override other
 files from Storefront, or another plugin, you should use the [Workarea override
-generator](https://developer.workarea.com/workarea-3/guides/overriding).
+generator](/articles/overriding.html).
 
 Once you have implemented your theme you should run the Workarea `theme_cleanup` rake
 task. This will remove any files in `/app` that have not changed since you ran the
@@ -58,7 +58,7 @@ Be sure to check the files that have been removed, and test that your theme runs
 and looks correct before committing this change.
 
 Once your theme is cleaned up you're done, congratulations! Now head over to the
-[Workarea plugin documentation](https://developer.workarea.com/workarea-3/guides/plugins-overview)
+[Workarea plugin documentation](/articles/plugins-overview.html)
 to learn how to release your theme for use!
 
 ### Theme requirements
@@ -104,7 +104,7 @@ s.add_dependency 'workarea-swatches', '1.0.0'
 ```
 
 Next you will need to override the relevant files from the plugin to your theme.
-You should use the [workarea override generator](https://developer.workarea.com/workarea-3/guides/overriding) to do this.
+You should use the [workarea override generator](/articles/overriding.html) to do this.
 Once you have overridden all of the necessary files you can adjust styles, markup,
 and functionality as required to meet your requirements.
 

@@ -18,11 +18,11 @@ A retailer may choose a service for which a Workarea plugin does not yet exist.
 In that case, you will need to extend the credit card tender type yourself, either directly within an application or within a plugin that can be re-used across applications.
 This document provides the procedure to do this work, which can be summarized as:
 
-1. Set up the [credit card gateway](#credit-card-gateway_1) to communicate (or simulate communication with) the payment service
-2. Edit the [proxy configuration](#proxy-configuration_10) to allow communication with the payment service (Commerce Cloud only)
-3. Customize [credit card tokenization](#credit-card-tokenization_11) for your gateway
-4. Customize the credit card [operation implementations](#operation-implementations_14) for your gateway
-5. Customize the [Storefront integration](#storefront-integration_27) as desired by the retailer
+1. Set up the [credit card gateway](#credit-card-gateway) to communicate (or simulate communication with) the payment service
+2. Edit the [proxy configuration](#proxy-configuration) to allow communication with the payment service (Commerce Cloud only)
+3. Customize [credit card tokenization](#credit-card-tokenization) for your gateway
+4. Customize the credit card [operation implementations](#operation-implementations) for your gateway
+5. Customize the [Storefront integration](#storefront-integration) as desired by the retailer
 
 
 Credit Card Gateway
@@ -139,7 +139,7 @@ See __[3]__.
 
 #### Operation Implementation Test Decorators
 
-The other tests that should use your vcr gateway are the operation implementation model tests (see section [Operation Implementations](#operation-implementations_14)).
+The other tests that should use your vcr gateway are the operation implementation model tests (see section [Operation Implementations](#operation-implementations)).
 Decorate each of those test cases to mix in the vcr gateway module, and then modify or add tests to cover your specific gateway.
 At a minimum, you'll likely need to modify some existing tests to use new cassettes that are specific to your gateway.
 Start with the following boilerplate, and refer to the inline annotations and the concrete examples further below.
@@ -230,7 +230,7 @@ Refer to the concrete examples in the next section.
 
 (
 The full set of changes to these tests goes beyond gateway setup and gets into operation implementations, which are covered separately.
-See section [Operation Implementations](#operation-implementations_14).
+See section [Operation Implementations](#operation-implementations).
 )
 
 
@@ -333,7 +333,7 @@ Credit Card Tokenization
 ----------------------------------------------------------------------
 
 Your credit card gateway must support tokenization.
-Workarea persists credit cards during payment transactions (see section [Operation Implementations](#operation-implementations_14)), and also when shoppers manage cards in their accounts in the Storefront.
+Workarea persists credit cards during payment transactions (see section [Operation Implementations](#operation-implementations)), and also when shoppers manage cards in their accounts in the Storefront.
 Before persisting a card, it must be tokenized.
 
 Workarea encapsulates its tokenization logic in the class [`Payment::StoreCreditCard`](https://github.com/workarea-commerce/workarea/blob/v3.5.0/core/app/models/workarea/payment/store_credit_card.rb).
@@ -372,7 +372,7 @@ If developing a plugin, replace `your_engine` with a slug identifying your plugi
 
 __[3]__
 Re-implement `perform!` with the appropriate changes for your gateway.
-The method `gateway` returns the gateway object described in the section [Credit Card Gateway](#credit-card-gateway_1).
+The method `gateway` returns the gateway object described in the section [Credit Card Gateway](#credit-card-gateway).
 
 __[4]__
 You should handle gateway exceptions.
@@ -470,7 +470,7 @@ See __[10]__.
 
 __[4]__
 You must tokenize the credit card and persist the token for future use.
-You can do this in a dedicated request to the gateway using `StoreCreditCard#save` (see section [Credit Card Tokenization](#credit-card-tokenization_11)).
+You can do this in a dedicated request to the gateway using `StoreCreditCard#save` (see section [Credit Card Tokenization](#credit-card-tokenization)).
 Or, if supported by your gateway, you can tokenize in the same request as the authorization.
 If you do so, you must save the token after the authorize request succeeds.
 
@@ -516,7 +516,7 @@ For an Active Merchant gateway, you can re-use `handle_active_merchant_errors` f
 If you are not using an Active Merchant gateway, consider implementing your own error handling here.
 
 __[8]__
-Use the appropriate API call for your gateway, which is represented by `gateway` (see section [Credit Card Gateway](#credit-card-gateway_1)).
+Use the appropriate API call for your gateway, which is represented by `gateway` (see section [Credit Card Gateway](#credit-card-gateway)).
 The correct API call is often `authorize`, but refer to your gateway's documentation.
 
 __[9]__
@@ -538,7 +538,7 @@ __[13]__
 You must assign `transaction.cancellation` to fulfill the contract for `#cancel!`.
 
 __[14]__
-Use the appropriate API call for your gateway, which is represented by `gateway` (see section [Credit Card Gateway](#credit-card-gateway_1)).
+Use the appropriate API call for your gateway, which is represented by `gateway` (see section [Credit Card Gateway](#credit-card-gateway)).
 The correct API call is often `void` or `cancel`, but refer to your gateway's documentation.
 
 __[15]__
@@ -610,7 +610,7 @@ end
 ```
 
 __[17]__
-Use the appropriate API call for your gateway, which is represented by `gateway` (see section [Credit Card Gateway](#credit-card-gateway_1)).
+Use the appropriate API call for your gateway, which is represented by `gateway` (see section [Credit Card Gateway](#credit-card-gateway)).
 The correct API call is often `purchase`, but refer to your gateway's documentation.
 
 
@@ -658,7 +658,7 @@ __[18]__
 You must use `validate_reference!` for a capture operation, unless this does not apply to your gateway.
 
 __[19]__
-Use the appropriate API call for your gateway, which is represented by `gateway` (see section [Credit Card Gateway](#credit-card-gateway_1)).
+Use the appropriate API call for your gateway, which is represented by `gateway` (see section [Credit Card Gateway](#credit-card-gateway)).
 The correct API call is often `capture`, but refer to your gateway's documentation.
 
 __[20]__
@@ -713,7 +713,7 @@ end
 ```
 
 __[22]__
-Use the appropriate API call for your gateway, which is represented by `gateway` (see section [Credit Card Gateway](#credit-card-gateway_1)).
+Use the appropriate API call for your gateway, which is represented by `gateway` (see section [Credit Card Gateway](#credit-card-gateway)).
 The correct API call is often `refund`, but refer to your gateway's documentation.
 
 __[23]__

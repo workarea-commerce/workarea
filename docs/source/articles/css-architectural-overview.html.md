@@ -10,7 +10,7 @@ The main principals of the Workarea CSS architecture were modeled after OOCSS an
 
 ## _Cascading_ Style Sheets
 
-[Stylesheet manifests](add-stylesheets-through-a-manifest.html) take your referenced CSS files and produce a concatenated, production-ready file. It's important to note that the order of these files is honored during the concatenation process. This just means that the contents of the files at the top of your manifest will be output before those listed at the bottom of the manifest.
+[Stylesheet manifests](/articles/add-stylesheets-through-a-manifest.html) take your referenced CSS files and produce a concatenated, production-ready file. It's important to note that the order of these files is honored during the concatenation process. This just means that the contents of the files at the top of your manifest will be output before those listed at the bottom of the manifest.
 
 A main pillar of the Workarea CSS architecture is to harness and reinforce the natural cascade of CSS. CSS files are parsed top-to-bottom and precedence is given to CSS rules that appear lower in the code, as seen in this very simple example:
 

@@ -6,7 +6,7 @@ excerpt: 'Note: First of all, are you sure?! Assets added to views are not optim
 
 # Add JavaScript through a View
 
-**Note:**  **First of all, are you sure?!** Assets added to views are not optimized in any way for production environments like [assets added through manifests](add-javascript-through-a-manifest.html). Peppering your views with JavaScript also makes your application more difficult to debug and maintain. However, there are legitimate reasons to add JavaScripts in this way, so read on!
+**Note:**  **First of all, are you sure?!** Assets added to views are not optimized in any way for production environments like [assets added through manifests](/articles/add-javascript-through-a-manifest.html). Peppering your views with JavaScript also makes your application more difficult to debug and maintain. However, there are legitimate reasons to add JavaScripts in this way, so read on!
 
 ## JavaScript Haml Filter
 
@@ -47,7 +47,7 @@ The `add_javascript` view helper, a Workarea feature, is esentially a shorthand 
 - add_javascript "alert('foo');"
 ```
 
-This helper is used primarily for internal use, as a macro at the top of several views to declaratively [include JavaScript entered through the Admin UI](add-javascript-through-the-admin-ui.html).
+This helper is used primarily for internal use, as a macro at the top of several views to declaratively [include JavaScript entered through the Admin UI](/articles/add-javascript-through-the-admin-ui.html).
 
 For example, this appears near the top of the home page view, to add to the page any JavaScript entered through the Admin that's stored in MongoDB.
 
@@ -74,7 +74,7 @@ workarea-storefront/app/views/layouts/workarea/storefront/application.html.haml:
   /...
 ```
 
-These append points allow [plugins to append their partials](appending.html) to the layout. The partials may contain JavaScript using any of the techniques above.
+These append points allow [plugins to append their partials](/articles/appending.html) to the layout. The partials may contain JavaScript using any of the techniques above.
 
 The Google Analytics plugin, for example, uses the head append point to insert a view which includes nothing but the Google Analytics embed code.
 

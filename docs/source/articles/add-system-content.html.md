@@ -8,7 +8,7 @@ excerpt: In this guide, I outline the steps required to add administrable conten
 
 In this guide, I outline the steps required to add administrable content to a system page in the Storefront. I use the example of adding content to the cart, as shown below.
 
-![Cart system content in the Storefront](images/cart-system-content-in-storefront.png)
+![Cart system content in the Storefront](/images/cart-system-content-in-storefront.png)
 
 ## Create System Content
 
@@ -39,11 +39,11 @@ end
 
 You can search for this system page in the Admin.
 
-![Searching for cart system content in the Admin](images/searching-for-cart-system-content-in-admin.png)
+![Searching for cart system content in the Admin](/images/searching-for-cart-system-content-in-admin.png)
 
 And view the content to confirm your content and blocks exist.
 
-![Cart system content in the Admin](images/cart-system-content-in-admin.png)
+![Cart system content in the Admin](/images/cart-system-content-in-admin.png)
 
 ## Extend or Create View Model
 
@@ -102,7 +102,7 @@ Workarea.append_partials(
 
 You can now test the feature end-to-end in your browser to confirm it is working as expected.
 
-![Cart system content in the Storefront](images/cart-system-content-in-storefront.png)
+![Cart system content in the Storefront](/images/cart-system-content-in-storefront.png)
 
 To catch regressions, write a system test confirming the correct blocks are rendered in the Storefront. I use the following test.
 

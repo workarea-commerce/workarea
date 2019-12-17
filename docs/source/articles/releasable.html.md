@@ -6,7 +6,7 @@ excerpt: A releasable is an application document that includes the Workarea::Rel
 
 # Releasable
 
-A <dfn>releasable</dfn> is an [application document](application-document.html) that includes the `Workarea::Releasable` module, and thereby has a boolean `active` field and many changesets (`Workarea::Release::Changeset`).
+A <dfn>releasable</dfn> is an [application document](/articles/application-document.html) that includes the `Workarea::Releasable` module, and thereby has a boolean `active` field and many changesets (`Workarea::Release::Changeset`).
 
 ```
 # create 'Catalog Update' release

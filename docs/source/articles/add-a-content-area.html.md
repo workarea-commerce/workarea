@@ -8,11 +8,11 @@ excerpt: In this guide, I outline the steps for adding an additional content are
 
 In this guide, I outline the steps for adding an additional content area and displaying it within the Storefront. My examples will use the _Layout_ content instance. For context, search for this system page in the Admin and then choose to edit its content.
 
-![Searching for layout system content in the Admin](images/searching-for-layout-system-content-in-admin.png)
+![Searching for layout system content in the Admin](/images/searching-for-layout-system-content-in-admin.png)
 
 Notice this content already has multiple areas (_Header Promo_ and _Footer Navigation_ in the image below).
 
-![Layout content admin with 2 areas](images/layout-content-admin-with-2-areas.png)
+![Layout content admin with 2 areas](/images/layout-content-admin-with-2-areas.png)
 
 My example adds a 3rd area, _utility\_nav_, as shown below.
 
@@ -99,7 +99,7 @@ end
 
 After running seeds, you can see a block saved on the content for the new area.
 
-![Utility nav content area in the Admin](images/utility-nav-area-in-admin.png)
+![Utility nav content area in the Admin](/images/utility-nav-area-in-admin.png)
 
 ## Render Blocks in Storefront
 
@@ -132,7 +132,7 @@ Workarea.append_partials(
 
 You can now test the feature end-to-end in your browser to confirm it is working as expected.
 
-![Utility nav content area in the Storefront](images/utility-nav-area-in-storefront.png)
+![Utility nav content area in the Storefront](/images/utility-nav-area-in-storefront.png)
 
 To catch regressions, write a system test confirming the correct blocks are rendered in the Storefront. I use the following test.
 

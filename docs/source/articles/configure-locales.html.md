@@ -41,6 +41,6 @@ en:
 
 When adding a locale to an existing Production app, you must consider the impact on search indexes. At a minimum, you must create additional search indexes to account for the additional locale. However, you may also want to index documents as well, to ensure adequate search results within that locale.
 
-Review the [Search](searching.html) guide to understand the relationship between locales and search indexes.
+Review the [Search](/articles/searching.html) guide to understand the relationship between locales and search indexes.
 
-In Development, there should be no harm in fully re-indexing search by running a [Rake task](searching.html#rake-tasks_15) to create and populate the necessary indexes.
+In Development, there should be no harm in fully re-indexing search by running a [Rake task](/articles/searching.html#rake-tasks) to create and populate the necessary indexes.

@@ -6,7 +6,7 @@ excerpt: A navigable is an application document that includes the Workarea::Navi
 
 # Navigable
 
-A <dfn>navigable</dfn> is an [application document](application-document.html) that includes the `Workarea::Navigable` module, and thereby has a `slug` attribute and a 1:1 relationship with a [taxon](navigation.html#taxon).
+A <dfn>navigable</dfn> is an [application document](/articles/application-document.html) that includes the `Workarea::Navigable` module, and thereby has a `slug` attribute and a 1:1 relationship with a [taxon](/articles/navigation.html#taxon).
 
 ## Slug
 
@@ -37,7 +37,7 @@ Workarea::Catalog::Category.create!(name: 'Foo').slug
 
 ## Taxon
 
-A navigable has a 1:1 relationship with a [taxon](navigation.html#taxon), which represents the navigable's position within the site's taxonomy tree.
+A navigable has a 1:1 relationship with a [taxon](/articles/navigation.html#taxon), which represents the navigable's position within the site's taxonomy tree.
 
 ```
 navigable = Workarea::Catalog::Product.create!(name: 'Foo')

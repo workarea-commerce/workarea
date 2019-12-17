@@ -9,17 +9,17 @@ This is a quick start guide for getting started on a brand new Workarea applicat
 
 __If you experience a problem while following these instructions, get help on the [Workarea Community Slack](https://www.workarea.com/slack) or open an [issue on GitHub](https://github.com/workarea-commerce/workarea/issues).__
 
-After reviewing the [assumptions](#assumptions_1), complete the following steps to create a new Workarea application and open it in your browser:
+After reviewing the [assumptions](#assumptions), complete the following steps to create a new Workarea application and open it in your browser:
 
-1. [Create a Rails 5.2 application](#create-a-rails-5-2-application_2)
-2. [Add the Workarea gem](#add-the-workarea-gem_3)
-3. [Install Workarea into the Rails application](#install-workarea-into-the-rails-application_4)
-4. [Start Workarea service dependencies](#start-workarea-service-dependencies_5)
-5. [Seed the database](#seed-the-database_6)
-6. [Start the Rails server](#start-the-rails-server_7)
-7. [Open the application in a browser](#open-the-application-in-a-browser_8)
+1. [Create a Rails 5.2 application](#create-a-rails-5-2-application)
+2. [Add the Workarea gem](#add-the-workarea-gem)
+3. [Install Workarea into the Rails application](#install-workarea-into-the-rails-application)
+4. [Start Workarea service dependencies](#start-workarea-service-dependencies)
+5. [Seed the database](#seed-the-database)
+6. [Start the Rails server](#start-the-rails-server)
+7. [Open the application in a browser](#open-the-application-in-a-browser)
 
-Then, you may want to [run tests](#run-tests_9) and [stop the services](#stop-the-services_10).
+Then, you may want to [run tests](#run-tests) and [stop the services](#stop-the-services).
 
 ## Assumptions
 
@@ -30,7 +30,7 @@ The steps that follow assume the following:
 * You have NodeJS installed. We recommend using [Homebrew](https://brew.sh).
 * You have ImageMagick installed. We recommend using [Homebrew](https://brew.sh).
 
-For more details, see [Prerequisites and Dependencies](prerequisites-and-dependencies.html).
+For more details, see [Prerequisites and Dependencies](/articles/prerequisites-and-dependencies.html).
 
 ## TL;DR Video Walkthrough
 
@@ -75,7 +75,7 @@ Workarea ships with an installer generator that will configure the application:
 bin/rails generate workarea:install
 ```
 
-For more details on what this generator does, see [Installing Workarea](installing.html).
+For more details on what this generator does, see [Installing Workarea](/articles/installing.html).
 
 ## Start Workarea service dependencies
 
@@ -96,7 +96,7 @@ so running Rails seeds will add sample Workarea data.
 bin/rails db:seed
 ```
 
-For more details on working with seed data, see [Seeds](seeds.html).
+For more details on working with seed data, see [Seeds](/articles/seeds.html).
 
 ## Start the Rails server
 
@@ -124,7 +124,7 @@ Try one of the test runners listed in that output. For example, this will run th
 bin/rails workarea:test
 ```
 
-For more details on Workarea's testing functionality, see [Testing](testing.html).
+For more details on Workarea's testing functionality, see [Testing](/articles/testing.html).
 
 ## Stop the services
 

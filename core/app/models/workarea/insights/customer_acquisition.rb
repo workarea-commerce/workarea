@@ -37,8 +37,8 @@ module Workarea
           {
             '$match' => {
               'first_order_at' => {
-                '$gte' => beginning_of_last_month,
-                '$lte' => end_of_last_month
+                '$gte' => beginning_of_last_month.utc,
+                '$lte' => end_of_last_month.utc
               }
             }
           }
@@ -48,13 +48,17 @@ module Workarea
           {
             '$group' => {
               '_id' => {
-                'year' => { '$year' => '$first_order_at' },
-                'month' => { '$month' => '$first_order_at' },
-                'day' => { '$dayOfMonth' => '$first_order_at' }
+                'year' => { '$year' => first_order_at_in_time_zone },
+                'month' => { '$month' => first_order_at_in_time_zone },
+                'day' => { '$dayOfMonth' => first_order_at_in_time_zone }
               },
               'new_customers' => { '$sum' => 1 }
             }
           }
+        end
+
+        def first_order_at_in_time_zone
+          { 'date' => '$first_order_at', 'timezone' => Time.zone.tzinfo.name }
         end
       end
     end
