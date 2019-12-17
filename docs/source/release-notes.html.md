@@ -37,10 +37,12 @@ Since version 3.4.0, Workarea also provides upgrade guides for minor and major p
 
 ### Workarea 3.5
 
+- [Workarea 3.5.1](release-notes/workarea-3-5-1.html)
 - [Workarea 3.5.0](/release-notes/workarea-3-5-0.html)
 
 ### Workarea 3.4
 
+- [Workarea 3.4.23](release-notes/workarea-3-4-23.html)
 - [Workarea 3.4.22](/release-notes/workarea-3-4-22.html)
 - [Workarea 3.4.21](/release-notes/workarea-3-4-21.html)
 - [Workarea 3.4.20](/release-notes/workarea-3-4-20.html)
