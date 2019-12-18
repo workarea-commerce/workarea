@@ -1,3 +1,114 @@
+Workarea 3.5.1 (2019-12-17)
+--------------------------------------------------------------------------------
+
+*   Bump Puma version to fix security advisory
+
+    See https://github.com/advisories/GHSA-7xx3-m584-x994 for more details.
+    Ben Crouse
+
+*   Exclude Update Timestamp From Imports
+
+    Update the `:updated_at` timestamp to the current time when existing
+    models are updated via an import, and ignore any settings of the
+    `:updated_at` timestamp in JSON/CSV imports, as this can interfere with
+    cache key generation.
+
+    WORKAREA-126
+    Tom Scott
+
+*   Improve Redis configuration defaulting
+
+    This makes Redis configuration a little more robust, allowing partial
+    configuration values that will always end up falling back to defaults.
+    Ben Crouse
+
+*   Fix time zone querying for insights and reports
+
+    Data was getting stored correctly, but not queried correctly. When
+    building aggregations for MongoDB, the Mongoid logic to use UTC does not
+    kick in since it's not going through the Mongoid DSL.
+
+    This was the lowest impact fix. Changing how we store reporting_on will
+    invalidate current data and not allow for changing timezones later.
+
+    WORKAREA-135
+    Ben Crouse
+
+*   Fix Install Generator On Freshly Created App (#274)
+
+    The `workarea:install` generator failed with an error finding the
+    `Storefront::Engine` constant when it was run against a freshly
+    generated Rails 5.2.3 application. To resolve this, require the
+    necessary engines in **lib/workarea/core.rb** so the application loads
+    properly the first time, and can run the generator.
+
+    WORKAREA-134
+    Tom Scott
+
+*   [DOCS] Add/improve payment tender types documentation
+
+    Existing payment tender type documentation is limited to the credit card
+    tender type, covers only a portion of the implementation, and does not
+    explain the concepts or provide context to those new to the platform.
+
+    Replace and significantly expand coverage, providing 3 separate howtos:
+
+    * Customize the Credit Card Tender Type
+    * Implement a Primary Tender Type
+    * Implement an Advance Payment Tender Type
+
+    WORKAREA-13
+    Chris Cressman
+
+*   Remove Logstasher as a dependency (#273)
+
+    Logstasher isn't required to run an instance of Workarea. This dependency is being moved to the `workarea-commerce_cloud` gem for hosting.
+    Eric Pigeon
+
+*   Fix password config not available when building indexes
+
+    This causes a null value for expireAfterSeconds when creating indexes in
+    Mongo.
+    Ben Crouse
+
+*   Add index for better redemption querying
+
+    As suggested by the hosting team.
+    Ben Crouse
+
+*   Restrict release datetimepicker to dates in the future
+
+    WORKAREA-65
+    Matt Duffy
+
+*   Add activate_with as a field on block drafts for compatibility
+
+    Matt Duffy
+
+*   Fix adding a new first content block hidden
+
+    This can happen in certain release conditions
+
+    WORKAREA-111
+    Ben Crouse
+
+*   Remove Releasable module from Content::BlockDraft
+
+    WORKAREA-121
+    Matt Duffy
+
+*   Fix nil search customizations when inactive in ProductSearch
+
+    WORKAREA-80
+    Ben Crouse
+
+*   Fix polymorphic embedded relations in CSV importing/exporting
+
+    WORKAREA-120
+    Ben Crouse
+
+
+
 Workarea 3.5.0 (2019-11-26)
 --------------------------------------------------------------------------------
 
