@@ -1,3 +1,16 @@
+Workarea 3.4.24 (2019-12-19)
+--------------------------------------------------------------------------------
+
+*   Fix Performance Test Task
+
+    Instead of using a Boolean `true` value, use the String `"true"` so Ruby
+    won't complain when running the task.
+
+    WORKAREA-156
+    Tom Scott
+
+
+
 Workarea 3.4.23 (2019-12-17)
 --------------------------------------------------------------------------------
 
