@@ -1,3 +1,34 @@
+Workarea 3.5.2 (2019-12-19)
+--------------------------------------------------------------------------------
+
+*   Use the Rack session ID cookie value for metrics session IDs
+
+    Rack >= 2.0.8 adds the idea private/public session IDs to prevent timing
+    attacks where a session ID can be stolen. This is big for sessions stored
+    in databases because the session can then be stolen.
+
+    Workarea only supports a cookie session store, so we can continue to
+    safely use the cookie value of the session ID for metrics lookups.
+
+    You can learn more about the Rack vulnerability here:
+    https://github.com/rack/rack/security/advisories/GHSA-hrqr-hxpp-chr3
+    Ben Crouse
+
+*   Don't bother with segmentation for SVG requests
+
+    Ben Crouse
+
+*   Fix bad method call in migrate task
+
+    Ben Crouse
+
+*   Add a Shortcut for editing the Footer to Admin
+
+    WORKAREA-145
+    Curt Howard
+
+
+
 Workarea 3.5.1 (2019-12-17)
 --------------------------------------------------------------------------------
 
