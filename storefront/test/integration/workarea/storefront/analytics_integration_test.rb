@@ -11,7 +11,7 @@ module Workarea
 
         assert_equal(1, Metrics::ProductByDay.first.views)
         user = Metrics::User.first
-        assert_equal(session.id, user.id)
+        assert_equal(session.id.cookie_value, user.id)
         assert_equal(['foo'], user.viewed.product_ids)
       end
 
@@ -26,7 +26,7 @@ module Workarea
         assert_equal(5, metrics.total_results)
 
         user = Metrics::User.first
-        assert_equal(session.id, user.id)
+        assert_equal(session.id.cookie_value, user.id)
         assert_equal(['food'], user.viewed.search_ids)
       end
 
@@ -38,7 +38,7 @@ module Workarea
 
         assert_equal(1, Metrics::CategoryByDay.first.views)
         user = Metrics::User.first
-        assert_equal(session.id, user.id)
+        assert_equal(session.id.cookie_value, user.id)
         assert_equal(['foo'], user.viewed.category_ids)
       end
 
@@ -57,7 +57,7 @@ module Workarea
         login_metrics = Metrics::User.find('bcrouse@workarea.com')
 
         post storefront.analytics_product_view_path(product_id: 'foo')
-        session_metrics = Metrics::User.find(session.id)
+        session_metrics = Metrics::User.find(session.id.cookie_value)
         assert_equal(['foo'], session_metrics.viewed.product_ids)
 
         post storefront.login_path,
