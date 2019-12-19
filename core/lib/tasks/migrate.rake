@@ -23,7 +23,7 @@ namespace :workarea do
 
       count = 0
 
-      Workarea::Tax::Category.each_by(100) do |category|
+      Workarea::Tax::Category.all.each_by(100) do |category|
         category.rates.each_by(500) do |rate|
           rate.postal_code_percentage = rate.percentage
           rate.percentage = nil
