@@ -10,7 +10,9 @@ module Workarea
       end
 
       def current_user_activity_id
-        current_user.try(:id).presence || session.id
+        current_user.try(:id).presence ||
+          session.id.try(:cookie_value).presence ||
+          session.id
       end
     end
   end
