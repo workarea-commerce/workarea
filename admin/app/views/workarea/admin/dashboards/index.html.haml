@@ -168,8 +168,18 @@
               %p= t('workarea.admin.dashboards.index.no_activity_as_of', time: local_time(Time.current)).html_safe
             - else
               - @activity.days.each_with_index do |(day, entries), index|
-                - entries.take(15).each do |entry|
-                  = render_activity_entry(entry)
+                .activity-group
+                  .grid
+                    .grid__cell.grid__cell--20
+                      .date-marker
+                        - if day == Date.today
+                          .date-marker__annotation= t('workarea.admin.timeline.today')
+                        .date-marker__month= local_time(day, format: '%b')
+                        .date-marker__day= local_time(day, format: '%e')
+                    .grid__cell.grid__cell--80
+                      .activity-group__activities
+                        - entries.take(15).each do |entry|
+                          = render_activity_entry(entry)
 
         - unless @activity.entries.blank?
           .section
