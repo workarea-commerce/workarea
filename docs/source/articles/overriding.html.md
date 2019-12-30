@@ -145,7 +145,7 @@ Examples:
 
 Overrides provide enormous design flexibility, but they can affect the cost of upgrading your application to a newer release of the platform. Because your overrides maintain no relationship to the files they've replaced in the platform, changes to the files introduced by the platform will not be present in your application after upgrading. You will need to manually apply the same changes to your overrides if desired.
 
-To mitigate this problem, Workarea provides [Workarea Upgrade](https://stash.tools.weblinc.com/projects/WL/repos/workarea-upgrade/browse). Among its features, it will show diffs of Workarea changes for the files you've overridden in your application, easing the process of merging those changes into your overrides.
+To mitigate this problem, Workarea provides _Workarea Upgrade_. Among its features, it will show diffs of Workarea changes for the files you've overridden in your application, easing the process of merging those changes into your overrides.
 
 ## Overrides within Plugins
 

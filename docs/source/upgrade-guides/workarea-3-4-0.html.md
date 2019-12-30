@@ -140,7 +140,7 @@ A few things to note about these configuration changes:
 ## Update Overridden and Decorated Files
 
 Once you've made the important changes noted above, you're ready for the bulk of
-every upgrade. Use the [Workarea upgrade tool](https://stash.tools.weblinc.com/projects/WL/repos/workarea-upgrade/browse)
+every upgrade. Use the _Workarea Upgrade_ tool
 to generate a diff, then work through the changes in each file. You will need to
 use your judgement to decide which changes to make, and which changes are not necessary.
 

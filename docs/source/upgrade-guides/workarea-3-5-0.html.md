@@ -61,7 +61,7 @@ The contents of this partial are now directly rendered within the `workarea/stor
 
 ### What Do You Need to Do?
 
-These changes will be caught and displayed via the diffing functionality of the [Upgrade plugin](https://stash.tools.weblinc.com/projects/WL/repos/workarea-upgrade/browse).
+These changes will be caught and displayed via the diffing functionality of the _Workarea Upgrade_ tool.
 
 ## Updates to Headless Chrome Configuration
 
