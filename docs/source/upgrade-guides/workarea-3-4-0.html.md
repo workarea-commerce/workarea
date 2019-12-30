@@ -8,7 +8,7 @@ excerpt: Upgrade guide for Workarea 3.4.0
 Upgrade guide for Workarea 3.4.0.
 
 Before we get in to the details, I will assume that you are familiar with using
-the [Workarea Upgrade tool](https://plugins.workarea.com/plugins/upgrade). This
+the _Workarea Upgrade_ tool. This
 is a fundamental part for every upgrade, and while we will refer to using it in
 this guide, we will not cover specific commands.
 

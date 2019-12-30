@@ -82,7 +82,7 @@ Work with the partnering team to determine the following:
 Next, build the parts of the integration for which you are responsible.
 Tools for this within the Workarea system include:
 
-* [Admin API](https://plugins.workarea.com/plugins/api-admin)
+* [Admin API](https://github.com/workarea-commerce/workarea-api/tree/master/admin)
 * [Callbacks workers](/articles/workers.html#callbacks-worker)
 * [Scheduled workers](/articles/workers.html#sidekiq-cron-job)
-* [Data file scheduling](https://plugins.workarea.com/plugins/data-file-scheduling)
+* _Data File Scheduling_ (Commerce Cloud plugin)
