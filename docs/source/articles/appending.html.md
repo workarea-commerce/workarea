@@ -131,7 +131,9 @@ Workarea Reviews, which I've installed in my demonstration app, includes a parti
       / ...
 ```
 
-Similarly, Workarea Share, which I've also installed, provides a partial for this append point. That partial also makes use of the `product` variable.&nbsp;<sup><a href="#notes" id="note-1-context">[1]</a></sup>
+Similarly, Workarea Share, which I've also installed, provides a partial for this append point. That partial also makes use of the `product` variable.
+
+( This partial immediately renders another partial called _share\_buttons_, but the share buttons partial expects the `share_url` and `sku` local variables to be present, so values must be constructed for those variables using the value of `product`. )
 
 ```ruby
 / workarea-share-1.1.0/app/views/workarea/storefront/products/_share.html.haml
@@ -273,7 +275,15 @@ puts Workarea::Plugin.javascripts_appends['storefront.modules'].grep(/reviews/)
 # workarea/storefront/reviews/modules/rating_buttons
 ```
 
-Furthermore, I can confirm the home page HTML contains script tags for the JavaScript files, and the compiled application manifest references the imported stylesheets.&nbsp;<sup><a href="#notes" id="note-2-context">[2]</a></sup>&nbsp;<sup><a href="#notes" id="note-3-context">[3]</a></sup>
+Furthermore, I can confirm the home page HTML contains script tags for the JavaScript files, and the compiled application manifest references the imported stylesheets.
+
+(
+Understanding these Unix command lines is not important.
+But it _is_ important you know _where_ to look and _what_ to look for when things aren't working.
+You can confirm these details equally well by inspecting the output manually in your browser.
+
+The following examples depend on debugging output that is present in Rails' Development environment that may not be present in other environments.
+)
 
 ```bash
 $ curl -s 'http://10.10.10.10:3000' | # request home page
@@ -497,11 +507,3 @@ index 09579b2..a5725e8 100644
 The final result (after rebooting and reloading the page) is as follows.
 
 ![Reviews summary below product name](/images/reviews-summary-below-product-name.png)
-
-## Notes
-
-[1] This partial immediately renders another partial called _share\_buttons_, but the share buttons partial expects the `share_url` and `sku` local variables to be present, so values must be constructed for those variables using the value of `product`.
-
-[2] Understanding these Unix command lines is not important. But it _is_ important you know _where_ to look and _what_ to look for when things aren't working. You can confirm these details equally well by inspecting the output manually in your browser.
-
-[3] These inspections depend on debugging output that is present in Rails' Development environment that may not be present in other environments.
