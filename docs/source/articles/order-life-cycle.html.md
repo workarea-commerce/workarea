@@ -493,7 +493,7 @@ Workarea::Search::AdminOrders.new.results.first.id == placed_order.id
 
 ## Canceled Orders
 
-Workarea Core also allows <dfn>canceling</dfn> orders, however, this does not take into consideration the restocking of inventory, refunding of payment, and updating of fulfillment that may accompany such a change. Because of these additional concerns, this functionality is not exposed as a web interface in the base platform, but is available through the [Workarea OMS](https://plugins.workarea.com/plugins/oms) plugin.
+Workarea Core also allows <dfn>canceling</dfn> orders, however, this does not take into consideration the restocking of inventory, refunding of payment, and updating of fulfillment that may accompany such a change. Because of these additional concerns, this functionality is not exposed as a web interface in the base platform, but is available through the _Workarea OMS_ plugin.
 
 From the `Order` document’s perspective, <dfn>canceling</dfn> an order (achieved through `Order#cancel`) is simply the process of recording the date and time at which the order was canceled. The presence of this additional timestamp causes the order to identify as canceled.
 

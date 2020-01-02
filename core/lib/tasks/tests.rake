@@ -86,7 +86,7 @@ namespace :workarea do
               Workarea::Plugin.installed.map(&:root) +
               [Rails.root]
 
-    ENV['PERF_TEST'] = true
+    ENV['PERF_TEST'] = 'true'
     Rails::TestUnit::Runner.rake_run(
       roots
         .map { |r| FileList["#{r}/test/performance/**/*_test.rb"] }

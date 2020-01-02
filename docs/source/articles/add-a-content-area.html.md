@@ -40,9 +40,11 @@ Workarea.config.content_areas
 
 You need to manipulate the keys and values in this hash to configure areas. When rendering the content editing UI, an instance of `Workarea::Admin::ContentViewModel` queries this hash looking for:
 
-1. A key matching the content's `slug`<sup><a href="#notes" id="note-1-context">[1]</a></sup>
+1. A key matching the content's `slug`
 2. A key matching the content's contentable's `template`
 3. The key `'generic'`
+
+( Note: #1 above uses `Workarea::Content#slug`, not `Workarea::Navigable#slug`. Navigable slugs are guaranteed to be unique, but content slugs are not. Be aware when adding an area, you may be affecting many content instances. )
 
 `Workarea::Admin::ContentViewModel#areas` returns the value (the array of strings) for the first matching key.
 
@@ -107,7 +109,9 @@ In the Storefront, use `Workarea::Storefront::DisplayContent#content_blocks_for`
 
 The view model used for the layout content already includes `Workarea::Storefront::DisplayContent`, so all that's required is a partial to render the blocks.
 
-I add the partial.<sup><a href="#notes" id="note-2-context">[2]</a></sup>
+I add the partial.
+
+( If my application were already overriding the layout, I would skip the partial and render the blocks directly in the layout file. )
 
 ```
 / app/views/layouts/workarea/storefront/_utility_nav_content.html.haml
@@ -162,9 +166,3 @@ module Workarea
   end
 end
 ```
-
-## Notes
-
-[1] Using `Workarea::Content#slug`, not `Workarea::Navigable#slug`. Navigable slugs are guaranteed to be unique, but content slugs are not. Be aware when adding an area, you may be affecting many content instances.
-
-[2] If my application were already overriding the layout, I would skip the partial and render the blocks directly in the layout file.

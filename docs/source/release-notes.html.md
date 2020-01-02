@@ -37,10 +37,14 @@ Since version 3.4.0, Workarea also provides upgrade guides for minor and major p
 
 ### Workarea 3.5
 
+- [Workarea 3.5.2](release-notes/workarea-3-5-2.html)
+- [Workarea 3.5.1](release-notes/workarea-3-5-1.html)
 - [Workarea 3.5.0](/release-notes/workarea-3-5-0.html)
 
 ### Workarea 3.4
 
+- [Workarea 3.4.24](release-notes/workarea-3-4-24.html)
+- [Workarea 3.4.23](release-notes/workarea-3-4-23.html)
 - [Workarea 3.4.22](/release-notes/workarea-3-4-22.html)
 - [Workarea 3.4.21](/release-notes/workarea-3-4-21.html)
 - [Workarea 3.4.20](/release-notes/workarea-3-4-20.html)
@@ -64,6 +68,7 @@ Since version 3.4.0, Workarea also provides upgrade guides for minor and major p
 
 ### Workarea 3.3
 
+- [Workarea 3.3.36](/release-notes/workarea-3-3-36.html)
 - [Workarea 3.3.35](/release-notes/workarea-3-3-35.html)
 - [Workarea 3.3.34](/release-notes/workarea-3-3-34.html)
 - [Workarea 3.3.33](/release-notes/workarea-3-3-33.html)
@@ -103,6 +108,7 @@ Since version 3.4.0, Workarea also provides upgrade guides for minor and major p
 
 ### Workarea 3.2
 
+- [Workarea 3.2.44](/release-notes/workarea-3-2-44.html)
 - [Workarea 3.2.43](/release-notes/workarea-3-2-43.html)
 - [Workarea 3.2.42](/release-notes/workarea-3-2-42.html)
 - [Workarea 3.2.41](/release-notes/workarea-3-2-41.html)
@@ -149,6 +155,7 @@ Since version 3.4.0, Workarea also provides upgrade guides for minor and major p
 
 ### Workarea 3.1
 
+- [Workarea 3.1.55](/release-notes/workarea-3-1-55.html)
 - [Workarea 3.1.54](/release-notes/workarea-3-1-54.html)
 - [Workarea 3.1.53](/release-notes/workarea-3-1-53.html)
 - [Workarea 3.1.52](/release-notes/workarea-3-1-52.html)

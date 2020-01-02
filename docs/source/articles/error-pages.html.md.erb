@@ -1,11 +1,15 @@
 ---
 title: Error Pages
-excerpt: Workarea Storefront provides an errors controller through which it routes all 404 and 500 errors, and an errors view, which it conditionally renders for HTML responses in place of the static 404 and 500 error pages provided by Rails.[1] Storefront err
+excerpt: Workarea Storefront provides an errors controller through which it routes all 404 and 500 errors, and an errors view, which it conditionally renders for HTML responses in place of the static 404 and 500 error pages provided by Rails.
 ---
 
 # Error Pages
 
-Workarea Storefront provides an errors controller through which it routes all 404 and 500 errors, and an errors view, which it conditionally renders for HTML responses in place of the static 404 and 500 error pages provided by Rails.<sup><a href="#notes" id="note-1-context">[1]</a></sup> Storefront error pages provide several advantages over the Rails defaults.
+Workarea Storefront provides an errors controller through which it routes all 404 and 500 errors, and an errors view, which it conditionally renders for HTML responses in place of the static 404 and 500 error pages provided by Rails.
+
+( Specifically, the paths `'/404'` and `'/500'` (regardless of HTTP method) are routed to the `not_found` and `internal` actions of the `Storefront::ErrorsController`, each of which conditionally renders the _workarea/storefront/errors/show.html.haml_ view. )
+
+Storefront error pages provide several advantages over the Rails defaults.
 
 - Each error page renders with administrable system content, specific to the error type (404 or 500)
 - The error pages use the Storefront layout, providing a consistent look and feel, as well as global functionality such as search and navigation
@@ -89,7 +93,3 @@ By default, Rails responds to an error in development with a debugging page. To 
 ```
 
 After changing your configuration, restart the application.
-
-## Notes
-
-[1] Specifically, the paths `'/404'` and `'/500'` (regardless of HTTP method) are routed to the `not_found` and `internal` actions of the `Storefront::ErrorsController`, each of which conditionally renders the _workarea/storefront/errors/show.html.haml_ view.

@@ -8,7 +8,9 @@ excerpt: Workarea applications include an automated test suite. Tests are writte
 
 Workarea applications include an automated test suite. Tests are written using [Minitest](http://www.rubydoc.info/gems/minitest/5.9.1 "Minitest 5.9.1 API documentation") and follow the conventions for [testing Rails applications](http://guides.rubyonrails.org/v5.0/testing.html "A Guide to Testing Rails Applications (v5.0)"), with some extensions. I don't cover Minitest and Rails testing in this guide since those topics are covered extensively elsewhere. Instead, I focus on Workarea APIs, extensions, and conventions used to test Workarea applications and plugins.
 
-As of version 3.2, the Workarea platform test suite is composed of tests written for Minitest and [Teaspoon](https://github.com/jejacks0n/teaspoon). In this guide I will focus on Minitest tests, because you can run and extend those tests from within your application (or plugin). <sup><a href="#notes" id="note-1-context">[1]</a></sup>
+As of version 3.2, the Workarea platform test suite is composed of tests written for Minitest and [Teaspoon](https://github.com/jejacks0n/teaspoon). In this guide I will focus on Minitest tests, because you can run and extend those tests from within your application (or plugin).
+
+( If you're migrating to Workarea 3 from an earlier version, review the [Testing section of the 3.0 release notes](/release-notes/workarea-3-0-0.html#testing) for a summary of changes.)
 
 As you develop your application—by installing plugins, extending the platform's functionality, and adding functionality of your own—you will inevitably break existing functionality and introduce new functionality that may be broken or become broken over time. You should therefore run and maintain the platform test suite as you develop.
 
@@ -161,7 +163,10 @@ You can extend platform tests by decorating test case classes the same way you d
 
 To [decorate](/articles/decoration.html) a test case, create a _.decorator_ file within your application with the same base name and path as the test case file in Workarea. Require the application test helper at the top of your decorator, and use the `decorate` method to decorate the test case class.
 
-The following annotated examples show the `BulkIndexProductsTest` test case from Core, and a decorator for that test case from the [Workarea Browse Option](https://github.com/workarea-commerce/workarea-browse-option) plugin. Decorating tests works the same way in plugins as it does in applications. <sup><a href="#notes" id="note-2-context">[2]</a></sup>
+The following annotated examples show the `BulkIndexProductsTest` test case from Core, and a decorator for that test case from the [Workarea Browse Option](https://github.com/workarea-commerce/workarea-browse-option) plugin.
+
+Decorating tests works the same way in plugins as it does in applications.
+( An exception to this is the `with` option for `decorate`. By convention, plugins must include this option while applications can omit it. )
 
 **Notice the uniformity of the filesystem paths and the Ruby namespaces (the module nesting) between both files. For a test decorator to run properly, the filesystem paths and Ruby namespaces of both files must be aligned.**
 
@@ -978,9 +983,3 @@ module Workarea
   end
 end
 ```
-
-## Notes
-
-[1] If you're migrating to Workarea 3 from an earlier version, review the [<cite>Testing</cite> section of the 3.0 release notes](/release-notes/workarea-3-0-0.html#testing) for a summary of changes.
-
-[2] An exception to this is the `with` option for `decorate`. By convention, plugins must include this option while applications can omit it.

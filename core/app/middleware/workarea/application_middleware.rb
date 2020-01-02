@@ -6,7 +6,7 @@ module Workarea
 
     def call(env)
       request = Rack::Request.new(env)
-      return @app.call(env) if request.path =~ /(jpe?g|png|ico|gif|css|js)$/
+      return @app.call(env) if request.path =~ /(jpe?g|png|ico|gif|css|js|svg)$/
 
       setup_environment(env, request)
       set_segment_request_headers(env)

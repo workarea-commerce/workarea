@@ -294,7 +294,7 @@ To extend pricing, you must change how price adjustments are created.
 To do this, you should implement your own pricing calculators which honor the __pricing calculator contract__, and re-configure the __pricing calculators collection__ to include your custom calculators.
 
 (
-It's worth mentioning that you should first look for a [plugin](https://plugins.workarea.com) that does what you need.
+It's worth mentioning that you should first look for a plugin that does what you need.
 I borrowed this document's use cases from existing plugins.
 )
 

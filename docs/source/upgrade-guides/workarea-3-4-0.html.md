@@ -8,7 +8,7 @@ excerpt: Upgrade guide for Workarea 3.4.0
 Upgrade guide for Workarea 3.4.0.
 
 Before we get in to the details, I will assume that you are familiar with using
-the [Workarea Upgrade tool](https://plugins.workarea.com/plugins/upgrade). This
+the _Workarea Upgrade_ tool. This
 is a fundamental part for every upgrade, and while we will refer to using it in
 this guide, we will not cover specific commands.
 
@@ -140,7 +140,7 @@ A few things to note about these configuration changes:
 ## Update Overridden and Decorated Files
 
 Once you've made the important changes noted above, you're ready for the bulk of
-every upgrade. Use the [Workarea upgrade tool](https://stash.tools.weblinc.com/projects/WL/repos/workarea-upgrade/browse)
+every upgrade. Use the _Workarea Upgrade_ tool
 to generate a diff, then work through the changes in each file. You will need to
 use your judgement to decide which changes to make, and which changes are not necessary.
 

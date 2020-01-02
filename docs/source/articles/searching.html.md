@@ -56,7 +56,7 @@ For example, the indexes for a simple development application could be as follow
 - board\_games\_direct\_development\_en\_help
 - board\_games\_direct\_development\_en\_storefront
 
-Meanwhile, the following list of indexes could be used in an application with multiple site names (requires the [Multi Site](https://plugins.workarea.com/plugins/multi-site) plugin), environments, and locales.
+Meanwhile, the following list of indexes could be used in an application with multiple site names (requires the _Multi Site_ plugin), environments, and locales.
 
 - board\_games\_direct\_development\_en\_admin
 - board\_games\_direct\_development\_en\_help

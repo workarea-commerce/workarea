@@ -93,6 +93,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'chartkick', '~> 3.3.0'
   s.add_dependency 'browser', '~> 2.6.1'
   s.add_dependency 'puma', '>= 4.3.1'
+  s.add_dependency 'rack', '>= 2.0.8'
 
   # HACK for vendoring active_shipping
   s.add_dependency 'active_utils', '~> 3.3.1'

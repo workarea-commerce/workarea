@@ -43,7 +43,7 @@ module Workarea
 
       # This forces Rails to initialize the session, which provides an ID for metrics
       session.delete(:foo)
-      self.current_metrics_id = session.id
+      self.current_metrics_id = session.id.cookie_value
     end
   end
 end

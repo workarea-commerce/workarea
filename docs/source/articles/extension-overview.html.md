@@ -18,7 +18,7 @@ One form of extension is simple <dfn>augmentation</dfn>—adding new code within
 
 ## Domain-Specific Extension
 
-Workarea provides various _designed_ points of extension that employ conventions, inheritance, DSLs, and other techniques to reduce cost during the initial implementation, and potentially at upgrade time. These techniques are domain-specific, so within this documentation, I cover each where that particular domain aspect is covered. Examples of these extension points are listed below.&nbsp;<sup><a href="#notes" id="note-1-context">[1]</a></sup>
+Workarea provides various _designed_ points of extension that employ conventions, inheritance, DSLs, and other techniques to reduce cost during the initial implementation, and potentially at upgrade time. These techniques are domain-specific, so within this documentation, I cover each where that particular domain aspect is covered. Examples of these extension points are listed below.
 
 - Catalog customizations
 - [Content block types](/articles/add-a-content-block-type.html)
@@ -145,9 +145,3 @@ Workarea also provides generic extension techniques that apply across domain bou
 - You must apply these changes manually to your own copies of the files
 - While overriding is necessary for UI customization, try to override only the files necessary for your requirements
 - Where possible, use appending instead of overriding to reduce upgrade cost
-
-## Notes
-
-[1] Much of the domain-specific documentation is still forthcoming. I will continue to cross reference these extension points as coverage is added.
-
-
