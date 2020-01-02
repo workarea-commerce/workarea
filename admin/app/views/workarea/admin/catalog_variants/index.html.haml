@@ -38,7 +38,7 @@
         %tbody{ data: { sort_variant: '', product_id: @product.to_param } }
           - @variants.each do |variant|
             %tr.index-table__row{ class: ('index-table__row--inactive' unless variant.active), data: { sort_variant_id: variant.id } }
-              %td= inline_svg('workarea/admin/icons/grip.svg', title: t('workarea.admin.catalog_variants.index.drag_to_rearrange'), class: 'svg-icon svg-icon--small svg-icon--gray')
+              %td= inline_svg_tag('workarea/admin/icons/grip.svg', title: t('workarea.admin.catalog_variants.index.drag_to_rearrange'), class: 'svg-icon svg-icon--small svg-icon--gray')
               %td= link_to variant.sku, edit_catalog_product_variant_path(@product, variant)
               %td= variant.name
               %td= format_variant_options(variant.details)
@@ -53,7 +53,7 @@
                 = form_tag catalog_product_variant_path(@product, variant), method: 'delete', class: 'text-button text-button--destroy' do
                   = button_tag value: 'remove_catalog_variant', class: 'text-button text-button--destroy' do
                     = t('workarea.admin.actions.delete')
-                    = inline_svg('workarea/admin/icons/delete.svg', class: 'text-button__icon', title: t('workarea.admin.actions.delete'))
+                    = inline_svg_tag('workarea/admin/icons/delete.svg', class: 'text-button__icon', title: t('workarea.admin.actions.delete'))
     .workflow-bar
       .grid.grid--auto.grid--right.grid--middle
         .grid__cell

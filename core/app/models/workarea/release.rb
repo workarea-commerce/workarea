@@ -14,7 +14,11 @@ module Workarea
 
     has_many :changesets, class_name: 'Workarea::Release::Changeset'
     has_one :undo, class_name: 'Workarea::Release', inverse_of: :undoes
-    belongs_to :undoes, class_name: 'Workarea::Release', inverse_of: :undo, optional: true
+    belongs_to :undoes,
+      class_name: 'Workarea::Release',
+      inverse_of: :undo,
+      optional: true,
+      index: true
 
     index({ publish_at: 1 })
     index({ published_at: 1 })

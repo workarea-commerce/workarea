@@ -2,7 +2,7 @@
 .browsing-controls__filter.browsing-controls__filter--date
   %button.browsing-controls__filter-button{ type: 'button', data: { filter_dropdown: '#filters-dropdown-date' } }
     = t('workarea.admin.date_selector.date_range', starts_at: starts_at.to_s(:date_only), ends_at: ends_at.to_s(:date_only))
-    = inline_svg('workarea/admin/icons/calendar.svg', class: 'browsing-controls__filter-button-icon svg-icon svg-icon--small')
+    = inline_svg_tag('workarea/admin/icons/calendar.svg', class: 'browsing-controls__filter-button-icon svg-icon svg-icon--small')
 
   #filters-dropdown-date.browsing-controls__filter-dropdown.tooltip-content
     .grid

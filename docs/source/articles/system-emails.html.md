@@ -134,4 +134,4 @@ def test_mail_was_sent
 end
 ```
 
-[ActionMailer::TestHelper](https://api.rubyonrails.org/v5.2.3/classes/ActionMailer/TestHelper.html) has more information about the assertions you can use here.
+[ActionMailer::TestHelper](https://api.rubyonrails.org/v6.0.0/classes/ActionMailer/TestHelper.html) has more information about the assertions you can use here.

@@ -3,7 +3,7 @@
     .card{ class: card_classes(:attributes, local_assigns[:active]) }
       = link_to edit_user_path(model), class: 'card__header' do
         %span.card__header-text= t('workarea.admin.cards.attributes.title')
-        = inline_svg 'workarea/admin/icons/attributes.svg', class: 'card__icon'
+        = inline_svg_tag 'workarea/admin/icons/attributes.svg', class: 'card__icon'
 
       - if local_assigns[:active].blank?
         .card__body
@@ -54,7 +54,7 @@
     .card{ class: card_classes(:orders, local_assigns[:active]) }
       = link_to orders_user_path(model), class: 'card__header' do
         %span.card__header-text= t('workarea.admin.users.cards.orders.title')
-        = inline_svg 'workarea/admin/icons/orders.svg', class: 'card__icon'
+        = inline_svg_tag 'workarea/admin/icons/orders.svg', class: 'card__icon'
 
       - if local_assigns[:active].blank?
         .card__body
@@ -77,7 +77,7 @@
     .card{ class: card_classes(:addresses, local_assigns[:active]) }
       = link_to addresses_user_path(model), class: 'card__header' do
         %span.card__header-text= t('workarea.admin.users.cards.saved_addresses.title')
-        = inline_svg 'workarea/admin/icons/saved_addresses.svg', class: 'card__icon'
+        = inline_svg_tag 'workarea/admin/icons/saved_addresses.svg', class: 'card__icon'
 
       - if local_assigns[:active].blank?
         .card__body
@@ -97,7 +97,7 @@
     .card{ class: card_classes(:insights, local_assigns[:active]) }
       = link_to insights_user_path(model), class: 'card__header' do
         %span.card__header-text= t('workarea.admin.users.cards.insights.title')
-        = inline_svg 'workarea/admin/icons/insights.svg', class: 'card__icon'
+        = inline_svg_tag 'workarea/admin/icons/insights.svg', class: 'card__icon'
 
       - if local_assigns[:active].blank?
         .card__body
@@ -144,7 +144,7 @@
       .card{ class: card_classes(:permissions, local_assigns[:active]) }
         = link_to permissions_user_path(model), class: 'card__header' do
           %span.card__header-text= t('workarea.admin.users.cards.permissions.title')
-          = inline_svg 'workarea/admin/icons/permissions.svg', class: 'card__icon'
+          = inline_svg_tag 'workarea/admin/icons/permissions.svg', class: 'card__icon'
 
         - if local_assigns[:active].blank?
           .card__body

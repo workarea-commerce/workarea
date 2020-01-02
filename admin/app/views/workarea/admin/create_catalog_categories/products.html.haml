@@ -18,7 +18,7 @@
           .card
             = link_to rules_create_catalog_category_path(@category), class: 'card__header' do
               %span.card__header-text.link= t('workarea.admin.create_catalog_categories.products.create_rules')
-              = inline_svg 'workarea/admin/icons/rules.svg', class: 'card__icon'
+              = inline_svg_tag 'workarea/admin/icons/rules.svg', class: 'card__icon'
 
             .card__body
               %p= t('workarea.admin.create_catalog_categories.products.rules_description')
@@ -38,7 +38,7 @@
           .card
             = link_to featured_products_create_catalog_category_path(@category), class: 'card__header' do
               %span.card__header-text= t('workarea.admin.create_catalog_categories.products.pick_products')
-              = inline_svg 'workarea/admin/icons/featured_products.svg', class: 'card__icon'
+              = inline_svg_tag 'workarea/admin/icons/featured_products.svg', class: 'card__icon'
 
             .card__body
               %p= t('workarea.admin.create_catalog_categories.products.featured_description')

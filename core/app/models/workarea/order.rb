@@ -65,6 +65,7 @@ module Workarea
 
     embeds_many :items,
       class_name: 'Workarea::Order::Item',
+      inverse_of: :order,
       cascade_callbacks: true,
       extend: ItemsExtension
 

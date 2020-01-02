@@ -36,7 +36,7 @@
                           %span.grid__cell
                             = t('workarea.admin.reports.timeline.add_custom')
                           %span.grid__cell
-                            = inline_svg('workarea/admin/icons/add.svg', class: 'svg-icon svg-icon--white svg-icon--small', title: t('workarea.admin.reports.timeline.add_custom'))
+                            = inline_svg_tag('workarea/admin/icons/add.svg', class: 'svg-icon svg-icon--white svg-icon--small', title: t('workarea.admin.reports.timeline.add_custom'))
 
               #add_custom_event.tooltip-content
                 = form_tag report_custom_events_path, method: 'post' do

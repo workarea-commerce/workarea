@@ -35,7 +35,7 @@
             .property
               %span.property__name
                 = t('workarea.admin.fields.active')
-                = inline_svg('workarea/admin/i18n.svg', class: 'svg-icon svg-icon--small') if locale_options.many? && Workarea.config.localized_active_fields
+                = inline_svg_tag('workarea/admin/i18n.svg', class: 'svg-icon svg-icon--small') if locale_options.many? && Workarea.config.localized_active_fields
               = render 'workarea/admin/shared/active_field', scope: 'discount', model: @discount
 
           .grid__cell.grid__cell--50.grid__cell--25-at-medium
@@ -43,7 +43,7 @@
               %span.property__name
                 = t('workarea.admin.fields.auto_deactivate')
                 = link_to '#auto-deactivate-info', data: { tooltip: '' } do
-                  = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue')
+                  = inline_svg_tag('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue')
               = toggle_button_for 'discount[auto_deactivate]', @discount.auto_deactivate?
 
             #auto-deactivate-info.tooltip-content= t('workarea.admin.pricing_discounts.edit.auto_deactivate_info', duration: duration_in_words(Workarea.config.discount_staleness_ttl))

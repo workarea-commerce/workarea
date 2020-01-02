@@ -3,7 +3,7 @@
     .card{ class: card_classes(:attributes, local_assigns[:active]) }
       = link_to edit_fulfillment_sku_path(model), class: 'card__header' do
         %span.card__header-text= t('workarea.admin.cards.attributes.title')
-        = inline_svg 'workarea/admin/icons/attributes.svg', class: 'card__icon'
+        = inline_svg_tag 'workarea/admin/icons/attributes.svg', class: 'card__icon'
 
       - if local_assigns[:active].blank?
         .card__body
@@ -27,7 +27,7 @@
     .card{ class: card_classes(:tokens, local_assigns[:active]) }
       = link_to fulfillment_sku_tokens_path(model), class: 'card__header' do
         %span.card__header-text= t('workarea.admin.fulfillment_tokens.card.header')
-        = inline_svg 'workarea/admin/icons/variants.svg', class: 'card__icon'
+        = inline_svg_tag 'workarea/admin/icons/variants.svg', class: 'card__icon'
 
       - if local_assigns[:active].blank?
         .card__body

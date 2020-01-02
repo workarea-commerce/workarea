@@ -2,7 +2,7 @@
   .product-summary__media
     .product-summary__image-wrapper
       = image_tag(product_image_url(product.primary_image, :small), alt: product.name, class: 'product-summary__image')
-  = inline_svg('workarea/admin/selected.svg', class: 'product-summary__remove svg-icon svg-icon--green', title: t('workarea.admin.actions.remove'))
+  = inline_svg_tag('workarea/admin/selected.svg', class: 'product-summary__remove svg-icon svg-icon--green', title: t('workarea.admin.actions.remove'))
   %span.product-summary__name= product.name
   %span.product-summary__graph
     %span.spark{ title: t('workarea.admin.catalog_categories.cards.featured_products.sparkline_title') }

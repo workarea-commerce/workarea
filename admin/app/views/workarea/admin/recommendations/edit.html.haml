@@ -26,7 +26,7 @@
             %li.box
               .grid.grid--auto.grid--middle
                 .grid__cell
-                  = inline_svg('workarea/admin/icons/grip.svg', class: 'svg-icon svg-icon--gray', data: { recommendations_sortable_handle: '' });
+                  = inline_svg_tag('workarea/admin/icons/grip.svg', class: 'svg-icon svg-icon--gray', data: { recommendations_sortable_handle: '' });
                 .grid__cell
                   - if source == 'custom'
                     = hidden_field_tag 'sources[]', source, id: nil

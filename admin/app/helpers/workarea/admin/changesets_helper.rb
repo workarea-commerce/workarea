@@ -2,7 +2,7 @@ module Workarea
   module Admin::ChangesetsHelper
     def changeset_icon(changeset, options = {})
       type = changeset.root.model_name.element
-      inline_svg(icon_path(type), options)
+      inline_svg_tag(icon_path(type), options)
     end
 
     private

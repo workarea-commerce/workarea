@@ -32,6 +32,12 @@ module Workarea
     end
 
     def scroll(options = {}, &block) # to match Search::Query method arguments
+      # Without this call to clear cache, the mongo driver raises:
+      #  NotImplementedError: Cannot restart iteration of a cursor which issued a getMore
+      #
+      # I think this is a bug in how the QueryCache works.
+      Mongoid::QueryCache.clear_cache
+
       criteria = results
       criteria.total_pages.times do |page|
         yield criteria.page(page + 1).per(per_page).to_a

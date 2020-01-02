@@ -26,8 +26,8 @@
                   .align-center= render "workarea/admin/segment_rules/summaries/#{rule.slug}", rule: rule
                 .grid__cell.grid__cell--25
                   .align-right
-                    = link_to inline_svg('workarea/admin/icons/edit.svg', class: 'svg-icon svg-icon--small', title: t('workarea.admin.actions.edit')), edit_rule_create_segment_path(@segment, rule)
-                    = link_to inline_svg('workarea/admin/icons/delete.svg', class: 'svg-icon svg-icon--small svg-icon--red', title: t('workarea.admin.actions.remove')), segment_rule_path(@segment, rule, return_to: rules_create_segment_path(@segment)), data: { method: 'delete' }
+                    = link_to inline_svg_tag('workarea/admin/icons/edit.svg', class: 'svg-icon svg-icon--small', title: t('workarea.admin.actions.edit')), edit_rule_create_segment_path(@segment, rule)
+                    = link_to inline_svg_tag('workarea/admin/icons/delete.svg', class: 'svg-icon svg-icon--small svg-icon--red', title: t('workarea.admin.actions.remove')), segment_rule_path(@segment, rule, return_to: rules_create_segment_path(@segment)), data: { method: 'delete' }
 
       - if params[:action] == 'new_rule'
         = render 'workarea/admin/segment_rules/form', segment: @segment, rule: @rule, return_to: rules_create_segment_path(@segment)
@@ -37,7 +37,7 @@
           .grid.grid--auto.grid--center.grid--middle
             .grid__cell= t('workarea.admin.create_segments.rules.add_rule')
             .grid__cell= select_tag 'rule_type', options_for_select(segment_rule_types_options)
-            .grid__cell= button_tag inline_svg('workarea/admin/icons/add_circle.svg', class: 'svg-icon svg-icon--medium svg-icon--green', title: t('workarea.admin.create_segments.rules.add_rule')), value: 'add_rule', class: 'text-button'
+            .grid__cell= button_tag inline_svg_tag('workarea/admin/icons/add_circle.svg', class: 'svg-icon svg-icon--medium svg-icon--green', title: t('workarea.admin.create_segments.rules.add_rule')), value: 'add_rule', class: 'text-button'
 
     .workflow-bar
       .grid.grid--middle

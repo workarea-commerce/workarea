@@ -38,6 +38,6 @@
                   %td
                     = @order.fraud_decision.response || '-'
                     = link_to '#response-help', data: { tooltip: '' } do
-                      = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.orders.fraud.more_link'))
+                      = inline_svg_tag('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.orders.fraud.more_link'))
                     #response-help.tooltip-content
                       %p= t('workarea.admin.orders.fraud.response_tooltip')

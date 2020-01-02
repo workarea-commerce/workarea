@@ -15,5 +15,5 @@
       .menu-editor__list-item-cell= t('workarea.admin.navigation_taxons.children.drag_items_here')
 
   = link_to new_navigation_taxon_path(parent_id: @taxon.id), title: t('workarea.admin.navigation_taxons.children.add_new_item'), class: 'menu-editor__add-item-button menu-editor__add-item-button--last-position' do
-    = inline_svg 'workarea/admin/icons/add_circle.svg', class: 'menu-editor__icon menu-editor__icon--add'
+    = inline_svg_tag 'workarea/admin/icons/add_circle.svg', class: 'menu-editor__icon menu-editor__icon--add'
     %span.menu-editor__add-item-button-text= t('workarea.admin.navigation_taxons.children.add_new_item')

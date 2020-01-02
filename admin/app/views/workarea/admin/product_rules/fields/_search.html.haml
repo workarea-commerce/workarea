@@ -2,7 +2,7 @@
 = hidden_field_tag 'product_rule[operator]', 'equals'
 Products must match
 = text_field_tag 'product_rule[value]', rule.value.presence || '*', class: 'text-box text-box--i18n text-box--medium'
-= inline_svg 'workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', data: { tooltip: { content_id: '#search-info', interactive: true }.to_json }
+= inline_svg_tag 'workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', data: { tooltip: { content_id: '#search-info', interactive: true }.to_json }
 #search-info.tooltip-content
   %h4 Simple
   %p Enter keywords to match product names, options, filters, categories, etc.

@@ -41,7 +41,7 @@ module Workarea
         #
         has_many :promo_codes,
           class_name: 'Workarea::Pricing::Discount::GeneratedPromoCode',
-          dependent: :delete
+          dependent: :delete_all
 
         after_update :update_codes
 

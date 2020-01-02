@@ -37,9 +37,7 @@ module Workarea
 
     def test_requires
       assert_file 'config/application.rb' do |file|
-        assert_match(%(require 'workarea/core'), file)
-        assert_match(%(require 'workarea/storefront'), file)
-        assert_match(%(require 'workarea/admin'), file)
+        assert_match(%(require 'workarea'), file)
       end
     end
 

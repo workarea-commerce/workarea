@@ -11,23 +11,23 @@
 
     .release-creatable>
       = link_to create_catalog_categories_path, class: 'release-creatable__icon-set' do
-        = inline_svg('workarea/admin/icons/categories.svg', class: 'release-creatable__type-icon svg-icon svg-icon--extra-large')
-        = inline_svg('workarea/admin/icons/add_circle.svg', class: 'release-creatable__add-icon svg-icon svg-icon--small svg-icon--green')
+        = inline_svg_tag('workarea/admin/icons/categories.svg', class: 'release-creatable__type-icon svg-icon svg-icon--extra-large')
+        = inline_svg_tag('workarea/admin/icons/add_circle.svg', class: 'release-creatable__add-icon svg-icon svg-icon--small svg-icon--green')
       = link_to t('workarea.admin.create_releases.plan.creatable.add_category'), create_catalog_categories_path, id: 'add_category', class: 'button button--create'
     .release-creatable>
       = link_to create_catalog_products_path, class: 'release-creatable__icon-set' do
-        = inline_svg('workarea/admin/icons/products.svg', class: 'release-creatable__type-icon svg-icon svg-icon--extra-large')
-        = inline_svg('workarea/admin/icons/add_circle.svg', class: 'release-creatable__add-icon svg-icon svg-icon--small svg-icon--green')
+        = inline_svg_tag('workarea/admin/icons/products.svg', class: 'release-creatable__type-icon svg-icon svg-icon--extra-large')
+        = inline_svg_tag('workarea/admin/icons/add_circle.svg', class: 'release-creatable__add-icon svg-icon svg-icon--small svg-icon--green')
       = link_to t('workarea.admin.create_releases.plan.creatable.add_product'), create_catalog_products_path, id: 'add_product', class: 'button button--create'
     .release-creatable>
       = link_to create_content_pages_path, class: 'release-creatable__icon-set' do
-        = inline_svg('workarea/admin/icons/pages.svg', class: 'release-creatable__type-icon svg-icon svg-icon--extra-large')
-        = inline_svg('workarea/admin/icons/add_circle.svg', class: 'release-creatable__add-icon svg-icon svg-icon--small svg-icon--green')
+        = inline_svg_tag('workarea/admin/icons/pages.svg', class: 'release-creatable__type-icon svg-icon svg-icon--extra-large')
+        = inline_svg_tag('workarea/admin/icons/add_circle.svg', class: 'release-creatable__add-icon svg-icon svg-icon--small svg-icon--green')
       = link_to t('workarea.admin.create_releases.plan.creatable.add_page'), create_content_pages_path, id: 'add_page', class: 'button button--create'
     .release-creatable>
       = link_to create_pricing_discounts_path, class: 'release-creatable__icon-set' do
-        = inline_svg('workarea/admin/icons/pricing_discount.svg', class: 'release-creatable__type-icon svg-icon svg-icon--extra-large')
-        = inline_svg('workarea/admin/icons/add_circle.svg', class: 'release-creatable__add-icon svg-icon svg-icon--small svg-icon--green')
+        = inline_svg_tag('workarea/admin/icons/pricing_discount.svg', class: 'release-creatable__type-icon svg-icon svg-icon--extra-large')
+        = inline_svg_tag('workarea/admin/icons/add_circle.svg', class: 'release-creatable__add-icon svg-icon svg-icon--small svg-icon--green')
       = link_to t('workarea.admin.create_releases.plan.creatable.add_discount'), create_pricing_discounts_path, id: 'add_discount', class: 'button button--create'
 
     %p.align-center= t('workarea.admin.create_releases.plan.instruction')

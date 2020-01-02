@@ -5,7 +5,7 @@ module Workarea
         return unless model.timeline.upcoming_changesets.any?
 
         link_to(
-          inline_svg('workarea/admin/icons/timeline.svg',
+          inline_svg_tag('workarea/admin/icons/timeline.svg',
             title: t('workarea.admin.timeline.card.title'),
             class: 'svg-icon svg-icon--small svg-icon--link-color'
           ),
@@ -19,13 +19,13 @@ module Workarea
         return unless model.has_comments?
         svg =
           if model.new_comments_for?(current_user)
-            inline_svg(
+            inline_svg_tag(
               'workarea/admin/icons/comments.svg',
               title: t('workarea.admin.comments.icon.unviewed'),
               class: 'svg-icon svg-icon--small svg-icon--link-color'
             )
           else
-            inline_svg(
+            inline_svg_tag(
               'workarea/admin/icons/comments_viewed.svg',
               title: t('workarea.admin.comments.icon.viewed'),
               class: 'svg-icon svg-icon--small svg-icon--link-color'
@@ -42,7 +42,7 @@ module Workarea
 
       def fraud_icon_for(model)
         return unless model.fraud_suspected?
-        svg = inline_svg(
+        svg = inline_svg_tag(
           'workarea/admin/icons/alert.svg',
           title: t('workarea.admin.orders.cards.fraud.suspected_fraud'),
           class: 'svg-icon svg-icon--small svg-icon--link-color'
@@ -60,7 +60,7 @@ module Workarea
         return unless model.admin?
 
         link_to(
-          inline_svg('workarea/admin/icons/permissions.svg',
+          inline_svg_tag('workarea/admin/icons/permissions.svg',
             title: t('workarea.admin.users.cards.permissions.title'),
             class: 'svg-icon svg-icon--small svg-icon--link-color'
           ),
@@ -74,7 +74,7 @@ module Workarea
         return unless model.insights.top?
 
         link_to(
-          inline_svg('workarea/admin/icons/star.svg',
+          inline_svg_tag('workarea/admin/icons/star.svg',
             title: t('workarea.admin.insights.icons.top_selling'),
             class: 'svg-icon svg-icon--small svg-icon--link-color'
           ),
@@ -88,7 +88,7 @@ module Workarea
         return unless model.insights.trending?
 
         link_to(
-          inline_svg('workarea/admin/icons/fire.svg',
+          inline_svg_tag('workarea/admin/icons/fire.svg',
             title: t('workarea.admin.insights.icons.trending'),
             class: 'svg-icon svg-icon--small svg-icon--link-color'
           ),
@@ -101,7 +101,7 @@ module Workarea
       def favicon_icon_for(model)
         return unless model.favicon?
 
-        inline_svg('workarea/admin/icons/favicon.svg',
+        inline_svg_tag('workarea/admin/icons/favicon.svg',
           title: t('workarea.admin.content_assets.index.favicon'),
           class: 'svg-icon svg-icon--small svg-icon--gray'
         )
@@ -110,14 +110,14 @@ module Workarea
       def segments_icons_for(model)
         return unless model.segmented?
 
-        result = inline_svg(
+        result = inline_svg_tag(
           'workarea/admin/icons/user.svg',
           title: t('workarea.admin.insights.icons.segments'),
           class: 'svg-icon svg-icon--small svg-icon--link-color'
         )
 
         if model.segments.blank?
-          result += inline_svg(
+          result += inline_svg_tag(
             'workarea/admin/icons/alert.svg',
             class: 'svg-icon svg-icon--small svg-icon--red'
           )

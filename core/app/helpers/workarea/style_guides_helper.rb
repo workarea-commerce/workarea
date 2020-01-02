@@ -26,7 +26,7 @@ module Workarea
     end
 
     def partial_paths_for(category)
-      scope = engine.parent.to_s.demodulize.downcase
+      scope = engine.module_parent.to_s.demodulize.downcase
 
       style_guide_engines.map { |e| Partials.new(e.root, scope, category).to_a }
         .flatten
@@ -70,7 +70,7 @@ module Workarea
     private
 
     def parent_module
-      controller.class.parent
+      controller.class.module_parent
     end
 
     def engine

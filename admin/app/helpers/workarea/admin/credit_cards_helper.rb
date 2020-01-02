@@ -8,7 +8,7 @@ module Workarea
                       'workarea/admin/default_card.svg'
                     end
 
-        inline_svg(icon_path, class: "payment-icon payment-icon--#{issuer.dasherize}", title: issuer.humanize)
+        inline_svg_tag(icon_path, class: "payment-icon payment-icon--#{issuer.dasherize}", title: issuer.humanize)
       end
 
       def card_icon_name(issuer)

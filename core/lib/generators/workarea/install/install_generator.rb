@@ -8,9 +8,7 @@ module Workarea
 
         # Workarea must be required before other gems to ensure control over Rails.env
         # for running tests
-        require 'workarea/core'
-        require 'workarea/admin'
-        require 'workarea/storefront'
+        require 'workarea'
 
       CODE
 
@@ -22,10 +20,10 @@ module Workarea
     end
 
     def mount_routes
-      route "mount Workarea::Storefront::Engine => '/', as: 'storefront'"
+      route "mount Workarea::Core::Engine => '/'"
       route "mount Workarea::Admin::Engine => '/admin', as: 'admin'"
       route "mount Workarea::Api::Engine => '/api', as: 'api'" if Workarea::Plugin.installed?(:api)
-      route "mount Workarea::Core::Engine => '/'"
+      route "mount Workarea::Storefront::Engine => '/', as: 'storefront'"
     end
 
     def create_initializer
@@ -58,7 +56,7 @@ module Workarea
     private
 
     def app_name
-      Rails.application.class.parent_name.underscore
+      Rails.application.class.module_parent_name.underscore
     end
   end
 end

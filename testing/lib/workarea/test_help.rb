@@ -11,6 +11,13 @@ if ENV['CI'].to_s =~ /true/
   Minitest::Retry.use!
 end
 
+allowed_hosts = ['127.0.0.1', 'localhost', 'chromedriver.storage.googleapis.com'] +
+                 Workarea.elasticsearch.transport.hosts.map { |h| h[:host] } +
+                 [Workarea.redis.connection[:host]] +
+                  Mongoid::Config.clients.map { |k, v| v['hosts'] }.flatten
+
+WebMock.disable_net_connect!(allow: allowed_hosts)
+
 require 'workarea/testing/engine'
 require 'workarea/testing/factory_configuration'
 require 'workarea/testing/factories'
@@ -44,13 +51,6 @@ Mongoid::Tasks::Database.create_indexes
 
 Workarea::Testing::Indexes.enable_enforcing!
 MiniTest.after_run { Workarea::Testing::Indexes.disable_enforcing! }
-
-allowed_hosts = ['127.0.0.1', 'localhost', 'chromedriver.storage.googleapis.com'] +
-                 Workarea.elasticsearch.transport.hosts.map { |h| h[:host] } +
-                 [Workarea.redis.connection[:host]] +
-                  Mongoid::Config.clients.map { |k, v| v['hosts'] }.flatten
-
-WebMock.disable_net_connect!(allow: allowed_hosts)
 
 VCR.configure do |config|
   config.cassette_persisters[:workarea] = Workarea::Testing::CassettePersister

@@ -1,7 +1,7 @@
 module Workarea
   module DecorationReporter
     def format_rerun_snippet(result)
-      location, line = result.method(result.name).source_location
+      location, line = result.source_location
       return super unless location.ends_with?(Rails::Decorators.extension.to_s)
 
       relative_path = location.split('/test/').last

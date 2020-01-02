@@ -24,7 +24,7 @@
         .property
           %span.property__name
             = t('workarea.admin.fields.active')
-            = inline_svg('workarea/admin/i18n.svg', class: 'svg-icon svg-icon--small') if locale_options.many? && Workarea.config.localized_active_fields
+            = inline_svg_tag('workarea/admin/i18n.svg', class: 'svg-icon svg-icon--small') if locale_options.many? && Workarea.config.localized_active_fields
           = toggle_button_for 'sku[active]', @sku.active?
 
         .property

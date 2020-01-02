@@ -32,7 +32,7 @@
           = t('workarea.admin.content.form.segments')
           - if block.segmented? && block.segments.blank?
             = link_to '#missing-segments-tooltip', data: { tooltip: '' } do
-              = inline_svg('workarea/admin/icons/alert.svg', class: 'svg-icon svg-icon--small svg-icon--red')
+              = inline_svg_tag('workarea/admin/icons/alert.svg', class: 'svg-icon svg-icon--small svg-icon--red')
             #missing-segments-tooltip.tooltip-content
               %p= t('workarea.admin.shared.active_field.no_segments')
 

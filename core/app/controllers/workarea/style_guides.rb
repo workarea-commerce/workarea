@@ -4,7 +4,7 @@ module Workarea
     end
 
     def show
-      module_path = self.class.parent.name.underscore
+      module_path = self.class.module_parent.name.underscore
       category = "#{module_path}/style_guides/#{params[:category]}"
 
       if lookup_context.exists?(params[:id], [category], true)

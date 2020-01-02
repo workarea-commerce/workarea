@@ -1,7 +1,7 @@
 .card{ class: card_classes(:comments, local_assigns[:active]) }
   = link_to commentable_comments_path(commentable.to_global_id), title: pluralize(commentable.comment_count, t('workarea.admin.comments.card.label')), class: 'card__header' do
     %span.card__header-text= t('workarea.admin.comments.card.title')
-    = inline_svg 'workarea/admin/icons/comments.svg', class: 'card__icon'
+    = inline_svg_tag 'workarea/admin/icons/comments.svg', class: 'card__icon'
 
   - if local_assigns[:active].blank?
     .card__body

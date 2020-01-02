@@ -7,7 +7,7 @@ module Workarea
 
       def test_credit_card_issuer_icon
         assert_equal(
-          inline_svg(
+          inline_svg_tag(
             'workarea/storefront/default_card.svg',
             class: 'payment-icon payment-icon--foo',
             title: 'Foo'
@@ -16,7 +16,7 @@ module Workarea
         )
 
         assert_equal(
-          inline_svg(
+          inline_svg_tag(
             'workarea/storefront/payment_icons/visa.svg',
             class: 'payment-icon payment-icon--visa',
             title: 'Visa'

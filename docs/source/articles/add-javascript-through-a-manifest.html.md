@@ -248,7 +248,7 @@ Everything up until this point has been an opening act—fun, but not what you c
   workarea/core/modules/style_guide_empty_links
   workarea/core/modules/style_guide_autocomplete_fields
   workarea/core/modules/reveal_password
-  workarea/core/modules/local_time
+  workarea/core/modules/local-time
   workarea/storefront/modules/forms
   workarea/storefront/modules/dialog
   workarea/storefront/modules/dialog_buttons

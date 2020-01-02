@@ -420,7 +420,7 @@ module Workarea
 
       def test_regionless_country
         @countries = Workarea.config.countries
-        Workarea.config.countries = [Country['US'], Country['AS']]  # American Samoa has no regions
+        Workarea.config.countries = [Country['US'], Country['GF']]  # French Guiana has no regions
 
         start_guest_checkout  # again, to refresh the country list
 
@@ -429,7 +429,7 @@ module Workarea
 
         assert(page.has_selector?('[name="shipping_address[region]"]', visible: false))
 
-        select 'American Samoa', from: 'shipping_address_country'
+        select 'French Guiana', from: 'shipping_address_country'
 
         assert(page.has_selector?('#shipping_address_region_select', visible: false))
         assert(page.has_selector?('[name="shipping_address[region]"]', visible: true))

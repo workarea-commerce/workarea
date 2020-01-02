@@ -6,7 +6,7 @@ module Workarea
       field :order_item_id, type: String
       field :quantity, type: Integer, default: 0
 
-      embeds_many :events, class_name: 'Workarea::Fulfillment::Event'
+      embeds_many :events, class_name: 'Workarea::Fulfillment::Event', inverse_of: :item
 
       embedded_in :fulfillment, class_name: 'Workarea::Fulfillment'
 

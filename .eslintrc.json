@@ -27,6 +27,7 @@
       "before": true,
       "beforeEach": true,
       "it": true,
+      "xit": true,
       "expect": true,
       "sinon": true,
       "fixture": true,

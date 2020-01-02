@@ -1,7 +1,7 @@
 .card{ class: card_classes(:timeline, local_assigns[:active]) }
   = link_to timeline_path(timeline.to_global_id), class: 'card__header' do
     %span.card__header-text= t('workarea.admin.timeline.card.title')
-    = inline_svg 'workarea/admin/icons/timeline.svg', class: 'card__icon'
+    = inline_svg_tag 'workarea/admin/icons/timeline.svg', class: 'card__icon'
 
   - if local_assigns[:active].blank?
     .card__body

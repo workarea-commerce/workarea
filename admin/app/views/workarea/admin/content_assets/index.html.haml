@@ -71,7 +71,7 @@
                   - if result.image?
                     = image_tag result.large_thumb.url, class: 'index-table__image'
                   - else
-                    = inline_svg 'workarea/admin/icons/asset.svg', class: 'index-table__image svg-icon svg-icon--gray svg-icon--large'
+                    = inline_svg_tag 'workarea/admin/icons/asset.svg', class: 'index-table__image svg-icon svg-icon--gray svg-icon--large'
               %td
                 = link_to result.name, content_asset_path(result)
                 = upcoming_changesets_icon_for(result)

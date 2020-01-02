@@ -59,7 +59,7 @@
                     = check_box :user, :can_publish_now, checked: true
                     = label_tag 'user[can_publish_now]', t('workarea.admin.users.permissions.can_publish_now'), class: 'property__name'
                     = link_to '#can-publish-warning', data: { tooltip: '' } do
-                      = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.users.permissions.can_publish_now_info'))
+                      = inline_svg_tag('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.users.permissions.can_publish_now_info'))
 
                     #can-publish-warning.tooltip-content
                       %p= t('workarea.admin.users.permissions.can_publish_now_message')
@@ -81,63 +81,63 @@
                       .property
                         = check_box :user, :releases_access, checked: true
                         = label_tag 'user_releases_access', class: 'property__name' do
-                          = inline_svg('workarea/admin/icons/release.svg', class: 'svg-icon')
+                          = inline_svg_tag('workarea/admin/icons/release.svg', class: 'svg-icon')
                           %span= t('workarea.admin.users.permissions.releases')
 
                     .grid__cell.grid__cell--50
                       .property
                         = check_box :user, :store_access, checked: true
                         = label_tag 'user_store_access', class: 'property__name' do
-                          = inline_svg('workarea/admin/icons/pages.svg', class: 'svg-icon')
+                          = inline_svg_tag('workarea/admin/icons/pages.svg', class: 'svg-icon')
                           %span= t('workarea.admin.users.permissions.store')
 
                     .grid__cell.grid__cell--50
                       .property
                         = check_box :user, :search_access, checked: true
                         = label_tag 'user_search_access', class: 'property__name' do
-                          = inline_svg('workarea/admin/icons/search.svg', class: 'svg-icon')
+                          = inline_svg_tag('workarea/admin/icons/search.svg', class: 'svg-icon')
                           %span= t('workarea.admin.users.permissions.search')
 
                     .grid__cell.grid__cell--50
                       .property
                         = check_box :user, :catalog_access, checked: true
                         = label_tag 'user_catalog_access', class: 'property__name' do
-                          = inline_svg('workarea/admin/icons/products.svg', class: 'svg-icon')
+                          = inline_svg_tag('workarea/admin/icons/products.svg', class: 'svg-icon')
                           %span= t('workarea.admin.users.permissions.catalog')
 
                     .grid__cell.grid__cell--50
                       .property
                         = check_box :user, :orders_access, checked: true
                         = label_tag 'user_orders_access', class: 'property__name' do
-                          = inline_svg('workarea/admin/icons/orders.svg', class: 'svg-icon')
+                          = inline_svg_tag('workarea/admin/icons/orders.svg', class: 'svg-icon')
                           %span= t('workarea.admin.users.permissions.orders')
 
                     .grid__cell.grid__cell--50
                       .property
                         = check_box :user, :people_access, checked: true
                         = label_tag 'user_people_access', class: 'property__name' do
-                          = inline_svg('workarea/admin/icons/user.svg', class: 'svg-icon')
+                          = inline_svg_tag('workarea/admin/icons/user.svg', class: 'svg-icon')
                           %span= t('workarea.admin.users.permissions.people')
 
                     .grid__cell.grid__cell--50
                       .property
                         = check_box :user, :marketing_access, checked: true
                         = label_tag 'user_marketing_access', class: 'property__name' do
-                          = inline_svg('workarea/admin/icons/insights.svg', class: 'svg-icon')
+                          = inline_svg_tag('workarea/admin/icons/insights.svg', class: 'svg-icon')
                           %span= t('workarea.admin.users.permissions.marketing')
 
                     .grid__cell.grid__cell--50
                       .property
                         = check_box :user, :settings_access, checked: true
                         = label_tag 'user_settings_access', class: 'property__name' do
-                          = inline_svg('workarea/admin/icons/settings.svg', class: 'svg-icon')
+                          = inline_svg_tag('workarea/admin/icons/settings.svg', class: 'svg-icon')
                           %span= t('workarea.admin.users.permissions.settings')
 
                     .grid__cell.grid__cell--50
                       .property
                         = check_box :user, :help_admin, checked: true
                         = label_tag 'user_help_admin', class: 'property__name' do
-                          = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon')
+                          = inline_svg_tag('workarea/admin/icons/help.svg', class: 'svg-icon')
                           %span= t('workarea.admin.users.permissions.help')
 
       .workflow-bar

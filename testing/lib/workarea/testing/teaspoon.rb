@@ -1,4 +1,8 @@
+require 'teaspoon-mocha'
+require 'selenium-webdriver'
+require 'webdrivers'
 require 'workarea/testing/engine'
+require 'workarea/testing/headless_chrome'
 
 module Workarea
   module Teaspoon
@@ -100,7 +104,19 @@ module Workarea
       # PhantomJS: https://github.com/modeset/teaspoon/wiki/Using-PhantomJS
       # Selenium Webdriver: https://github.com/modeset/teaspoon/wiki/Using-Selenium-WebDriver
       # Capybara Webkit: https://github.com/modeset/teaspoon/wiki/Using-Capybara-Webkit
-      # config.driver = :phantomjs
+      config.driver = :selenium
+
+      config.driver_options = {
+        client_driver: :chrome,
+        selenium_options: {
+          desired_capabilities: Selenium::WebDriver::Remote::Capabilities.chrome(
+            chromeOptions: HeadlessChrome.options,
+            loggingPrefs: {
+              browser: 'ALL'
+            }
+          )
+        }
+      }
 
       # Specify additional options for the driver.
       #

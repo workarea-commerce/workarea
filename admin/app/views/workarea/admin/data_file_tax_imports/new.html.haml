@@ -13,7 +13,7 @@
           %h1
             = t('workarea.admin.data_file_tax_imports.new.title')
             = link_to '#import-tooltip', data: { tooltip: { side: 'bottom' }.to_json } do
-              = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.data_file_imports.more_info_link'))
+              = inline_svg_tag('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.data_file_imports.more_info_link'))
           #import-tooltip.tooltip-content
             %p= t('workarea.admin.data_file_imports.more_info_tooltip')
 

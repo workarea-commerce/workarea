@@ -9,7 +9,7 @@
     .card
       = link_to '#', class: 'card__header' do
         %span.card__header-text Card Header
-        = inline_svg 'workarea/admin/icons/tmp.svg', class: 'card__icon'
+        = inline_svg_tag 'workarea/admin/icons/tmp.svg', class: 'card__icon'
       .card__body
         %ul.list-reset
           - 10.times do
@@ -24,7 +24,7 @@
     .card
       = link_to '#', class: 'card__header' do
         %span.card__header-text Card Header
-        = inline_svg 'workarea/admin/icons/tmp.svg', class: 'card__icon'
+        = inline_svg_tag 'workarea/admin/icons/tmp.svg', class: 'card__icon'
       .card__body
         %ul.list-reset
           - 10.times do
@@ -43,7 +43,7 @@
     .card
       = link_to '#', class: 'card__header' do
         %span.card__header-text Card Header
-        = inline_svg 'workarea/admin/icons/tmp.svg', class: 'card__icon'
+        = inline_svg_tag 'workarea/admin/icons/tmp.svg', class: 'card__icon'
       .card__body
         %p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ut vestibulum turpis. Sed placerat sem ac odio molestie, id pellentesque lorem pharetra. Aliquam et est sapien. Pellentesque eu nunc non lectus semper tempus. Aenean placerat finibus elit, sed dignissim dolor ullamcorper iaculis. Praesent et elit sed augue imperdiet malesuada. Vivamus vehicula dui non erat pharetra, non tempus neque cursus. Morbi pulvinar, arcu sit amet aliquet ultrices, odio mi luctus dui, vel pretium nisl augue vitae augue. Integer aliquet ex orci. Quisque faucibus id eros quis aliquam. Sed neque ex, viverra quis ullamcorper non, varius nec lectus. Etiam commodo nibh eu lectus tristique porttitor. Vivamus iaculis justo id nibh faucibus eleifend. In eu enim eget odio venenatis congue vel vitae tortor. Aenean imperdiet egestas ante viverra rhoncus.
         = link_to '#', class: 'card__button' do
@@ -54,7 +54,7 @@
     .card
       = link_to '#', class: 'card__header' do
         %span.card__header-text Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ut vestibulum turpis.
-        = inline_svg 'workarea/admin/icons/tmp.svg', class: 'card__icon'
+        = inline_svg_tag 'workarea/admin/icons/tmp.svg', class: 'card__icon'
       .card__body
         Card Body
         = link_to '#', class: 'card__button' do
@@ -65,7 +65,7 @@
     .card
       = link_to '#', class: 'card__header' do
         %span.card__header-text Card Header
-        = inline_svg 'workarea/admin/icons/tmp.svg', class: 'card__icon'
+        = inline_svg_tag 'workarea/admin/icons/tmp.svg', class: 'card__icon'
       .card__body
         %p.card__empty-note Empty Card Body
         = link_to '#', class: 'card__button' do
@@ -76,7 +76,7 @@
     .card
       = link_to '#', class: 'card__header' do
         %span.card__header-text Card Header
-        = inline_svg 'workarea/admin/icons/tmp.svg', class: 'card__icon'
+        = inline_svg_tag 'workarea/admin/icons/tmp.svg', class: 'card__icon'
       .card__body
         = image_tag 'workarea/core/placeholder.png', size: '600x900', class: 'card__photo'
         = link_to '#', class: 'card__button' do
@@ -90,7 +90,7 @@
           .card
             = link_to '#', class: 'card__header' do
               %span.card__header-text with #{pluralize(total_images, 'Images')}
-              = inline_svg 'workarea/admin/icons/tmp.svg', class: 'card__icon'
+              = inline_svg_tag 'workarea/admin/icons/tmp.svg', class: 'card__icon'
             .card__body
               %ul.grid
                 - total_images.times do |current_index|
@@ -113,7 +113,7 @@
           .card{ class: "card--#{type}" }
             = link_to '#', class: 'card__header' do
               %span.card__header-text= type
-              = inline_svg "workarea/admin/icons/#{type.underscore}.svg", class: 'card__icon'
+              = inline_svg_tag "workarea/admin/icons/#{type.underscore}.svg", class: 'card__icon'
             .card__body
               Card Body
               = link_to '#', class: 'card__button' do
@@ -124,7 +124,7 @@
     .card
       = link_to '#', class: 'card__header' do
         %span.card__header-text Card Header
-        = inline_svg 'workarea/admin/icons/tmp.svg', class: 'card__icon'
+        = inline_svg_tag 'workarea/admin/icons/tmp.svg', class: 'card__icon'
       .card__body
         .card__centered-content
           CENTAUR
@@ -140,7 +140,7 @@
         .card.card--button.card--attributes
           = link_to '#', class: 'card__header' do
             %span.card__header-text Card Header
-            = inline_svg 'workarea/admin/icons/tmp.svg', class: 'card__icon'
+            = inline_svg_tag 'workarea/admin/icons/tmp.svg', class: 'card__icon'
 
 #card--active.style-guide__subsection
 
@@ -154,4 +154,4 @@
         .card.card--button.card--active.card--attributes
           = link_to '#', class: 'card__header' do
             %span.card__header-text Card Header
-            = inline_svg 'workarea/admin/icons/tmp.svg', class: 'card__icon'
+            = inline_svg_tag 'workarea/admin/icons/tmp.svg', class: 'card__icon'

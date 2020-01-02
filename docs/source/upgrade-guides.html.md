@@ -15,5 +15,6 @@ When upgrading, also consider the _Workarea Upgrade_ tool, which provides migrat
 Upgrade Guides by Version
 ----------------------------------------------------------------------
 
+- [Workarea 3.6.0](/upgrade-guides/workarea-3-6-0.html)
 - [Workarea 3.5.0](/upgrade-guides/workarea-3-5-0.html)
 - [Workarea 3.4.0](/upgrade-guides/workarea-3-4-0.html)

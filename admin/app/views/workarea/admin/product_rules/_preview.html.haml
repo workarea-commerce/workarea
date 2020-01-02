@@ -9,7 +9,7 @@
     - else
       = link_to t('workarea.admin.product_rules.preview.show_undisplayable'), product_rules_show_all_query_string
     = link_to '#show-all-info', data: { tooltip: '' } do
-      = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.product_rules.preview.show_undisplayable_info_link'))
+      = inline_svg_tag('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.product_rules.preview.show_undisplayable_info_link'))
 
     #show-all-info.tooltip-content
       %p= t('workarea.admin.product_rules.preview.show_undisplayable_info')

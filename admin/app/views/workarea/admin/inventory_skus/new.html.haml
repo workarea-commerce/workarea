@@ -26,7 +26,7 @@
           = label_tag 'sku[policy]', class: 'property__name' do
             %span.property__text= t('workarea.admin.fields.policy')
             = link_to '#tracking-policy-info', data: { tooltip: '' } do
-              = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.inventory_skus.edit.tracking_policy'))
+              = inline_svg_tag('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.inventory_skus.edit.tracking_policy'))
           #tracking-policy-info.tooltip-content
             %p= t('workarea.admin.inventory_skus.edit.tracking_policy_info_html')
           = select_tag 'sku[policy]', options_for_select(inventory_policies, @sku.policy.optionize)

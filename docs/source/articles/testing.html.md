@@ -441,7 +441,7 @@ end
 
 #### Time Manipulation
 
-In previous versions of Workarea, the [Timecop](https://github.com/travisjeffery/timecop) gem was used to simulate running code at different points in time. Since Workarea 3.0.0, [ActiveSupport's Time Helpers](https://api.rubyonrails.org/v5.2/classes/ActiveSupport/Testing/TimeHelpers.html) methods (like `travel_to`) are used for changing the current time and date. Note that changes to the current time will *not* carry over to other tests, `Time.current` is reset to the actual current time of the machine after executing each test. Here's an example using `travel_to` within a unit test to see how data is presented over time:
+In previous versions of Workarea, the [Timecop](https://github.com/travisjeffery/timecop) gem was used to simulate running code at different points in time. Since Workarea 3.0.0, [ActiveSupport's Time Helpers](https://api.rubyonrails.org/v6.0/classes/ActiveSupport/Testing/TimeHelpers.html) methods (like `travel_to`) are used for changing the current time and date. Note that changes to the current time will *not* carry over to other tests, `Time.current` is reset to the actual current time of the machine after executing each test. Here's an example using `travel_to` within a unit test to see how data is presented over time:
 
 ```ruby
 module Workarea

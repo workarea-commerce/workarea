@@ -37,10 +37,10 @@
               Product Number #{index + 1}
               - if index % 4 == 0
                 = link_to '#', class: 'link link--no-underline' do
-                  = inline_svg('workarea/admin/icons/timeline.svg', class: 'svg-icon svg-icon--small svg-icon--link-color')
+                  = inline_svg_tag('workarea/admin/icons/timeline.svg', class: 'svg-icon svg-icon--small svg-icon--link-color')
               - if index % 3 == 0
                 = link_to '#', class: 'link link--no-underline' do
-                  = inline_svg('workarea/admin/icons/comments.svg', class: 'svg-icon svg-icon--small svg-icon--link-color')
+                  = inline_svg_tag('workarea/admin/icons/comments.svg', class: 'svg-icon svg-icon--small svg-icon--link-color')
             %td Foo > Bar > Baz
             %td.align-center= prng.rand(50)
             %td.align-center= prng.rand(50)

@@ -21,7 +21,7 @@
           %h2.align-center
             = t('workarea.admin.categorizations.index.by_matching_category_rules')
             = link_to '#rules-info', data: { tooltip: '' } do
-              = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue')
+              = inline_svg_tag('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue')
           #rules-info.tooltip-content
             %p= t('workarea.admin.categorizations.index.rules_help')
 
@@ -37,7 +37,7 @@
           %h2.align-center
             = t('workarea.admin.categorizations.index.by_being_featured')
             = link_to '#featured-info', data: { tooltip: '' } do
-              = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue')
+              = inline_svg_tag('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue')
           #featured-info.tooltip-content
             %p= t('workarea.admin.categorizations.index.featured_help')
 
@@ -49,7 +49,7 @@
                 %li
                   %strong= link_to category.name, catalog_category_path(category), title: category.breadcrumb_string
                   = link_to catalog_product_categorization_path(@product, category), data: { remote: true, method: 'delete', dom_remove: 'li' } do
-                    = inline_svg('workarea/admin/icons/delete.svg', class: 'svg-icon svg-icon--small svg-icon--red', title: t('workarea.admin.actions.remove'))
+                    = inline_svg_tag('workarea/admin/icons/delete.svg', class: 'svg-icon svg-icon--small svg-icon--red', title: t('workarea.admin.actions.remove'))
 
           .section
             = form_tag catalog_product_categorizations_path(@product), method: 'post', class: 'align-center', data: { unsaved_changes: '' } do
@@ -60,7 +60,7 @@
           %h2.align-center
             = t('workarea.admin.fields.default_category')
             = link_to '#default-category-info', data: { tooltip: '' } do
-              = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue')
+              = inline_svg_tag('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue')
           #default-category-info.tooltip-content
             %p= t('workarea.admin.categorizations.index.default_category_info')
 

@@ -31,13 +31,13 @@
                     %p.grid__cell
                       = link_to edit_commentable_comment_path(@commentable.to_global_id, comment), class: 'text-button' do
                         = t('workarea.admin.actions.edit')
-                        = inline_svg('workarea/admin/icons/edit.svg', class: 'text-button__icon')
+                        = inline_svg_tag('workarea/admin/icons/edit.svg', class: 'text-button__icon')
 
                     = form_tag commentable_comment_path(@commentable.to_global_id, comment), method: 'delete', class: 'grid__cell' do
                       %p
                         = button_tag t('workarea.admin.actions.delete'), value: 'delete_comment', class: 'text-button text-button--destroy' do
                           = t('workarea.admin.actions.delete')
-                          = inline_svg('workarea/admin/icons/delete.svg', class: 'text-button__icon')
+                          = inline_svg_tag('workarea/admin/icons/delete.svg', class: 'text-button__icon')
             .comments__comment-body
               %p= comment.body
 

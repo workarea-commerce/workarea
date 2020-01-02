@@ -34,7 +34,7 @@
               %li
                 %strong= link_to category.name, catalog_category_path(category)
                 = link_to catalog_product_categorization_path(@product, category), data: { remote: true, method: 'delete', dom_remove: 'li' } do
-                  = inline_svg('workarea/admin/icons/delete.svg', class: 'svg-icon svg-icon--small svg-icon--red', title: t('workarea.admin.actions.remove'))
+                  = inline_svg_tag('workarea/admin/icons/delete.svg', class: 'svg-icon svg-icon--small svg-icon--red', title: t('workarea.admin.actions.remove'))
 
         .section
           = form_tag save_categorization_create_catalog_product_path(@product), method: 'post', class: 'align-center' do

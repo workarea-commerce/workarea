@@ -46,10 +46,10 @@
     #top.page-container
 
       #header.header
-        = inline_svg('workarea/admin/logo.svg', class: 'header__logo', title: 'Workarea')
+        = inline_svg_tag('workarea/admin/logo.svg', class: 'header__logo', title: 'Workarea')
 
-        = link_to inline_svg('workarea/admin/icons/menu.svg', class: 'header__menu-icon', title: t('workarea.admin.layout.open_primary_menu')), '#primary_nav', class: 'header__menu-button header__menu-button--open', data: { turbolinks: false, primary_nav: '' }, id: 'open_primary_nav'
-        = button_tag inline_svg('workarea/admin/icons/close.svg', class: 'header__menu-icon', title: t('workarea.admin.layout.close_primary_menu')), class: 'header__menu-button header__menu-button--close', type: 'button', id: 'takeover_close_button'
+        = link_to inline_svg_tag('workarea/admin/icons/menu.svg', class: 'header__menu-icon', title: t('workarea.admin.layout.open_primary_menu')), '#primary_nav', class: 'header__menu-button header__menu-button--open', data: { turbolinks: false, primary_nav: '' }, id: 'open_primary_nav'
+        = button_tag inline_svg_tag('workarea/admin/icons/close.svg', class: 'header__menu-icon', title: t('workarea.admin.layout.close_primary_menu')), class: 'header__menu-button header__menu-button--close', type: 'button', id: 'takeover_close_button'
 
         = render 'workarea/admin/shared/primary_nav'
 
@@ -63,7 +63,7 @@
           = append_partials('admin.page_header')
           .header__action
             %button#shortcuts_menu{ type: 'button', class: 'header__action-link', data: { tooltip: { menu: true, content_id: '#shortcuts', interactive: true, arrow: false, distance: 0, multiple: false, trigger: 'hover' }.to_json, turbolinks: false } }
-              = inline_svg('workarea/admin/icons/link.svg', class: 'svg-icon svg-icon--green')
+              = inline_svg_tag('workarea/admin/icons/link.svg', class: 'svg-icon svg-icon--green')
               %span.header__action-link-text= t('workarea.admin.layout.shortcuts')
             #shortcuts.tooltip-content.tooltip-content--no-padding
               %ul.menu
@@ -87,17 +87,17 @@
                   %span.menu__heading= t('workarea.admin.layout.saved_shortcuts')
                   - unless bookmarked?
                     = link_to '#', data: { bookmark: true }, class: 'menu__heading-action' do
-                      = inline_svg('workarea/admin/icons/add.svg', class: 'menu__heading-action-icon')
+                      = inline_svg_tag('workarea/admin/icons/add.svg', class: 'menu__heading-action-icon')
                       %span.menu__heading-action-text= t('workarea.admin.layout.current_page')
 
                 - bookmarks.each do |bookmark|
                   %li.menu__item
                     = link_to bookmark.name, bookmark.path, class: 'menu__link menu__link--small'
-                    = link_to inline_svg('workarea/admin/icons/delete.svg', class: 'menu__delete-link-icon', title: t('workarea.admin.layout.remove_bookmark')), bookmark_path(bookmark), class: 'menu__delete-link', data: { remote: true, method: 'delete', dom_remove: '.menu__item' }
+                    = link_to inline_svg_tag('workarea/admin/icons/delete.svg', class: 'menu__delete-link-icon', title: t('workarea.admin.layout.remove_bookmark')), bookmark_path(bookmark), class: 'menu__delete-link', data: { remote: true, method: 'delete', dom_remove: '.menu__item' }
 
           .header__action
             %button{ type: 'button', class: 'header__action-link', data: { tooltip: { menu: true, content_id: '#alert_menu', interactive: true, arrow: false, distance: 0, multiple: false, trigger: 'hover' }.to_json, turbolinks: false } }
-              = inline_svg('workarea/admin/icons/alert.svg', class: 'svg-icon svg-icon--red')
+              = inline_svg_tag('workarea/admin/icons/alert.svg', class: 'svg-icon svg-icon--red')
               %span.header__action-link-text= pluralize(@alerts.size, t('workarea.admin.layout.alert.alert_title'))
             #alert_menu.tooltip-content.tooltip-content--no-padding
               %ul.menu
@@ -128,7 +128,7 @@
 
           .header__action
             %button#help_menu{ type: 'button', class: 'header__action-link', data: { tooltip: { menu: true, content_id: '#help', interactive: true, arrow: false, distance: 0, multiple: false, trigger: 'hover' }.to_json, turbolinks: false } }
-              = inline_svg('workarea/admin/icons/help.svg', class: 'header__action-icon svg-icon svg-icon--off-black')
+              = inline_svg_tag('workarea/admin/icons/help.svg', class: 'header__action-icon svg-icon svg-icon--off-black')
               %span.header__action-link-text= t('workarea.admin.layout.help')
             #help.tooltip-content.tooltip-content--no-padding
               %ul.menu
@@ -172,7 +172,7 @@
                         .grid.grid--middle
                           .grid__cell.grid__cell--50
                             = label_tag 'locale', class: 'menu__link' do
-                              = inline_svg('workarea/admin/i18n.svg', class: 'svg-icon', title: t('workarea.admin.layout.locale_help_text'))
+                              = inline_svg_tag('workarea/admin/i18n.svg', class: 'svg-icon', title: t('workarea.admin.layout.locale_help_text'))
                               = t('workarea.admin.layout.locale')
                           .grid__cell.grid__cell--50
                             = switch_locale_fields

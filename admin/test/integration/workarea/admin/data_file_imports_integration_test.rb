@@ -83,10 +83,7 @@ module Workarea
             "#{MIME::Types.type_for(file_type).first.to_s}; charset=utf-8",
             response.headers['Content-Type']
           )
-          assert_equal(
-            %(attachment; filename="catalog product.#{file_type}"),
-            response.headers['Content-Disposition']
-          )
+          assert_match(/attachment/, response.headers['Content-Disposition'])
 
           assert_no_changes 'Catalog::Product.first' do
             post admin.data_file_imports_path,

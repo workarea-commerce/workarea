@@ -48,6 +48,12 @@ module Workarea
 
           Sidekiq::Testing.inline!
           Sidekiq::Callbacks.inline
+
+          @_perform_enqueued_jobs = ActiveJob::Base.queue_adapter.perform_enqueued_jobs
+          @_perform_enqueued_at_jobs = ActiveJob::Base.queue_adapter.perform_enqueued_at_jobs
+
+          ActiveJob::Base.queue_adapter.perform_enqueued_jobs = true
+          ActiveJob::Base.queue_adapter.perform_enqueued_at_jobs = true
         end
 
         teardown do
@@ -55,6 +61,9 @@ module Workarea
             worker.enabled = @_worker_state[worker].first
             worker.inlined = @_worker_state[worker].second
           end
+
+          ActiveJob::Base.queue_adapter.perform_enqueued_jobs = @_perform_enqueued_jobs
+          ActiveJob::Base.queue_adapter.perform_enqueued_at_jobs = @_perform_enqueued_at_jobs
         end
       end
     end
@@ -210,6 +219,7 @@ module Workarea
 
     module Setup
       extend ActiveSupport::Concern
+      include ActiveJob::TestHelper
 
       included do
         setup do

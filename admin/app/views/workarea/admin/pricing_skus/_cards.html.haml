@@ -3,7 +3,7 @@
     .card{ class: card_classes(:attributes, local_assigns[:active]) }
       = link_to edit_pricing_sku_path(model), class: 'card__header' do
         %span.card__header-text= t('workarea.admin.cards.attributes.title')
-        = inline_svg 'workarea/admin/icons/attributes.svg', class: 'card__icon'
+        = inline_svg_tag 'workarea/admin/icons/attributes.svg', class: 'card__icon'
 
       - if local_assigns[:active].blank?
         .card__body
@@ -41,7 +41,7 @@
     .card{ class: card_classes(:prices, local_assigns[:active]) }
       = link_to pricing_sku_prices_path(model), class: 'card__header' do
         %span.card__header-text= t('workarea.admin.prices.label')
-        = inline_svg 'workarea/admin/icons/prices.svg', class: 'card__icon'
+        = inline_svg_tag 'workarea/admin/icons/prices.svg', class: 'card__icon'
 
       - if local_assigns[:active].blank?
         .card__body

@@ -1,7 +1,7 @@
 .card{ class: card_classes(:product_rules, local_assigns[:active]) }
   = link_to product_list_product_rules_path(product_list.to_global_id), class: 'card__header' do
     %span.card__header-text= t('workarea.admin.product_rules.card.header')
-    = inline_svg 'workarea/admin/icons/rules.svg', class: 'card__icon'
+    = inline_svg_tag 'workarea/admin/icons/rules.svg', class: 'card__icon'
 
   - if local_assigns[:active].blank?
     .card__body
