@@ -50,6 +50,7 @@ Workarea Builds
 | Package Products | [![Package Products](https://github.com/workarea-commerce/workarea-package-products/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-package-products) |
 | Paypal | [![Paypal](https://github.com/workarea-commerce/workarea-paypal/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-paypal) |
 | Product Badges | [![Product Badges](https://github.com/workarea-commerce/workarea-product-badges/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-product-badges) |
+| Product Documents | [![Product Documents](https://github.com/workarea-commerce/workarea-product-documents/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-product-documents) |
 | Product Quickview | [![Product Quickview](https://github.com/workarea-commerce/workarea-product-quickview/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-product-quickview) |
 | Product Videos | [![Product Videos](https://github.com/workarea-commerce/workarea-product-videos/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-product-videos) |
 | Reviews | [![Reviews](https://github.com/workarea-commerce/workarea-reviews/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-reviews) |
