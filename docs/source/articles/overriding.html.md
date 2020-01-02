@@ -39,7 +39,9 @@ Rendered vendor/ruby/2.4.0/gems/workarea-storefront-3.1.1/app/views/workarea/sto
 # ...
 ```
 
-Or, inspect the DOM for a unique string, and search for that string within all installed Workarea engines. In my example, I observed the class value _product-detail-container_, which seemed like a good search term. As shown below, this reduced the list of candidates to three files (two of them views), a small enough set to review manually.&nbsp;<sup><a href="#notes" id="note-1-context">[1]</a></sup>
+Or, inspect the DOM for a unique string, and search for that string within all installed Workarea engines. In my example, I observed the class value _product-detail-container_, which seemed like a good search term. As shown below, this reduced the list of candidates to three files (two of them views), a small enough set to review manually.
+
+( I'm using Unix tools in my examples because they're universally available and are easy to represent in textual documentation. You should use whatever tools you are comfortable with for searching and browsing source code. )
 
 ```bash
 $ grep -lr 'product-detail-container' $(bundle show --paths | grep 'workarea')</kbd>
@@ -150,7 +152,3 @@ To mitigate this problem, Workarea provides [Workarea Upgrade](https://stash.too
 ## Overrides within Plugins
 
 Unlike other [extension](/articles/extension-overview.html) techniques, overriding is used almost exclusively by applications and is used by plugins in only rare cases. Although plugins are technically able to override files, it becomes problematic when other plugins or the application in which they are installed also want to override the same files. Plugins therefore override files only when they can assume they are the canonical source for the files, such as a theme plugin overriding the Storefront layout and assets.
-
-## Notes
-
-[1] I'm using Unix tools in my examples because they're universally available and are easy to represent in textual documentation. You should use whatever tools you are comfortable with for searching and browsing source code.

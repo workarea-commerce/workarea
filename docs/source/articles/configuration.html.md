@@ -271,7 +271,9 @@ end
 
 ## Configuring an App in JavaScript
 
-To configure an app in JavaScript, modify config values or add config keys from within a JavaScript config file and [append](/articles/appending.html) the config file to an append point within the relevant manifest to include it on the page. <sup><a href="#notes" id="note-1-context">[1]</a></sup>
+To configure an app in JavaScript, modify config values or add config keys from within a JavaScript config file and [append](/articles/appending.html) the config file to an append point within the relevant manifest to include it on the page.
+
+( Alternatively, if you are working in an application that is [overriding](/articles/overriding.html) the relevant manifest, you can require the config file within your manifest override. )
 
 The following examples for the fictional store <cite>Board Game Supercenter</cite> demonstrate appending an application-specific JavaScript config file in the Storefront.
 
@@ -401,7 +403,3 @@ $
 Other important Rails configurations are the _available locales_, _default locale_, and _locale fallbacks_. All of Workarea's user interfaces are internationalized and therefore depend on these values.
 
 Review the [Configure Locales](/articles/configure-locales.html) guide for coverage of this topic.
-
-## Notes
-
-[1] Alternatively, if you are working in an application that is [overriding](/articles/overriding.html) the relevant manifest, you can require the config file within your manifest override.

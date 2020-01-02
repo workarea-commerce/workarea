@@ -194,7 +194,8 @@ Saving and navigating to that content in the Storefront renders your static cont
 
 To provide a custom Admin icon for your block type, create an SVG icon file that mimics the presentation and properties of those used by the default block types in the Admin. Save the icon under the directory _app/assets/images/workarea/admin/content\_block\_types/_. The file name must match your block type name.
 
-For my example, I add an icon<sup><a href="#notes" id="note-1-context">[1]</a></sup> at the following path.
+For my example, I add an icon at the following path.
+( I designed my icon to stand out in screenshots. Your icon should more closely match the existing icons. )
 
 _app/assets/images/workarea/admin/content\_block\_types/captioned\_image.svg_
 
@@ -214,7 +215,9 @@ My example uses _Image_ and _Caption_ fields, as shown below.
 
 ### Update Block Type Definition
 
-Revisit your initializer to add content [fields](/articles/content.html#field). I add the _Image_ and _Caption_ fields to my example below. To set the default _Image_ value, I copy a useful code block from the Workarea Core content block types initializer.&nbsp;<sup><a href="#notes" id="note-2-context">[2]</a></sup>
+Revisit your initializer to add content [fields](/articles/content.html#field). I add the _Image_ and _Caption_ fields to my example below. To set the default _Image_ value, I copy a useful code block from the Workarea Core content block types initializer.
+
+( Workarea 3.1 adds `Workarea::Content::AssetLookup::find_asset_id_by_file_name`, so if you are targeting Workarea 3.1 or later, you can use `find_asset_id_by_file_name` and avoid the need to implement `find_asset_id` as shown in my examples. )
 
 ```
 # config/initializers/content_block_types.rb
@@ -327,9 +330,3 @@ The follow example demonstrates this, accessing the value of `data[:title]` in t
 ## Test
 
 You can confirm your block type is working by creating a new block of this type in the Admin and viewing the result in the Storefront. I did not write any automated tests for my example because its functionality is covered by existing platform tests. However, you may need to write a view model test and a system test if your block type includes logic or UI features that are more complex than my example.
-
-## Notes
-
-[1] I designed my icon to stand out in screenshots. Your icon should more closely match the existing icons.
-
-[2] Workarea 3.1 adds `Workarea::Content::AssetLookup::find_asset_id_by_file_name`, so if you are targeting this version of Workarea, you can use `find_asset_id_by_file_name` and avoid the need to implement `find_asset_id` as shown in my examples.
