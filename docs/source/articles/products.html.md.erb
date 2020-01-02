@@ -25,7 +25,7 @@ The Workarea platform is similarly divided into multiple subsystems, many of whi
 
 ### Catalog Products & Variants
 
-Within the `Workarea::Catalog` namespace are `Product` and `Variant` [application documents](application-document.html). A <dfn>catalog product</dfn> represents a group of related but varying items for sale. Each catalog product embeds a collection of <dfn>variants</dfn>, each of which represents a distinct item for sale within that product.
+Within the `Workarea::Catalog` namespace are `Product` and `Variant` [application documents](/articles/application-document.html). A <dfn>catalog product</dfn> represents a group of related but varying items for sale. Each catalog product embeds a collection of <dfn>variants</dfn>, each of which represents a distinct item for sale within that product.
 
 Catalogs are generally organized in this fashion: with groups of products sharing some information (such as a name and description) while varying on other details (such as color and size).&nbsp;<sup><a id="note-1-context" href="#notes">[1]</a></sup>
 
@@ -603,7 +603,7 @@ Admin users with catalog access can additionally view the same catalog product t
 
 And like the Storefront, underlying each displayed product is a catalog product document.
 
-However, in figures 1, 2, 3, and 4, you can see the presentations of the products include data from outside the catalog product document. To display a product, a controller wraps a catalog product document in an appropriate [view model](view-models.html) which is responsible for presenting the document within a particular context (e.g.&nbsp;Storefront or Admin). The view model extends the model with additional presentation logic, and joins the model with the other models needed to create the representation of the product the user within that context is expecting to see.
+However, in figures 1, 2, 3, and 4, you can see the presentations of the products include data from outside the catalog product document. To display a product, a controller wraps a catalog product document in an appropriate [view model](/articles/view-models.html) which is responsible for presenting the document within a particular context (e.g.&nbsp;Storefront or Admin). The view model extends the model with additional presentation logic, and joins the model with the other models needed to create the representation of the product the user within that context is expecting to see.
 
 To demonstrate, consider the differing views of a product for consumers and administrators.
 
@@ -799,16 +799,16 @@ Since developers are typically super admins, they can use all the features of th
 
 However, they can also complete developer-only tasks related to product management through a command line interface. These tasks require shell access to the particular environment and include:
 
-- [Seeding](seeds.html#seeding)
+- [Seeding](/articles/seeds.html#seeding)
 - Running repetitive actions with Rails _tasks_
 - Running one-off actions non-interactively with Rails _runner_
 - Running one-off actions interactively with Rails _console_
 
 Developers also have access to application and platform source code (through gems and git repositories), allowing platform extensions that facilitate product management. Examples of this are:
 
-- Extending existing or adding new products [seeds](seeds.html) (See `Workarea::ProductsSeeds`)
-- Using existing [test factories](testing.html#factories) within your own [tests](testing.html#writing-new-tests) and [test decorators](testing.html#writing-test-decorators) and extending test factories as needed (See `Workarea::Factories::Catalog`)
-- Extending existing or adding new [workers](workers.html) to manage products according to a schedule or in response to events
+- Extending existing or adding new products [seeds](/articles/seeds.html) (See `Workarea::ProductsSeeds`)
+- Using existing [test factories](/articles/testing.html#factories) within your own [tests](/articles/testing.html#writing-new-tests) and [test decorators](/articles/testing.html#writing-test-decorators) and extending test factories as needed (See `Workarea::Factories::Catalog`)
+- Extending existing or adding new [workers](/articles/workers.html) to manage products according to a schedule or in response to events
 
 Finally, the <cite>Workarea API</cite> plugin provides a JSON over HTTP interface which allows management of products, variants, and product images. This allows for management of these models programmatically over the network. For example, another service can “push” product data to Workarea according to a schedule or events within the other system.
 
@@ -824,7 +824,7 @@ It’s also important to understand how administrable fields affect the state of
 
 ## Merchandising & Browsing the Storefront
 
-Beyond managing the products, administrators need to organize them within the store. Although consumers can navigate to products directly by their slugs (see [Navigable](navigable.html)), this has limited application outside of social media and email marketing. Consumers depend on the store to lead them to the merchandise they are looking for.
+Beyond managing the products, administrators need to organize them within the store. Although consumers can navigate to products directly by their slugs (see [Navigable](/articles/navigable.html)), this has limited application outside of social media and email marketing. Consumers depend on the store to lead them to the merchandise they are looking for.
 
 Admins leverage this by managing the shopping experience in a way that entices consumers to buy. This process is called <dfn>merchandising</dfn> and involves a combination of automation (search, recommendations, analytics) and administration (navigation, content, pages, categories, search results customizations, recommendations settings, pricing, discounts). Administrators can manage what products are presented to consumers, along with where, when, and how.
 
@@ -862,7 +862,7 @@ The Workarea recommendations subsystem stores <dfn>recommendations settings</dfn
 
 #### Search Products
 
-To facilitate real-time [search](searching.html), Workarea stores multiple search documents in Elasticsearch for each catalog product. Unlike analytics products and recommendations settings, search product documents are derived directly from the corresponding catalog product documents. [Search models](searching.html#search-models_9) such as `Search::Admin::CatalogProduct` and `Search::Storefront::Product` transform catalog product documents, joining fields within and across models as necessary, producing representations of the products suitable for real-time, full-text search (including matching, filtering, and sorting).
+To facilitate real-time [search](/articles/searching.html), Workarea stores multiple search documents in Elasticsearch for each catalog product. Unlike analytics products and recommendations settings, search product documents are derived directly from the corresponding catalog product documents. [Search models](/articles/searching.html#search-models) such as `Search::Admin::CatalogProduct` and `Search::Storefront::Product` transform catalog product documents, joining fields within and across models as necessary, producing representations of the products suitable for real-time, full-text search (including matching, filtering, and sorting).
 
 The various representations of a product are related by catalog product ID. The following example demonstrates these relationships.
 
@@ -963,7 +963,7 @@ storefront_product.primary_image.name
 # => "3_years.jpg"
 ```
 
-![](images/3-years-primary-image.png)
+![](/images/3-years-primary-image.png)
 
 ```ruby
 # swap the image positions
@@ -982,7 +982,7 @@ storefront_product.primary_image.name
 # => "5_years.jpg"
 ```
 
-![](images/5-years-primary-image.png)
+![](/images/5-years-primary-image.png)
 
 If the product has no images, the placeholder image is used.
 
@@ -1033,7 +1033,7 @@ puts options
 
 How these options are presented to consumers varies by template (templates are covered next). The following image shows the product displayed using the option selects template.
 
-![](images/option-selects-template.png)
+![](/images/option-selects-template.png)
 
 Since the data is well designed and managed to this point, selecting a value from each of the 3 selects matches exactly 1 variant within the product. The SKU of that variant is used to identify the item to be purchased if the consumer adds to cart.
 
@@ -1041,7 +1041,7 @@ Since the data is well designed and managed to this point, selecting a value fro
 
 Each product has an administrable template which is managed by admins and controls the presentation of the product in the Storefront. Specifically, each template is a combination of a view model and partial used to display the product in the Storefront.
 
-Workarea (since v3.3) includes 3 templates: Generic, Option Selects, and Option Thumbnails. However, your application may include more templates, since plugins and applications can add their own templates (see [Add, Remove, or Change a Product Template](add-remove-or-change-a-product-template.html)).
+Workarea (since v3.3) includes 3 templates: Generic, Option Selects, and Option Thumbnails. However, your application may include more templates, since plugins and applications can add their own templates (see [Add, Remove, or Change a Product Template](/articles/add-remove-or-change-a-product-template.html)).
 
 The following snippets provide some examples of how to find which plugins are available to your application and how to find the relevant code for the templates. These examples are for an application with several plugins installed and its own custom "Pre Owned" template.
 
@@ -1086,7 +1086,7 @@ Within the Storefront, several states affect the display of a product when showi
 
 Whether a product displays at all is affected by its activeness. Consumers cannot view inactive products. Navigating to an inactive product (e.g. from an email or bookmarked URL) results in `InvalidDisplay` (404 response).
 
-![](images/invalid-display.png)
+![](/images/invalid-display.png)
 
 Admins can view inactive products in the Storefront.
 
@@ -1132,7 +1132,7 @@ view_model.variants.count
 
 The product therefore has 3 variants and 3 options:
 
-![](images/3-variants-3-options.png)
+![](/images/3-variants-3-options.png)
 
 ```ruby
 # set one of the variants to inactive
@@ -1165,7 +1165,7 @@ view_model.variants.count
 
 Now the product has 3 variants, but only 1 option, so the option select menu is removed in the Storefront:
 
-![](images/3-variants-1-option.png)
+![](/images/3-variants-1-option.png)
 
 #### Presentation of Options
 
@@ -1181,7 +1181,7 @@ keyed_padlock
 
 The Keyed Padlock displayed with the Generic template:
 
-![](images/generic-template.png)
+![](/images/generic-template.png)
 
 The Option Thumbnails template groups options by details key, like the Option Selects template. But it uses a different UI to present the options, which includes a thumbnail image representing the option, when available.
 
@@ -1196,7 +1196,7 @@ extended_service_plan
 
 An example of Option Thumbnails:
 
-![](images/option-thumbnails-template.png)
+![](/images/option-thumbnails-template.png)
 
 #### Tracking Option State
 
@@ -1210,15 +1210,15 @@ Which images are shown and which image is selected depends on the product templa
 
 The generic template always displays all the product images. The following examples use the Extended Service Plan product from above, shown below using the generic template.
 
-![](images/generic-product-template-images-no-options-selected.png)
+![](/images/generic-product-template-images-no-options-selected.png)
 
 When options are selected, the generic template will try to find images matching those options and will select the first such image. In the following screenshot, the "5 years" option is selected, so the image corresponding to that option is selected.
 
-![](images/generic-product-template-images-options-selected.png)
+![](/images/generic-product-template-images-options-selected.png)
 
 Product templates other than generic will show _only_ the images which match the selected options. The screenshot below changes the template to Option Selects. The image matching the selected "5 years" option is selected, and is the only image displayed. The other image does not match this option and is hidden.
 
-![](images/option-selects-product-template-images-options-selected.png)
+![](/images/option-selects-product-template-images-options-selected.png)
 
 When no options are selected in this type of template, only the images that match the options of the product's primary image will be displayed (since Workarea 3.3.2).
 
@@ -1228,17 +1228,17 @@ The selection of options also affects the display of pricing and inventory. The 
 
 The following example contains price ranges and no inventory status because a specific item has not been selected:
 
-![](images/price-display-no-options.png)
+![](/images/price-display-no-options.png)
 
 In the next example a specific item is selected, so distinct pricing and inventory information is shown:
 
-![](images/price-display-options-selected.png)
+![](/images/price-display-options-selected.png)
 
 #### Product Purchasability
 
 For a product to be purchasable, it must have at least 1 active variant, the inventory related to that variant's SKU must be purchasable, and the pricing related to the variant's SKU must have an active price. When these conditions are not met, the product is displayed, but consumers cannot purchase any of its items:
 
-![](images/unpurchasable-product.png)
+![](/images/unpurchasable-product.png)
 
 ## Summary
 

@@ -19,7 +19,7 @@ module Workarea
                   {
                     '$divide' => [
                       '$orders',
-                      { '$subtract' => [Time.current, '$first_order_at'] }
+                      { '$subtract' => [Time.current.utc, '$first_order_at'] }
                     ]
                   }
                 ]

@@ -6,16 +6,16 @@ excerpt: Stylesheet manifests are the preferred solution for adding stylesheets 
 
 # Add Stylesheets through a Manifest
 
-Stylesheet manifests are the preferred solution for adding stylesheets to and removing stylesheets from a Workarea application. The Workarea Admin and Storefront each include a single manifest named 'application', which is introduced in the [Stylesheets overview](stylesheets-overview.html). This guide covers the manifest in detail.
+Stylesheet manifests are the preferred solution for adding stylesheets to and removing stylesheets from a Workarea application. The Workarea Admin and Storefront each include a single manifest named 'application', which is introduced in the [Stylesheets overview](/articles/stylesheets-overview.html). This guide covers the manifest in detail.
 
 If you're new to Ruby on Rails and the concept of asset manifests, check out the following guides to get you started.
 
-- [Rails Asset Manifests](rails-asset-manifests.html)
-- [Rails Asset View Helpers](rails-asset-view-helpers.html)
+- [Rails Asset Manifests](/articles/rails-asset-manifests.html)
+- [Rails Asset View Helpers](/articles/rails-asset-view-helpers.html)
 
 ## Customizing a Manifest
 
-To add and remove stylesheets through a manifest, you need to have a copy of the manifest in your app. If you're working in a new application, start by [overriding](overriding.html) the manifest file you want to customize. You can override a manifest in the same way as any other stylesheet. When overriding, note that the manifest file ends with the extensions `.scss.erb`. I'll explain the reason for that in the following sections which look at the application manifest in detail.
+To add and remove stylesheets through a manifest, you need to have a copy of the manifest in your app. If you're working in a new application, start by [overriding](/articles/overriding.html) the manifest file you want to customize. You can override a manifest in the same way as any other stylesheet. When overriding, note that the manifest file ends with the extensions `.scss.erb`. I'll explain the reason for that in the following sections which look at the application manifest in detail.
 
 Now that you have a copy of the manifest in your app, edit it to taste. The follow sections explain how Workarea manifests differ from default Rails manifests and what is included out of the box.
 
@@ -70,11 +70,11 @@ Now let's zoom in on each of the manifest sections.
 <%= append_stylesheets('storefront.feature_test_helpers') %>
 ```
 
-The [feature test helper](feature-spec-helper-stylesheet.html) includes styles that make automated testing easier. Plugins are also able to add their own feature test helpers as needed.
+The [feature test helper](/articles/feature-spec-helper-stylesheet.html) includes styles that make automated testing easier. Plugins are also able to add their own feature test helpers as needed.
 
 ### Theme Config
 
-The [Theme Config Layer](css-architectural-overview.html#the-theme-config-layer) is used by Theme Plugins to reset any Sass variable declared within the Storefront.
+The [Theme Config Layer](/articles/css-architectural-overview.html#the-theme-config-layer) is used by Theme Plugins to reset any Sass variable declared within the Storefront.
 
 ```
 <%= append_stylesheets('storefront.theme_config') %>
@@ -82,7 +82,7 @@ The [Theme Config Layer](css-architectural-overview.html#the-theme-config-layer)
 
 ### Settings
 
-The [Settings Layer](css-architectural-overview.html#the-settings-layer) contains globally available Sass variables that any other layer may make use of.
+The [Settings Layer](/articles/css-architectural-overview.html#the-settings-layer) contains globally available Sass variables that any other layer may make use of.
 
 ```
 @import 'workarea/storefront/settings/colors';
@@ -96,7 +96,7 @@ The [Settings Layer](css-architectural-overview.html#the-settings-layer) contain
 
 ### Tools
 
-The [Tools Layer](css-architectural-overview.html#the-tools-layer) contains globally available, configurable Sass functions and mixins that any of the following layers may make use of.
+The [Tools Layer](/articles/css-architectural-overview.html#the-tools-layer) contains globally available, configurable Sass functions and mixins that any of the following layers may make use of.
 
 ```
 @import 'workarea/storefront/tools/center';
@@ -108,7 +108,7 @@ The [Tools Layer](css-architectural-overview.html#the-tools-layer) contains glob
 
 ### Generic
 
-The [Generic Layer](css-architectural-overview.html#the-generic-layer) contains the Normalize library, a Workarea-focused global Normalize reset file, and other top-level stylings.
+The [Generic Layer](/articles/css-architectural-overview.html#the-generic-layer) contains the Normalize library, a Workarea-focused global Normalize reset file, and other top-level stylings.
 
 ```
 @import 'normalize-rails';
@@ -120,7 +120,7 @@ The [Generic Layer](css-architectural-overview.html#the-generic-layer) contains 
 
 ### Base
 
-The [Base Layer](css-architectural-overview.html#the-base-layer) contains basic element styling.
+The [Base Layer](/articles/css-architectural-overview.html#the-base-layer) contains basic element styling.
 
 ```
 @import 'workarea/storefront/base/page';
@@ -133,7 +133,7 @@ The [Base Layer](css-architectural-overview.html#the-base-layer) contains basic 
 
 ### Objects
 
-The [Objects Layer](css-architectural-overview.html#the-objects-layer) contains reusable, design-free abstractions that help DRY up code found in the Components layer. There are a few specific reset-like abstractions here. They're used to reset specific element styling on an as-needed basis.
+The [Objects Layer](/articles/css-architectural-overview.html#the-objects-layer) contains reusable, design-free abstractions that help DRY up code found in the Components layer. There are a few specific reset-like abstractions here. They're used to reset specific element styling on an as-needed basis.
 
 ```
 @import 'workarea/storefront/objects/inline_list';
@@ -147,7 +147,7 @@ The [Objects Layer](css-architectural-overview.html#the-objects-layer) contains 
 
 ### Typography
 
-The [Typography Layer](css-architectural-overview.html#the-typography-layer) focuses on global typography throughout the application.
+The [Typography Layer](/articles/css-architectural-overview.html#the-typography-layer) focuses on global typography throughout the application.
 
 ```
 @import 'workarea/storefront/typography/align';
@@ -159,7 +159,7 @@ The [Typography Layer](css-architectural-overview.html#the-typography-layer) foc
 
 ### Dependencies
 
-The [Dependencies Layer](css-architectural-overview.html#the-dependenices-layer) allows Plugins to inject 3rd Party Library CSS into the application, if necessary.
+The [Dependencies Layer](/articles/css-architectural-overview.html#the-dependenices-layer) allows Plugins to inject 3rd Party Library CSS into the application, if necessary.
 
 ```
 @import 'avalanche';
@@ -174,7 +174,7 @@ The [Dependencies Layer](css-architectural-overview.html#the-dependenices-layer)
 
 ### Components
 
-The [Components Layer](css-architectural-overview.html#the-components-layer) contains all of the main UI building block styling for the application.
+The [Components Layer](/articles/css-architectural-overview.html#the-components-layer) contains all of the main UI building block styling for the application.
 
 ```
 @import 'workarea/storefront/components/button';
@@ -244,7 +244,7 @@ The [Components Layer](css-architectural-overview.html#the-components-layer) con
 
 ### Theme
 
-The [Theme Layer](css-architectural-overview.html#the-theme-layer) contains is used by Theme Plugins to override the CSS declared within the Components layer.
+The [Theme Layer](/articles/css-architectural-overview.html#the-theme-layer) contains is used by Theme Plugins to override the CSS declared within the Components layer.
 
 ```
 <%= append_stylesheets('storefront.theme') %>
@@ -252,7 +252,7 @@ The [Theme Layer](css-architectural-overview.html#the-theme-layer) contains is u
 
 ### Trumps
 
-The [Trumps Layer](css-architectural-overview.html#the-trumps-layer) contains code that is considered definitive. The values of the properties found in these files should override any previously declared property in any other layer.
+The [Trumps Layer](/articles/css-architectural-overview.html#the-trumps-layer) contains code that is considered definitive. The values of the properties found in these files should override any previously declared property in any other layer.
 
 ```
 @import 'workarea/storefront/trumps/break_word';
@@ -272,6 +272,6 @@ Oh yeah, I guess this guide was supposed to be about adding and removing stylesh
 
 If the asset you want to include has been packaged as a gem, first add the gem to your Gemfile and then `@import` the asset in your manifest using the path to the asset within the gem. If the asset is not available as a gem, simply download the asset and copy it to your application's `vendor/assets/stylesheets` directory and reference it from there.
 
-Refer to [Appending](appending.html) for advice on managing plugin stylesheets in your manifests.
+Refer to [Appending](/articles/appending.html) for advice on managing plugin stylesheets in your manifests.
 
 

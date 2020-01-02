@@ -6,11 +6,11 @@ excerpt: Workarea is an open-source commerce platform, so anyone can contribute 
 
 # Contribute Code
 
-Workarea is an open-source commerce platform, so anyone can contribute to it! In this guide, you'll learn how to make your own contributions to Workarea using GitHub and Pull Requests. First off, if you don't already have a GitHub account, create one. With a GitHub account and a fork of the Workarea repo, you'll be able to contribute both code and [documentation](contribute-documentation.html) to the platform.
+Workarea is an open-source commerce platform, so anyone can contribute to it! In this guide, you'll learn how to make your own contributions to Workarea using GitHub and Pull Requests. First off, if you don't already have a GitHub account, create one. With a GitHub account and a fork of the Workarea repo, you'll be able to contribute both code and [documentation](/articles/contribute-documentation.html) to the platform.
 
 ## Contributing Security Fixes
 
-Any security changes should follow the [security policy](security-policy.html), which describes a process by which you can report vulnerabilities to the Workarea core team.
+Any security changes should follow the [security policy](/articles/security-policy.html), which describes a process by which you can report vulnerabilities to the Workarea core team.
 
 ## Patching the Platform
 

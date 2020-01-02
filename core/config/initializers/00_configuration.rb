@@ -5,11 +5,6 @@ Workarea::Configuration.define_fields do
       default: 6,
       description: 'How many failed login attempts before marking the user locked out'
 
-    field 'Password Reset Timeout',
-      type: :duration,
-      default: 2.hours,
-      description: 'How long a password reset URL stays valid'
-
     field 'Password Strength',
       type: :symbol,
       default: :weak,

@@ -65,7 +65,7 @@ Let's look at each of these in turn.
 
 ### Read Across Bounded Contexts
 
-As explained in the [Domain Modeling](domain-modeling.html) guide, Workarea's models are organized into bounded contexts. The models within each bounded context address a particular problem set, and they do not cross their boundaries into other contexts.
+As explained in the [Domain Modeling](/articles/domain-modeling.html) guide, Workarea's models are organized into bounded contexts. The models within each bounded context address a particular problem set, and they do not cross their boundaries into other contexts.
 
 For example, orders, users, payments, shipments, and fulfullments are sufficiently complicated that each is encapsulated into its own context. However, presenting an order to an end user requires reading from all of these contexts. **View models may read across bounded contexts**.
 
@@ -437,7 +437,7 @@ The diagram that follows brings together many of the ideas from above:
 * The view model instance, which provides this extended interface, is bound to an instance variable
 * The view "receives" this instance variable, from which it can query all data necessary to render the page or fragment
 
-![View Model Interface](../images/view-model-interface.png)
+![View Model Interface](/images/view-model-interface.png)
 
 
 ## View Models vs Helpers

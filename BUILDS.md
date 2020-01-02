@@ -6,6 +6,7 @@ Workarea Builds
 | Branch | Status |
 | --- | --- |
 | [master](https://github.com/workarea-commerce/workarea) | [![master](https://github.com/workarea-commerce/workarea/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea/actions) |
+| [v3.5-stable](https://github.com/workarea-commerce/workarea/tree/v3.5-stable) | [![v3.5-stable](https://github.com/workarea-commerce/workarea/workflows/CI/badge.svg?branch=v3.5-stable)](https://github.com/workarea-commerce/workarea/actions) |
 | [v3.4-stable](https://github.com/workarea-commerce/workarea/tree/v3.4-stable) | [![v3.4-stable](https://github.com/workarea-commerce/workarea/workflows/CI/badge.svg?branch=v3.4-stable)](https://github.com/workarea-commerce/workarea/actions) |
 
 

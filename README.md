@@ -66,7 +66,7 @@ Workarea combines commerce, content, search, and insights into a unified platfor
 
 Demo
 --------------------------------------------------------------------------------
-You can run a demo version of Workarea via Docker by running the following command:
+You can run a demo version of Workarea after installing [Docker](https://www.docker.com/) by running the following command in your terminal:
 
 ```bash
 curl -s https://raw.githubusercontent.com/workarea-commerce/workarea/master/demo/install | bash

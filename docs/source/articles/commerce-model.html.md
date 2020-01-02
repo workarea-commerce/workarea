@@ -15,7 +15,7 @@ Keep in mind this model is an abstraction of the Workarea system.
 In practice, catalog and order data are not the only input/output, and actions within the system are non-linear and asynchronous.
 )
 
-![Commerce Model](../images/commerce-model.png)
+![Commerce Model](/images/commerce-model.png)
 
 
 Code Mappings

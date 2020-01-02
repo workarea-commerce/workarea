@@ -6,16 +6,16 @@ excerpt: JavaScript manifests are the preferred solution for adding JavaScripts 
 
 # Add JavaScript through a Manifest
 
-JavaScript manifests are the preferred solution for adding JavaScripts to and removing JavaScripts from a Workarea application. The Workarea Storefront includes 2 manifests, **head** and **application** , which are introduced in the [JavaScript overview](javascript-overview.html), whereas the Admin includes only an **application** manifest. This guides covers them in detail.
+JavaScript manifests are the preferred solution for adding JavaScripts to and removing JavaScripts from a Workarea application. The Workarea Storefront includes 2 manifests, **head** and **application** , which are introduced in the [JavaScript overview](/articles/javascript-overview.html), whereas the Admin includes only an **application** manifest. This guides covers them in detail.
 
 If you're new to Ruby on Rails and the concept of asset manifests, check out the following guides to get you started.
 
-- [Rails Asset Manifests](rails-asset-manifests.html)
-- [Rails Asset View Helpers](rails-asset-view-helpers.html)
+- [Rails Asset Manifests](/articles/rails-asset-manifests.html)
+- [Rails Asset View Helpers](/articles/rails-asset-view-helpers.html)
 
 ## Customizing a Manifest
 
-To add and remove JavaScript through a manifest, you need to have a copy of the manifest in your app. If you're working in a new application, start by [overriding](overriding.html) the manifest file you want to customize. You can override a manifest in the same way as any other JavaScript file. When overriding, note that the manifest files end with the extensions `.js.erb`. I'll explain the reason for that in the following sections which look at the head and application manifests in detail.
+To add and remove JavaScript through a manifest, you need to have a copy of the manifest in your app. If you're working in a new application, start by [overriding](/articles/overriding.html) the manifest file you want to customize. You can override a manifest in the same way as any other JavaScript file. When overriding, note that the manifest files end with the extensions `.js.erb`. I'll explain the reason for that in the following sections which look at the head and application manifests in detail.
 
 Now that you have a copy of the manifest in your app, edit it to taste. The follow sections explain how Workarea manifests differ from default Rails manifests and what is included out of the box.
 
@@ -44,17 +44,17 @@ window.feature.testAll();
 %>
 ```
 
-Unlike a [standard Rails manifest](rails-asset-manifests.html) there are no directives. Instead, the is a mix of method calls and ERB blocks, hence the need for the `.erb` file extension mentioned above. The manifest is designed as such to support the Workarea plugin system and to load some assets conditionally, as you'll see shortly.
+Unlike a [standard Rails manifest](/articles/rails-asset-manifests.html) there are no directives. Instead, the is a mix of method calls and ERB blocks, hence the need for the `.erb` file extension mentioned above. The manifest is designed as such to support the Workarea plugin system and to load some assets conditionally, as you'll see shortly.
 
 Let's work down the manifest, line by line.
 
 ### Feature.js
 
-The first called method, `require_asset`, is provided by the Rails asset pipeline and is equivalent to the directive `//= require` seen in a [standard Rails manifest](rails-asset-manifests.html). In this case, it is including the Feature.js library, whose path is determined by the featurejs\_rails gem. In some ways, Feature.js is different from the other dependencies bundled with Workarea, which is explained in the [Feature.js and Feature Test Helper](featurejs-and-feature-spec-helper.html) guide.
+The first called method, `require_asset`, is provided by the Rails asset pipeline and is equivalent to the directive `//= require` seen in a [standard Rails manifest](/articles/rails-asset-manifests.html). In this case, it is including the Feature.js library, whose path is determined by the featurejs\_rails gem. In some ways, Feature.js is different from the other dependencies bundled with Workarea, which is explained in the [Feature.js and Feature Test Helper](/articles/featurejs-and-feature-spec-helper.html) guide.
 
 ### Feature Test Helper
 
-Next up is feature\_test\_helper, which is—you guessed it—also explained in the [Feature.js and Feature Test Helper](featurejs-and-feature-spec-helper.html) guide. The path to feature\_test\_helper indicates it lives in the workarea-core gem. Workarea assets shared between workarea-admin and workarea-storefront are kept in workarea-core.
+Next up is feature\_test\_helper, which is—you guessed it—also explained in the [Feature.js and Feature Test Helper](/articles/featurejs-and-feature-spec-helper.html) guide. The path to feature\_test\_helper indicates it lives in the workarea-core gem. Workarea assets shared between workarea-admin and workarea-storefront are kept in workarea-core.
 
 ### Running Feature.js Tests
 
@@ -62,7 +62,7 @@ The purpose of Feature.js is to detect which newer browser APIs are at the devel
 
 ### Plugin JavaScripts
 
-Next is a call to `append_javascripts`. This method is defined by Workarea and is used to load JavaScripts from Workarea plugins. See [Appending](appending.html) for a full explanation, but in short, plugins may be configured to insert their JavaScript files here.
+Next is a call to `append_javascripts`. This method is defined by Workarea and is used to load JavaScripts from Workarea plugins. See [Appending](/articles/appending.html) for a full explanation, but in short, plugins may be configured to insert their JavaScript files here.
 
 ## Storefront's Application Manifest
 
@@ -136,11 +136,11 @@ This code creates an array of asset paths and then loops over the array, passing
 
 Each asset in the array is a 3rd party library or framework on which Workarea JavaScripts depend. None of these files are bundled with Workarea. Instead, each file is included through a Ruby gem. Those gems are `require`d by workarea-core, which makes the assets available to the asset pipeline.
 
-Following the `require_asset` loop is call `append_javascripts`. This is the same method covered in the head manifest section above, but the name of this append point is 'storefront.dependencies'. As the name of the method suggests, append points allow [plugins to append their JavaScripts to a manifest](appending.html).
+Following the `require_asset` loop is call `append_javascripts`. This is the same method covered in the head manifest section above, but the name of this append point is 'storefront.dependencies'. As the name of the method suggests, append points allow [plugins to append their JavaScripts to a manifest](/articles/appending.html).
 
 ### JavaScript Templates
 
-The next section is structured like the section above it, but the referenced assets are [JavaScript templates](javascript-templates.html). In the Storefront example below, some of the assets are from workarea-core, while the others are from workarea-storefront. The Admin application manifest similarly contains a mixture or Core and Admin templates. Templates in workarea-core are shared between the Admin and Storefront.
+The next section is structured like the section above it, but the referenced assets are [JavaScript templates](/articles/javascript-templates.html). In the Storefront example below, some of the assets are from workarea-core, while the others are from workarea-storefront. The Admin application manifest similarly contains a mixture or Core and Admin templates. Templates in workarea-core are shared between the Admin and Storefront.
 
 ```ruby
 # JST Templates
@@ -196,11 +196,11 @@ require_asset 'workarea/core/workarea'
 
 This file establishes the `WORKAREA` namespace, the global variable on which the Workarea JavaScript API is built. Everythig before this point in the manifest hangs off other globals, like `$`, `_`, and `JST`, for example. workarea.js will not overwrite an existing `WORKAREA` global if for some reason you need to define it earlier in your app.
 
-After establishing the top level namespace, the methods `registerModule` and `initModules` are added to it. If you didn't already guess, these are used to register and init [Workarea JavaScript modules](javascript-modules.html).
+After establishing the top level namespace, the methods `registerModule` and `initModules` are added to it. If you didn't already guess, these are used to register and init [Workarea JavaScript modules](/articles/javascript-modules.html).
 
 ### Configuration Files
 
-[Configuration files](configuration.html) are included next in the application manifest, including an append point for plugins. This is where the global `WORKAREA.config` object is defined and subsequently added to.
+[Configuration files](/articles/configuration.html) are included next in the application manifest, including an append point for plugins. This is where the global `WORKAREA.config` object is defined and subsequently added to.
 
 ```ruby
 # Configuration
@@ -217,7 +217,7 @@ append_javascripts('storefront.config')
 
 ### Routes
 
-Included next are files that allow [accessing routes in javascript](access-routes-in-javascript.html).
+Included next are files that allow [accessing routes in javascript](/articles/access-routes-in-javascript.html).
 
 ```ruby
 # Routing
@@ -231,7 +231,7 @@ end
 
 ### Modules
 
-Everything up until this point has been an opening act—fun, but not what you came out for. **[Modules](javascript-modules.html) are the band you came to see**, and they get added to the manifest next. Modules make use of the dependencies, templates, jQuery UI widgets, namespaces, configs, and routes above to do the actual client-side work.
+Everything up until this point has been an opening act—fun, but not what you came out for. **[Modules](/articles/javascript-modules.html) are the band you came to see**, and they get added to the manifest next. Modules make use of the dependencies, templates, jQuery UI widgets, namespaces, configs, and routes above to do the actual client-side work.
 
 ```ruby
 # Modules
@@ -290,7 +290,7 @@ Similarly to the other manifest sections, modules are loaded from both Core and 
 
 ### Module Initialization
 
-The last line of the manifest is executable JavaScript code used to initialize modules. This process is covered in detail in the [JavaScript Modules](javascript-modules.html) guide.
+The last line of the manifest is executable JavaScript code used to initialize modules. This process is covered in detail in the [JavaScript Modules](/articles/javascript-modules.html) guide.
 
 ```js
 WORKAREA.initModules($(document));
@@ -365,4 +365,4 @@ If the asset you want to include has been packaged as a gem, first add the gem t
 end
 ```
 
-Refer to [Appending](appending.html) for advice on managing plugin JavaScripts in your manifests.
+Refer to [Appending](/articles/appending.html) for advice on managing plugin JavaScripts in your manifests.

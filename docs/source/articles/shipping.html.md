@@ -8,7 +8,7 @@ excerpt: A shipping (Workarea::Shipping) is an application document that represe
 
 ## Shipping
 
-A <dfn>shipping</dfn> (`Workarea::Shipping`) is an [application document](application-document.html) that represents shipping and pricing information for an order or a subset of an order.
+A <dfn>shipping</dfn> (`Workarea::Shipping`) is an [application document](/articles/application-document.html) that represents shipping and pricing information for an order or a subset of an order.
 
 ### Order
 
@@ -213,7 +213,7 @@ shipping.find_method_options(packages).map(&:name)
 
 ## Address
 
-A <dfn>shipping address</dfn> (`Workarea::Shipping::Address`) is an embedded [application document](application-document.html) that represents the address to which its parent shipping is to be shipped.
+A <dfn>shipping address</dfn> (`Workarea::Shipping::Address`) is an embedded [application document](/articles/application-document.html) that represents the address to which its parent shipping is to be shipped.
 
 ### Fields
 
@@ -288,7 +288,7 @@ shipping.address.to_active_shipping.to_hash
 
 ## Service Selection
 
-A <dfn>shipping service selection</dfn> (`Workarea::Shipping::ServiceSelection`) is an embedded [application document](application-document.html) that represents the shipping service for its parent shipping.
+A <dfn>shipping service selection</dfn> (`Workarea::Shipping::ServiceSelection`) is an embedded [application document](/articles/application-document.html) that represents the shipping service for its parent shipping.
 
 A service selection's `name`, `carrier`, and `service_code` should identify a shipping service within the retailer's fulfillment system. The `tax_code` field identifies the applicable tax category within the Workarea system.
 
@@ -568,7 +568,7 @@ An ActiveShipping rate estimate (`ActiveShipping::RateEstimate`, [docs](http://w
 
 ## Sku
 
-A <dfn>shipping sku</dfn> (`Workarea::Shipping::Sku`) is an [application document](application-document.html) that represents the shipping attributes for a catalog variant (`Workarea::Catalog::Variant`). The `_id` of a shipping sku matches the `sku` of the variant with which it is associated.
+A <dfn>shipping sku</dfn> (`Workarea::Shipping::Sku`) is an [application document](/articles/application-document.html) that represents the shipping attributes for a catalog variant (`Workarea::Catalog::Variant`). The `_id` of a shipping sku matches the `sku` of the variant with which it is associated.
 
 ```
 variant.sku == shipping_sku.id.to_s
@@ -643,7 +643,7 @@ The default packaging logic may be too naive for some applications, but the comp
 
 ## Service
 
-A <dfn>shipping service</dfn> (`Workarea::Shipping::Service`) is an [application document](application-document.html) that represents a shipping service by which an order can be fulfilled. A shipping service may represent a specific shipping product, such as _FedEx Ground_, or may represent a more abstract shipping service, such as _Standard Shipping_ or _Free Shipping_.
+A <dfn>shipping service</dfn> (`Workarea::Shipping::Service`) is an [application document](/articles/application-document.html) that represents a shipping service by which an order can be fulfilled. A shipping service may represent a specific shipping product, such as _FedEx Ground_, or may represent a more abstract shipping service, such as _Standard Shipping_ or _Free Shipping_.
 
 The Workarea shipping carrier uses the persisted shipping services to construct a collection of rate estimates, which are then used to initialize shipping options to present to the customer during checkout.
 
@@ -741,7 +741,7 @@ Workarea::Shipping::Service.by_price((50.00).to_m).map(&:name)
 
 ### Rate
 
-A <dfn>shipping rate</dfn> (Workarea::Shipping::Rate) is an embedded [application document](application-document.html) that represents a price for its parent shipping service as well as any data that may be used to qualify the rate.
+A <dfn>shipping rate</dfn> (Workarea::Shipping::Rate) is an embedded [application document](/articles/application-document.html) that represents a price for its parent shipping service as well as any data that may be used to qualify the rate.
 
 By default, a rate is qualified by comparing its `tier_min` and `tier_max` to a given amount.
 

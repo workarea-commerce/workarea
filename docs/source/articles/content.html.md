@@ -10,7 +10,7 @@ The `Content` namespace is responsible for modeling administrable content.
 
 ## Asset
 
-A <dfn>content asset</dfn> (`Workarea::Content::Asset`) is a [taggable](taggable.html) [application document](application-document.html) that represents a file, such as an image or PDF document, that is available for use within administrable content.
+A <dfn>content asset</dfn> (`Workarea::Content::Asset`) is a [taggable](/articles/taggable.html) [application document](/articles/application-document.html) that represents a file, such as an image or PDF document, that is available for use within administrable content.
 
 ```
 # Create an asset
@@ -53,7 +53,7 @@ asset.alt_text
 
 ## Page
 
-A <dfn>content page</dfn> (`Workarea::Content::Page`) is a [contentable](contentable.html), [navigable](navigable.html), [releasable](releasable.html), and [taggable](taggable.html) [application document](application-document.html) that represents a page containing administrable content to which end users may navigate.
+A <dfn>content page</dfn> (`Workarea::Content::Page`) is a [contentable](/articles/contentable.html), [navigable](/articles/navigable.html), [releasable](/articles/releasable.html), and [taggable](/articles/taggable.html) [application document](/articles/application-document.html) that represents a page containing administrable content to which end users may navigate.
 
 A page has few attributes of its own because the actual content is stored on its associated content. However, each page has a name and several attributes to control its presentation in the storefront.
 
@@ -75,7 +75,7 @@ page.display_h1
 
 ## Content
 
-A <dfn>content</dfn> (`Workarea::Content`) is a [releasable](releasable.html) [application document](application-document.html) that represents administrable content. A content may belong to a [contentable](contentable.html). A content embeds many blocks.
+A <dfn>content</dfn> (`Workarea::Content`) is a [releasable](/articles/releasable.html) [application document](/articles/application-document.html) that represents administrable content. A content may belong to a [contentable](/articles/contentable.html). A content embeds many blocks.
 
 ### System Content
 
@@ -137,7 +137,7 @@ content.javascript
 
 ## Block
 
-A <dfn>content block</dfn> (`Workarea::Content::Block`) is a [releasable](releasable.html) [application document](application-document.html) that represents a unit of administrable content. A block is embedded in a content.
+A <dfn>content block</dfn> (`Workarea::Content::Block`) is a [releasable](/articles/releasable.html) [application document](/articles/application-document.html) that represents a unit of administrable content. A block is embedded in a content.
 
 A newly created content has 0 blocks.
 
@@ -535,7 +535,7 @@ Once associated, when outputting the `image_alt_text` field in the Storefront vi
 
 ## Preset
 
-A <dfn>content preset</dfn> (`Workarea::Content::Preset`) is an [application document](application-document.html) that represents preset data for a new content block instance. Admins can create presets from existing blocks and then create new blocks from those presets rather than using the default data for a block.
+A <dfn>content preset</dfn> (`Workarea::Content::Preset`) is an [application document](/articles/application-document.html) that represents preset data for a new content block instance. Admins can create presets from existing blocks and then create new blocks from those presets rather than using the default data for a block.
 
 ```
 content = Workarea::Content.for('foo')

@@ -6,7 +6,7 @@ excerpt: An application document is a persistable model with a global id, timest
 
 # Application Document
 
-An <dfn>application document</dfn> is a persistable model with a global id, timestamps, an audit log, and life cycle callbacks providing hooks for [callbacks workers](workers.html#callbacks-worker). An application document cleans some of its data before validation and before create.
+An <dfn>application document</dfn> is a persistable model with a global id, timestamps, an audit log, and life cycle callbacks providing hooks for [callbacks workers](/articles/workers.html#callbacks-worker). An application document cleans some of its data before validation and before create.
 
 ## Mongoid
 
@@ -30,7 +30,7 @@ An application document includes `GlobalID::Identification` ([docs](http://www.r
 
 ## Callbacks Workers
 
-An application document includes `Sidekiq::Callbacks`, providing `ApplicationDocument#run_callbacks`, an extension of `ActiveSupport::Callbacks#run_callbacks` ([docs](http://api.rubyonrails.org/classes/ActiveSupport/Callbacks.html#method-i-run_callbacks)) allowing [callbacks workers](workers.html#callbacks-worker) to run or enqueue in response to the document's life cycle callbacks, such as `after_save` and `after_destroy`.
+An application document includes `Sidekiq::Callbacks`, providing `ApplicationDocument#run_callbacks`, an extension of `ActiveSupport::Callbacks#run_callbacks` ([docs](http://api.rubyonrails.org/classes/ActiveSupport/Callbacks.html#method-i-run_callbacks)) allowing [callbacks workers](/articles/workers.html#callbacks-worker) to run or enqueue in response to the document's life cycle callbacks, such as `after_save` and `after_destroy`.
 
 ## Data Cleaning
 

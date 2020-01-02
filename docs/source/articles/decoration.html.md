@@ -75,7 +75,7 @@ end
 
 ## Decorating Tests
 
-Because [tests](testing.html) are Ruby methods, you can extend tests by decorating test cases, the classes in which test methods are defined. When decorating features, you should always decorate the corresponding tests as well.
+Because [tests](/articles/testing.html) are Ruby methods, you can extend tests by decorating test cases, the classes in which test methods are defined. When decorating features, you should always decorate the corresponding tests as well.
 
 The following examples from [Workarea Browse Option](https://github.com/workarea-commerce/workarea-browse-option) demonstrate the need to decorate a feature and its tests together. In the first example, Browse Option decorates `Search::ProductEntries` so that products that "browse by option" are represented by multiple documents in Elasticsearch. This is new functionality, not covered by the existing test suite, so the plugin also decorates `Search::ProductEntriesTest` adding a new test to confirm the behavior.
 
@@ -181,7 +181,7 @@ module Workarea
 end
 ```
 
-Also see [Writing Test Decorators](testing.html#writing-test-decorators) within the [Testing](testing.html) guide for more on this topic.
+Also see [Writing Test Decorators](/articles/testing.html#writing-test-decorators) within the [Testing](/articles/testing.html) guide for more on this topic.
 
 ## Compounding Decorators
 

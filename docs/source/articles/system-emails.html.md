@@ -6,7 +6,7 @@ excerpt: System emails are sent from both the admin and storefront engines. All 
 
 # System Emails
 
-System emails are sent from both the admin and storefront engines. All system emails may be customized like any other view in the system, by first [overriding](overriding.html) the mailer views and associated stylesheets. Emails are sent from the system using [Action Mailer](https://guides.rubyonrails.org/action_mailer_basics.html#), which does most of the heavy lifting. If you're making a new mailer, be sure to read that guide for more information.
+System emails are sent from both the admin and storefront engines. All system emails may be customized like any other view in the system, by first [overriding](/articles/overriding.html) the mailer views and associated stylesheets. Emails are sent from the system using [Action Mailer](https://guides.rubyonrails.org/action_mailer_basics.html#), which does most of the heavy lifting. If you're making a new mailer, be sure to read that guide for more information.
 
 In both the admin and storefront emails are comprised of
 

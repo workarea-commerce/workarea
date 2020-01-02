@@ -20,9 +20,9 @@ Update Inventory SKUs within Workarea
 ----------------------------------------------------------------------
 
 Within Workarea, each item's inventory is represented by an inventory SKU, which is identified by the item's SKU.
-( See [Inventory: Inventory SKUs](inventory.html#inventory-skus_2). )
+( See [Inventory: Inventory SKUs](/articles/inventory.html#inventory-skus). )
 Several administrable fields, primarily the integer fields `:available` and `:backordered`, represent the "raw" inventory data tracked by Workarea.
-( See [Inventory: Administrable Fields & Policies](inventory.html#administrable-fields-amp-policies_3). )
+( See [Inventory: Administrable Fields & Policies](/articles/inventory.html#administrable-fields-amp-policies). )
 
 You must design a strategy for keeping these fields in sync with the corresponding data from the external inventory system.
 __Maintaining accurate values for these fields is the core of this integration.__
@@ -33,7 +33,7 @@ Report Workarea's Inventory Transactions
 ----------------------------------------------------------------------
 
 Workarea also makes its own changes to the inventory SKU values `:available` and `:backordered` when shoppers place and cancel orders.
-( See [Inventory: Purchasing, Capturing & Releasing Inventory](inventory.html#purchasing-capturing-amp-releasing-inventory_14). )
+( See [Inventory: Purchasing, Capturing & Releasing Inventory](/articles/inventory.html#purchasing-capturing-amp-releasing-inventory). )
 You therefore may need to report these changes to the system you are integrating.
 ( This may not be necessary if the external system manages these changes, perhaps during fulfillment rather than at the point of sale. )
 
@@ -82,7 +82,7 @@ Work with the partnering team to determine the following:
 Next, build the parts of the integration for which you are responsible.
 Tools for this within the Workarea system include:
 
-* [Admin API](https://plugins.workarea.com/plugins/api-admin)
-* [Callbacks workers](workers.html#callbacks-worker_7)
-* [Scheduled workers](workers.html#sidekiq-cron-job_5)
-* [Data file scheduling](https://plugins.workarea.com/plugins/data-file-scheduling)
+* [Admin API](https://github.com/workarea-commerce/workarea-api/tree/master/admin)
+* [Callbacks workers](/articles/workers.html#callbacks-worker)
+* [Scheduled workers](/articles/workers.html#sidekiq-cron-job)
+* _Data File Scheduling_ (Commerce Cloud plugin)

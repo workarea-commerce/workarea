@@ -6,7 +6,7 @@ excerpt: This document provides information to help you develop the skills of ex
 Order Pricing
 ======================================================================
 
-To facilitate [orders](orders.html)—transactions between shoppers and retailers, often including [shipping](shipping.html)—Workarea must reliably compute the prices for these transactions.
+To facilitate [orders](/articles/orders.html)—transactions between shoppers and retailers, often including [shipping](/articles/shipping.html)—Workarea must reliably compute the prices for these transactions.
 These computations include the price of each order item, potentially adjusted for customizations, overrides, and discounts;
 and the overall price of the order, including shipping and tax, also potentially adjusted.
 
@@ -31,9 +31,9 @@ Example Order
 Throughout this document, we'll use a specific order as a running example.
 The following diagrams represent Storefront views of this order:
 
-![Order pricing cart example](../images/order-pricing-cart-example.png)
+![Order pricing cart example](/images/order-pricing-cart-example.png)
 
-![Order pricing placed order example](../images/order-pricing-placed-order-example.png)
+![Order pricing placed order example](/images/order-pricing-placed-order-example.png)
 
 The first diagram represents the order as a cart, while the second represents the same order after a shipping address is provided.
 Both views of the order include computed pricing information.
@@ -48,9 +48,9 @@ The pricing information for each order must be re-computed continually because W
 Shoppers shop and admins manage, changing the states of various domain models.
 The current states of these models must be reflected in the prices shown to shoppers and authorized on their payments.
 
-The following diagram (adapted from [Commerce Model](commerce-model.html)) represents this cycle:
+The following diagram (adapted from [Commerce Model](/articles/commerce-model.html)) represents this cycle:
 
-![Order pricing within the commerce model](../images/commerce-model-order-pricing.png)
+![Order pricing within the commerce model](/images/commerce-model-order-pricing.png)
 
 Shoppers _create and manage carts_ by adding, removing, and updating order items and promo codes.
 Shoppers additionally set the shipping address and shipping service within checkout, allowing them to _place the orders_.
@@ -83,7 +83,7 @@ These fields represent the total price and various subtotals of the order transa
 Many of these values are displayed to the shopper directly.
 Examples are highlighted in the following diagram, which also indicates the underlying API calls to query the values.
 
-![Totals within order pricing example](../images/order-pricing-example-totals.png)
+![Totals within order pricing example](/images/order-pricing-example-totals.png)
 
 There are additional totals fields, which are not shown in the above diagram.
 For example, the total of each shipping is shown only when an order has multiple shippings.
@@ -137,7 +137,7 @@ It may be helpful to think of the order totals as a credit card receipt which sh
 While most price adjustments are used internally—to compute totals—some are shown directly to shoppers.
 The following diagram highlights and annotates the values in our placed order example that are read directly from price adjustments.
 
-![Adjustments within order pricing example](../images/order-pricing-example-adjustments.png)
+![Adjustments within order pricing example](/images/order-pricing-example-adjustments.png)
 
 To explain the pricing for an order, look up the relevant adjustments.
 Remember that these are documents embedded within the order's items and shippings.
@@ -162,33 +162,33 @@ The adjustment document also has several metadata fields describing the price, i
 Now consider the adjustments in aggregate again.
 The following diagram creates a visual "stack" of the adjustments for our example order, each with its amount, price type, and description.
 
-![Price adjustments diagram](../images/price-adjustments-diagram.png)
+![Price adjustments diagram](/images/price-adjustments-diagram.png)
 
 To calculate `Order#total_price`, Workarea simply sums _all_ the amounts:
 
-![Order total price diagram](../images/order-total-price-diagram.png)
+![Order total price diagram](/images/order-total-price-diagram.png)
 
 All other order totals (i.e. subtotals) are calculated by summing a _subset_ of the same price adjustments.
 The logic for each totals field is based on the adjustment price types and the objects on which they are stored.
 
 For example, `Order#subtotal_price` is calculated by summing only the _item-level_ adjustments.
 
-![Order subtotal price diagram](../images/order-subtotal-price-diagram.png)
+![Order subtotal price diagram](/images/order-subtotal-price-diagram.png)
 
 Similarly, the shipping and tax totals are calculated by summing only the _shipping_ and _tax_ adjustments, respectively:
 
-![Order shipping total diagram](../images/order-shipping-total-diagram.png)
+![Order shipping total diagram](/images/order-shipping-total-diagram.png)
 
-![Order tax total diagram](../images/order-tax-total-diagram.png)
+![Order tax total diagram](/images/order-tax-total-diagram.png)
 
 The total price for each _item_ is the sum of the item-level adjustments stored within that particular item.
 The following diagram represents the total for the second item:
 
-![Order item total price diagram](../images/order-item-total-price-diagram.png)
+![Order item total price diagram](/images/order-item-total-price-diagram.png)
 
 As a final example, the _total value_ of an order is the sum of its item- and order-level adjustments, or explained differently: the value of the _merchandise_, which includes most discounts, but excludes shipping and tax. (Expect a retailer or another developer to ask you about this; it's a common question).
 
-![Order total value diagram](../images/order-total-value-diagram.png)
+![Order total value diagram](/images/order-total-value-diagram.png)
 
 ( If you're wondering why items embed both item- and order-level adjustments, or why some adjustments are embedded within shippings instead of items, we'll cover that with __pricing calulators__. )
 
@@ -266,7 +266,7 @@ The pricing process begins with a single price adjustment on the shipping.
 Each calculator then has the opportunity to adjust the pricing; some do nothing while other create adjustments (which are highlighted).
 The end result is the familiar stack of price adjustments used to calculate the pricing totals.
 
-![Pricing calculators diagram](../images/pricing-calculators-diagram.png)
+![Pricing calculators diagram](/images/pricing-calculators-diagram.png)
 
 It's important to understand this overall process because each calculator has access to the adjustments created by the calculators that precede it.
 Knowledge of the process therefore helps you understand each calculator's implementation of `#apply`, which are not explained in this document.
@@ -294,7 +294,7 @@ To extend pricing, you must change how price adjustments are created.
 To do this, you should implement your own pricing calculators which honor the __pricing calculator contract__, and re-configure the __pricing calculators collection__ to include your custom calculators.
 
 (
-It's worth mentioning that you should first look for a [plugin](https://plugins.workarea.com) that does what you need.
+It's worth mentioning that you should first look for a plugin that does what you need.
 I borrowed this document's use cases from existing plugins.
 )
 
@@ -305,7 +305,7 @@ To create your own pricing calculator, define a class which satisfies the _prici
 Fundamentally, this is a class which includes `Pricing::Calculator` and implements `Pricing::Calculator#apply`.
 
 (
-I'll continue to explain this process conceptually, but for a more detailed, procedural explanation of creating your own pricing calculators, see [Add or Replace a Pricing Calculator](add-or-replace-a-pricing-calculator.html).
+I'll continue to explain this process conceptually, but for a more detailed, procedural explanation of creating your own pricing calculators, see [Add or Replace a Pricing Calculator](/articles/add-or-replace-a-pricing-calculator.html).
 )
 
 `Pricing::Calculator#apply` has access to several objects and collections via the methods `#order`, `#shippings`, `#pricing`, and `#discounts`; and it must satisfy two responsibilities: determine which objects should receive the price adjustments, and create the price adjustments on those objects.
@@ -332,7 +332,7 @@ After creating a calculator that meets these requirements, you must manipulate t
 
 ### Pricing Calculators Collection
 
-The _pricing calculators collection_ is a configurable value—a [SwappableList](swappable-list-data-structure.html)—which holds the ordered list of pricing calculators which can adjust the pricing of orders during each `Pricing.perform`.
+The _pricing calculators collection_ is a configurable value—a [SwappableList](/articles/swappable-list-data-structure.html)—which holds the ordered list of pricing calculators which can adjust the pricing of orders during each `Pricing.perform`.
 
 In other words, the list of which pricing calculators run, in which order, is configurable.
 The following code example queries the current configuration of an application:
@@ -350,7 +350,7 @@ puts Workarea.config.pricing_calculators
 ```
 
 You must modify this list to include your custom pricing calculator.
-Use the methods of [SwappableList](swappable-list-data-structure.html) to insert your calculator before or after an existing calculator, or to replace an existing calculator.
+Use the methods of [SwappableList](/articles/swappable-list-data-structure.html) to insert your calculator before or after an existing calculator, or to replace an existing calculator.
 You should _replace_ a calculator when you want to _change_ how its price adjustments are created, like using a tax service integration to create tax adjustments, rather than Workarea's tax subsystem.
 In contrast, _insert_ your calculator to add an _additional_ upcharge for a feature, such as gift wrapping.
 

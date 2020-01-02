@@ -107,7 +107,7 @@ Public module methods generally fall into 2 categories: utilities and DOM manipu
 
 The 2nd problem modules address is code initialization, specifically asynchronous initialization. But first let's look at synchronous initialization.
 
-The [application manifest](add-javascript-through-a-manifest.html) uses `require_asset` to load each JavaScript module into memory. At that point, each method on each module is defined, but none have yet been invoked. The manifest concludes by invoking a single JavaScript method:
+The [application manifest](/articles/add-javascript-through-a-manifest.html) uses `require_asset` to load each JavaScript module into memory. At that point, each method on each module is defined, but none have yet been invoked. The manifest concludes by invoking a single JavaScript method:
 
 ```
 WORKAREA.initModules($(document));
@@ -160,7 +160,7 @@ var updateProductDetails = function (event) {
 
 ## Customizing a Module
 
-To customize an existing module you must [override](overriding.html) it, essentially making a copy of it in your application.
+To customize an existing module you must [override](/articles/overriding.html) it, essentially making a copy of it in your application.
 
 ## Creating a Module
 

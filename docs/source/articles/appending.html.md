@@ -6,7 +6,7 @@ excerpt: Appending is an extension technique whereby plugins and applications in
 
 # Appending
 
-_Appending_ is an [extension](extension-overview.html) technique whereby plugins and applications inject their own partials, stylesheets, and JavaScript into designated areas within Workarea UIs.
+_Appending_ is an [extension](/articles/extension-overview.html) technique whereby plugins and applications inject their own partials, stylesheets, and JavaScript into designated areas within Workarea UIs.
 
 ## General Concepts
 
@@ -131,7 +131,9 @@ Workarea Reviews, which I've installed in my demonstration app, includes a parti
       / ...
 ```
 
-Similarly, Workarea Share, which I've also installed, provides a partial for this append point. That partial also makes use of the `product` variable.&nbsp;<sup><a href="#notes" id="note-1-context">[1]</a></sup>
+Similarly, Workarea Share, which I've also installed, provides a partial for this append point. That partial also makes use of the `product` variable.
+
+( This partial immediately renders another partial called _share\_buttons_, but the share buttons partial expects the `share_url` and `sku` local variables to be present, so values must be constructed for those variables using the value of `product`. )
 
 ```ruby
 / workarea-share-1.1.0/app/views/workarea/storefront/products/_share.html.haml
@@ -174,7 +176,7 @@ Workarea::Plugin.partials_appends['storefront.product_details']
 
 Browsing to a page that renders the above Storefront template reveals the result: review stars and share buttons rendered below the product form.
 
-![Appended rating stars and share buttons](images/reviews-summary-above-share-buttons.png)
+![Appended rating stars and share buttons](/images/reviews-summary-above-share-buttons.png)
 
 ### Appending Assets
 
@@ -273,7 +275,15 @@ puts Workarea::Plugin.javascripts_appends['storefront.modules'].grep(/reviews/)
 # workarea/storefront/reviews/modules/rating_buttons
 ```
 
-Furthermore, I can confirm the home page HTML contains script tags for the JavaScript files, and the compiled application manifest references the imported stylesheets.&nbsp;<sup><a href="#notes" id="note-2-context">[2]</a></sup>&nbsp;<sup><a href="#notes" id="note-3-context">[3]</a></sup>
+Furthermore, I can confirm the home page HTML contains script tags for the JavaScript files, and the compiled application manifest references the imported stylesheets.
+
+(
+Understanding these Unix command lines is not important.
+But it _is_ important you know _where_ to look and _what_ to look for when things aren't working.
+You can confirm these details equally well by inspecting the output manually in your browser.
+
+The following examples depend on debugging output that is present in Rails' Development environment that may not be present in other environments.
+)
 
 ```bash
 $ curl -s 'http://10.10.10.10:3000' | # request home page
@@ -375,7 +385,7 @@ tmp/sockets
 
 Another issue you may experience while developing (particularly plugins) is the append point you need does not exist in the platform. To resolve this, first try to find a "nearby" append point that you can use instead. Generally speaking, the placement of appends is inexact.
 
-Applications can use [overriding](overriding.html) in place of or in addition to appending when precise placement of new code is required. For more on this, see Re-Positioning Partials within a View, below.
+Applications can use [overriding](/articles/overriding.html) in place of or in addition to appending when precise placement of new code is required. For more on this, see Re-Positioning Partials within a View, below.
 
 If you must use appending (e.g. you're developing a plugin) and there is no suitable append point for your needs, open a pull request that adds the new append point(s) to the platform. Platform append points are often added in patch releases, making the new append points available to all new and patched applications.
 
@@ -385,7 +395,7 @@ If you must use appending (e.g. you're developing a plugin) and there is no suit
 
 When developing applications, you may want to remove appends from append points. For example, in the image below, the reviews summary and share buttons are appended to _storefront.product\_details_ and rendered below the "Add to Cart" button. However, business requirements may call for the reviews summary to be removed from this particular view.
 
-![Reviews summary above share buttons](images/reviews-summary-above-share-buttons.png)
+![Reviews summary above share buttons](/images/reviews-summary-above-share-buttons.png)
 
 Prior to Workarea 3.2, there is no formal API to remove an append from an append point. However, you can manipulate the appends hashes directly. To prevent the reviews summary from displaying, you can remove that partial from that append point within the partials appends hash. The following initializer does the trick.
 
@@ -398,7 +408,7 @@ Workarea::Plugin.partials_appends['storefront.product_details']
 
 After rebooting the app and re-visiting the page, the reviews summary is gone.
 
-![Reviews summary removed](images/reviews-summary-removed.png)
+![Reviews summary removed](/images/reviews-summary-removed.png)
 
 Looking at the code example above, notice that I deleted a specific member of the array, referencing it by its value. When removing appends, do not reference them by index, since the indexes may change as you add, remove, and re-order the plugins you have installed.
 
@@ -406,7 +416,7 @@ Furthermore, always mutate the existing array rather than replacing its value en
 
 #### Convenience Methods for Removing Appends
 
-Workarea 3.2.0 [added convenience methods to remove appends](workarea-3-2-0.html#adds-convenience-methods-to-remove-appends), providing parity with the original methods for appending to appends hashes. These methods are
+Workarea 3.2.0 [added convenience methods to remove appends](/release-notes/workarea-3-2-0.html#adds-convenience-methods-to-remove-appends), providing parity with the original methods for appending to appends hashes. These methods are
 
 - `Workarea::Plugin.remove_partials`
 - `Workarea::Plugin.remove_stylesheets`
@@ -455,13 +465,13 @@ Workarea::Plugin.partials_appends['storefront.product_details']
 
 After a restart, the reviews summary renders below the share buttons.
 
-![Reviews summary below share buttons](images/reviews-summary-below-share-buttons.png)
+![Reviews summary below share buttons](/images/reviews-summary-below-share-buttons.png)
 
-You can manipulate the appends hashes as much as needed, however, anything more involved than the above example is likely going beyond the intended use cases for appending. [Overriding](overriding.html) provides more granular control over UI code, as demonstrated below.
+You can manipulate the appends hashes as much as needed, however, anything more involved than the above example is likely going beyond the intended use cases for appending. [Overriding](/articles/overriding.html) provides more granular control over UI code, as demonstrated below.
 
 ### Re-Positioning Partials within a View
 
-Partials may be appended only at the append points provided by the platform. Applications may need to move an entire append point or particular appends to another location within the DOM. To do so, you must [override](overriding.html) the view which contains the append point. Then, within that override, you can either move the entire append point, or you can remove particular partials from the append point and render them separately within the view override.
+Partials may be appended only at the append points provided by the platform. Applications may need to move an entire append point or particular appends to another location within the DOM. To do so, you must [override](/articles/overriding.html) the view which contains the append point. Then, within that override, you can either move the entire append point, or you can remove particular partials from the append point and render them separately within the view override.
 
 For example, your design may call for the reviews summary to be output below the product name and id, while the share buttons are to stay below the "Add to Cart" button. You can achieve this using an initializer to remove the partial from the append point, and an override to render the partial immediately following the `.product-details__name` element in the DOM.
 
@@ -474,7 +484,7 @@ Workarea::Plugin.partials_appends['storefront.product_details']
   .delete('workarea/storefront/products/reviews_aggregate')
 ```
 
-And the following diff shows the changes I made within my view override (see [Overriding](overriding.html) for more on that subject). When rendering the partials outside of the append point, be sure to pass through the same local variables provided by the append point (`product` in my example below).
+And the following diff shows the changes I made within my view override (see [Overriding](/articles/overriding.html) for more on that subject). When rendering the partials outside of the append point, be sure to pass through the same local variables provided by the append point (`product` in my example below).
 
 ```diff
 diff --git a/app/views/workarea/storefront/products/templates/_generic.html.haml b/app/views/workarea/storefront/products/templates/_generic.html.haml
@@ -496,12 +506,4 @@ index 09579b2..a5725e8 100644
 
 The final result (after rebooting and reloading the page) is as follows.
 
-![Reviews summary below product name](images/reviews-summary-below-product-name.png)
-
-## Notes
-
-[1] This partial immediately renders another partial called _share\_buttons_, but the share buttons partial expects the `share_url` and `sku` local variables to be present, so values must be constructed for those variables using the value of `product`.
-
-[2] Understanding these Unix command lines is not important. But it _is_ important you know _where_ to look and _what_ to look for when things aren't working. You can confirm these details equally well by inspecting the output manually in your browser.
-
-[3] These inspections depend on debugging output that is present in Rails' Development environment that may not be present in other environments.
+![Reviews summary below product name](/images/reviews-summary-below-product-name.png)

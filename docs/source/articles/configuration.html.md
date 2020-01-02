@@ -72,7 +72,7 @@ Workarea.config.elasticsearch_mappings.storefront
 
 The Ruby configuration is also exposed through the _Settings_ dashboard in the Admin (_/admin/dashboards/settings_).
 
-![Current configuration shown in Admin Settings](images/current-configuration-shown-in-admin-settings.png)
+![Current configuration shown in Admin Settings](/images/current-configuration-shown-in-admin-settings.png)
 
 ### JavaScript Configuration Object
 
@@ -271,7 +271,9 @@ end
 
 ## Configuring an App in JavaScript
 
-To configure an app in JavaScript, modify config values or add config keys from within a JavaScript config file and [append](appending.html) the config file to an append point within the relevant manifest to include it on the page. <sup><a href="#notes" id="note-1-context">[1]</a></sup>
+To configure an app in JavaScript, modify config values or add config keys from within a JavaScript config file and [append](/articles/appending.html) the config file to an append point within the relevant manifest to include it on the page.
+
+( Alternatively, if you are working in an application that is [overriding](/articles/overriding.html) the relevant manifest, you can require the config file within your manifest override. )
 
 The following examples for the fictional store <cite>Board Game Supercenter</cite> demonstrate appending an application-specific JavaScript config file in the Storefront.
 
@@ -331,7 +333,7 @@ However, Workarea makes use of additional Rails configs that live outside the Wo
 
 ### Configuring the Application Time Zone
 
-[Since Workarea 3.2.0](workarea-3-2-0.html#uses-rails-time-zone-to-display-all-dates-times), you must configure a time zone for the admin side of your Workarea application. Set `config.time_zone` in your Rails general configuration in `config/application.rb`.
+[Since Workarea 3.2.0](/release-notes/workarea-3-2-0.html#uses-rails-time-zone-to-display-all-dates-times), you must configure a time zone for the admin side of your Workarea application. Set `config.time_zone` in your Rails general configuration in `config/application.rb`.
 
 ```ruby
 # config/application.rb
@@ -400,8 +402,4 @@ $
 
 Other important Rails configurations are the _available locales_, _default locale_, and _locale fallbacks_. All of Workarea's user interfaces are internationalized and therefore depend on these values.
 
-Review the [Configure Locales](configure-locales.html) guide for coverage of this topic.
-
-## Notes
-
-[1] Alternatively, if you are working in an application that is [overriding](overriding.html) the relevant manifest, you can require the config file within your manifest override.
+Review the [Configure Locales](/articles/configure-locales.html) guide for coverage of this topic.

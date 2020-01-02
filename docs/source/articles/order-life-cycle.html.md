@@ -6,7 +6,7 @@ excerpt: 'Order models represent order transactions throughout their entire life
 
 # Order Life Cycle
 
-`Order` models represent [order transactions](orders.html) throughout their entire life cycles, thereby encapsulating the function of several traditional business documents (for example: purchase order, invoice, and receipt) into a single document.
+`Order` models represent [order transactions](/articles/orders.html) throughout their entire life cycles, thereby encapsulating the function of several traditional business documents (for example: purchase order, invoice, and receipt) into a single document.
 
 Orders begin their lives driven largely by consumers. Consumers create carts, which ideally progress through checkout, but may become abandoned along the way. If not placed, orders eventually expire and are cleaned. In an effort to prevent this, abandoned orders trigger reminders to consumers, which may result in resumed carts and checkouts.
 
@@ -29,7 +29,7 @@ order.status
 # => :cart
 ```
 
-Carts, like other [application documents](application-document.html), have timestamps which encode the date and time at which they were created and last updated. Later examples show uses of these timestamps.
+Carts, like other [application documents](/articles/application-document.html), have timestamps which encode the date and time at which they were created and last updated. Later examples show uses of these timestamps.
 
 ```
 order.created_at.present?
@@ -112,7 +112,7 @@ Workarea::Order.expired.include?(order)
 
 ### Cleaning Orders
 
-Workarea applications run a [scheduled worker](workers.html#sidekiq-cron-job) to periodically clean up (that is, destroy) expired orders. Manually running this worker removes the order from the database.
+Workarea applications run a [scheduled worker](/articles/workers.html#sidekiq-cron-job) to periodically clean up (that is, destroy) expired orders. Manually running this worker removes the order from the database.
 
 ```
 Workarea::CleanOrders.new.perform
@@ -265,7 +265,7 @@ order.status
 
 To help recover the potentially lost revenue of abandoned orders, Workarea applications send “reminder” emails when possible. Each email contains a token allowing the consumer to resume the cart.
 
-For an order to be considered <dfn>needs reminding</dfn>, it must have started checkout, become abandoned, and have an email. Since Workarea 3.5, it must also not be suspected of fraud (see section [Suspected Fraud](#suspected-fraud_15) below).
+For an order to be considered <dfn>needs reminding</dfn>, it must have started checkout, become abandoned, and have an email. Since Workarea 3.5, it must also not be suspected of fraud (see section [Suspected Fraud](#suspected-fraud) below).
 
 The example order does not qualify because it is an active checkout and does not have an email.
 
@@ -378,7 +378,7 @@ order.place
 
 The `place` method does little more than set the `placed_at` timestamp and save the order. However, it saves the order conservatively, waiting for the save to write to disk and (in hosted environments) replicate to other nodes before reporting success.
 
-( The `Order#place` method also runs the custom `:place` callback (see [Callbacks Worker](workers.html#callbacks-worker), which enqueues additional work to run in the background. However, those jobs are outside the scope of the `Order` module and are not covered here. )
+( The `Order#place` method also runs the custom `:place` callback (see [Callbacks Worker](/articles/workers.html#callbacks-worker), which enqueues additional work to run in the background. However, those jobs are outside the scope of the `Order` module and are not covered here. )
 
 ```
 order.placed_at.present?
@@ -466,7 +466,7 @@ order.status
 
 ### Searching Placed Orders
 
-Notably, search has been absent from this discussion so far. This is due to the fact that only _placed_ orders are indexed into Elasticsearch, in order for administrators to manage the placed orders through the Admin interface. (This changes in Workarea 3.5, which introduces fraud analysis. Orders suspected of fraud are also indexed into Admin search. See section [Suspected Fraud](#suspected-fraud_15) below.)
+Notably, search has been absent from this discussion so far. This is due to the fact that only _placed_ orders are indexed into Elasticsearch, in order for administrators to manage the placed orders through the Admin interface. (This changes in Workarea 3.5, which introduces fraud analysis. Orders suspected of fraud are also indexed into Admin search. See section [Suspected Fraud](#suspected-fraud) below.)
 
 The next example first resets the Admin search indexes and then manually indexes the cart and placed order which were created above. Only the placed order is returned in search results.
 
@@ -493,7 +493,7 @@ Workarea::Search::AdminOrders.new.results.first.id == placed_order.id
 
 ## Canceled Orders
 
-Workarea Core also allows <dfn>canceling</dfn> orders, however, this does not take into consideration the restocking of inventory, refunding of payment, and updating of fulfillment that may accompany such a change. Because of these additional concerns, this functionality is not exposed as a web interface in the base platform, but is available through the [Workarea OMS](https://plugins.workarea.com/plugins/oms) plugin.
+Workarea Core also allows <dfn>canceling</dfn> orders, however, this does not take into consideration the restocking of inventory, refunding of payment, and updating of fulfillment that may accompany such a change. Because of these additional concerns, this functionality is not exposed as a web interface in the base platform, but is available through the _Workarea OMS_ plugin.
 
 From the `Order` document’s perspective, <dfn>canceling</dfn> an order (achieved through `Order#cancel`) is simply the process of recording the date and time at which the order was canceled. The presence of this additional timestamp causes the order to identify as canceled.
 

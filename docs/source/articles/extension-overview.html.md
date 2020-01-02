@@ -18,14 +18,14 @@ One form of extension is simple <dfn>augmentation</dfn>—adding new code within
 
 ## Domain-Specific Extension
 
-Workarea provides various _designed_ points of extension that employ conventions, inheritance, DSLs, and other techniques to reduce cost during the initial implementation, and potentially at upgrade time. These techniques are domain-specific, so within this documentation, I cover each where that particular domain aspect is covered. Examples of these extension points are listed below.&nbsp;<sup><a href="#notes" id="note-1-context">[1]</a></sup>
+Workarea provides various _designed_ points of extension that employ conventions, inheritance, DSLs, and other techniques to reduce cost during the initial implementation, and potentially at upgrade time. These techniques are domain-specific, so within this documentation, I cover each where that particular domain aspect is covered. Examples of these extension points are listed below.
 
 - Catalog customizations
-- [Content block types](add-a-content-block-type.html)
-- [Discount types](create-a-custom-discount.html)
+- [Content block types](/articles/add-a-content-block-type.html)
+- [Discount types](/articles/create-a-custom-discount.html)
 - Inventory policies
-- [Payment gateways](integrate-a-payment-gateway.html)
-- [Pricing calculators](customize-pricing.html)
+- Payment tender types, e.g. [credit card tender type](/articles/customize-the-credit-card-tender-type.html)
+- [Pricing calculators](/articles/customize-pricing.html)
 - Product templates
 - Seeds
 - Shipping carriers
@@ -37,7 +37,7 @@ Workarea also provides generic extension techniques that apply across domain bou
 
 ### Configuration
 
-[Configuration](configuration.html) allows developers to customize specific programmatic values in Ruby and JavaScript.
+[Configuration](/articles/configuration.html) allows developers to customize specific programmatic values in Ruby and JavaScript.
 
 #### Summary
 
@@ -65,7 +65,7 @@ Workarea also provides generic extension techniques that apply across domain bou
 
 ### Decoration
 
-[Decoration](decoration.html) allows developers to customize Ruby classes.
+[Decoration](/articles/decoration.html) allows developers to customize Ruby classes.
 
 #### Summary
 
@@ -92,7 +92,7 @@ Workarea also provides generic extension techniques that apply across domain bou
 
 ### Appending
 
-[Appending](appending.html) allows developers to inject their own views and assets into existing user interfaces.
+[Appending](/articles/appending.html) allows developers to inject their own views and assets into existing user interfaces.
 
 #### Summary
 
@@ -120,7 +120,7 @@ Workarea also provides generic extension techniques that apply across domain bou
 
 ### Overriding
 
-[Overriding](overriding.html) allows developers to replace user interface files such as views and assets with their own customized copies of the files.
+[Overriding](/articles/overriding.html) allows developers to replace user interface files such as views and assets with their own customized copies of the files.
 
 #### Summary
 
@@ -131,7 +131,7 @@ Workarea also provides generic extension techniques that apply across domain bou
 #### Limitations
 
 - Overriding affects only views, layouts, partials, and files served by the asset pipeline (UI customization)
-- Except in rare cases, plugins should not use overrides (see [Overriding](overriding.html) for more on this)
+- Except in rare cases, plugins should not use overrides (see [Overriding](/articles/overriding.html) for more on this)
 
 #### Test Considerations
 
@@ -145,9 +145,3 @@ Workarea also provides generic extension techniques that apply across domain bou
 - You must apply these changes manually to your own copies of the files
 - While overriding is necessary for UI customization, try to override only the files necessary for your requirements
 - Where possible, use appending instead of overriding to reduce upgrade cost
-
-## Notes
-
-[1] Much of the domain-specific documentation is still forthcoming. I will continue to cross reference these extension points as coverage is added.
-
-

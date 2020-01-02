@@ -6,7 +6,7 @@ excerpt: In this guide, I outline the steps for creating a content block type an
 
 # Add a Content Block Type
 
-In this guide, I outline the steps for creating a [content block type](content.html#block-type) and provide an example for each.
+In this guide, I outline the steps for creating a [content block type](/articles/content.html#block-type) and provide an example for each.
 
 ## Create Storefront Component
 
@@ -14,7 +14,7 @@ In most cases, a new block type will be represented by a new UI component in the
 
 In the following examples, I create a _Captioned Image Content Block_ component in the Storefront, and I add the boilerplate for a JavaScript module with the same name that hooks onto the component. The image below shows the finished component in the Storefront.
 
-![Captioned image content block Storefront component style guide](images/captioned-image-content-block-storefront-component-style-guide.png)
+![Captioned image content block Storefront component style guide](/images/captioned-image-content-block-storefront-component-style-guide.png)
 
 ### Add Assets
 
@@ -144,7 +144,7 @@ _/style\_guides/components/captioned\_image\_content\_block_
 Creating the block type requires adding a block type definition via the content block DSL and adding a partial to render blocks of that type in the Storefront. You can optionally run the _workarea:content\_block\_type_ Rails generator to create the boilerplate for these steps.
 
 (
-For more detailed coverage of the content block DSL, see [Content: Content Block DSL](content.html#content-block-dsl_17).
+For more detailed coverage of the content block DSL, see [Content: Content Block DSL](/articles/content.html#content-block-dsl).
 For examples, refer to the initializer in Workarea Core where the base content blocks are defined.
 Run `$(bundle show workarea-core)/config/initializers/14_content_block_types.rb` to find the path to that initializer within your Workarea installation.
 )
@@ -180,41 +180,44 @@ Create your Storefront partial under the directory _app/views/workarea/storefron
 
 Start your server and navigate to a content edit screen to add a new block. Your new block type is listed.
 
-![Adding captioned image block with default icon](images/adding-captioned-image-block-default-icon.png)
+![Adding captioned image block with default icon](/images/adding-captioned-image-block-default-icon.png)
 
 Choosing that type renders your static content in the preview and offers the default display options for editing.
 
-![Editing a static captioned image block with default icon](images/editing-static-captioned-image-block-default-icon.png)
+![Editing a static captioned image block with default icon](/images/editing-static-captioned-image-block-default-icon.png)
 
 Saving and navigating to that content in the Storefront renders your static content.
 
-![Captioned image block in the Storefront](images/captioned-image-block-in-storefront.png)
+![Captioned image block in the Storefront](/images/captioned-image-block-in-storefront.png)
 
 ## Optionally Add Custom Admin Icon
 
 To provide a custom Admin icon for your block type, create an SVG icon file that mimics the presentation and properties of those used by the default block types in the Admin. Save the icon under the directory _app/assets/images/workarea/admin/content\_block\_types/_. The file name must match your block type name.
 
-For my example, I add an icon<sup><a href="#notes" id="note-1-context">[1]</a></sup> at the following path.
+For my example, I add an icon at the following path.
+( I designed my icon to stand out in screenshots. Your icon should more closely match the existing icons. )
 
 _app/assets/images/workarea/admin/content\_block\_types/captioned\_image.svg_
 
 Within the Admin, add a new block to confirm the icon is displaying correctly.
 
-![Adding captioned image block with custom icon](images/adding-captioned-image-block-custom-icon.png)
+![Adding captioned image block with custom icon](/images/adding-captioned-image-block-custom-icon.png)
 
-![Editing a static captioned image block with custom icon](images/editing-static-captioned-image-block-custom-icon.png)
+![Editing a static captioned image block with custom icon](/images/editing-static-captioned-image-block-custom-icon.png)
 
 ## Replace Static Content with Dynamic Data
 
-To finish the block type, you must replace the static content with dynamic data. This requires adding [fields](content.html#field) to the block type definition, providing default data for those fields, and outputting the field data in the Storefront partial (often using a Storefront view model to manipulate the data first).
+To finish the block type, you must replace the static content with dynamic data. This requires adding [fields](/articles/content.html#field) to the block type definition, providing default data for those fields, and outputting the field data in the Storefront partial (often using a Storefront view model to manipulate the data first).
 
 My example uses _Image_ and _Caption_ fields, as shown below.
 
-![Editing a dynamic captioned image block](images/editing-dynamic-captioned-image-block.png)
+![Editing a dynamic captioned image block](/images/editing-dynamic-captioned-image-block.png)
 
 ### Update Block Type Definition
 
-Revisit your initializer to add content [fields](content.html#field). I add the _Image_ and _Caption_ fields to my example below. To set the default _Image_ value, I copy a useful code block from the Workarea Core content block types initializer.&nbsp;<sup><a href="#notes" id="note-2-context">[2]</a></sup>
+Revisit your initializer to add content [fields](/articles/content.html#field). I add the _Image_ and _Caption_ fields to my example below. To set the default _Image_ value, I copy a useful code block from the Workarea Core content block types initializer.
+
+( Workarea 3.1 adds `Workarea::Content::AssetLookup::find_asset_id_by_file_name`, so if you are targeting Workarea 3.1 or later, you can use `find_asset_id_by_file_name` and avoid the need to implement `find_asset_id` as shown in my examples. )
 
 ```
 # config/initializers/content_block_types.rb
@@ -240,7 +243,7 @@ end
 
 ### Add Default Data
 
-If the default values for your fields require data (products, assets, etc), add seeds for that data. My example requires a [content asset](content.html#asset), so I add the following seeds file.
+If the default values for your fields require data (products, assets, etc), add seeds for that data. My example requires a [content asset](/articles/content.html#asset), so I add the following seeds file.
 
 ```
 # app/seeds/workarea/content_seeds.rb
@@ -327,9 +330,3 @@ The follow example demonstrates this, accessing the value of `data[:title]` in t
 ## Test
 
 You can confirm your block type is working by creating a new block of this type in the Admin and viewing the result in the Storefront. I did not write any automated tests for my example because its functionality is covered by existing platform tests. However, you may need to write a view model test and a system test if your block type includes logic or UI features that are more complex than my example.
-
-## Notes
-
-[1] I designed my icon to stand out in screenshots. Your icon should more closely match the existing icons.
-
-[2] Workarea 3.1 adds `Workarea::Content::AssetLookup::find_asset_id_by_file_name`, so if you are targeting this version of Workarea, you can use `find_asset_id_by_file_name` and avoid the need to implement `find_asset_id` as shown in my examples.

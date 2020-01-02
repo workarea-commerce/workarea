@@ -5,7 +5,7 @@ excerpt: Product Options are an abstraction over Product Variants, grouping comm
 
 # Sort and Exclude Product Options
 
-Product Options can be sorted and excluded based on pre-defined rules in [configuration](configuration.html). For more information on the concepts behind these options, visit [the "Products" architecture guide](products.html#product-options).
+Product Options can be sorted and excluded based on pre-defined rules in [configuration](/articles/configuration.html). For more information on the concepts behind these options, visit [the "Products" architecture guide](/articles/products.html#product-options).
 
 ## Sorting Product Options
 

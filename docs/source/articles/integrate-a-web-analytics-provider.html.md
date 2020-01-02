@@ -6,7 +6,7 @@ excerpt: Workarea analytics adapters are responsible for registering callbacks f
 
 # Integrate a Web Analytics Provider
 
-[Workarea analytics](analytics-overview.html) adapters are responsible for registering callbacks for events and in turn sending the correctly formatted data and events to the third party.
+[Workarea analytics](/articles/analytics-overview.html) adapters are responsible for registering callbacks for events and in turn sending the correctly formatted data and events to the third party.
 
 ## Example Adapter
 

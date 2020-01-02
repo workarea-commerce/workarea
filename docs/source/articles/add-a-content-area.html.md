@@ -8,11 +8,11 @@ excerpt: In this guide, I outline the steps for adding an additional content are
 
 In this guide, I outline the steps for adding an additional content area and displaying it within the Storefront. My examples will use the _Layout_ content instance. For context, search for this system page in the Admin and then choose to edit its content.
 
-![Searching for layout system content in the Admin](images/searching-for-layout-system-content-in-admin.png)
+![Searching for layout system content in the Admin](/images/searching-for-layout-system-content-in-admin.png)
 
 Notice this content already has multiple areas (_Header Promo_ and _Footer Navigation_ in the image below).
 
-![Layout content admin with 2 areas](images/layout-content-admin-with-2-areas.png)
+![Layout content admin with 2 areas](/images/layout-content-admin-with-2-areas.png)
 
 My example adds a 3rd area, _utility\_nav_, as shown below.
 
@@ -40,9 +40,11 @@ Workarea.config.content_areas
 
 You need to manipulate the keys and values in this hash to configure areas. When rendering the content editing UI, an instance of `Workarea::Admin::ContentViewModel` queries this hash looking for:
 
-1. A key matching the content's `slug`<sup><a href="#notes" id="note-1-context">[1]</a></sup>
+1. A key matching the content's `slug`
 2. A key matching the content's contentable's `template`
 3. The key `'generic'`
+
+( Note: #1 above uses `Workarea::Content#slug`, not `Workarea::Navigable#slug`. Navigable slugs are guaranteed to be unique, but content slugs are not. Be aware when adding an area, you may be affecting many content instances. )
 
 `Workarea::Admin::ContentViewModel#areas` returns the value (the array of strings) for the first matching key.
 
@@ -99,7 +101,7 @@ end
 
 After running seeds, you can see a block saved on the content for the new area.
 
-![Utility nav content area in the Admin](images/utility-nav-area-in-admin.png)
+![Utility nav content area in the Admin](/images/utility-nav-area-in-admin.png)
 
 ## Render Blocks in Storefront
 
@@ -107,7 +109,9 @@ In the Storefront, use `Workarea::Storefront::DisplayContent#content_blocks_for`
 
 The view model used for the layout content already includes `Workarea::Storefront::DisplayContent`, so all that's required is a partial to render the blocks.
 
-I add the partial.<sup><a href="#notes" id="note-2-context">[2]</a></sup>
+I add the partial.
+
+( If my application were already overriding the layout, I would skip the partial and render the blocks directly in the layout file. )
 
 ```
 / app/views/layouts/workarea/storefront/_utility_nav_content.html.haml
@@ -132,7 +136,7 @@ Workarea.append_partials(
 
 You can now test the feature end-to-end in your browser to confirm it is working as expected.
 
-![Utility nav content area in the Storefront](images/utility-nav-area-in-storefront.png)
+![Utility nav content area in the Storefront](/images/utility-nav-area-in-storefront.png)
 
 To catch regressions, write a system test confirming the correct blocks are rendered in the Storefront. I use the following test.
 
@@ -162,9 +166,3 @@ module Workarea
   end
 end
 ```
-
-## Notes
-
-[1] Using `Workarea::Content#slug`, not `Workarea::Navigable#slug`. Navigable slugs are guaranteed to be unique, but content slugs are not. Be aware when adding an area, you may be affecting many content instances.
-
-[2] If my application were already overriding the layout, I would skip the partial and render the blocks directly in the layout file.

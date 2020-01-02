@@ -20,6 +20,7 @@ module Workarea
 
         scope :recent, -> { desc(:created_at) }
         index({ discount_id: 1, email: 1 })
+        index({ discount_id: 1, created_at: -1 }, { background: true })
 
         before_validation :downcase_email
 

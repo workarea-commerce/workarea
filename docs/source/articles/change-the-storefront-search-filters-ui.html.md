@@ -6,7 +6,7 @@ excerpt: Learn the steps to style and adjust a frequently customized area of the
 
 # Change the Storefront Search Filters UI
 
-Invariably, through the course of developing the Storefront, your designer will design aspects of the site differently than what the platform supplies out of the box. To handle these changes a developer will need to <a href='overriding.html'>override views, Stylesheet and JavaScript files</a> from the platform into their application in order to make the necessary customizations. Additional changes may be made to helpers or view models used for the simplification of the views themselves.
+Invariably, through the course of developing the Storefront, your designer will design aspects of the site differently than what the platform supplies out of the box. To handle these changes a developer will need to [override views, Stylesheet and JavaScript files](/articles/overriding.html) from the platform into their application in order to make the necessary customizations. Additional changes may be made to helpers or view models used for the simplification of the views themselves.
 
 ## Types of Customizations
 

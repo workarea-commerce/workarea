@@ -5,7 +5,7 @@ excerpt: This page will guide you through a step-by-step process of creating a n
 
 # Add a Report
 
-Workarea provides a number of useful reports that can be used to analyze the data collected via [metrics](add-metrics.html) or any other collection in the database. Though extensive, it is possible a retailer may have the need for a report not provided out of the box. Adding a new report includes:
+Workarea provides a number of useful reports that can be used to analyze the data collected via [metrics](/articles/add-metrics.html) or any other collection in the database. Though extensive, it is possible a retailer may have the need for a report not provided out of the box. Adding a new report includes:
 
 * A class to generate the report results
 * A view model to help format the results
@@ -38,7 +38,7 @@ end
 
 Each report will `include Report`, which is a module that provides shared behavior of reporting date filtering helpers, sorting, result limits, and the logic for generating the results from the aggregation. `reporting_class` tells the `Report` module which collection to aggregate on, and `sort_fields` defines which fields from the resulting documents can be used to sort the documents. The `#aggregation` method defines the aggregation to run, and must return an array of the mongo aggregation stages.
 
-The `reporting_class` can be any model representing a Mongo collection, but typically will be a `Metrics` collection. If a new report requires data that does not exist, you can [add new metrics](add-metrics.html) along with the new report.
+The `reporting_class` can be any model representing a Mongo collection, but typically will be a `Metrics` collection. If a new report requires data that does not exist, you can [add new metrics](/articles/add-metrics.html) along with the new report.
 
 It is encouraged that you write a unit test for your report to ensure it is generating results as expected.
 
