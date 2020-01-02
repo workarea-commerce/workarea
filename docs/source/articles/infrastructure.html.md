@@ -11,7 +11,7 @@ This will be a brief overview of what you'll need to host a Workarea app on your
 
 ### Web
 
-If you're a subscriber to the Workarea Commerce Cloud, you should use the [`workarea-commerce-cloud`](https://github.com/workarea-commerce/workarea-commerce-cloud) plugin for hosting configuration. Otherwise, we recommend a standard Rails Puma configuration.
+If you're a subscriber to the Workarea Commerce Cloud, you should use the `workarea-commerce-cloud` plugin for hosting configuration. Otherwise, we recommend a standard Rails Puma configuration.
 
 ### Sidekiq
 
