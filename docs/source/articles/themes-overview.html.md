@@ -117,7 +117,7 @@ and JS assets which can easily be added to your application manifests.
 
 If you have installed your theme using the `starter_store` generator the upgrade
 path is the same as any other application. The 
-[Workarea upgrade tool](https://stash.tools.weblinc.com/projects/WL/repos/workarea-upgrade/browse)
+_Workarea Upgrade_ tool
 will be very helpful when upgrading your application.
 
 If your application is using a theme as a plugin you should follow these steps:
@@ -151,5 +151,5 @@ multi-site app should be relatively simple!
 It is not possible to use more than 1 theme per application. This means you cannot
 use different themes for different sites within a multi-site application. All sites
 must be based on the same theme, but each can customize away from the theme as necessary.
-Follow the [instructions for working with multi-site applications](https://stash.tools.weblinc.com/projects/WL/repos/workarea-multi-site/browse)
+Users of _Workarea Multi Site_ should refer to its readme
 for more information about developing multi-site applications.

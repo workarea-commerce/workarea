@@ -13,11 +13,11 @@ info.
 Each plugin includes a readme which details the specific features and
 functionality it provides.
 
-* [B2B](https://stash.tools.weblinc.com/projects/WL/repos/workarea-b2b/browse)
-* [Quotes](https://stash.tools.weblinc.com/projects/WL/repos/workarea-quotes/browse)
-* [Variant List](https://stash.tools.weblinc.com/projects/WL/repos/workarea-variant-list/browse)
-* [Quick Order](https://stash.tools.weblinc.com/projects/WL/repos/workarea-quick-order/browse)
-* [Clifton Theme](https://stash.tools.weblinc.com/projects/WL/repos/workarea-clifton-theme/browse)
+* _B2B_
+* _Quotes_
+* [Variant List](https://github.com/workarea-commerce/workarea-variant-list)
+* _Quick Order_
+* _Clifton Theme_
 
 ## B2B Feature Summary
 
