@@ -4,8 +4,7 @@
 
 $forms-color:              $off-black !default;
 $forms-bg-color:           $white !default;
-$forms-disabled-color:     $gray !default;
-$forms-disabled-bg-color:  $light-gray !default;
+$forms-disabled-opacity:   0.5 !default;
 $forms-placeholder-color:  $dark-gray !default;
 
 
@@ -65,10 +64,9 @@ textarea {
 button,
 input, textarea,
 select, optgroup, option {
-    &[disabled], &[readonly] /* [1] */
+    &[disabled], &[readonly], /* [1] */
     fieldset[disabled] & { /* [2] */
-        color: $forms-disabled-color;
-        background-color: $forms-disabled-bg-color;
+        opacity: $forms-disabled-opacity;
         cursor: not-allowed;
     }
 }

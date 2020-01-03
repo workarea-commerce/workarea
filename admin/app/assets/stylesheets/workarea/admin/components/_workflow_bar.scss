@@ -6,7 +6,6 @@ $workflow-bar-bg-color:  $white !default;
 
 $workflow-bar-button-color:                 $blue !default;
 $workflow-bar-button-bg-color:              $white !default;
-$workflow-bar-button-disabled-opacity:       0.5 !default;
 $workflow-bar-button-border-color:           $shadow-color !default;
 
 $workflow-bar-button-create-color:           $white !default;
@@ -73,11 +72,6 @@ $workflow-bar-button-confirm-delete-hover-bg-color:  $bright-red !default;
 
         &:hover {
             text-decoration: none;
-        }
-
-        &[disabled] {
-            opacity: $workflow-bar-button-disabled-opacity;
-            cursor: not-allowed;
         }
     }
 
