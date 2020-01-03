@@ -38,7 +38,8 @@ module Workarea
           {
             catalog_id: clean_for_keywords(catalog_id),
             sku: sku.map { |s| clean_for_keywords(s) },
-            name: clean_for_keywords(model.name)
+            name: clean_for_keywords(model.name),
+            tags: model.tags
           }
         end
 
