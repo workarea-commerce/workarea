@@ -9,6 +9,12 @@ developing-on-workarea:
   installing.html.md: /articles/installing.html.md
   navigating-the-code.html.md: /articles/navigating-the-code.html.md
   seeds.html.md: /articles/seeds.html.md
+  testing:
+    testing-overview.html.md: /articles/testing-overview.html.md
+    run-tests.html.md: /articles/run-tests.html.md
+    decorate-and-write-tests.html.md: /articles/decorate-and-write-tests.html.md
+    configure-headless-chrome.html.md: /articles/configure-headless-chrome.html.md
+    configure-test-factories.html.md: /articles/configure-test-factories.html.md
   integrating-with-other-software: /articles/integrating-with-other-software.html.md
   common-tasks:
     run-sidekiq-in-a-local-environment: /articles/run-sidekiq-in-a-local-environment.html.md
@@ -21,7 +27,6 @@ hosting-workarea:
 application-architecture:
   prerequisites-and-dependencies.html.md: /articles/prerequisites-and-dependencies.html.md
   domain-modeling.html.md: /articles/domain-modeling.html.md
-  testing.html.md: /articles/testing.html.md
   view-models.html.md: /articles/view-models.html.md
   workers.html.md: /articles/workers.html.md
   caching:
