@@ -59,7 +59,7 @@ Workarea 3 moves all RSpec dependencies into a separate [Workarea RSpec](https:/
 
 **Existing applications are not expected to migrate existing specs to Minitest. RSpec testing will continue to be supported indefinitely.** However, new applications should write Minitest tests exclusively, in order to benefit from test decoration.
 
-Refer to [Testing](/articles/testing.html) for further coverage of testing in Workarea 3.
+Refer to [Testing Concepts](/articles/testing-concepts.html) for further coverage of testing in Workarea 3.
 
 ## Workers, Listeners & Publishers
 

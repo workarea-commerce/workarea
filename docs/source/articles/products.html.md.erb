@@ -807,7 +807,7 @@ However, they can also complete developer-only tasks related to product manageme
 Developers also have access to application and platform source code (through gems and git repositories), allowing platform extensions that facilitate product management. Examples of this are:
 
 - Extending existing or adding new products [seeds](/articles/seeds.html) (See `Workarea::ProductsSeeds`)
-- Using existing [test factories](/articles/testing.html#factories) within your own [tests](/articles/testing.html#writing-new-tests) and [test decorators](/articles/testing.html#writing-test-decorators) and extending test factories as needed (See `Workarea::Factories::Catalog`)
+- Using existing [test factories](/articles/testing-concepts.html#factories) within your [own tests and test decorators](/articles/decorate-and-write-tests.html) and extending test factories as needed (See `Workarea::Factories::Catalog`)
 - Extending existing or adding new [workers](/articles/workers.html) to manage products according to a schedule or in response to events
 
 Finally, the <cite>Workarea API</cite> plugin provides a JSON over HTTP interface which allows management of products, variants, and product images. This allows for management of these models programmatically over the network. For example, another service can “push” product data to Workarea according to a schedule or events within the other system.
