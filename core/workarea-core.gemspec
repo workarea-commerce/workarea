@@ -64,7 +64,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'chart-js-rails', '~> 0.0.9' # TODO remove v4
   s.add_dependency 'chart-horizontalbar-rails', '~> 1.0.4' # TODO remove v4
   s.add_dependency 'select2-rails', '~> 4.0.3'
-  s.add_dependency 'wysihtml-rails', '~> 0.6.x'
+  s.add_dependency 'wysihtml-rails', '~> 0.6.0.beta2'
   s.add_dependency 'rack-attack', '~> 6.2.0'
   s.add_dependency 'jquery-livetype-rails', '~> 0.1.0' # TODO remove v4
   s.add_dependency 'redcarpet', '~> 3.5.0'
