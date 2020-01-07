@@ -1,3 +1,31 @@
+Workarea 3.4.25 (2020-01-07)
+--------------------------------------------------------------------------------
+
+*   Another hardcoded 2020 fix
+
+    We've all learned our lesson, right?
+    Ben Crouse
+
+*   Pin version for wysihtml-rails
+
+    Setting the version to 0.6.0.beta2 fixes the dependency issues that arose after the new version of Bundler.
+    Jeff Yucis
+
+*   Use the Rack session ID cookie value for user activity session IDs
+
+    Rack >= 2.0.8 adds the idea private/public session IDs to prevent timing
+    attacks where a session ID can be stolen. This is big for sessions stored
+    in databases because the session can then be stolen.
+
+    Workarea only supports a cookie session store, so we can continue to
+    safely use the cookie value of the session ID for metrics lookups.
+
+    You can learn more about the Rack vulnerability here:
+    https://github.com/rack/rack/security/advisories/GHSA-hrqr-hxpp-chr3
+    Ben Crouse
+
+
+
 Workarea 3.4.24 (2019-12-19)
 --------------------------------------------------------------------------------
 
