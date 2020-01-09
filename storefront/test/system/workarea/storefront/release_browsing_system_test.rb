@@ -28,7 +28,7 @@ module Workarea
         visit storefront.root_path
         assert(page.has_no_content?('New Taxon'))
 
-        page.document.syncronize do
+        page.document.synchronize do
           within_frame find('.admin-toolbar') do
             find_field 'release_id'
             select 'Browse Release', from: 'release_id'
@@ -38,7 +38,7 @@ module Workarea
 
         visit storefront.page_path(page1)
 
-        page.document.syncronize do
+        page.document.synchronize do
           within_frame find('.admin-toolbar') do
             find_field 'release_id'
             select 'the live site', from: 'release_id'
@@ -46,7 +46,7 @@ module Workarea
         end
         assert(page.has_no_content?('Foo Changed'))
 
-        page.document.syncronize do
+        page.document.synchronize do
           within_frame find('.admin-toolbar') do
             find_field 'release_id'
             select 'Browse Release', from: 'release_id'
@@ -56,7 +56,7 @@ module Workarea
 
         visit storefront.page_path(page2)
 
-        page.document.syncronize do
+        page.document.synchronize do
           within_frame find('.admin-toolbar') do
             find_field 'release_id'
             select 'the live site', from: 'release_id'
@@ -64,7 +64,7 @@ module Workarea
         end
         assert(page.has_no_content?('Bar Changed'))
 
-        page.document.syncronize do
+        page.document.synchronize do
           within_frame find('.admin-toolbar') do
             find_field 'release_id'
             select 'Browse Release', from: 'release_id'
@@ -78,7 +78,7 @@ module Workarea
 
         visit storefront.root_path
 
-        page.document.syncronize do
+        page.document.synchronize do
           within_frame find('.admin-toolbar') do
             find_field 'release_id'
             select 'the live site', from: 'release_id'
