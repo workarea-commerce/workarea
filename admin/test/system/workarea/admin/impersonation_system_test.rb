@@ -27,7 +27,7 @@ module Workarea
         assert(page.has_content?('impersonated@workarea.com'))
 
         visit storefront.root_path
-        
+
         page.document.synchronize do
           within_frame find('.admin-toolbar') do
             find_button "Stop Impersonation"
@@ -35,7 +35,7 @@ module Workarea
             click_button 'Stop Impersonation'
           end
         end
-        
+
         assert_equal(admin.user_path(user), current_path)
         assert(page.has_content?('Success'))
 

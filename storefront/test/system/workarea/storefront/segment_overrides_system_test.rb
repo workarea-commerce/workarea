@@ -32,9 +32,11 @@ module Workarea
         assert(page.has_content?('Success'))
 
         visit storefront.root_path
-        within_frame find('.admin-toolbar') do
-          wait_for_iframe
-          click_link 'select_segments'
+        page.document.synchronize do
+          within_frame find('.admin-toolbar') do
+            find_link 'select_segments'
+            click_link 'select_segments'
+          end
         end
 
         assert_content(t('workarea.admin.segment_overrides.show.title'))
@@ -44,10 +46,12 @@ module Workarea
         assert_current_path(storefront.root_path)
         assert_content('Foo')
         assert_no_content('Bar')
-        within_frame find('.admin-toolbar') do
-          wait_for_iframe
-          assert_content('Test One')
-          click_link 'select_segments'
+        page.document.synchronize do
+          within_frame find('.admin-toolbar') do
+            find_link 'select_segments'
+            assert_content('Test One')
+            click_link 'select_segments'
+          end
         end
 
         assert_content(t('workarea.admin.segment_overrides.show.title'))
@@ -58,10 +62,12 @@ module Workarea
         assert_current_path(storefront.root_path)
         assert_no_content('Foo')
         assert_content('Bar')
-        within_frame find('.admin-toolbar') do
-          wait_for_iframe
-          refute_content('Test One')
-          assert_content('Test Two')
+        page.document.synchronize do
+          within_frame find('.admin-toolbar') do
+            find_link 'select_segments'
+            refute_content('Test One')
+            assert_content('Test Two')
+          end
         end
       end
     end
