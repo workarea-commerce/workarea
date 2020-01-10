@@ -155,7 +155,8 @@ module Workarea
       self.publish_at = nil
       save!
 
-      changesets.each(&:publish!)
+      ordered_changesets.each(&:publish!)
+      touch_releasables
     end
 
     def undo!
@@ -163,7 +164,8 @@ module Workarea
       self.undone_at = Time.current
       save!
 
-      changesets.each(&:undo!)
+      ordered_changesets.each(&:undo!)
+      touch_releasables
     end
 
     def set_publish_job
@@ -191,6 +193,18 @@ module Workarea
     def statuses
       calculators = Workarea.config.release_status_calculators.map(&:constantize)
       StatusCalculator.new(calculators, self).results
+    end
+
+    # Get changesets ordered based on publish priority set by configuration.
+    #
+    # @return [Array<Workarea::Release::Changeset>]
+    #
+    def ordered_changesets
+      ordering = Workarea.config.release_changeset_ordering
+
+      changesets.sort_by do |changeset|
+        ordering[changeset.releasable_type].presence || 999
+      end
     end
 
     private
@@ -226,6 +240,16 @@ module Workarea
     def undoable_release
       unless publish_at.present? || published_at.present?
         errors.add(:undo_at, I18n.t('workarea.errors.messages.undo_unpublished_release'))
+      end
+    end
+
+    def touch_releasables
+      Sidekiq::Callbacks.disable do
+        changesets
+          .map(&:releasable_from_document_path)
+          .compact
+          .uniq
+          .each(&:touch)
       end
     end
   end

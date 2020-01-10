@@ -1268,6 +1268,19 @@ module Workarea
       # if your CSV files are failing to import with a UTF-8 encoding
       # error.
       config.csv_import_options = { encoding: 'bom|utf-8' }
+
+      # Define the priority order that releasable models' changesets get
+      # published in. Workarea::Navigation::Menu should always be last. Any
+      # model without a defined position will automatically set as 999.
+      config.release_changeset_ordering = {
+        'Workarea::Catalog::Variant' => 1,
+        'Workarea::Catalog::Product' => 2,
+        'Workarea::Content::Block' => 3,
+        'Workarea::Content' => 4,
+        'Workarea::Content::Page' => 5,
+        'Workarea::Catalog::Category' => 6,
+        'Workarea::Navigation::Menu' => 1_000
+      }
     end
   end
 end
