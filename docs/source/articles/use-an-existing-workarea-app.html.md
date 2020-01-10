@@ -93,7 +93,7 @@ This will run the Workarea test suite (with any [decoration to the tests](/artic
 $ bin/rails workarea:test
 ```
 
-For more details on Workarea's testing functionality, see [Testing](/articles/testing.html).
+For more details on Workarea's testing functionality, see [Testing](/articles/testing-overview.html).
 
 ### 9. Stop the Services
 
