@@ -28,37 +28,47 @@ module Workarea
         visit storefront.root_path
         assert(page.has_no_content?('New Taxon'))
 
-        within_frame find('.admin-toolbar') do
-          wait_for_iframe
-          select 'Browse Release', from: 'release_id'
+        page.document.synchronize do
+          within_frame find('.admin-toolbar') do
+            find_field 'release_id'
+            select 'Browse Release', from: 'release_id'
+          end
         end
         assert(page.has_content?('New Taxon'))
 
         visit storefront.page_path(page1)
 
-        within_frame find('.admin-toolbar') do
-          wait_for_iframe
-          select 'the live site', from: 'release_id'
+        page.document.synchronize do
+          within_frame find('.admin-toolbar') do
+            find_field 'release_id'
+            select 'the live site', from: 'release_id'
+          end
         end
         assert(page.has_no_content?('Foo Changed'))
 
-        within_frame find('.admin-toolbar') do
-          wait_for_iframe
-          select 'Browse Release', from: 'release_id'
+        page.document.synchronize do
+          within_frame find('.admin-toolbar') do
+            find_field 'release_id'
+            select 'Browse Release', from: 'release_id'
+          end
         end
         assert(page.has_content?('Foo Changed'))
 
         visit storefront.page_path(page2)
 
-        within_frame find('.admin-toolbar') do
-          wait_for_iframe
-          select 'the live site', from: 'release_id'
+        page.document.synchronize do
+          within_frame find('.admin-toolbar') do
+            find_field 'release_id'
+            select 'the live site', from: 'release_id'
+          end
         end
         assert(page.has_no_content?('Bar Changed'))
 
-        within_frame find('.admin-toolbar') do
-          wait_for_iframe
-          select 'Browse Release', from: 'release_id'
+        page.document.synchronize do
+          within_frame find('.admin-toolbar') do
+            find_field 'release_id'
+            select 'Browse Release', from: 'release_id'
+          end
         end
         assert(page.has_content?('Bar Changed'))
 
@@ -68,9 +78,11 @@ module Workarea
 
         visit storefront.root_path
 
-        within_frame find('.admin-toolbar') do
-          wait_for_iframe
-          select 'the live site', from: 'release_id'
+        page.document.synchronize do
+          within_frame find('.admin-toolbar') do
+            find_field 'release_id'
+            select 'the live site', from: 'release_id'
+          end
         end
         assert(page.has_no_content?('New Taxon'))
       end

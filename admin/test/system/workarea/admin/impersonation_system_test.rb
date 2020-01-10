@@ -28,10 +28,12 @@ module Workarea
 
         visit storefront.root_path
 
-        within_frame find('.admin-toolbar') do
-          wait_for_iframe
-          assert(page.has_content?('impersonated@workarea.com'))
-          click_button 'Stop Impersonation'
+        page.document.synchronize do
+          within_frame find('.admin-toolbar') do
+            find_button "Stop Impersonation"
+            assert(page.has_content?('impersonated@workarea.com'))
+            click_button 'Stop Impersonation'
+          end
         end
 
         assert_equal(admin.user_path(user), current_path)
