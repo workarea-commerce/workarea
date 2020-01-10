@@ -204,6 +204,34 @@ module Workarea
       refute(release.valid?)
       assert_includes(release.errors.full_messages.to_sentence, I18n.t('workarea.errors.messages.undo_unpublished_release'))
     end
+
+    def test_ordered_changesets
+      release = create_release
+      [
+        { releasable_type: 'Workarea::Catalog::Category', releasable_id: '123' },
+        { releasable_type: 'Workarea::Catalog::Product', releasable_id: 'PROD1' },
+        { releasable_type: 'Workarea::Catalog::Variant', releasable_id: 'VAR1' },
+        { releasable_type: 'Workarea::Content::Page', releasable_id: 'PAGE1' },
+        { releasable_type: 'Workarea::Navigation::Menu', releasable_id: 'NAV1' },
+        { releasable_type: 'Workarea::Content', releasable_id: 'CON1' },
+        { releasable_type: 'Workarea::Search::Customization', releasable_id: 'CUS1' },
+        { releasable_type: 'Workarea::Content::Block', releasable_id: 'BLC1' }
+      ].each { |changeset| release.changesets.build(changeset) }
+
+      assert_equal(
+        %w(
+          Workarea::Catalog::Variant
+          Workarea::Catalog::Product
+          Workarea::Content::Block
+          Workarea::Content
+          Workarea::Content::Page
+          Workarea::Catalog::Category
+          Workarea::Search::Customization
+          Workarea::Navigation::Menu
+        ),
+        release.ordered_changesets.map(&:releasable_type)
+      )
+    end
   end
 
   class ReleaseJobsTest < TestCase
