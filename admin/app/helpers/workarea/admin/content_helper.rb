@@ -6,6 +6,16 @@ module Workarea
         @tmp[name.to_s.systemize] ||= Content.for(name.to_s.systemize)
       end
 
+      def layout_footer_area_id
+        @layout_footer_area_id ||= begin
+          content = Admin::ContentViewModel.wrap(
+            current_system_page_content_for(:layout)
+          )
+
+          content.areas.find { |a| a =~ /footer/i }
+        end
+      end
+
       def render_content_areas(content)
         partial = "workarea/admin/content/types/_#{content.slug}"
         if lookup_context.find_all(partial).any?
