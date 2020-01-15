@@ -106,15 +106,6 @@ module Workarea
         releasable_from_document_path.reload
       end
 
-      private
-
-      def apply_changeset(model, changeset)
-        changeset.each do |field, new_value|
-          model.send(:attribute_will_change!, field) # required for correct dirty tracking
-          model.attributes[field] = new_value
-        end
-      end
-
       def releasable_from_document_path
         return @releasable_from_document_path if defined?(@releasable_from_document_path)
 
@@ -124,6 +115,15 @@ module Workarea
           rescue Mongoid::Errors::DocumentNotFound
             nil
           end
+      end
+
+      private
+
+      def apply_changeset(model, changeset)
+        changeset.each do |field, new_value|
+          model.send(:attribute_will_change!, field) # required for correct dirty tracking
+          model.attributes[field] = new_value
+        end
       end
     end
   end

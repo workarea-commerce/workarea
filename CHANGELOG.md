@@ -1,3 +1,60 @@
+Workarea 3.5.3 (2020-01-07)
+--------------------------------------------------------------------------------
+
+*   Another hardcoded 2020 fix
+
+    We've all learned our lesson, right?
+    Ben Crouse
+
+*   Pin version for wysihtml-rails
+
+    Setting the version to 0.6.0.beta2 fixes the dependency issues that arose after the new version of Bundler.
+    Jeff Yucis
+
+*   Fix some references to 2020
+
+    These were causing build failures. Assuming these fixes got lost in a
+    merge.
+    Ben Crouse
+
+*   Reuse new Activity UI for main dashboard in Admin
+
+    WORKAREA-138
+    Curt Howard
+
+*   Use the Rack session ID cookie value for user activity session IDs
+
+    Rack >= 2.0.8 adds the idea private/public session IDs to prevent timing
+    attacks where a session ID can be stolen. This is big for sessions stored
+    in databases because the session can then be stolen.
+
+    Workarea only supports a cookie session store, so we can continue to
+    safely use the cookie value of the session ID for metrics lookups.
+
+    You can learn more about the Rack vulnerability here:
+    https://github.com/rack/rack/security/advisories/GHSA-hrqr-hxpp-chr3
+    Ben Crouse
+
+*   Disallow multiple form submissions throughout the Admin
+
+    Disable any submit button within a form after submission to prevent
+    multiple clicks. Also be less opinionated with disabled inputs and
+    buttons, applying only an opacity and a cursor style, which allows
+    relevant component's disabled states to more easily be inherited.
+
+    WORKAREA-133
+    Curt Howard
+
+*   Fix Performance Test Task
+
+    Instead of using a Boolean `true` value, use the String `"true"` so Ruby
+    won't complain when running the task.
+
+    WORKAREA-156
+    Tom Scott
+
+
+
 Workarea 3.5.2 (2019-12-19)
 --------------------------------------------------------------------------------
 

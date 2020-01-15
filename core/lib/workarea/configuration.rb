@@ -1276,6 +1276,19 @@ module Workarea
 
       # How long a password reset URL stays valid
       config.password_reset_timeout = 2.hours
+
+      # Define the priority order that releasable models' changesets get
+      # published in. Workarea::Navigation::Menu should always be last. Any
+      # model without a defined position will automatically set as 999.
+      config.release_changeset_ordering = {
+        'Workarea::Catalog::Variant' => 1,
+        'Workarea::Catalog::Product' => 2,
+        'Workarea::Content::Block' => 3,
+        'Workarea::Content' => 4,
+        'Workarea::Content::Page' => 5,
+        'Workarea::Catalog::Category' => 6,
+        'Workarea::Navigation::Menu' => 1_000
+      }
     end
   end
 end
