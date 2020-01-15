@@ -186,7 +186,8 @@ module Workarea
       self.publish_at = nil
       save!
 
-      changesets.each(&:publish!)
+      ordered_changesets.each(&:publish!)
+      touch_releasables
     end
 
     def set_publish_job
@@ -207,6 +208,18 @@ module Workarea
       StatusCalculator.new(calculators, self).results
     end
 
+    # Get changesets ordered based on publish priority set by configuration.
+    #
+    # @return [Array<Workarea::Release::Changeset>]
+    #
+    def ordered_changesets
+      ordering = Workarea.config.release_changeset_ordering
+
+      changesets.sort_by do |changeset|
+        ordering[changeset.releasable_type].presence || 999
+      end
+    end
+
     private
 
     def publish_at_status
@@ -224,6 +237,16 @@ module Workarea
 
       Scheduler.delete(publish_job_id)
       self.publish_job_id = nil
+    end
+
+    def touch_releasables
+      Sidekiq::Callbacks.disable do
+        changesets
+          .map(&:releasable_from_document_path)
+          .compact
+          .uniq
+          .each(&:touch)
+      end
     end
   end
 end

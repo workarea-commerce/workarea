@@ -160,62 +160,32 @@ module Workarea
       assert(release.published?)
     end
 
-    def test_scheduled_before
-      one_week_from_now = 1.week.from_now
-
-      one = create_release(publish_at: one_week_from_now)
-      two = create_release(publish_at: nil)
-      three = create_release(publish_at: 8.days.from_now)
-      four = create_release(publish_at: 6.days.from_now)
-      five = create_release(publish_at: one_week_from_now)
-      six = create_release(publish_at: 4.days.from_now)
-
-      assert_equal([six, four, five], one.scheduled_before)
-      assert_equal([], two.scheduled_before)
-      assert_equal([six, four, one, five], three.scheduled_before)
-      assert_equal([six], four.scheduled_before)
-      assert_equal([six, four, one], five.scheduled_before)
-      assert_equal([], six.scheduled_before)
-    end
-
-    def test_scheduled_after
-      one_week_from_now = 1.week.from_now
-
-      one = create_release(name: '1', publish_at: one_week_from_now)
-      two = create_release(name: '2', publish_at: nil)
-      three = create_release(name: '3', publish_at: 8.days.from_now)
-      four = create_release(name: '4', publish_at: 6.days.from_now)
-      five = create_release(name: '5', publish_at: one_week_from_now)
-      six = create_release(name: '6', publish_at: 4.days.from_now)
-
-      assert_equal([five, three], one.scheduled_after)
-      assert_equal([], two.scheduled_after)
-      assert_equal([], three.scheduled_after)
-      assert_equal([one, five, three], four.scheduled_after)
-      assert_equal([one, three], five.scheduled_after)
-      assert_equal([four, one, five, three], six.scheduled_after)
-    end
-
-    def test_previous
+    def test_ordered_changesets
       release = create_release
-      assert_nil(release.previous)
+      [
+        { releasable_type: 'Workarea::Catalog::Category', releasable_id: '123' },
+        { releasable_type: 'Workarea::Catalog::Product', releasable_id: 'PROD1' },
+        { releasable_type: 'Workarea::Catalog::Variant', releasable_id: 'VAR1' },
+        { releasable_type: 'Workarea::Content::Page', releasable_id: 'PAGE1' },
+        { releasable_type: 'Workarea::Navigation::Menu', releasable_id: 'NAV1' },
+        { releasable_type: 'Workarea::Content', releasable_id: 'CON1' },
+        { releasable_type: 'Workarea::Search::Customization', releasable_id: 'CUS1' },
+        { releasable_type: 'Workarea::Content::Block', releasable_id: 'BLC1' }
+      ].each { |changeset| release.changesets.build(changeset) }
 
-      release.update_attributes!(publish_at: 1.week.from_now)
-      assert_nil(release.previous)
-
-      first = create_release(publish_at: 1.day.from_now)
-      assert_equal(first, release.previous)
-
-      third = create_release(publish_at: 2.days.from_now)
-      assert_equal(third, release.previous)
-    end
-
-    def test_build_undo
-      release = create_release
-      undo = release.build_undo
-      assert(undo.name.present?)
-      assert_equal(undo, release.undo)
-      assert_equal(release, undo.undoes)
+      assert_equal(
+        %w(
+          Workarea::Catalog::Variant
+          Workarea::Catalog::Product
+          Workarea::Content::Block
+          Workarea::Content
+          Workarea::Content::Page
+          Workarea::Catalog::Category
+          Workarea::Search::Customization
+          Workarea::Navigation::Menu
+        ),
+        release.ordered_changesets.map(&:releasable_type)
+      )
     end
   end
 end
