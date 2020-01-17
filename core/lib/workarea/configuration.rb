@@ -1281,12 +1281,14 @@ module Workarea
       # published in. Workarea::Navigation::Menu should always be last. Any
       # model without a defined position will automatically set as 999.
       config.release_changeset_ordering = {
-        'Workarea::Catalog::Variant' => 1,
-        'Workarea::Catalog::Product' => 2,
-        'Workarea::Content::Block' => 3,
-        'Workarea::Content' => 4,
-        'Workarea::Content::Page' => 5,
-        'Workarea::Catalog::Category' => 6,
+        'Workarea::Pricing::Price' => 0,
+        'Workarea::Pricing::Sku' => 1,
+        'Workarea::Catalog::Variant' => 2,
+        'Workarea::Catalog::Product' => 3,
+        'Workarea::Content::Block' => 4,
+        'Workarea::Content' => 5,
+        'Workarea::Content::Page' => 6,
+        'Workarea::Catalog::Category' => 7,
         'Workarea::Navigation::Menu' => 1_000
       }
     end
