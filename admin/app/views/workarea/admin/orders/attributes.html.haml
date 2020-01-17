@@ -116,6 +116,7 @@
                     %th
                       %span.data-pairs__name= t('workarea.admin.orders.attributes.totals.subtotal')
                     %td= number_to_currency @order.subtotal_price
+                  = append_partials('admin.order_attributes_subtotal', order: @order)
                   %tr
                     %th
                       %span.data-pairs__name= t('workarea.admin.orders.attributes.totals.shipping')
