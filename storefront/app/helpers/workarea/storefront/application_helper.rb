@@ -53,7 +53,8 @@ module Workarea
               analytics: {
                 event: 'flashMessage',
                 payload: { type: name }
-              }.to_json
+              }.to_json,
+              controller: 'message'
             }
           }
 

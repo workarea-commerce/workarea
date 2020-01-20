@@ -34,7 +34,7 @@
       = link_to t('workarea.storefront.layouts.accessibility_info'), accessibility_path
       = link_to t('workarea.storefront.layouts.main_content'), '#main_content', accesskey: 'S'
 
-    .page-messages{ role: 'complementary' }
+    .page-messages{ role: 'complementary', data: { controller: 'flash' } }
       = flash_messages if flash.present?
 
     #top.page-container

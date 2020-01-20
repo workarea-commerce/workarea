@@ -38,7 +38,7 @@
       %li= link_to t('workarea.storefront.layouts.accessibility_info'), accessibility_path
       %li= link_to t('workarea.storefront.layouts.primary_navigation'), '#navigation', accesskey: 'M'
 
-    .page-messages
+    .page-messages{ data: { controller: 'flash' } }
       = flash_messages if flash.present?
 
     #navigation= yield

@@ -46,7 +46,7 @@
       = link_to t('workarea.storefront.layouts.main_content'), '#main_content', accesskey: 'S'
       = link_to t('workarea.storefront.layouts.primary_navigation'), '#navigation', accesskey: 'M'
 
-    .page-messages{ role: 'complementary' }
+    .page-messages{ role: 'complementary', data: { controller: 'flash' } }
       = flash_messages if flash.present?
 
     #top.page-container
