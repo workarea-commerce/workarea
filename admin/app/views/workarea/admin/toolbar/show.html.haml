@@ -8,10 +8,7 @@
     %meta{ property: 'environment', content: Rails.env }
     %meta{ property: 'turbolinks-root', content: root_path }
     = stylesheet_link_tag 'workarea/admin/application', media: 'all'
-    - if Workarea.config.enable_webpacker
-      = javascript_pack_tag 'admin'
-    - else
-      = javascript_include_tag 'workarea/admin/application'
+    = javascript_include_tag 'workarea/admin/application'
     = yield :head
 
     %base{ target: '_parent' }
