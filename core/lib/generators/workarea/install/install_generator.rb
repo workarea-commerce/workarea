@@ -53,6 +53,27 @@ module Workarea
       remove_file 'public/favicon.ico'
     end
 
+    def install_javascripts
+      rake 'webpacker:install'
+      rake 'webpacker:install:stimulus'
+
+      remove_directory 'app/javascript/controllers'
+
+      run 'yarn init -y'
+      run 'yarn add workarea'
+
+      %w(admin storefront).each do |side|
+        create_file "app/javascripts/#{side}/controllers/index.js", <<~JS
+        import Workarea, { #{side.camelize} } from "workarea"
+
+        const App = require.context("#{side}/controllers", true, /_controller\.js$/)
+
+        Workarea.load(#{side.camelize}.controllers)
+        Workarea.load(App)
+        JS
+      end
+    end
+
     private
 
     def app_name
