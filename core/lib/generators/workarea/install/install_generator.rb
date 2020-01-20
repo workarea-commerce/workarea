@@ -56,6 +56,7 @@ module Workarea
     def install_javascripts
       rake 'webpacker:install'
       rake 'webpacker:install:stimulus'
+      rake 'webpacker:install:erb'
 
       remove_directory 'app/javascript/controllers'
 
@@ -72,6 +73,18 @@ module Workarea
         Workarea.load(App)
         JS
       end
+
+      create_file 'config/webpack/loaders/ejs.js' <<~JS
+      module.exports = {
+        test: /\\.ejs$/,
+        enforce: 'pre',
+        exclude: /node_modules/,
+        use: ['ejs-compiled-loader']
+      }
+      JS
+
+      inject_into_file 'config/webpack/environment.js', "environment.loaders.prepend('ejs', ejs)\n", before: 'module.exports = environment'
+      inject_into_file 'config/webpack/environment.js', "const ejs = require('./loaders/ejs')\n", after: "const { environment } = require('@rails/webpacker')"
     end
 
     private
