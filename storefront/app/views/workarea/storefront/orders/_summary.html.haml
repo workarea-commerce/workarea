@@ -267,10 +267,10 @@
 
   %ul.order-help-menu
     %li.order-help-menu__item
-      = link_to t('workarea.storefront.layouts.contact_us'), contact_path, data: { dialog_button: '' }
+      = link_to t('workarea.storefront.layouts.contact_us'), contact_path, data: { dialog_button: '', controller: 'dialog', action: 'ajax:success->dialog#create' }, remote: true
     %li.order-help-menu__item
-      = link_to page_path('shipping-information'), target: '_blank', rel: 'noopener', data: { dialog_button: '' } do
+      = link_to page_path('shipping-information'), target: '_blank', rel: 'noopener', data: { dialog_button: '', controller: 'dialog', action: 'ajax:success->dialog#create' }, remote: true do
         = t('workarea.storefront.layouts.shipping_policy')
     %li.order-help-menu__item
-      = link_to page_path('return-information'), target: '_blank', rel: 'noopener', data: { dialog_button: '' } do
+      = link_to page_path('return-information'), target: '_blank', rel: 'noopener', data: { dialog_button: '', controller: 'dialog', action: 'ajax:success->dialog#create' }, remote: true do
         = t('workarea.storefront.layouts.returns')

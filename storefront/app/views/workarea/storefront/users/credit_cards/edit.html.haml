@@ -58,7 +58,7 @@
         %span.property__text= t('workarea.storefront.credit_cards.security_code')
       .value
         = text_field_tag 'credit_card[cvv]', nil, class: 'text-box text-box--small', required: true, inputmode: 'numeric', pattern: '[0-9]*', autocomplete: 'cc-csc'
-        %span.value__note= link_to t('workarea.storefront.credit_cards.whats_this'), page_path('credit-card-security-code'), data: { dialog_button: '' }
+        %span.value__note= link_to t('workarea.storefront.credit_cards.whats_this'), page_path('credit-card-security-code'), data: { dialog_button: '', controller: 'dialog', action: 'ajax:success->dialog#create' }, remote: true
 
     .grid.grid--auto
       %p.grid__cell= button_tag t('workarea.storefront.forms.save'), value: 'save_credit_card', class: 'button'

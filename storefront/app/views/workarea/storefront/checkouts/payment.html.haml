@@ -103,7 +103,7 @@
                         = text_field_tag 'credit_card[cvv]', nil, class: 'text-box text-box--small', required: true, inputmode: 'numeric', pattern: '[0-9]*', autocorrect: 'off', autocomplete: 'cc-csc'
                         - if @step.saved_card_id.blank? && @step.credit_card && @step.credit_card.errors[:cvv].present?
                           %span.value__error= @step.credit_card.errors[:cvv].first
-                        %span.value__note= link_to t('workarea.storefront.credit_cards.whats_this'), page_path('credit-card-security-code'), data: { dialog_button: '' }
+                        %span.value__note= link_to t('workarea.storefront.credit_cards.whats_this'), page_path('credit-card-security-code'), data: { dialog_button: '', controller: 'dialog', action: 'ajax:success->dialog#create' }, remote: true
 
             = append_partials('storefront.payment_method', step: @step)
 

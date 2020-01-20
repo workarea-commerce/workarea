@@ -15,7 +15,7 @@
     .grid__cell.grid__cell--50-at-medium
       .box
         .box__header
-          .box__action= link_to t('workarea.storefront.forms.update'), edit_users_account_path, class: 'button', data: { dialog_button: '' }
+          .box__action= link_to t('workarea.storefront.forms.update'), edit_users_account_path, class: 'button', data: { dialog_button: '', controller: 'dialog', action: 'ajax:success->dialog#create' }, remote: true
           %h2.box__heading= t('workarea.storefront.users.details')
         .box__body
           %table.table
@@ -49,7 +49,7 @@
     .grid__cell.grid__cell--50-at-medium
       .box
         .box__header
-          .box__action= link_to t('workarea.storefront.users.add_credit_card'), new_users_credit_card_path, class: 'button', data: { dialog_button: '' }
+          .box__action= link_to t('workarea.storefront.users.add_credit_card'), new_users_credit_card_path, class: 'button', data: { dialog_button: '', controller: 'dialog', action: 'ajax:success->dialog#create' }, remote: true
           %h2.box__heading= t('workarea.storefront.users.credit_cards')
 
         .box__body
@@ -76,13 +76,13 @@
                         %span #{credit_card.first_name} #{credit_card.last_name}
                     .data-card__cell
                       .grid.grid--auto
-                        .grid__cell= link_to t('workarea.storefront.forms.edit'), edit_users_credit_card_path(credit_card), class: 'button button--small', data: { dialog_button: '' }
+                        .grid__cell= link_to t('workarea.storefront.forms.edit'), edit_users_credit_card_path(credit_card), class: 'button button--small', data: { dialog_button: '', controller: 'dialog', action: 'ajax:success->dialog#create' }, remote: true
                         = form_tag users_credit_card_path(credit_card), method: 'delete', class: 'grid__cell', data: { controller: 'deletion', action: 'submit->deletion#submit' } do
                           = button_tag t('workarea.storefront.forms.delete'), class: 'button button--small'
 
       .box
         .box__header
-          .box__action= link_to t('workarea.storefront.users.add_address'), new_users_address_path, class: 'button', data: { dialog_button: '' }
+          .box__action= link_to t('workarea.storefront.users.add_address'), new_users_address_path, class: 'button', data: { dialog_button: '', controller: 'dialog', action: 'ajax:success->dialog#create' }, remote: true
           %h2.box__heading= t('workarea.storefront.users.addresses')
         .box__body
           - unless @user.has_default_addresses?
@@ -97,7 +97,7 @@
 
                     .data-card__cell
                       .grid.grid--auto
-                        .grid__cell= link_to t('workarea.storefront.forms.edit'), edit_users_address_path(address), class: 'button button--small', data: { dialog_button: '' }
+                        .grid__cell= link_to t('workarea.storefront.forms.edit'), edit_users_address_path(address), class: 'button button--small', data: { dialog_button: '', controller: 'dialog', action: 'ajax:success->dialog#create' }, remote: true
                         = form_tag users_address_path(address), method: 'delete', class: 'grid__cell', data: { controller: 'deletion', action: 'submit->deletion#submit' } do
                           = button_tag t('workarea.storefront.forms.delete'), class: 'button button--small'
 
