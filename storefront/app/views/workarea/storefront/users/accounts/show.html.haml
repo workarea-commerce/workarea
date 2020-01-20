@@ -77,7 +77,7 @@
                     .data-card__cell
                       .grid.grid--auto
                         .grid__cell= link_to t('workarea.storefront.forms.edit'), edit_users_credit_card_path(credit_card), class: 'button button--small', data: { dialog_button: '' }
-                        = form_tag users_credit_card_path(credit_card), method: 'delete', class: 'grid__cell' do
+                        = form_tag users_credit_card_path(credit_card), method: 'delete', class: 'grid__cell', data: { controller: 'deletion', action: 'submit->deletion#submit' } do
                           = button_tag t('workarea.storefront.forms.delete'), class: 'button button--small'
 
       .box
@@ -98,7 +98,7 @@
                     .data-card__cell
                       .grid.grid--auto
                         .grid__cell= link_to t('workarea.storefront.forms.edit'), edit_users_address_path(address), class: 'button button--small', data: { dialog_button: '' }
-                        = form_tag users_address_path(address), method: 'delete', class: 'grid__cell' do
+                        = form_tag users_address_path(address), method: 'delete', class: 'grid__cell', data: { controller: 'deletion', action: 'submit->deletion#submit' } do
                           = button_tag t('workarea.storefront.forms.delete'), class: 'button button--small'
 
       = append_partials('storefront.account_section_right', user: @user)

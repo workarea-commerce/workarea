@@ -49,7 +49,7 @@
                 = append_partials('storefront.cart_item_details', item: item, index: index)
             .grid.grid--auto
               .grid__cell
-                = form_tag cart_item_path(item), method: 'delete', class: 'action-group__item', data: { analytics: remove_from_cart_analytics_data(item).to_json } do
+                = form_tag cart_item_path(item), method: 'delete', class: 'action-group__item', data: { analytics: remove_from_cart_analytics_data(item).to_json, controller: 'deletion', action: 'submit->deletion#submit' } do
                   %p= button_tag t('workarea.storefront.carts.remove'), value: 'remove_item', class: 'text-button'
               = append_partials('storefront.cart_item_actions', item: item)
           .product-list__item-cell
