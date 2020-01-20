@@ -57,9 +57,9 @@
 
           - if locale_options.many?
             .page-header__locale
-              = form_tag url_for(locale: nil), method: 'get' do
+              = form_tag url_for(locale: nil), method: 'get', data: { controller: 'autosubmit' } do
                 = switch_locale_fields
-                .value= select_tag :locale, options_for_select(locale_options, I18n.locale), required: true, data: { form_submitting_control: '' }
+                .value= select_tag :locale, options_for_select(locale_options, I18n.locale), required: true, data: { form_submitting_control: '', action: 'change->autosubmit#change' }
                 %p.hidden-if-js-enabled= button_tag t('workarea.storefront.forms.go'), value: 'switch', class: 'button'
 
           .grid.grid--middle

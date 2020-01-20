@@ -41,9 +41,9 @@
                     %span.table__price-label Customizations:
                     %span= number_to_currency(10.00)
                 %td.table__quantity
-                  = form_tag nil, class: 'inline-form' do
+                  = form_tag nil, class: 'inline-form', data: { controller: 'autosubmit' } do
                     .inline-form__cell
-                      .value= number_field_tag 'wl_table_cart_item_quantity_1', 1, min: 1, required: true, class: 'text-box text-box--x-small', data: { form_submitting_control: '' }, title: 'Quantity'
+                      .value= number_field_tag 'wl_table_cart_item_quantity_1', 1, min: 1, required: true, class: 'text-box text-box--x-small', data: { form_submitting_control: '', data: { action: 'input->autosubmit#input' }, title: 'Quantity'
                     %p.inline-form__cell.hidden-if-js-enabled= button_tag 'Update', value: 'change_quantity', class: 'button'
                 %td.table__prices
                   %p.table__price

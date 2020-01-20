@@ -64,9 +64,9 @@
                   %td.table__prices
                     = render 'workarea/storefront/carts/pricing', item: item, css_block: 'table'
                   %td.table__quantity
-                    = form_tag cart_item_path(item), method: :patch, class: 'inline-form', data: { analytics: update_cart_item_analytics_data(item).to_json } do
+                    = form_tag cart_item_path(item), method: :patch, class: 'inline-form', data: { analytics: update_cart_item_analytics_data(item).to_json, controller: 'autosubmit' } do
                       .inline-form__cell
-                        .value= number_field_tag :quantity, item.quantity, min: 1, required: true, class: 'text-box text-box--x-small', data: { form_submitting_control: '' }, title: t('workarea.storefront.orders.quantity'), id: "quantity_#{index}", aria: { label: t('workarea.storefront.orders.quantity') }
+                        .value= number_field_tag :quantity, item.quantity, min: 1, required: true, class: 'text-box text-box--x-small', data: { form_submitting_control: '', action: 'input->autosubmit#input' }, title: t('workarea.storefront.orders.quantity'), id: "quantity_#{index}", aria: { label: t('workarea.storefront.orders.quantity') }
                       %p.inline-form__cell.hidden-if-js-enabled= button_tag t('workarea.storefront.carts.update'), value: 'change_quantity', class: 'button'
                   %td.table__prices
                     - item.total_adjustments.each do |adjustment|

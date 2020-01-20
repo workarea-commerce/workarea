@@ -61,13 +61,13 @@
 
     .grid.grid--auto.grid--middle
       .grid__cell
-        = form_tag search_path, method: 'get' do
+        = form_tag search_path, method: 'get', data: { controller: 'autosubmit' } do
           = facet_hidden_inputs(@search.facets)
           = hidden_field_tag :q, @search.query_string
           .property.property--responsive
             = label_tag 'sort_top', nil, class: 'property__name' do
               %span.property__text= t('workarea.storefront.searches.sort_by')
-            %span.value= select_tag :sort, options_for_select(@search.sorts, selected: @search.sort), id: 'sort_top', data: { form_submitting_control: '' }
+            %span.value= select_tag :sort, options_for_select(@search.sorts, selected: @search.sort), id: 'sort_top', data: { form_submitting_control: '', action: 'change->autosubmit#change' }
           .hidden-if-js-enabled= button_tag t('workarea.storefront.searches.sort'), value: 'sort_products_top', class: 'button'
 
       = append_partials('storefront.search_browse_controls', search: @search)

@@ -60,7 +60,7 @@
                 .inline-form__cell
                   .value= text_field_tag 'wl_table_cart_totals_zip', nil, class: 'text-box text-box--small', minlength: 5, maxlength: 5, required: true, placeholder: 'ZIP Code', title: 'ZIP Code'
                 %p.inline-form__cell= button_tag 'Estimate', value: 'estimate_shipping', class: 'button'
-              %p= select_tag 'wl_table_cart_totals_shipping_service', options_for_select(['USPS First Class', 'UPS Ground', 'UPS 2 Day Air']), title: 'Shipping Services', data: { form_submitting_control: '' }
+              %p= select_tag 'wl_table_cart_totals_shipping_service', options_for_select(['USPS First Class', 'UPS Ground', 'UPS 2 Day Air']), title: 'Shipping Services', data: { form_submitting_control: '', action: 'change->autosubmit#change' }
         %tr
           %th
             %span Tax
