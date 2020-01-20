@@ -13,6 +13,10 @@ module Workarea
     field :template, type: String, default: 'generic'
     field :display_h1, type: Boolean, default: true
 
+    belongs_to :copied_from,
+      class_name: 'Workarea::Content::Page',
+      optional: true
+
     validates :name, presence: true
   end
 end

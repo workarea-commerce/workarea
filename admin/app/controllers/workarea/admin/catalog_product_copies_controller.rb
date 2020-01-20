@@ -23,8 +23,8 @@ module Workarea
       private
 
       def find_source_product
-        return unless params[:source_product_id].present?
-        @product = Catalog::Product.find(params[:source_product_id])
+        return unless params[:source_id].present?
+        @product = Catalog::Product.find(params[:source_id])
       end
     end
   end
