@@ -1310,6 +1310,10 @@ module Workarea
       # `Catalog::ProductImage` model. If you're upgrading, you can set this to
       # false to avoid having to do a migration.
       config.localized_image_options = true
+
+      # Webpacker support
+      config.enable_webpacker = true
+      config.asset_manifests.storefront_javascript_pack = 'storefront'
     end
   end
 end

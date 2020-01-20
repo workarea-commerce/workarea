@@ -84,6 +84,10 @@
 
         %p.visually-hidden= link_to t('workarea.storefront.layouts.top_of_page'), '#top'
 
-    = javascript_include_tag Workarea.config.asset_manifests.storefront_javascript
+    - if Workarea.config.enable_webpacker
+      = javascript_pack_tag Workarea.config.asset_manifests.storefront_javascript_pack
+    - else
+      = javascript_include_tag Workarea.config.asset_manifests.storefront_javascript
+
     = yield :javascript
     = append_partials('storefront.javascript')

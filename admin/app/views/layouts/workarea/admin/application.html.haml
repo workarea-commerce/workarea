@@ -32,7 +32,10 @@
     = favicon_link_tag 'workarea/admin/favicon.ico', rel: 'icon', type: 'image/x-icon'
 
     = append_partials('admin.document_head')
-    = javascript_include_tag 'workarea/admin/application'
+    - if Workarea.config.enable_webpacker
+      = javascript_pack_tag 'admin'
+    - else
+      = javascript_include_tag 'workarea/admin/application'
     = yield :head
 
   %body{ data: { turbolinks: Rails.env.test? ? 'false' : nil } }

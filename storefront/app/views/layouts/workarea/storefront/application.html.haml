@@ -171,5 +171,10 @@
               %div{ data: { privacy_popup: true } }= render_content_blocks(layout_content.content_blocks_for('privacy_popup'))
 
     = javascript_include_tag Workarea.config.asset_manifests.storefront_javascript
+
+    - if Workarea.config.enable_webpacker
+      = javascript_pack_tag Workarea.config.asset_manifests.storefront_javascript_pack
+    - else
+      = javascript_include_tag Workarea.config.asset_manifests.storefront_javascript
     = yield :javascript
     = append_partials('storefront.javascript')
