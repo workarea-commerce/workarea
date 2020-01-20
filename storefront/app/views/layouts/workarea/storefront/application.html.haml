@@ -88,7 +88,7 @@
                   .page-header__search-button= button_tag t('workarea.storefront.forms.go'), value: 'search', class: 'button'
 
           %nav#navigation.primary-nav
-            %ul.primary-nav__menu
+            %ul.primary-nav__menu{ data: { controller: 'navigation' } }
               - navigation_menus.each do |menu|
                 %li.primary-nav__item{ data: navigation_menu_item_data_attribute(menu) }
                   = link_to_menu(menu)

@@ -13,7 +13,15 @@ module Workarea
         return if menu.content.blank?
         return if ContentViewModel.new(menu.content).content_blocks.blank?
 
-        { primary_nav_content: menu.id }
+        {
+          primary_nav_content: menu.id,
+          action: %w(
+            mouseenter->navigation#show
+            touchstart->navigation#show
+            touchstart->navigation#touch
+          ).join(' '),
+          'navigation-id': menu.id
+        }
       end
 
       def mobile_nav_return_path
