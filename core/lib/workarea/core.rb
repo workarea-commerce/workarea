@@ -108,6 +108,7 @@ require 'serviceworker-rails'
 require 'chartkick'
 require 'mongoid/encrypted'
 require 'browser'
+require 'webpacker'
 
 #
 # Extensions
