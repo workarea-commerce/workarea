@@ -1,5 +1,5 @@
 {
-  "name": "workarea",
+  "name": "@workarea/core",
   "version": "3.6.0",
   "description": "JavaScripts for the Workarea Commerce Platform",
   "author": "Tom Scott <tscott@weblinc.com>",
