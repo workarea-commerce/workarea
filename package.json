@@ -1,6 +1,5 @@
 {
   "name": "workarea",
-  "private": true,
   "version": "3.6.0",
   "devDependencies": {
     "eslint": "~5.16.0",
@@ -11,8 +10,8 @@
     "stylelint-scss": "~3.9.2"
   },
   "dependencies": {
-    "@workarea/core": "file:./core",
-    "@workarea/storefront": "file:./storefront",
-    "@workarea/admin": "file:./admin"
+    "@workarea/core": "3.6.0",
+    "@workarea/storefront": "3.6.0",
+    "@workarea/admin": "3.6.0"
   }
 }
