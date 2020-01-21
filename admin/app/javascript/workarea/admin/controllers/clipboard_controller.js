@@ -1,5 +1,5 @@
 import { Controller } from "stimulus"
-import I18n from "../../../workarea/i18n"
+import I18n from "@workarea/core/i18n"
 
 export default class extends Controller {
   static targets = ["button", "input"]

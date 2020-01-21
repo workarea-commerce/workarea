@@ -1,4 +1,4 @@
-import Workarea from "../../workarea"
+import Workarea from "@workarea/core"
 import routes from "./routes.js.erb"
 
 const controllers = require.context(
