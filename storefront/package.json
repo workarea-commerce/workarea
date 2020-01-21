@@ -7,11 +7,11 @@
   "license": "ISC",
   "main": "app/javascript/workarea/storefront/index.js",
   "directories": {
-    "lib": "lib",
+    "lib": "app/javascript/workarea/storefront",
     "test": "__tests__"
   },
   "files": [
-    "lib"
+    "app/javascript/workarea/storefront"
   ],
   "publishConfig": {
     "access": "public"

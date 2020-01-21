@@ -7,11 +7,11 @@
   "license": "ISC",
   "main": "app/javascript/workarea/admin/index.js",
   "directories": {
-    "lib": "lib",
+    "lib": "app/javascript/workarea/admin",
     "test": "__tests__"
   },
   "files": [
-    "lib"
+    "app/javascript/workarea/admin"
   ],
   "publishConfig": {
     "access": "public"

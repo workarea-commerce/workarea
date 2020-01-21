@@ -7,11 +7,11 @@
   "license": "ISC",
   "main": "app/javascript/workarea/index.js",
   "directories": {
-    "lib": "lib",
+    "lib": "app/javascript/workarea",
     "test": "__tests__"
   },
   "files": [
-    "lib"
+    "app/javascript/workarea"
   ],
   "publishConfig": {
     "access": "public"
@@ -25,5 +25,18 @@
   },
   "bugs": {
     "url": "https://github.com/workarea-commerce/workarea/issues"
+  },
+  "dependencies": {
+    "animate.css": "^3.7.2",
+    "ejs-compiled-loader": "^1.1.0",
+    "i18n-js": "^3.3.0",
+    "lodash.debounce": "^4.0.8",
+    "lodash.isempty": "^4.4.0",
+    "lodash.isobject": "^3.0.2",
+    "lodash.isstring": "^4.0.1",
+    "lodash.isundefined": "^3.0.1",
+    "stimulus": "^1.1.1",
+    "titleize": "^2.1.0",
+    "whatwg-fetch": "^3.0.0"
   }
 }
