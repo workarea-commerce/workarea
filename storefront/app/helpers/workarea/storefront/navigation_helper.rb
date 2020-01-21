@@ -19,8 +19,7 @@ module Workarea
             mouseenter->navigation#show
             touchstart->navigation#show
             touchstart->navigation#touch
-          ).join(' '),
-          'navigation-id': menu.id
+          ).join(' ')
         }
       end
 
