@@ -1,4 +1,4 @@
 {
-  "packages": ["admin", "core", "storefront"]
+  "packages": ["admin", "core", "storefront"],
   "version": "3.6.0"
 }

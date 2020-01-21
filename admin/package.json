@@ -1,0 +1,29 @@
+{
+  "name": "@workarea/admin",
+  "version": "3.6.0",
+  "description": "Admin JavaScripts for the Workarea Commerce Platform",
+  "author": "Tom Scott <tscott@weblinc.com>",
+  "homepage": "https://workarea.com",
+  "license": "ISC",
+  "main": "app/javascript/workarea/admin/index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/workarea-commerce/workarea.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/workarea-commerce/workarea/issues"
+  }
+}
