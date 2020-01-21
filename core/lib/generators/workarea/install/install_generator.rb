@@ -74,13 +74,13 @@ module Workarea
         JS
       end
 
-      create_file 'config/webpack/loaders/ejs.js' <<~JS
-      module.exports = {
-        test: /\\.ejs$/,
-        enforce: 'pre',
-        exclude: /node_modules/,
-        use: ['ejs-compiled-loader']
-      }
+      create_file 'config/webpack/loaders/ejs.js', <<~JS
+        module.exports = {
+          test: /\\.ejs$/,
+          enforce: 'pre',
+          exclude: /node_modules/,
+          use: ['ejs-compiled-loader']
+        }
       JS
 
       inject_into_file 'config/webpack/environment.js', "environment.loaders.prepend('ejs', ejs)\n", before: 'module.exports = environment'
