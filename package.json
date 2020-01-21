@@ -9,5 +9,9 @@
     "stylelint-config-recommended-scss": "~3.3.0",
     "stylelint-scss": "~3.9.2"
   },
-  "workspaces": ["admin", "core", "storefront"]
+  "dependencies": {
+    "@workarea/core": "file:./core",
+    "@workarea/storefront": "file:./storefront",
+    "@workarea/admin": "file:./admin"
+  }
 }
