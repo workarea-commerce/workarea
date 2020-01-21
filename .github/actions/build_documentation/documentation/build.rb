@@ -32,7 +32,8 @@ module Documentation
       Bundler.with_clean_env do
         system("cd #{source}; bundle install --path vendor/bundle --binstubs=bin && bin/middleman build --build-dir=#{destination} --verbose")
       end
-    rescue
+    rescue => error
+      puts "There was an error building documentation: #{error.inspect}"
       false
     end
 

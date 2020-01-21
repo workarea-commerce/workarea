@@ -54,13 +54,17 @@ WORKAREA.registerModule('duplicateId', (function () {
             }).toArray();
         },
 
+        hasIdValue = function (_, element) {
+            return element.id !== '';
+        },
+
         /**
          * @method
          * @name init
          * @memberof WORKAREA.duplicateId
          */
         init = function () {
-            var $elements = $('[id]'),
+            var $elements = $('[id]').filter(hasIdValue),
                 ids = getIdValues($elements);
 
             if (_.isEmpty($elements) || noDuplicateIds(ids)) { return; }
