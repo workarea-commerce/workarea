@@ -1,5 +1,5 @@
 {
-  "name": "workarea",
+  "private": true,
   "version": "3.6.0",
   "devDependencies": {
     "eslint": "~5.16.0",
@@ -8,5 +8,6 @@
     "stylelint": "~10.1.0",
     "stylelint-config-recommended-scss": "~3.3.0",
     "stylelint-scss": "~3.9.2"
-  }
+  },
+  "workspaces": ["admin", "core", "storefront"]
 }
