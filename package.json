@@ -1,5 +1,11 @@
 {
   "name": "workarea",
+  "version": "3.6.0",
+  "dependencies": {
+    "@workarea/admin": "3.6.0",
+    "@workarea/core": "3.6.0",
+    "@workarea/storefront": "3.6.0",
+  },
   "devDependencies": {
     "eslint": "~5.16.0",
     "eslint-config-recommended": "~4.0.0",
