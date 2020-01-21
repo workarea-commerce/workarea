@@ -27,8 +27,6 @@
     "url": "https://github.com/workarea-commerce/workarea/issues"
   },
   "dependencies": {
-    "@workarea/admin": "file:../admin",
-    "@workarea/storefront": "file:../storefront",
     "animate.css": "^3.7.2",
     "ejs-compiled-loader": "^1.1.0",
     "i18n-js": "^3.3.0",
