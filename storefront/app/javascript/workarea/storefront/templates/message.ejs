@@ -1,0 +1,11 @@
+<div class="message message--<%= type %>" data-controller="message">
+  <p class="message__type">
+    <span class="message_icon"><%= title %></span>
+  </p>
+  <p class="message__text">
+    <%= text %>
+    <button type="button" class="message__dismiss-button" data-action="click->message#close">
+      <span class="message__dismiss-icon">Close</span>
+    </button>
+  </p>
+</div>

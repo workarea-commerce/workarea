@@ -1,0 +1,14 @@
+<div class="dialog" data-controller="dialog"
+                    data-dialog-type="<%= type %>"
+                    data-action="animationend->dialog#remove">
+  <article class="dialog__window">
+    <header class="dialog__header grid">
+      <p class="dialog__title grid__cell"><%= title %></p>
+      <a href="#close" class="dialog__close grid__cell"
+                       data-action="click->dialog#close"><%= close %></a>
+    </header>
+    <main class="dialog__content">
+      <%= content %>
+    </main>
+  </article>
+</div>
