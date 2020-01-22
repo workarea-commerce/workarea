@@ -1,3 +1,23 @@
+Workarea 3.4.26 (2020-01-21)
+--------------------------------------------------------------------------------
+
+*   Ignore elements with no ID value when announcing duplicate IDs on-page
+
+    WORKAREA.duplicateID was throwing a false positive exception when it
+    would find elements containing an `id` attribute with no value
+    specified. This behavior should be allowed, since empty ID values should
+    pose no issues for the developer
+
+    WORKAREA-184
+    Curt Howard
+
+*   Order release changesets during publishing, touch releasables after publish
+
+    WORKAREA-164
+    Matt Duffy
+
+
+
 Workarea 3.4.25 (2020-01-07)
 --------------------------------------------------------------------------------
 
