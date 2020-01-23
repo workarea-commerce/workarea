@@ -4,15 +4,17 @@ module Sidekiq
   module CallbacksWorker
     extend ActiveSupport::Concern
 
-    mattr_accessor :workers
-    self.workers = []
-
     included do
       thread_cattr_accessor :enabled, :inlined
-      CallbacksWorker.workers << self
+      Sidekiq::Callbacks.add_worker(self)
     end
 
     class_methods do
+      # @deprecated TODO remove this in v3.6
+      def workers
+        Sidekiq::Callbacks.workers
+      end
+
       def enabled?
         enabled.nil? || !!enabled
       end
