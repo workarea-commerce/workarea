@@ -34,10 +34,12 @@ Workarea Builds
 | Content Search | [![Content Search](https://github.com/workarea-commerce/workarea-content-search/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-content-search) |
 | Email Signup Popup | [![Email Signup Popup](https://github.com/workarea-commerce/workarea-email-signup-popup/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-email-signup-popup) |
 | Emarsys | [![Emarsys](https://github.com/workarea-commerce/workarea-emarsys/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-emarsys) |
+| Flow.io | [![Flow.io](https://github.com/workarea-commerce/workarea-flow-io/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-flow-io) |
 | Forter | [![Forter](https://github.com/workarea-commerce/workarea-forter/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-forter) |
 | GDPR | [![GDPR](https://github.com/workarea-commerce/workarea-gdpr/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-gdpr) |
 | Gift Cards | [![Gift Cards](https://github.com/workarea-commerce/workarea-gift-cards/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-gift-cards) |
 | Gift Wrapping | [![Gift Wrapping](https://github.com/workarea-commerce/workarea-gift-wrapping/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-gift-wrapping) |
+| Global-e | [![Global-e](https://github.com/workarea-commerce/workarea-global-e/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-global-e) |
 | Google Address Autocomplete | [![Google Address Autocomplete](https://github.com/workarea-commerce/workarea-google-address-autocomplete/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-google-address-autocomplete) |
 | Google Analytics | [![Google Analytics](https://github.com/workarea-commerce/workarea-google-analytics/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-google-analytics) |
 | Google Product Feed | [![Google Product Feed](https://github.com/workarea-commerce/workarea-google-product-feed/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-google-product-feed) |
@@ -49,11 +51,13 @@ Workarea Builds
 | One Theme | [![One Theme](https://github.com/workarea-commerce/workarea-one-theme/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-one-theme) |
 | Package Products | [![Package Products](https://github.com/workarea-commerce/workarea-package-products/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-package-products) |
 | Paypal | [![Paypal](https://github.com/workarea-commerce/workarea-paypal/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-paypal) |
+| Payware Connect | [![Payware Connect](https://github.com/workarea-commerce/workarea-payware-connect/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-payware-connect) |
 | Product Badges | [![Product Badges](https://github.com/workarea-commerce/workarea-product-badges/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-product-badges) |
 | Product Documents | [![Product Documents](https://github.com/workarea-commerce/workarea-product-documents/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-product-documents) |
 | Product Quickview | [![Product Quickview](https://github.com/workarea-commerce/workarea-product-quickview/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-product-quickview) |
 | Product Videos | [![Product Videos](https://github.com/workarea-commerce/workarea-product-videos/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-product-videos) |
 | Reviews | [![Reviews](https://github.com/workarea-commerce/workarea-reviews/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-reviews) |
+| Salesforce ESP | [![Salesforce ESP](https://github.com/workarea-commerce/workarea-salesforce-esp/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-salesforce-esp) |
 | Save for Later | [![Save for Later](https://github.com/workarea-commerce/workarea-save-for-later/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-save-for-later) |
 | Search Autocomplete | [![Search Autocomplete](https://github.com/workarea-commerce/workarea-search-autocomplete/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-search-autocomplete) |
 | Segment Analytics | [![Segment Analytics](https://github.com/workarea-commerce/workarea-segment-analytics/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-segment-analytics) |
@@ -61,6 +65,7 @@ Workarea Builds
 | Shipping Estimation | [![Shipping Estimation](https://github.com/workarea-commerce/workarea-shipping-estimation/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-shipping-estimation) |
 | Shipping Message | [![Shipping Message](https://github.com/workarea-commerce/workarea-shipping-message/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-shipping-message) |
 | Sitemaps | [![Sitemaps](https://github.com/workarea-commerce/workarea-sitemaps/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-sitemaps) |
+| Stripe | [![Stripe](https://github.com/workarea-commerce/workarea-stripe/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-stripe) |
 | Styled Selects | [![Styled Selects](https://github.com/workarea-commerce/workarea-styled-selects/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-styled-selects) |
 | Super Hero | [![Super Hero](https://github.com/workarea-commerce/workarea-super-hero/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-super-hero) |
 | Swatches | [![Swatches](https://github.com/workarea-commerce/workarea-swatches/workflows/CI/badge.svg)](https://github.com/workarea-commerce/workarea-swatches) |
