@@ -1646,6 +1646,7 @@ en:
         searches: Searches
         send_account_creation_email: Notify Them by Email
         service: Service
+        service_code: Service Code
         services_file: Services File
         shipping: Shipping
         shipping_service_id: Shipping Service
