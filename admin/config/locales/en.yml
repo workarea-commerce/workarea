@@ -708,8 +708,10 @@ en:
           cancel: Cancel
           devices: Devices
           display: Display
+          edit_block_name: Edit Block Name
           exclusive_segments: Only show for these segments
           hide_for: Hide for
+          new_block_name: New Block Name
           segments: Segments
         index:
           dashboard_link: Store dashboard

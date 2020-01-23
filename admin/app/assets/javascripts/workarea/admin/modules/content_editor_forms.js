@@ -25,12 +25,19 @@ WORKAREA.registerModule('contentEditorForms', (function () {
             }, []);
         },
 
+        preventPreviewReload = function (element) {
+            var bannedSelectors = [
+                    '[data-publish-with-release-menu]',
+                    '[name="block[custom_name]"]'
+                ];
+
+            return $(element).is(bannedSelectors.join(','));
+        },
+
         postFormData = _.debounce(function (event) {
             var $form, previewData, formParams, formData;
 
-            if ($(event.target).is('[data-publish-with-release-menu]')) {
-                return;
-            }
+            if (preventPreviewReload(event.target)) { return; }
 
             $form = $(event.target).closest('form'),
             previewData = $form.data('contentEditorForm'),

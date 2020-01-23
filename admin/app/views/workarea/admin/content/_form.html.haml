@@ -15,9 +15,18 @@
     .grid__cell
       = content_block_icon(block.icon, title: block.name, class: 'svg-icon svg-icon--gray')
     .grid__cell
-      %span.content-editor__form-heading= block.name
+      .grid.grid--middle.grid--auto
+        .grid__cell
+          %span.content-editor__form-heading= block.name
+        .grid__cell
+          = link_to inline_svg_tag('workarea/admin/icons/edit.svg', class: 'svg-icon svg-icon--small svg-icon--dark-gray', title: t('workarea.admin.content.form.edit_block_name')), '#', data: { toggle_element: "##{dom_id(block, 'content_block_name_field')}" }
 
 .content-editor__form-fields
+  .hidden{ id: dom_id(block, 'content_block_name_field') }
+    .property
+      = label_tag 'block_name', t('workarea.admin.content.form.new_block_name'), class: 'property__name align-center'
+      = text_field_tag 'block[name]', block.name, id: nil, class: 'text-box text-box--i18n'
+
   .tabs
     - block.fieldsets.each do |fieldset|
       .tabs__panel

@@ -39,6 +39,11 @@ module Workarea
       #
       field :hidden_breakpoints, type: Array, default: []
 
+      # @!attribute name
+      #   @return [String] the user-defined name of the block
+      #
+      field :name, type: String
+
       # @!attribute content
       #   @return [Content]
       #
@@ -61,7 +66,7 @@ module Workarea
       # @return [String]
       #
       def name
-        BlockName.new(self).to_s
+        super.presence || BlockName.new(self).to_s
       end
 
       # The bag of data used to render this content block on the storefront.
