@@ -2,7 +2,11 @@
   .summary__image-container
     - if model.image?
       = image_tag model.file.process(:medium).url, alt: model.name, class: 'summary__image', title: model.alt_text
-  %span.summary__name= model.name
+  %span.summary__name<
+    = model.name
+    - if model.image?
+      %br
+      #{model.file_width}x#{model.file_height}
   .summary__info-container
     .summary__info= local_time_ago(model.updated_at)
     .summary__info= model.file_name
