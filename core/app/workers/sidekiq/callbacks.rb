@@ -7,6 +7,50 @@ module Sidekiq
     class InvalidConfiguration < RuntimeError; end
 
     class << self
+      # The list of workers that perform Sidekiq callbacks. Used for checking
+      # whether one of them need to be fired off after a callback happens.
+      #
+      # @private
+      # @return [Array<Class>]
+      #
+      def workers
+        config = ::Rails.application.config
+        config.sidekiq_callbacks_workers = [] unless config.respond_to?(:sidekiq_callbacks_workers)
+
+        if caching_classes?
+          config.sidekiq_callbacks_workers
+        else
+          config.sidekiq_callbacks_workers.map(&:constantize)
+        end
+      end
+
+      # Add a {Class} to the list of workers to check when running callbacks.
+      #
+      # @private
+      # @param [Class] worker
+      #
+      def add_worker(klass)
+        if caching_classes?
+          workers << klass
+        elsif !workers.include?(klass.name)
+          workers << klass.name
+        end
+      end
+
+      # Whether Rails is caching classes, which matters when checking workers to
+      # run by comparing the worker's configuration with the model running the
+      # callback.
+      #
+      # When we aren't caching classes, we need to use the fully qualified
+      # constant name to decide since the classes could have been reloaded due
+      # to code changes.
+      #
+      # @return [Boolean]
+      #
+      def caching_classes?
+        ::Rails.application.config.cache_classes
+      end
+
       # Permanently or temporarily enable callback workers. If
       # no workers are given, it will enable all callback
       # workers during the execution of the block or globally if no
@@ -148,7 +192,7 @@ module Sidekiq
       # finds a problem.
       #
       def assert_valid_config!
-        Sidekiq::CallbacksWorker.workers.each do |worker|
+        Sidekiq::Callbacks.workers.each do |worker|
           if (worker.enqueue_on.values.flatten & [:find, 'find']).any?
             raise(
               InvalidConfiguration,
@@ -161,7 +205,7 @@ module Sidekiq
       private
 
       def set_workers(workers, action)
-        workers = Sidekiq::CallbacksWorker.workers if workers.blank?
+        workers = Sidekiq::Callbacks.workers if workers.blank?
 
         if !block_given?
           workers.each(&action)
@@ -197,7 +241,7 @@ module Sidekiq
     private
 
     def _enqueue_callback_workers(kind)
-      Sidekiq::CallbacksWorker.workers.select(&:enabled?).each do |worker|
+      Sidekiq::Callbacks.workers.select(&:enabled?).each do |worker|
         worker.callbacks.each do |klass, callbacks|
           if _perform_callback_worker?(klass, callbacks, kind, worker)
             args = worker.find_callback_args(self)
@@ -219,7 +263,7 @@ module Sidekiq
     end
 
     def _is_a_callback_type_match?(model_class)
-      return is_a?(model_class) if ::Rails.application.config.cache_classes
+      return is_a?(model_class) if Sidekiq::Callbacks.caching_classes?
 
       # This is a funny way of doing the same check as `is_a?`.
       #
