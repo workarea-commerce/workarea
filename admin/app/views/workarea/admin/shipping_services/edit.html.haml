@@ -26,6 +26,10 @@
           = text_field_tag 'service[tax_code]', @service.tax_code, class: 'text-box'
 
         .property
+          = label_tag 'service_service_code', t('workarea.admin.fields.service_code'), class: 'property__name'
+          = text_field_tag 'service[service_code]', @service.service_code, class: 'text-box'
+
+        .property
           = label_tag 'service_country', t('workarea.admin.fields.country'), class: 'property__name'
           = select_tag "service[country]", options_for_select(country_options, @service.country.try(:alpha2)), prompt: t('workarea.admin.shipping_services.options.not_specified')
 
