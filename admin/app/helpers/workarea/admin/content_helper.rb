@@ -57,6 +57,13 @@ module Workarea
         options_from_collection_for_select(products, 'id', 'name', product_ids)
       end
 
+      def options_for_pages(page_ids)
+        return nil unless page_ids.present?
+
+        pages = Content::Page.find_ordered_for_display(page_ids)
+        options_from_collection_for_select(pages, 'id', 'name', page_ids)
+      end
+
       def block_delete_message(block)
         if current_release.present?
           t('workarea.admin.content.messages.delete_from_release', block_type: block.type.name, release: current_release.name)

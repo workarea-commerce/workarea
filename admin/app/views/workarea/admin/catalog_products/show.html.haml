@@ -21,4 +21,4 @@
           = link_to t('workarea.admin.actions.delete'), catalog_product_path(@product), class: 'workflow-bar__button workflow-bar__button--delete', data: { method: 'delete', confirm: 'Are you sure you want to delete this product?' }
         .grid__cell.grid__cell--50.grid--right
           = append_partials('admin.product_show_workflow_bar', model: @product)
-          = link_to t('workarea.admin.catalog_products.show.copy_product'), new_catalog_product_copy_path(source_product_id: @product.id), id: 'copy_product', class: 'workflow-bar__button workflow-bar__button--create'
+          = link_to t('workarea.admin.catalog_products.show.copy_product'), new_catalog_product_copy_path(source_id: @product.id), id: 'copy_product', class: 'workflow-bar__button workflow-bar__button--create'

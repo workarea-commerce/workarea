@@ -21,3 +21,4 @@
           = link_to t('workarea.admin.actions.delete'), content_page_path(@page), class: 'workflow-bar__button workflow-bar__button--delete', data: { method: 'delete', confirm: t('workarea.admin.actions.delete_confirmation') }
         .grid__cell.grid__cell--50.grid--right
           = append_partials('admin.page_show_workflow_bar', model: @page)
+          = link_to t('workarea.admin.content_pages.show.copy_page'), new_content_page_copy_path(source_id: @page.id), id: 'copy_page', class: 'workflow-bar__button workflow-bar__button--create'

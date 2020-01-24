@@ -1,0 +1,47 @@
+- @page_title = t('workarea.admin.content_page_copies.new.title')
+
+.view
+  .view__header
+    .view__heading
+      - if @page.present?
+        %h1= t('workarea.admin.content_page_copies.new.preselected_title', page: @page.name)
+        %p= t('workarea.admin.content_page_copies.new.preselected_description')
+      - else
+        %h1= t('workarea.admin.content_page_copies.new.title')
+        %p= t('workarea.admin.content_page_copies.new.description')
+
+  .view__container
+    - if @page_copy.present?
+      - @page_copy.errors.full_messages.each do |message|
+        = render_message 'error', message
+
+    = form_tag content_page_copies_path, method: 'post', data: { unsaved_changes: '', copy_id: '' } do
+      .section
+        .grid.grid--center
+          .grid__cell.grid__cell--33
+            - if @page.present?
+              = hidden_field_tag :source_id, @page.id
+            - else
+              .property.property--required
+                = label_tag 'source_id', t('workarea.admin.content_page_copies.new.fields.source_id'), class: 'property__name'
+                = select_tag 'source_id', options_for_pages(params['source_id']), include_blank: true, required: true, data: { remote_select: { source: content_pages_path(format: :json), options: { placeholder: t('workarea.admin.content_blocks.pages.select_placeholder') } }.to_json }
+
+            .property{ class: ('hidden' unless @page.present?) }
+              %span.property__name= t('workarea.admin.fields.original_id')
+              = text_field_tag 'original_id', @page.present? ? @page.id : nil, disabled: true, class: 'text-box', data: { copy_id_target: '' }
+
+            .property.property--required{ class: ('hidden' unless @page.present?) }
+              = label_tag 'page[id]', t('workarea.admin.fields.id'), class: 'property__name'
+              = text_field_tag 'page[id]', nil, class: 'text-box', required: true, placeholder: 'new-page-id-here'
+              %span.property__note
+                = button_tag t('workarea.admin.content_page_copies.new.copy_original'), type: 'button', class: 'text-button', value: 'copy_original'
+                = button_tag t('workarea.admin.content_page_copies.new.randomize'), type: 'button', class: 'text-button', value: 'randomize'
+
+      .workflow-bar
+        .grid.grid--middle
+          .grid__cell.grid__cell--50
+            = link_to t('workarea.admin.form.cancel'), :back, class: 'workflow-bar__button workflow-bar__button--delete'
+
+          .grid__cell.grid__cell--50
+            .grid.grid--auto.grid--right.grid--middle
+              .grid__cell= button_tag t('workarea.admin.content_page_copies.new.button'), value: 'create_copy', class: 'workflow-bar__button workflow-bar__button--create'

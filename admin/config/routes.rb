@@ -283,6 +283,8 @@ Workarea::Admin::Engine.routes.draw do
 
     resources :content_pages, except: [:new, :create]
 
+    resources :content_page_copies, only: [:new, :create]
+
     resources :create_content_pages, except: :show do
       member do
         get :content

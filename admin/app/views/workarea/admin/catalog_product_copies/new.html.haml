@@ -15,20 +15,20 @@
       - @product_copy.errors.full_messages.each do |message|
         = render_message 'error', message
 
-    = form_tag catalog_product_copies_path, method: 'post', data: { unsaved_changes: '', product_copy_ids: '' } do
+    = form_tag catalog_product_copies_path, method: 'post', data: { unsaved_changes: '', copy_id: '' } do
       .section
         .grid.grid--center
           .grid__cell.grid__cell--33
             - if @product.present?
-              = hidden_field_tag :source_product_id, @product.id
+              = hidden_field_tag :source_id, @product.id
             - else
               .property.property--required
-                = label_tag 'source_product_id', t('workarea.admin.catalog_product_copies.new.fields.source_product_id'), class: 'property__name'
-                = select_tag 'source_product_id', options_for_products(params['source_product_id']), include_blank: true, required: true, data: { remote_select: { source: catalog_products_path(format: :json), options: { placeholder: t('workarea.admin.content_blocks.products.select_placeholder') } }.to_json }
+                = label_tag 'source_id', t('workarea.admin.catalog_product_copies.new.fields.source_id'), class: 'property__name'
+                = select_tag 'source_id', options_for_products(params['source_id']), include_blank: true, required: true, data: { remote_select: { source: catalog_products_path(format: :json), options: { placeholder: t('workarea.admin.content_blocks.products.select_placeholder') } }.to_json }
 
             .property{ class: ('hidden' unless @product.present?) }
               %span.property__name= t('workarea.admin.fields.original_id')
-              = text_field_tag 'original_id', @product.present? ? @product.id : nil, disabled: true, class: 'text-box', data: { product_copy_ids_target: '' }
+              = text_field_tag 'original_id', @product.present? ? @product.id : nil, disabled: true, class: 'text-box', data: { copy_id_target: '' }
 
             .property.property--required{ class: ('hidden' unless @product.present?) }
               = label_tag 'product[id]', t('workarea.admin.fields.id'), class: 'property__name'

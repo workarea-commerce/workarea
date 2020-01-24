@@ -4,6 +4,10 @@
   .view__header
     .view__heading
       %h1.heading.heading--no-margin= t('workarea.admin.create_content_pages.setup.setup')
+      - unless params[:continue]
+        %p
+          = t('workarea.admin.create_content_pages.setup.copy_a_page')
+          = link_to t('workarea.admin.create_content_pages.setup.copy_button'), new_content_page_copy_path
 
   .view__container.view__container--narrow
     - @page.errors.full_messages.each do |message|

@@ -845,6 +845,14 @@ module Workarea
         updated_at: nil
       }
 
+      # values changed on a page when copied via CopyPage
+      config.page_copy_default_attributes = {
+        active: false,
+        slug: nil,
+        created_at: nil,
+        updated_at: nil
+      }
+
       # Fields that do not get copied to the new order when cloning an order.
       config.copy_order_ignored_fields = %i(
         token checkout_started_at placed_at canceled_at created_at updated_at

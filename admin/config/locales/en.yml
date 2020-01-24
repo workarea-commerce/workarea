@@ -592,7 +592,7 @@ en:
           preselected_description: Set a unique ID for the new product.
           button: Copy and Continue
           fields:
-            source_product_id: Select a product to copy
+            source_id: Select a product to copy
           copy_original: Copy original?
           randomize: Randomize?
         flash_messages:
@@ -811,6 +811,8 @@ en:
           title_preset: Choose A Preset
         products:
           select_placeholder: Product A, Product B
+        pages:
+          select_placeholder: Page A, Page B
         tooltips:
           more_info: More Information
       content_emails:
@@ -827,6 +829,20 @@ en:
           other: "%{count} Transactional Emails"
         type: Type
         updated_at: Updated
+      content_page_copies:
+        new:
+          title: Copy an existing page
+          description: Select a page to copy, then set a unique ID for the new page.
+          preselected_title: Copy %{page}
+          preselected_description: Set a unique ID for the new page.
+          button: Copy and Continue
+          fields:
+            source_id: Select a page to copy
+          copy_original: Copy original?
+          randomize: Randomize?
+        flash_messages:
+          created: Page has been copied. You can now continue editing the copied page.
+          error: There was a problem copying this page. Try again.
       content_pages:
         aux_navigation:
           view_on_storefront: View on Storefront
@@ -858,6 +874,8 @@ en:
           description: Build landing pages, category summary pages, look books, etc.
           page_title: Pages
           title: Content Pages
+        show:
+          copy_page: Copy Page
         pluralize:
           one: "%{count} Page"
           other: "%{count} Pages"
@@ -1091,6 +1109,8 @@ en:
           setup_a_new_page: Setup a new page
           tags: Tags
           tags_note: 'Comma separated: just, like, this'
+          copy_a_page: Looking to copy an existing page?
+          copy_button: Select a page to copy
         taxonomy:
           add_to_taxonomy: "%{page_name}: Add to Taxonomy"
           save_and_continue: Save and Continue

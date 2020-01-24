@@ -13,7 +13,7 @@ module Workarea
 
         post admin.catalog_product_copies_path,
           params: {
-            source_product_id: product.id,
+            source_id: product.id,
             product: {
               active: false,
               id: 'bar345'
