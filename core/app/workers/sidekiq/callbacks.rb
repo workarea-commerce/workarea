@@ -14,14 +14,7 @@ module Sidekiq
       # @return [Array<Class>]
       #
       def workers
-        config = ::Rails.application.config
-        config.sidekiq_callbacks_workers = [] unless config.respond_to?(:sidekiq_callbacks_workers)
-
-        if caching_classes?
-          config.sidekiq_callbacks_workers
-        else
-          config.sidekiq_callbacks_workers.map(&:constantize)
-        end
+        caching_classes? ? workers_list : workers_list.map(&:constantize)
       end
 
       # Add a {Class} to the list of workers to check when running callbacks.
@@ -31,9 +24,9 @@ module Sidekiq
       #
       def add_worker(klass)
         if caching_classes?
-          workers << klass
-        elsif !workers.include?(klass.name)
-          workers << klass.name
+          workers_list << klass
+        elsif !workers_list.include?(klass.name)
+          workers_list << klass.name
         end
       end
 
@@ -49,6 +42,17 @@ module Sidekiq
       #
       def caching_classes?
         ::Rails.application.config.cache_classes
+      end
+
+      # Convenience reference to the tracked list of workers in the Rails config
+      #
+      # @private
+      # @return [Array<String,Class>]
+      #
+      def workers_list
+        config = ::Rails.application.config
+        config.sidekiq_callbacks_workers = [] unless config.respond_to?(:sidekiq_callbacks_workers)
+        config.sidekiq_callbacks_workers
       end
 
       # Permanently or temporarily enable callback workers. If
