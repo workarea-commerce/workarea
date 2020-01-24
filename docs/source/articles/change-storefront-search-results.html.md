@@ -251,4 +251,4 @@ In this doc we used manual testing to confirm the results because it allowed a v
 However, to avoid regressions, take the time to write automated tests for your changes.
 This particular example avoids the need to decorate any existing tests, but other use cases may break existing functionality and require test decoration.
 
-See [Testing](/articles/testing.html) for coverage of this topic.
+See [Testing Concepts](/articles/testing-concepts.html) for coverage of this topic.
