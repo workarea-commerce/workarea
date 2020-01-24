@@ -29,6 +29,27 @@ body_class: body--flat
 <div class='hide-if-noscript'>
   <div class='search-results'>
     <p class='search-results__count'>No results to show</p>
+    <p class='search-results__help'>
+      <strong>Can't find what you're looking for?</strong>
+      <br>
+      Please
+      <strong>
+      <%=
+        link_to(
+          'open a GitHub issue',
+          "https://github.com/workarea-commerce/workarea/issues/new" +
+            "?template=documentation-request.md" +
+            "&labels=documentation" +
+            "&title=No Search Results" +
+            "&body=Searching your docs, there were no results for...",
+          target: '_blank'
+        )
+      %>
+      </strong>
+      to let us know.
+      <br>
+      We appreciate your feedback!
+    </p>
     <ul class='search-results__list'></ul>
   </div>
 </div>

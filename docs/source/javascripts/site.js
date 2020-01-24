@@ -83,6 +83,7 @@ window.modules.search = (function () {
 
         display = function (results, lunr) {
             var $countUI = $('.search-results__count'),
+                $helpUI = $('.search-results__help'),
                 $resultListUI;
 
             if (results.length >= 0) {
@@ -90,6 +91,12 @@ window.modules.search = (function () {
 
                 $countUI.text(constructCountMessage(results.length));
                 $resultListUI.html(constructResultList(results, lunr));
+            }
+
+            if (results.length == 0) {
+                $helpUI.show();
+            } else {
+                $helpUI.hide();
             }
 
             $countUI.show();
