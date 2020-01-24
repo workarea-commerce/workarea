@@ -133,6 +133,9 @@ module Sidekiq
       end
     end
 
+    class TestTrackingWorkerOne; end
+    class TestTrackingWorkerTwo; end
+
     setup :setup_sidekiq
     teardown :teardown_sidekiq
 
@@ -428,6 +431,25 @@ module Sidekiq
       end
 
       assert(Worker.enabled?)
+    end
+
+    def test_tracking_workers
+      current_workers = ::Rails.application.config.sidekiq_callbacks_workers
+      ::Rails.application.config.sidekiq_callbacks_workers = []
+
+      Sidekiq::Callbacks.add_worker(TestTrackingWorkerOne)
+      assert_includes(Sidekiq::Callbacks.workers, TestTrackingWorkerOne)
+
+      current_cache_classes = ::Rails.application.config.cache_classes
+      ::Rails.application.config.cache_classes = false
+      ::Rails.application.config.sidekiq_callbacks_workers = []
+
+      Sidekiq::Callbacks.add_worker(TestTrackingWorkerTwo)
+      assert_includes(Sidekiq::Callbacks.workers, TestTrackingWorkerTwo)
+
+    ensure
+      ::Rails.application.config.sidekiq_callbacks_workers = current_workers
+      ::Rails.application.config.cache_classes = current_cache_classes
     end
   end
 end
