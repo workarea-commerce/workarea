@@ -41,7 +41,7 @@ module Workarea
       included do
         setup do
           @_worker_state =
-            Sidekiq::CallbacksWorker.workers.reduce({}) do |memo, worker|
+            Sidekiq::Callbacks.workers.reduce({}) do |memo, worker|
               memo[worker] = [worker.enabled?, worker.inlined?]
               memo
             end
@@ -57,7 +57,7 @@ module Workarea
         end
 
         teardown do
-          Sidekiq::CallbacksWorker.workers.each do |worker|
+          Sidekiq::Callbacks.workers.each do |worker|
             worker.enabled = @_worker_state[worker].first
             worker.inlined = @_worker_state[worker].second
           end

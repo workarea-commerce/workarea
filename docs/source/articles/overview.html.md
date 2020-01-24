@@ -33,7 +33,7 @@ Workarea is designed to be customized to work for merchants with different needs
 
 ## Testing
 
-Workarea inherits the Rails' community's ethic of testing. In this spirit, Workarea distributes its test suite as runnable and customizable, just like any application code using decoration techniques. This helps implementers of Workarea to ensure their customizations don't break Workarea out-of-the-box functionality and helps with upgrades to new versions. [Read more on testing.](/articles/testing.html)
+Workarea inherits the Rails' community's ethic of testing. In this spirit, Workarea distributes its test suite as runnable and customizable, just like any application code using decoration techniques. This helps implementers of Workarea to ensure their customizations don't break Workarea out-of-the-box functionality and helps with upgrades to new versions. [Read more on testing.](/articles/testing-concepts.html)
 
 ## How do I get started?
 

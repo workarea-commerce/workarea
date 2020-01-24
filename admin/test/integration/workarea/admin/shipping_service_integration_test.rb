@@ -9,7 +9,8 @@ module Workarea
         shipping_service = {
           name:         'Shipping Service',
           tax_code:     '001',
-          country:      'US'
+          country:      'US',
+          service_code: 'FED'
         }
         post admin.shipping_services_path,
           params: { service: shipping_service, new_rates: [{ price: '7.00' }] }
@@ -20,6 +21,7 @@ module Workarea
         assert_equal('Shipping Service', service.name)
         assert_equal('001', service.tax_code)
         assert_equal(Country['US'], service.country)
+        assert_equal('FED', service.service_code)
       end
 
       def test_update

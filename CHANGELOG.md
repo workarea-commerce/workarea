@@ -1,3 +1,33 @@
+Workarea 3.5.4 (2020-01-21)
+--------------------------------------------------------------------------------
+
+*   Ignore elements with no ID value when announcing duplicate IDs on-page
+
+    WORKAREA.duplicateID was throwing a false positive exception when it
+    would find elements containing an `id` attribute with no value
+    specified. This behavior should be allowed, since empty ID values should
+    pose no issues for the developer
+
+    WORKAREA-184
+    Curt Howard
+
+*   Add link to edit the footer area of Layout content in Shortcuts
+
+    We need to be more permissive in our linking to footer content areas
+    from the header, since themes and builds can technically rename these
+    areas. Now this link will point to the first content area that contains
+    the word 'footer'.
+
+    WORKAREA-145
+    Curt Howard
+
+*   Order release changesets during publishing, touch releasables after publish
+
+    WORKAREA-164
+    Matt Duffy
+
+
+
 Workarea 3.5.3 (2020-01-07)
 --------------------------------------------------------------------------------
 

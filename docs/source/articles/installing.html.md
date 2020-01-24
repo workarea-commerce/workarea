@@ -40,7 +40,7 @@ This tells sidekiq to run workers in process while working locally.
 
 ### `test_helper.rb`
 
-Workarea provides robust [testing configuration](/articles/testing.html) for consistent and easy testing. The install generator will add `require workarea/test_help.rb` to your existing `test/test_helper.rb` file.
+Workarea provides robust [testing configuration](/articles/testing-concepts.html) for consistent and easy testing. The install generator will add `require workarea/test_help.rb` to your existing `test/test_helper.rb` file.
 
 ### `favicon.ico`
 

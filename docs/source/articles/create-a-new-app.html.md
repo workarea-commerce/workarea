@@ -125,7 +125,7 @@ Try one of the test runners listed in that output. For example, this will run th
 bin/rails workarea:test
 ```
 
-For more details on Workarea's testing functionality, see [Testing](/articles/testing.html).
+For more details on Workarea's testing functionality, see [Testing Concepts](/articles/testing-concepts.html).
 
 ## Stop the services
 

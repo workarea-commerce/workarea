@@ -1790,6 +1790,7 @@ en:
         segments: Segments
         send_account_creation_email: Notify Them by Email
         service: Service
+        service_code: Service Code
         services_file: Services File
         sessions: Sessions
         shipping: Shipping
