@@ -12,6 +12,8 @@ module Mongoid
           include InstanceMethods
           extend ClassMethods
         end
+
+        super
       end
 
       module InstanceMethods
