@@ -35,13 +35,28 @@ WORKAREA.registerModule('contentBlockList', (function () {
 
         scrollBlockIntoView = function($block) {
             $('html, body').animate({
-                scrollTop: $block.offset().top - 70
+                scrollTop: (
+                    window.sessionStorage.getItem('contentBlockScrollPosition')
+                )
             }, 200);
 
             return $block;
         },
 
-        enableEditMode = _.flow(scrollBlockIntoView, WORKAREA.contentBlocks.activateBlock),
+        saveBlockScrollPosition = function ($block) {
+            window.sessionStorage.setItem(
+                'contentBlockScrollPosition',
+                Math.round($block.offset().top - 70)
+            );
+
+            return $block;
+        },
+
+        enableEditMode = _.flow(
+            saveBlockScrollPosition,
+            scrollBlockIntoView,
+            WORKAREA.contentBlocks.activateBlock
+        ),
 
         handleListItemclick = function(event) {
             var $blockButton = $(event.currentTarget).closest('.content-block-list__item'),
@@ -64,7 +79,13 @@ WORKAREA.registerModule('contentBlockList', (function () {
             });
         };
 
+    $(window).on('turbolinks:before-visit', function () {
+        window.sessionStorage.removeItem('contentBlockScrollPosition');
+    });
+
     return {
-        init: init
+        init: init,
+        scrollBlockIntoView: scrollBlockIntoView,
+        saveBlockScrollPosition: saveBlockScrollPosition
     };
 }()));
