@@ -3,7 +3,7 @@ name: Documentation feedback/request
 about: Provide documentation feedback
 title: ''
 labels: documentation
-assignees: chriscressman
+assignees: ''
 
 ---
 
