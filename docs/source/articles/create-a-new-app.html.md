@@ -13,8 +13,8 @@ After reviewing the [assumptions](#assumptions), complete the following steps to
 
 1. [Create a Rails 5.2 application](#create-a-rails-5-2-application)
 2. [Add the Workarea gem](#add-the-workarea-gem)
-3. [Install Workarea into the Rails application](#install-workarea-into-the-rails-application)
-4. [Start Workarea service dependencies](#start-workarea-service-dependencies)
+3. [Start Workarea service dependencies](#start-workarea-service-dependencies)
+4. [Install Workarea into the Rails application](#install-workarea-into-the-rails-application)
 5. [Seed the database](#seed-the-database)
 6. [Start the Rails server](#start-the-rails-server)
 7. [Open the application in a browser](#open-the-application-in-a-browser)
@@ -67,6 +67,15 @@ echo "gem 'workarea'" >> Gemfile
 bundle update
 ```
 
+## Start Workarea service dependencies
+
+Workarea relies on a few databases, so there's a task that will start them in Docker containers.
+Start Workarea dependencies:
+
+```bash
+bin/rails workarea:services:up
+```
+
 ## Install Workarea into the Rails application
 
 Workarea ships with an installer generator that will configure the application:
@@ -76,15 +85,6 @@ bin/rails generate workarea:install
 ```
 
 For more details on what this generator does, see [Installing Workarea](/articles/installing.html).
-
-## Start Workarea service dependencies
-
-Workarea relies on a few databases, so there's a task that will start them in Docker containers.
-Start Workarea dependencies:
-
-```bash
-bin/rails workarea:services:up
-```
 
 ## Seed the database
 
