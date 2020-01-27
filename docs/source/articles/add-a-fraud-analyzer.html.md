@@ -9,7 +9,7 @@ Workarea provides a default fraud analyzer which will make no decision of the fr
 
 Fraud decisions are made **before** payment is collected, meaning no payment actions will be taken if the order is found to be fraudulent. Orders deemed fraudulent are not able to be placed.
 
-Each order will have an embedded document `fraud_decision` after the analyzer runs. This document holds
+After the analyzer runs, `Order#fraud_decision` returns an embedded [`Order::FraudDecision`](https://github.com/workarea-commerce/workarea/blob/v3.5.4/core/app/models/workarea/order/fraud_decision.rb) document that stores the fraud decision and related information.
 
 ## Create a custom analyzer class
 
