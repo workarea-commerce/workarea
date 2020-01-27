@@ -1,3 +1,4 @@
+//= require workarea/core/modules/environment
 //= require workarea/core/modules/url
 //= require workarea/core/modules/form_submitting_controls
 
