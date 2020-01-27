@@ -6,6 +6,7 @@ WORKAREA.registerModule('contentBlocks', (function () {
 
     var iframe = JST['workarea/admin/templates/content_block_iframe'],
         loadingIndicator = JST['workarea/admin/templates/loading'],
+        loadingIndicatorTimer,
 
         /**
          * Utility
@@ -21,28 +22,22 @@ WORKAREA.registerModule('contentBlocks', (function () {
             return $loadedIframes.length === $allIframes.length;
         },
 
-        withinViewport = function ($block) {
-            var rect = $block[0].getBoundingClientRect();
+        recallScrollPosition = _.once(function ($block) {
+            WORKAREA.contentBlockList.scrollBlockIntoView();
 
-            return (
-                rect.top >= 0 &&
-                rect.left >= 0 &&
-                rect.bottom <= $(window).height() &&
-                rect.right <= $(window).width()
-            );
-        },
+            if (_.isUndefined($block)) {
+                window.sessionStorage.removeItem('contentBlockScrollPosition');
+            }
+        }),
 
         scrollToNewBlock = function () {
-            var $newBlock = $('#new_content_block'),
-                offsets = {};
+            var $newBlock = $('#new_content_block');
 
             if (_.isEmpty($newBlock)) { return; }
-            if (withinViewport($newBlock)) { return; }
 
-            offsets.newBlock = $newBlock.offset().top;
-            offsets.header = $('#header').height();
+            WORKAREA.contentBlockList.saveBlockScrollPosition($newBlock);
 
-            $(window).scrollTop(offsets.newBlock - offsets.header - 48);
+            return $newBlock;
         },
 
 
@@ -50,16 +45,16 @@ WORKAREA.registerModule('contentBlocks', (function () {
          * Handle Loading Indicator
          */
 
-        stopLoading = _.flow(scrollToNewBlock, WORKAREA.takeover.close),
+        stopLoading = _.flow(
+            scrollToNewBlock,
+            recallScrollPosition,
+            WORKAREA.takeover.close
+        ),
 
         ensureLoadingIndicatorCloses = function () {
-            var timer = _.delay(
+            loadingIndicatorTimer = _.delay(
                 stopLoading, WORKAREA.config.contentBlocks.loadingTimeout
             );
-
-            $(window).on('contentBlocks:blocksLoaded', function () {
-                window.clearTimeout(timer);
-            });
         },
 
         openLoadingIndicator = function () {
@@ -207,6 +202,8 @@ WORKAREA.registerModule('contentBlocks', (function () {
                 stopLoading();
                 $(window).trigger('contentBlocks:blocksLoaded');
             }
+
+            $iframe.off('load.injectIframe');
         },
 
         injectIframe = function (index, block) {
@@ -216,7 +213,7 @@ WORKAREA.registerModule('contentBlocks', (function () {
                 $iframe = $(iframe({ src: src }));
 
             $placeholder.replaceWith($iframe);
-            $iframe.on('load', setupIframe);
+            $iframe.on('load.injectIframe', setupIframe);
         },
 
         /**
@@ -239,6 +236,10 @@ WORKAREA.registerModule('contentBlocks', (function () {
                     hideEditorAside($(activeBlock));
                 });
         };
+
+    $(window).on('contentBlocks:blocksLoaded', function () {
+        window.clearTimeout(loadingIndicatorTimer);
+    });
 
     return {
         init: init,
