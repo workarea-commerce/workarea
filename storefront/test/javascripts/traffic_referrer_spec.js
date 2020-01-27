@@ -15,7 +15,7 @@
             });
 
             it('does not set a cookie when host matches referrer', function () {
-                WORKAREA.trafficReferrer.setReferrer('http://127.0.0.1');
+                WORKAREA.trafficReferrer.setReferrer(window.location.origin);
 
                 WORKAREA.trafficReferrer.setCookie();
                 expect(WORKAREA.cookie.read('workarea_referrer')).to.equal(null);

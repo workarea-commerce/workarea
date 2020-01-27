@@ -80,7 +80,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'minitest', '~> 5.13.0'
   s.add_dependency 'countries', '~> 3.0.0'
   s.add_dependency 'waypoints_rails', '~> 4.0.1'
-  s.add_dependency 'rails-decorators', '~> 0.2.x'
+  s.add_dependency 'rails-decorators', '~> 0.2.0.pre'
   s.add_dependency 'icalendar', '~> 2.6.0'
   s.add_dependency 'premailer-rails', '~> 1.10.1'
   s.add_dependency 'json-streamer', '~> 2.1.0'
