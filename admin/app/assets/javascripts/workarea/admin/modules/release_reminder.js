@@ -16,6 +16,8 @@ WORKAREA.registerModule('releaseReminder', (function () {
         no = function (event) {
             event.preventDefault();
 
+            if (WORKAREA.environment.isTest) { return; }
+
             var form = JST['workarea/admin/templates/release_select_form']({
                 url: WORKAREA.routes.admin.releaseSessionPath(),
                 csrfParam: $('meta[name=csrf-param]').attr('content'),
