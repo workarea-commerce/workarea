@@ -38,6 +38,54 @@ module Workarea
         refute(page.has_selector?('.content-block'))
       end
 
+      def test_copying_content_blocks
+        home = create_content(name: 'home_page')
+        visit admin.content_index_path
+        click_link 'Home Page'
+        within '.card--content' do
+          click_link 'Content'
+        end
+
+        click_link 'add_new_block'
+        click_link 'HTML'
+
+        fill_in 'block[data][html]', with: '<h1>Some Content!</h1>'
+        click_button 'create_block'
+
+        assert(page.has_content?('Success'))
+
+        find('.content-block').hover
+        find('.content-block__action-button--copy').click
+
+        assert(page.has_content?('Success'))
+        assert(page.has_content?(t('workarea.admin.content_blocks.flash_messages.copied')))
+
+        assert_selector('.content-block', count: 2)
+
+        find_all('.content-block').last.click
+        assert_equal(
+          '<h1>Some Content!</h1>',
+          find('[name="block[data][html]"]').value
+        )
+
+        fill_in 'block[data][html]', with: '<h1>Foo Blargh!</h1>'
+        click_button 'save_block'
+
+        assert(page.has_content?('Success'))
+
+        find_all('.content-block').first.click
+        assert_equal(
+          '<h1>Some Content!</h1>',
+          find('[name="block[data][html]"]').value
+        )
+
+        find_all('.content-block').last.click
+        assert_equal(
+          '<h1>Foo Blargh!</h1>',
+          find('[name="block[data][html]"]').value
+        )
+      end
+
       def test_reordering_content_blocks
         home = create_content(name: 'home_page')
         visit admin.content_index_path

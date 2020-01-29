@@ -9,6 +9,7 @@ $content-block-add-button-size:   $spacing-unit * 6 !default;
 $content-block-add-button-color:  $green !default;
 
 $content-block-action-button-bg-color:         $off-black !default;
+$content-block-action-button-copy-bg-color:    $green !default;
 $content-block-action-button-create-bg-color:  $green !default;
 
 $content-block-inactive-overlay-bg-color:  rgba($off-black, 0.75) !default;
@@ -124,6 +125,10 @@ $content-block-inactive-overlay-bg-color:  rgba($off-black, 0.75) !default;
                 padding: $spacing-unit;
                 text-align: center;
                 background-color: $content-block-action-button-bg-color;
+            }
+
+            .content-block__action-button--copy {
+                background-color: $content-block-action-button-copy-bg-color;
             }
 
             .content-block__action-button--create {

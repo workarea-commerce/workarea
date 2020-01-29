@@ -698,6 +698,7 @@ en:
           add_block_below: Add Block Below
           advanced: Advanced
           aside_title: Content Blocks
+          copy_block: Copy Block
           create_preset: Create Preset
           empty_content: This content is empty
           loading: Loading...
@@ -803,6 +804,7 @@ en:
           select_placeholder: Choose a category...
         flash_messages:
           added: Your content has been added
+          copied: Your content has been copied
           moved: Content has been moved
           removed: Content has been removed
           saved: Your content has been saved
