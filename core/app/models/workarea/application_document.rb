@@ -3,8 +3,8 @@ module Workarea
     extend ActiveSupport::Concern
 
     include Mongoid::Document
-    include Mongoid::AuditLog
     include Mongoid::Timestamps
+    include AuditLogging
     include Sidekiq::Callbacks
     include GlobalID::Identification
 

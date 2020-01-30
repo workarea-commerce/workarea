@@ -3,6 +3,8 @@ module Workarea
     class BlockDraft
       include ApplicationDocument
 
+      disable_audit_log
+
       field :content_id, type: String
       Block.fields.except('_id').each do |name, field_instance|
         field name, field_instance.options.except(:klass)
