@@ -27,3 +27,15 @@ img {
 img[width], img[height] { /* [2] */
     max-width: none;
 }
+
+
+/**
+ * Styles for images while they're lazy loading. Classes supplied via JS.
+ */
+img.lazy-image {
+    opacity: 0;
+}
+
+img.lazy-image--loaded {
+    opacity: 1;
+}
