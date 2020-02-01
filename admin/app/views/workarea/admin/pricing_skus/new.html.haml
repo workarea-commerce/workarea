@@ -34,6 +34,8 @@
           %span.property__name= t('workarea.admin.fields.discountable')
           = toggle_button_for 'sku[discountable]', @sku.discountable?, title_true: t('workarea.admin.pricing_skus.allow_discounting'), title_false: t('workarea.admin.pricing_skus.disallow_discounting')
 
+        = append_partials('admin.add_cost', sku: @sku)
+        
         .property
           = label_tag 'sku_msrp', t('workarea.admin.fields.msrp'), class: 'property__name'
           = currency_symbol

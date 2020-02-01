@@ -31,6 +31,8 @@
           = label_tag 'sku[tax_code]', t('workarea.admin.fields.tax_code'), class: 'property__name'
           = text_field_tag 'sku[tax_code]', @sku.tax_code, class: 'text-box'
 
+        = append_partials('admin.add_cost', sku: @sku)
+        
         .property
           = label_tag 'sku_msrp', t('workarea.admin.fields.msrp'), class: 'property__name'
           = currency_symbol
