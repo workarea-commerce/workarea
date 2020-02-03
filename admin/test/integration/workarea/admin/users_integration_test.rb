@@ -40,7 +40,8 @@ module Workarea
               catalog_access: true,
               orders_access: true,
               people_access: true,
-              marketing_access: true
+              marketing_access: true,
+              tax_exempt: true
             }
           }
 
@@ -50,6 +51,7 @@ module Workarea
         assert_equal(user, user.authenticate('W3bl1nc!'))
         assert_equal(%w(different tags), user.tags)
         assert(user.admin)
+        assert(user.tax_exempt)
         assert(user.releases_access)
         assert(user.store_access)
         assert(user.catalog_access)

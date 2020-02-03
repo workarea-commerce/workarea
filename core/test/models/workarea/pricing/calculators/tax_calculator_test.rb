@@ -152,6 +152,54 @@ module Workarea
           assert_equal('tax', item.price_adjustments.last.price)
           assert_equal(0.30.to_m, item.price_adjustments.last.amount)
         end
+
+        def test_assign_exempt_tax
+          create_pricing_sku(
+            id: 'SKU',
+            tax_code: '001',
+            prices: [{ regular: 5.to_m }]
+          )
+
+          create_tax_category(
+            code:  '001',
+            rates: [{ percentage: 0.06, region: 'PA', country: 'US' }]
+          )
+
+          create_user(
+            id: 'user1',
+            tax_exempt: true
+          )
+
+          order = Order.new(
+            user_id: 'user1',
+            items: [
+              {
+                price_adjustments: [
+                  {
+                    price: 'item',
+                    amount: 5.to_m,
+                    data: { 'tax_code' => '001' }
+                  }
+                ]
+              }
+            ]
+          )
+
+          shipping = Shipping.new
+
+          shipping.set_address(
+            postal_code: '19106',
+            region: 'PA',
+            country: 'US'
+          )
+
+          TaxCalculator.test_adjust(order, shipping)
+
+          assert_equal(1, shipping.price_adjustments.length)
+          assert_equal('tax', shipping.price_adjustments.last.price)
+          assert_equal(0.0.to_m, shipping.price_adjustments.first.amount)
+          assert(shipping.price_adjustments.first.data["tax_exempt"])
+        end
       end
     end
   end

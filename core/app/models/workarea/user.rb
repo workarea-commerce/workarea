@@ -17,6 +17,7 @@ module Workarea
     field :last_name, type: String
     field :name, type: String
     field :created_by_id, type: String
+    field :tax_exempt, type: Boolean, default: false
 
     index({ email: 1 }, { unique: true })
     index({ created_at: 1 })

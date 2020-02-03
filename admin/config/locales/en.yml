@@ -1817,6 +1817,7 @@ en:
         tax: Tax
         tax_category: Tax Category
         tax_code: Tax Code
+        tax_exempt: Tax Exempt
         taxon_id: Taxonomy
         template: Template
         tender: Tender
@@ -4041,6 +4042,8 @@ en:
           avatar_delete: Delete Avatar?
           email_signup: Email Signup?
           send_password_reset: Send password reset email
+          tax_exempt_false: This User's orders will be charged tax if applicable.
+          tax_exempt_true: This User's orders will not be charged tax.
         flash_messages:
           changes_saved: Your changes have been saved
           saved: Your changes have been saved

@@ -68,6 +68,11 @@
               %span.property__name
                 = t('workarea.admin.users.edit.email_signup')
               = toggle_button_for 'email_signup', @user.email_signup?
+          .grid__cell.grid__cell--50.grid__cell--25-at-medium
+            .property
+              = label_tag 'user[tax_exempt]', t('workarea.admin.fields.tax_exempt'), class: 'property__name'
+              = toggle_button_for 'user[tax_exempt]', @user.tax_exempt?, title_true: t('workarea.admin.users.edit.tax_exempt_true'), title_false: t('workarea.admin.users.edit.tax_exempt_false')
+
 
         = append_partials('admin.user_properties', user: @user)
 
