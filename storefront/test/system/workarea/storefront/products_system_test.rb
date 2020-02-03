@@ -19,8 +19,8 @@ module Workarea
       def test_showing_a_product
         visit storefront.product_path(@product)
         assert(page.has_content?('Integration Product'))
-        assert(page.has_content?('$10.00'))
-        assert(page.has_content?('$15.00'))
+        assert(page.has_content?('10.00'))
+        assert(page.has_content?('15.00'))
         assert(page.has_select?('sku', options: ['Select options', 'SKU1', 'SKU2', 'SKU3']))
       end
 
@@ -29,8 +29,8 @@ module Workarea
 
         visit storefront.product_path(@product)
         assert(page.has_content?('Integration Product'))
-        assert(page.has_no_content?('$10.00'))
-        assert(page.has_content?('$15.00'))
+        assert(page.has_no_content?('10.00'))
+        assert(page.has_content?('15.00'))
         assert(page.has_select?('sku', options: ['Select options', 'SKU2', 'SKU3']))
       end
 
@@ -44,14 +44,14 @@ module Workarea
 
         within '.product-details' do
           assert(has_content?('Integration Product'))
-          assert(has_content?('$10.00'))
-          assert(has_no_content?('$15.00'))
+          assert(has_content?('10.00'))
+          assert(has_no_content?('15.00'))
         end
 
         visit storefront.product_path(@product, sku: 'SKU2')
 
         within '.product-details' do
-          assert(has_content?('$15.00'))
+          assert(has_content?('15.00'))
         end
       end
 
@@ -60,7 +60,7 @@ module Workarea
 
         visit storefront.product_path(@product, sku: 'SKU1')
 
-        assert(page.has_no_content?('$10.00'))
+        assert(page.has_no_content?('10.00'))
         assert(page.has_content?(t('workarea.storefront.products.unavailable')))
       end
 
@@ -68,10 +68,10 @@ module Workarea
         visit storefront.product_path(@product)
 
         select("SKU1", from: "sku")
-        assert(page.has_content?('$10.00'))
+        assert(page.has_content?('10.00'))
 
         select("SKU2", from: "sku")
-        assert(page.has_content?('$15.00'))
+        assert(page.has_content?('15.00'))
       end
 
       def test_option_selects_template

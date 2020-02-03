@@ -32,11 +32,11 @@ module Workarea
         assert(page.has_content?('Integration Product'))
         assert(page.has_content?('SKU'))
 
-        assert(page.has_content?('$5.00')) # Subtotal
-        assert(page.has_content?('$7.00')) # Shipping
-        assert(page.has_content?('$0.84')) # Tax
-        assert(page.has_content?('$12.84')) # Store credit amount
-        assert(page.has_content?('$0.00')) # Total less store credit
+        assert(page.has_content?('5.00')) # Subtotal
+        assert(page.has_content?('7.00')) # Shipping
+        assert(page.has_content?('0.84')) # Tax
+        assert(page.has_content?('12.84')) # Store credit amount
+        assert(page.has_content?('0.00')) # Total less store credit
 
         click_button t('workarea.storefront.checkouts.place_order')
 
@@ -60,11 +60,11 @@ module Workarea
         assert(page.has_content?('Integration Product'))
         assert(page.has_content?('SKU'))
 
-        assert(page.has_content?('$5.00')) # Subtotal
-        assert(page.has_content?('$7.00')) # Shipping
-        assert(page.has_content?('$0.84')) # Tax
-        assert(page.has_content?('$12.84')) # Store credit amount
-        assert(page.has_content?('$0.00')) # Total less store credit
+        assert(page.has_content?('5.00')) # Subtotal
+        assert(page.has_content?('7.00')) # Shipping
+        assert(page.has_content?('0.84')) # Tax
+        assert(page.has_content?('12.84')) # Store credit amount
+        assert(page.has_content?('0.00')) # Total less store credit
       end
 
       def test_purchasing_with_store_credit_and_credit_card
@@ -94,11 +94,11 @@ module Workarea
         assert(page.has_content?('Integration Product'))
         assert(page.has_content?('SKU'))
 
-        assert(page.has_content?('$5.00')) # Subtotal
-        assert(page.has_content?('$7.00')) # Shipping
-        assert(page.has_content?('$0.84')) # Tax
-        assert(page.has_content?('$4.00')) # Store credit amount
-        assert(page.has_content?('$8.84')) # Total less store credit
+        assert(page.has_content?('5.00')) # Subtotal
+        assert(page.has_content?('7.00')) # Shipping
+        assert(page.has_content?('0.84')) # Tax
+        assert(page.has_content?('4.00')) # Store credit amount
+        assert(page.has_content?('8.84')) # Total less store credit
 
         click_button t('workarea.storefront.checkouts.place_order')
 
@@ -124,11 +124,11 @@ module Workarea
         assert(page.has_content?('Integration Product'))
         assert(page.has_content?('SKU'))
 
-        assert(page.has_content?('$5.00')) # Subtotal
-        assert(page.has_content?('$7.00')) # Shipping
-        assert(page.has_content?('$0.84')) # Tax
-        assert(page.has_content?('$4.00')) # Store credit amount
-        assert(page.has_content?('$8.84')) # Total less store credit
+        assert(page.has_content?('5.00')) # Subtotal
+        assert(page.has_content?('7.00')) # Shipping
+        assert(page.has_content?('0.84')) # Tax
+        assert(page.has_content?('4.00')) # Store credit amount
+        assert(page.has_content?('8.84')) # Total less store credit
       end
 
       def test_paying_with_insufficient_store_credit
@@ -146,7 +146,7 @@ module Workarea
         click_button t('workarea.storefront.checkouts.continue_to_payment')
 
         assert_current_path(storefront.checkout_payment_path)
-        assert(page.has_content?('$11.84')) # Remaing balance
+        assert(page.has_content?('11.84')) # Remaing balance
 
         click_button t('workarea.storefront.checkouts.place_order')
 

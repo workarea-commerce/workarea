@@ -45,7 +45,7 @@ module Workarea
 
         assert(page.has_content?('Integration Product'))
         assert(page.has_content?('Free Item'))
-        assert(page.has_content?('$5.00'))
+        assert(page.has_content?('5.00'))
       end
 
       def test_managing_cart_items

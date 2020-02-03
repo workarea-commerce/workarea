@@ -303,9 +303,9 @@ module Workarea
         assert(page.has_content?('Credit Card'))
         assert(page.has_content?('Store Credit'))
         assert(page.has_content?('1'))
-        assert(page.has_content?('$100.00'))
+        assert(page.has_content?('100.00'))
         assert(page.has_content?('2'))
-        assert(page.has_content?('$24.00'))
+        assert(page.has_content?('24.00'))
 
         click_link t('workarea.admin.fields.revenue')
         assert(page.has_content?("#{t('workarea.admin.fields.revenue')} ↓"))

@@ -51,7 +51,7 @@ module Workarea
         click_link 'HTML'
         click_button 'create_block'
 
-        assert(page.has_content?('Success'))
+        assert_text('Success')
         assert(page.has_selector?('.content-block'))
 
         click_link t('workarea.admin.create_catalog_categories.content.continue_to_taxonomy')

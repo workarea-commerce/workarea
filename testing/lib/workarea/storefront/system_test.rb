@@ -151,6 +151,10 @@ module Workarea
           all_events.select { |e| e['name'] == for_event }
         end
       end
+
+      def currency
+        Money.default_currency.symbol
+      end
     end
   end
 end
