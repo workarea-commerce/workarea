@@ -17,10 +17,10 @@ module Workarea
       if @block.save
         flash[:success] = t('workarea.admin.content_blocks.flash_messages.added')
       else
-        flash[:error] = @block.errors.to_a.to_sentence
+        flash[:error] = @block.errors.full_messages.to_sentence
       end
 
-      redirect_to return_to || edit_content_path(
+      redirect_back_or edit_content_path(
         @content,
         release_id: @block.activate_with
       )
@@ -32,10 +32,10 @@ module Workarea
       if @block.save
         flash[:success] = t('workarea.admin.content_blocks.flash_messages.saved')
       else
-        flash[:error] = @block.errors.to_a.to_sentence
+        flash[:error] = @block.errors.full_messages.to_sentence
       end
 
-      redirect_to return_to || edit_content_path(@content)
+      redirect_back_or edit_content_path(@content)
     end
 
     def move
@@ -52,10 +52,26 @@ module Workarea
       head :ok
     end
 
+    def copy
+      new_block = @block.clone
+      new_block.content = @block.content
+
+      if new_block.save
+        flash[:success] = t('workarea.admin.content_blocks.flash_messages.copied')
+      else
+        flash[:error] = new_block.errors.full_messages.to_sentence
+      end
+
+      redirect_back_or edit_content_path(
+        @content,
+        release_id: new_block.activate_with
+      )
+    end
+
     def destroy
       @block.destroy
       flash[:success] = t('workarea.admin.content_blocks.flash_messages.removed')
-      redirect_to return_to || edit_content_path(@content)
+      redirect_back_or edit_content_path(@content)
     end
 
     def allow_publishing?

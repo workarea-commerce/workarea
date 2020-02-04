@@ -93,6 +93,10 @@ Workarea::Admin::Engine.routes.draw do
           collection do
             patch :move
           end
+
+          member do
+            post :copy
+          end
         end
       end
     end

@@ -87,6 +87,21 @@ module Workarea
         assert_equal([c, b, a], content.blocks)
       end
 
+      def test_copying_blocks
+        block = content.blocks.create!(area: 'body', type: :html)
+
+        post admin.copy_content_area_block_path(content, area, block)
+
+        content.reload
+
+        assert_equal(content.blocks.first.area, content.blocks.last.area)
+        assert_equal(content.blocks.first.data, content.blocks.last.data)
+        assert_equal(content.blocks.first.content, content.blocks.last.content)
+
+        assert(content.blocks.last.position > content.blocks.first.position)
+      end
+
+
       def test_destroys_blocks
         delete admin.content_area_block_path(content, area, block)
         content.reload

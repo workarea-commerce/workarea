@@ -45,6 +45,9 @@
           .content-block__floating-actions
             - unless block.new_record?
               .content-block__action
+                = link_to copy_content_area_block_path(content, content.current_area, block), title: t('workarea.admin.content.edit.copy_block'), class: 'content-block__action-button content-block__action-button--copy', data: { method: 'post' } do
+                  = inline_svg_tag("workarea/admin/icons/copy_block.svg", title: t('workarea.admin.content.edit.copy_block'), class: 'content-editor__action-icon svg-icon svg-icon--large')
+              .content-block__action
                 = link_to content_presets_path, title: t('workarea.admin.content.edit.create_preset'), class: 'content-block__action-button content-block__action-button--create', data: { tooltip: { content_url: new_content_preset_path(content_id: content.id, block_id: block.id), interactive: true, contentAsHTML: true, content: t('workarea.admin.content.edit.loading'), trigger: 'custom', contentPreset: true }.to_json, content_preset_button: '' } do
                   = inline_svg_tag("workarea/admin/icons/create_preset.svg", title: t('workarea.admin.content.edit.create_preset'), class: 'content-editor__action-icon svg-icon svg-icon--large')
             .content-block__action
