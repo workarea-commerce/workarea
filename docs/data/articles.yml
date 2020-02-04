@@ -52,6 +52,7 @@ application-architecture:
     swappable-list-data-structure.html.md: /articles/swappable-list-data-structure.html.md
 plugins:
   plugins-overview.html.md: /articles/plugins-overview.html.md
+  install-a-plugin.html.md: /articles/install-a-plugin.html.md
   create-a-plugin.html.md: /articles/create-a-plugin.html.md
   maintain-a-plugin.html.md: /articles/maintain-a-plugin.html.md
   test-if-a-plugin-is-installed.html.md: /articles/test-if-a-plugin-is-installed.html.md
