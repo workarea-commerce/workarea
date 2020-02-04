@@ -59,7 +59,7 @@ module Workarea
       if new_block.save
         flash[:success] = t('workarea.admin.content_blocks.flash_messages.copied')
       else
-        flash[:error] = new_block.errors.to_a.to_sentence
+        flash[:error] = new_block.errors.full_messages.to_sentence
       end
 
       redirect_back_or edit_content_path(
