@@ -10,4 +10,5 @@ gem 'listen'
 gem 'bundler-audit'
 gem 'rubocop'
 gem 'rails-decorators', git: 'https://github.com/workarea-commerce/rails-decorators.git'
-gem 'teaspoon', git: 'https://github.com/jtapia/teaspoon.git', branch: 'chore/update-rails-6'
+
+gem 'teaspoon', git: 'https://github.com/jejacks0n/teaspoon.git'

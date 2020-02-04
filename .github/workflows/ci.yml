@@ -58,6 +58,17 @@ jobs:
         name: Admin Screenshots
         path: admin/test/dummy/tmp/screenshots
 
+  core_teaspoon:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-ruby@v1
+      with:
+        ruby-version: 2.6.x
+    - uses: workarea-commerce/ci/test@v1
+      with:
+        command: cd core && bin/rails teaspoon
+
   core_tests:
     runs-on: ubuntu-latest
     steps:

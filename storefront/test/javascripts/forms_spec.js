@@ -22,7 +22,7 @@
                 ).to.equal(true);
             });
 
-            xit('adds invalid modifier for property on blur', function () {
+            it('adds invalid modifier for property on blur', function () {
                 this.fixtures = fixture.load('form.html');
 
                 WORKAREA.forms.init($(this.fixtures));
@@ -42,7 +42,7 @@
                 ).to.equal(false);
             });
 
-            xit('toggles valid/invalid modifier for text-box on blur', function () {
+            it('toggles valid/invalid modifier for text-box on blur', function () {
                 this.fixtures = fixture.load('form.html');
 
                 WORKAREA.forms.init($(this.fixtures));
