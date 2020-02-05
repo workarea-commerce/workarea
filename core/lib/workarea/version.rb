@@ -1,11 +1,6 @@
 module Workarea
   module VERSION
-    MAJOR = 3
-    MINOR = 4
-    PATCH = 26
-    PRE   = nil
-
-    STRING = [MAJOR, MINOR, PATCH, PRE].compact.join('.')
+    STRING = '3.4.26'.freeze
 
     module MONGODB
       MAJOR = 4

@@ -282,7 +282,7 @@ create_file 'Rakefile', <<~CODE
   APP_RAKEFILE = File.expand_path("../test/dummy/Rakefile", __FILE__)
   load 'rails/tasks/engine.rake'
   load 'rails/tasks/statistics.rake'
-  load 'workarea/changelog.rake'
+  load 'workarea/release.rake'
 
   require 'rake/testtask'
   Rake::TestTask.new(:test) do |t|
@@ -294,21 +294,6 @@ create_file 'Rakefile', <<~CODE
   task default: :test
 
   $LOAD_PATH.unshift File.expand_path('../lib', __FILE__)
-  require 'workarea/#{name}/version'
-
-  desc "Release version \#{Workarea::#{camelized}::VERSION} of the gem"
-  task :release do
-    Rake::Task['workarea:changelog'].execute
-    system 'git add CHANGELOG.md'
-    system 'git commit -m "Update CHANGELOG"'
-
-    system "git tag -a v\#{Workarea::#{camelized}::VERSION} -m 'Tagging \#{Workarea::#{camelized}::VERSION}'"
-    system 'git push origin HEAD --follow-tags'
-
-    system "gem build workarea-#{name}.gemspec"
-    system "gem push workarea-#{name}-\#{Workarea::#{camelized}::VERSION}.gem"
-    system "rm workarea-#{name}-\#{Workarea::#{camelized}::VERSION}.gem"
-  end
 
   desc 'Run the JavaScript tests'
   ENV['TEASPOON_RAILS_ENV'] = File.expand_path('../test/dummy/config/environment', __FILE__)

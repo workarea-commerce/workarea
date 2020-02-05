@@ -1,6 +1,6 @@
 namespace :workarea do
   desc 'Generate a CHANGELOG.md file based on Git history'
-  task changelog: :environment do
+  task :changelog, [:gem_name, :gem_version] do |task, args|
     # Ensure directory
     if Dir['.git'].empty?
       raise "the changelog task must be run from this repo's root directory"
@@ -15,11 +15,6 @@ namespace :workarea do
       end
     git_log_format = '%H[/PIECE]%s[/PIECE]%b[/PIECE]%an[/ENTRY]'
     log = `git log #{from}..HEAD --pretty=format:'#{git_log_format}' --no-merges`
-
-    # assumes only one gemspec in project root
-    gem = Gem::Specification.load(Dir['./*.gemspec'].first)
-    gem_name = gem.name.tr('_', '-').split('-').map(&:capitalize).join(' ')
-    gem_version = gem.version.version
 
     # Iterate through each commit in the log, cataloging entries and reverts
     entries = {}
@@ -54,7 +49,7 @@ namespace :workarea do
 
     # set message title
     message = []
-    message << "#{gem_name} #{gem_version} (#{Date.today})"
+    message << "#{args[:gem_name]} #{args[:gem_version]} (#{Date.today})"
     message << '-' * 80 + "\n"
 
     # loop through all entries, templetizing their contents

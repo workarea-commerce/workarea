@@ -29,7 +29,7 @@ module Documentation
     end
 
     def version
-      @version ||= [Workarea::VERSION::MAJOR, Workarea::VERSION::MINOR].join('.')
+      @version ||= Workarea::VERSION::STRING.split('.')[0..1].join('.')
     end
 
     def s3

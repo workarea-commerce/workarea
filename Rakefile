@@ -4,7 +4,7 @@ require 'rake/testtask'
 require File.expand_path('../core/lib/workarea/version', __FILE__)
 
 load 'rails/test_unit/testing.rake'
-load 'workarea/changelog.rake'
+load 'workarea/release.rake'
 load File.expand_path('../core/lib/tasks/services.rake', __FILE__)
 
 GEMS = %w(core admin storefront)
@@ -77,68 +77,9 @@ task "performance_test_ci" do
 
   GEMS.each do |gem|
     $: << "#{gem}/test"
-    paths <<  "#{gem}/test/performance/**/*_test.rb"
+    paths << "#{gem}/test/performance/**/*_test.rb"
   end
 
   Rails::TestUnit::Runner.rake_run(paths)
 end
 
-desc "Release version #{Workarea::VERSION::STRING} of the gems"
-task :release do
-  component_gems = GEMS + %w(testing)
-  host = "https://#{ENV['BUNDLE_GEMS__WORKAREA__COM']}@gems.workarea.com"
-
-  #
-  # Updating changelog
-  #
-  #
-  Rake::Task["workarea:changelog"].execute
-  system 'git add CHANGELOG.md'
-  system 'git commit -m "Update CHANGELOG"'
-
-  #
-  # Build gem files
-  #
-  #
-  puts 'Building gems...'
-  component_gems.each do |gem|
-    Dir.chdir("#{ROOT_DIR}/#{gem}")
-    system "gem build workarea-#{gem}.gemspec"
-  end
-
-  Dir.chdir(ROOT_DIR)
-  system "gem build workarea.gemspec"
-
-  #
-  # Push gem files
-  #
-  #
-  puts 'Pushing gems...'
-  component_gems.each do |gem|
-    system "gem push #{gem}/workarea-#{gem}-#{Workarea::VERSION::STRING}.gem"
-    system "gem push #{gem}/workarea-#{gem}-#{Workarea::VERSION::STRING}.gem --host #{host}"
-  end
-  system "gem push workarea-#{Workarea::VERSION::STRING}.gem"
-  system "gem push workarea-#{Workarea::VERSION::STRING}.gem --host #{host}"
-
-  #
-  # Add tag & push to origin
-  #
-  #
-  system 'Tagging git...'
-  system "git tag -a v#{Workarea::VERSION::STRING} -m 'Tagging #{Workarea::VERSION::STRING}'"
-  system "git push origin HEAD --follow-tags"
-
-  #
-  # Clean up
-  #
-  #
-  puts 'Cleaning up...'
-  component_gems.each do |gem|
-    system "rm #{gem}/workarea-#{gem}-#{Workarea::VERSION::STRING}.gem"
-  end
-
-  system "rm workarea-#{Workarea::VERSION::STRING}.gem"
-
-  puts "Success releasing #{Workarea::VERSION::STRING}!"
-end
