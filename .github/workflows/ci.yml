@@ -21,34 +21,43 @@ jobs:
         args: '{admin,core,storefront}/{app,test}/**/*.scss'
 
   admin_tests:
+    strategy:
+      matrix:
+        ruby: [2.4.x, 2.6.x]
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
     - uses: actions/setup-ruby@v1
       with:
-        ruby-version: 2.6.x
+        ruby-version: ${{ matrix.ruby }}
     - uses: workarea-commerce/ci/test@v1
       with:
         command: cd admin && bin/rails test -b
 
   admin_teaspoon:
+    strategy:
+      matrix:
+        ruby: [2.4.x, 2.6.x]
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
     - uses: actions/setup-ruby@v1
       with:
-        ruby-version: 2.6.x
+        ruby-version: ${{ matrix.ruby }}
     - uses: workarea-commerce/ci/test@v1
       with:
         command: cd admin && bin/rails teaspoon
 
   admin_system_tests:
+    strategy:
+      matrix:
+        ruby: [2.4.x, 2.6.x]
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
     - uses: actions/setup-ruby@v1
       with:
-        ruby-version: 2.6.x
+        ruby-version: ${{ matrix.ruby }}
     - uses: workarea-commerce/ci/test@v1
       with:
         command: cd admin && bin/rails test test/system/**/*_test.rb -b
@@ -59,56 +68,72 @@ jobs:
         path: admin/test/dummy/tmp/screenshots
 
   core_teaspoon:
+    strategy:
+      matrix:
+        ruby: [2.4.x, 2.6.x]
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
     - uses: actions/setup-ruby@v1
       with:
-        ruby-version: 2.6.x
+        ruby-version: ${{ matrix.ruby }}
     - uses: workarea-commerce/ci/test@v1
       with:
         command: cd core && bin/rails teaspoon
 
   core_tests:
+    strategy:
+      matrix:
+        ruby: [2.4.x, 2.6.x]
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
     - uses: actions/setup-ruby@v1
       with:
-        ruby-version: 2.6.x
+        ruby-version: ${{ matrix.ruby }}
     - uses: workarea-commerce/ci/test@v1
       with:
         command: cd core && bin/rails test test/**/*_test.rb -b
 
   storefront_tests:
+    strategy:
+      matrix:
+        ruby: [2.4.x, 2.6.x]
+
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
     - uses: actions/setup-ruby@v1
       with:
-        ruby-version: 2.6.x
+        ruby-version: ${{ matrix.ruby }}
     - uses: workarea-commerce/ci/test@v1
       with:
         command: cd storefront && bin/rails test -b
 
   storefront_teaspoon:
+    strategy:
+      matrix:
+        ruby: [2.4.x, 2.6.x]
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
     - uses: actions/setup-ruby@v1
       with:
-        ruby-version: 2.6.x
+        ruby-version: ${{ matrix.ruby }}
     - uses: workarea-commerce/ci/test@v1
       with:
         command: cd storefront && bin/rails teaspoon
 
   storefront_system_tests:
+    strategy:
+      matrix:
+        ruby: [2.4.x, 2.6.x]
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
     - uses: actions/setup-ruby@v1
       with:
-        ruby-version: 2.6.x
+        ruby-version: ${{ matrix.ruby }}
     - uses: workarea-commerce/ci/test@v1
       with:
         command: cd storefront && bin/rails test test/system/**/*_test.rb -b
