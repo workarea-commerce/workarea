@@ -56,8 +56,6 @@
       = text_field_tag "#{label}[city]", address.city, class: 'text-box', required: true, autocomplete: 'address-level2', title: "#{title_label} #{t('workarea.storefront.addresses.city')}"
       - if address.errors[:city].present?
         %span.value__error= address.errors[:city].first
-      - if address.errors[:city].present?
-        %span.value__error= address.errors[:city].first
 
   .property{ data: { address_region_fields: 'country' } }
     = label_tag "#{label}[country]", nil, class: 'property__name' do
