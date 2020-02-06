@@ -134,11 +134,11 @@ module Workarea
         assert(page.has_content?('PA'))
         assert(page.has_content?('19143'))
 
-        assert(page.has_no_content?("#{t('workarea.storefront.orders.tax')} #{currency}1.40"))
-        assert(page.has_no_content?("#{t('workarea.storefront.orders.total')} #{currency}31.40"))
+        assert(page.has_no_content?(/#{t('workarea.storefront.orders.tax')} .1\.40/))
+        assert(page.has_no_content?(/#{t('workarea.storefront.orders.total')} .31\.40/))
         assert(page.has_content?("#{t('workarea.storefront.orders.shipping')} #{t('workarea.storefront.checkouts.not_applicable')}"))
-        assert(page.has_content?("#{t('workarea.storefront.orders.tax')} #{currency}0.00"))
-        assert(page.has_content?("#{t('workarea.storefront.orders.total')} #{currency}10.00"))
+        assert(page.has_content?(/#{t('workarea.storefront.orders.tax')} .0\.00/))
+        assert(page.has_content?(/#{t('workarea.storefront.orders.total')} .10\.00/))
       end
     end
   end

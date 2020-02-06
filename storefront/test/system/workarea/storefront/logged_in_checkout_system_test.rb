@@ -149,7 +149,7 @@ module Workarea
         visit storefront.checkout_shipping_path
         choose "shipping_service_Next_Day"
         within('.checkout-step-summary') do
-          assert(page.has_content?("Next Day - #{currency}20.00"))
+          assert(page.has_content?(/Next Day - .20\.00/))
         end
         click_button t('workarea.storefront.checkouts.continue_to_payment')
 
@@ -267,8 +267,8 @@ module Workarea
 
         assert_current_path(storefront.checkout_shipping_path)
 
-        assert(page.has_content?("Ground #{currency}0.00"))
-        assert(page.has_content?("Next Day #{currency}20.00"))
+        assert(page.has_content?(/Ground .0\.00/))
+        assert(page.has_content?(/Next Day .20\.00/))
 
         assert(page.has_content?('0.35')) # Tax
         assert(page.has_content?('5.35')) # Total

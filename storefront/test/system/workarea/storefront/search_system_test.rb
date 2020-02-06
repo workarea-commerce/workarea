@@ -173,7 +173,7 @@ module Workarea
         assert(page.has_selector?('.mobile-filters-nav', visible: true))
 
         within '.mobile-filters-nav' do
-          assert(page.has_content?("#{currency}10.00 - #{currency}19.99 (1)"))
+          assert(page.has_content?(/.10.00 - .19.99 \(1\)/))
         end
 
         page.execute_script("$('body').trigger('click');");
