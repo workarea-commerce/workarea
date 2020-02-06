@@ -23,7 +23,7 @@
 * Ensure the PR description clearly describes the problem and solution.
   Include the relevant issue number if applicable.
 
-* Before submitting, please read the [Contributing Code](https://developer.workarea.com/articles/contributing-code.html)
+* Before submitting, please read the [Contribute Code](https://developer.workarea.com/articles/contribute-code.html)
   guide to know more about coding conventions and benchmarks.
 
 #### Did you fix whitespace, format code, or make a purely cosmetic patch?
@@ -36,7 +36,7 @@ upgrade to the latest version.
 
 #### Do you want to contribute to the Workarea documentation?
 
-* Please read [Contributing Documentation](https://developer.workarea.com/articles/contributing-documentation.html).
+* Please read [Contribute Documentation](https://developer.workarea.com/articles/contribute-documentation.html).
 
 Thanks!
 
