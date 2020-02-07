@@ -90,6 +90,35 @@ module Workarea
         content_tag(:div, capture(&block), { class: 'hidden-if-js-enabled',
                                              data: { optional_field: prompt } })
       end
+
+      def lazy_image_tag(source, options = {})
+        options = options.symbolize_keys
+
+        check_for_image_tag_errors(options)
+        skip_pipeline = options.delete(:skip_pipeline)
+
+        if options[:srcset] && !options[:srcset].is_a?(String)
+          options[:srcset] = options[:srcset].map do |src_path, size|
+            src_path = path_to_image(src_path, skip_pipeline: skip_pipeline)
+            "#{src_path} #{size}"
+          end.join(", ")
+        end
+
+        options[:width], options[:height] = extract_dimensions(options.delete(:size)) if options[:size]
+
+        lazy_options = options.deep_dup
+        image_source = resolve_image_source(source, skip_pipeline)
+
+        lazy_options[:data] ||= {}
+        lazy_options[:data][:lazy_image] = image_source
+
+        lazy_options[:class] ||= ''
+        lazy_options[:class] << ' lazy-image'
+
+        tag
+          .noscript(tag.img(options.merge(src: image_source)))
+          .concat(tag.img(lazy_options))
+      end
     end
   end
 end

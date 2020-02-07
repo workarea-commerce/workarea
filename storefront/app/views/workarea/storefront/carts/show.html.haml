@@ -35,7 +35,7 @@
         %li.product-list__item
           .product-list__item-cell
             .product-list__summary
-              %p.product-list__media= link_to image_tag(product_image_url(item.image, :small_thumb), alt: item.product_name, class: 'product-list__media-image'), product_url(item.product, sku: item.sku), class: 'product-list__media-link'
+              %p.product-list__media= link_to lazy_image_tag(product_image_url(item.image, :small_thumb), alt: item.product_name, class: 'product-list__media-image'), product_url(item.product, sku: item.sku), class: 'product-list__media-link'
               .product-list__info
                 %p.product-list__name= link_to item.product_name, product_path(item.product, sku: item.sku)
                 %p.product-list__id= item.sku_name
@@ -87,7 +87,7 @@
         %li.product-list__item
           .product-list__item-cell
             .product-list__summary
-              %p.product-list__media= link_to image_tag(product_image_url(item.image, :small_thumb), alt: item.product_name, class: 'product-list__media-image'), product_url(item.product, sku: item.sku), class: 'product-list__media-link'
+              %p.product-list__media= link_to lazy_image_tag(product_image_url(item.image, :small_thumb), alt: item.product_name, class: 'product-list__media-image'), product_url(item.product, sku: item.sku), class: 'product-list__media-link'
               .product-list__info
                 %p.product-list__name= link_to item.product_name, product_path(item.product, sku: item.sku)
                 %p.product-list__id= item.sku

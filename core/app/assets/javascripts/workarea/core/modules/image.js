@@ -9,8 +9,8 @@ WORKAREA.registerModule('image', (function () {
      * @name get
      * @memberof WORKAREA.image
      */
-    var get = function (src) {
-            var $image = $('<img />'),
+    var get = function (src, $existingImage) {
+            var $image = ($existingImage || $('<img />')),
                 gettingImage = $.Deferred(),
                 argumentArray = _.toArray(arguments),
 
