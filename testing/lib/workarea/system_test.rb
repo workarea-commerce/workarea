@@ -154,6 +154,10 @@ module Workarea
       page.execute_script('window.scrollBy(0, 9999999)')
     end
 
+    def currency
+      Money.default_currency.symbol
+    end
+
     private
 
     def finished_all_xhr_requests?
