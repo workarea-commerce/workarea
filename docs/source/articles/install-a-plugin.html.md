@@ -26,7 +26,7 @@ However, if you're using a plugin included in [Workarea Commerce Cloud](https://
 $ export BUNDLE_GEMS__WORKAREA__COM="yourusername:yourpassword"
 ```
 
-It's probably best to set this in your **~/.bashrc** or **~/.zshrc** so it's always configured in your shell.
+It's probably best to set this in your **~/.bash_profile** or **~/.zshrc** so it's always configured in your shell.
 
 Then, in your `Gemfile`, make sure to surround private plugins in the `source` block for the private gemserver:
 
