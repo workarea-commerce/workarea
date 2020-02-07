@@ -25,13 +25,23 @@ module Workarea
         assert_current_path(/#{admin.edit_content_path(home)}/)
         assert(page.has_selector?('.content-block'))
 
+        within '.content-editor__aside' do
+          assert(page.has_content?('HTML'))
+        end
+
         find('.content-block').click
+        click_link t('workarea.admin.content.form.edit_block_name')
+        fill_in 'block[name]', with: 'Foo Bar Block'
         fill_in 'block[data][html]', with: '<h1>Some Content!</h1>'
         click_button 'save_block'
 
         assert(page.has_content?('Success'))
         assert_current_path(/#{admin.edit_content_path(home)}/)
         assert(page.has_selector?('.content-block'))
+
+        within '.content-editor__aside' do
+          assert(page.has_content?('Foo Bar Block'))
+        end
 
         find('.content-block').click
         click_link t('workarea.admin.actions.delete')

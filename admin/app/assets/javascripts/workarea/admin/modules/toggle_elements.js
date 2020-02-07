@@ -10,7 +10,7 @@ WORKAREA.registerModule('toggleElement', (function () {
      * @memberof WORKAREA.toggleElement
      */
     var toggle = function (event) {
-            var target = $(event.target).data('toggleElement');
+            var target = $(event.currentTarget).data('toggleElement');
 
             event.preventDefault();
 
