@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.description = "Provides application code, seed data, plugin infrastructure, and other core parts of the Workarea Commerce Platform."
 
   s.files = `git ls-files -- . ':!:data/product_images/*.jpg'`.split("\n")
-  s.required_ruby_version = ['>= 2.5.0', '< 2.7.0']
+  s.required_ruby_version = ['>= 2.4.0', '< 2.7.0']
 
   s.add_dependency 'bundler', '>= 1.8.0' # 1.8.0 added env variable for secrets
   s.add_dependency 'rails', '~> 5.2.0'
