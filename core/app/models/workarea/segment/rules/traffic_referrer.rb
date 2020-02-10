@@ -13,11 +13,11 @@ module Workarea
         end
 
         def medium_match?(referrer)
-          medium.to_s.present? && medium.to_s.strip.casecmp?(referrer.medium.to_s)
+          medium.present? && medium.to_s.strip.casecmp?(referrer.medium.to_s)
         end
 
         def source_match?(referrer)
-          source.any? { |s| s.strip.present? && s.strip.casecmp?(referrer.source.to_s) }
+          source.any? { |s| s.present? && s.to_s.strip.casecmp?(referrer.source.to_s) }
         end
 
         def url_match?(referrer)
