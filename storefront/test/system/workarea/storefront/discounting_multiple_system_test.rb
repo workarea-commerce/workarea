@@ -39,7 +39,7 @@ module Workarea
         end
 
         assert(page.has_content?('Discount1'))
-        assert(page.has_content?("#{t('workarea.storefront.orders.total')} $4.00"))
+        assert(page.has_content?(/#{t('workarea.storefront.orders.total')} .4\.00/))
 
         click_button t('workarea.storefront.carts.enter_promo_code_prompt')
         within '#promo_code_form' do
@@ -49,7 +49,7 @@ module Workarea
 
         assert(page.has_no_content?('Discount1'))
         assert(page.has_content?('Discount2'))
-        assert(page.has_content?("#{t('workarea.storefront.orders.total')} $3.00"))
+        assert(page.has_content?(/#{t('workarea.storefront.orders.total')} .3\.00/))
       end
 
       def test_allowing_compatible_discounts
@@ -70,7 +70,7 @@ module Workarea
         end
 
         assert(page.has_content?('Discount1'))
-        assert(page.has_content?("#{t('workarea.storefront.orders.total')} $4.00"))
+        assert(page.has_content?(/#{t('workarea.storefront.orders.total')} .4\.00/))
 
         click_button t('workarea.storefront.carts.enter_promo_code_prompt')
         within '#promo_code_form' do
@@ -80,7 +80,7 @@ module Workarea
 
         assert(page.has_content?('Discount1'))
         assert(page.has_content?('Discount2'))
-        assert(page.has_content?("#{t('workarea.storefront.orders.total')} $2.00"))
+        assert(page.has_content?(/#{t('workarea.storefront.orders.total')} .2\.00/))
       end
     end
   end

@@ -3,6 +3,7 @@ require 'test_helper'
 module Workarea
   module Storefront
     class NavigationSystemTest < Workarea::SystemTest
+      include Storefront::SystemTest
       include BreakpointHelpers
       setup :set_navigation_menu
 

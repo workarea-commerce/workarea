@@ -26,8 +26,8 @@ module Workarea
 
         row = find_all("table tr")[3]
         within(row) do
-          assert(page.has_content?('$10.00'))
-          assert(page.has_content?('$3.95'))
+          assert(page.has_content?('10.00'))
+          assert(page.has_content?('3.95'))
           assert(page.has_content?('2'))
           assert(page.has_content?(t('workarea.admin.prices.active')))
           assert(page.has_content?(t('workarea.admin.pricing_skus.not_on_sale')))
@@ -48,8 +48,8 @@ module Workarea
 
         row = find_all("table tr")[1]
         within(row) do
-          assert(page.has_content?('$10.00'))
-          assert(page.has_content?('$3.95'))
+          assert(page.has_content?('10.00'))
+          assert(page.has_content?('3.95'))
           assert(page.has_content?('3'))
           assert(page.has_content?(t('workarea.admin.prices.inactive')))
           assert(page.has_content?(t('workarea.admin.pricing_skus.on_sale')))
@@ -61,8 +61,8 @@ module Workarea
 
         row = find_all("table tr")[1]
         within(row) do
-          assert(page.has_content?('$11.00'))
-          assert(page.has_content?('$9.99'))
+          assert(page.has_content?('11.00'))
+          assert(page.has_content?('9.99'))
           assert(page.has_content?('1'))
         end
 
@@ -71,8 +71,8 @@ module Workarea
 
         row = find_all("table tr")[1]
         within(row) do
-          refute(page.has_content?('$11.00'))
-          refute(page.has_content?('$9.99'))
+          refute(page.has_content?('11.00'))
+          refute(page.has_content?('9.99'))
           refute(page.has_content?('1'))
         end
       end

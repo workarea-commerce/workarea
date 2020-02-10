@@ -3,6 +3,7 @@ require 'test_helper'
 module Workarea
   module Storefront
     class CategoriesSystemTest < Workarea::SystemTest
+      include Storefront::SystemTest
       include BreakpointHelpers
       setup :set_products
       setup :set_search_settings
@@ -62,8 +63,8 @@ module Workarea
 
         assert(page.has_content?('Integration Product 1'))
         assert(page.has_content?('Integration Product 2'))
-        assert(page.has_content?('$10.00'))
-        assert(page.has_content?('$5.00'))
+        assert(page.has_content?('10.00'))
+        assert(page.has_content?('5.00'))
         assert(page.has_content?('Medium (3)'))
         assert(page.has_content?('Small (2)'))
       end
@@ -124,12 +125,13 @@ module Workarea
         visit storefront.category_path(category)
 
         Capybara.match = :first
-        click_link '$10.00 - $19.99 (1)'
+        price_range = "#{currency}10.00 - #{currency}19.99"
+        click_link "#{price_range} (1)"
 
         assert(page.has_content?('Integration Product 1'))
         assert(page.has_no_content?('Integration Product 2'))
 
-        click_link "$10.00 - $19.99 #{t('workarea.storefront.products.remove_filter')}"
+        click_link "#{price_range} #{t('workarea.storefront.products.remove_filter')}"
 
         assert(page.has_content?('Integration Product 1'))
         assert(page.has_content?('Integration Product 2'))
@@ -152,7 +154,7 @@ module Workarea
         assert(page.has_selector?('.mobile-filters-nav', visible: true))
 
         within '.mobile-filters-nav' do
-          assert(page.has_content?('$10.00 - $19.99 (1)'))
+          assert(page.has_content?("#{price_range} (1)"))
         end
 
         page.execute_script("$('body').trigger('click');")
@@ -175,7 +177,8 @@ module Workarea
         visit storefront.category_path(category)
 
         Capybara.match = :first
-        click_link '$10.00 - $19.99 (1)'
+        price_range = "#{currency}10.00 - #{currency}19.99"
+        click_link "#{price_range} (1)"
 
         assert(page.has_content?('Integration Product 1'))
         assert(page.has_no_content?('Integration Product 2'))
@@ -236,7 +239,7 @@ module Workarea
         assert(page.has_content?('Size'))
         assert(page.has_content?('Medium (3)'))
 
-        assert(page.has_content?('$10.00 - $19.99 (1)'))
+        assert_text("#{currency}10.00 - #{currency}19.99 (1)")
 
         category.terms_facets = ['Color']
         category.range_facets = { 'price' => [{ 'to' => 10 }, { 'from' => 10 }] }
@@ -247,8 +250,8 @@ module Workarea
         assert(page.has_no_content?('Size'))
         assert(page.has_no_content?('Medium (3)'))
 
-        under = t('workarea.facets.price_range.under', price: '$10.00')
-        over = t('workarea.facets.price_range.over', price: '$10.00')
+        under = t('workarea.facets.price_range.under', price: "#{currency}10.00")
+        over = t('workarea.facets.price_range.over', price: "#{currency}10.00")
 
         assert(page.has_content?("#{under} (2)"))
         assert(page.has_content?("#{over} (1)"))

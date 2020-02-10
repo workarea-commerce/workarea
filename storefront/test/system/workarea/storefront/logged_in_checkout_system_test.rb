@@ -122,10 +122,10 @@ module Workarea
         assert(page.has_content?('Integration Product'))
         assert(page.has_content?('SKU'))
 
-        assert(page.has_content?('$5.00')) # Subtotal
-        assert(page.has_content?('$7.00')) # Shipping
-        assert(page.has_content?('$0.84')) # Tax
-        assert(page.has_content?('$12.84')) # Total
+        assert(page.has_content?('5.00')) # Subtotal
+        assert(page.has_content?('7.00')) # Shipping
+        assert(page.has_content?('0.84')) # Tax
+        assert(page.has_content?('12.84')) # Total
 
         click_button t('workarea.storefront.checkouts.place_order')
 
@@ -149,7 +149,7 @@ module Workarea
         visit storefront.checkout_shipping_path
         choose "shipping_service_Next_Day"
         within('.checkout-step-summary') do
-          assert(page.has_content?('Next Day - $20.00'))
+          assert(page.has_content?(/Next Day - .20\.00/))
         end
         click_button t('workarea.storefront.checkouts.continue_to_payment')
 
@@ -160,9 +160,9 @@ module Workarea
         assert(find_field("shipping_service_Next_Day").checked?)
 
         visit storefront.checkout_payment_path
-        assert(page.has_content?('$20.00')) # Shipping
-        assert(page.has_content?('$1.75'))  # Tax
-        assert(page.has_content?('$26.75')) # Total price
+        assert(page.has_content?('20.00')) # Shipping
+        assert(page.has_content?('1.75'))  # Tax
+        assert(page.has_content?('26.75')) # Total price
       end
 
       def test_successfully_compelting_checkout
@@ -178,10 +178,10 @@ module Workarea
         assert(page.has_content?('Integration Product'))
         assert(page.has_content?('SKU'))
 
-        assert(page.has_content?('$5.00')) # Subtotal
-        assert(page.has_content?('$7.00')) # Shipping
-        assert(page.has_content?('$0.84')) # Tax
-        assert(page.has_content?('$12.84')) # Total
+        assert(page.has_content?('5.00')) # Subtotal
+        assert(page.has_content?('7.00')) # Shipping
+        assert(page.has_content?('0.84')) # Tax
+        assert(page.has_content?('12.84')) # Total
 
         click_button t('workarea.storefront.checkouts.place_order')
 
@@ -208,10 +208,10 @@ module Workarea
         assert(page.has_content?('Integration Product'))
         assert(page.has_content?('SKU'))
 
-        assert(page.has_content?('$5.00')) # Subtotal
-        assert(page.has_content?('$7.00')) # Shipping
-        assert(page.has_content?('$0.84')) # Tax
-        assert(page.has_content?('$12.84')) # Total
+        assert(page.has_content?('5.00')) # Subtotal
+        assert(page.has_content?('7.00')) # Shipping
+        assert(page.has_content?('0.84')) # Tax
+        assert(page.has_content?('12.84')) # Total
       end
 
       def test_checking_out_with_discount
@@ -236,11 +236,11 @@ module Workarea
 
         assert(page.has_content?('Success'))
         assert(page.has_content?('Testing Discount'))
-        assert(page.has_content?('$5.00'))  # Subtotal
-        assert(page.has_content?('$7.00'))  # Shipping
-        assert(page.has_content?('$0.77'))  # Tax
-        assert(page.has_content?('$1.00'))  # Discount
-        assert(page.has_content?('$11.77')) # Total
+        assert(page.has_content?('5.00'))  # Subtotal
+        assert(page.has_content?('7.00'))  # Shipping
+        assert(page.has_content?('0.77'))  # Tax
+        assert(page.has_content?('1.00'))  # Discount
+        assert(page.has_content?('11.77')) # Total
       end
 
       def test_checking_out_with_shipping_discount
@@ -267,11 +267,11 @@ module Workarea
 
         assert_current_path(storefront.checkout_shipping_path)
 
-        assert(page.has_content?('Ground $0.00'))
-        assert(page.has_content?('Next Day $20.00'))
+        assert(page.has_content?(/Ground .0\.00/))
+        assert(page.has_content?(/Next Day .20\.00/))
 
-        assert(page.has_content?('$0.35')) # Tax
-        assert(page.has_content?('$5.35')) # Total
+        assert(page.has_content?('0.35')) # Tax
+        assert(page.has_content?('5.35')) # Total
       end
 
       def test_failed_payment_authorization

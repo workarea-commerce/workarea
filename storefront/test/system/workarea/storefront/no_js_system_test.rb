@@ -39,10 +39,10 @@ module Workarea
         assert(page.has_content?('Integration Product'))
         assert(page.has_content?('SKU'))
 
-        assert(page.has_content?('$5.00')) # Subtotal
-        assert(page.has_content?('$7.00')) # Shipping
-        assert(page.has_content?('$0.84')) # Tax
-        assert(page.has_content?('$12.84')) # Total
+        assert(page.has_content?('5.00')) # Subtotal
+        assert(page.has_content?('7.00')) # Shipping
+        assert(page.has_content?('0.84')) # Tax
+        assert(page.has_content?('12.84')) # Total
 
         click_button t('workarea.storefront.checkouts.place_order')
         assert_current_path(storefront.checkout_place_order_path)
@@ -74,10 +74,10 @@ module Workarea
         assert(page.has_content?('Integration Product'))
         assert(page.has_content?('SKU'))
 
-        assert(page.has_content?('$5.00')) # Subtotal
-        assert(page.has_content?('$7.00')) # Shipping
-        assert(page.has_content?('$0.84')) # Tax
-        assert(page.has_content?('$12.84')) # Total
+        assert(page.has_content?('5.00')) # Subtotal
+        assert(page.has_content?('7.00')) # Shipping
+        assert(page.has_content?('0.84')) # Tax
+        assert(page.has_content?('12.84')) # Total
       end
     end
   end

@@ -21,7 +21,7 @@ module Workarea
         click_link t('workarea.storefront.carts.view_cart')
 
         assert(page.has_no_content?('Integration Item Discount'))
-        assert(page.has_no_content?("#{t('workarea.storefront.orders.total')} $4.00"))
+        assert(page.has_no_content?(/#{t('workarea.storefront.orders.total')} .4.00/))
 
         click_button t('workarea.storefront.carts.enter_promo_code_prompt')
         within '#promo_code_form' do
@@ -30,12 +30,12 @@ module Workarea
         end
 
         assert(page.has_content?('Integration Item Discount'))
-        assert(page.has_content?("#{t('workarea.storefront.orders.total')} $4.00"))
+        assert(page.has_content?(/#{t('workarea.storefront.orders.total')} .4.00/))
 
         start_user_checkout
 
         assert(page.has_content?('Integration Item Discount'))
-        assert(page.has_content?("#{t('workarea.storefront.orders.total')} $4.00"))
+        assert(page.has_content?(/#{t('workarea.storefront.orders.total')} .4.00/))
       end
 
       def test_category_discount
@@ -51,7 +51,7 @@ module Workarea
         add_product_to_cart
 
         assert(page.has_content?('Integration Item Discount'))
-        assert(page.has_content?("#{t('workarea.storefront.orders.total')} $4.00"))
+        assert(page.has_content?(/#{t('workarea.storefront.orders.total')} .4.00/))
       end
 
       def test_buy_one_get_one_discounts
@@ -70,7 +70,7 @@ module Workarea
         add_product_to_cart
         click_link t('workarea.storefront.carts.view_cart')
         assert(page.has_content?('Test Discount'))
-        assert(page.has_content?("#{t('workarea.storefront.orders.total')} $5.00"))
+        assert(page.has_content?(/#{t('workarea.storefront.orders.total')} .5.00/))
       end
 
       def test_quantity_fixed_price_discounts
@@ -92,7 +92,7 @@ module Workarea
         add_product_to_cart
         click_link t('workarea.storefront.carts.view_cart')
         assert(page.has_content?('Test Discount'))
-        assert(page.has_content?("#{t('workarea.storefront.orders.total')} $10.00"))
+        assert(page.has_content?(/#{t('workarea.storefront.orders.total')} .10.00/))
       end
 
       def test_free_gift_discounts
@@ -121,7 +121,7 @@ module Workarea
 
         assert(page.has_content?('Free Product'))
         assert(page.has_content?('FREESKU'))
-        assert(page.has_content?("#{t('workarea.storefront.orders.total')} $5.00"))
+        assert(page.has_content?(/#{t('workarea.storefront.orders.total')} .5.00/))
 
         start_user_checkout
         assert(page.has_content?('Free Product'))
@@ -147,12 +147,12 @@ module Workarea
         end
 
         assert(page.has_content?('Test Discount'))
-        assert(page.has_content?("#{t('workarea.storefront.orders.total')} $4.00"))
+        assert(page.has_content?(/#{t('workarea.storefront.orders.total')} .4.00/))
 
         start_user_checkout
 
         assert(page.has_content?('Test Discount'))
-        assert(page.has_content?("#{t('workarea.storefront.orders.total')} $11.77"))
+        assert(page.has_content?(/#{t('workarea.storefront.orders.total')} .11.77/))
       end
 
       def test_product_attribute_discount
@@ -170,14 +170,14 @@ module Workarea
         add_product_to_cart
         click_link t('workarea.storefront.carts.view_cart')
         assert(page.has_content?('Test Discount'))
-        assert(page.has_content?('$1.00'))
-        assert(page.has_content?('$4.00'))
+        assert(page.has_content?('1.00'))
+        assert(page.has_content?('4.00'))
 
         start_user_checkout
 
         assert(page.has_content?('Test Discount'))
-        assert(page.has_content?('$1.00'))
-        assert(page.has_content?("#{t('workarea.storefront.orders.total')} $11.77"))
+        assert(page.has_content?('1.00'))
+        assert(page.has_content?(/#{t('workarea.storefront.orders.total')} .11.77/))
       end
 
       def test_single_use_discount
@@ -191,12 +191,12 @@ module Workarea
         add_product_to_cart
         click_link t('workarea.storefront.carts.view_cart')
         assert(page.has_content?('Test Discount'))
-        assert(page.has_content?("#{t('workarea.storefront.orders.total')} $4.00"))
+        assert(page.has_content?(/#{t('workarea.storefront.orders.total')} .4.00/))
 
         start_user_checkout
 
         assert(page.has_content?('Test Discount'))
-        assert(page.has_content?("#{t('workarea.storefront.orders.total')} $11.77"))
+        assert(page.has_content?(/#{t('workarea.storefront.orders.total')} .11.77/))
 
         click_button t('workarea.storefront.checkouts.place_order')
 
@@ -207,7 +207,7 @@ module Workarea
         visit storefront.checkout_path
 
         assert(page.has_no_content?('Test Discount'))
-        assert(page.has_no_content?("#{t('workarea.storefront.orders.total')} $11.77"))
+        assert(page.has_no_content?(/#{t('workarea.storefront.orders.total')} .11.77/))
       end
 
       def test_generated_promo_code
@@ -230,14 +230,14 @@ module Workarea
         end
 
         assert(page.has_content?('Test Discount'))
-        assert(page.has_content?('$1.00'))
-        assert(page.has_content?('$4.00'))
+        assert(page.has_content?('1.00'))
+        assert(page.has_content?('4.00'))
 
         start_user_checkout
 
         assert(page.has_content?('Test Discount'))
-        assert(page.has_content?('$1.00'))
-        assert(page.has_content?("#{t('workarea.storefront.orders.total')} $11.77"))
+        assert(page.has_content?('1.00'))
+        assert(page.has_content?(/#{t('workarea.storefront.orders.total')} .11.77/))
 
         click_button t('workarea.storefront.checkouts.place_order')
 
@@ -264,7 +264,7 @@ module Workarea
         add_product_to_cart
         click_link t('workarea.storefront.carts.view_cart')
         assert(page.has_content?('Test Discount'))
-        assert(page.has_content?("#{t('workarea.storefront.orders.total')} $4.00"))
+        assert(page.has_content?(/#{t('workarea.storefront.orders.total')} .4.00/))
       end
 
       def test_user_tag_discount
@@ -285,7 +285,7 @@ module Workarea
         start_user_checkout
 
         assert(page.has_content?('Test Discount'))
-        assert(page.has_content?("#{t('workarea.storefront.orders.total')} $11.77"))
+        assert(page.has_content?(/#{t('workarea.storefront.orders.total')} .11.77/))
       end
     end
   end

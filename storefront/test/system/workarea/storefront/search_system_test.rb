@@ -3,6 +3,7 @@ require 'test_helper'
 module Workarea
   module Storefront
     class SearchSystemTest < Workarea::SystemTest
+      include Storefront::SystemTest
       include BreakpointHelpers
       setup :set_products
       setup :set_categories
@@ -60,9 +61,9 @@ module Workarea
           assert(page.has_content?('Test Product 1'))
           assert(page.has_content?('Test Product 2'))
 
-          assert(page.has_content?('$10.00'))
-          assert(page.has_content?('$5.00'))
-          assert(page.has_content?('$7.00'))
+          assert(page.has_content?('10.00'))
+          assert(page.has_content?('5.00'))
+          assert(page.has_content?('7.00'))
 
           assert(page.has_content?('Medium (2)'))
           assert(page.has_content?('Small (1)'))
@@ -150,10 +151,10 @@ module Workarea
         click_link "First #{t('workarea.storefront.products.remove_filter')}"
 
         # Price filtering
-        click_link '$10.00 - $19.99 (1)'
+        click_link "#{currency}10.00 - #{currency}19.99 (1)"
         assert(page.has_content?('Test Product 1'))
         assert(page.has_no_content?('Test Product 2'))
-        click_link "$10.00 - $19.99 #{t('workarea.storefront.products.remove_filter')}"
+        click_link "#{currency}10.00 - #{currency}19.99 #{t('workarea.storefront.products.remove_filter')}"
 
         # Config filtering
         click_link 'Small (1)'
@@ -172,7 +173,7 @@ module Workarea
         assert(page.has_selector?('.mobile-filters-nav', visible: true))
 
         within '.mobile-filters-nav' do
-          assert(page.has_content?('$10.00 - $19.99 (1)'))
+          assert(page.has_content?(/.10.00 - .19.99 \(1\)/))
         end
 
         page.execute_script("$('body').trigger('click');");

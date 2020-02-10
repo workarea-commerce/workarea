@@ -24,8 +24,8 @@ module Workarea
 
         assert_current_path(storefront.cart_path)
         assert(page.has_content?(t('workarea.pricing_overrides.description')))
-        assert(page.has_content?('-$7.00')) # pricing override amount
-        assert(page.has_content?('$3.00')) # total
+        assert(page.has_content?(/-.7\.00/)) # pricing override amount
+        assert(page.has_content?('3.00')) # total
         click_link t('workarea.storefront.carts.checkout'), match: :first
 
         fill_in_shipping_address
@@ -38,7 +38,7 @@ module Workarea
         click_button t('workarea.storefront.checkouts.place_order')
         assert_current_path(admin.order_path(Order.placed.desc(:placed_at).first))
         assert(page.has_content?('Success'))
-        assert(page.has_content?('$10.70')) # total w/ shipping
+        assert(page.has_content?('10.70')) # total w/ shipping
       end
 
       def test_not_having_permission_to_override
