@@ -406,6 +406,12 @@
     text-align: center;
   }
 
+  .search-results__help {
+    display: none;
+    margin-bottom: $spacing-unit * 4;
+    text-align: center;
+  }
+
   .search-results__list {
     list-style: none;
     padding: 0;

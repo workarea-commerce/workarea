@@ -228,46 +228,9 @@ Workarea.config.and_now_for_something_completely_different = 'Anthologies are co
 
 ### Temporary Configuration (Testing)
 
-In the context of tests, it can be useful to change a config temporarily, perhaps for the duration of a single test or assertion. Use `Workarea.with_config` with a block to set or modify a config for the duration of the block. The following test case demonstrates this concept.
+In the context of tests, it can be useful to change a config temporarily, perhaps for the duration of a single test or assertion.
+The procedure to do this is described in [Decorate & Write Tests, Change Configuration within a Test](/articles/decorate-and-write-tests.html#change-configuration-within-a-test).
 
-```ruby
-# workarea-core-3.1.0/test/queries/workarea/search/pagination_test.rb
-require 'test_helper'
-
-module Workarea
-  module Search
-    class PaginationTest < TestCase
-      # ...
-
-      def test_from
-        Workarea.with_config do |config|
-          config.per_page = 30
-          assert_equal(0, Paginate.new(page: 1).from)
-        end
-
-        Workarea.with_config do |config|
-          config.per_page = 15
-          assert_equal(15, Paginate.new(page: 2).from)
-        end
-
-        Workarea.with_config do |config|
-          config.per_page = 45
-          assert_equal(90, Paginate.new(page: 3).from)
-        end
-      end
-
-      def test_size
-        Workarea.with_config do |config|
-          config.per_page = 30
-
-          search = Paginate.new(page: 2)
-          assert_equal(30, search.size)
-        end
-      end
-    end
-  end
-end
-```
 
 ## Configuring an App in JavaScript
 
