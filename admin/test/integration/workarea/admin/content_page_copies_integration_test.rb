@@ -16,6 +16,8 @@ module Workarea
         )
         content.save!
 
+        refute_nil(content_page.reload.content)
+
         post admin.content_page_copies_path,
           params: {
             source_id: content_page.id,
@@ -39,6 +41,12 @@ module Workarea
           '<p>Test!</p>',
           new_content_page.content.blocks.first.data[:html]
         )
+        assert_equal(
+          '<p>Test!</p>',
+          content.reload.blocks.first.data[:html]
+        )
+        assert_equal(content, content_page.content)
+        refute_equal(content.blocks.first, new_content_page.content.blocks.first)
       end
     end
   end
