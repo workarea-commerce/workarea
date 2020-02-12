@@ -190,3 +190,13 @@ To retain the old behavior (which you'll want if you're on the Workarea Commerce
 ```ruby
 Workarea.config.asset_store = (Rails.env.test? || Rails.env.development?) ? :file_system : :s3
 ```
+
+## Switch to Use the Rails Redis Cache Store
+
+### What's Changing?
+
+Rails added an official out-of-the-box Redis cache store, so we don't need to depend on the `redis-rails` gem.
+
+### What Do You Need To Do?
+
+Update your app's Rails cache config in the various `config/environments` from `config.cache_store = :redis_store, Workarea::Configuration::Redis.cache.to_url` to `config.cache_store = :redis_cache_store, { url: Workarea::Configuration::Redis.cache.to_url }`.
