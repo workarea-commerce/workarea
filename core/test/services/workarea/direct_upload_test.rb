@@ -47,6 +47,14 @@ module Workarea
     end
 
     def test_ensure_cors
+      response = mock('Excon::Response')
+      response.expects(:data)
+              .times(3)
+              .returns(body: { 'CORSConfiguration' => [] })
+      Workarea.s3.expects(:get_bucket_cors)
+                 .times(3)
+                 .with(Configuration::S3.bucket)
+                 .returns(response)
       Workarea.s3.expects(:put_bucket_cors).with(
         Configuration::S3.bucket,
         'CORSConfiguration' => [
@@ -62,6 +70,12 @@ module Workarea
         Configuration::S3.bucket,
         'CORSConfiguration' => [
           {
+            'ID' => "direct_upload_http://test.host",
+            'AllowedMethod' => 'PUT',
+            'AllowedOrigin' => 'http://test.host',
+            'AllowedHeader' => '*'
+          },
+          {
             'ID' => "direct_upload_http://localhost:3000",
             'AllowedMethod' => 'PUT',
             'AllowedOrigin' => 'http://localhost:3000',
@@ -73,6 +87,18 @@ module Workarea
         Configuration::S3.bucket,
         'CORSConfiguration' => [
           {
+            'ID' => "direct_upload_http://test.host",
+            'AllowedMethod' => 'PUT',
+            'AllowedOrigin' => 'http://test.host',
+            'AllowedHeader' => '*'
+          },
+          {
+            'ID' => "direct_upload_http://localhost:3000",
+            'AllowedMethod' => 'PUT',
+            'AllowedOrigin' => 'http://localhost:3000',
+            'AllowedHeader' => '*'
+          },
+          {
             'ID' => "direct_upload_https://example.com",
             'AllowedMethod' => 'PUT',
             'AllowedOrigin' => 'https://example.com',
@@ -80,7 +106,6 @@ module Workarea
           }
         ]
       ).returns(true)
-
 
       assert(DirectUpload.ensure_cors!('http://test.host/admin/content_assets'))
       assert_equal('true', Workarea.redis.get('cors_http_test_host'))
