@@ -36,7 +36,7 @@ module Workarea
       def options_for_category(category_id)
         model = Catalog::Category.where(id: category_id).first
 
-        return unless model.present?
+        return '' unless model.present?
 
         options_for_select({ model.name => model.id }, model.id)
       end
