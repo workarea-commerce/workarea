@@ -9,7 +9,7 @@ module Workarea
     def index
       @return = params[:return_to].to_h
 
-      @system_block_types = Workarea.config.content_block_types
+      @system_block_types = Configuration::ContentBlocks.types
       @content_presets = Content::Preset.all.to_a
     end
 

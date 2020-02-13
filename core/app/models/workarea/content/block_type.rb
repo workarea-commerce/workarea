@@ -19,7 +19,7 @@ module Workarea
       # @return [Workarea::Content::BlockType, nil]
       #
       def self.find(id)
-        Workarea.config.content_block_types.detect { |bt| bt.id == id }
+        Configuration::ContentBlocks.types.detect { |bt| bt.id == id }
       end
 
       def initialize(name)

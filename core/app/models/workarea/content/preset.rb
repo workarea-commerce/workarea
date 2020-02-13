@@ -59,7 +59,7 @@ module Workarea
       # @return [Workarea::Content::BlockType]
       #
       def type
-        Workarea.config.content_block_types.detect { |bt| bt.id == type_id }
+        Configuration::ContentBlocks.types.detect { |bt| bt.id == type_id }
       end
     end
   end

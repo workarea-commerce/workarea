@@ -12,7 +12,7 @@ module Workarea
           existing.instance_eval(&block) if block_given?
         else
           block_type.instance_eval(&block) if block_given?
-          Workarea.config.content_block_types.push(block_type)
+          Configuration::ContentBlocks.types.push(block_type)
         end
       end
     end

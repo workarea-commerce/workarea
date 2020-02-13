@@ -15,7 +15,7 @@ module Workarea
         create_taxon(navigable: @categories.first)
         create_taxon(navigable: @page)
 
-        Workarea.config.content_block_types.each do |type|
+        Configuration::ContentBlocks.types.each do |type|
           3.times { content.blocks.build(type_id: type.id, data: type.defaults) }
         end
 
