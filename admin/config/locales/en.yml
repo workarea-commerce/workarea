@@ -1516,7 +1516,6 @@ en:
         category: Category
         category_id: Category
         category_ids: Categories
-        changes: Changes
         client_id: Client ID
         code: Code
         compatible_discount_ids: Compatible Discounts

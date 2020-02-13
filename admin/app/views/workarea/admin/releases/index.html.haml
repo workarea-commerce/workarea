@@ -43,7 +43,6 @@
             %th= t('workarea.admin.fields.name')
             %th.align-center= t('workarea.admin.fields.publishes')
             %th.align-center= t('workarea.admin.fields.undo_at')
-            %th.align-center= t('workarea.admin.fields.changes')
             %th= t('workarea.admin.fields.last_published')
             %th= t('workarea.admin.fields.updated_at')
         %tbody
@@ -62,7 +61,6 @@
                   #{local_time_ago(result.undo_at)}
                 - else
                   = t('workarea.admin.releases.index.unscheduled')
-              %td.align-center= result.changesets_with_releasable.count || 0
               %td
                 - if result.published_at.present?
                   = local_time_ago(result.published_at)
