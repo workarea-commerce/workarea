@@ -38,6 +38,7 @@ module Workarea
     def save_content
       content_clone = @page.content.clone
       content_clone.contentable_id = @page_copy.id
+      content_clone.blocks = @page.content.blocks.map(&:clone)
       content_clone.save!
     end
   end
