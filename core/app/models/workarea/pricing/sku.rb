@@ -47,14 +47,22 @@ module Workarea
       end
 
       # Default selling price, when one unit is placed
-      # into the cart of an anonymous user.
+      # into the cart of an anonymous user. Determines whether the SKU
+      # is on sale and returns the `:sale` price if so, otherwise it
+      # will return the `:sell` price.
       #
       # @return [Money]
       #
       def sell_price
         find_price(quantity: 1).sell
       end
-      alias_method :regular_price, :sell_price
+
+      # Default price when this `Pricing::Sku` is not on sale.
+      #
+      # @return [Money]
+      def regular_price
+        find_price(quantity: 1).regular
+      end
 
       # Default sale price, when one unit is placed
       # into the cart of an anonymous user.

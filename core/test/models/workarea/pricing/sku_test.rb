@@ -32,6 +32,13 @@ module Workarea
         end
       end
 
+      def test_regular_price
+        sku = create_pricing_sku
+        price = sku.prices.create!(regular: 2.to_m, sale: 1.to_m, on_sale: true)
+
+        assert_equal(price.regular, sku.regular_price)
+      end
+
       private
 
       def configure_locales

@@ -16,6 +16,10 @@ module Workarea
       def inventory
         @inventory ||= Inventory::Sku.where(id: model.id).first
       end
+
+      def on_sale?
+        prices.any?(&:on_sale?)
+      end
     end
   end
 end
