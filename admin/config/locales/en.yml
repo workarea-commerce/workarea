@@ -1644,6 +1644,7 @@ en:
         search_id: Search ID
         search_terms: Search Terms
         searches: Searches
+        sell_price: Sell Price
         send_account_creation_email: Notify Them by Email
         service: Service
         service_code: Service Code
