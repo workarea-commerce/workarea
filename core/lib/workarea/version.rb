@@ -2,7 +2,7 @@ module Workarea
   module VERSION
     MAJOR = 3
     MINOR = 4
-    PATCH = 26
+    PATCH = 27
     PRE   = nil
 
     STRING = [MAJOR, MINOR, PATCH, PRE].compact.join('.')
