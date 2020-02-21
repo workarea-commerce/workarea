@@ -10,18 +10,17 @@ module Workarea
       redis_key = "cors_#{url.optionize}"
       return if Workarea.redis.get(redis_key) == 'true'
 
-      Workarea.s3.put_bucket_cors(
-        Configuration::S3.bucket,
-        'CORSConfiguration' => [
-          {
-            'ID' => "direct_upload_#{url}",
-            'AllowedMethod' => 'PUT',
-            'AllowedOrigin' => url,
-            'AllowedHeader' => '*'
-          }
-        ]
-      )
+      response = Workarea.s3.get_bucket_cors(Configuration::S3.bucket)
+      cors = response.data[:body]
+      cors['CORSConfiguration'] << {
+        'ID' => "direct_upload_#{url}",
+        'AllowedMethod' => 'PUT',
+        'AllowedOrigin' => url,
+        'AllowedHeader' => '*'
+      }
+      cors['CORSConfiguration'].uniq!
 
+      Workarea.s3.put_bucket_cors(Configuration::S3.bucket, cors)
       Workarea.redis.set(redis_key, 'true')
     end
 
