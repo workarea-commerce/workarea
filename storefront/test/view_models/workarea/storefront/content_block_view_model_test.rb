@@ -10,12 +10,12 @@ module Workarea
       teardown :unset_config
 
       def set_config
-        @current = Workarea.config.content_block_types
-        Workarea.config.content_block_types = []
+        @current = Configuration::ContentBlocks.types
+        Configuration::ContentBlocks.types = []
       end
 
       def unset_config
-        Workarea.config.content_block_types = @current
+        Configuration::ContentBlocks.types = @current
       end
 
       def test_wrap

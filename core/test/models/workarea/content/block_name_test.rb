@@ -5,7 +5,7 @@ module Workarea
     class BlockNameTest < TestCase
       def test_not_erroring_for_configured_blocks
         assert_nothing_raised do
-          Workarea.config.content_block_types.each do |type|
+          Configuration::ContentBlocks.types.each do |type|
             block = Block.new(type: type, data: type.defaults)
             BlockName.new(block).to_s
           end
@@ -13,7 +13,7 @@ module Workarea
       end
 
       def test_name_is_human_readable
-        Workarea.config.content_block_types.each do |type|
+        Configuration::ContentBlocks.types.each do |type|
           block = Block.new(type: type, data: type.defaults)
           name = BlockName.new(block).to_s
 

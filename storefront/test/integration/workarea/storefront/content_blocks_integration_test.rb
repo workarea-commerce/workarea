@@ -13,7 +13,7 @@ module Workarea
 
         content = Content.for('home_page')
 
-        Workarea.config.content_block_types.each do |block_type|
+        Configuration::ContentBlocks.types.each do |block_type|
           content.blocks.build(
             type: block_type.slug,
             data: block_type.defaults

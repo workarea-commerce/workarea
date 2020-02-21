@@ -7,12 +7,12 @@ module Workarea
       teardown :restore_config
 
       def reset_config
-        @current = Workarea.config.content_block_types
-        Workarea.config.content_block_types = []
+        @current = Configuration::ContentBlocks.types
+        Configuration::ContentBlocks.types = []
       end
 
       def restore_config
-        Workarea.config.content_block_types = @current
+        Configuration::ContentBlocks.types = @current
       end
 
       def test_constructs_a_list_of_blocks_based_on_the_dsl
@@ -39,8 +39,8 @@ module Workarea
           end
         end
 
-        assert_equal(2, Workarea.config.content_block_types.length)
-        results = Workarea.config.content_block_types
+        assert_equal(2, Configuration::ContentBlocks.types.length)
+        results = Configuration::ContentBlocks.types
 
         assert_equal('Foo', results.first.name)
         assert_equal('workarea/admin/content_block_types/custom_foo_icon', results.first.icon)
@@ -122,7 +122,7 @@ module Workarea
           end
         end
 
-        result = Workarea.config.content_block_types.first
+        result = Configuration::ContentBlocks.types.first
 
         assert_equal('Foo', result.name)
         assert_equal(5, result.fieldsets.length)
