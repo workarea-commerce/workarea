@@ -6,9 +6,7 @@ module Workarea
       include Admin::IntegrationTest
 
       def test_ensures_cors_policy_for_bulk_upload
-        Workarea.s3.expects(:get_bucket_cors).returns(
-          mock('Excon::Response', data: { body: { 'CORSConfiguration' => [] } })
-        )
+        Workarea.s3.expects(:get_bucket_cors).returns(mock_s3_cors_response).once
         Workarea.s3.expects(:put_bucket_cors).once
         get admin.content_assets_path
         assert(response.ok?)
