@@ -25,7 +25,7 @@ module Workarea
 
       def block_type
         return unless type_id.present?
-        Workarea.config.content_block_types.detect { |bt| bt.id == type_id.to_sym }
+        Configuration::ContentBlocks.types.detect { |bt| bt.id == type_id.to_sym }
       end
 
       def typecast_data!

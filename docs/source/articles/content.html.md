@@ -170,7 +170,7 @@ block.content.class
 
 ### Type
 
-Use a block's `type` method to access the corresponding block type instance. Block type instances are kept in memory within `Workarea.config.content_block_types`. View that collection to see all available block types.
+Use a block's `type` method to access the corresponding block type instance. Block type instances are kept in memory within `Configuration::ContentBlocks.types`. View that collection to see all available block types.
 
 ```
 block.type.class
@@ -179,7 +179,7 @@ block.type.class
 block.type.name
 # => "Image"
 
-puts Workarea.config.content_block_types.map(&:name)
+puts Configuration::ContentBlocks.types.map(&:name)
 # Hero
 # Image
 # Text
@@ -268,10 +268,10 @@ A <dfn>block type</dfn> (`Workarea::Content::BlockType`) defines a type of conte
 
 The default block types are defined using the content block DSL in an initializer that ships with the platform. Modify these block types or create your own using the content block DSL in an initializer within your application.
 
-Block types exist in memory only (they aren't persisted). Access all block types via the `Workarea.config.content_block_types` collection or look up a specific block type using `BlockType.find`.
+Block types exist in memory only (they aren't persisted). Access all block types via the `Configuration::ContentBlocks.types` collection or look up a specific block type using `BlockType.find`.
 
 ```
-puts Workarea.config.content_block_types.map(&:id)
+puts Configuration::ContentBlocks.types.map(&:id)
 # hero
 # image
 # text
@@ -434,7 +434,7 @@ field_2.required?
 
 The <dfn>content block DSL</dfn> allows you to extend and augment the content block types available to your application. Use the DSL within an initializer in your app.
 
-The entry point for the DSL is `Workarea.define_content_block_types`. Pass this method a block in which you define the block types you want to add (or extend). Give each block type a name and use a block to set its attributes. Each new block type is pushed onto the collection of block types stored in `Workarea.config.content_block_types`.
+The entry point for the DSL is `Workarea.define_content_block_types`. Pass this method a block in which you define the block types you want to add (or extend). Give each block type a name and use a block to set its attributes. Each new block type is pushed onto the collection of block types stored in `Configuration::ContentBlocks.types`.
 
 ```
 Workarea.define_content_block_types do
