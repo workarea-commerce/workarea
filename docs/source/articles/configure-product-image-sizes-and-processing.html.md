@@ -8,7 +8,7 @@ excerpt: There is an initializer which sets up a Dragonfly application for the W
 
 There is an initializer which sets up a Dragonfly application for the Workarea platform. This initializer sets up image optimization, URLs, logging, etc.
 
-This configuration can be reopened in the host app to override settings, processing, or add additional image sizes. Full documentation is available at [the official Dragonfly configuration documentation.](http://markevans.github.io/dragonfly/configuration/).
+This configuration can be reopened in the host app to override settings, processing, or add additional image sizes. Full documentation is available at [the official Dragonfly configuration documentation.](http://markevans.github.io/dragonfly/configuration).
 
 your\_app/config/initializers/dragonfly.rb:
 
