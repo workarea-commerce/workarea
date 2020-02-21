@@ -165,10 +165,18 @@ module Workarea
       def mock_s3
         Fog.mock!
         Workarea.s3.directories.create(key: Workarea::Configuration::S3.bucket)
+        Workarea.s3.stubs(:get_bucket_cors).returns(mock_s3_cors_response)
+        Workarea.s3.stubs(:put_bucket_cors)
       end
 
       def reset_s3
         Fog::Mock.reset
+      end
+
+      def mock_s3_cors_response
+        result = mock('Excon::Response')
+        result.stubs(data: { body: { 'CORSConfiguration' => [] } })
+        result
       end
     end
 
