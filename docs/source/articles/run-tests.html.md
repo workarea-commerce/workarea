@@ -66,7 +66,7 @@ bin/rails workarea:test:gift_cards
 Alternatively, run tests for all installed Workarea plugins (all engines except Core, Admin, Storefront):
 
 ```
-bin/rails workarea::test:plugins
+bin/rails workarea:test:plugins
 ```
 
 You can also run the above commands with arguments. See [Pass Arguments to Workarea Test Runners](#pass-arguments-to-workarea-test-runners).
