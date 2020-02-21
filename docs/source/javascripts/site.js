@@ -13,6 +13,7 @@ const plugins = [
     },
     {
         matches: ['afterpay', 'after pay'],
+        displayName: 'Afterpay',
         gitHubKey: 'workarea-afterpay'
     },
     {
