@@ -15,31 +15,6 @@ The shipping service code is now editable on the shipping service new/edit forms
 
 - [318](https://github.com/workarea-commerce/workarea/pull/318)
 
-## Remove Changes Count in Releases Index
-
-For applications that have a large amount of releases, counting all release
-changesets that hadn't been removed caused major performance problems on the
-tabular releases index in admin. To prevent this, Workarea no longer shows the
-changesets pointing to non-deleted items, as there is no way to make this query
-any faster.
-
-### Pull Requests
-
-- [368](https://github.com/workarea-commerce/workarea/pull/368)
-
-## Fix Display of Prices on Pricing SKUs Index in Admin
-
-When a pricing SKU was considered on sale, the index page would render the sale
-price in the "Regular Price" column. Since this is no longer an accurate
-depiction of the prices that may be contained in the SKU, the "Regular Price"
-and "Sale Price" columns have been replaced by a single "Sell Price" column
-that shows a range of either sale or regular prices depending on whether the
-SKU is considered on sale.
-
-### Pull Requests
-
-- [369](https://github.com/workarea-commerce/workarea/pull/369)
-
 ## Fix S3 CORS overwriting
 
 Workarea previously replaced the existing CORS configuration on the S3
