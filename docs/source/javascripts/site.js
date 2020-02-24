@@ -198,7 +198,6 @@ window.modules.search = (function () {
             var plugin, list = '';
 
             $.each(results, function (i, plugin) {
-                plugin = results[i];
                 list += pluginResultListItemTPL(plugin.displayName, plugin.gitHubKey);
             });
             return list;
@@ -261,8 +260,8 @@ window.modules.search = (function () {
         bindToSearchInput = function (lunr) {
             $('#lunr-search').on('keyup', function (event) {
                 var results = lunr.index.search(event.target.value);
-                var plugin_result = pluginResult(event.target.value);
-                display(results, plugin_result, lunr);
+                var plugin = pluginResult(event.target.value);
+                display(results, plugin, lunr);
             });
         },
 
