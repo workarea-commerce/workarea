@@ -63,7 +63,7 @@ module Workarea
       # @return [String]
       def sell_price
         return min_price.format unless show_range?
-        "#{max_price.format} - #{min_price.format}"
+        "#{max_price.format} – #{min_price.format}"
       end
     end
   end
