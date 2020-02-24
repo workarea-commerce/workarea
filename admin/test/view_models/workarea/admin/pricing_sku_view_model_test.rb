@@ -61,11 +61,11 @@ module Workarea
       end
 
       def test_price
-        assert_match(/.2\.00 - .1\.00/, @sku.sell_price)
+        assert_match(/.2\.00 – .1\.00/, @sku.sell_price)
 
         @sku.update!(on_sale: false)
 
-        assert_match(/.4\.00 - .3\.00/, @sku.sell_price)
+        assert_match(/.4\.00 – .3\.00/, @sku.sell_price)
       end
     end
   end
