@@ -15,8 +15,7 @@ Workarea Builds
 | Branch | Status |
 | --- | --- |
 | [master](https://github.com/workarea-commerce/mega-build) | [![Megabuild Edge](https://github.com/workarea-commerce/mega-build/workflows/Edge%20Build/badge.svg)](https://github.com/workarea-commerce/mega-build/actions) |
-| [patch](https://github.com/workarea-commerce/mega-build/tree/patch) | [![Megabuild Patch](https://github.com/workarea-commerce/mega-build/workflows/Patch%20Build/badge.svg?branch=patch)](https://github.com/workarea-commerce/mega-build/actions) |
-
+| [patch](https://github.com/workarea-commerce/mega-build/tree/patch) | [![Megabuild Patch](https://github.com/workarea-commerce/mega-build/workflows/Patch%20Build/badge.svg)](https://github.com/workarea-commerce/mega-build/actions) |
 
 ## Plugins
 
