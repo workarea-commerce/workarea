@@ -23,6 +23,7 @@ module Workarea
       end
 
       def edit
+        render :setup
       end
 
       def rules
