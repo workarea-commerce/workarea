@@ -36,12 +36,13 @@ module Workarea
         user.addresses.create!(
           first_name: user.first_name,
           last_name: user.last_name,
-          street: '22 S. 3rd St.',
-          city: 'Philadelphia',
-          postal_code: '19106',
-          region: 'PA',
+          street: Faker::Address.street_address,
+          city: Faker::Address.city,
+          postal_code: Faker::Address.zip_code,
+          region: Faker::Address.state_abbr,
           country: 'US',
-          phone_number: '2159251800'
+          phone_number: Faker::PhoneNumber.cell_phone,
+          phone_extension: Faker::PhoneNumber.extension
         )
       end
 
