@@ -412,6 +412,13 @@
     text-align: center;
   }
 
+  .search-results__plugins {
+    display: none;
+    margin-bottom: $spacing-unit * 4;
+    font-weight: 800;
+    text-align: left;
+  }
+
   .search-results__list {
     list-style: none;
     padding: 0;
