@@ -42,7 +42,7 @@
                 = form_tag report_custom_events_path, method: 'post' do
                   .property
                     = label_tag 'custom_event_name', t('workarea.admin.fields.name'),  class: 'property__name'
-                    = text_field_tag 'custom_event[name]', nil, class: 'text-box'
+                    = text_field_tag 'custom_event[name]', nil, class: 'text-box', required: true
                   .property
                     .box.box--rounded.box--padded
                       = hidden_field_tag 'custom_event[occurred_at]', nil, data: { datetimepicker_field: { inline: true } }
