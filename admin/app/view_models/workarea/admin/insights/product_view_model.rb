@@ -38,12 +38,12 @@ module Workarea
 
         def average_price
           return nil if orders.zero?
-          (merchandise - discounts) / orders
+          (merchandise - discounts) / units_sold
         end
 
         def previous_average_price
           return nil if previous_orders.zero?
-          (previous_merchandise - previous_discounts) / previous_orders
+          (previous_merchandise - previous_discounts) / previous_units_sold
         end
 
         def average_price_percent_change
