@@ -34,7 +34,7 @@ module Workarea
             all = Recommendation::Searches.find(options[:q]) +
               model.query_suggestions
 
-            all.take(3)
+            all.uniq.take(3)
           end
       end
 

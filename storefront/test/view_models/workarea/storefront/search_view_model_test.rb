@@ -51,6 +51,12 @@ module Workarea
 
         view_model = SearchViewModel.new(response)
         assert_equal(%w(one two), view_model.query_suggestions)
+
+        Recommendation::Searches.expects(:find).returns(%w(one))
+        response.query.expects(:query_suggestions).returns(%w(one))
+
+        view_model = SearchViewModel.new(response)
+        assert_equal(%w(one), view_model.query_suggestions)
       end
     end
   end
