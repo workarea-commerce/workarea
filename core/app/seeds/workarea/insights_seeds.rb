@@ -58,8 +58,31 @@ module Workarea
     end
 
     def process
+      add_previous_week_insights
+      add_previous_month_insights
+
       ProcessProductRecommendations.new.perform
       GenerateInsights.generate_all!
+    end
+
+    def add_previous_week_insights
+      (1...12).each do |weeks|
+        travel_to weeks.weeks.ago
+
+        GenerateInsights.generate_weekly_insights
+
+        travel_back
+      end
+    end
+
+    def add_previous_month_insights
+      (1...3).each do |months|
+        travel_to months.months.ago
+
+        GenerateInsights.generate_monthly_insights
+
+        travel_back
+      end
     end
   end
 end
