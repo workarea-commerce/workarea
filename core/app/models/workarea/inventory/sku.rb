@@ -142,11 +142,11 @@ module Workarea
       end
 
       def policy_class
-        "Workarea::Inventory::Policies::#{policy.classify}".constantize
+        "Workarea::Inventory::Policies::#{policy.camelize}".constantize
       rescue NameError
         raise(
           InvalidPolicy,
-          "Workarea::Inventory::Policies::#{policy.classify} must be a policy class"
+          "Workarea::Inventory::Policies::#{policy.camelize} must be a policy class"
         )
       end
 

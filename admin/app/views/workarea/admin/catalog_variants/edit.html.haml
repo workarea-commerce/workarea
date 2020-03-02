@@ -70,6 +70,8 @@
                   = render 'workarea/admin/shared/csv_formatting_tooltip'
               %td.align-center -
 
+      = append_partials('admin.variant_sections', variant: @variant)
+
       .workflow-bar
         .grid.grid--auto.grid--right.grid--middle
           .grid__cell= render 'workarea/admin/shared/publishing_select'

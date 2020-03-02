@@ -375,6 +375,16 @@ module Workarea
       )
     end
 
+    # A hash with the quantity of each SKU in the order
+    #
+    # @return [Hash]
+    #
+    def sku_quantities
+      items.each_with_object(Hash.new(0)) do |item, quantities|
+        quantities[item.sku] += item.quantity
+      end
+    end
+
     private
 
     def item_count_limit
