@@ -1,5 +1,117 @@
 'use strict';
 
+const plugins = [
+    {
+        matches: ['moneris'],
+        displayName: 'Moneris',
+        gitHubKey: 'workarea-moneris'
+    },
+    {
+        matches: ['paypal', 'pay pal'],
+        displayName: 'PayPal',
+        gitHubKey: 'workarea-paypal'
+    },
+    {
+        matches: ['afterpay', 'after pay'],
+        displayName: 'Afterpay',
+        gitHubKey: 'workarea-afterpay'
+    },
+    {
+        matches: ['emarsys'],
+        displayName: 'Emarsys',
+        gitHubKey: 'workarea-emarsys'
+    },
+    {
+        matches: ['flow', 'flow io'],
+        displayName: 'Flow IO',
+        gitHubKey: 'workarea-flow-io'
+    },
+    {
+        matches: ['reviews'],
+        displayName: 'Workarea Reviews',
+        gitHubKey: 'workarea-reviews'
+    },
+    {
+        matches: ['avatax', 'avalara'],
+        displayName: 'Avatax',
+        gitHubKey: 'workarea-avatax'
+    },
+    {
+        matches: ['clifton'],
+        displayName: 'Clifton Theme',
+        gitHubKey: 'workarea-clifton-theme'
+    },
+    {
+        matches: ['forter', 'forter fraud'],
+        displayName: 'Forter',
+        gitHubKey: 'workarea-forter'
+    },
+    {
+        matches: ['nvy', 'envy'],
+        displayName: 'NVY Theme',
+        gitHubKey: 'workarea-nvy-theme'
+    },
+    {
+        matches: ['braintree', 'brain tree'],
+        displayName: 'Braintree Payments',
+        gitHubKey: 'workarea-braintree'
+    },
+    {
+        matches: ['authorize', 'CIM', 'authorize.net'],
+        displayName: 'Authorize.net',
+        gitHubKey: 'workarea-authorize-cim'
+    },
+    {
+        matches: ['super hero', 'superhero'],
+        displayName: 'Super Hero Content Block',
+        gitHubKey: 'workarea-super-hero'
+    },
+    {
+        matches: ['wish lists', 'wishlist'],
+        displayName: 'Workarea Wish List',
+        gitHubKey: 'workarea-wish-lists'
+    },
+    {
+        matches: ['zendesk', 'zen desk'],
+        displayName: 'Zendesk',
+        gitHubKey: 'workarea-zendesk'
+    },
+    {
+        matches: ['product documents', 'documents'],
+        displayName: 'Workarea Product Documents',
+        gitHubKey: 'workarea-product-documents'
+    },
+    {
+        matches: ['yotpo'],
+        displayName: 'Yotpo',
+        gitHubKey: 'workarea-yotpo'
+    },
+    {
+        matches: ['facebook login', 'facebook'],
+        displayName: 'Facebook Login',
+        gitHubKey: 'workarea-facebook-login'
+    },
+    {
+        matches: ['gift wrapping', 'wrapping'],
+        displayName: 'Workarea Gift Wrapping',
+        gitHubKey: 'workarea-gift-wrapping'
+    },
+    {
+        matches: ['save for later'],
+        displayName: 'Workarea Save For Later',
+        gitHubKey: 'workarea-save-for-later'
+    },
+    {
+        matches: ['payflow', 'pay flow pro', 'payflow pro'],
+        displayName: 'Payflow Pro Payments',
+        gitHubKey: 'workarea-payflow-pro'
+    },
+    {
+        matches: ['shipstation', 'ship station'],
+        displayName: 'ShipStation',
+        gitHubKey: 'workarea-ship-station'
+    }
+];
 
 
 /**
@@ -38,7 +150,7 @@ window.modules.search = (function () {
             if ( ! query) { return; }
 
             $('#lunr-search').val(query);
-            display(lunr.index.search(query), lunr);
+            display(lunr.index.search(query), pluginResult(query), lunr);
         },
 
         /* --- */
@@ -60,6 +172,17 @@ window.modules.search = (function () {
             return item;
         },
 
+        pluginResultListItemTPL = function (name, gitHubKey) {
+            var item = '';
+            item += '<p class="search-results__title"> Looking for the ' + name + " plugin? - ";
+            item += '<a href="https://github.com/workarea-commerce/' + gitHubKey + '">';
+            item += 'View it on Github';
+            item += '</a>';
+            item += '</p>';
+
+            return item;
+        },
+
         constructResultList = function (results, lunr) {
             var doc, list = '';
 
@@ -71,6 +194,30 @@ window.modules.search = (function () {
             return list;
         },
 
+        constructPluginResultList = function (results) {
+            var plugin, list = '';
+
+            $.each(results, function (i, plugin) {
+                list += pluginResultListItemTPL(plugin.displayName, plugin.gitHubKey);
+            });
+            return list;
+        },
+
+        pluginResult = function (query) {
+            var results = []
+
+            $.each(plugins, function (i, plugin) {
+                $.each(plugin.matches, function (j, match) {
+                    if (match.toUpperCase() === query.toUpperCase()) {
+                        results.push(plugin);
+                    }
+                });
+            });
+
+            return results;
+        },
+
+
         constructCountMessage = function (length) {
             var message = 'Showing ' + length + ' result';
 
@@ -81,10 +228,18 @@ window.modules.search = (function () {
             return message;
         },
 
-        display = function (results, lunr) {
+        display = function (results, plugins, lunr) {
             var $countUI = $('.search-results__count'),
                 $helpUI = $('.search-results__help'),
+                $pluginUI = $('.search-results__plugins'),
                 $resultListUI;
+
+            if (plugins.length >= 0) {
+                $pluginUI.html(constructPluginResultList(plugins));
+                $pluginUI.show();
+            } else {
+                $pluginUI.hide();
+            }
 
             if (results.length >= 0) {
                 $resultListUI = $('.search-results__list');
@@ -105,7 +260,8 @@ window.modules.search = (function () {
         bindToSearchInput = function (lunr) {
             $('#lunr-search').on('keyup', function (event) {
                 var results = lunr.index.search(event.target.value);
-                display(results, lunr);
+                var plugin = pluginResult(event.target.value);
+                display(results, plugin, lunr);
             });
         },
 

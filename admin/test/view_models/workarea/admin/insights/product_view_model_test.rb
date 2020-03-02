@@ -77,13 +77,13 @@ module Workarea
 
           product = create_product(id: 'foo')
           view_model = ProductViewModel.wrap(product, starts_at: '2018-10-28', ends_at: '2018-10-29')
-          assert_equal(11.6, view_model.average_price)
-          assert_equal(10, view_model.previous_average_price)
+          assert_equal(5.8, view_model.average_price)
+          assert_equal(5.0, view_model.previous_average_price)
           assert_in_delta(15.999, view_model.average_price_percent_change)
 
           view_model = ProductViewModel.wrap(product, starts_at: '2018-10-29', ends_at: '2018-10-30')
-          assert_equal(11, view_model.average_price)
-          assert_in_delta(11.666, view_model.previous_average_price)
+          assert_equal(5.5, view_model.average_price)
+          assert_in_delta(5.833, view_model.previous_average_price)
           assert_in_delta(-5.714, view_model.average_price_percent_change)
         end
       end

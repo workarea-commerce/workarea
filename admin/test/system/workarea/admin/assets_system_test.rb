@@ -5,14 +5,7 @@ module Workarea
     class AssetsSystemTest < SystemTest
       include Admin::IntegrationTest
 
-      def mock_get_bucket_cors
-        Workarea.s3.expects(:get_bucket_cors).returns(
-          mock('Excon::Response', data: { body: { 'CORSConfiguration' => [] } })
-        )
-      end
-
       def test_management
-        mock_get_bucket_cors
         visit admin.content_assets_path
         click_link 'add_asset'
 
@@ -38,7 +31,6 @@ module Workarea
       end
 
       def test_insertion
-        mock_get_bucket_cors
         asset = create_asset
 
         content = create_content(

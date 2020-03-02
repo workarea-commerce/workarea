@@ -1,3 +1,178 @@
+Workarea 3.5.5 (2020-02-21)
+--------------------------------------------------------------------------------
+
+*   Stub S3 CORS for all integration tests
+
+    It's annoying and unnecessary to have to stub this for every test that
+    uses an asset picker.
+
+    WORKAREA-209
+    Ben Crouse
+
+*   Don't store content block types in configuration
+
+    Storing these in `Workarea.config` breaks when combined with the
+    multisite plugin because `Workarea.config` gets copied to the site as
+    part of the creating the site. Since creating the site happens during
+    initialization and the blocks typesaren't set on `Workarea.config`, you
+    end up with an empty configuration for block types.
+
+    Storing these elsewhere ensures they are set regardless of how
+    `Workarea.config` has been copied during initialization.
+
+    Reported in Disource here: https://discourse.workarea.com/t/multi-site-and-testing/1778/3
+    Ben Crouse
+
+*   Add Append Point For Post Subtotal Adjustments
+
+    This adds an append point right underneath the order subtotal and above
+    the shipping total in the admin order attributes view.
+
+    WORKAREA-183
+    Tom Scott
+
+*   Handle Deleted Categories in Category Options (#359)
+
+    In the `options_for_category` method, Workarea did not previously check
+    for whether a category exists, resulting in Mongoid throwing a
+    `DocumentNotFound` error when encountering the method and causing a 500
+    error in the real world. This has now been resolved by rewriting the
+    code to check for whether the model was found before proceeding.
+    `options_for_category` will now return an empty string early.
+
+    WORKAREA-207
+    Tom Scott
+
+*   Fix Overwriting CORS Rules for S3 Direct Uploads
+
+    Workarea previously replaced the existing CORS configuration on the S3
+    bucket used for storing direct uploads with its own, which caused issues
+    for environments that share an S3 bucket between servers (such as ad-hoc
+    demo servers or low-traffic "all-in-one" instances). Instead of
+    replacing the entire configuration, Workarea now reads the existing
+    allowed hosts configuration and appends its own onto the end, preserving
+    the configuration that previously existed. This should address the
+    problem wherein if another server attempts a direct upload, it can
+    revoke the access from previous servers to upload to the S3 bucket,
+    since they were no longer in the CORS configuration.
+
+    WORKAREA-209
+    Tom Scott
+
+*   Fix `#casecmp?` in Traffic Referrer Segment Rule
+
+    This method call fails with a `TypeError` on any Ruby version lower than
+    2.5.0, when the method was changed to support `nil` values in its
+    arguments. To address this, call `#to_s` on all arguments passed into
+    the `#casecmp?` calls in `Segment::Rules::TrafficReferrer`. This
+    prevents an out-of-box test failure if you are running tests on Ruby
+    2.4.x. Additionally, this commit adds a test matrix to the build that
+    will ensure all code is tested against the latest versions of Ruby
+    2.4.x and Ruby 2.6.x, and any other Ruby versions that the platform may
+    support.
+
+    WORKAREA-201
+    Tom Scott
+
+*   Add Guide for Installing Plugins
+
+    This guide explains how to install a plugin in the Workarea platform.
+    Although there may be some overlap with how this works in the rest of
+    the Rails community, there is no mention of how to connect to our
+    private gem server, which is not something most Rails developers know
+    how to do. It addresses the lack of mentions for the
+    `$BUNDLE_GEMS__WEBLINC__COM` environment variable in our documentation,
+    which is a knowledge gap for newcomers to Workarea and/or using private
+    gem servers.
+
+    WORKAREA-204
+    Tom Scott
+
+*   Use correct page title for navigation menus index
+
+    Luis Mercado
+
+*   Drop Support for Ruby 2.4 and Below
+
+    If one installs Workarea when running Ruby 2.4.x and below, a test will
+    fail because it is expecting that `#casecmp?` will be able to handle
+    `nil` arguments without throwing a `TypeError`. To address this,
+    `Workarea::Core` now restricts the required Ruby version in the gem
+    specification to 2.5.0 and above, dropping support for 2.4 and below,
+    which at this point is also reaching EOL by the Ruby maintainers.
+
+    WORKAREA-201
+    Tom Scott
+
+*   [DOCS] Add feedback mechanism to empty search results
+
+    Improve the "no search results" UI to encourage users to open a GitHub
+    issue explaining what documentation they aren't able to find.
+
+    WORKAREA-177
+    Chris Cressman
+
+*   [DOCS] Fix order of steps to create new app
+
+    The procedure in "Create a New Workarea App" fails at step 3:
+    "Install Workarea into the Rails application", because that step
+    requires MongoDB to be running.
+
+    Fix the procedure by transposing steps 3 and 4, resulting in
+    "Start Workarea service dependencies" running before "Install Workarea
+    into the Rails application", which ensures MongoDB is available.
+
+    I re-tested the entire procedure from scratch to ensure this works.
+
+    WORKAREA-186
+    Chris Cressman
+
+*   [DOCS] Fix incomplete sentence in "Add a Fraud Analyzer"
+
+    The doc "Add a Fraud Analyzer" contains an incomplete sentence
+    describing the embedded `FraudDecision` document.
+
+    Re-write the sentence to complete the thought and to link to the
+    definition of the `FraudDecision` model.
+
+    WORKAREA-176
+    Chris Cressman
+
+*   [DOCS] Update testing coverage in "Configuration"
+
+    The "Configuration" doc has a section that covers changing configuration
+    within tests. The section hasn't been updated for Workarea 3.5.
+
+    Rather than update the content in-place, replace this coverage with a
+    reference to the up-to-date coverage of this topic within the "Testing"
+    section of the documentation.
+
+    WORKAREA-175
+    Chris Cressman
+
+*   [DOCS] Overhaul "testing"
+
+    WORKAREA-150
+    Chris Cressman
+
+*   Fix Sidekiq callbacks workers missing due to code reloaded
+
+    This can cause missing workers in development, which causes callback
+    workers which should be enqueued to be missing.
+    Ben Crouse
+
+*   Fix nil segment IDs
+
+    This will fix errors raised when `active_segment_ids` are `nil`.
+    Ben Crouse
+
+*   Expose shipping service code in admin create and edit screens
+
+    WORKAREA-190
+    Jeff Yucis
+
+
+
 Workarea 3.5.4 (2020-01-21)
 --------------------------------------------------------------------------------
 
