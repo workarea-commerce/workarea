@@ -45,7 +45,7 @@
               %td= link_to variant.fulfillment_policy, fulfillment_sku_path(variant.sku)
               %td.align-center
                 = link_to inventory_sku_path(variant.sku) do
-                  = variant.available_inventory
+                  = variant.available_to_sell_inventory
               %td.align-right
                 = link_to pricing_sku_path(variant.sku) do
                   = number_to_currency variant.pricing.sell_price
