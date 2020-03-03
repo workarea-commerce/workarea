@@ -26,6 +26,7 @@ end
 #
 #
 require 'mongoid'
+require 'bson/active_support'
 require 'sidekiq'
 require 'sidekiq/web'
 require 'sidekiq/cron'
