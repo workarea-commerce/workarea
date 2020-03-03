@@ -1,3 +1,69 @@
+Workarea 3.4.28 (2020-03-03)
+--------------------------------------------------------------------------------
+
+*   Fix duplicate suggested searches
+
+    This can heppen if Predictor and Elasticsearch both return a similar
+    query suggestion.
+    Ben Crouse
+
+*   Generate weekly and monthly insights for historical data
+
+    Seeds were only generating insights for a single previous week
+    and month which caused some insights that rely on historical data
+    to not be generated i.e. trending products and searches.
+
+    WORKAREA-166
+    Matt Duffy
+
+*   Divide By Units Sold in Average Price Calculation
+
+    When calculating the average price for a product in its insights,
+    Workarea was previously using the amount of orders the product appears
+    in as a divisor. This will not show the correct average price of a
+    product unless every order only has a quantity of 1, since it includes
+    the total price of the item rather than its unit price. To make this
+    number accurately reflect the average price paid per unit on a product,
+    Workarea now uses the number of units sold as the divisor when
+    calculating the average unit price of a product.
+
+    WORKAREA-215
+    Tom Scott
+
+*   Randomize Addresses In Seeds
+
+    Workarea now provides random values for street address, city, and state.
+    All addresses are still in the US, however, so they will still validate
+    with default configuration. This provides more diverse seed data that
+    better reflects the real-life admin.
+
+    WORKAREA-213
+    Tom Scott
+
+*   Remove Changes Count in Releases Index
+
+    The `#changesets_for_releasable` query cannot be optimized any further
+    without using some kind of aggregation. Remove it from the index so it
+    won't cause performance problems.
+
+    WORKAREA-208
+    Tom Scott
+
+*   Display Price Range in Pricing SKUs Table
+
+    The price display in the Pricing SKUs index is somewhat confusing, and
+    would show different "Regular Price" data depending on the sale state of
+    the SKU. To resolve this, replace the two price columns with "Sell
+    Price", a column that renders a price range if there are multiple prices
+    set on the SKU, and indicates that it's always going to show the price
+    that a SKU is being sold for. Otherwise, it will just show the `#sell`
+    price of the SKU.
+
+    WORKAREA-311
+    Tom Scott
+
+
+
 Workarea 3.4.27 (2020-02-21)
 --------------------------------------------------------------------------------
 
