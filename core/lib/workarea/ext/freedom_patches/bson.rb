@@ -10,6 +10,8 @@ module BSON
   end
 
   module Time
+    # This should be removed when
+    # https://jira.mongodb.org/browse/RUBY-2145 is released.
     def to_bson(buffer = ByteBuffer.new, validating_keys = Config.validating_keys?)
       buffer.put_int64((to_i * 1000) + (usec / 1000))
     end
