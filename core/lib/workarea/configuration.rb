@@ -1283,6 +1283,12 @@ module Workarea
         'Workarea::Catalog::Category' => 7,
         'Workarea::Navigation::Menu' => 1_000
       }
+
+      # The max number of types of results that will show in the admin jump to
+      config.jump_to_type_limit = 5
+
+      # The number of results that will show per-type in the admin jump to
+      config.jump_to_results_per_type = 5
     end
   end
 end
