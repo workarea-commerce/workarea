@@ -26,13 +26,16 @@
           = label_tag 'sku[tax_code]', t('workarea.admin.fields.tax_code'), class: 'property__name'
           = text_field_tag 'sku[tax_code]', @sku.tax_code, class: 'text-box', placeholder: t('workarea.admin.pricing_skus.tax_code_placeholder')
 
-        .property
-          %span.property__name= t('workarea.admin.fields.on_sale')
-          = toggle_button_for 'sku[on_sale]', @sku.on_sale?, title_true: t('workarea.admin.pricing_skus.on_sale'), title_false: t('workarea.admin.pricing_skus.not_on_sale')
+        .grid
+          .grid__cell.grid__cell--50.grid__cell--25-at-medium
+            .property
+              %span.property__name= t('workarea.admin.fields.on_sale')
+              = toggle_button_for 'sku[on_sale]', @sku.on_sale?, title_true: t('workarea.admin.pricing_skus.on_sale'), title_false: t('workarea.admin.pricing_skus.not_on_sale')
 
-        .property
-          %span.property__name= t('workarea.admin.fields.discountable')
-          = toggle_button_for 'sku[discountable]', @sku.discountable?, title_true: t('workarea.admin.pricing_skus.allow_discounting'), title_false: t('workarea.admin.pricing_skus.disallow_discounting')
+          .grid__cell.grid__cell--50.grid__cell--25-at-medium
+            .property
+              %span.property__name= t('workarea.admin.fields.discountable')
+              = toggle_button_for 'sku[discountable]', @sku.discountable?, title_true: t('workarea.admin.pricing_skus.allow_discounting'), title_false: t('workarea.admin.pricing_skus.disallow_discounting')
 
         .property
           = label_tag 'sku_msrp', t('workarea.admin.fields.msrp'), class: 'property__name'
