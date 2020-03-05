@@ -236,21 +236,19 @@ module Workarea
       end
 
       def test_limiting_results_by_type
-        Workarea.with_config do |config|
-          config.jump_to_type_limit = 2
-          config.jump_to_results_per_type = 2
+        Workarea.config.jump_to_type_limit = 2
+        Workarea.config.jump_to_results_per_type = 2
 
-          5.times { |i| create_product(name: "Test Product #{i}") }
-          5.times { |i| create_category(name: "Test Category #{i}") }
+        5.times { |i| create_product(name: "Test Product #{i}") }
+        5.times { |i| create_category(name: "Test Category #{i}") }
 
-          get admin.jump_to_path(q: 'test')
-          results = JSON.parse(response.body)['results']
+        get admin.jump_to_path(q: 'test')
+        results = JSON.parse(response.body)['results']
 
-          assert_equal(
-            %w(Products Products Categories Categories),
-            results.map { |r| r['type'] }
-          )
-        end
+        assert_equal(
+          %w(Products Products Categories Categories),
+          results.map { |r| r['type'] }
+        )
       end
     end
   end
