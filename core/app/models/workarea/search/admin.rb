@@ -5,27 +5,39 @@ module Workarea
 
       def self.jump_to(params, size = Workarea.config.default_admin_jump_to_result_count)
         query = {
-          query: {
-            match_phrase_prefix: {
-              jump_to_search_text: {
-                query: params[:q],
-                max_expansions: 10
+          aggs: {
+            grouped_by_type: {
+              filter: {
+                match_phrase_prefix: {
+                  jump_to_search_text: {
+                    query: params[:q],
+                    max_expansions: 10
+                  }
+                }
+              },
+              aggs: {
+                type: {
+                  terms: { field: 'facets.type', size: Workarea.config.jump_to_type_limit },
+                  aggs: { top: { top_hits: { size: Workarea.config.jump_to_results_per_type } } }
+                }
               }
             }
-          },
-          size: size,
-          sort: [{ jump_to_position: :asc }]
+          }
         }
 
-        search(query)['hits']['hits'].map do |result|
-          {
-            label: result['_source']['jump_to_text'],
-            type: result['_source']['facets']['type'],
-            model_class: result['_source']['model_class'],
-            route_helper: result['_source']['jump_to_route_helper'],
-            to_param: result['_source']['jump_to_param']
-          }
-        end
+        aggregation = search(query)['aggregations']['grouped_by_type']['type']
+        aggregation['buckets']
+          .reduce([]) { |m, b| m + b['top']['hits']['hits'] }
+          .sort_by { |r| [r['_source']['jump_to_position'], r['_score']] }
+          .map do |result|
+            {
+              label: result['_source']['jump_to_text'],
+              type: result['_source']['facets']['type'],
+              model_class: result['_source']['model_class'],
+              route_helper: result['_source']['jump_to_route_helper'],
+              to_param: result['_source']['jump_to_param']
+            }
+          end
       end
 
       def self.for(model)
