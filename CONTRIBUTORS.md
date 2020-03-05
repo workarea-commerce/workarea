@@ -25,6 +25,7 @@ Community Contributors
 A big thank you to everyone else that has contributed to the codebase over the years:
 
 * [bbergweblinc](https://github.com/bbergweblinc)
+* [Brandongoodman615](https://github.com/Brandongoodman615)
 * [bwalshweblinc](https://github.com/bwalshweblinc)
 * [ddavis0209](https://github.com/ddavis0209)
 * [embendavid](https://github.com/embendavid)
