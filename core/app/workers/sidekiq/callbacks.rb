@@ -251,7 +251,16 @@ module Sidekiq
             args = worker.find_callback_args(self)
 
             if worker.inlined?
-              worker.new.perform(*args)
+              # Do this stuff to ensure middleware gets run
+              job = { 'jid' => SecureRandom.hex(12), 'args' => args }
+              job_hash = Sidekiq.load_json(Sidekiq.dump_json(job))
+
+              instance = worker.new
+              instance.jid = job['jid']
+
+              Sidekiq.server_middleware.invoke(instance, job_hash, worker.queue) do
+                instance.perform(*job_hash['args'])
+              end
             else
               worker.perform_async(*args)
             end
