@@ -30,6 +30,10 @@ module Workarea
         @sku.update!(on_sale: false)
 
         assert_equal(3.to_m, @sku.min_price)
+
+        @sku.prices.destroy_all
+
+        assert_nil(@sku.min_price)
       end
 
       def test_max_price
@@ -38,12 +42,20 @@ module Workarea
         @sku.update!(on_sale: false)
 
         assert_equal(4.to_m, @sku.max_price)
+
+        @sku.prices.destroy_all
+
+        assert_nil(@sku.min_price)
       end
 
       def test_show_range?
         assert(@sku.show_range?)
 
         @sku.prices.last.destroy!
+
+        refute(@sku.show_range?)
+
+        @sku.prices.destroy_all
 
         refute(@sku.show_range?)
       end

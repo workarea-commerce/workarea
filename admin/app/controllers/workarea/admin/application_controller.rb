@@ -100,7 +100,7 @@ module Workarea
       end
 
       def track_index_filters
-        session[:last_index_path] = request.fullpath
+        session[:last_index_path] = request.fullpath unless request.xhr? || request.format.json?
       end
     end
   end
