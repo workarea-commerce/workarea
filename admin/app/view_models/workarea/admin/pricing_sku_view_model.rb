@@ -30,14 +30,14 @@ module Workarea
       #
       # @return [Money]
       def min_price
-        sell_prices.first.sell
+        sell_prices.first&.sell
       end
 
       # The highest regular price set on this SKU.
       #
       # @return [Money]
       def max_price
-        sell_prices.last.sell
+        sell_prices.last&.sell
       end
 
       # Show a price range if the `min_price` and `max_price` are not
@@ -45,7 +45,7 @@ module Workarea
       #
       # @return [Boolean]
       def show_range?
-        min_price != max_price
+        min_price.present? && max_price.present? && min_price != max_price
       end
 
       # This SKU is considered "on sale" if it is marked as such, or if
