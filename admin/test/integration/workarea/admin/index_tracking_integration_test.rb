@@ -2,7 +2,7 @@ require 'test_helper'
 
 module Workarea
   module Admin
-    class ApplicationIntegrationTest < Workarea::IntegrationTest
+    class IndexTrackingIntegrationTest < Workarea::IntegrationTest
       include Admin::IntegrationTest
 
       def test_track_index_filters
