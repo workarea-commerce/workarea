@@ -8,7 +8,7 @@
           = link_to "↑ #{t('workarea.admin.users.index.dashboard_link')}", people_dashboards_path, class: 'view__dashboard-button'
           %h1= t('workarea.admin.users.index.title')
       .grid__cell.grid__cell--25
-        = append_partials('admin.user_index_navigation')
+        = append_partials('admin.user_index_aux_navigation')
 
   .view__container
     .browsing-controls.browsing-controls--with-divider.browsing-controls--center{ class: ('browsing-controls--filters-displayed' unless @search.toggle_facets?) }
