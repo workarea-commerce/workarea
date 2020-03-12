@@ -4,13 +4,13 @@
     <div class="grid__cell grid__cell--50-at-medium">
       <div class='property'>
         <label for="<%= name + fieldSuffixes.date %>" class='property__name'><%= I18n.t('workarea.admin.js.datetime_picker.date') %></label>
-        <input type="text" name="<%= name + fieldSuffixes.date %>" id="<%= name  + fieldSuffixes.date %>" class="text-box" data-datetimepicker-field-date-input='' placeholder='YYYY-MM-DD' pattern='^\d{4}-\d{2}-\d{2}$' />
+        <input type="text" name="<%= name + fieldSuffixes.date %>" id="<%= name  + fieldSuffixes.date %>" class="text-box" data-datetimepicker-field-date-input='' placeholder='YYYY-MM-DD' pattern='^\d{4}-\d{2}-\d{2}$' <%= required %> />
       </div>
     </div>
     <div class="grid__cell grid__cell--50-at-medium">
       <div class='property'>
         <label for="<%= name + fieldSuffixes.hours %>" class='property__name'><%= I18n.t('workarea.admin.js.datetime_picker.time') %></label>
-        <select id="<%= name  + fieldSuffixes.hours %>" name="<%= name  + fieldSuffixes.hours %>">
+        <select id="<%= name  + fieldSuffixes.hours %>" name="<%= name  + fieldSuffixes.hours %>" <%= required %>>
           <% for ( var i = 1; i <= 12; i++ ) {
             var selected = ( initialDateTime.hours == i ) ? 'selected' : '';
           %>
@@ -18,7 +18,7 @@
           <% } %>
         </select>
 
-        <select id="<%= name  + fieldSuffixes.minutes %>" name="<%= name  + fieldSuffixes.minutes %>">
+        <select id="<%= name  + fieldSuffixes.minutes %>" name="<%= name  + fieldSuffixes.minutes %>" <%= required %>>
           <% for ( var i = 0; i < 60; i++ ) {
             if (i < 10) { i = '0' + i }
             var selected = ( initialDateTime.minutes == i ) ? 'selected' : '';
@@ -27,7 +27,7 @@
           <% } %>
         </select>
 
-        <select id="<%= name + fieldSuffixes.ampm %>" name="<%= name + fieldSuffixes.ampm %>">
+        <select id="<%= name + fieldSuffixes.ampm %>" name="<%= name + fieldSuffixes.ampm %>" <%= required %>>
           <option value="am" <%= initialDateTime.ampm === 'am' ? 'selected' : '' %> >am</option>
           <option value="pm" <%= initialDateTime.ampm === 'pm' ? 'selected' : '' %> >pm</option>
         </select>
