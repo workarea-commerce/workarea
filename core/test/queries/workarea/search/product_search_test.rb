@@ -410,6 +410,21 @@ module Workarea
         assert(result[:raw].present?)
         assert_kind_of(Float, result[:raw]['_score'])
       end
+
+      def test_previewing_releases
+        product = create_product(id: 'foo', variants: [{ sku: '1234', regular: 5 }])
+        pricing = Pricing::Sku.find('1234')
+        assert_equal([product], ProductSearch.new(q: '*').results.pluck(:model))
+
+        release = create_release
+        release.as_current { pricing.prices.first.update!(regular: 10) }
+        IndexProduct.perform(product.reload)
+
+        assert_equal([product], ProductSearch.new(q: '*').results.pluck(:model))
+        release.as_current do
+          assert_equal([product], ProductSearch.new(q: '*').results.pluck(:model))
+        end
+      end
     end
   end
 end
