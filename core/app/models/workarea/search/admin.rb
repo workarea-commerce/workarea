@@ -18,7 +18,17 @@ module Workarea
               aggs: {
                 type: {
                   terms: { field: 'facets.type', size: Workarea.config.jump_to_type_limit },
-                  aggs: { top: { top_hits: { size: Workarea.config.jump_to_results_per_type } } }
+                  aggs: {
+                    top: {
+                      top_hits: {
+                        size: Workarea.config.jump_to_results_per_type,
+                        sort: [
+                          { _score: { order: 'desc' } },
+                          { updated_at: { order: 'desc' } }
+                        ]
+                      }
+                    }
+                  }
                 }
               }
             }
