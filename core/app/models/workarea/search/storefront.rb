@@ -78,6 +78,10 @@ module Workarea
         nil
       end
 
+      def changesets
+        @changesets ||= Array.wrap(model.try(:changesets_with_children))
+      end
+
       def as_document
         Release.with_current(release_id) do
           {
@@ -87,7 +91,7 @@ module Workarea
             active: active,
             active_segment_ids: active_segment_ids,
             release_id: release_id,
-            changeset_release_ids: Array.wrap(model.try(:changesets)).map(&:release_id),
+            changeset_release_ids: changesets.map(&:release_id),
             suggestion_content: suggestion_content,
             created_at: model.created_at,
             updated_at: model.updated_at,
