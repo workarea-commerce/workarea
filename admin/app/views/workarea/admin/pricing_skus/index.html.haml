@@ -64,7 +64,7 @@
                 = upcoming_changesets_icon_for(result)
               = append_partials('admin.pricing_skus_additional_fields', result: result)
               %td.align-right= number_to_currency result.msrp
-              %td.align-right= result.sell_price || '-'
+              %td.align-right= result.sell_price || '–'
               %td.align-center= t("workarea.admin.#{result.on_sale?}")
               %td.align-center= t("workarea.admin.#{result.discountable?}")
               %td= local_time_ago(result.updated_at)
