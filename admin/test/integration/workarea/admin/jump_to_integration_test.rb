@@ -252,6 +252,17 @@ module Workarea
           )
         end
       end
+
+      def test_sorting_by_recency
+        create_user(email: 'foo-one@workarea.com', updated_at: 1.day.ago)
+        create_user(email: 'foo-two@workarea.com', updated_at: 1.hour.ago)
+        get admin.jump_to_path(q: 'foo')
+
+        results = JSON.parse(response.body)['results']
+        assert_equal(2, results.length)
+        assert_match('foo-two@workarea.com', results.first['label'])
+        assert_match('foo-one@workarea.com', results.second['label'])
+      end
     end
   end
 end
