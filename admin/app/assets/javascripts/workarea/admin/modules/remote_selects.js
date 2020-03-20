@@ -31,8 +31,13 @@ WORKAREA.registerModule('remoteSelects', (function () {
                     $(select).data('remoteSelect').options
                 );
 
+
             settings.ajax.url = $(select).data('remoteSelect').source;
             settings.templateResult = formatOption;
+
+            if (settings.dropdownParent) {
+                settings.dropdownParent = $(settings.dropdownParent);
+            }
 
             return settings;
         },
@@ -73,9 +78,16 @@ WORKAREA.registerModule('remoteSelects', (function () {
         },
 
         initSelect2 = function (index, select) {
-            injectHiddenInput(index, select);
+            var config = getConfig(select);
 
-            $(select).select2(getConfig(select));
+            injectHiddenInput(index, select);
+            $(select).select2(config);
+
+            if (config.autoSubmit) {
+                $(select).on('select2:select', function () {
+                    $(this).parents('form').submit();
+                });
+            }
 
             if ($(select).is('[multiple]')) {
                 initSortable(select);
