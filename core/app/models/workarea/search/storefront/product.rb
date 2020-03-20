@@ -123,6 +123,14 @@ module Workarea
           ProductPrimaryImageUrl.new(model).path
         end
 
+        # Override to include release changesets for pricing, featured products, etc.
+        #
+        # @return [Mongoid::Criteria]
+        #
+        def changesets
+          @product_changesets ||= ProductReleases.new(model).changesets
+        end
+
         private
 
         def clean_for_keywords(value)

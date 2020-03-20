@@ -45,7 +45,7 @@
                     = text_field_tag 'custom_event[name]', nil, class: 'text-box', required: true
                   .property
                     .box.box--rounded.box--padded
-                      = hidden_field_tag 'custom_event[occurred_at]', nil, data: { datetimepicker_field: { inline: true } }
+                      = hidden_field_tag 'custom_event[occurred_at]', nil, required: true, data: { datetimepicker_field: { inline: true } }
                   .align-center
                     = submit_tag t('workarea.admin.reports.timeline.add_custom_event'), class: 'button button--create button--small'
 

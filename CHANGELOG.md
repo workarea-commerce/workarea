@@ -1,3 +1,52 @@
+Workarea 3.5.7 (2020-03-17)
+--------------------------------------------------------------------------------
+
+*   Validate Date In Timeline Report Custom Events
+
+    Ensure the hidden input storing the value for the dateTimePicker is
+    `:required`, which prevents the form from saving. This value is also
+    passed down into the template UI created by the JS module in order to
+    make sure the user gets some visual feedback.
+
+    WORKAREA-221
+    Tom Scott
+
+*   Handle Missing Price in Pricing SKUs Admin Index
+
+    Ensure that price ranges in the pricing SKUs admin index can handle when
+    there are no prices for the SKU.
+
+    WORKAREA-220
+    Tom Scott
+
+*   Prevent Tracking Index Filters on JSON Requests
+
+    When `.json` or Ajax requests are made against the admin, the
+    `#track_index_filters` callback was previously saving off the full path,
+    resulting in issues with the back-linking on the admin UI. To resolve
+    this, Workarea no longer considers `.json` requests on the index page to
+    be a valid `session[:last_index_path]`.
+
+    WORKAREA-214
+    Tom Scott
+
+*   Add append point to user index page
+
+    Jeff Yucis
+
+*   Add pricing SKU admin append points and align views (#388)
+
+    Ben Crouse
+
+*   Improve admin jump to search result types
+
+    This improves results by limiting the number of results that will show
+    per-type. This allows the user to see a more diverse set of results
+    instead of being overwhelmed by many matches in the top types.
+    Ben Crouse
+
+
+
 Workarea 3.5.6 (2020-03-03)
 --------------------------------------------------------------------------------
 

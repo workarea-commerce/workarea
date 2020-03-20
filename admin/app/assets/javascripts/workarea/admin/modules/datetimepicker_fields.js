@@ -101,11 +101,13 @@ WORKAREA.registerModule('datetimepickerFields', (function () {
         },
 
         injectUI = function($input) {
-            var placeholder = JST['workarea/admin/templates/datetime_picker']({
+            var required = !_.isEmpty($input.attr('required')) ? 'required' : '',
+                placeholder = JST['workarea/admin/templates/datetime_picker']({
                 id: $input.attr('id'),
                 initialDateTime: parseDate($input),
                 fieldSuffixes: WORKAREA.config.datetimepickerFields.fieldSuffixes,
-                name: $input.attr('id')
+                name: $input.attr('id'),
+                required: required
             });
 
             // Prevents UI being injected twice on browser back
