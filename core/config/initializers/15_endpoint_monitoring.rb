@@ -3,7 +3,8 @@
 #
 Easymon::Repository.add(
   'mongodb',
-  Workarea::Monitoring::MongoidCheck.new
+  Workarea::Monitoring::MongoidCheck.new,
+  :critical
 )
 
 #
@@ -11,7 +12,8 @@ Easymon::Repository.add(
 #
 Easymon::Repository.add(
   'elasticsearch',
-  Workarea::Monitoring::ElasticsearchCheck.new
+  Workarea::Monitoring::ElasticsearchCheck.new,
+  :critical
 )
 
 #
@@ -21,7 +23,8 @@ Easymon::Repository.add(
   "redis",
   Easymon::RedisCheck.new(
     Workarea::Configuration::Redis.persistent.to_h
-  )
+  ),
+  :critical
 )
 
 #
