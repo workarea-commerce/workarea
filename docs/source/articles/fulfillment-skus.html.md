@@ -44,7 +44,7 @@ Tokens do not expire, and the URLs they generate are not restricted to a specifi
 
 Creating a new fulfillment policy requires two steps -- the creation of the policy class and updating the configuration.
 
-A policy class should inherit from `Workarea::Fulfillment::Polciies::Base` and define a `#process` method.
+A policy class should inherit from `Workarea::Fulfillment::Policies::Base` and define a `#process` method.
 
 ```ruby
 module Workarea
