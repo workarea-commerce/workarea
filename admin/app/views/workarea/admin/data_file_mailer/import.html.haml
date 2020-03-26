@@ -1,4 +1,7 @@
-= render_schema_org(email_action_schema(index_url_for(@import.model_class), t('workarea.admin.data_file_mailer.import.email_action.name'), t('workarea.admin.data_file_mailer.import.email_action.description')))
+- index_url = index_url_for(@import.model_class, only_path: false)
+
+- if index_url.present?
+  = render_schema_org(email_action_schema(index_url, t('workarea.admin.data_file_mailer.import.email_action.name'), t('workarea.admin.data_file_mailer.import.email_action.description')))
 
 %tr
   %td
@@ -7,7 +10,9 @@
   %td
     %p
       = t('workarea.admin.data_file_mailer.import.success', count: pluralize(@import.succeeded, @import.format.unit.downcase))
-%tr
-  %td
-    %p
-      = link_to t('workarea.admin.data_file_mailer.import.link_text', name: @import.name.pluralize), index_url_for(@import.model_class, only_path: false)
+
+- if index_url.present?
+  %tr
+    %td
+      %p
+        = link_to t('workarea.admin.data_file_mailer.import.link_text', name: @import.name.pluralize), index_url
