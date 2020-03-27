@@ -65,6 +65,9 @@ module Workarea
             action: 'index'
           )
         )
+
+      rescue ActionController::UrlGenerationError
+        nil
       end
     end
   end
