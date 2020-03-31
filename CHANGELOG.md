@@ -1,3 +1,36 @@
+Workarea 3.4.30 (2020-03-31)
+--------------------------------------------------------------------------------
+
+*   Fix incorrect placeholder text
+
+    Ben Crouse
+
+*   Remove unneeded grid modifier
+
+    Causes misalignment of the users index aux navigation append point.
+    Ben Crouse
+
+*   Update critical easymon checks
+
+    Only elasticsearch, mongodb and redis are critical services for running
+    the application.
+    Eric Pigeon
+
+*   Sort jump to results by last updated_at (within each type)
+
+    This adds updated_at as a sort in jump to so most recent results show at
+    the top within their type. The types are still sorted the same.
+    Ben Crouse
+
+*   Handle missing price in sell_price method itself
+
+    Fixes QA issue.
+
+    WORKAREA-220
+    Tom Scott
+
+
+
 Workarea 3.4.29 (2020-03-17)
 --------------------------------------------------------------------------------
 
