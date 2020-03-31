@@ -28,7 +28,7 @@
 
         .property
           = label_tag 'product[meta_description]', t('workarea.admin.create_catalog_products.content.meta_description'), class: 'property__name'
-          = text_field_tag 'product[meta_description]', @product.meta_description, class: 'text-box text-box--i18n', placeholder: t('workarea.admin.create_catalog_products.content.defaults_to_a_truncated_description')
+          = text_field_tag 'product[meta_description]', @product.meta_description, class: 'text-box text-box--i18n', placeholder: t('workarea.admin.create_catalog_products.content.defaults_to_description')
           %span.property__note= t('workarea.admin.create_catalog_products.content.provides_a_summary_that_is_displayed_on_search_engine_result_pages')
 
       .workflow-bar
