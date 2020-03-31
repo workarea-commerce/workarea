@@ -1,3 +1,60 @@
+Workarea 3.5.8 (2020-03-31)
+--------------------------------------------------------------------------------
+
+*   Fix incorrect placeholder text
+
+    Ben Crouse
+
+*   Allow for blank index URLs in import emails
+
+    This can happen for models without index pages, like wish lists.
+    Ben Crouse
+
+*   Remove unneeded grid modifier
+
+    Causes misalignment of the users index aux navigation append point.
+    Ben Crouse
+
+*   Update critical easymon checks
+
+    Only elasticsearch, mongodb and redis are critical services for running
+    the application.
+    Eric Pigeon
+
+*   Sort jump to results by last updated_at (within each type)
+
+    This adds updated_at as a sort in jump to so most recent results show at
+    the top within their type. The types are still sorted the same.
+    Ben Crouse
+
+*   Force autoloading of BulkIndexProducts
+
+    app/workers/workarea/bulk_index_products.rb isn't getting autoloaded by
+    Rails. This causes a NameError to be raised for admin actions like
+    updating a product in the development environment.
+
+    This quick and dirty hack should be tested to see if it can be removed
+    after the update to Zeitwerk.
+    Ben Crouse
+
+*   Fix missing relation changesets in storefront indexing
+
+    This shows as duplicate products when previewing release changes to
+    related resources like pricing. This would require reindexing to take
+    effect.
+
+    WORKAREA-223
+    Ben Crouse
+
+*   Handle missing price in sell_price method itself
+
+    Fixes QA issue.
+
+    WORKAREA-220
+    Tom Scott
+
+
+
 Workarea 3.5.7 (2020-03-17)
 --------------------------------------------------------------------------------
 
