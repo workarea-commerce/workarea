@@ -975,6 +975,7 @@ en:
           browser_title: Browser Title
           cancel: Cancel
           defaults_to_a_truncated_description: "(defaults to a truncated description)"
+          defaults_to_description: "(defaults to description)"
           description: Description
           meta_description: Meta Description
           or_skip_this: or skip this
