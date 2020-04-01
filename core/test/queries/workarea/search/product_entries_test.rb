@@ -36,6 +36,17 @@ module Workarea
         assert_equal(release.id, results.first.release_id)
         refute_equal(product.object_id, results.first.model.object_id)
       end
+
+      def test_entry_flattening
+        products = Array.new(2) { create_product }
+        release = create_release
+        release.as_current { products.first.update!(name: 'Bar') }
+
+        instance = ProductEntries.new(products)
+        instance.stubs(:index_entries_for).returns([:foo, :bar])
+
+        assert_equal([:foo, :bar, :foo, :bar, :foo, :bar], instance.entries)
+      end
     end
   end
 end
