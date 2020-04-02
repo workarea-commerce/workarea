@@ -31,6 +31,7 @@ module Workarea
 
         def test_handles_a_missing_password_reset
           get storefront.reset_password_path(token: 'foo')
+          assert(flash[:error].present?)
           assert_redirected_to(storefront.forgot_password_path)
         end
 
@@ -41,6 +42,24 @@ module Workarea
 
           assert(flash[:error].present?)
           assert(response.redirect?)
+        end
+
+        def test_expired_resets
+          post storefront.forgot_password_path, params: { email: 'passwords@workarea.com' }
+          first = User::PasswordReset.desc(:created_at).first
+
+          get storefront.reset_password_path(token: first.token)
+          assert(response.ok?)
+
+          post storefront.forgot_password_path, params: { email: 'passwords@workarea.com' }
+          second = User::PasswordReset.desc(:created_at).first
+
+          get storefront.reset_password_path(token: second.token)
+          assert(response.ok?)
+
+          get storefront.reset_password_path(token: first.token)
+          assert(flash[:error].present?)
+          assert_redirected_to(storefront.forgot_password_path)
         end
       end
     end
