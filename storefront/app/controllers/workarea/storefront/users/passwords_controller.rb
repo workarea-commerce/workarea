@@ -8,7 +8,11 @@ module Workarea
 
     def edit
       reset = User::PasswordReset.find_by(token: params[:token]) rescue nil
-      redirect_to forgot_password_path unless reset
+
+      unless reset
+        flash[:error] = t('workarea.storefront.flash_messages.password_reset_expired')
+        redirect_to forgot_password_path
+      end
     end
 
     def create
