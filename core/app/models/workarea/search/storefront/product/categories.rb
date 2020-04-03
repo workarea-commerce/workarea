@@ -13,7 +13,7 @@ module Workarea
                 if category.product_rules.present?
                   document = {
                     id: category.id,
-                    query: Categorization.new(rules: category.product_rules).query
+                    query: Workarea::Search::Categorization.new(rules: category.product_rules).query
                   }
 
                   Storefront.current_index.save(document, type: 'category')
