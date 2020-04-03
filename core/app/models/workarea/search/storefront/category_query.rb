@@ -113,7 +113,7 @@ module Workarea
                 id: category.id,
                 release_id: 'live',
                 changeset_release_ids: changesets.map(&:release_id).uniq,
-                query: Categorization.new(rules: category.product_rules).query
+                query: Workarea::Search::Categorization.new(rules: category.product_rules).query
               }
 
               Storefront.current_index.save(document, type: 'category')
@@ -130,7 +130,7 @@ module Workarea
                 document = {
                   id: "#{category.id}-#{changeset.release_id}",
                   release_id: changeset.release_id,
-                  query: Categorization.new(rules: category.product_rules).query
+                  query: Workarea::Search::Categorization.new(rules: category.product_rules).query
                 }
 
                 Storefront.current_index.save(document, type: 'category')

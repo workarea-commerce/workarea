@@ -4,7 +4,7 @@ module Workarea
       include ApplicationDocument
       include UrlToken
 
-      belongs_to :user, class_name: 'Workarea::User'
+      belongs_to :user, class_name: 'Workarea::User', index: true
 
       index(
         { created_at: 1 },
@@ -14,6 +14,8 @@ module Workarea
       def self.setup!(email)
         user = User.find_by_email(email)
         return nil unless user
+
+        where(user_id: user.id).destroy_all
         create!(user: user)
       end
 

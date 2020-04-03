@@ -17,15 +17,17 @@ module Workarea
       end
 
       def live_entries
-        @live_entries ||= @products.flat_map do |product|
-          index_entries_for(product.without_release)
+        @live_entries ||= @products.reduce([]) do |memo, product|
+          memo + Array.wrap(index_entries_for(product.without_release))
         end
       end
 
       def release_entries
-        @release_entries ||= @products.flat_map do |product|
-          ProductReleases.new(product).releases.map do |release|
-            index_entries_for(product.in_release(release))
+        @release_entries ||= @products.reduce([]) do |results, product|
+          releases = ProductReleases.new(product).releases
+
+          results + releases.reduce([]) do |memo, release|
+            memo + Array.wrap(index_entries_for(product.in_release(release)))
           end
         end
       end
