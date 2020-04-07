@@ -10,6 +10,8 @@
     .product-prices.product-prices--details{ itemprop: 'offers', itemscope: true, itemtype: 'http://schema.org/Offer' }
       = render 'workarea/storefront/products/pricing', product: product
 
+    = append_partials('storefront.product_pricing_details', product: product)
+
     - if product.description.present?
       .product-details__description
         %p= truncated_product_description(product, t('workarea.storefront.products.read_more'))
