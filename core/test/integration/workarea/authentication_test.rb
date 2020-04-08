@@ -185,5 +185,15 @@ module Workarea
       get '/test_logout'
       refute(cookies[:email].present?)
     end
+
+    def test_ensures_locale_passthrough_for_return_to
+      set_locales(available: [:en, :es], default: :en, current: :en)
+
+      get '/login_required', params: { locale: 'es', return_to: '/blah?foo=bar' }
+      get '/test_login', params: { user_id: @user.id }
+      assert(response.redirect?)
+      assert_match('locale=es', response.location)
+      assert_match('foo=bar', response.location)
+    end
   end
 end
