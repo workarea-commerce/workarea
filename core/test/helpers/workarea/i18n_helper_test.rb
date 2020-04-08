@@ -7,12 +7,14 @@ module Workarea
       params[:controller] = 'controller'
       params[:action] = 'action'
       params[:foo] = 'bar'
+      params[:locale] = 'es'
 
       assert_includes(switch_locale_fields, 'foo')
       assert_includes(switch_locale_fields, 'bar')
       refute_includes(switch_locale_fields, 'utf8')
       refute_includes(switch_locale_fields, 'controller')
       refute_includes(switch_locale_fields, 'action')
+      refute_includes(switch_locale_fields, 'locale')
     end
   end
 end
