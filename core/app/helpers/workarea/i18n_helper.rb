@@ -10,7 +10,7 @@ module Workarea
       result = ''
 
       params
-        .except(:utf8, :controller, :action)
+        .except(:utf8, :controller, :action, :locale)
         .each_pair { |key, value| result << hidden_field_tag(key, value, id: nil) }
 
       result.html_safe

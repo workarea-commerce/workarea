@@ -8,12 +8,17 @@ module Workarea
       request = Rack::Request.new(env)
       return @app.call(env) if request.path =~ /(jpe?g|png|ico|gif|css|js|svg)$/
 
+      set_locale(env, request)
       setup_environment(env, request)
       set_segment_request_headers(env)
       status, headers, body = @app.call(env)
       set_segment_response_headers(env, headers)
 
       [status, headers, body]
+    end
+
+    def set_locale(env, request)
+      I18n.locale = locale_from_request(env, request) || I18n.default_locale
     end
 
     def setup_environment(env, request)
@@ -36,6 +41,19 @@ module Workarea
     end
 
     private
+
+    def locale_from_request(env, request)
+      return request.params['locale'] if request.params['locale'].present?
+
+      env_with_method = env.merge(
+        method: request.params[Rack::MethodOverride::METHOD_OVERRIDE_PARAM_KEY].presence ||
+          request.request_method
+      )
+      Rails.application.routes.recognize_path(request.path, env_with_method)[:locale]
+
+    rescue ActionController::RoutingError
+      # Return nil since we can't get locale out of this request
+    end
 
     def normalize_segment_ids(visit)
       visit.applied_segments.map(&:id).sort.join(',')
