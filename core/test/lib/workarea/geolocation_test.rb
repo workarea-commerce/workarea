@@ -94,10 +94,10 @@ module Workarea
         'HTTP_GEOIP_POSTAL_CODE' => '19106'
       )
 
-      assert_includes(location.names, 'US')
-      assert_includes(location.names, 'USA')
+      refute_includes(location.names, 'US')
+      refute_includes(location.names, 'USA')
       assert_includes(location.names, 'United States of America')
-      assert_includes(location.names, 'PA')
+      refute_includes(location.names, 'PA')
       assert_includes(location.names, 'Pennsylvania')
       assert_includes(location.names, 'Philadelphia')
       assert_includes(location.names, '19106')
