@@ -55,11 +55,11 @@ module Workarea
     end
 
     def segments
-      @segments ||= Segment.find_qualifying(self)
+      @segments ||= Workarea::Segment.find_qualifying(self)
     end
 
     def override_segments
-      @override_segments ||= Segment.in(id: session[:segment_ids]).to_a
+      @override_segments ||= Workarea::Segment.in(id: session[:segment_ids]).to_a
     end
 
     def applied_segments

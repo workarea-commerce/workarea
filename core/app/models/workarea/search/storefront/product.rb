@@ -1,7 +1,7 @@
 module Workarea
   module Search
     class Storefront
-      class Product < Search::Storefront
+      class Product < ::Workarea::Search::Storefront
         include Product::Pricing
         include Product::Inventory
         include Product::Categories
