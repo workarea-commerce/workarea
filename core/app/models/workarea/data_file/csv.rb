@@ -88,7 +88,7 @@ module Workarea
           ]
 
           if unnamespaced_attrs.values.any?(&:present?)
-            klass = attrs["#{name}_type"].constantize if attrs["#{name}_type"].present?
+            klass = attrs["#{name}__type"].constantize if attrs["#{name}__type"].present?
             klass ||= root.relations[name].klass
 
             if metadata.is_a?(Mongoid::Association::Embedded::EmbedsMany)
@@ -156,7 +156,10 @@ module Workarea
         return {} if embedded.blank?
 
         hash = serialize_model(embedded)
-        hash.transform_keys { |k| "#{metadata.name}_#{k}".squeeze('_') }
+        hash.transform_keys do |key|
+          with_relation = "#{metadata.name}_#{key}"
+          key == '_type' ? with_relation : with_relation.squeeze('_')
+        end
       end
     end
   end

@@ -51,6 +51,10 @@ module Workarea
         field :qoo, type: String
       end
 
+      class Qux < Bar
+        field :type, type: String
+      end
+
       def test_merging_rows_for_embedded
         model = Foo.create!(
           bars: [{ name: '1' }, { name: '2' }],
@@ -429,7 +433,7 @@ module Workarea
         assert_equal(2, results.size)
         results.each { |r| assert_equal(model.id.to_s, r['_id']) }
         assert_equal('1', results.first['bars_name'])
-        assert_equal(Qoo.name, results.second['bars_type'])
+        assert_equal(Qoo.name, results.second['bars__type'])
         assert_equal('2', results.second['bars_qoo'])
 
         import = create_import(
@@ -463,6 +467,36 @@ module Workarea
         assert_changes -> { model.reload.updated_at.to_date } do
           Csv.new(import).import!
         end
+      end
+
+      def test_fields_called_type
+        model = Foo.create!(bars: [{ _type: Qux.name, type: '1' }, { name: '2' }])
+
+        csv = Csv.new.serialize(model)
+        results = CSV.parse(csv, headers: :first_row).map(&:to_h)
+
+        assert_equal(2, results.size)
+        results.each { |r| assert_equal(model.id.to_s, r['_id']) }
+        assert_equal('1', results.first['bars_type'])
+        assert_equal(Qux.name, results.first['bars__type'])
+        assert_nil(results.second['bars_type'])
+        assert_equal('2', results.second['bars_name'])
+        assert_equal(Bar.name, results.second['bars__type'])
+
+        import = create_import(
+          model_type: Foo.name,
+          file: create_tempfile(csv, extension: 'csv'),
+          file_type: 'csv'
+        )
+
+        csv = Csv.new(import).import!
+        model.reload
+
+        assert_equal(2, model.bars.size)
+        assert_equal(Qux, model.bars.first.class)
+        assert_equal('1', model.bars.first.type)
+        assert_equal(Bar, model.bars.second.class)
+        assert_equal('2', model.bars.second.name)
       end
     end
   end
