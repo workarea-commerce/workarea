@@ -52,6 +52,21 @@ module Workarea
         refute(page.has_content?('Scheduled Release'))
         refute(page.has_content?('Unscheduled Release'))
         assert(page.has_content?('Published Release'))
+
+        click_link t('workarea.admin.facets.applied.clear_all')
+        assert(page.has_content?('Scheduled Release'))
+        assert(page.has_content?('Unscheduled Release'))
+        assert(page.has_content?('Published Release'))
+
+        within '.browsing-controls__filter--date' do
+          find('.browsing-controls__filter-button').click
+          fill_in 'published_at_greater_than', with: 2.weeks.ago.to_s(:date_only)
+          click_button 'filter_by_creation_date'
+        end
+
+        refute(page.has_content?('Scheduled Release'))
+        refute(page.has_content?('Unscheduled Release'))
+        assert(page.has_content?('Published Release'))
       end
 
       def test_saving_changes_for_a_release

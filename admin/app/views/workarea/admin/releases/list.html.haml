@@ -22,7 +22,26 @@
             = text_field_tag :q, params[:q], class: 'search-form__input', id: 'search_releases', title: t('workarea.admin.search.keywords'), placeholder: t('workarea.admin.search.keywords')
             = submit_tag 'search_releases', class: 'search-form__button'
 
-        = render 'workarea/admin/shared/creation_date', search: @search, form_path: releases_path
+        .browsing-controls__filter.browsing-controls__filter--date
+          %button.browsing-controls__filter-button{ type: 'button', data: { filter_dropdown: "#filters-dropdown-date" } }
+            = t('workarea.admin.fields.published_at')
+            = inline_svg_tag('workarea/admin/icons/calendar.svg', class: 'browsing-controls__filter-button-icon svg-icon svg-icon--small')
+
+          #filters-dropdown-date.browsing-controls__filter-dropdown
+            .grid
+              .grid__cell.grid__cell--50
+                .property.property--inline
+                  = label_tag 'published_at_greater_than', t('workarea.admin.search.creation_date_filter'), class: 'property__name'
+                  = datetime_picker_tag 'published_at_greater_than', params[:published_at_greater_than], class: 'text-box', placeholder: t('workarea.admin.search.start_date'), data: { datepicker_field: { inline: true }, datepicker_field_starts_at: '' }
+              .grid__cell.grid__cell--50
+                .property.property--inline
+                  = datetime_picker_tag 'published_at_less_than', params[:published_at_less_than], class: 'text-box', placeholder: t('workarea.admin.search.end_date'), data: { datepicker_field: { inline: true }, datepicker_field_ends_at: '' }
+            .browsing-controls__filter-dropdown-submit
+              .grid.grid--auto.grid--middle.grid--center
+                .grid__cell= label_tag 'quick_range', t('workarea.admin.date_selector.or_choose')
+                .grid__cell= select_tag 'quick_range', options_for_select(date_selector_quick_range_options)
+                .grid__cell= t('workarea.admin.date_selector.and')
+                .grid__cell= submit_tag t('workarea.admin.search.submit'), name: 'filter_by_creation_date', class: 'button button--small'
 
         - if @search.facets.present?
           - @search.facets.each do |facet|
@@ -32,7 +51,7 @@
           .browsing-controls__toggle-filters
             %button.text-button{ type: 'button', data: { toggle_filters: '' } }= t('workarea.admin.search.show_filters')
 
-      = render 'workarea/admin/facets/applied', search: @search, reset_path: releases_path
+      = render 'workarea/admin/facets/applied', search: @search, reset_path: list_releases_path
 
       %p.browsing-controls__count{ data: { browsing_controls_count: @search.total } }
         = pluralize(@search.total, 'release')
