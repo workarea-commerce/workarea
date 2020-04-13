@@ -25,6 +25,10 @@ module Workarea
         render plain: session[:foo].presence || 'nil'
       end
 
+      def varies
+        render plain: request.env['workarea.cache_varies']
+      end
+
       def current_user
         nil
       end
@@ -34,6 +38,11 @@ module Workarea
       Rails.application.routes.prepend do
         post 'cache_varies_test_set_session', to: 'workarea/cache_varies_integration_test/caching#set_session'
         get 'cache_varies_test_foo', to: 'workarea/cache_varies_integration_test/caching#foo'
+
+        scope '(:locale)', constraints: Workarea::I18n.routes_constraint do
+          get 'cache_varies_test_varies', to: 'workarea/cache_varies_integration_test/caching#varies'
+          patch 'cache_varies_test_varies', to: 'workarea/cache_varies_integration_test/caching#varies'
+        end
       end
 
       Rails.application.reload_routes!
@@ -73,6 +82,28 @@ module Workarea
       get '/cache_varies_test_foo'
       assert_equal('baz', response.body)
       assert_equal('fresh', response.headers['X-Rack-Cache'])
+    end
+
+    def test_varies_includes_locale
+      set_locales(available: [:en, :es], default: :en, current: :en)
+
+      get '/cache_varies_test_varies'
+      assert_includes(response.body, 'en')
+
+      get '/cache_varies_test_varies', params: { locale: 'es' }
+      assert_includes(response.body, 'es')
+
+      get '/es/cache_varies_test_varies'
+      assert_includes(response.body, 'es')
+
+      patch '/cache_varies_test_varies'
+      assert_includes(response.body, 'en')
+
+      patch '/cache_varies_test_varies', params: { locale: 'es' }
+      assert_includes(response.body, 'es')
+
+      patch '/es/cache_varies_test_varies'
+      assert_includes(response.body, 'es')
     end
   end
 end

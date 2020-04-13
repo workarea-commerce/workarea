@@ -7,7 +7,6 @@ module Workarea
 
     protect_from_forgery
 
-    before_action :set_locale
     after_action :set_flash_header
 
     # Cache templates within the scope of a request for development
@@ -32,10 +31,6 @@ module Workarea
     end
 
     private
-
-    def set_locale
-      I18n.locale = params[:locale] || I18n.default_locale
-    end
 
     def set_flash_header
       messages = flash.map { |k, v| [k, ERB::Util.h(v)] }

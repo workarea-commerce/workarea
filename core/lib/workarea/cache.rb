@@ -70,7 +70,7 @@ module Workarea
       end
 
       def to_s
-        @to_s ||= @varies.map { |v| visit.instance_exec(&v).to_s }.join(':')
+        @to_s ||= ([I18n.locale] + @varies.map { |v| visit.instance_exec(&v).to_s }).join(':')
       end
     end
   end

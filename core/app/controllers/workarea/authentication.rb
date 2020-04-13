@@ -89,6 +89,12 @@ module Workarea
       else
         uri = URI.parse(params[:return_to])
 
+        if I18n.locale != I18n.default_locale
+          query_hash = Rack::Utils.parse_nested_query(uri.query)
+          query_hash['locale'] ||= I18n.locale
+          uri.query = query_hash.to_query
+        end
+
         if uri.fragment.present?
           "#{uri.request_uri}##{uri.fragment}"
         else
