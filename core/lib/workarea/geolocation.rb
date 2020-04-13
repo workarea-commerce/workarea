@@ -57,15 +57,7 @@ module Workarea
     end
 
     def names
-      @names ||= [
-        postal_code,
-        city,
-        region,
-        subdivision&.name,
-        country&.alpha2,
-        country&.alpha3,
-        country&.name
-      ].reject(&:blank?)
+      @names ||= [postal_code, city, subdivision&.name, country&.name].reject(&:blank?)
     end
 
     private
