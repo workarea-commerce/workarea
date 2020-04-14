@@ -49,11 +49,14 @@ module Workarea
 
         click_link 'add_new_block'
         click_link 'HTML'
+        fill_in 'block[data][html]', with: 'Foo Bar!'
         click_button 'create_block'
 
-        assert(page.has_content?('Success'))
-        assert(page.has_selector?('.content-block'))
+        within_frame 'content-blocks' do
+          assert(page.has_content?('Foo Bar!'))
+        end
 
+        assert(page.has_content?('Success'))
         click_link t('workarea.admin.create_catalog_categories.content.continue_to_taxonomy')
 
         click_button 'save_taxonomy'
