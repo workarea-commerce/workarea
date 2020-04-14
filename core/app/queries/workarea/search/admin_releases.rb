@@ -20,6 +20,13 @@ module Workarea
         super + [TermsFacet.new(self, 'publishing')]
       end
 
+      def filters
+        super + [
+          DateFilter.new(self, 'published_at', :gte),
+          DateFilter.new(self, 'published_at', :lte)
+        ]
+      end
+
       def sort
         Array.wrap(super).tap do |sort|
           current_sort =
