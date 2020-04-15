@@ -67,6 +67,26 @@ module Workarea
         assert_equal({ 'id' => '1' }, results.first['_source'])
       end
 
+      def test_bulk_with_block
+        set_locales(available: [:en, :es], default: :en, current: :en)
+        Foo.bulk { { id: I18n.locale.to_s, bulk_action: 'index' } }
+
+        find_results = -> do
+          Foo
+            .current_index
+            .search({ query: { match_all: {} } }, type: 'foo')
+            .dig('hits', 'hits')
+        end
+
+        I18n.locale = :en
+        assert(1, Foo.count)
+        assert_equal({ 'id' => 'en' }, find_results.call.first['_source'])
+
+        I18n.locale = :es
+        assert(1, Foo.count)
+        assert_equal({ 'id' => 'es' }, find_results.call.first['_source'])
+      end
+
       def test_update
         Foo.save(id: '1')
         Foo.update(id: '1', foo: 'bar')

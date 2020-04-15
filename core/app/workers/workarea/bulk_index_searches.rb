@@ -18,11 +18,11 @@ module Workarea
       end
 
       def perform_by_models(searches)
-        documents = searches.map do |model|
-          Search::Storefront::Search.new(model).as_bulk_document
+        Search::Storefront.bulk do
+          searches.map do |model|
+            Search::Storefront::Search.new(model).as_bulk_document
+          end
         end
-
-        Search::Storefront.bulk(documents)
       end
     end
 
