@@ -1,3 +1,42 @@
+Workarea 3.4.31 (2020-04-15)
+--------------------------------------------------------------------------------
+
+*   Fix harded JS path for admin jump to dropdown
+
+    This prevents locale from being included in the path to load results.
+    Ben Crouse
+
+*   Fix index serialization not happening per-locale
+
+    Previously, indexing was using the same document per-locale. This was
+    masked by Mongoid loading data from the cached document to look correct
+    in most browse scenarios. This fixes it to serialize per-locale so each
+    locale has a separate representation of the document.
+    Ben Crouse
+
+*   Fix Mongoid not returning defaults for localized fields
+
+    If a locale is missing from the translations hash, Mongoid returns nil
+    instead of the default specified on the field. That causes all kinds of
+    errors.
+    Ben Crouse
+
+*   Add missing append points to option-based product templates
+
+    This append point was only in the generic template, but is useful for
+    plugins.
+    Ben Crouse
+
+*   Fix dev env autoloading problem with Categorization
+
+    Ben Crouse
+
+*   Don't allow more than one valid password reset token per-user
+
+    Ben Crouse
+
+
+
 Workarea 3.4.30 (2020-03-31)
 --------------------------------------------------------------------------------
 
