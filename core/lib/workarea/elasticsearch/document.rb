@@ -44,22 +44,27 @@ module Workarea
 
         def save(document, options = {})
           options = options.merge(type: type)
-          I18n.for_each_locale { current_index.save(document, options) }
+          current_index.save(document, options)
         end
 
-        def bulk(documents, options = {})
+        def bulk(documents = [], options = {})
           options = options.merge(type: type)
-          I18n.for_each_locale { current_index.bulk(documents, options) }
+
+          if block_given?
+            I18n.for_each_locale { current_index.bulk(Array.wrap(yield), options) }
+          else
+            current_index.bulk(documents, options)
+          end
         end
 
         def update(document, options = {})
           options = options.merge(type: type)
-          I18n.for_each_locale { current_index.update(document, options) }
+          current_index.update(document, options)
         end
 
         def delete(id, options = {})
           options = options.merge(type: type)
-          I18n.for_each_locale { current_index.delete(id, options) }
+          current_index.delete(id, options)
         end
 
         def count(query = nil, options = {})
@@ -97,12 +102,14 @@ module Workarea
       end
 
       def save(options = {})
-        document = as_document.merge(Serializer.serialize(model))
-        self.class.save(document, options)
+        I18n.for_each_locale do
+          document = as_document.merge(Serializer.serialize(model))
+          self.class.save(document, options)
+        end
       end
 
       def destroy(options = {})
-        self.class.delete(id, options)
+        I18n.for_each_locale { self.class.delete(id, options) }
       end
     end
   end

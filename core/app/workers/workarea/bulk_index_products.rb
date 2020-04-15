@@ -14,9 +14,10 @@ module Workarea
       def perform_by_models(products)
         return if products.blank?
 
-        documents = Search::ProductEntries.new(products).map(&:as_bulk_document)
+        Search::Storefront.bulk do
+          Search::ProductEntries.new(products).map(&:as_bulk_document)
+        end
 
-        Search::Storefront.bulk(documents)
         products.each { |p| p.set(last_indexed_at: Time.current) }
       end
     end
