@@ -19,8 +19,18 @@ module Workarea
 
     def perform(id)
       user = User.find(id)
-      metrics = Metrics::User.find_or_create_by(id: user.email)
-      metrics.set(admin: user.admin?, tags: user.tags)
+
+      Metrics::User.collection.update_one(
+        { _id: user.email },
+        {
+          '$set' => {
+            admin: user.admin?,
+            tags: user.tags,
+            updated_at: Time.current.utc
+          }
+        },
+        upsert: true
+      )
     end
   end
 end
