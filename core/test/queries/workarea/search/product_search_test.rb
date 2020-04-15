@@ -425,6 +425,19 @@ module Workarea
           assert_equal([product], ProductSearch.new(q: '*').results.pluck(:model))
         end
       end
+
+      def test_locale
+        set_locales(available: [:en, :es], default: :en, current: :en)
+        Search::Storefront.reset_indexes!
+
+        product = create_product(active_translations: { 'en' => true, 'es' => false })
+
+        I18n.locale = :es
+        assert_equal([], ProductSearch.new(q: '*').results.pluck(:model))
+
+        I18n.locale = :en
+        assert_equal([product], ProductSearch.new(q: '*').results.pluck(:model))
+      end
     end
   end
 end

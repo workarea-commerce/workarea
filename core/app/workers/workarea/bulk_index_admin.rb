@@ -13,7 +13,7 @@ module Workarea
 
       def perform_by_models(models)
         return if models.empty?
-        Workarea::Search::Admin.bulk(documents_for(models))
+        Workarea::Search::Admin.bulk { documents_for(models) }
       end
 
       private
