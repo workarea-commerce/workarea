@@ -5,7 +5,7 @@ WORKAREA.registerModule('categorizedAutocompleteFields', (function () {
     'use strict';
 
     var getSource = function (request, response) {
-            $.getJSON('/admin/jump_to', { q: request.term }, function (data) {
+            $.getJSON(WORKAREA.routes.admin.jumpToPath(), { q: request.term }, function (data) {
                 response(data.results);
             });
         },
