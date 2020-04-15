@@ -15,8 +15,9 @@ module Workarea
         return if products.blank?
         products = Array.wrap(products)
 
-        documents = Search::ProductEntries.new(products).map(&:as_bulk_document)
-        Search::Storefront.bulk(documents)
+        Search::Storefront.bulk do
+          Search::ProductEntries.new(products).map(&:as_bulk_document)
+        end
 
         Catalog::Product.in(id: products.map(&:id)).set(last_indexed_at: Time.current)
       end
