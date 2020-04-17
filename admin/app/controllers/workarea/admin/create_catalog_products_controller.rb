@@ -74,8 +74,14 @@ module Workarea
       end
 
       def save_details
-        HashUpdate.new(updates: params[:filters]).apply(@product.filters)
-        HashUpdate.new(updates: params[:details]).apply(@product.details)
+        @product.filters = HashUpdate
+          .new(original: @product.filters, updates: params[:filters])
+          .result
+
+        @product.details = HashUpdate
+          .new(original: @product.details, updates: params[:details])
+          .result
+
         @product.save!
 
         flash[:success] = t('workarea.admin.create_catalog_products.flash_messages.saved')
