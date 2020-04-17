@@ -198,7 +198,7 @@ Layout/SpaceInsideParens:
     - 'core/spec/models/workarea/order/queries_spec.rb'
 
 # Detect hard tabs, no hard tabs.
-Layout/Tab:
+Layout/IndentationStyle:
   Enabled: true
   Exclude:
     - 'core/vendor/active_shipping/lib/active_shipping/carriers/canada_post.rb'
