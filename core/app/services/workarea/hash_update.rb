@@ -19,7 +19,10 @@ module Workarea
     # TODO v3.6 remove this method, doesn't work when the field is localized
     # @deprecated
     def apply(hash)
-      Workarea.deprecation.deprecate_methods(self.class, apply: :result)
+      warn <<~eos
+        [DEPRECATION] `HashUpdate#apply` is deprecated and will be removed in
+        version 3.6.0. Please use `HashUpdate#result` instead.
+      eos
       apply_to(hash)
     end
 
