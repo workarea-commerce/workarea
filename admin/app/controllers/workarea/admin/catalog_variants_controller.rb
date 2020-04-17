@@ -83,11 +83,12 @@ module Workarea
     end
 
     def set_details
-      HashUpdate.new(
+      @variant.details = HashUpdate.new(
+        original: @variant.details,
         adds: params[:new_details],
         updates: params[:details],
         removes: params[:details_to_remove]
-      ).apply(@variant.details)
+      ).result
     end
   end
 end
