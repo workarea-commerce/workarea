@@ -129,10 +129,11 @@ module Workarea
         delegate :t, to: :I18n
       end
 
-      def set_locales(available:, default:, current: nil)
+      def set_locales(available:, default:, current: nil, fallbacks: nil)
         Rails.application.config.i18n.available_locales = I18n.available_locales = available
         Rails.application.config.i18n.default_locale = I18n.default_locale = default
         I18n.locale = current || default
+        I18n.fallbacks = fallbacks if I18n.respond_to?(:fallbacks=)
       end
 
       def save_locales
@@ -142,6 +143,7 @@ module Workarea
         @current_i18n_available_locales = I18n.available_locales
         @current_i18n_default_locale = I18n.default_locale
         @current_i18n_locale = I18n.default_locale
+        @current_i18n_fallbacks = I18n.try(:fallbacks)
       end
 
       def restore_locales
@@ -151,6 +153,7 @@ module Workarea
         I18n.available_locales = @current_i18n_available_locales
         I18n.default_locale = @current_i18n_default_locale
         I18n.locale = @current_i18n_locale
+        I18n.fallbacks = @current_i18n_fallbacks if I18n.respond_to?(:fallbacks=)
       end
     end
 
