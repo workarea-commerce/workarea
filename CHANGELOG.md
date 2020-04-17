@@ -1,3 +1,104 @@
+Workarea 3.5.9 (2020-04-15)
+--------------------------------------------------------------------------------
+
+*   Fix harded JS path for admin jump to dropdown
+
+    This prevents locale from being included in the path to load results.
+    Ben Crouse
+
+*   Fix index serialization not happening per-locale
+
+    Previously, indexing was using the same document per-locale. This was
+    masked by Mongoid loading data from the cached document to look correct
+    in most browse scenarios. This fixes it to serialize per-locale so each
+    locale has a separate representation of the document.
+    Ben Crouse
+
+*   Fix Mongoid not returning defaults for localized fields
+
+    If a locale is missing from the translations hash, Mongoid returns nil
+    instead of the default specified on the field. That causes all kinds of
+    errors.
+    Ben Crouse
+
+*   Fix duplicate key errors in metrics synchronization
+
+    It's important this be kept in sync as real-time as possible, so we need
+    to avoid the Sidekiq retry delay where possible.
+    Ben Crouse
+
+*   Fix index serialization not happening per-locale
+
+    Previously, indexing was using the same document per-locale. This was
+    masked by Mongoid loading data from the cached document to look correct
+    in most browse scenarios. This fixes it to serialize per-locale so each
+    locale has a separate representation of the document.
+    Ben Crouse
+
+*   Fix Mongoid not returning defaults for localized fields
+
+    If a locale is missing from the translations hash, Mongoid returns nil
+    instead of the default specified on the field. That causes all kinds of
+    errors.
+    Ben Crouse
+
+*   Tighten up segment geolocation matching rule
+
+    This was playing a little fast and loose with matching, causing CA to
+    match for California and Canada, IL to match for Illinois and Israel,
+    etc.
+
+    Matching only based on IDs chosen from the UI fixes these problems.
+    Ben Crouse
+
+*   Don't include locale in hidden fields for switching locales
+
+    This can result in duplicate and conflicting locale params in the query
+    string, which can cause the incorrect locale to be selected.
+    Ben Crouse
+
+*   Fix locale not passed through in return redirect when not in URL
+
+    If a return_to parameter is generated without the locale, and a request
+    includes a parameter to switch locale, the locale is dropped causing the
+    request to revert to the default locale.
+
+    The original observed bug is switching locale in content editing and
+    seeing the request to save always redirect to the default locale.
+    Ben Crouse
+
+*   Fix locales not in cache varies
+
+    To ensure all cache varies correctly by locales, it's important that
+    locale be part of the Rack env's `workarea.cache_varies`. To do this, we
+    need to move setting the locale into middleware (where the varies is
+    set).
+    Ben Crouse
+
+*   Add missing append points to option-based product templates
+
+    This append point was only in the generic template, but is useful for
+    plugins.
+    Ben Crouse
+
+*   Fix dev env autoloading problem with Categorization
+
+    Ben Crouse
+
+*   Fix product search entries flattening
+
+    When entries are overridden to return multiple results _and_ there are
+    release changes for the product, the results weren't being flattened.
+
+    Fixes #405
+    Ben Crouse
+
+*   Don't allow more than one valid password reset token per-user
+
+    Ben Crouse
+
+
+
 Workarea 3.5.8 (2020-03-31)
 --------------------------------------------------------------------------------
 

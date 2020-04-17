@@ -36,15 +36,15 @@ module Workarea
       end
 
       def apply_details!(product)
-        HashUpdate
-          .new(adds: add_details, removes: remove_details)
-          .apply(product.details)
+        product.details = HashUpdate
+          .new(original: product.details, adds: add_details, removes: remove_details)
+          .result
       end
 
       def apply_filters!(product)
-        HashUpdate
-          .new(adds: add_filters, removes: remove_filters)
-          .apply(product.filters)
+        product.filters = HashUpdate
+          .new(original: product.filters, adds: add_filters, removes: remove_filters)
+          .result
       end
 
       def apply_pricing!(product)

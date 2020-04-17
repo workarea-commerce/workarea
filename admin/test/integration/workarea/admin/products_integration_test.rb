@@ -16,6 +16,19 @@ module Workarea
         assert(product.active)
       end
 
+      def test_updating_hash_fields_in_locales
+        set_locales(available: [:en, :es], default: :en, current: :en)
+        product = create_product(filters_translations: { 'en' => { 'Size' => ['Large'] } })
+
+        patch admin.catalog_product_path(product, locale: 'es'),
+          params: { new_filters: %w(Color Roja) }
+
+        assert_equal(
+          { 'en' => { 'Size' => ['Large'] }, 'es' => { 'Color' => ['Roja'] } },
+          product.reload.filters_translations
+        )
+      end
+
       def test_returns_a_list_of_filters
         create_product(filters:  { 'Color' => 'Blue' })
 
