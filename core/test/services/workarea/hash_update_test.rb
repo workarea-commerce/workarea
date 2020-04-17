@@ -2,23 +2,23 @@ require 'test_helper'
 
 module Workarea
   class HashUpdateTest < TestCase
-    def test_apply
-      hash = { 'foo' => 'bar' }
+    def test_result
+      original = { 'foo' => 'bar' }
 
-      HashUpdate.new(adds: %w(key value)).apply(hash)
-      assert_equal(%w(value), hash['key'])
+      result = HashUpdate.new(original: original, adds: %w(key value)).result
+      assert_equal(%w(value), result['key'])
 
-      HashUpdate.new(updates: %w(foo baz)).apply(hash)
-      assert_equal(%w(baz), hash['foo'])
+      result = HashUpdate.new(original: original, updates: %w(foo baz)).result
+      assert_equal(%w(baz), result['foo'])
 
-      HashUpdate.new(removes: %w(foo)).apply(hash)
-      refute_includes(hash.keys, 'foo')
+      result = HashUpdate.new(original: original, removes: %w(foo)).result
+      refute_includes(result.keys, 'foo')
 
-      HashUpdate.new(adds: ['key', 'one, two ']).apply(hash)
-      assert_equal(%w(one two), hash['key'])
+      result = HashUpdate.new(original: original, adds: ['key', 'one, two ']).result
+      assert_equal(%w(one two), result['key'])
 
-      HashUpdate.new(updates: ['key', 'one,  two, three ']).apply(hash)
-      assert_equal(%w(one two three), hash['key'])
+      result = HashUpdate.new(original: original, updates: ['key', 'one,  two, three ']).result
+      assert_equal(%w(one two three), result['key'])
     end
   end
 end

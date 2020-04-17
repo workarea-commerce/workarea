@@ -64,19 +64,21 @@ module Workarea
       end
 
       def set_details
-        HashUpdate.new(
+        @product.details = HashUpdate.new(
+          original: @product.details,
           adds: params[:new_details],
           updates: params[:details],
           removes: params[:details_to_remove]
-        ).apply(@product.details)
+        ).result
       end
 
       def set_filters
-        HashUpdate.new(
+        @product.filters = HashUpdate.new(
+          original: @product.filters,
           adds: params[:new_filters],
           updates: params[:filters],
           removes: params[:filters_to_remove]
-        ).apply(@product.filters)
+        ).result
       end
 
       def set_images
