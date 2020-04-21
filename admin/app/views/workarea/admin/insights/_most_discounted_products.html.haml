@@ -18,15 +18,15 @@
                 = result.product_id
               - else
                 = link_to result.product.name, catalog_product_path(result.product)
-          .insight__product-info
+          .insight__product-info.align-center
             %strong= insights_number_to_percentage(result.average_discount)
             = t('workarea.admin.insights.most_discounted_products.average_discount')
-          .insight__product-info
+          .insight__product-info.align-center
             %strong= insights_number_to_percentage(result.discount_rate)
             = t('workarea.admin.insights.most_discounted_products.discount_rate')
-          .insight__product-info
+          .insight__product-info.align-center
             %strong= number_with_delimiter(result.units_sold)
             = t('workarea.admin.insights.most_discounted_products.units_sold')
-          .insight__product-info
+          .insight__product-info.align-center
             %strong= insights_number_to_percentage(result.conversion_rate)
             = t('workarea.admin.insights.most_discounted_products.conversion_rate')
