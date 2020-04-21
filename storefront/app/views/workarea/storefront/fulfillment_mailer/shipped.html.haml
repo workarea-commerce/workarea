@@ -1,7 +1,7 @@
 = append_partials('storefront.fulfillment_shipped_mailer.top')
 
 - content_for :preheader_text do
-  = t('workarea.storefront.email.order_cancellation.heading', order_id: @order.id)
+  = t('workarea.storefront.email.order_shipped.heading', order_id: @order.id)
 
 %tr
   %td
