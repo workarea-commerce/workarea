@@ -3,7 +3,7 @@
 = render_schema_org(fulfillment_email_schema(@order, @package))
 
 - content_for :preheader_text do
-  = t('workarea.storefront.email.order_cancellation.heading', order_id: @order.id)
+  = t('workarea.storefront.email.order_shipped.heading', order_id: @order.id)
 
 %tr
   %td
