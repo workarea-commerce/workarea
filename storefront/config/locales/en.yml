@@ -207,7 +207,8 @@ en:
         password_required: Password is required.
         items_required: You must add an item to your cart to checkout
         order_custom_pricing: Your cart has custom pricing, you cannot edit the contents of your cart.
-        no_available_shipping_options: There are no available shipping options for your shipping adddress.
+        no_available_shipping_options: There are no available shipping options for your shipping address.
+        download_unavailable: This download is no longer available. Contact customer support for more information.
 
       forms:
         required: '*'
