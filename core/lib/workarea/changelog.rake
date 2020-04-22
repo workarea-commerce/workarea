@@ -67,7 +67,7 @@ namespace :workarea do
           message << "    #{line.strip}"
         end
       end
-      message << "    #{entry[:author]}\n"
+      message << "\n    #{entry[:author]}\n"
     end
 
     # ensure and append to changelog
