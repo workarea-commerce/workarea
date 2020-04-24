@@ -4,7 +4,7 @@ module Workarea
       attr_reader :params
 
       def initialize(params)
-        @params = params
+        @params = params.with_indifferent_access.except(:per_page)
         @used_middleware = []
       end
 
