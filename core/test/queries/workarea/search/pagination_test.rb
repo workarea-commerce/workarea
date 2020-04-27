@@ -19,6 +19,15 @@ module Workarea
         assert_equal(1, Paginate.new(page: 'asdf').page)
       end
 
+      def test_per_page
+        assert_equal(Workarea.config.per_page, Paginate.new.per_page)
+        assert_equal(2, Paginate.new(per_page: 2).per_page)
+        assert_equal(Workarea.config.per_page, Paginate.new(per_page: -1).per_page)
+        assert_equal(Workarea.config.per_page, Paginate.new(per_page: 0).per_page)
+        assert_equal(3, Paginate.new(per_page: '3').per_page)
+        assert_equal(Workarea.config.per_page, Paginate.new(per_page: 'asdf').per_page)
+      end
+
       def test_from
         Workarea.with_config do |config|
           config.per_page = 30

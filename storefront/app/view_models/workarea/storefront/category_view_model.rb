@@ -27,7 +27,7 @@ module Workarea
 
       def search_query
         @search_query ||= Search::CategoryBrowse.new(
-          options.merge(
+          options.except(:per_page).merge(
             category_ids: [model.id],
             rules: model.product_rules,
             terms_facets: terms_facets - %w(category),
