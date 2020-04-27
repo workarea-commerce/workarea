@@ -16,6 +16,16 @@ module Workarea
         get storefront.category_path(create_category(active: false))
         assert(response.ok?)
       end
+
+      def test_not_accepting_per_page_param
+        products = [create_product, create_product]
+        category = create_category(product_ids: products.map(&:id))
+
+        get storefront.category_path(category, page: 1, per_page: 1)
+        assert(response.ok?)
+        assert_includes(response.body, storefront.product_path(products.first))
+        assert_includes(response.body, storefront.product_path(products.second))
+      end
     end
   end
 end

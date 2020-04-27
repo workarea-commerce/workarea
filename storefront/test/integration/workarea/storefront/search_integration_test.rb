@@ -87,6 +87,16 @@ module Workarea
         assert_includes(response.body, 'Foo A')
         assert_includes(response.body, 'Foo B')
       end
+
+      def test_not_accepting_per_page_param
+        one = create_product(name: 'Foo A')
+        two = create_product(name: 'Foo B')
+
+        get storefront.search_path(q: 'foo', page: 1, per_page: 1)
+        assert(response.ok?)
+        assert_includes(response.body, storefront.product_path(one))
+        assert_includes(response.body, storefront.product_path(two))
+      end
     end
   end
 end
