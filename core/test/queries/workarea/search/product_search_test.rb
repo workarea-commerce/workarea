@@ -427,6 +427,9 @@ module Workarea
       end
 
       def test_locale
+        # No simple way to run this test without fallbacks or localized fields
+        return unless Workarea.config.localized_active_fields
+
         set_locales(available: [:en, :es], default: :en, current: :en)
         Search::Storefront.reset_indexes!
 

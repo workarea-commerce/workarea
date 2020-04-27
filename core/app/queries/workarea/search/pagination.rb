@@ -7,7 +7,10 @@ module Workarea
       end
 
       def per_page
-        params[:per_page].presence || Workarea.config.per_page
+        return Workarea.config.per_page if params[:per_page].blank?
+
+        tmp = params[:per_page].to_i
+        tmp > 0 ? tmp : Workarea.config.per_page
       end
 
       def size

@@ -210,7 +210,7 @@ en:
         credit_card_update_error: There were errors updating your credit card.
         credit_card_removed: Your credit card has been removed.
         password_reset_expired: This password reset is expired.
-        password_reset_email_sent: If a valid e-mail address was entered, instructions to reset your password have been sent to "%{email}"
+        password_reset_email_sent: If a valid email address was entered, instructions to reset your password have been sent to "%{email}"
         password_reset: Your password has been reset.
         old_password_invalid: Your old password is not valid.
         password_required: Password is required.
