@@ -8,15 +8,6 @@ Workarea 3.5.10 (2020-04-28)
 
     Ben Crouse
 
-*   Stub S3 CORS for all integration tests
-
-    It's annoying and unnecessary to have to stub this for every test that
-    uses an asset picker.
-
-    WORKAREA-209
-
-    Ben Crouse
-
 *   Skip localized activeness test when localized active fields are off
 
     Fixes #421
@@ -72,29 +63,6 @@ Workarea 3.5.10 (2020-04-28)
     We want to let the implementation make that decision.
 
     Ben Crouse
-
-*   Change HashUpdate to use the setter instead of mutation
-
-    Simply mutating the value doesn't work when the field is localized.
-    Mongoid's localization behavior only kicks in when you use the setter.
-
-    Ben Crouse
-
-*   Allow setting locale fallbacks for a test
-
-    This is useful if you want to test fallback behavior. Tests in base
-    should be agnostic to whether fallbacks are available or not.
-
-    Ben Crouse
-
-*   Fix locale fallback getting unexpectedly autloaded
-
-    This can happen in the middle of a test suite, causing apparently random
-    test failure. This freedom patch prevents fallbacks from autoloading.
-    We want to let the implementation make that decision.
-
-    Ben Crouse
-
 
 
 Workarea 3.5.9 (2020-04-15)
