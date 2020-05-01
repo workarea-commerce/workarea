@@ -106,7 +106,11 @@ module Workarea
         {
           event: 'checkoutShippingServiceSelected',
           domEvent: 'change',
-          payload: { name: option.name, price: option.price.to_f }
+          payload: {
+            name: option.name,
+            price: option.price.to_f,
+            currency: option.price.currency.id.upcase
+          }
         }
       end
 
@@ -173,6 +177,7 @@ module Workarea
           shipping_total: order.shipping_total.to_f,
           tax_total: order.tax_total.to_f,
           total_price: order.total_price.to_f,
+          currency: order.total_price.currency.id.upcase,
           tenders: order.respond_to?(:tenders) ? order.tenders.map(&:slug) : [],
           items: order.items.map { |i| order_item_analytics_data(i) }
         }
@@ -186,6 +191,7 @@ module Workarea
           sku: item.sku,
           options: item.details,
           price: item.current_unit_price.to_f,
+          currency: item.current_unit_price.currency.id.upcase,
           quantity: item.quantity,
           category: item.default_category_name
         }
@@ -197,7 +203,8 @@ module Workarea
           name: product.name,
           sku: product.current_sku,
           sale: product.on_sale?,
-          price: product.sell_min_price.to_f,
+          price: product.sell_min_price&.to_f,
+          currency: product.sell_min_price&.currency&.id&.upcase,
           category: product.default_category.try(:name)
         }
       end
