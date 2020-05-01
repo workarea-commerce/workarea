@@ -176,6 +176,7 @@ module Workarea
           shipping_service: order.shipping_service,
           shipping_total: order.shipping_total.to_f,
           tax_total: order.tax_total.to_f,
+          discount_total: order.discount_total.to_f,
           total_price: order.total_price.to_f,
           currency: order.total_price.currency.id.upcase,
           tenders: order.respond_to?(:tenders) ? order.tenders.map(&:slug) : [],
