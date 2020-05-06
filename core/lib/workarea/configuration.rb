@@ -1305,6 +1305,11 @@ module Workarea
 
       # The number of results that will show per-type in the admin jump to
       config.jump_to_results_per_type = 5
+
+      # This is a feature flag, which enables localized option fields on the
+      # `Catalog::ProductImage` model. If you're upgrading, you can set this to
+      # false to avoid having to do a migration.
+      config.localized_image_options = true
     end
   end
 end

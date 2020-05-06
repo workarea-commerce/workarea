@@ -30,3 +30,20 @@ Similar to a Workarea upgrade in general, here are additional steps to take to u
 2. Run `rails app:update`, this is the script Rails provides to make updates to your app.
 3. Check `config/initializers/new_framework_defaults_6_0.rb` and comment/uncomment as needed
 4. Get tests passing
+
+
+## Localized Image Option Fields
+
+### What's Changing?
+
+To enable matching images based on localized variant details, the `option` field on the `Catalog::ProductImage` needs to be localized. Because this data is serialized into Elasticsearch, a simple Mongo migration doesn't suffice to update the way the data is stored.
+
+### What Do You Need to Do?
+
+The default value for `Workarea.config.localized_image_options` will be `true`. If you're upgrading and don't want to migrate your Mongo data and reindex Elasticsearch (unlikely), you'll want to set this to `false` in an initializer to preserve the former behavior.
+
+```
+Workarea.configure do |config|
+  config.localized_image_options = false
+end
+```

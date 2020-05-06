@@ -65,7 +65,7 @@ module Workarea
 
         Configuration::Mongoid.load unless Mongoid::Config.configured?
         Configuration::Dragonfly.load
-        Configuration::LocalizedActiveFields.load
+        Configuration::LocalizedFields.load
         Configuration::ContentBlocks.load
 
         Workarea::ScheduledJobs.clean

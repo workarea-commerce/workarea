@@ -4,7 +4,7 @@ module Workarea
       include ApplicationDocument
       extend Dragonfly::Model
 
-      field :option, type: String
+      field :option, type: String, localize: Workarea.config.localized_image_options
       field :position, type: Integer
       field :image_name, type: String
       field :image_uid, type: String
