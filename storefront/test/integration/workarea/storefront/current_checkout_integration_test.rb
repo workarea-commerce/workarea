@@ -13,7 +13,7 @@ module Workarea
 
         def test_login
           login(User.find(params[:user_id]))
-          self.current_order = Order.new(id: params[:order_id]) if params[:order_id].present?
+          self.current_order = Order.create!(id: params[:order_id]) if params[:order_id].present?
           head :ok
         end
 

@@ -26,7 +26,10 @@ module Workarea
       #
       def current_order=(order)
         @current_order = order
-        cookies.permanent.signed[:order_id] = order&.id
+
+        if order.blank? || order.persisted?
+          cookies.permanent.signed[:order_id] = order&.id
+        end
       end
 
       # Removes the current order from the session.

@@ -123,6 +123,26 @@ module Workarea
 
         assert_redirected_to(storefront.login_path)
       end
+
+      def test_no_extra_order_id_cookies
+        user = create_user(password: 'Passw0rd!')
+        post storefront.login_path,
+          params: { email: user.email, password: 'Passw0rd!' }
+
+        follow_redirect!
+        assert(cookies[:order_id].blank?)
+
+        delete storefront.logout_path
+
+        follow_redirect!
+        assert(cookies[:order_id].blank?)
+
+        post storefront.login_path,
+          params: { email: user.email, password: 'Passw0rd!' }
+
+        follow_redirect!
+        assert(cookies[:order_id].blank?)
+      end
     end
   end
 end
