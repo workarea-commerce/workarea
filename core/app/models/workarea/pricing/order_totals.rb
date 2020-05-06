@@ -11,6 +11,7 @@ module Workarea
         set_subtotal
         set_shipping_totals
         set_tax_totals
+        set_discount_total
         set_total
         set_total_value
       end
@@ -42,6 +43,10 @@ module Workarea
 
       def set_tax_totals
         @order.tax_total = price_adjustments.adjusting('tax').sum
+      end
+
+      def set_discount_total
+        @order.discount_total = price_adjustments.discounts.sum
       end
 
       def set_total

@@ -100,6 +100,7 @@ module Workarea
         assert_equal('Test Product 1', payload['name'])
         assert_equal(false, payload['sale'])
         assert_equal(10, payload['price'])
+        assert_equal(current_currency, payload['currency'])
         assert_equal('Test Category', payload['category'])
         assert_page_view
 
@@ -127,6 +128,7 @@ module Workarea
         assert_equal('Test Product 2', first_impression['name'])
         assert_equal(false, first_impression['sale'])
         assert_equal(12, first_impression['price'])
+        assert_equal(current_currency, first_impression['currency'])
         assert_equal('Test Category', first_impression['category'])
         assert_equal(0, first_impression['position'])
 
@@ -135,6 +137,7 @@ module Workarea
         assert_equal('Test Product 1', second_impression['name'])
         assert_equal(false, second_impression['sale'])
         assert_equal(10, second_impression['price'])
+        assert_equal(current_currency, second_impression['currency'])
         assert_equal('Test Category', second_impression['category'])
         assert_equal(1, second_impression['position'])
 
@@ -157,6 +160,7 @@ module Workarea
         assert_equal('Test Product 2', payload['name'])
         assert_equal(false, payload['sale'])
         assert_equal(12, payload['price'])
+        assert_equal(current_currency, payload['currency'])
         assert_equal('Test Category', payload['category'])
         assert_equal('Test Category', payload['list'])
         assert_equal(0, payload['position'])
@@ -177,6 +181,7 @@ module Workarea
         assert_equal('Test Product 2', payload['name'])
         assert_equal(false, payload['sale'])
         assert_equal(12, payload['price'])
+        assert_equal(current_currency, payload['currency'])
         assert_equal('Test Category', payload['category'])
         assert_equal('3', payload['quantity'])
         assert_page_view
@@ -204,6 +209,7 @@ module Workarea
         assert_equal('SKU1', payload['sku'])
         assert_equal({}, payload['options'])
         assert_equal(10, payload['price'])
+        assert_equal(current_currency, payload['currency'])
         assert_equal(3, payload['quantity'])
         assert_equal('Test Category', payload['category'])
         assert_equal(3, payload['from'])
@@ -230,6 +236,7 @@ module Workarea
         assert_equal('SKU2', payload['sku'])
         assert_equal({}, payload['options'])
         assert_equal(12, payload['price'])
+        assert_equal(current_currency, payload['currency'])
         assert_equal(1, payload['quantity'])
         assert_equal('Test Category', payload['category'])
         assert_page_view
@@ -249,6 +256,7 @@ module Workarea
         assert_equal('SKU1', payload['sku'])
         assert_equal({}, payload['options'])
         assert_equal(10, payload['price'])
+        assert_equal(current_currency, payload['currency'])
         assert_equal(1, payload['quantity'])
         assert_equal('Test Category', payload['category'])
         assert_page_view
@@ -276,6 +284,7 @@ module Workarea
         assert_equal(0, payload['shipping_total'])
         assert_equal(0, payload['tax_total'])
         assert_equal(56, payload['total_price'])
+        assert_equal(current_currency, payload['currency'])
         assert_equal([], payload['tenders'])
         assert_equal(2, payload['items'].count)
 
@@ -286,6 +295,7 @@ module Workarea
         assert_equal('SKU2', first_item['sku'])
         assert_equal({}, first_item['options'])
         assert_equal(12, first_item['price'])
+        assert_equal(current_currency, first_item['currency'])
         assert_equal(3, first_item['quantity'])
         assert_equal('Test Category', first_item['category'])
 
@@ -296,6 +306,7 @@ module Workarea
         assert_equal('SKU1', second_item['sku'])
         assert_equal({}, second_item['options'])
         assert_equal(10, second_item['price'])
+        assert_equal(current_currency, second_item['currency'])
         assert_equal(2, second_item['quantity'])
         assert_equal('Test Category', second_item['category'])
 
@@ -320,6 +331,7 @@ module Workarea
         assert_equal(7, payload['shipping_total'])
         assert_equal(0.84, payload['tax_total'])
         assert_equal(12.84, payload['total_price'])
+        assert_equal(current_currency, payload['currency'])
         assert_equal([], payload['tenders'])
         assert_equal(1, payload['items'].count)
 
@@ -330,6 +342,7 @@ module Workarea
         assert_equal('SKU', order_item['sku'])
         assert_equal({}, order_item['options'])
         assert_equal(5, order_item['price'])
+        assert_equal(current_currency, order_item['currency'])
         assert_equal(1, order_item['quantity'])
         assert_nil(order_item['category'])
 
@@ -354,6 +367,7 @@ module Workarea
         assert_equal(7, payload['shipping_total'])
         assert_equal(0.84, payload['tax_total'])
         assert_equal(12.84, payload['total_price'])
+        assert_equal(current_currency, payload['currency'])
         assert_equal([], payload['tenders'])
         assert_equal(1, payload['items'].count)
 
@@ -364,6 +378,7 @@ module Workarea
         assert_equal('SKU', order_item['sku'])
         assert_equal({}, order_item['options'])
         assert_equal(5, order_item['price'])
+        assert_equal(current_currency, payload['currency'])
         assert_equal(1, order_item['quantity'])
         assert_nil(order_item['category'])
 
@@ -391,6 +406,7 @@ module Workarea
 
         assert_equal('Overnight', payload['name'])
         assert_equal(20, payload['price'])
+        assert_equal(current_currency, payload['currency'])
 
         assert_page_view
       end
@@ -413,6 +429,7 @@ module Workarea
         assert_equal(7, payload['shipping_total'])
         assert_equal(0.84, payload['tax_total'])
         assert_equal(12.84, payload['total_price'])
+        assert_equal(current_currency, payload['currency'])
         assert_equal([], payload['tenders'])
         assert_equal(1, payload['items'].count)
 
@@ -423,6 +440,7 @@ module Workarea
         assert_equal('SKU', order_item['sku'])
         assert_equal({}, order_item['options'])
         assert_equal(5, order_item['price'])
+        assert_equal(current_currency, payload['currency'])
         assert_equal(1, order_item['quantity'])
         assert_nil(order_item['category'])
 
@@ -447,6 +465,7 @@ module Workarea
         assert_equal(7, payload['shipping_total'])
         assert_equal(0.84, payload['tax_total'])
         assert_equal(12.84, payload['total_price'])
+        assert_equal(current_currency, payload['currency'])
         assert_equal(['credit_card'], payload['tenders'])
         assert_equal(1, payload['items'].count)
 
@@ -457,6 +476,7 @@ module Workarea
         assert_equal('SKU', order_item['sku'])
         assert_equal({}, order_item['options'])
         assert_equal(5, order_item['price'])
+        assert_equal(current_currency, payload['currency'])
         assert_equal(1, order_item['quantity'])
         assert_nil(order_item['category'])
 
@@ -733,6 +753,10 @@ module Workarea
       def expire_analytics_session
         # Simulate session expiration where this cookie would disappear
         page.execute_script("WORKAREA.cookie.destroy('analytics_session');")
+      end
+
+      def current_currency
+        Money.default_currency.id.to_s.upcase
       end
     end
   end

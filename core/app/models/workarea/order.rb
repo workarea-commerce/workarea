@@ -18,6 +18,7 @@ module Workarea
     field :checkout_started_at, type: Time
     field :reminded_at, type: Time
     field :subtotal_price, type: Money, default: 0
+    field :discount_total, type: Money, default: 0
     field :shipping_total, type: Money, default: 0
     field :tax_total, type: Money, default: 0
     field :total_value, type: Money, default: 0

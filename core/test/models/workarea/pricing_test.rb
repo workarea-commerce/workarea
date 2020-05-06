@@ -66,6 +66,7 @@ module Workarea
       assert_equal(4.to_m, order.items.first.total_price)
       assert_equal(4.to_m, order.subtotal_price)
       assert_equal(4.to_m, order.total_value)
+      assert_equal(-1.to_m, order.discount_total)
       assert_equal(4.to_m, order.total_price)
     end
 
@@ -325,6 +326,7 @@ module Workarea
       Pricing.perform(order, shipping)
 
       assert_equal(0.to_m, order.shipping_total)
+      assert_equal(-3.to_m, order.discount_total)
       assert_equal(5.to_m, order.total_value)
       assert_equal(5.to_m, order.total_price)
     end
@@ -393,6 +395,7 @@ module Workarea
 
       assert_equal(3.to_m, order.items.first.total_value)
       assert_equal(5.to_m, order.subtotal_price)
+      assert_equal(-2.to_m, order.discount_total)
       assert_equal(3.to_m, order.total_value)
       assert_equal(3.to_m, order.total_price)
     end
@@ -415,6 +418,7 @@ module Workarea
 
       assert_equal(5.to_m, order.items.first.total_value)
       assert_equal(5.to_m, order.subtotal_price)
+      assert_equal(-5.to_m, order.discount_total)
       assert_equal(5.to_m, order.total_value)
       assert_equal(5.to_m, order.total_price)
     end
@@ -464,6 +468,7 @@ module Workarea
       assert_equal(12.to_m, order.subtotal_price)
       assert_equal(3.to_m, order.shipping_total)
       assert_equal(0.84.to_m, order.tax_total)
+      assert_equal(-1.to_m, order.discount_total)
       assert_equal(11.to_m, order.total_value)
       assert_equal(14.84.to_m, order.total_price)
     end
@@ -521,6 +526,7 @@ module Workarea
       assert_equal(12.to_m, order.subtotal_price)
       assert_equal(3.to_m, order.shipping_total)
       assert_equal(0.18.to_m, order.tax_total)
+      assert_equal(-12.to_m, order.discount_total)
       assert_equal(3.18.to_m, order.total_price)
     end
 
@@ -551,6 +557,7 @@ module Workarea
       assert_equal(-4.5.to_m, order.items.first.price_adjustments.third.amount)
 
       assert_equal(9.to_m, order.subtotal_price)
+      assert_equal(-6.to_m, order.discount_total)
       assert_equal(9.to_m, order.total_price)
     end
 
@@ -579,6 +586,7 @@ module Workarea
       assert_equal(-5.to_m, order.items.first.price_adjustments.second.amount)
 
       assert_equal(10.to_m, order.subtotal_price)
+      assert_equal(-5.to_m, order.discount_total)
       assert_equal(10.to_m, order.total_price)
     end
 
@@ -607,6 +615,7 @@ module Workarea
       assert_equal(-1.2.to_m, order.items.first.price_adjustments.third.amount)
 
       assert_equal(15.to_m, order.subtotal_price)
+      assert_equal(-4.2.to_m, order.discount_total)
       assert_equal(10.8.to_m, order.total_price)
     end
 
@@ -649,6 +658,7 @@ module Workarea
       Pricing.perform(order, shipping)
 
       assert_equal(0.to_m, order.shipping_total)
+      assert_equal(-3.5.to_m, order.discount_total)
       assert_equal(4.5.to_m, order.total_price)
     end
 
@@ -1381,6 +1391,7 @@ module Workarea
       assert_equal(21.to_m, order.subtotal_price)
       assert_equal(3.to_m, order.shipping_total)
       assert_equal(1.40.to_m, order.tax_total)
+      assert_equal(-0.7.to_m, order.discount_total)
       assert_equal(20.30.to_m, order.total_value)
       assert_equal(24.70.to_m, order.total_price)
 
@@ -1391,6 +1402,7 @@ module Workarea
       assert_equal(21.to_m, order.subtotal_price)
       assert_equal(3.to_m, order.shipping_total)
       assert_equal(1.44.to_m, order.tax_total)
+      assert_equal(0.to_m, order.discount_total)
       assert_equal(21.to_m, order.total_value)
       assert_equal(25.44.to_m, order.total_price)
     end
