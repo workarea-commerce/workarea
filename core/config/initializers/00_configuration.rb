@@ -156,6 +156,8 @@ Workarea::Configuration.define_fields do
   end
 
   fieldset 'Communication', namespaced: false do
+    field 'Show Privacy Popup', type: :boolean, default: false
+
     field 'Email From',
       type: :string,
       default: 'noreply@example.com',

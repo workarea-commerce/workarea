@@ -166,6 +166,10 @@
 
           %p.visually-hidden= link_to t('workarea.storefront.layouts.top_of_page'), '#top'
 
+          - if privacy_popup?
+            .visually-hidden
+              %div{ data: { privacy_popup: true } }= render_content_blocks(layout_content.content_blocks_for('privacy_popup'))
+
     = javascript_include_tag Workarea.config.asset_manifests.storefront_javascript
     = yield :javascript
     = append_partials('storefront.javascript')
