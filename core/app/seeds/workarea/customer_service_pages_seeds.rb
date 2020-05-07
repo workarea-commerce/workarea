@@ -9,6 +9,11 @@ module Workarea
       )
 
       Content::Page.create!(
+        name: 'Privacy Policy',
+        tag_list: 'customer service'
+      )
+
+      Content::Page.create!(
         name: 'Returns',
         tag_list: 'customer service'
       )
