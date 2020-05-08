@@ -59,7 +59,7 @@
 
         .property
           = label_tag 'image_option', t('workarea.admin.fields.option'), class: 'property__name'
-          = text_field_tag 'image[option]', nil, class: 'text-box text-box--medium', data: { autocomplete_field: options_catalog_product_images_path(@product, format: :json) }
+          = text_field_tag 'image[option]', nil, class: "text-box text-box--medium #{Workarea.config.localized_image_options ? 'text-box--i18n' : nil}", data: { autocomplete_field: options_catalog_product_images_path(@product, format: :json) }
 
         = append_partials('admin.product_image_fields')
 

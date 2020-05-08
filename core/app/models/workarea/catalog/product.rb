@@ -30,9 +30,13 @@ module Workarea
 
       index({ 'variants.sku': 1 })
       index({ last_indexed_at: 1 })
-      index({ 'images.option': 1 })
       index(purchasable: 1)
       index(created_at: 1)
+      if Workarea.config.localized_image_options
+        I18n.for_each_locale { index("images.option.#{I18n.locale}" => 1) }
+      else
+        index({ 'images.option': 1 })
+      end
 
       embeds_many :variants, class_name: 'Workarea::Catalog::Variant'
       embeds_many :images, class_name: 'Workarea::Catalog::ProductImage'
@@ -108,7 +112,10 @@ module Workarea
 
       def self.autocomplete_image_options(string)
         regex = /#{::Regexp.quote(string)}/i
-        where('images.option' => regex).map do |product|
+        key = 'images.option'
+        key += ".#{I18n.locale}" if Workarea.config.localized_image_options
+
+        where(key => regex).map do |product|
           product.images.where(option: regex).map(&:option)
         end.flatten.map(&:titleize).uniq
       end
