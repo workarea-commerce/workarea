@@ -118,13 +118,12 @@ db.getSiblingDB("admin").runCommand( { setParameter: 1, notablescan: 0 } )
 **************************************************
 ⛔️ WARNING: Dragonfly is configured to use the filesystem.
 
-This means all dragonfly assets (assets, product images, etc.) will be stored
+This means all Dragonfly assets (assets, product images, etc.) will be stored
 locally and not accessible to all servers within your environment.
 
 We recommend using S3 when running in a live environment by setting
-WORKAREA_S3_REGION and WORKAREA_S3_BUCKET_NAME in your environment variables.
-Workarea will automatically configure Dragonfly to use S3 if those values
-are present.
+WORKAREA_S3_REGION and WORKAREA_S3_BUCKET_NAME in your environment variables,
+and setting `Workarea.config.asset_store = :s3` in an initializer.
 **************************************************
           eos
         end
