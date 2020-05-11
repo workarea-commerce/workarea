@@ -631,8 +631,8 @@ en:
           removed: Your comment has been removed
           saved: Your comment has been saved
           saved_error: There was a problem saving your comment
-          comment_subscribed: Your comments subscription has been added. You will be notified of any future comments.
-          comment_unsubscribed: You have been unsubscribed from future comments.
+          comment_subscribed: Your have been subscribed to comment notifications.
+          comment_unsubscribed: You have been unsubscribed from comment notifications.
         index:
           body: Comment Body
           create: Create Comment
@@ -642,10 +642,10 @@ en:
           new: New Comment
           notify: Notify Admins
           subscribe: Subscribe
-          subscribe_message: to receive emails about future comments.
+          subscribe_message: You'll be emailed when a new comment is posted on this.
           title: Comments on %{name}
           unsubscribe: Unsubscribe
-          unsubscribe_message: to stop receiving emails about future comments.
+          unsubscribe_message: Click this to stop receiving email about future comments.
         icon:
           viewed: Comments
           unviewed: Unread Comments

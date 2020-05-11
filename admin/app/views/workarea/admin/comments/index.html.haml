@@ -42,17 +42,6 @@
               %p= comment.body
 
       .section
-        - if @commentable.subscribed_user_ids.include?(current_user.id.to_s)
-          = form_tag unsubscribe_commentable_comments_path(@commentable.to_global_id), method: :put, id: 'comment_unsubscribe_form' do
-            = button_tag t('workarea.admin.comments.index.unsubscribe'), value: 'comments_unsubscribe', class: 'button button--small'
-            %span= t('workarea.admin.comments.index.subscribe_message')
-        - else
-          = form_tag subscribe_commentable_comments_path(@commentable.to_global_id), method: :put, id: 'comment_unsubscribe_form' do
-            = button_tag t('workarea.admin.comments.index.subscribe'), value: 'comments_subscribe', class: 'button button--small'
-            %span= t('workarea.admin.comments.index.unsubscribe_message')
-
-
-      .section
         .comments__new-comment
           %h2= t('workarea.admin.comments.index.new')
           - if @comment.errors.present?
@@ -66,5 +55,17 @@
               %span.property__note= t('workarea.admin.comments.index.mention_note')
 
             .workflow-bar
-              .grid.grid--auto.grid--right.grid--middle
-                .grid__cell= button_tag t('workarea.admin.comments.index.create'), value: 'create_comment', class: 'workflow-bar__button workflow-bar__button--create'
+              .grid.grid--middle
+                .grid__cell.grid__cell--80
+                  - if @commentable.subscribed_user_ids.include?(current_user.id.to_s)
+                    = link_to t('workarea.admin.comments.index.unsubscribe'), unsubscribe_commentable_comments_path(@commentable.to_global_id), data: { method: 'put', tooltip: { content_id: '#unsubscribe-info' } }, class: 'workflow-bar__button'
+                    #unsubscribe-info.tooltip-content
+                      %p= t('workarea.admin.comments.index.unsubscribe_message')
+
+                  - else
+                    = link_to t('workarea.admin.comments.index.subscribe'), subscribe_commentable_comments_path(@commentable.to_global_id), data: { method: 'put', tooltip: { content_id: '#subscribe-info' } }, class: 'workflow-bar__button'
+                    #subscribe-info.tooltip-content
+                      %p= t('workarea.admin.comments.index.subscribe_message')
+
+                .grid__cell.grid__cell--20
+                  .align-right= button_tag t('workarea.admin.comments.index.create'), value: 'create_comment', class: 'workflow-bar__button workflow-bar__button--create'
