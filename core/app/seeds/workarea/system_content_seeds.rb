@@ -41,6 +41,20 @@ module Workarea
                   .id
         }
       )
+      content.blocks.create!(
+        area: 'privacy_popup',
+        type: 'html',
+        data: {
+          html: <<~HTML
+            <p>
+              We use cookies to provide services, make offers, and improve your experience.
+              Cookies are required to use the site. If you'd like to learn more, please read
+              <a href="#{Storefront::Engine.routes.url_helpers.page_path(id: 'privacy-policy')}">
+              the privacy policy</a>.
+            </p>
+          HTML
+        }
+      )
     end
 
     def add_checkout
