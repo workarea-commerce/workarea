@@ -631,7 +631,7 @@ en:
           removed: Your comment has been removed
           saved: Your comment has been saved
           saved_error: There was a problem saving your comment
-          comment_subscribed: Your have been subscribed to comment notifications.
+          comment_subscribed: You have been subscribed to comment notifications.
           comment_unsubscribed: You have been unsubscribed from comment notifications.
         index:
           body: Comment Body
