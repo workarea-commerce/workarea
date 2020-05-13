@@ -296,7 +296,7 @@ Once your seed class is created, you need to update the `Workarea.config.seeds` 
 You can either add to existing seeds
 
 ```ruby
-Workarea.config.seeds.insert('Workarea::CustomCategorySeeds')
+Workarea.config.seeds.append('Workarea::CustomCategorySeeds')
 ```
 
 Or, if you are replacing an existing seed class you can swap the classes:

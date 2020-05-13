@@ -1,3 +1,70 @@
+Workarea 3.5.10 (2020-04-28)
+--------------------------------------------------------------------------------
+
+*   Fix bugs with per_page used in page calculation for search queries
+
+    Even though this shouldn't come from the outside world, it's easy and
+    best to ensure per_page is always a valid number.
+
+    Ben Crouse
+
+*   Skip localized activeness test when localized active fields are off
+
+    Fixes #421
+
+    Ben Crouse
+
+*   Fix accepting per_page param from outside world
+
+    Page size is the most important factor in performance for browse pages,
+    so we don't want these exposed to the outside world out-of-the-box.
+
+    Ben Crouse
+
+*   Update grammar for consistency
+
+
+    Ben Crouse
+
+*   Corrected no_available_shipping_options translation typo (#418)
+
+
+    JurgenHahn
+
+*   Fix fullfilment shipped mailer template
+
+    Fullfilment shipped mailer template is using cancellation header.
+
+    heyqule
+
+*   Improve visual design of most discounted products insight
+
+
+    Ben Crouse
+
+*   Change HashUpdate to use the setter instead of mutation
+
+    Simply mutating the value doesn't work when the field is localized.
+    Mongoid's localization behavior only kicks in when you use the setter.
+
+    Ben Crouse
+
+*   Allow setting locale fallbacks for a test
+
+    This is useful if you want to test fallback behavior. Tests in base
+    should be agnostic to whether fallbacks are available or not.
+
+    Ben Crouse
+
+*   Fix locale fallback getting unexpectedly autloaded
+
+    This can happen in the middle of a test suite, causing apparently random
+    test failure. This freedom patch prevents fallbacks from autoloading.
+    We want to let the implementation make that decision.
+
+    Ben Crouse
+
+
 Workarea 3.5.9 (2020-04-15)
 --------------------------------------------------------------------------------
 
