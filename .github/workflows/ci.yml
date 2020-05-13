@@ -12,6 +12,8 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - uses: workarea-commerce/ci/bundler-audit@v1
+      with:
+        args: '--ignore CVE-2020-8161'
     - uses: workarea-commerce/ci/rubocop@v1
     - uses: workarea-commerce/ci/eslint@v1
       with:
