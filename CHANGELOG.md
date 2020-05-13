@@ -1,3 +1,35 @@
+Workarea 3.5.11 (2020-05-13)
+--------------------------------------------------------------------------------
+
+*   Rename index to avoid conflicts in upgrade
+
+    We changed the abaondoned orders index so trying to create indexes after
+    upgrading will cause a conflict due to different indexes with the same
+    name. This renames the index to fix that.
+
+    Ben Crouse
+
+*   Fix comment subscription messaging
+
+    Also improves UI to move the secondary action of
+    subscribing/unsubscribing out of the main area.
+
+    Ben Crouse
+
+*   Correct/clarify Dragonfly configuration warning
+
+
+    Ben Crouse
+
+*   Remove extra order ID cookie
+
+    No need for the extra cookie if the order isn't persisted. Note this
+    doesn't actually affect functionality.
+
+    Ben Crouse
+
+
+
 Workarea 3.5.10 (2020-04-28)
 --------------------------------------------------------------------------------
 
