@@ -53,10 +53,10 @@ module Workarea
         visit admin.user_path(user)
 
         click_link 'Comments'
-        click_button t('workarea.admin.comments.index.subscribe')
+        click_link t('workarea.admin.comments.index.subscribe')
         assert(page.has_content?('Success'))
 
-        click_button t('workarea.admin.comments.index.unsubscribe')
+        click_link t('workarea.admin.comments.index.unsubscribe')
         assert(page.has_content?('Success'))
       end
     end
