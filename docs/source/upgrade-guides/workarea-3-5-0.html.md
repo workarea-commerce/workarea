@@ -13,6 +13,7 @@ __Upgrading to Workarea 3.5?__ &mdash; Check out the [Workarea 3.5 Release Notes
 
 Before upgrading to Workarea 3.5.0, review the following changes.
 After upgrading you'll need to do the following:
+
 * Run the data migration, `bin/rails workarea:migrate:v3_5`
 * Create the new MongoDB indexes, `bin/rails db:mongoid:create_indexes`
 
