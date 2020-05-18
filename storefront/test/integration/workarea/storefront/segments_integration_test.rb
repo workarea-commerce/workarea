@@ -271,6 +271,19 @@ module Workarea
           headers: { 'HTTP_REFERER' => 'https://www.facebook.com/' }
         assert_equal(google.id.to_s, response.headers['X-Workarea-Segments'])
       end
+
+      def test_missing_email_cookies
+        user = create_user(password: 'w0rkArea!', tags: %w(foo))
+        segment = create_segment(rules: [Segment::Rules::Tags.new(tags: %w(foo))])
+
+        post storefront.login_path,
+          params: { email: user.email, password: 'w0rkArea!' }
+
+        cookies[:email] = nil
+
+        get storefront.current_user_path(format: 'json')
+        assert_equal(segment.id.to_s, response.headers['X-Workarea-Segments'])
+      end
     end
   end
 end
