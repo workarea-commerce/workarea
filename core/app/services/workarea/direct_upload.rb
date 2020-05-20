@@ -6,22 +6,21 @@ module Workarea
       uri = URI.parse(request_url)
       url = "#{uri.scheme}://#{uri.host}"
       url += ":#{uri.port}" unless uri.port.in? [80, 443]
-
-      redis_key = "cors_#{url.optionize}"
-      return if Workarea.redis.get(redis_key) == 'true'
+      id = "direct_upload_#{url}"
 
       response = Workarea.s3.get_bucket_cors(Configuration::S3.bucket)
       cors = response.data[:body]
-      cors['CORSConfiguration'] << {
-        'ID' => "direct_upload_#{url}",
-        'AllowedMethod' => 'PUT',
-        'AllowedOrigin' => url,
-        'AllowedHeader' => '*'
-      }
-      cors['CORSConfiguration'].uniq!
 
-      Workarea.s3.put_bucket_cors(Configuration::S3.bucket, cors)
-      Workarea.redis.set(redis_key, 'true')
+      unless cors['CORSConfiguration'].pluck('ID').include?(id)
+        cors['CORSConfiguration'] << {
+          'ID' => id,
+          'AllowedMethod' => 'PUT',
+          'AllowedOrigin' => url,
+          'AllowedHeader' => '*'
+        }
+
+        Workarea.s3.put_bucket_cors(Configuration::S3.bucket, cors)
+      end
     end
 
     attr_reader :type, :filename
