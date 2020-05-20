@@ -44,7 +44,7 @@ module Workarea
           segment_ids: current_segments.map(&:id)
         )
 
-        update_tracking!(email: current_order.email)
+        update_tracking!(email: current_order.email) unless current_order.email.blank?
       end
 
       def with_order_lock

@@ -38,7 +38,10 @@ module Workarea
     end
 
     def current_email
-      cookies.signed[:email]
+      # For performance, prefer to use the cookie. The fallback to looking it up
+      # by user is a failsafe against a blank email cookie (e.g. from a raised
+      # error or poor application coding).
+      cookies.signed[:email].presence || (email_from_user_id if logged_in?)
     end
 
     def metrics
@@ -90,6 +93,10 @@ module Workarea
     # Memoizing this saves a lot of allocated objects
     def blank_metrics
       @blank_metrics ||= Metrics::User.new
+    end
+
+    def email_from_user_id
+      User.find(session[:user_id]).email rescue nil
     end
   end
 end
