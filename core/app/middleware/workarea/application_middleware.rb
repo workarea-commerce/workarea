@@ -1,12 +1,15 @@
 module Workarea
   class ApplicationMiddleware
+    ASSET_REGEX = /(jpe?g|png|ico|gif|bmp|webp|tif?f|css|js|svg|otf|ttf|woff|woff2)$/
+
     def initialize(app)
       @app = app
     end
 
     def call(env)
       request = Rack::Request.new(env)
-      return @app.call(env) if request.path =~ /(jpe?g|png|ico|gif|css|js|svg)$/
+      env['workarea.asset_request'] = request.path =~ ASSET_REGEX
+      return @app.call(env) if env['workarea.asset_request']
 
       set_locale(env, request)
       setup_environment(env, request)
@@ -25,7 +28,7 @@ module Workarea
       env['workarea.visit'] = Visit.new(env)
       env['workarea.cache_varies'] = Cache::Varies.new(env['workarea.visit']).to_s
       env['rack-cache.cache_key'] = Cache::RackCacheKey
-      env['rack-cache.force-pass'] = env['workarea.visit'].admin?
+      env['rack-cache.force-pass'] = env['workarea.visit'].admin? && !env['workarea.asset_request']
     end
 
     def set_segment_request_headers(env)
