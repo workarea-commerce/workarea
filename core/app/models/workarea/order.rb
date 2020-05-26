@@ -54,7 +54,7 @@ module Workarea
         fraud_suspected_at: 1
       },
       {
-        name: 'abandoned_order_email_index',
+        name: 'abandoned_order_email_with_fraud_index',
         background: true
       }
     )

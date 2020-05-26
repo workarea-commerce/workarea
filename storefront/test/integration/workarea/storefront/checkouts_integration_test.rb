@@ -345,6 +345,12 @@ module Workarea
 
         assert(flash[:error].present?)
       end
+
+      def test_not_setting_a_blank_tracking_email
+        cookies[:email] = 'foo@bar.com'
+        get storefront.checkout_shipping_path
+        assert_equal('foo@bar.com', cookies[:email])
+      end
     end
   end
 end

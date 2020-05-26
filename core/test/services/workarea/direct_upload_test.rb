@@ -108,11 +108,8 @@ module Workarea
       ).returns(true)
 
       assert(DirectUpload.ensure_cors!('http://test.host/admin/content_assets'))
-      assert_equal('true', Workarea.redis.get('cors_http_test_host'))
       assert(DirectUpload.ensure_cors!('http://localhost:3000/admin/content_assets'))
-      assert_equal('true', Workarea.redis.get('cors_http_localhost_3000'))
       assert(DirectUpload.ensure_cors!('https://example.com/admin/direct_uploads'))
-      assert_equal('true', Workarea.redis.get('cors_https_example_com'))
     end
 
     private
