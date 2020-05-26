@@ -1,3 +1,28 @@
+Workarea 3.4.33 (2020-05-26)
+--------------------------------------------------------------------------------
+
+*   Fix incorrect import errors
+
+    When an import fails due to a missing `DataFile::Import` document, the
+    `ProcessImport` worker will raise a nil error due to the ensure. This
+    fixes by ensuring the `DocumentNotFound` error gets raised.
+
+    Ben Crouse
+
+*   Remove caching from direct upload CORS requests
+
+    The caching continues to give us problems, and this isn't a high-traffic
+    part of the system so there isn't a practical need for it.
+
+    Ben Crouse
+
+*   Correct/clarify Dragonfly configuration warning
+
+
+    Ben Crouse
+
+
+
 Workarea 3.4.32 (2020-04-28)
 --------------------------------------------------------------------------------
 
