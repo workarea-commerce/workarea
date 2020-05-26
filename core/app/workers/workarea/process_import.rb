@@ -17,11 +17,11 @@ module Workarea
       import.process!
 
     ensure
-      if import.error?
+      if import&.error?
         Admin::DataFileMailer.import_error(id).deliver_now
-      elsif import.failure?
+      elsif import&.failure?
         Admin::DataFileMailer.import_failure(id).deliver_now
-      else
+      elsif import.present?
         Admin::DataFileMailer.import(id).deliver_now
       end
     end
