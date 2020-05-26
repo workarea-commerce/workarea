@@ -53,5 +53,11 @@ module Workarea
         t('workarea.admin.data_file_mailer.import_failure.errors')
       )
     end
+
+    def test_perform_with_missing_import
+      assert_raises Mongoid::Errors::DocumentNotFound do
+        ProcessImport.new.perform('foo')
+      end
+    end
   end
 end
