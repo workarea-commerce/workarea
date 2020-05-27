@@ -262,6 +262,32 @@ module Workarea
 
         assert(flash[:error].present?)
       end
+
+      def test_no_required_shipping_address_options_flash_message
+        product = create_product(digital: true)
+
+        post storefront.cart_items_path,
+          params: { product_id: product.id, sku: product.skus.first, quantity: 1 }
+
+        get storefront.checkout_addresses_path
+
+        patch storefront.checkout_addresses_path,
+          params: {
+            email: 'bcrouse@weblinc.com',
+            billing_address: {
+              first_name:   'Ben',
+              last_name:    'Crouse',
+              street:       '12 N. 3rd St.',
+              city:         'Philadelphia',
+              region:       'PA',
+              postal_code:  '19106',
+              country:      'US',
+              phone_number: '2159251800'
+            }
+          }
+
+        refute(flash[:error].present?)
+      end
     end
   end
 end
