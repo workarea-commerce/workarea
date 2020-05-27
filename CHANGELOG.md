@@ -1,3 +1,40 @@
+Workarea 3.5.12 (2020-05-26)
+--------------------------------------------------------------------------------
+
+*   Fix incorrect import errors
+
+    When an import fails due to a missing `DataFile::Import` document, the
+    `ProcessImport` worker will raise a nil error due to the ensure. This
+    fixes by ensuring the `DocumentNotFound` error gets raised.
+
+    Ben Crouse
+
+*   Remove caching from direct upload CORS requests
+
+    The caching continues to give us problems, and this isn't a high-traffic
+    part of the system so there isn't a practical need for it.
+
+    Ben Crouse
+
+*   Add paranoid fallback for segment metrics lookup
+
+    Although this should never happen, giving a user incorrect segments
+    could have important consequences. If the email cookie is removed or
+    missing for some other reason, it doesn't hurt to fallback to looking up
+    based on the user model (even though this is an additional query) when
+    we know they're logged in.
+
+    Ben Crouse
+
+*   Don't set a blank tracking email in checkout
+
+    Doing this has the potential to create an incorrect tracking email,
+    which could cause a visitor's segments to change in checkout.
+
+    Ben Crouse
+
+
+
 Workarea 3.5.11 (2020-05-13)
 --------------------------------------------------------------------------------
 
