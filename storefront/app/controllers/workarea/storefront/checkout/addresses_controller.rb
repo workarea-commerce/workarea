@@ -46,6 +46,8 @@ module Workarea
         end
 
         def validate_shipping_options
+          return unless current_order.requires_shipping?
+
           available_options = Workarea::Storefront::CartViewModel.new(current_order).shipping_options
 
           if available_options.empty?
