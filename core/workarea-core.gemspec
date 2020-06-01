@@ -24,7 +24,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'mongoid-tree', '~> 2.1.0'
   s.add_dependency 'mongoid-sample', '~> 0.1.0'
   s.add_dependency 'elasticsearch', '~> 5.0.1'
-  s.add_dependency 'kaminari', '~> 0.17.0'
+  s.add_dependency 'kaminari', '~> 1.2.1'
   s.add_dependency 'kaminari-mongoid', '~> 0.1.2'
   s.add_dependency 'activemerchant', '~> 1.52'
   s.add_dependency 'dragonfly', '~> 1.1.2'
