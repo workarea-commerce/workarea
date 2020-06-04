@@ -21,7 +21,7 @@ module Workarea
         end
 
         def keywords
-          super + model.promo_codes
+          super + Array.wrap(model.try(:promo_codes))
         end
 
         def facets
