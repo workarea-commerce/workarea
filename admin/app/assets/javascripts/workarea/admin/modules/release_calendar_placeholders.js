@@ -15,17 +15,6 @@ WORKAREA.registerModule('releaseCalendarPlaceholders', (function () {
             WORKAREA.initModules($calendar);
         },
 
-        now = new Date(),
-
-        standardTimezoneOffset = function() {
-            var jan = new Date(now.getFullYear(), 0, 1).getTimezoneOffset(),
-                jul = new Date(now.getFullYear(), 6, 1).getTimezoneOffset();
-
-            return Math.max(jan, jul);
-        },
-
-        isDSTObserved = now.getTimezoneOffset() < standardTimezoneOffset(),
-
         /**
          * Makes the AJAX request for a new calendar based on a supplied time.
          * When the promise resolves the supplied placeholder element is
@@ -40,16 +29,7 @@ WORKAREA.registerModule('releaseCalendarPlaceholders', (function () {
          * @param {string} endpoint - the endpoint for the AJAX request
          */
         requestCalendar = function (startDate, placeholder, endpoint) {
-            var timeOffset = parseInt(strftime('%z', new Date()));
-
-            if (isDSTObserved) {
-                timeOffset = timeOffset - 100;
-            }
-
-            $.get(endpoint, {
-                start_date: startDate,
-                time_offset: timeOffset
-            })
+            $.get(endpoint, { start_date: startDate })
             .done(_.partial(displayCalendar, placeholder))
             .fail(
                 _.partial(
