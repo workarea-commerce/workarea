@@ -112,6 +112,26 @@ module Workarea
       assert(DirectUpload.ensure_cors!('https://example.com/admin/direct_uploads'))
     end
 
+    def test_ensure_cors_with_no_existing_configuration
+      Workarea.s3.expects(:get_bucket_cors)
+                 .raises(Excon::Errors::NotFound.new('CORS configuration does not exist'))
+
+
+      Workarea.s3.expects(:put_bucket_cors).with(
+        Configuration::S3.bucket,
+        'CORSConfiguration' => [
+          {
+            'ID' => "direct_upload_http://test.host",
+            'AllowedMethod' => 'PUT',
+            'AllowedOrigin' => 'http://test.host',
+            'AllowedHeader' => '*'
+          }
+        ]
+      ).returns(true)
+
+      assert(DirectUpload.ensure_cors!('http://test.host/admin/content_assets'))
+    end
+
     private
 
     def upload_file
