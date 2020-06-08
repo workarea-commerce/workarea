@@ -18,6 +18,7 @@ module Workarea
       index({ 'document_path.type' => 1, 'document_path.document_id' => 1 })
       index('changeset.product_ids' => 1)
       index('original.product_ids' => 1)
+      index('releasable_type' => 1, 'releasable_id' => 1)
 
       # Finds changeset by whether the passed document is in the document
       # path of the changeset. Useful for showing embedded changes in the

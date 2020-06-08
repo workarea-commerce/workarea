@@ -72,7 +72,9 @@ module Workarea
         release.preview.changesets_for(self).each { |cs| cs.apply_to(result) }
         result
       else
-        Release.with_current(release) { self.class.find(id) }
+        Release.with_current(release) do
+          Mongoid::QueryCache.uncached { self.class.find(id) }
+        end
       end
     end
 

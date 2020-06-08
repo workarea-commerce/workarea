@@ -48,13 +48,13 @@ module Workarea
       {
         placed_at: 1,
         reminded_at: 1,
+        fraud_suspected_at: 1,
         checkout_started_at: 1,
         email: 1,
-        "items[0]._id": 1,
-        fraud_suspected_at: 1
+        "items[0]._id": 1
       },
       {
-        name: 'abandoned_order_email_with_fraud_index',
+        name: 'abandoned_order_email_with_fraud_index_v2',
         background: true
       }
     )

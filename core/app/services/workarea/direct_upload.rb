@@ -8,7 +8,12 @@ module Workarea
       url += ":#{uri.port}" unless uri.port.in? [80, 443]
       id = "direct_upload_#{url}"
 
-      response = Workarea.s3.get_bucket_cors(Configuration::S3.bucket)
+      response = begin
+        Workarea.s3.get_bucket_cors(Configuration::S3.bucket)
+      rescue Excon::Error::NotFound
+        Excon::Response.new(body: { 'CORSConfiguration' => [] })
+      end
+
       cors = response.data[:body]
 
       unless cors['CORSConfiguration'].pluck('ID').include?(id)
