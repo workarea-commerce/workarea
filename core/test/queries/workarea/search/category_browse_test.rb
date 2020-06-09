@@ -382,6 +382,29 @@ module Workarea
           refute_includes(result_ids, product_five.id)
         end
       end
+
+      def test_featured_product_changes_in_a_release
+        one = create_product
+        two = create_product
+        three = create_product(name: 'Foo', active: false)
+        category = create_category(product_ids: [one.id, two.id], product_rules: [])
+        release = create_release(publish_at: 1.week.from_now)
+
+        release.as_current do
+          three.update!(name: 'Bar', active: true, default_category_id: category.id)
+          category.update!(product_ids: [three.id, one.id, two.id])
+          search = CategoryBrowse.new(sort: %w(featured), category_ids: [category.id])
+          sorts = search.results.pluck(:raw).pluck('_source').pluck('sorts').pluck(category.id.to_s)
+          assert_equal([0, 1, 2], sorts)
+        end
+
+        release.as_current do
+          category.update!(product_ids: [one.id, two.id, three.id])
+          search = CategoryBrowse.new(sort: %w(featured), category_ids: [category.id])
+          sorts = search.results.pluck(:raw).pluck('_source').pluck('sorts').pluck(category.id.to_s)
+          assert_equal([0, 1, 2], sorts)
+        end
+      end
     end
   end
 end
