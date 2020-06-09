@@ -9,7 +9,6 @@ module Workarea
       before_action :find_calendar, only: [:index, :update]
       before_action :authenticate_user_by_token, only: :calendar_feed
       skip_before_action :require_login, :require_admin, only: :calendar_feed
-      around_action :set_time_zone, only: :index
 
       def index
       end
@@ -70,15 +69,6 @@ module Workarea
       end
 
       private
-
-      def set_time_zone
-        old_time_zone = Time.zone
-        time_offset = params[:time_offset].to_i / 100
-        Time.zone = time_offset.hours unless params[:time_offset].blank?
-        yield
-      ensure
-        Time.zone = old_time_zone
-      end
 
       def find_release
         model = if params[:id].present?
