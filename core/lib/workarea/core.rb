@@ -208,6 +208,7 @@ require 'workarea/cache'
 require 'workarea/scheduled_jobs'
 require 'workarea/string_id'
 require 'workarea/mail_interceptor'
+require 'workarea/queues_pauser'
 
 #
 # Engines
