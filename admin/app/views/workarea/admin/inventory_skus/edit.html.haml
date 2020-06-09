@@ -56,6 +56,8 @@
               = label_tag 'sku[backordered_until]', t('workarea.admin.inventory_skus.edit.backordered_ship_date'), class: 'property__name'
               = datetime_picker_tag 'sku[backordered_until]', @sku.backordered_until.try(:to_s, :date_only), class: 'text-box text-box--medium', data: { datepicker_field: { } }
 
+        = append_partials('admin.inventory_sku_fields', sku: @sku)
+
         .grid.grid--huge
           .grid__cell.grid__cell--50.grid__cell--25-at-medium
             .property
