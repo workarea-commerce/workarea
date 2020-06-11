@@ -16,7 +16,9 @@ namespace :workarea do
     task admin: :environment do
       setup
       puts 'Indexing admin...'
-      Workarea::Search::Admin.reset_indexes!
+      Workarea::QueuesPauser.with_paused_queues do
+        Workarea::Search::Admin.reset_indexes!
+      end
 
       Mongoid.models.each do |klass|
         next unless Workarea::Search::Admin.for(klass.first).present?
@@ -36,8 +38,10 @@ namespace :workarea do
       setup
       puts 'Indexing storefront...'
 
-      Workarea::Search::Storefront.reset_indexes!
-      Workarea::Search::Storefront.ensure_dynamic_mappings
+      Workarea::QueuesPauser.with_paused_queues do
+        Workarea::Search::Storefront.reset_indexes!
+        Workarea::Search::Storefront.ensure_dynamic_mappings
+      end
 
       # This code finds all unique filters for products so we can index a sample
       # product for each to ensure the dynamic mappings get created.
@@ -83,7 +87,9 @@ namespace :workarea do
       setup
       puts 'Indexing help...'
 
-      Workarea::Search::Help.reset_indexes!
+      Workarea::QueuesPauser.with_paused_queues do
+        Workarea::Search::Help.reset_indexes!
+      end
 
       Workarea::Help::Article.all.each_by(Workarea.config.bulk_index_batch_size) do |help_article|
         Workarea::Search::Help.new(help_article).save
