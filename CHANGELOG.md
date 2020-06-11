@@ -1,3 +1,50 @@
+Workarea 3.4.34 (2020-06-11)
+--------------------------------------------------------------------------------
+
+*   Bump Geocoder
+
+    This fixes an irrelevant bundler-audit CVE warning, and adds/updates a bunch of Geocoder lookup options. See https://github.com/alexreisner/geocoder/blob/master/CHANGELOG.md for more info.
+
+    Ben Crouse
+
+*   Add QueuePauser to pause sidekiq queues, pause for search reindexing
+
+    WORKAREA-236
+
+    Matt Duffy
+
+*   Handle error from attempting to fetch missing S3 CORS configuration
+
+    WORKAREA-234
+
+    Matt Duffy
+
+*   Don't assume promo codes for indexing discounts
+
+    A custom discount may be implemented that doesn't use promo codes.
+
+    Ben Crouse
+
+*   Bump rack-attack to latest version
+
+    This fixes rack-attack keys without TTLs set piling up in Redis. This has caused hosting problems.
+
+    Ben Crouse
+
+*   Bump Kaminari dependency to fix security alert
+
+
+    Ben Crouse
+
+*   Fix incorrect shipping options error flash message
+
+    A flash error incorrectly showed when the order doesn't require shipping,
+    and addresses are updated.
+
+    Ben Crouse
+
+
+
 Workarea 3.4.33 (2020-05-26)
 --------------------------------------------------------------------------------
 
