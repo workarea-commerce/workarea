@@ -33,7 +33,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'sidekiq-cron', '~> 1.1.0'
   s.add_dependency 'sidekiq-unique-jobs', '~> 6.0.6' # TODO can we bump to 7 before v3.6 release?
   s.add_dependency 'sidekiq-throttled', '~> 0.11.0'
-  s.add_dependency 'geocoder', '~> 1.5.0'
+  s.add_dependency 'geocoder', '~> 1.6.3'
   s.add_dependency 'redis-rack-cache', '~> 2.2.0'
   s.add_dependency 'easymon', '~> 1.4.0'
   s.add_dependency 'image_optim', '~> 0.26.0'

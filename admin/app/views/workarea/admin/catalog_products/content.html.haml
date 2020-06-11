@@ -34,6 +34,8 @@
           = label_tag "product[meta_description]", t('workarea.admin.fields.meta_description'), class: 'property__name'
           = text_field_tag 'product[meta_description]', @product.meta_description, class: 'text-box text-box--i18n', id: "product_meta_description"
 
+        = append_partials('admin.product_content_fields', product: @product)
+
       .workflow-bar
         .grid.grid--auto.grid--right.grid--middle
           .grid__cell= render 'workarea/admin/shared/publishing_select'

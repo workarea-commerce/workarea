@@ -110,6 +110,8 @@
                       = inline_svg_tag('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.catalog_products.edit.details.learn_more'))
               %td.align-center -
 
+      = append_partials('admin.additional_product_details_information', product: @product)
+
       .section
 
         %h2= t('workarea.admin.catalog_products.edit.filters.label')
@@ -146,6 +148,8 @@
                     = link_to '#csv-help', data: { tooltip: '' } do
                       = inline_svg_tag('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.catalog_products.edit.filters.learn_more'))
               %td.align-center -
+
+        = append_partials('admin.additional_product_filters_information', product: @product)
 
         .grid.grid--huge
           .grid__cell.grid__cell--50.grid__cell--25-at-medium

@@ -25,6 +25,19 @@ module Workarea
         release.as_current { category.product_rules.first.update!(value: 'bar') }
         assert_equal(2, Storefront.new(category).changesets.size)
       end
+
+      def test_releases
+        category = create_category(name: 'Foo')
+        assert_empty(Storefront.new(category).as_document[:changeset_release_ids])
+
+        a = create_release(publish_at: 1.week.from_now)
+        a.as_current { category.update!(name: 'Bar') }
+        assert_equal([a.id], Storefront.new(category).as_document[:changeset_release_ids])
+
+        b = create_release(publish_at: 2.weeks.from_now)
+        assert_includes(Storefront.new(category).as_document[:changeset_release_ids], a.id)
+        assert_includes(Storefront.new(category).as_document[:changeset_release_ids], b.id)
+      end
     end
   end
 end

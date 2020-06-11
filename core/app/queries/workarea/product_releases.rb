@@ -1,4 +1,10 @@
 module Workarea
+  #
+  # TODO remove in v3.6
+  #
+  # This is no longer used, this logic was moved into the search models to allow
+  # it to be used for any model (not just products).
+  #
   class ProductReleases
     attr_reader :product
 

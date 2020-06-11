@@ -4,16 +4,29 @@ module Workarea
     include Sidekiq::CallbacksWorker
 
     sidekiq_options(
-      enqueue_on: { Catalog::Category => [:save, :save_release_changes], with: -> { [changes] } },
+      enqueue_on: {
+        Catalog::Category => [:save, :save_release_changes],
+        with: -> { [changes, Release.current.present?] }
+      },
       ignore_if: -> { changes['product_ids'].blank? },
       lock: :until_executing,
       query_cache: true
     )
 
-    def perform(changes)
+    def perform(changes, for_release = false)
       return unless changes['product_ids'].present?
 
-      ids = require_index_ids(*changes['product_ids'])
+      ids = if for_release
+        # This is a shortcut because if you're resorting products within a release,
+        # the `changes` hash doesn't reflect the repositioning within the release,
+        # only the difference between what's live and what's in the release.
+        #
+        # Reindexing all of them is a shortcut to having to manually build a diff
+        # between the changesets in the possible affected releases.
+        changes['product_ids'].flatten.uniq
+      else
+        require_index_ids(*changes['product_ids'])
+      end
 
       if ids.size > max_count
         ids.each { |id| IndexProduct.perform_async(id) }

@@ -221,6 +221,7 @@ require 'workarea/mail_interceptor'
 require 'workarea/visit'
 require 'workarea/warnings'
 require 'workarea/latest_version'
+require 'workarea/queues_pauser'
 
 #
 # Base Engines
