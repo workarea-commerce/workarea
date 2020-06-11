@@ -82,6 +82,14 @@ module Workarea
         @changesets ||= Array.wrap(model.try(:changesets_with_children))
       end
 
+      def releases
+        changesets
+          .uniq(&:release)
+          .reject { |cs| cs.release.blank? }
+          .flat_map { |cs| [cs.release] + cs.release.scheduled_after }
+          .uniq
+      end
+
       def as_document
         Release.with_current(release_id) do
           {
@@ -91,7 +99,7 @@ module Workarea
             active: active,
             active_segment_ids: active_segment_ids,
             release_id: release_id,
-            changeset_release_ids: changesets.map(&:release_id),
+            changeset_release_ids: releases.map(&:id),
             suggestion_content: suggestion_content,
             created_at: model.created_at,
             updated_at: model.updated_at,
