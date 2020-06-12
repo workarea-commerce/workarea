@@ -22,21 +22,9 @@ module Workarea
         [new_publish_at, nil]
       end
 
-      affected_releases = Release.scheduled(after: earlier, before: later).includes(:changesets).to_a
-      affected_releases += [rescheduled_release]
-      affected_releases.uniq!
-
-      affected_models = affected_releases.flat_map(&:changesets).flat_map(&:releasable)
-
-      affected_releases.each do |release|
-        affected_models.each do |releasable|
-          Search::Storefront.new(releasable.in_release(release)).destroy
-
-          # Different models have different indexing workers, running callbacks
-          # ensures the appropriate worker is triggered
-          releasable.run_callbacks(:save_release_changes)
-        end
-      end
+      IndexReleaseSchedulePreviews
+        .new(release: rescheduled_release, starts_at: earlier, ends_at: later)
+        .perform
     end
   end
 end
