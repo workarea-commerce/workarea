@@ -9,7 +9,7 @@ module Workarea
         only_if: -> { publish_at_changed? },
         with: -> { [id, publish_at_was, publish_at] }
       },
-      queue: 'high'
+      queue: 'releases'
     )
 
     def perform(id, previous_publish_at, new_publish_at)
