@@ -8,6 +8,7 @@ module Workarea
       system_user = User.find_system_user!(release.name, 'Release')
 
       Mongoid::AuditLog.record(system_user) { release.publish! }
+      IndexReleaseSchedulePreviews.new(release: release).perform
 
     rescue Mongoid::Errors::DocumentNotFound
       # Doesn't matter, release has been removed
