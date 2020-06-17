@@ -17,7 +17,7 @@
 
   .view__container.view__container--narrow
     = render_cards_for(@code_list, :promo_codes)
-    %p.align-center= t('workarea.admin.pricing_discount_code_lists.promo_code', count: @code_list.count)
+    %p.align-center= t('workarea.admin.pricing_discount_code_lists.promo_code', count: @code_list.promo_codes.count)
 
     %table
       %thead
