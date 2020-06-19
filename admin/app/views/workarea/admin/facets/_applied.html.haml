@@ -10,7 +10,7 @@
       - @search.facet_selections.each do |facet, values|
         - values.each do |value|
           %li.browsing-controls__applied-filter
-            %span= value.titleize
+            %span= facet_value_display_name(facet, value)
             = link_to facet_path(facet, value), class: 'browsing-controls__applied-remove-link' do
               = inline_svg('workarea/admin/icons/close.svg', class: 'browsing-controls__applied-icon svg-icon svg-icon--small svg-icon--black', title: t('workarea.admin.facets.applied.remove_filter'))
 
