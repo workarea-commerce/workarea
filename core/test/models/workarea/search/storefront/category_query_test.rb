@@ -75,6 +75,17 @@ module Workarea
             assert_equal([@category.id.to_s], CategoryQuery.find_by_product(@product))
           end
         end
+
+        def test_deleted_releases
+          release = create_release
+          release.as_current do
+            @category.product_rules.first.update!(value: 'bar')
+          end
+
+          release.destroy
+          CategoryQuery.new(@category).update
+          assert_equal([@category.id.to_s], CategoryQuery.find_by_product(@product))
+        end
       end
     end
   end
