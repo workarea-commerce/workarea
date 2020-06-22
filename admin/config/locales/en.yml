@@ -3189,6 +3189,7 @@ en:
           start_preview_in_storefront: Start preview in storefront
           undo: Undo
           visit_storefront_to_preview: Preview
+          unscheduled_republish_preview_info: This release is already published, you'll need to schedule it again to preview its changes.
           no_changes_to_preview: There are no changes to preview. Click on the Plan Changes card to start!
           no_changes_to_publish: There are no changes to publish for this release. Click on the Plan Changes card to start!
           no_changes_to_undo: There are no changes to undo for this release. Click on the Plan Changes card to start!
