@@ -21,6 +21,11 @@ module Workarea
 
         view_model = CodeListViewModel.wrap(code_list)
         assert_equal(1, view_model.used_count)
+
+        code_list.promo_codes.create!(code: "#{code_list.prefix}123")
+
+        view_model = CodeListViewModel.wrap(code_list)
+        assert_equal(1, view_model.used_count)
       end
 
       def test_last_used_at
