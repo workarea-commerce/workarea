@@ -144,7 +144,7 @@ module Workarea
             .where(releasable_type: ProductRule.name)
             .any_in(releasable_id: category.product_rules.map(&:id))
             .includes(:release)
-            .to_a
+            .select(&:release)
         end
       end
     end

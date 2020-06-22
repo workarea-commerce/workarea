@@ -10,6 +10,8 @@
       = render_message 'error', message
 
     = form_tag create_segments_path, method: 'post' do
+      = hidden_field_tag :id, @segment.id unless @segment.new_record?
+
       .section
         .property.property--required
           = label_tag 'segment_name', t('workarea.admin.fields.name'), class: 'property__name'

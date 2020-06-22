@@ -10,7 +10,7 @@ module Workarea
       end
 
       def used_count
-        model.count - unused_promo_codes.count
+        model.promo_codes.count - unused_promo_codes.count
       end
 
       def last_used_at
