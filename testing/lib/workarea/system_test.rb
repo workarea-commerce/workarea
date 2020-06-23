@@ -71,6 +71,7 @@ module Workarea
     include TestCase::Locales
     include TestCase::S3
     include TestCase::Encryption
+    include TestCase::Geocoder
     include Factories
     include IntegrationTest::Configuration
 

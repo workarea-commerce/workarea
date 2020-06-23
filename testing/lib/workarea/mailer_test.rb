@@ -13,5 +13,6 @@ module Workarea
     include TestCase::Encryption
     include TestCase::SearchIndexing
     include TestCase::Mail
+    include TestCase::Geocoder
   end
 end
