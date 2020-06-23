@@ -180,6 +180,23 @@ module Workarea
       end
     end
 
+    module Geocoder
+      extend ActiveSupport::Concern
+
+      included do
+        setup :save_geocoder_config
+        teardown :restore_geocoder_config
+      end
+
+      def save_geocoder_config
+        @original_geocoder_config = ::Geocoder.config.deep_dup
+      end
+
+      def restore_geocoder_config
+        ::Geocoder.configure(@original_geocoder_config)
+      end
+    end
+
     extend Decoration
     extend RunnerLocation
     include Factories
@@ -187,6 +204,7 @@ module Workarea
     include RunnerLocation
     include Locales
     include S3
+    include Geocoder
 
     setup do
       Mongoid.truncate!
