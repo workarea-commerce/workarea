@@ -53,6 +53,7 @@ module Workarea
     include TestCase::RunnerLocation
     include TestCase::Locales
     include TestCase::S3
+    include TestCase::Geocoder
     include Factories
     include IntegrationTest::Configuration
 
