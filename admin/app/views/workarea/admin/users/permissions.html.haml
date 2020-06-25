@@ -136,6 +136,6 @@
 
         .workflow-bar
           .grid.grid--auto.grid--right.grid--middle
-            = append_partials('admin.user_permissions_workflow_bar')
+            = append_partials('admin.user_permissions_workflow_bar', user: @user)
             - button_styles = @user.super_admin? ? 'workflow-bar__button' : 'workflow-bar__button workflow-bar__button--update'
             .grid__cell= button_tag t('workarea.admin.users.permissions.button'), value: 'save_permissions', class: button_styles, disabled: @user.super_admin?
