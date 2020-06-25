@@ -10,4 +10,4 @@ gem 'puma', '>= 4.3.1'
 
 # Newer version causes Content-Length header error. Remove this when
 # https://github.com/middleman/middleman/issues/2309 is resolved.
-gem 'rack', '2.0.8'
+gem 'rack', '2.1.4'
