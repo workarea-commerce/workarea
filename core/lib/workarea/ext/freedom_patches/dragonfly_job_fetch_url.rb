@@ -7,7 +7,7 @@ module Dragonfly
             Error fetching '#{url}' with Dragonfly!
 
             This URL is not allowed through the proxy, and therefore the
-            request was blocked by the Workarea Commerce Cloud firewall.
+            request was blocked by the Workarea Commerce Cloud proxy.
 
             To allow the host through your proxy server, run the following
             command on your local development workstation:
