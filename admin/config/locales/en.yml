@@ -664,6 +664,7 @@ en:
           loading: Loading...
           preview: Preview
           title: Content for %{content}
+          current_area: 'Editing Content Area:'
         form:
           all_blocks: All blocks
           cancel: Cancel

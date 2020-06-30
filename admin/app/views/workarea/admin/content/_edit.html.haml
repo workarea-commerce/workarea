@@ -7,7 +7,7 @@
       .grid.grid--middle
         .grid__cell.grid__cell--50
           - if content.show_areas?
-            %span= content.name
+            %span= t('workarea.admin.content.edit.current_area')
             = inline_svg('workarea/admin/icons/navigate_next.svg', class: 'svg-icon svg-icon--small svg-icon--white')
             = form_tag request.path, method: 'get', class: 'content-editor__area-select-form' do
               = select_tag 'area_id', options_for_select(content.area_options, content.current_area), data: { form_submitting_control: '' }
