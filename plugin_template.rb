@@ -82,7 +82,7 @@ rails_requires = <<~CODE
   require 'sprockets/railtie'
 CODE
 
-gsub_file 'bin/rails', /.+rails\/all.+/, rails_requires
+gsub_file 'bin/test', /.+rails\/all.+/, rails_requires
 gsub_file 'test/dummy/config/application.rb', /.+rails\/all.+/, rails_requires
 
 #
@@ -97,9 +97,9 @@ CODE
 inject_into_file 'test/dummy/config/application.rb', require_workarea, before: 'Bundler.require(*Rails.groups)'
 
 #
-# Modify bin/rails, correct path to engine file
+# Modify bin/test, correct path to engine file
 #
-gsub_file 'bin/rails', %r(lib/#{name}/engine), %(lib/workarea/#{name}/engine)
+gsub_file 'bin/test', %r(lib/#{name}/engine), %(lib/workarea/#{name}/engine)
 
 #
 # Require Plugin in dummy app configuration
