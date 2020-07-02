@@ -1,33 +1,51 @@
 import { Controller } from "stimulus"
 import { analytics as config } from "../config"
+import { isDevelopment } from "../models/environment"
 
-export default class extends Controller {
-  initialize() {
-    this.disabled = document.querySelector('meta[property=analytics]')
-                            .getAttribute('content') === 'disable'
-  }
-
+export default class AnalyticsController extends Controller {
   /**
    * Bind the click() and submit() DOM events to analytics events if
-   * available, and fire the impression analytics event immediately.
+   * available, and fire the pageClick analytics event immediately.
    */
   connect() {
+    const session = Cookie.get('analytics_session') || this.createSession()
     this.adapters = config.adapters.map(Adapter => new Adapter(config))
 
     if (this.data.has("click")) {
-      this.element.addEventListener("click", this.click)
+      this.element.addEventListener("click", this.click.bind(this))
     }
 
     if (this.data.has("submit")) {
-      this.element.addEventListener("submit", this.submit)
+      this.element.addEventListener("submit", this.submit.bind(this))
     }
 
     if (this.data.has("impression")) {
-      const { event } = this.data.get("impression")
-
-      if (event === "productList") { this.setupProductList() }
-      this.send(this.data.get("impression"))
+      this.sendProductList()
     }
+
+    this.adapters.forEach(adapter => adapter.initialize(this))
+    this.send('pageView')
+  }
+
+  get breadcrumbs() {
+    const elements = document.querySelectorAll('.breadcrumbs .breadcrumbs__node')
+
+    return elements.map(element => element.innerText.trim()).join('/')
+  }
+
+  get disabled() {
+    const meta = document.querySelector('meta[property=analytics]')
+
+    return meta.getAttribute('content') === 'disable'
+  }
+
+  createSession() {
+    const sessions = Cookie.get('sessions') || 0
+
+    Cookie.set('sessions', parseInt(sessions) + 1)
+    Cookie.set('analytics_session', 'true', config.sessionExpire)
+
+    return { sessions }
   }
 
   calculateListPosition(position, page, perPage) {
@@ -55,20 +73,21 @@ export default class extends Controller {
       return impression
     })
 
-    if (isEmpty(impressions)) { return }
+    if (!impressions.length) { return }
 
-    payload.name = payload.name || getBreadcrumbs();
+    payload.name = payload.name || this.breadcrumbs
     payload.impressions = impressions;
 
-    this.data.set("impression", { event, payload })
+    this.send('productList', payload)
   }
 
-  send(data) {
+  send(event, data = {}) {
     if (this.disabled) { return }
+    if (isDevelopment) {
+      console.log('Firing analytics event', event, 'with', data)
+    }
 
-    const { payload } = this.data.get(event)
-
-    this.adapters.forEach(adapter => adapter.send(event, payload))
+    this.adapters.forEach(adapter => adapter.send(event, data))
   }
 
   click(event) {
@@ -78,15 +97,17 @@ export default class extends Controller {
 
         return data.event === "productList"
       })
-    const listData = JSON.parse(closestList.getAttribute("data-analytics-impression"))
+    const { name, page, per_page } = JSON.parse(
+      closestList.getAttribute("data-analytics-impression")
+    )
     const { payload } = JSON.parse(this.data.get("click"))
     const impressions = closestList.querySelectorAll("[data-analytics-impression]")
     const thisImpression = impressions.filter(impression => impression === this.element)
     const position = this.calculateListPosition(
-      impressions.index(thisImpression), listData.page, listData.per_page
+      impressions.index(thisImpression), page, per_page
     )
 
-    payload.list = listData.name || this.getBreadcrumbs()
+    payload.list = name || this.breadcrumbs
     payload.position = position
 
     if (config.preventDomEvents) { event.preventDefault() }
@@ -96,12 +117,18 @@ export default class extends Controller {
 
   submit(e) {
     const { event, payload } = this.data.get("submit")
+    const quantity = this.element.querySelector('[name=quantity]')
+                                 .getAttribute("value")
 
     if (config.preventDomEvents) { e.preventDefault() }
 
     if (event === 'addToCart') {
-      payload.quantity = this.element.querySelector('[name=quantity]')
-                                     .getAttribute("value")
+      payload.quantity = quantity
+    }
+
+    if (event === 'updateCartItem') {
+      payload.from = payload.quantity
+      payload.to = quantity
     }
 
     this.send(event, payload)

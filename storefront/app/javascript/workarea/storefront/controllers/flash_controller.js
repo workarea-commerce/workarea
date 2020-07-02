@@ -1,6 +1,6 @@
 import { Controller } from "stimulus"
 import Message from "../templates/message.ejs"
-import { titleize } from "@workarea/core/models/string"
+import { titleize } from "../../models/string"
 
 export default class FlashController extends Controller {
   /**

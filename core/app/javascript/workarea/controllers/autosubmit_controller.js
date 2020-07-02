@@ -1,6 +1,6 @@
 import { Controller } from "stimulus"
 import debounce from "lodash.debounce"
-import { config } from "../../workarea"
+import config from "../config"
 
 export default class extends Controller {
   /**

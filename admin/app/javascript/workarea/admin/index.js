@@ -1,8 +1,11 @@
-import Workarea from "@workarea/core"
-import routes from "./routes"
+import { Engine } from "workarea"
 
-const controllers = require.context(
-  "workarea/admin/controllers", true, /_controller\.js$/
-)
+export default class Admin extends Engine {
+    get context() {
+        return require.context
+    }
 
-export default { controllers, routes }
+    get namespace() {
+        return "workarea/admin"
+    }
+}

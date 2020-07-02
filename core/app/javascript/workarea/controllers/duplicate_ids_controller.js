@@ -31,7 +31,7 @@ export default class extends Controller {
 
   /**
    * Whether we are running on a local development/test instance of the
-   * application. This module does nothing in qa/staging/production
+   * application. This controller does nothing in qa/staging/production
    * environments.
    */
   get local() {

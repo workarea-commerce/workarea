@@ -81,9 +81,9 @@
               = link_to image_tag('workarea/storefront/logo.png', alt: t('workarea.storefront.layouts.logo'), class: 'page-header__logo', width: 256), root_path, rel: 'home'
             .grid__cell.grid__cell--50-at-medium
               .page-header__search
-                = form_tag search_path, method: 'get', class: 'page-header__search-form', role: 'search' do
+                = form_tag search_path, method: 'get', class: 'page-header__search-form', role: 'search', data: { controller: 'search', target: '@click->search#handleUserClick focus->search#focus input->search#input change->search#change' } do
                   .page-header__search-value
-                    .value= search_field_tag :q, params[:q], id: 'storefront_search', class: 'text-box', title: t('workarea.storefront.searches.search'), aria: { label: t('workarea.storefront.searches.search') }, placeholder: t('workarea.storefront.searches.search')
+                    .value= search_field_tag :q, params[:q], id: 'storefront_search', class: 'text-box', title: t('workarea.storefront.searches.search'), aria: { label: t('workarea.storefront.searches.search') }, placeholder: t('workarea.storefront.searches.search'), data: { target: 'search.input' }
                     = append_partials('storefront.page_header_search_value')
                   .page-header__search-button= button_tag t('workarea.storefront.forms.go'), value: 'search', class: 'button'
 

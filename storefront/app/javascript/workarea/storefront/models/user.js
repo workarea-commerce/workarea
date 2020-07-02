@@ -1,4 +1,4 @@
-import { routes } from "../routes.js.erb"
+import routes from "../routes.js.erb"
 import "whatwg-fetch"
 
 export default class User {

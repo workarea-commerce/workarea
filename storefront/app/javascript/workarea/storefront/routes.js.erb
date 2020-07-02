@@ -1,1 +1,5 @@
-<%= JsRoutes.generate(application: Workarea::Storefront::Engine.instance) %>
+const routes = <%= JsRoutes.generate(application: Workarea::Storefront::Engine.instance) %>
+
+console.log(routes)
+
+export default routes

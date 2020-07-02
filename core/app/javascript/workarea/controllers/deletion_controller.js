@@ -1,9 +1,8 @@
 import { Controller } from "stimulus"
-import { config } from "../../workarea"
 
 export default class extends Controller {
   get message() {
-    return this.data.get("message") || config.deletion.message
+    return this.data.get("message")
   }
 
   get confirmed() {
@@ -19,12 +18,13 @@ export default class extends Controller {
    * whether the confirmation was successful.
    */
   submit(event) {
-    if (window.confirm(this.message)) {
+    if (this.message && window.confirm(this.message)) {
       this.element.dispatchEvent(this.confirmed)
-    } else {
-      event.preventDefault()
-      event.stopAllPropagation()
-      this.element.dispatchEvent(this.canceled)
+      return
     }
+
+    event.preventDefault()
+    event.stopAllPropagation()
+    this.element.dispatchEvent(this.canceled)
   }
 }

@@ -14,9 +14,13 @@ export default class extends Controller {
    * Render a new dialog to the DOM by appending it to the `<body>` element
    */
   static render(title, content, type) {
-    const dialog = template(Dialog, { title, type, content, close })
+    const dialog = createElement(title, content, type)
 
     document.body.append(dialog)
+  }
+
+  static createElement(title, content, type) {
+    return template(Dialog, { title, type, content, close })
   }
 
   /**

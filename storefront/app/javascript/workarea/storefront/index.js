@@ -1,8 +1,11 @@
-import Workarea from "@workarea/core"
-import routes from "./routes.js.erb"
+import { Engine } from "workarea"
 
-const controllers = require.context(
-  "workarea/storefront/controllers", true, /_controller\.js$/
-)
+export default class Storefront extends Engine {
+    get context() {
+        return require.context
+    }
 
-export default { controllers, routes }
+    get namespace() {
+        return "workarea/storefront"
+    }
+}
