@@ -56,6 +56,7 @@ module Workarea
     def install_javascripts
       rake 'webpacker:install'
       rake 'webpacker:install:workarea'
+      rake 'workarea:install:packages'
     end
 
     private

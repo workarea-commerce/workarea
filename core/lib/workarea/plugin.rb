@@ -1,6 +1,7 @@
 module Workarea
   module Plugin
     extend ActiveSupport::Concern
+    extend Enumerable
 
     mattr_accessor :installed
     self.installed ||= []
@@ -9,6 +10,10 @@ module Workarea
     self.stylesheets_appends ||= {}
     self.javascripts_appends ||= {}
     self.partials_appends ||= {}
+
+    class << self
+      delegate :each, to: :installed
+    end
 
     def self.installed?(search)
       searches = installed +

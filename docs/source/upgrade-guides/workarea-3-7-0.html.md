@@ -25,10 +25,20 @@ All plugins that have been upgraded to 3.7 also include Stimulus rewrites alongs
 
 ### What Do You Need to Do?
 
-For your existing plugins and applications to continue working as normal, add the following gem to your Gemfile when upgrading to Workarea 3.7:
+If you have overridden JavaScript in your application, add the following gem to your Gemfile when upgrading to Workarea 3.7:
 
 ```ruby
 gem 'workarea-legacy_javascript'
 ```
 
-This will load in all of the JS files that were taken out of Workarea with the move to Stimulus, allowing your site to work as normal when upgrading. It also configures the application to not load the Stimulus JS in order to prevent conflicts. Over time, you may choose to rewrite your own JS code into Stimulus. If you do this, you can safely remove this gem from your Gemfile. The legacy JS code will be around for quite some time, as we have no plans to drop support for it, meaning you can do this work at a later date or not at all if it's too big of a job. Any new plugins or features developed post 3.7 will **not** include backports to the legacy JavaScript, and we will not accept pull requests on the gem to make it happen, so if you want to stay on the bleeding edge it's probably best to upgrade your JS to Stimulus.
+This will load in all of the JS files that were taken out of Workarea with the move to Stimulus, allowing your site to work as normal when upgrading. It also configures the application to not load the Stimulus JS in order to prevent conflicts. Over time, you may choose to rewrite your own JS code into Stimulus controllers. If you do this, you can safely remove this gem from your Gemfile. The legacy JS code will be around for quite some time, as we have no plans to drop support for it, meaning you can do this work at a later date or not at all if it's too big of a job. Any new plugins or features developed post 3.7 will **not** include backports to the legacy JavaScript, and we will not accept pull requests on the gem to make it happen, so if you want to stay on the bleeding edge it's probably best to upgrade your JS to Stimulus.
+
+You'll also want to run these tasks when you upgrade to 3.7:
+
+```bash
+rails webpacker:install               # Installs Webpack and configures the app for Webpacker
+rails webpacker:install:workarea      # Installs Workarea-specific loaders (SVG, EJS, etc.) as well as Stimulus
+rails workarea:install:packages       # Installs Workarea-specific NPM packages for use in your application
+```
+
+They should be run in this order. You'll only need to run `workarea:install:packages` for every subsequent minor release update. This command pretty much does nothing if you already have the packages installed, so it's safe to run as much as you want. The other two tasks will manipulate the configs of your application, so make sure you're aware of what's changing if there are any conflicts.
