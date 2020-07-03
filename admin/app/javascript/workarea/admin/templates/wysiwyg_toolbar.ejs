@@ -1,0 +1,72 @@
+<div class="wysiwyg__toolbar" id="<%= id %>">
+    <div class='wysiwyg__toolbar-dropdown'>
+      <button type='button' class='wysiwyg__toolbar-dropdown-button'>
+        <%= I18n.t('workarea.admin.js.wysiwyg.style') %>
+        <%= ExpandMoreIcon %>
+      </button>
+      <div class='wysiwyg__toolbar-dropdown-content'>
+        <a class='wysiwyg__toolbar-dropdown-option' data-wysihtml-command='formatBlock' data-wysihtml-command-value='h2'>
+          <span><%= I18n.t('workarea.admin.js.wysiwyg.heading') %></span>
+        </a>
+        <a class='wysiwyg__toolbar-dropdown-option' data-wysihtml-command='formatBlock' data-wysihtml-command-value='h3'>
+          <span><%= I18n.t('workarea.admin.js.wysiwyg.sub_heading') %></span>
+        </a>
+        <a class='wysiwyg__toolbar-dropdown-option' data-wysihtml-command='formatBlock' data-wysihtml-command-blank-value='true'>
+          <span><%= I18n.t('workarea.admin.js.wysiwyg.plain_text') %></span>
+        </a>
+      </div>
+    </div>
+
+    <a class='wysiwyg__toolbar-button' data-wysihtml-command='bold'>
+      <span class='wysiwyg__toolbar-button-icon svg-icon', title="<%= I18n.t('workarea.admin.js.wysiwyg.bold') %>">
+        <%= BoldIcon %>
+      </span>
+    </a>
+    <a class='wysiwyg__toolbar-button' data-wysihtml-command='italic'>
+      <span class='wysiwyg__toolbar-button-icon svg-icon', title="<%= I18n.t('workarea.admin.js.wysiwyg.italic') %>">
+        <%= ItalicIcon %>
+      </span>
+    </a>
+    <a class='wysiwyg__toolbar-button' data-wysihtml-command='underline'>
+      <span class='wysiwyg__toolbar-button-icon svg-icon', title="<%= I18n.t('workarea.admin.js.wysiwyg.underline') %>">
+        <%= UnderlineIcon %>
+      </span>
+    </a>
+
+    <a class='wysiwyg__toolbar-button' data-wysihtml-command='insertUnorderedList'>
+      <span class='wysiwyg__toolbar-button-icon svg-icon', title="<%= I18n.t('workarea.admin.js.wysiwyg.bulleted_list') %>">
+        <%= BulletedListIcon %>
+      </span>
+    </a>
+    <a class='wysiwyg__toolbar-button' data-wysihtml-command='insertOrderedList'>
+      <span class='wysiwyg__toolbar-button-icon svg-icon', title="<%= I18n.t('workarea.admin.js.wysiwyg.numbered_list') %>">
+        <%= NumberedListIcon %>
+      </span>
+    </a>
+
+    <a class='wysiwyg__toolbar-button' data-wysihtml-action='change_view'>
+      <span class='wysiwyg__toolbar-button-icon svg-icon', title="<%= I18n.t('workarea.admin.js.wysiwyg.html') %>">
+        <%= HTMLIcon %>
+      </span>
+    </a>
+    <a class='wysiwyg__toolbar-button' data-wysihtml-command='createLink'>
+      <span class='wysiwyg__toolbar-button-icon svg-icon', title="<%= I18n.t('workarea.admin.js.wysiwyg.html') %>">
+        <%= LinkIcon %>
+      </span>
+    </a>
+
+    <div class='wysiwyg__dialog' data-wysihtml-dialog='createLink' style='display: none;'>
+      <div class='grid grid--bottom'>
+        <div class='grid__cell grid__cell--80'>
+          <div class='property property--inline-with-label'>
+            <label class='property__name'><%= I18n.t('workarea.admin.js.wysiwyg.link') %></label>
+            <input class='text-box' data-wysihtml-dialog-field='href' value='http://'>
+          </div>
+        </div>
+        <div class='grid__cell grid__cell--20'>
+          <a class='button button--create' data-wysihtml-dialog-action='save'><%= I18n.t('workarea.admin.js.wysiwyg.insert') %></a>
+        </div>
+      </div>
+    </div>
+</div>
+

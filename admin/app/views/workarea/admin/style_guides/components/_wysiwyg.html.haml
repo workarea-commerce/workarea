@@ -4,7 +4,8 @@
 
   %p Provides styling for an instance of the WYSIWYG editor.
 
-  %p Progressively enhanced by the <code>WORKAREA.wysiwygs</code> module.
+  %p Progressively enhanced by the <code>WysiwygController</code>.
 
   .style-guide__example-block
-    .wysiwyg{ data: { wysiwyg: '' } }=text_area_tag 'wysiwyg', nil, id: nil, class: 'text-box text-box--multi-line'
+    .wysiwyg{ data: { controller: 'wysiwyg', wysiwyg: '' } }
+      = text_area_tag 'wysiwyg', nil, id: nil, class: 'text-box text-box--multi-line', data: { target: 'wysiwyg.editor' }

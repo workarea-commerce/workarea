@@ -7,7 +7,8 @@
 
   - if field.note.present?
     %span.property__note= field.note
-  .wysiwyg{ data: { wysiwyg: '' } }= text_area_tag "block[data][#{field.slug}]", block.data[field.slug], id: nil, class: 'text-box text-box--multi-line text-box--i18n', required: field.required?
+  .wysiwyg{ data: { controller: 'wysiwyg', wysiwyg: '' } }
+    = text_area_tag "block[data][#{field.slug}]", block.data[field.slug], id: nil, class: 'text-box text-box--multi-line text-box--i18n', required: field.required?, data: { target: 'wysiwyg.editor' }
 
 - if field.tooltip.present?
   .tooltip-content{ id: "#{dom_id(block, field.slug)}_tooltip" }

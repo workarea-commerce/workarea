@@ -75,7 +75,8 @@
           = text_field_tag 'product[meta_description]', @product.meta_description, class: 'text-box text-box--i18n', id: "product_meta_description"
 
         .property
-          .wysiwyg{ data: { wysiwyg: '' } }= text_area_tag 'product[description]', @product.description, class: 'text-box text-box--multi-line text-box--i18n', id: "product_description"
+          .wysiwyg{ data: { controller: 'wysiwyg', wysiwyg: '' } }
+            = text_area_tag 'product[description]', @product.description, class: 'text-box text-box--multi-line text-box--i18n', id: "product_description", data: { target: 'wysiwyg.editor' }
 
       .section
 

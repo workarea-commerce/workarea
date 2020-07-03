@@ -1,7 +1,8 @@
 import I18n from "i18n"
-import "i18n/filtered.js.erb"
+import translations from "i18n/filtered.js.erb"
 
 I18n.fallbacks = true
+I18n.translations = translations
 
 const locale = document.querySelector('meta[property="locale"]')
                        .getAttribute('content')

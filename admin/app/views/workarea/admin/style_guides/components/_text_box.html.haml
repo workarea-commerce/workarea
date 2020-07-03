@@ -104,7 +104,8 @@
 
   .style-guide__example-block
     .i18n
-      .wysiwyg{ data: { wysiwyg: '' } }=text_area_tag 'wysiwyg', nil, id: nil, class: 'text-box text-box--multi-line text-box--i18n'
+      .wysiwyg{ data: { controller: 'wysiwyg', wysiwyg: '' } }
+        = text_area_tag 'wysiwyg', nil, id: nil, class: 'text-box text-box--multi-line text-box--i18n', data: { target: 'wysiwyg.editor' }
 
   %p The modifiers <code>textbox--small</code>, <code>textbox--medium</code>, <code>textbox--large</code> are getting a bigger width to keep the same fillable size.
 

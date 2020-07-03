@@ -15,7 +15,8 @@
       .section
         .property
           = label_tag 'email[content]', t('workarea.admin.fields.content'), class: 'property__name'
-          .wysiwyg{ data: { wysiwyg: '' } }= text_area_tag 'email[content]', @email.content, class: 'text-box text-box--multi-line text-box--i18n'
+          .wysiwyg{ data: { controller: 'wysiwyg', wysiwyg: '' } }
+            = text_area_tag 'email[content]', @email.content, class: 'text-box text-box--multi-line text-box--i18n', data: { target: 'wysiwyg.editor' }
 
       .workflow-bar
         .grid.grid--auto.grid--right.grid--middle
