@@ -10,8 +10,7 @@
     "stylelint-scss": "~3.9.2"
   },
   "dependencies": {
-    "@workarea/core": "3.6.0",
-    "@workarea/storefront": "3.6.0",
-    "@workarea/admin": "3.6.0"
+    "js-cookie": "^2.2.1",
+    "stimulus": "^1.1.1"
   }
 }
