@@ -2,7 +2,6 @@ require 'workarea/testing/engine'
 
 module Workarea
   class OverrideGenerator < Rails::Generators::Base
-
     desc File.read(File.expand_path('../USAGE', __FILE__))
 
     argument :type, type: :string, required: true
@@ -11,7 +10,7 @@ module Workarea
     def override
       directory = if type == 'layouts'
                     'views/layouts'
-                  elsif type.in?(%w(javascripts stylesheets images fonts))
+                  elsif type.in?(%w(stylesheets images fonts))
                     "assets/#{type}"
                   else
                     type

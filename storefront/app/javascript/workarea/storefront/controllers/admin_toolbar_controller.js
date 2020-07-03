@@ -1,5 +1,6 @@
 import { Controller } from "stimulus"
 import User from "../models/user"
+import admin from "workarea/admin/routes.js.erb"
 
 export default class extends Controller {
   get shouldDisplay() {
@@ -11,16 +12,11 @@ export default class extends Controller {
   }
 
   get url() {
-    const params = {
-      return_to: window.location.href,
-      id: document.querySelector('meta[property="global-id"]')
-                  .attr('content')
-    }
-    const query = Object.keys(params)
-                        .map(param => `${param}=${params[param]}`)
-                        .join('&')
+    const return_to = window.location.href
+    const meta = document.querySelector('meta[property="global-id"]')
+    const id = meta.attr('content')
 
-    return `/admin/toolbar?${query}`
+    return admin.toolbarPath({ return_to, id })
   }
 
   initialize() {

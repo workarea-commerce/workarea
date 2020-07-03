@@ -1,0 +1,9 @@
+Description:
+    Decorates a JavaScript controller for a given PATH in a Workarea
+    platform component (or plugin).
+
+Example:
+    rails generate workarea:js_decorator app/javascript/workarea/storefront/controllers/messages_controller.js
+
+    This will create:
+        app/javascript/storefront/controllers/messages_controller.js
