@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "animate.css": "^3.7.2",
+    "change-case": "^4.1.1",
     "ejs-compiled-loader": "^1.1.0",
     "i18n-js": "^3.3.0",
     "js-cookie": "^2.2.1",
@@ -36,6 +37,7 @@
     "lodash.isobject": "^3.0.2",
     "lodash.isstring": "^4.0.1",
     "lodash.isundefined": "^3.0.1",
+    "pluralize": "^8.0.0",
     "stimulus": "^1.1.1",
     "titleize": "^2.1.0",
     "whatwg-fetch": "^3.0.0"

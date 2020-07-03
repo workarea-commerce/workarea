@@ -25,5 +25,11 @@
   },
   "bugs": {
     "url": "https://github.com/workarea-commerce/workarea/issues"
+  },
+  "dependencies": {
+    "change-case": "^4.1.1",
+    "jquery": "^3.5.1",
+    "jquery-ui": "^1.12.1",
+    "lodash.zip": "^4.2.0"
   }
 }

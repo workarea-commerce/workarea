@@ -1,10 +1,10 @@
-import { pluralize } from "../models/string"
+import pluralize from "pluralize"
 
 export default class DuplicateIdsError extends Error {
   constructor(ids) {
-    const values = pluralize(ids.length, "value")
+    const dupes = pluralize("duplicate ID attribute value", ids.length)
     const page = `page ${window.location.pathname}`
 
-    super(`${ids.length} duplicated ID attribute ${values} found on ${page}`)
+    super(`${dupes} found on ${page}`)
   }
 }
