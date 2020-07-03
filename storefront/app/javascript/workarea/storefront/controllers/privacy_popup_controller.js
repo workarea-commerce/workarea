@@ -15,7 +15,7 @@ export default class PrivacyPopup extends Controller {
   }
 
   get userHasSeenPopup() {
-    return Boolean(Cookie.get('cookies_accepted'));
+    return Boolean(Cookie.get('cookies_accepted'))
   }
 
   get title() {
@@ -27,11 +27,11 @@ export default class PrivacyPopup extends Controller {
   }
 
   isOnPrivacyPolicyPage() {
-    return window.location.pathname === routes.pagePath({ id: 'privacy-policy' });
+    return window.location.pathname === routes.pagePath({ id: 'privacy-policy' })
   }
 
   markUserHasSeenPopup() {
-    Cookie.set('cookies_accepted', 'true', 999);
+    Cookie.set('cookies_accepted', 'true', 999)
   }
 
   showPopup() {

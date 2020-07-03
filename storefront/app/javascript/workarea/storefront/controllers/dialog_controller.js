@@ -9,14 +9,14 @@ import close from "../images/dialog_close.svg"
  * links, using this controller as a helper for rendering their content
  * in an EJS template and managing loading indicators.
  */
-export default class extends Controller {
+export default class DialogController extends Controller {
   /**
    * Render a new dialog to the DOM by appending it to the `<body>` element
    */
   static render(title, content, type) {
-    const dialog = createElement(title, content, type)
+    const dialog = Dialog({ title, content, type })
 
-    document.body.append(dialog)
+    document.body.insertAdjacentHTML("beforeend", dialog)
   }
 
   static createElement(title, content, type) {

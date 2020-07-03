@@ -7,18 +7,14 @@ import DuplicateIdsError from "../errors/duplicate_ids_error"
  */
 export default class extends Controller {
   /**
-   * An array of all ID attributes on the page.
+   * All ID attributes on the page.
    */
   get ids() {
-    return this.element.querySelectorAll('[id]')
-                       .map(element => element.getAttribute('id'))
-  }
+    const elements = this.element.querySelectorAll('[id]')
 
-  /**
-   * A unique Set of all IDs in the array.
-   */
-  get set() {
-    return [...new Set(this.ids)]
+    return new Set(
+      elements.map(element => element.getAttribute('id'))
+    )
   }
 
   /**
@@ -45,10 +41,10 @@ export default class extends Controller {
    * test execution.
    */
   connect() {
-    if (this.unique || !this.local) { return; }
+    if (this.unique || !this.local) { return }
 
     try {
-      throw new DuplicateIdsError(ids)
+      throw new DuplicateIdsError(this.ids)
     } catch(error) {
       if (isTest) {
         throw error

@@ -1,9 +1,12 @@
 {
     "extends": "eslint:recommended",
+    "parser": "babel-eslint",
     "rules": {
-      "semi": ["error", "always"],
-      "eqeqeq": ["error", "always"]
+      "semi": ["error", "never"],
+      "eqeqeq": ["error", "always"],
+      "no-unused-vars": [2, {"args": "after-used", "argsIgnorePattern": "^_"}]
     },
+    "ignorePatterns": ["docs/**/*", "coverage/**/*"],
     "globals": {
       "window": true,
       "document": true,
@@ -32,5 +35,10 @@
       "fixture": true,
       "chai": true,
       "Tribute": true
+    },
+    "env": {
+      "node": true,
+      "browser": true,
+      "es6": true
     }
 }

@@ -19,7 +19,7 @@ export default class Application extends Engine {
     get config() {
         let config = {}
 
-        this.configurators.forEach(configure => engine.configure(config))
+        this.configurators.forEach(engine => engine.configure(config))
 
         return config
     }

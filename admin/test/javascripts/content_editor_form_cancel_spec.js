@@ -1,19 +1,19 @@
 (function () {
-    'use strict';
+    'use strict'
 
     describe('WORKAREA.contentEditorFormCancel', function () {
         describe('init', function () {
             it('closes the edit form when clicked', function () {
-                var $fixture = $(fixture.load('content_block_editor_form.html'));
+                var $fixture = $(fixture.load('content_block_editor_form.html'))
 
-                WORKAREA.contentEditorFormCancel.init($fixture);
+                WORKAREA.contentEditorFormCancel.init($fixture)
 
-                $('.content-block').addClass('content-block--inactive');
-                $('[data-content-editor-form-cancel]').trigger('click');
+                $('.content-block').addClass('content-block--inactive')
+                $('[data-content-editor-form-cancel]').trigger('click')
 
-                expect(_.isEmpty($('.content-block--active'))).to.equal(true);
-                expect($('.content-editor__aside').css('display')).to.equal('block');
-            });
-        });
-    });
-}());
+                expect(_.isEmpty($('.content-block--active'))).to.equal(true)
+                expect($('.content-editor__aside').css('display')).to.equal('block')
+            })
+        })
+    })
+}())

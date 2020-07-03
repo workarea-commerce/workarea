@@ -7,7 +7,7 @@ export default class Engine {
         this.app = app
     }
 
-    configure(config) {}
+    configure(_config) {}
 
     get routes() {
         return this.require("./routes.js.erb")

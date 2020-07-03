@@ -8,7 +8,7 @@ export default class Analytics {
   }
 
   send(event, payload = {}) {
-    if (this.hasOwnProperty(event)) {
+    if (this[event]) {
       this[event].apply(this[event], payload)
     }
   }

@@ -1,6 +1,7 @@
 import { Controller } from "stimulus"
 import { analytics as config } from "../config"
 import { isDevelopment } from "../models/environment"
+import Cookie from "js-cookie"
 
 export default class AnalyticsController extends Controller {
   /**
@@ -8,8 +9,9 @@ export default class AnalyticsController extends Controller {
    * available, and fire the pageClick analytics event immediately.
    */
   connect() {
-    const session = Cookie.get('analytics_session') || this.createSession()
     this.adapters = config.adapters.map(Adapter => new Adapter(config))
+
+    Cookie.get('analytics_session') || this.createSession()
 
     if (this.data.has("click")) {
       this.element.addEventListener("click", this.click.bind(this))
@@ -49,15 +51,15 @@ export default class AnalyticsController extends Controller {
   }
 
   calculateListPosition(position, page, perPage) {
-    position = position || 0;
-    page = page || 1;
-    perPage = perPage || 20;
+    position = position || 0
+    page = page || 1
+    perPage = perPage || 20
 
-    return position + ((page - 1) * perPage);
+    return position + ((page - 1) * perPage)
   }
 
   setupProductList() {
-    const { event, payload } = this.data.get("impression")
+    const { payload } = this.data.get("impression")
     const page = payload.page
     const perPage = payload.per_page
     const attribute = 'data-analytics-impression'
@@ -76,7 +78,7 @@ export default class AnalyticsController extends Controller {
     if (!impressions.length) { return }
 
     payload.name = payload.name || this.breadcrumbs
-    payload.impressions = impressions;
+    payload.impressions = impressions
 
     this.send('productList', payload)
   }
@@ -112,7 +114,7 @@ export default class AnalyticsController extends Controller {
 
     if (config.preventDomEvents) { event.preventDefault() }
 
-    this.send('productClick', data)
+    this.send('productClick', payload)
   }
 
   submit(e) {

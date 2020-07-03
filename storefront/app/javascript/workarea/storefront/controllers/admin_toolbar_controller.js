@@ -7,7 +7,7 @@ export default class extends Controller {
 
     return user.impersonating
             || user.browsing_as_guest
-            || (user.admin && user.logged_in);
+            || (user.admin && user.logged_in)
   }
 
   get url() {
@@ -15,7 +15,7 @@ export default class extends Controller {
       return_to: window.location.href,
       id: document.querySelector('meta[property="global-id"]')
                   .attr('content')
-    };
+    }
     const query = Object.keys(params)
                         .map(param => `${param}=${params[param]}`)
                         .join('&')
@@ -51,8 +51,8 @@ export default class extends Controller {
   }
 
   collapse() {
-    this.element.classList.remove('admin-toolbar--expanded');
-    this.headerTarget.classList.remove('header--takeover');
+    this.element.classList.remove('admin-toolbar--expanded')
+    this.headerTarget.classList.remove('header--takeover')
   }
 
   /**
@@ -61,8 +61,8 @@ export default class extends Controller {
   expand() {
     const focus = new Event("focus")
 
-    this.element.classList.add('admin-toolbar--expanded');
-    this.headerTarget.classList.add('header--takeover');
+    this.element.classList.add('admin-toolbar--expanded')
+    this.headerTarget.classList.add('header--takeover')
     this.searchTarget.dispatchEvent(focus)
   }
 

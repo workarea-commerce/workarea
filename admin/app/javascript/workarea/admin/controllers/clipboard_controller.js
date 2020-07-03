@@ -16,7 +16,7 @@ export default class extends Controller {
    * in the button text, then restore original button text after 3
    * seconds.
    */
-  copy(event) {
+  copy() {
     const range = document.createRange()
 
     range.selectNode(this.inputTarget)

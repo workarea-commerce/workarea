@@ -1,5 +1,5 @@
 (function () {
-    'use strict';
+    'use strict'
 
     describe('WORKAREA.contentEditorForms', function () {
         describe('buildParams', function () {
@@ -8,13 +8,13 @@
                     [ { name: 'foo', value: 'bar' },
                       { name: '_method', value: 'PATCH' } ],
                     { baz: 'qux' }
-                );
+                )
 
-                expect(result.length).to.equal(2);
-                expect(result).to.contain({ name: 'foo', value: 'bar' });
-                expect(result).to.contain({ name: 'baz', value: 'qux' });
-                expect(result).to.not.contain({ name: '_method', value: 'PATCH' });
-            });
-        });
-    });
-}());
+                expect(result.length).to.equal(2)
+                expect(result).to.contain({ name: 'foo', value: 'bar' })
+                expect(result).to.contain({ name: 'baz', value: 'qux' })
+                expect(result).to.not.contain({ name: '_method', value: 'PATCH' })
+            })
+        })
+    })
+}())

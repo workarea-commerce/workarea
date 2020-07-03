@@ -17,7 +17,7 @@ export default class FlashController extends Controller {
   /**
    * Render a flash message
    */
-  render({ detail: [ xhr, _status ] }) {
+  render({ detail: [ xhr ] }) {
     const header = xhr.getResponseHeader("X-Flash-Messages")
     const flash = JSON.parse(header)
 

@@ -1,5 +1,5 @@
 (function () {
-    'use strict';
+    'use strict'
 
     describe('WORKAREA.popupButtons', function () {
         describe('getOptionString', function () {
@@ -8,12 +8,12 @@
                     $fixture = $(fixture.load(markup, true)),
 
                     button = $('[data-popup-button]', $fixture)[0],
-                    windowOpenParams;
+                    windowOpenParams
 
-                windowOpenParams = WORKAREA.popupButtons.getOptionString(button);
+                windowOpenParams = WORKAREA.popupButtons.getOptionString(button)
 
-                expect(windowOpenParams).to.equal('width=200,height=300');
-            });
-        });
-    });
-}());
+                expect(windowOpenParams).to.equal('width=200,height=300')
+            })
+        })
+    })
+}())

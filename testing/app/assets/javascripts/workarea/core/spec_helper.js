@@ -37,9 +37,9 @@
 // at: http://chaijs.com/guide/styles
 //
 // window.assert = chai.assert;
-window.expect = chai.expect;
+window.expect = chai.expect
 // window.should = chai.should();
 
 // add FeatureJS class to root element
 document.documentElement.className =
-    document.documentElement.className + ' js';
+    document.documentElement.className + ' js'

@@ -8,7 +8,7 @@ import isString from "lodash.isstring"
  * @return {String} the dasherized string
  */
 export function dasherize(string) {
-    return string.replace(/\s+/g, '-').toLowerCase();
+    return string.replace(/\s+/g, '-').toLowerCase()
 }
 
 /**
@@ -22,11 +22,11 @@ export function dasherize(string) {
  */
 export function pluralize(count, string, pluralizedString) {
     if (count > 1 && ! isUndefined(pluralizedString)) {
-        return pluralizedString;
+        return pluralizedString
     } else if (count > 1) {
-        return string + 's';
+        return string + 's'
     } else {
-        return string;
+        return string
     }
 }
 
@@ -37,10 +37,10 @@ export function pluralize(count, string, pluralizedString) {
  */
 export function titleize(string) {
   if ( ! isString(string)) {
-      throw new Error('WORKAREA.string.titleize: expecting string');
+      throw new Error('WORKAREA.string.titleize: expecting string')
   }
 
-  return trim(string).toLowerCase().split(' ').map(subString => {
+  return string.trim().toLowerCase().split(' ').map(subString => {
     return subString.charAt(0).toUpperCase() + subString.slice(1)
   }).join(' ')
 }
