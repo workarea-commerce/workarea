@@ -12,17 +12,13 @@ module Workarea
     protected
 
     def adapter_name
-      name.camelize(:lower)
+      name.camelize
     end
 
     private
 
     def adapter_file_path
-      "app/assets/javascripts/workarea/#{asset_path}.js"
-    end
-
-    def asset_path
-      "#{options.engine}/adapters/#{file_path}"
+      "app/javascript/#{engine}/models/analytics/#{file_path}.js"
     end
   end
 end

@@ -1,21 +1,17 @@
-/**
- * @namespace WORKAREA.<%= adapter_name %>
- */
+import AnalyticsAdapter from "workarea/models/analytics"
 
-WORKAREA.analytics.registerAdapter('<%= adapter_name %>', function () {
-    'use strict';
+export default class <%= adapter_name %> extends AnalyticsAdapter {
+  send(event, payload) {
+    // Send data to 3rd party. Use `this.config` to access configuration
+    // for this analytics service (`config.adapters[ADAPTER_NAME]`)
+  }
 
-    var send = function (event, payload) {
-            // Send data to 3rd party
-        };
+  // Events to send:
+  pageView() {
+    this.send('pageView')
+  }
 
-    return {
-        'pageView': function () {
-            send('pageView');
-        },
-
-        'categoryView': function (payload) {
-            send('categoryView', payload);
-        }
-    };
-});
+  categoryView(payload) {
+    this.send('categoryView', payload)
+  }
+}

@@ -7,7 +7,7 @@ export default class Analytics {
     this.config = config
   }
 
-  send(event, payload = {}) {
+  handle(event, payload = {}) {
     if (this[event]) {
       this[event].apply(this[event], payload)
     }

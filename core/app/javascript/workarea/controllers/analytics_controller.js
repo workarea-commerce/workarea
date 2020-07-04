@@ -89,7 +89,7 @@ export default class AnalyticsController extends Controller {
       console.log('Firing analytics event', event, 'with', data)
     }
 
-    this.adapters.forEach(adapter => adapter.send(event, data))
+    this.adapters.forEach(adapter => adapter.handle(event, data))
   }
 
   click(event) {
