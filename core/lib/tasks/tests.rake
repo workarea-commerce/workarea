@@ -93,4 +93,16 @@ namespace :workarea do
         .reduce(&:+)
     )
   end
+
+  desc 'Run JavaScript tests with Jest'
+  task 'test:javascript' => :prepare do
+    workarea = Gem::Specification.find_by_name('workarea')
+    config = "#{workarea.gem_dir}/jest.config.js"
+    roots = [Workarea::Core::Engine.root] +
+              Workarea::Plugin.installed.map(&:root) +
+              [Rails.root]
+    tests = roots.map { |p| "#{p}/test/javascript" }.join(' ')
+
+    sh "yarn run jest --config=#{config} #{tests}"
+  end
 end

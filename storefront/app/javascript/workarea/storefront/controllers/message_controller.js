@@ -6,7 +6,7 @@ import { Controller } from "stimulus"
  * box, it just removes a flash message element from the DOM when
  * closed.
  */
-export default class extends Controller {
+export default class MessageController extends Controller {
   close(event) {
     event.preventDefault()
     this.element.remove()

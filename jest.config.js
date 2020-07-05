@@ -1,9 +1,10 @@
-const {defaults } = require('jest-config')
+const { defaults } = require('jest-config')
 
 module.exports = {
-  moduleFileExtensions: [...defaults.moduleFileExtensions, 'ejs'],
+  moduleFileExtensions: [...defaults.moduleFileExtensions, 'ejs', 'erb'],
   transform: {
-    "\\.ejs$": "<rootDir>/testing/src/jest-ejs-transform.js",
+    "\\.erb$": "<rootDir>/testing/src/jest-erb-transformer.js",
+    "\\.ejs$": "jest-ejs-transformer",
     "\\.js$": "babel-jest"
   },
   setupFiles: [

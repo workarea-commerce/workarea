@@ -2,7 +2,7 @@ import { Controller } from "stimulus"
 import User from "../models/user"
 import admin from "workarea/admin/routes.js.erb"
 
-export default class extends Controller {
+export default class AdminToolbarController extends Controller {
   get shouldDisplay() {
     const user = User.current()
 

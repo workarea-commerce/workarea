@@ -49,9 +49,7 @@ directory "#{__dir__}/admin", "#{Webpacker.config.source_path}/admin"
 say "Creating storefront JS"
 directory "#{__dir__}/storefront", "#{Webpacker.config.source_path}/storefront"
 
-say "Installing all loader dependencies"
-yarn add 'rails-erb-loader ejs-compiled-loader svg-inline-loader'
-
 say "Installing Workarea JavaScript dependencies"
+run 'yarn add workarea'
 
 say "Webpacker now supports Workarea.js 🎉", :green

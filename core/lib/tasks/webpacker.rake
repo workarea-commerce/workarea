@@ -8,25 +8,3 @@ namespace :webpacker do
     end
   end
 end
-
-namespace :workarea do
-  namespace :install do
-    desc 'Install JS dependencies from all Workarea plugins.'
-    task packages: :environment do
-      dependencies = Workarea::Plugin.each_with_object('') do |plugin, deps|
-        path = plugin.root.join(gem, 'package.json')
-
-        next unless path.exist?
-
-        text = path.read
-        json = JSON.parse(text)
-
-        json['dependencies'].each do |name, version|
-          deps << "#{name}@#{version}"
-        end
-      end
-
-      sh "yarn add #{dependencies}"
-    end
-  end
-end

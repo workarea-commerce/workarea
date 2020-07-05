@@ -201,3 +201,11 @@ Or, run all decorated tests with backtraces enabled for failed tests:
 ```
 TESTOPTS='-b' bin/rails workarea:test:decorated
 ```
+
+## Run JavaScript Tests
+
+To run JavaScript tests using [Jest]() from each gem's own codebase as well as your own, run:
+
+```
+bin/rails workarea:test:javascript
+```

@@ -6,8 +6,8 @@
       .grid__cell= link_to "↑ #{t('workarea.admin.shared.primary_nav.main_dashboard')}", root_path, class: "primary-nav__home-link #{('primary-nav__home-link--hidden' if request.path == root_path)}"
 
     .search-form.search-form--major
-      = form_tag search_path, method: 'get', role: 'search', target: '_parent' do
-        = search_field_tag :q, nil, placeholder: t('workarea.admin.shared.primary_nav.search_placeholder'), title: t('workarea.admin.shared.primary_nav.search_placeholder'), tabindex: '0', class: 'search-form__input', data: { categorized_autocomplete_field: '' }, id: 'primary_nav_admin_search', aria: { label: t('workarea.admin.shared.primary_nav.search_placeholder') }
+      = form_tag search_path, method: 'get', role: 'search', target: '_parent', data: { controller: 'categorized-autocomplete' } do
+        = search_field_tag :q, nil, placeholder: t('workarea.admin.shared.primary_nav.search_placeholder'), title: t('workarea.admin.shared.primary_nav.search_placeholder'), tabindex: '0', class: 'search-form__input', data: { target: 'categorized-autocomplete.field', categorized_autocomplete_field: '' }, id: 'primary_nav_admin_search', aria: { label: t('workarea.admin.shared.primary_nav.search_placeholder') }
         = submit_tag t('workarea.admin.shared.primary_nav.search'), class: 'search-form__button'
 
     .primary-nav__menu

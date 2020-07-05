@@ -1,7 +1,7 @@
 {
   "name": "workarea",
   "description": "The Workarea Commerce Platform",
-  "version": "3.6.0",
+  "version": "3.7.0",
   "main": "app/javascript/workarea/storefront/index.js",
   "author": "Tom Scott <tscott@weblinc.com>",
   "homepage": "https://workarea.com",
@@ -20,7 +20,7 @@
     "url": "https://github.com/workarea-commerce/workarea/issues"
   },
   "scripts": {
-    "test": "jest */test/javascript",
+    "test": "jest-webpack */test/javascript",
     "lint": "yarn lint:js && yarn lint:css",
     "lint:js": "eslint .",
     "lint:css": "stylelint */app/assets/stylesheets/**/*.scss",
@@ -36,17 +36,23 @@
     "esdoc": "^1.1.0",
     "eslint": "^7.3.1",
     "eslint-config-recommended": "^4.1.0",
-    "jest": "^26.1.0",
+    "jest-ejs-transformer": "^0.1.0",
+    "jest-erb-transformer": "^1.0.2",
     "lerna": "^3.22.1",
-    "mutationobserver-shim": "^0.3.7",
     "stylelint": "~10.1.0",
     "stylelint-config-recommended-scss": "~3.3.0",
-    "stylelint-scss": "~3.9.2"
+    "stylelint-scss": "~3.9.2",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.12"
   },
   "dependencies": {
-    "@workarea/admin": "^3.6.0",
-    "@workarea/core": "^3.6.0",
-    "@workarea/storefront": "^3.6.0",
+    "@workarea/admin": "^3.7.0",
+    "@workarea/core": "^3.7.0",
+    "@workarea/storefront": "^3.7.0",
+    "jest": "^26.1.0",
+    "jest-ejs-transformer": "^0.1.0",
+    "mutationobserver-shim": "^0.3.7",
+    "rails-erb-loader": "^5.5.2",
     "sinon": "^9.0.2",
     "stimulus": "^1.1.1"
   }

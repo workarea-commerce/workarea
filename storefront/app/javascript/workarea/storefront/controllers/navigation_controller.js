@@ -3,7 +3,7 @@ import routes from "../routes.js.erb"
 import "whatwg-fetch"
 import isEmpty from "lodash.isempty"
 
-export default class extends Controller {
+export default class NavigationController extends Controller {
   connect() {
     const event = new Event('touchstart.primaryNavContent')
     const testBodyTouch = this.testBodyTouch.bind(this)

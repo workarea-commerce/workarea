@@ -74,6 +74,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'browser', '~> 2.7.0'
   s.add_dependency 'puma', '>= 4.3.1'
   s.add_dependency 'rack', '>= 2.0.8'
+  s.add_dependency 'avalanche-rails', '~> 1.2.0'
   s.add_dependency 'webpacker'
 
   # HACK for vendoring active_shipping

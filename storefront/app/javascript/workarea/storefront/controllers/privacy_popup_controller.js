@@ -3,7 +3,7 @@ import Cookie from 'js-cookie'
 import Dialog from './dialog_controller'
 import routes from "../routes.js.erb"
 
-export default class PrivacyPopup extends Controller {
+export default class PrivacyPopupController extends Controller {
   connect() {
     if (this.shouldShowPopup) {
       this.showPopup()

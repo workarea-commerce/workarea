@@ -1,4 +1,5 @@
 import { Controller } from "stimulus"
+import I18n from "@workarea/core/app/javascripts/workarea/i18n"
 import Dialog from "../templates/dialog.ejs"
 import Loading from "../templates/loading.ejs"
 import template from "../utils/template"

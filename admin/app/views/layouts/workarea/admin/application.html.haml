@@ -55,9 +55,9 @@
 
         .header__contents
 
-          = form_tag search_path, method: 'get', class: 'header__search-form', role: 'search' do
+          = form_tag search_path, method: 'get', class: 'header__search-form', role: 'search', data: { controller: 'categorized-autocomplete' } do
             .search-form.search-form--major
-              = search_field_tag :q, nil, placeholder: t('workarea.admin.layout.search_placeholder'), title: t('workarea.admin.layout.search_placeholder'), tabindex: '1', class: 'search-form__input', data: { categorized_autocomplete_field: '' }, id: 'admin_search'
+              = search_field_tag :q, nil, placeholder: t('workarea.admin.layout.search_placeholder'), title: t('workarea.admin.layout.search_placeholder'), tabindex: '1', class: 'search-form__input', data: { target: 'categorized-autocomplete.field', categorized_autocomplete_field: '' }, id: 'admin_search'
               = submit_tag 'search', class: 'search-form__button', value: 'search_admin'
 
           = append_partials('admin.page_header')

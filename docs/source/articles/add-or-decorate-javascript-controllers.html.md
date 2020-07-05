@@ -39,3 +39,9 @@ export default class extends FlashController {
   // Add method and property overrides here.
 }
 ```
+
+## Appendix: How Does It Work?
+
+Workarea uses both Webpack and Stimulus to achieve a system of JavaScript code that does not need to be fully overridden in order to be extensible. Because Stimulus will load all controllers in order, and choose the most recent one when identified by a `data-controller`, as long as your application JS is loaded _after_ the JS from each gem, your local JavaScript files will always be chosen as the controllers to be used and loaded. Whereas Stimulus has a relatively open-minded approach towards loading code, Webpack does typically require explicit `import` statements in the code in order to function properly. Since this is true, a decorated controller can effectively `import` an existing controller, change some things around, and `export` the result. As long as the filename is the same and matches up with a `data-controller` in the DOM, your new controller will be used rather than the out-of-box one. The existing functionality can be preserved by extending the original controller in the class definition, carrying with it all of the methods and properties from the "base" object. This is very similar to the way [rails-decorators]() works, but it's not a complete clone since JavaScript's inheritance model is far less complex than Ruby's. That said, we've attempted to duplicate much of the same functionality from the Ruby decorators that you know and love, with some minor changes that help it fit in better in a JavaScript ecosystem.
+
+**NOTE:** As decorating JavaScript relies heavily on the way Stimulus works, only controllers are decoratable for now. You'll have to explicitly `import` any other kinds of JS objects (like models or templates) from your local application in order to use them.
