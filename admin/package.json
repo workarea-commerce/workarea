@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "@workarea/core": "3.6.0",
+    "change-case": "^4.1.1",
     "jest": "^26.1.0",
     "jquery": "^3.5.1",
     "jquery-ui": "^1.12.1",

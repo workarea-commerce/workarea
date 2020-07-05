@@ -1,10 +1,12 @@
 import { Controller } from "stimulus"
 
-export default class Telemetry extends Controller {
+export default class TelemetryController extends Controller {
   connect() {
-    if (typeof window.ga === 'function') {
-      window.ga('set', 'location', location.toString())
-      window.ga('send', 'pageview')
+    const { ga, location } = window
+
+    if (typeof ga === 'function') {
+      ga('set', 'location', location.toString())
+      ga('send', 'pageview')
     }
   }
 }

@@ -1,7 +1,7 @@
 import { Controller } from "stimulus"
 import MenuTemplate from "../templates/tabs_menu.ejs"
 import $ from 'jquery'
-import { paramCase } from "workarea/helpers/string"
+import { paramCase } from "change-case"
 import zip from "lodash.zip"
 
 import 'jquery-ui/ui/widgets/tabs'

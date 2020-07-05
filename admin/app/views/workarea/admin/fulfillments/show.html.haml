@@ -77,9 +77,9 @@
                 %td
                   = link_to "#token-tooltip-#{token.id}", data: { tooltip: { width: '600', interactive: true }.to_json } do
                     = inline_svg_tag('workarea/admin/icons/link.svg', class: 'svg-icon svg-icon--blue', title: t('workarea.admin.fulfillment_tokens.index.copy_title'))
-                  .tooltip-content{ id: "token-tooltip-#{token.id}" }
-                    .property.property--inline= text_field_tag 'url', storefront.download_url(token), class: 'text-box text-box--wide', id: "url-#{token.id}"
-                    = button_tag t('workarea.admin.fulfillment_tokens.index.copy_button'), class: 'button button--small', data: { copy_to_clipboard: "#url-#{token.id}" }
+                  .tooltip-content{ id: "token-tooltip-#{token.id}", data: { controller: 'clipboard' } }
+                    .property.property--inline= text_field_tag 'url', storefront.download_url(token), class: 'text-box text-box--wide', id: "url-#{token.id}", data: { target: 'clipboard.input' }
+                    = button_tag t('workarea.admin.fulfillment_tokens.index.copy_button'), class: 'button button--small', data: { target: 'clipbard.button', action: 'click->clipboard#copy', copy_to_clipboard: "#url-#{token.id}" }
                 %td= token.id
                 %td= link_to token.sku, fulfillment_sku_path(token.sku)
                 %td.align-center= number_with_delimiter(token.downloads)

@@ -14,6 +14,7 @@ export default class Application extends Engine {
     this.namespace = namespace
     this.engines = []
     this.stimulus = Stimulus.start()
+    this.configurator = () => {}
   }
 
   /**
@@ -25,9 +26,13 @@ export default class Application extends Engine {
     let config = {}
 
     this.engines.forEach(engine => engine.configure(config))
-    this.configure(config)
+    this.configurator(config)
 
     return config
+  }
+
+  configure(configurator) {
+    this.configurator = configurator
   }
 
   /**

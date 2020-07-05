@@ -20,9 +20,7 @@ export default class extends Controller {
     const range = document.createRange()
 
     range.selectNode(this.inputTarget)
-
-    window.getSelection()
-          .addRange(range)
+    window.getSelection().addRange(range)
 
     if (document.execCommand('copy')) {
       this.buttonTarget.innerText = I18n.t('workarea.messages.copied')
@@ -30,7 +28,9 @@ export default class extends Controller {
       this.buttonTarget.innerText = I18n.t('workarea.messages.copy_failed')
     }
 
-    window.setTimeout(this.restore, 3000)
+    window.setTimeout(this.restore.bind(this), 3000)
+    // NOTE: Should use removeRange(range) when it is supported
+    window.getSelection().removeAllRanges()
   }
 
   /**

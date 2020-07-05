@@ -29,6 +29,7 @@
   "dependencies": {
     "@workarea/core": "3.6.0",
     "feature.js": "^1.1.1",
+    "js-cookie": "^2.2.1",
     "whatwg-fetch": "^3.1.0"
   },
   "devDependencies": {

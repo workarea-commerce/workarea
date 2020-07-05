@@ -46,9 +46,11 @@ export default class WysiwygController extends Controller {
       NumberedListIcon, HTMLIcon, LinkIcon, ExpandMoreIcon,
       I18n
     })
+    const observer = new MutationObserver(() => this.announce())
 
     this.iframe.classList.add('wysiwyg__iframe')
-    body.addEventListener("input", this.announce.bind(this))
     this.editor.insertAdjacentHTML("afterbegin", toolbar)
+    body.addEventListener("input", this.announce.bind(this))
+    observer.observe(body, { childlist: true, subtree: true })
   }
 }
