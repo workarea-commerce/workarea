@@ -1,13 +1,16 @@
 import { Controller } from "stimulus"
 import debounce from "lodash.debounce"
-import config from "../config"
 
 export default class extends Controller {
+  get config() {
+    return this.app.config.autosubmit
+  }
+
   /**
    * Debounce actions
    */
   initialize() {
-    const { changeDelay, inputDelay } = config.autosubmit
+    const { changeDelay, inputDelay } = this.config
     this.change = debounce(this.submit, changeDelay)
     this.input = debounce(this.submit, inputDelay)
   }

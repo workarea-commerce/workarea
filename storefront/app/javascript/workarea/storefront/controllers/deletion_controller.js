@@ -1,8 +1,11 @@
 import DeletionController from "workarea/controllers/deletion_controller"
-import App from "storefront/application"
 
-export default class extends DeletionController {
+export default class StorefrontDeletionController extends DeletionController {
+  get config() {
+    return this.app.config.deletion
+  }
+
   get message() {
-    return super.message || App.config.deletion.message
+    return super.message || this.config.message
   }
 }

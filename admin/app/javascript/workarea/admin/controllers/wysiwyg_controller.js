@@ -1,6 +1,5 @@
 import { Controller } from "stimulus"
 import { Editor } from "wysihtml"
-import { config } from "admin/application"
 import I18n from "workarea/i18n"
 
 import ToolbarTemplate from "../templates/wysiwyg_toolbar.ejs"
@@ -18,7 +17,7 @@ export default class WysiwygController extends Controller {
   static targets = ['editor', 'toolbar']
 
   get config() {
-    return { ...config.wysiwygs, toolbar: this.toolbarTarget }
+    return { ...this.app.config.wysiwygs, toolbar: this.toolbarTarget }
   }
 
   get iframe() {

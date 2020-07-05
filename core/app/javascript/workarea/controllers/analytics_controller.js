@@ -1,5 +1,4 @@
 import { Controller } from "stimulus"
-import { analytics as config } from "../config"
 import { isDevelopment } from "../models/environment"
 import Cookie from "js-cookie"
 
@@ -9,8 +8,6 @@ export default class AnalyticsController extends Controller {
    * available, and fire the pageClick analytics event immediately.
    */
   connect() {
-    this.adapters = config.adapters.map(Adapter => new Adapter(config))
-
     Cookie.get('analytics_session') || this.createSession()
 
     if (this.data.has("click")) {
@@ -29,6 +26,14 @@ export default class AnalyticsController extends Controller {
     this.send('pageView')
   }
 
+  get adapters() {
+    return this.config.adapters.map(Adapter => new Adapter(this.config))
+  }
+
+  get config() {
+    return this.app.config.analytics
+  }
+
   get breadcrumbs() {
     const elements = document.querySelectorAll('.breadcrumbs .breadcrumbs__node')
 
@@ -45,7 +50,7 @@ export default class AnalyticsController extends Controller {
     const sessions = Cookie.get('sessions') || 0
 
     Cookie.set('sessions', parseInt(sessions) + 1)
-    Cookie.set('analytics_session', 'true', config.sessionExpire)
+    Cookie.set('analytics_session', 'true', this.config.sessionExpire)
 
     return { sessions }
   }
@@ -112,7 +117,7 @@ export default class AnalyticsController extends Controller {
     payload.list = name || this.breadcrumbs
     payload.position = position
 
-    if (config.preventDomEvents) { event.preventDefault() }
+    if (this.config.preventDomEvents) { event.preventDefault() }
 
     this.send('productClick', payload)
   }
@@ -122,7 +127,7 @@ export default class AnalyticsController extends Controller {
     const quantity = this.element.querySelector('[name=quantity]')
                                  .getAttribute("value")
 
-    if (config.preventDomEvents) { e.preventDefault() }
+    if (this.config.preventDomEvents) { e.preventDefault() }
 
     if (event === 'addToCart') {
       payload.quantity = quantity
