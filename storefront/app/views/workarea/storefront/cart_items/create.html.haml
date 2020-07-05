@@ -7,7 +7,7 @@
     = render_message 'success', data: { message_show_dismiss: 'false' } do
       = t('workarea.storefront.flash_messages.cart_item_added')
 
-    .product-list__item{ data: { cart_count: current_order.quantity, analytics: add_to_cart_confirmation_analytics_data(@item).to_json } }
+    .product-list__item{ data: { controller: 'cart analytics', cart_count: current_order.quantity, analytics: add_to_cart_confirmation_analytics_data(@item).to_json } }
       .product-list__item-cell
         .product-list__summary
           %p.product-list__media= link_to lazy_image_tag(product_image_url(@item.image, :small_thumb), alt: @item.product_name, class: 'product-list__media-image'), product_url(@item.product, sku: @item.sku), class: 'product-list__media-link'
