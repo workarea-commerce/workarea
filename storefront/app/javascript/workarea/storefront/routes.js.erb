@@ -1,5 +1,9 @@
-const routes = <%= JsRoutes.generate(application: Workarea::Storefront::Engine.instance) %>
+/* rails-erb-loader-dependencies ../config/routes.rb */
 
-console.log(routes)
+let routes = {}
+
+(function() {
+  <%= JsRoutes.generate(application: Workarea::Admin::Engine.instance) %>
+}.call(routes))
 
 export default routes

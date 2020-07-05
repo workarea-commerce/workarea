@@ -1,12 +1,38 @@
 import isObject from "lodash.isobject"
 
-const environment = document.querySelector('meta[property="environment"]')
-                            .getAttribute("content")
+class Environment {
+  constructor() {
+    this.selector = 'meta[property="environment"]'
+    this.attribute = 'content'
+  }
 
-export const isTest = environment === 'test' || isObject(window.Teaspoon)
-export const isQA = environment === 'qa'
-export const isDevelopment = environment === 'development'
-export const isStaging = environment === 'staging'
-export const isProduction = environment === 'production'
+  get element() {
+    return document.querySelector(this.selector)
+  }
 
-export default environment
+  get name() {
+    return this.element.getAttribute(this.attribute)
+  }
+
+  get isTest() {
+    return this.name === 'test' || isObject(window.Teaspoon)
+  }
+
+  get isQA() {
+    return this.name === 'qa'
+  }
+
+  get isDevelopment() {
+    return this.name === 'development'
+  }
+
+  get isStaging() {
+    return this.name === 'staging'
+  }
+
+  get isProduction() {
+    return this.name === 'production'
+  }
+}
+
+export default new Environment()

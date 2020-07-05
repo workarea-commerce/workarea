@@ -2,19 +2,9 @@ import { Controller } from "stimulus"
 import { capitalCase as titleize } from "change-case"
 
 export default class FlashController extends Controller {
+  static targets = ['message']
   get template() {
     throw new Error("Must provide a template for FlashController")
-  }
-
-  /**
-   * Load flash messages when remote requests complete
-   */
-  connect() {
-    const remotes = "form[data-remote], a[data-remote]"
-    const event = "ajax:complete"
-
-    document.querySelectorAll(remotes)
-            .forEach(remote => remote.addEventListener(event, this.render))
   }
 
   /**
@@ -28,7 +18,7 @@ export default class FlashController extends Controller {
       const title = titleize(type)
       const message = this.template({ text, type, title })
 
-      this.element.append(message)
+      this.element.insertAdjacentHTML("beforeend", message)
     })
   }
 }

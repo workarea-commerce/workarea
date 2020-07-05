@@ -1,5 +1,5 @@
 import { Controller } from "stimulus"
-import { isDevelopment } from "../models/environment"
+import env from "../models/environment"
 import Cookie from "js-cookie"
 
 export default class AnalyticsController extends Controller {
@@ -90,7 +90,7 @@ export default class AnalyticsController extends Controller {
 
   send(event, data = {}) {
     if (this.disabled) { return }
-    if (isDevelopment) {
+    if (env.isDevelopment) {
       console.log('Firing analytics event', event, 'with', data)
     }
 

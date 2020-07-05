@@ -1,1 +1,9 @@
-<%= JsRoutes.generate(application: Workarea::Admin::Engine.instance) %>
+/* rails-erb-loader-dependencies ../config/routes.rb */
+
+let routes = {}
+
+(function() {
+  <%= JsRoutes.generate(application: Workarea::Admin::Engine.instance) %>
+}.call(routes))
+
+export default routes

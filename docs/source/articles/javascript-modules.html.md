@@ -6,6 +6,8 @@ excerpt: Workarea JavaScript modules are used to solve the problems of code orga
 
 # JavaScript Modules
 
+**NOTE: This documentation is deprecated. For new JS code, please see the documentation on [controllers](/articles/add-or-change-javascript-controllers.html)**
+
 Workarea JavaScript modules are used to solve the problems of code organization and asynchronous initialization. First let's look at the issue of code organization so I can explain what I mean by "module".
 
 ## Organizing Code

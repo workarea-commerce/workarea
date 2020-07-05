@@ -10,6 +10,7 @@ import { definitionsFromContext } from "stimulus/webpack-helpers"
 export default class Engine {
   constructor(app = null) {
     this.app = app
+    this.namespace = null
   }
 
   configure(_config) {}
@@ -29,16 +30,13 @@ export default class Engine {
   }
 
   /**
-   * Override to provide a directory in which to search for files.
-   */
-  get namespace() {
-    throw new Error("Engine must provide namespace")
-  }
-
-  /**
    * A require() function built from the local context.
    */
   get require() {
+    if (this.namespace) {
+      throw new Error("Engine must provide namespace")
+    }
+
     return this.context(this.namespace, true)
   }
 

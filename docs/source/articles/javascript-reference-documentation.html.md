@@ -6,14 +6,14 @@ excerpt: Workarea JavaScripts are documented with JSDoc comments. You can genera
 
 # JavaScript Reference Documentation
 
-Workarea JavaScripts are documented with [JSDoc](http://usejsdoc.org/) comments. You can generate HTML documentation (among other formats) using a variety of tools designed to parse JSDoc comments, including the `jsdoc` tool itself.
+Workarea's JavaScript code is documented with [ESDoc](http://esdoc.org/) comments. You can generate HTML documentation (among other formats) using a variety of tools designed to parse JSDoc comments, including the `esdoc` tool itself.
 
 ## Installing JSDoc
 
-Install `jsdoc` or a similar tool using [npm](https://www.npmjs.com/).
+Install `esdoc` or a similar tool:
 
 ```
-npm install -g jsdoc
+yarn add esdoc
 ```
 
 ## Generating Documentation for Installed Gems
@@ -22,17 +22,17 @@ Create a directory for the generated documentation within your application.
 
 ```
 cd path/to/your_app
-mkdir docs
+mkdir -p docs/js
 ```
 
 The following commands will generate the JavaScript reference documentation for workarea-core, workarea-admin, and workarea-storefront and place them within subdirectories of `/docs`, which was created above.
 
-```
+```bash
 cd path/to/your_app
 bundle
-jsdoc `bundle show workarea-core` -r -d ./docs/workarea-core-javascript-reference
-jsdoc `bundle show workarea-admin` -r -d ./docs/workarea-admin-javascript-reference
-jsdoc `bundle show workarea-storefront` -r -d ./docs/workarea-store-front-javascript-reference
+esdoc `bundle show workarea-core` -r -d ./docs/js/workarea
+esdoc `bundle show workarea-admin` -r -d ./docs/js/workarea/admin
+esdoc `bundle show workarea-storefront` -r -d ./docs/js/workarea/storefront
 ```
 
 ## Viewing Documentation
@@ -40,13 +40,9 @@ jsdoc `bundle show workarea-storefront` -r -d ./docs/workarea-store-front-javasc
 The commands above generate static HTML files. Open `index.html` to browser the documentation.
 
 ```
-open docs/workarea-core-javascript-reference/index.html
+open docs/js/workarea/index.html
 ```
 
 **Note:** Avoid using undocumented Workarea functions and properties. They should be considered private and unstable.
 
 Use similar commands to generate documentation for any Workarea plugins or additional gems.
-
-**Note:** You may want to commit the documentation files into your application's code repository to save your teammates the trouble of generating their own documentation. Conversly, you may want to instruct your version control system to ignore these directories to force developers to generate fresh documentation each time.
-
-
