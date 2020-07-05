@@ -59,6 +59,8 @@ export default class Application extends Engine {
    */
   run(context) {
     this.context = context
+
+    window.feature.testAll()
     this.engines.forEach(engine => this.load(engine))
     this.load(this)
   }

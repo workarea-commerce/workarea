@@ -34,7 +34,7 @@
     "esdoc": "^1.1.0",
     "eslint": "^7.3.1",
     "eslint-config-recommended": "^4.1.0",
-    "jsdom-mount": "^0.1.0",
+    "jest": "^26.1.0",
     "lerna": "^3.22.1",
     "mutationobserver-shim": "^0.3.7",
     "stylelint": "~10.1.0",
@@ -42,13 +42,9 @@
     "stylelint-scss": "~3.9.2"
   },
   "dependencies": {
-    "@babel/core": "^7.10.4",
-    "@babel/preset-env": "^7.10.4",
     "@workarea/admin": "^3.6.0",
     "@workarea/core": "^3.6.0",
     "@workarea/storefront": "^3.6.0",
-    "babel-jest": "^26.1.0",
-    "jest": "^26.1.0",
-    "mocha": "^8.0.1"
+    "feature.js": "^1.1.1"
   }
 }

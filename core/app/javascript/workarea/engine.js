@@ -11,6 +11,7 @@ export default class Engine {
   constructor(app = null) {
     this.app = app
     this.namespace = null
+    this.context = null
   }
 
   configure(_config) {}
@@ -23,17 +24,10 @@ export default class Engine {
   }
 
   /**
-   * Override to provide the `require.context` in the engine codebase.
-   */
-  get context() {
-    throw new Error("Engine must provide require.context")
-  }
-
-  /**
    * A require() function built from the local context.
    */
   get require() {
-    if (this.namespace) {
+    if (!this.namespace) {
       throw new Error("Engine must provide namespace")
     }
 
@@ -45,6 +39,10 @@ export default class Engine {
    * current app.
    */
   get controllers() {
+    if (!this.context) {
+      throw new Error("Engine must provide require.context")
+    }
+
     return definitionsFromContext(
         this.require.context('controllers', true, /_controller\.js$/)
     ).map(Controller => {

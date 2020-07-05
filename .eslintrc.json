@@ -12,9 +12,7 @@
       "document": true,
       "feature": true,
       "Turbolinks": true,
-      "sinon": true,
-      "fixture": true,
-      "chai": true
+      "sinon": true
     },
     "env": {
       "node": true,

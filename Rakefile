@@ -17,13 +17,6 @@ GEMS.each do |gem|
     t.verbose = false
     t.warning = false
   end
-
-  desc "Run #{gem} teaspoon tests"
-  task "#{gem}_teaspoon" do
-    Dir.chdir("#{ROOT_DIR}/#{gem}")
-    system 'rake teaspoon'
-    exit 1 unless $?.success?
-  end
 end
 
 Rake::Task['test:db'].clear_comments

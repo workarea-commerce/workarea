@@ -198,6 +198,5 @@ Workarea depends on a variety of JavaScript libraries, most notably the followin
 | [jQuery&nbsp;UI](https://jqueryui.com/) | Extensible UI widget library, version 1.11.x |
 | [jQuery&nbsp;Validation&nbsp;Plugin](http://jqueryvalidation.org/) | Library for client-side validation |
 | [Feature.js](http://featurejs.com/) | Feature detection library, version 1.0.1 |
-| [Teaspoon](https://github.com/modeset/teaspoon) | JavaScript test runner for Rails applications |
-| [Mocha](https://mochajs.org/) | JavaScript testing framework |
+| [Jest](https://jestjs) | JavaScript testing framework |
 | [Chai](http://chaijs.com/) | JavaScript assertion library |

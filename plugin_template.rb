@@ -167,18 +167,6 @@ create_file 'test/dummy/config/routes.rb', <<~CODE
 CODE
 
 #
-# Create teaspoon env in dummy app
-#
-create_file 'test/teaspoon_env.rb', <<~CODE
-  require 'workarea/testing/teaspoon'
-
-  Teaspoon.configure do |config|
-    config.root = Workarea::#{camelized}::Engine.root
-    Workarea::Teaspoon.apply(config)
-  end
-CODE
-
-#
 # Remove default tests
 #
 remove_file "test/#{name}_test.rb"
@@ -303,17 +291,6 @@ create_file 'Rakefile', <<~CODE
     system "gem build workarea-#{name}.gemspec"
     system "gem push workarea-#{name}-\#{Workarea::#{camelized}::VERSION}.gem"
     system "rm workarea-#{name}-\#{Workarea::#{camelized}::VERSION}.gem"
-  end
-
-  desc 'Run the JavaScript tests'
-  ENV['TEASPOON_RAILS_ENV'] = File.expand_path('../test/dummy/config/environment', __FILE__)
-  task teaspoon: 'app:teaspoon'
-
-  desc 'Start a server at http://localhost:3000/teaspoon for JavaScript tests'
-  task :teaspoon_server do
-    Dir.chdir("test/dummy")
-    teaspoon_env = File.expand_path('../test/teaspoon_env.rb', __FILE__)
-    system "RAILS_ENV=test TEASPOON_ENV=\#{teaspoon_env} rails s"
   end
 CODE
 

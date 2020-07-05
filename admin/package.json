@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "@workarea/core": "3.6.0",
+    "feature.js": "^1.1.1",
     "jest": "^26.1.0",
     "jquery": "^3.5.1",
     "jquery-ui": "^1.12.1",
@@ -38,6 +39,7 @@
     "@babel/core": "^7.10.4",
     "@babel/preset-env": "^7.10.4",
     "babel-jest": "^26.1.0",
+    "jest": "^26.1.0",
     "jsdom-mount": "^0.1.0",
     "mutationobserver-shim": "^0.3.7"
   }

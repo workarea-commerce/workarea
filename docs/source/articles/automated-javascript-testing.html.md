@@ -8,27 +8,7 @@ excerpt: The Workarea platform uses Teaspoon to unit test JavaScript modules.
 
 ## Overview
 
-The Workarea platform uses [Teaspoon](https://github.com/modeset/teaspoon) to unit test JavaScript modules.
-
-The tests themselves are written using the [Mocha](https://github.com/mochajs/mocha) test framework. [Chai](http://chaijs.com/) is the chosen assertion library. Specifically, [Chai's Expect style](http://chaijs.com/guide/styles/#expect) is used in an attempt to achieve parity with RSpec.
-
-Lastly, Workarea uses [Sinon](http://sinonjs.org/) via [Sinon Chai](https://github.com/domenic/sinon-chai) which provides test spies, mocks, and stubs.
-
-## When should a Teaspoon test be written?
-
-The platform's JavaScript modules are written using [The Revealing Module Pattern](https://carldanley.com/js-revealing-module-pattern/). If a module publicly exposes a method that method then becomes testable. The majority of the platform's modules, however, initialize only when an element with a specific selector is found within a given scope. These modules provide functionality for general use or for a specific feature are less straight forward to test.
-
-### Utility Modules
-
-If a module is written with many useful public methods it becomes an ideal Teaspoon test candidate. An example of this is the `WORKAREA.dialog` module. This module is written to be almost entirely public facing, deferring a lot of the interactive functionality to other modules who make use of its API.
-
-### General Purpose Modules
-
-If a general-use, DOM-based module is written then a fixture can be used as the method's scope. This way you are able to assert that the module functions properly within the vacuum that is the fixture. An example of this type of module would be the `WORKAREA.dialogButtons` module, which searches a given scope for an element with a `data-dialog-button` attribute before providing its functionality to said element.
-
-### Broken Code
-
-If a JavaScript bug is uncovered during QA, a Teaspoon test should be written to prove that the bug exists before the code is updated. This ensures that the bug has actually been fixed and will not resurface again.
+The Workarea platform uses [Jest](https://jestjs.io) to unit test JavaScript modules. Jest is a combination test runner, test framework, and assertion system useful for testing web application frontends. In addition to Jest, Workarea [Sinon](http://sinonjs.org/) to provide test spies, mocks, and stubs.
 
 ## Feature Tests v. Unit Tests
 
