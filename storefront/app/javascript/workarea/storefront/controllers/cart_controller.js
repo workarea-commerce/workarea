@@ -15,7 +15,7 @@ export default class CartController extends Controller {
     const count = CartCountTemplate({ quantity })
 
     if (this.counter) {
-      this.counter.innerHTML = count
+      this.counter.outerHTML = count
     } else {
       this.link.insertAdjacentHTML('beforeend', count)
     }

@@ -31,6 +31,8 @@
     "@babel/preset-env": "^7.10.4",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^26.1.0",
+    "ejs-compiled-loader": "^3.0.0",
+    "ejs-loader": "^0.3.1",
     "esdoc": "^1.1.0",
     "eslint": "^7.3.1",
     "eslint-config-recommended": "^4.1.0",
@@ -44,6 +46,8 @@
   "dependencies": {
     "@workarea/admin": "^3.6.0",
     "@workarea/core": "^3.6.0",
-    "@workarea/storefront": "^3.6.0"
+    "@workarea/storefront": "^3.6.0",
+    "sinon": "^9.0.2",
+    "stimulus": "^1.1.1"
   }
 }

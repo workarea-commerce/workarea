@@ -7,7 +7,8 @@ import { Controller } from "stimulus"
  * closed.
  */
 export default class extends Controller {
-  close() {
+  close(event) {
+    event.preventDefault()
     this.element.remove()
   }
 }

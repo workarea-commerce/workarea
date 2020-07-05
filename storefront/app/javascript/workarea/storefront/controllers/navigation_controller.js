@@ -1,6 +1,7 @@
 import { Controller } from "stimulus"
 import routes from "../routes.js.erb"
 import "whatwg-fetch"
+import isEmpty from "lodash.isempty"
 
 export default class extends Controller {
   connect() {
@@ -39,8 +40,8 @@ export default class extends Controller {
   testBodyTouch(event) {
     const primaryNav = document.getElementById('navigation')
     const hoverItem = primaryNav.querySelector('.primary-nav__item--hover')
-    const navHasHoverState = !_.isEmpty(hoverItem)
-    const clickIsOutsideNav = _.isEmpty(event.target.closest(primaryNav))
+    const navHasHoverState = !isEmpty(hoverItem)
+    const clickIsOutsideNav = isEmpty(event.target.closest(primaryNav))
 
     if (clickIsOutsideNav && navHasHoverState) {
       this.clearNavHoverState()
