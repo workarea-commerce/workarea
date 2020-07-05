@@ -12,9 +12,18 @@ export default class Engine {
     this.app = app
     this.namespace = null
     this.context = null
+    this.initialize()
   }
 
+  /**
+   * Override to provide default configuration for this engine.
+   */
   configure(_config) {}
+
+  /**
+   * Override to run code when the engine is instantiated.
+   */
+  initialize() {}
 
   /**
    * JsRoutes for this engine

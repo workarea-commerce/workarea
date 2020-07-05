@@ -44,7 +44,6 @@
   "dependencies": {
     "@workarea/admin": "^3.6.0",
     "@workarea/core": "^3.6.0",
-    "@workarea/storefront": "^3.6.0",
-    "feature.js": "^1.1.1"
+    "@workarea/storefront": "^3.6.0"
   }
 }
