@@ -1,16 +1,54 @@
 {
   "name": "workarea",
+  "description": "The Workarea Commerce Platform",
   "version": "3.6.0",
+  "main": "app/javascript/workarea/storefront/index.js",
+  "author": "Tom Scott <tscott@weblinc.com>",
+  "homepage": "https://workarea.com",
+  "license": "SEE LICENSE IN LICENSE.TXT",
+  "files": [
+    "index.js"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/workarea-commerce/workarea.git"
+  },
+  "bugs": {
+    "url": "https://github.com/workarea-commerce/workarea/issues"
+  },
+  "scripts": {
+    "test": "jest */test/javascript",
+    "lint": "yarn lint:js && yarn lint:css",
+    "lint:js": "eslint .",
+    "lint:css": "stylelint */app/assets/stylesheets/**/*.scss",
+    "docs": "esdoc"
+  },
   "devDependencies": {
+    "@babel/core": "^7.10.4",
+    "@babel/preset-env": "^7.10.4",
+    "babel-eslint": "^10.1.0",
+    "babel-jest": "^26.1.0",
+    "esdoc": "^1.1.0",
     "eslint": "^7.3.1",
     "eslint-config-recommended": "^4.1.0",
+    "jsdom-mount": "^0.1.0",
+    "lerna": "^3.22.1",
+    "mutationobserver-shim": "^0.3.7",
     "stylelint": "~10.1.0",
     "stylelint-config-recommended-scss": "~3.3.0",
-    "stylelint-scss": "~3.9.2",
-    "babel-eslint": "^10.1.0"
+    "stylelint-scss": "~3.9.2"
   },
   "dependencies": {
-    "js-cookie": "^2.2.1",
-    "stimulus": "^1.1.1"
+    "@babel/core": "^7.10.4",
+    "@babel/preset-env": "^7.10.4",
+    "@workarea/admin": "^3.6.0",
+    "@workarea/core": "^3.6.0",
+    "@workarea/storefront": "^3.6.0",
+    "babel-jest": "^26.1.0",
+    "jest": "^26.1.0",
+    "mocha": "^8.0.1"
   }
 }

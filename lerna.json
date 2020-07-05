@@ -1,9 +1,10 @@
 {
-  "packages": ["admin", "core", "storefront"],
-  "version": "3.6.0",
-  "command": {
-    "run": {
-      "npmClient": "yarn"
-    }
-  }
+  "packages": [
+    "admin",
+    "core",
+    "storefront",
+    "."
+  ],
+  "version": "3.7.0",
+  "npmClient": "yarn"
 }

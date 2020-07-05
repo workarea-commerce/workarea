@@ -24,7 +24,7 @@ export default class extends Controller {
     }
 
     event.preventDefault()
-    event.stopAllPropagation()
+    event.stopPropagation()
     this.element.dispatchEvent(this.canceled)
   }
 }

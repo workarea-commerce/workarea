@@ -31,6 +31,7 @@
     "change-case": "^4.1.1",
     "ejs-compiled-loader": "^1.1.0",
     "i18n-js": "^3.3.0",
+    "jest": "^26.1.0",
     "js-cookie": "^2.2.1",
     "lodash.debounce": "^4.0.8",
     "lodash.isempty": "^4.4.0",
@@ -41,5 +42,12 @@
     "stimulus": "^1.1.1",
     "titleize": "^2.1.0",
     "whatwg-fetch": "^3.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.10.4",
+    "@babel/preset-env": "^7.10.4",
+    "babel-jest": "^26.1.0",
+    "jsdom-mount": "^0.1.0",
+    "mutationobserver-shim": "^0.3.7"
   }
 }
