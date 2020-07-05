@@ -26,7 +26,7 @@ export default class Engine {
    * Override to provide the `require.context` in the engine codebase.
    */
   get context() {
-    throw new Error("$Engine must provide require.context")
+    throw new Error("Engine must provide require.context")
   }
 
   /**
