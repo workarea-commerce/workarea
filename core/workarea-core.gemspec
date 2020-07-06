@@ -76,6 +76,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'rack', '>= 2.0.8'
   s.add_dependency 'avalanche-rails', '~> 1.2.0'
   s.add_dependency 'webpacker'
+  s.add_dependency 'serviceworker-rails', '~> 0.6.0'
 
   # HACK for vendoring active_shipping
   s.add_dependency 'active_utils', '~> 3.3.1'
