@@ -53,7 +53,7 @@ export default class Engine {
     }
 
     return definitionsFromContext(
-        this.require.context('controllers', true, /_controller\.js$/)
+      this.require.context('controllers', true, /_controller\.js$/)
     ).map(Controller => {
       const value = this.app
 
@@ -63,3 +63,4 @@ export default class Engine {
     })
   }
 }
+
