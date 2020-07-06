@@ -29,9 +29,8 @@
   "dependencies": {
     "animate.css": "^3.7.2",
     "change-case": "^4.1.1",
-    "ejs-compiled-loader": "^1.1.0",
+    "ejs-compiled-loader": "^3.0.0",
     "i18n-js": "^3.3.0",
-    "jest-ejs-transformer": "^0.1.0",
     "js-cookie": "^2.2.1",
     "lodash.debounce": "^4.0.8",
     "lodash.isempty": "^4.4.0",
@@ -39,20 +38,8 @@
     "lodash.isstring": "^4.0.1",
     "lodash.isundefined": "^3.0.1",
     "pluralize": "^8.0.0",
-    "sinon": "^9.0.2",
     "stimulus": "^1.1.1",
     "titleize": "^2.1.0",
     "whatwg-fetch": "^3.0.0"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.10.4",
-    "@babel/preset-env": "^7.10.4",
-    "babel-jest": "^26.1.0",
-    "ejs-compiled-loader": "^3.0.0",
-    "jest": "^26.1.0",
-    "jest-ejs-transformer": "^0.1.0",
-    "jest-erb-transformer": "^1.0.2",
-    "jsdom-mount": "^0.1.0",
-    "mutationobserver-shim": "^0.3.7"
   }
 }
