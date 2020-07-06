@@ -120,6 +120,15 @@ module Workarea
           .noscript(tag.img(options.merge(src: image_source)))
           .concat(tag.img(lazy_options))
       end
+
+      # Override to provide `data-controller="form"` for all storefront
+      # forms and enable form validation with jquery.validate.
+      def form_tag(url_for_options = {}, options = {}, &block)
+        options[:data] ||= {}
+        options[:data][:controller] ||= 'form'
+
+        super(url_for_options, options, &block)
+      end
     end
   end
 end

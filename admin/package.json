@@ -27,7 +27,7 @@
     "url": "https://github.com/workarea-commerce/workarea/issues"
   },
   "dependencies": {
-    "@workarea/core": "3.6.0",
+    "@workarea/core": "3.7.0",
     "avalanche-css": "^1.3.0",
     "change-case": "^4.1.1",
     "jest": "^26.1.0",

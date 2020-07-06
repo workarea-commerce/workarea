@@ -10,7 +10,8 @@
     "index.js"
   ],
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "registry": "https://npm.pkg.github.com/"
   },
   "repository": {
     "type": "git",
@@ -20,7 +21,7 @@
     "url": "https://github.com/workarea-commerce/workarea/issues"
   },
   "scripts": {
-    "test": "jest-webpack */test/javascript",
+    "test": "jest */test/javascript",
     "lint": "yarn lint:js && yarn lint:css",
     "lint:js": "eslint .",
     "lint:css": "stylelint */app/assets/stylesheets/**/*.scss",
@@ -46,9 +47,9 @@
     "webpack-cli": "^3.3.12"
   },
   "dependencies": {
-    "@workarea/admin": "^3.7.0",
-    "@workarea/core": "^3.7.0",
-    "@workarea/storefront": "^3.7.0",
+    "@workarea/admin": "3.7.0",
+    "@workarea/core": "3.7.0",
+    "@workarea/storefront": "3.7.0",
     "jest": "^26.1.0",
     "jest-ejs-transformer": "^0.1.0",
     "mutationobserver-shim": "^0.3.7",
