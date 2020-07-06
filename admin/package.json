@@ -1,14 +1,14 @@
 {
   "name": "@workarea/admin",
   "version": "3.7.0",
-  "description": "Admin JavaScripts for the Workarea Commerce Platform",
+  "description": "Admin JavaScript for the Workarea Commerce Platform",
   "author": "Tom Scott <tscott@weblinc.com>",
   "homepage": "https://workarea.com",
-  "license": "ISC",
+  "license": "SEE LICENSE IN ../LICENSE",
   "main": "app/javascript/workarea/admin/index.js",
   "directories": {
     "lib": "app/javascript/workarea/admin",
-    "test": "__tests__"
+    "test": "test/javascript/workarea/admin"
   },
   "files": [
     "app/javascript/workarea/admin"

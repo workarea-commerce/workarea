@@ -1,14 +1,14 @@
 {
   "name": "@workarea/storefront",
   "version": "3.7.0",
-  "description": "Storefront JavaScripts for the Workarea Commerce Platform",
+  "description": "Storefront JavaScript for the Workarea Commerce Platform",
   "author": "Tom Scott <tscott@weblinc.com>",
   "homepage": "https://workarea.com",
-  "license": "ISC",
+  "license": "SEE LICENSE IN ../LICENSE",
   "main": "app/javascript/workarea/storefront/index.js",
   "directories": {
     "lib": "app/javascript/workarea/storefront",
-    "test": "__tests__"
+    "test": "test/javascript/workarea/storefront"
   },
   "files": [
     "app/javascript/workarea/storefront"

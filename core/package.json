@@ -1,14 +1,14 @@
 {
   "name": "@workarea/core",
   "version": "3.7.0",
-  "description": "JavaScripts for the Workarea Commerce Platform",
+  "description": "Core JavaScript for the Workarea Commerce Platform",
   "author": "Tom Scott <tscott@weblinc.com>",
   "homepage": "https://workarea.com",
-  "license": "ISC",
+  "license": "SEE LICENSE IN ../LICENSE",
   "main": "app/javascript/workarea/index.js",
   "directories": {
     "lib": "app/javascript/workarea",
-    "test": "__tests__"
+    "test": "test/javascript/workarea"
   },
   "files": [
     "app/javascript/workarea"

@@ -5,7 +5,7 @@
   "main": "app/javascript/workarea/storefront/index.js",
   "author": "Tom Scott <tscott@weblinc.com>",
   "homepage": "https://workarea.com",
-  "license": "SEE LICENSE IN LICENSE",
+  "license": "SEE LICENSE IN ../LICENSE",
   "files": [
     "index.js"
   ],
