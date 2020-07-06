@@ -20,13 +20,6 @@
   "bugs": {
     "url": "https://github.com/workarea-commerce/workarea/issues"
   },
-  "scripts": {
-    "test": "jest */test/javascript",
-    "lint": "yarn lint:js && yarn lint:css",
-    "lint:js": "eslint .",
-    "lint:css": "stylelint */app/assets/stylesheets/**/*.scss",
-    "docs": "esdoc"
-  },
   "dependencies": {
     "@workarea/admin": "3.7.0",
     "@workarea/core": "3.7.0",

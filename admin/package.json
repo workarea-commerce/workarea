@@ -43,16 +43,5 @@
     "stimulus": "^1.1.1",
     "svg-inline-loader": "^0.8.2",
     "turbolinks": "^5.2.0"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.10.4",
-    "@babel/preset-env": "^7.10.4",
-    "babel-jest": "^26.1.0",
-    "ejs-compiled-loader": "^3.0.0",
-    "jest": "^26.1.0",
-    "jest-ejs-transformer": "^0.1.0",
-    "jest-erb-transformer": "^1.0.2",
-    "jsdom-mount": "^0.1.0",
-    "mutationobserver-shim": "^0.3.7"
   }
 }
