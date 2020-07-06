@@ -5,13 +5,13 @@
   "author": "Tom Scott <tscott@weblinc.com>",
   "homepage": "https://workarea.com",
   "license": "SEE LICENSE IN ../LICENSE",
-  "main": "app/javascript/workarea/index.js",
+  "main": "workarea/index.js",
   "directories": {
-    "lib": "app/javascript/workarea",
-    "test": "test/javascript/workarea"
+    "lib": "workarea",
+    "test": "../../test/javascript/workarea"
   },
   "files": [
-    "app/javascript/workarea"
+    "workarea"
   ],
   "publishConfig": {
     "access": "public"

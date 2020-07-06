@@ -123,6 +123,16 @@ task :release do
   system "git push origin HEAD --follow-tags"
 
   #
+  # Publish JavaScript packages to NPM with Lerna, using the latest Git
+  # tag as a version.
+  #
+  system 'Publishing to NPM...'
+  print 'OTP: '
+  otp = gets
+  puts ''
+  system "lerna publish from-git --otp #{otp}"
+
+  #
   # Clean up
   #
   #

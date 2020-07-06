@@ -1,9 +1,9 @@
 {
   "private": true,
   "workspaces": [
-    "admin",
-    "core",
-    "storefront",
+    "admin/app/javascript",
+    "core/app/javascript",
+    "storefront/app/javascript",
     "meta"
   ],
   "scripts": {
