@@ -1,5 +1,5 @@
 import { Application } from 'stimulus'
-import FlashController from '../../../../../app/javascript/workarea/storefront/controllers/flash_controller'
+import FlashController from '@workarea/storefront/workarea/storefront/controllers/flash_controller'
 
 describe('FlashController', () => {
   beforeEach(async () => {

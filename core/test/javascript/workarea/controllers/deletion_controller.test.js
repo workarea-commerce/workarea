@@ -1,5 +1,5 @@
 import { Application } from 'stimulus'
-import DeletionController from '../../../../app/javascript/workarea/controllers/deletion_controller'
+import DeletionController from '@workarea/core/workarea/controllers/deletion_controller'
 
 describe('DeletionController', () => {
   beforeEach(() => {

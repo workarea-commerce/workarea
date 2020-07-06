@@ -1,5 +1,5 @@
 import { Application } from 'stimulus'
-import CartController from '../../../../../app/javascript/workarea/storefront/controllers/cart_controller'
+import CartController from '@workarea/storefront/workarea/storefront/controllers/cart_controller'
 
 describe('CartController', () => {
   it('appends count to the link if not yet created', async () => {

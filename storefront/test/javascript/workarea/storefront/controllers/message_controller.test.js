@@ -1,5 +1,5 @@
 import { Application } from 'stimulus'
-import MessageController from '../../../../../app/javascript/workarea/storefront/controllers/message_controller'
+import MessageController from '@workarea/storefront/workarea/storefront/controllers/message_controller'
 
 describe('MessageController', () => {
   beforeEach(() => {
