@@ -146,6 +146,7 @@ require 'workarea/ext/mongoid/find_ordered'
 require 'workarea/ext/mongoid/embedded_children'
 require 'workarea/ext/sprockets/ruby_processor'
 require 'workarea/ext/jbuilder/jbuilder_append_partials'
+require 'workarea/ext/jbuilder/jbuilder_cache'
 
 if Rails.env.development?
   require 'workarea/ext/freedom_patches/routes_reloader'
