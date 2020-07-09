@@ -1863,7 +1863,7 @@ en:
           policy: 'Policy:'
           file: 'File:'
         edit:
-          policy_info_html: "<p><strong>Ship:</strong> Item requires shipping. System does nothing automatically for this SKU.</p> <p><strong>Ignore:</strong> Item does not require shipping. System does nothing automatically for this SKU.</p> <p><strong>Download:</strong> Generates a unique URL token that grants the customer access to attached file through a download link in the order summary.</p>"
+          policy_info_html: "<p><strong>Shipping:</strong> Item requires shipping. System does nothing automatically for this SKU.</p><p><strong>Download:</strong> Generates a unique URL token that grants the customer access to attached file through a download link in the order summary.</p>"
           page_title: Edit Fulfillment SKU %{sku}
           save_sku: Save SKU
         flash_messages:
