@@ -3,7 +3,9 @@ require 'test_helper'
 module Workarea
   module Storefront
     class PlaceOrderIntegrationTest < Workarea::IntegrationTest
-      setup do
+      setup :setup_checkout
+
+      def setup_checkout
         create_tax_category(
           name: 'Sales Tax',
           code: '001',
