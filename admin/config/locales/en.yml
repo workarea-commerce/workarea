@@ -664,7 +664,7 @@ en:
           loading: Loading...
           preview: Preview
           title: Content for %{content}
-          current_area: 'Current Area:'
+          current_area: 'Current Area'
         form:
           all_blocks: All blocks
           cancel: Cancel
