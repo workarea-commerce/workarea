@@ -110,14 +110,28 @@ module Workarea
       end
 
       def merge!(other)
-        %w(orders revenue discounts cancellations refund).each do |field|
-          self.send("#{field}=", send(field) + other.send(field))
-        end
+        # To recalculate average_order_value
+        self.orders += other.orders
+        self.revenue += other.revenue
 
-        self.first_order_at = [first_order_at, other.first_order_at].compact.min
-        self.last_order_at = [last_order_at, other.last_order_at].compact.max
-        self.average_order_value = average_order_value
-        save!
+        update = {
+          '$set' => {
+            average_order_value: average_order_value,
+            updated_at: Time.current.utc
+          },
+          '$inc' => {
+            orders: other.orders,
+            revenue: other.revenue,
+            discounts: other.discounts,
+            cancellations: other.cancellations,
+            refund: other.refund
+          }
+        }
+
+        update['$min'] = { first_order_at: other.first_order_at.utc } if other.first_order_at.present?
+        update['$max'] = { last_order_at: other.last_order_at.utc } if other.last_order_at.present?
+
+        self.class.collection.update_one({ _id: id }, update, upsert: true)
 
         self.class.save_affinity(
           id: id,
@@ -133,6 +147,8 @@ module Workarea
           category_ids: other.purchased.category_ids,
           search_ids: other.purchased.search_ids
         )
+
+        reload
       end
     end
   end
