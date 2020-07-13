@@ -9,6 +9,8 @@
           %h1.heading--no-margin= t('workarea.admin.content_assets.index.title')
           %p= t('workarea.admin.content_assets.index.description')
 
+        = append_partials('admin.content_assets_index_view_heading')
+
   .view__container
     - if s3?
       .direct-upload{ data: { direct_upload: { type: 'asset' }.to_json, unsaved_changes: '' } }
