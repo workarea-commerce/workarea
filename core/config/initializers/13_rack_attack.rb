@@ -47,6 +47,38 @@ class Rack::Attack
     end
   end
 
+  #
+  # Disable +Rack::Attack+ for IP addresses set via admin configuration
+  #
+  # Key: "rack::attack:ignore/config"
+  safelist('ignore/config') do |request|
+    ips = Workarea.config.safe_ip_addresses.map do |ip|
+      begin
+        IPAddr.new(ip)
+      rescue IPAddr::InvalidAddressError
+        # noop
+      end
+    end.compact
+
+    ips.any? { |ip| ip.include?(request.ip) }
+  end
+
+  #
+  # Block all requests from IP addresses set via admin configuration
+  #
+  # Key: "rack::attack:block/config"
+  blocklist('block/config') do |request|
+    ips = Workarea.config.blocked_ip_addresses.map do |ip|
+      begin
+        IPAddr.new(ip)
+      rescue IPAddr::InvalidAddressError
+        # noop
+      end
+    end.compact
+
+    ips.any? { |ip| ip.include?(request.ip) }
+  end
+
   ### Throttle Spammy Clients ###
 
   #
