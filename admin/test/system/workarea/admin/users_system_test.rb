@@ -151,6 +151,33 @@ module Workarea
         assert(page.has_content?('Success'))
         assert(page.has_no_content?(t('workarea.admin.users.show.locked')))
       end
+
+      def test_user_cart
+        visit admin.user_path(@user)
+
+        assert(page.has_content?(t('workarea.admin.users.cards.cart.empty')))
+
+        click_link t('workarea.admin.users.cards.cart.title')
+        assert(page.has_content?(t('workarea.admin.users.cart.no_order')))
+
+        product = create_product(
+          id: 'PROD1',
+          name: 'Test Product',
+          variants: [{ sku: 'SKU1', regular: 5.to_m }]
+        )
+        order = create_order(user_id: @user.id)
+        order.add_item(product_id: 'PROD1', sku: 'SKU1', quantity: 2)
+        Pricing.perform(order)
+
+        visit admin.user_path(@user)
+
+        assert(page.has_content?(order.id))
+        click_link t('workarea.admin.users.cards.cart.title')
+
+        assert(page.has_content?(product.name))
+        assert(page.has_content?('SKU1'))
+        assert(page.has_content?('10.00'))
+      end
     end
   end
 end

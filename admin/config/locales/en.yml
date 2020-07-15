@@ -4017,6 +4017,10 @@ en:
           empty: No saved addresses.
           title: Addresses for %{user}
         cards:
+          cart:
+            title: Cart
+            empty: No cart could be found for this user.
+            button: View Details
           insights:
             average_order_value: AOV
             button: View Details
@@ -4040,6 +4044,9 @@ en:
             button: View Addresses
             empty: No saved addresses.
             title: Saved Addresses
+        cart:
+          title: Cart for %{user}
+          no_order: No cart could be found for this user.
         edit:
           button: Save User
           title: Attributes for %{user}

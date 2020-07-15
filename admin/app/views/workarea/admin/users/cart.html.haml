@@ -1,0 +1,132 @@
+- @page_title = t('workarea.admin.users.cart.title', user: @user.name)
+
+.view
+  .view__header
+    .grid.grid--middle.grid--right
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@user)
+          %h1= link_to @user.name, url_for(@user)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@user)
+
+  .view__container
+    = render_cards_for(@user, :cart)
+
+  .view__container.view__container--narrow
+    - if @order.blank?
+      %p.align-center= t('workarea.admin.users.cart.no_order')
+    - else
+      .section
+        .grid
+          .grid__cell.grid__cell--25
+            %h2= t('workarea.admin.orders.attributes.checkout.title')
+            %ul.list-reset
+              %li
+                %strong
+                  = t('workarea.admin.fields.id')
+                = @order.id
+              - if @order.checkout_by.present? && @order.checkout_by != @order.user
+                %li
+                  %strong
+                    = t('workarea.admin.orders.attributes.checkout.placed_by')
+                  = link_to @order.checkout_by.name, user_path(@order.checkout_by)
+              - if @order.source.present?
+                %li
+                  %strong
+                    = t('workarea.admin.orders.attributes.checkout.source')
+                  = @order.source.titleize
+              - if @order.copied_from.present?
+                %li
+                  %strong
+                    = t('workarea.admin.fields.copied_from_id')
+                  = link_to @order.copied_from.name, order_path(@order.copied_from)
+              %li
+                %strong= t('workarea.admin.orders.attributes.checkout.status')
+                = @order.model.status.to_s.titleize
+              %li
+                %strong= t('workarea.admin.orders.attributes.checkout.promo_codes')
+                = @order.promo_codes.join(', ').presence || t('workarea.admin.orders.attributes.checkout.none')
+              %li
+                %strong= t('workarea.admin.orders.attributes.checkout.ip_address')
+                = @order.ip_address.presence || t('workarea.admin.orders.attributes.checkout.none')
+              %li
+                %strong= t('workarea.admin.orders.attributes.checkout.traffic_referrer')
+                = @order.traffic_referrer&.medium.presence || t('workarea.admin.orders.attributes.checkout.none')
+              %li
+                %strong= t('workarea.admin.orders.attributes.checkout.traffic_referrer_url')
+                - if @order.traffic_referrer&.uri.present?
+                  = link_to t('workarea.admin.orders.attributes.checkout.view'), '#traffic_referrer_url_tooltip', data: { tooltip: { interactive: true, trigger: 'click' }.to_json }
+                  #traffic_referrer_url_tooltip.tooltip-content
+                    .align-center
+                      %p= text_field_tag nil, @order.traffic_referrer.uri, id: 'traffic_referrer_url', class: 'text-box'
+                      = button_tag t('workarea.admin.orders.attributes.checkout.copy_url'), data: { copy_to_clipboard: '#traffic_referrer_url' }, class: 'button button--small'
+                - else
+                  = t('workarea.admin.orders.attributes.checkout.none')
+              %li
+                %strong= t('workarea.admin.orders.attributes.checkout.segments')
+                - @order.segments.each do |segment|
+                  = link_to segment.name, segment
+              %li
+                %strong= t('workarea.admin.fields.updated_at')
+                #{local_time_ago(@order.updated_at)}
+              %li
+                %strong= t('workarea.admin.fields.created_at')
+                #{local_time_ago(@order.created_at)}
+              = append_partials('admin.order_attributes', order: @order)
+
+          .grid__cell.grid__cell--75
+            %h2= t('workarea.admin.orders.attributes.items.title')
+            %table
+              %thead
+                %tr
+                  %th= t('workarea.admin.orders.attributes.items.product')
+                  %th.align-center= t('workarea.admin.orders.attributes.items.quantity')
+                  %th.align-right= t('workarea.admin.orders.attributes.items.pricing')
+              %tbody
+                - @order.items.each do |item|
+                  %tr
+                    %td
+                      .grid.grid--auto
+                        .grid__cell
+                          = link_to image_tag(product_image_url(item.image, :small), alt: item.product.name), catalog_product_url(item.product, sku: item.sku)
+                        .grid__cell
+                          %p= link_to item.product.name, catalog_product_path(item.product, sku: item.sku)
+                          %p= item.sku
+                          - if item.customizations.any?
+                            - item.customizations.each do |name, value|
+                              %p #{name.titleize}: #{value}
+                          = append_partials('admin.order_attributes_item_details', item: item)
+                    %td.align-center= item.quantity
+                    %td.align-right
+                      - item.price_adjustments.each do |adjustment|
+                        %p
+                          %strong= price_adjustment_description_for(adjustment)
+                          %span= number_to_currency(adjustment.amount)
+
+            .grid.grid--right
+              .grid__cell.grid__cell--50
+                %table.data-pairs
+                  %tbody
+                    %tr
+                      %th
+                        %span.data-pairs__name= t('workarea.admin.orders.attributes.totals.subtotal')
+                      %td= number_to_currency @order.subtotal_price
+                    = append_partials('admin.order_attributes_subtotal', order: @order)
+                    %tr
+                      %th
+                        %span.data-pairs__name= t('workarea.admin.orders.attributes.totals.shipping')
+                      %td= number_to_currency @order.shipping_total
+                    %tr
+                      %th
+                        %span.data-pairs__name= t('workarea.admin.orders.attributes.totals.tax')
+                      %td= number_to_currency @order.tax_total
+                    %tr
+                      %th
+                        %span.data-pairs__name= t('workarea.admin.orders.attributes.totals.total_price')
+                      %td
+                        %strong= number_to_currency @order.total_price
+                    %tr
+                      %th
+                        %span.data-pairs__name= t('workarea.admin.orders.attributes.totals.total_value')
+                      %td= number_to_currency @order.total_value
