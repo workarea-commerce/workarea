@@ -15,6 +15,10 @@ module Workarea
       inventory.available
     end
 
+    def available_to_sell_inventory
+      inventory.available_to_sell
+    end
+
     def fulfillment
       @fulfillment ||= Fulfillment::Sku.find_or_create_by(id: sku)
     end
