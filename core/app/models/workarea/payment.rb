@@ -80,12 +80,7 @@ module Workarea
       build_credit_card unless credit_card
       credit_card.saved_card_id = nil
       credit_card.attributes = attrs.slice(
-        :month,
-        :year,
-        :saved_card_id,
-        :number,
-        :cvv,
-        :amount
+        *Workarea.config.credit_card_attributes
       )
       save
     end
