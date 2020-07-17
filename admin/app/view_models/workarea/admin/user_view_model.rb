@@ -60,6 +60,18 @@ module Workarea
         @orders ||= OrderViewModel.wrap(Order.recent(model.id, 50))
       end
 
+      def latest_cart
+        @latest_cart ||= begin
+          order = Order
+            .not_placed
+            .where(user_id: model.id.to_s)
+            .order(created_at: :desc)
+            .first
+
+          OrderViewModel.wrap(order) unless order.blank?
+        end
+      end
+
       def metrics
         @metrics ||= Metrics::User.find_or_initialize_by(id: model.email)
       end

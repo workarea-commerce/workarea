@@ -72,6 +72,58 @@
 
           = link_to orders_user_path(model), class: 'card__button' do
             %span.button.button--small= t('workarea.admin.users.cards.orders.button')
+  .grid__cell
+    .card{ class: card_classes(:cart, local_assigns[:active]) }
+      = link_to cart_user_path(model), class: 'card__header' do
+        %span.card__header-text= t('workarea.admin.users.cards.cart.title')
+        = inline_svg_tag 'workarea/admin/icons/orders.svg', class: 'card__icon'
+
+      - if local_assigns[:active].blank?
+        .card__body
+          - if model.latest_cart.blank?
+            %p.align-center.card__empty-note= t('workarea.admin.users.cards.cart.empty')
+          - else
+            %ul.list-reset
+              %li
+                %strong
+                  = t('workarea.admin.fields.id')
+                = model.latest_cart.id
+              - if model.latest_cart.checkout_by.present? && model.latest_cart.checkout_by != model.latest_cart.user
+                %li
+                  %strong
+                    = t('workarea.admin.orders.attributes.checkout.placed_by')
+                  = link_to model.latest_cart.checkout_by.name, user_path(model.latest_cart.checkout_by)
+              - if model.latest_cart.source.present?
+                %li
+                  %strong
+                    = t('workarea.admin.orders.attributes.checkout.source')
+                  = model.latest_cart.source.titleize
+              - if model.latest_cart.copied_from.present?
+                %li
+                  %strong
+                    = t('workarea.admin.fields.copied_from_id')
+                  = link_to model.latest_cart.copied_from.name, order_path(model.latest_cart.copied_from)
+              %li
+                %strong= t('workarea.admin.orders.cards.attributes.total_price')
+                = number_to_currency model.latest_cart.total_price
+              %li
+                %strong= t('workarea.admin.orders.cards.attributes.total_value')
+                = number_to_currency model.latest_cart.total_value
+              %li
+                %strong= t('workarea.admin.orders.attributes.checkout.ip_address')
+                = model.latest_cart.ip_address.presence || t('workarea.admin.cards.attributes.no_value')
+              %li
+                %strong= t('workarea.admin.orders.attributes.checkout.traffic_referrer')
+                = model.latest_cart.traffic_referrer&.medium.presence || t('workarea.admin.cards.attributes.no_value')
+              %li
+                %strong= t('workarea.admin.orders.attributes.checkout.traffic_referrer_url')
+                = model.latest_cart.traffic_referrer&.uri.presence || t('workarea.admin.cards.attributes.no_value')
+              %li
+                %strong= t('workarea.admin.orders.attributes.checkout.segments')
+                = model.latest_cart.segments.map(&:name).to_sentence || t('workarea.admin.cards.attributes.no_value')
+
+          = link_to cart_user_path(model), class: 'card__button' do
+            %span.button.button--small= t('workarea.admin.users.cards.cart.button')
 
   .grid__cell
     .card{ class: card_classes(:addresses, local_assigns[:active]) }

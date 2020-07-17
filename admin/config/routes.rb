@@ -356,6 +356,7 @@ Workarea::Admin::Engine.routes.draw do
 
     resources :users, except: :create do
       member do
+        get :cart
         get :orders
         get :addresses
         get :permissions

@@ -48,6 +48,10 @@ module Workarea
       def orders
       end
 
+      def cart
+        @order = @user.latest_cart
+      end
+
       def permissions
         unauthorized_user and return unless current_user.permissions_manager?
       end
