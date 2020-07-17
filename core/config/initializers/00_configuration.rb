@@ -179,4 +179,18 @@ Workarea::Configuration.define_fields do
       },
       description: 'Subjects list for the contact form'
   end
+
+  fieldset 'Security', namespaced: false do
+    field 'Safe IP Addresses',
+      id: :safe_ip_addresses,
+      type: :array,
+      default: [],
+      description: 'List of known IP addresses and/or IP addresses ranges a that should always have access to the site.'
+
+    field 'Blocked IP Addresses',
+      id: :blocked_ip_addresses,
+      type: :array,
+      default: [],
+      description: 'List of known IP addresses and/or IP addresses ranges to block from site access.'
+  end
 end

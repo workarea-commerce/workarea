@@ -21,6 +21,47 @@ module Workarea
       assert_equal(:safelist, request.env['rack.attack.match_type'])
     end
 
+    def test_safelist_configuration_field
+      ip = '192.168.1.1'
+
+      Workarea::Configuration::Admin.instance.update!(safe_ip_addresses: [ip])
+
+      get '/', env: { 'REMOTE_ADDR' => ip }
+
+      assert_response(:success)
+      assert_equal('ignore/config', request.env['rack.attack.matched'])
+      assert_equal(:safelist, request.env['rack.attack.match_type'])
+
+      Workarea::Configuration::Admin.instance.update!(safe_ip_addresses: ['foo'])
+
+      get '/', env: { 'REMOTE_ADDR' => ip }
+
+      assert_response(:success)
+      assert_nil(request.env['rack.attack.matched'])
+    end
+
+    def test_blocklist_configuration_field
+      ip = '192.168.1.1'
+
+      get '/', env: { 'REMOTE_ADDR' => ip }
+
+      assert_response(:success)
+
+      Workarea::Configuration::Admin.instance.update!(blocked_ip_addresses: [ip])
+
+      get '/', env: { 'REMOTE_ADDR' => ip }
+
+      assert_response(:forbidden)
+      assert_equal('block/config', request.env['rack.attack.matched'])
+      assert_equal(:blocklist, request.env['rack.attack.match_type'])
+
+      Workarea::Configuration::Admin.instance.update!(blocked_ip_addresses: ['foo'])
+
+      get '/', env: { 'REMOTE_ADDR' => ip }
+
+      assert_response(:success)
+    end
+
     def test_throttle_all_requests
       ip = '192.168.1.1'
 
