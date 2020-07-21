@@ -31,7 +31,9 @@
               = inline_svg_tag('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.fields.policy'))
 
           #policy-info.tooltip-content
-            %p= t('workarea.admin.fulfillment_skus.edit.policy_info_html')
+            %p
+              = t('workarea.admin.fulfillment_skus.edit.policy_info_html')
+              = append_partials('admin.fulfillment_sku_policy_info')
           = select_tag 'sku[policy]', options_for_select(fulfillment_policies, @sku.policy.optionize)
 
         .property

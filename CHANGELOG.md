@@ -1,3 +1,37 @@
+Workarea 3.5.15 (2020-07-07)
+--------------------------------------------------------------------------------
+
+*   Patch Jbuilder to Support Varying Cache
+
+    Previously, admins were not able to see up-to-date data in API requests
+    due to the `#cache!` method in Jbuilder not being patched to skip
+    caching when an admin is logged in. To resolve this, Workarea now
+    applies the same patch to Jbuilder as it does to ActionView. Reading
+    from the cache is now skipped if you're logged in as an admin, and cache
+    keys are appended with the configured `Cache::Varies` just the same as
+    in regular Haml views.
+
+    WORKAREA-243
+
+    Tom Scott
+
+*   Bump rack version
+
+    Fixes CVE-2020-8184
+
+    Ben Crouse
+
+*   Add Permissions Append Point to User Workflow
+
+    This allows a plugin (such as API) to specify permissions categories when
+    admins are either editing or creating a user.
+
+    WORKAREA-240
+
+    Tom Scott
+
+
+
 Workarea 3.5.14 (2020-06-25)
 --------------------------------------------------------------------------------
 

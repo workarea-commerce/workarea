@@ -61,11 +61,8 @@ module Workarea
                     params[:credit_card].permit(
                       :first_name,
                       :last_name,
-                      :number,
-                      :month,
-                      :year,
-                      :cvv,
-                      :default
+                      :default,
+                      *Workarea.config.credit_card_attributes
                     )
                   end
 

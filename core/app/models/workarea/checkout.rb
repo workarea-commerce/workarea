@@ -47,11 +47,7 @@ module Workarea
     def inventory
       @inventory ||= Inventory::Transaction.from_order(
         order.id,
-        order.items.inject({}) do |memo, item|
-          memo[item.sku] ||= 0
-          memo[item.sku] += item.quantity
-          memo
-        end
+        order.sku_quantities
       )
     end
 

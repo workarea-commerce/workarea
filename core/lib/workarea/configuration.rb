@@ -1310,6 +1310,17 @@ module Workarea
       # `Catalog::ProductImage` model. If you're upgrading, you can set this to
       # false to avoid having to do a migration.
       config.localized_image_options = true
+
+      # Attributes that will be sliced out of params and persisted on
+      # the credit card tender during checkout.
+      config.credit_card_attributes = %i[
+        month
+        year
+        saved_card_id
+        number
+        cvv
+        amount
+      ]
     end
   end
 end

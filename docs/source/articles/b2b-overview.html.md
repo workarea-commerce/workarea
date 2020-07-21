@@ -60,5 +60,5 @@ functionality it provides.
 ## Demo site
 
 The complete Workarea B2B suite is installed for demonstration purposes only at
-<https://b2b.demo.workarea.com> - for admin access or a full guided demo of
+<https://demo.workarea.com> - for admin access or a full guided demo of
 Workarea B2B functionality please contact [Workarea support](https://workarea.support.com).
