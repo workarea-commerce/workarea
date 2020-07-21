@@ -1297,6 +1297,17 @@ module Workarea
 
       # The number of results that will show per-type in the admin jump to
       config.jump_to_results_per_type = 5
+
+      # Attributes that will be sliced out of params and persisted on
+      # the credit card tender during checkout.
+      config.credit_card_attributes = %i[
+        month
+        year
+        saved_card_id
+        number
+        cvv
+        amount
+      ]
     end
   end
 end
