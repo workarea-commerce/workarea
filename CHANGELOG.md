@@ -1,3 +1,90 @@
+Workarea 3.5.16 (2020-07-22)
+--------------------------------------------------------------------------------
+
+*   Add js module to allow inserting remote requests onto the page
+
+
+    Matt Duffy
+
+*   Configure Sliced Credit Card Attributes
+
+    To prevent an unnecessary decoration of the `Workarea::Payment` class,
+    the attributes sliced out of the Hash given to `Workarea::Payment#set_credit_card`
+    is now configurable in initializers. This same set of attributes is also
+    used in the `Users::CreditCardsController`, so the configuration will be
+    reused when users are attempting to add a new credit card to their
+    account.
+
+    WORKAREA-257
+
+    Tom Scott
+
+*   Setup PlaceOrderIntegrationTest in a Method
+
+    Currently, decorating the PlaceOrderIntegrationTest to edit the way its
+    set up (such as when adding an additional step) is impossible, you have
+    to basically copy everything out of the `setup` block and duplicate it
+    in your tests. Setup blocks should be methods anyway, so convert this to
+    a method and allow it to be decorated in host apps.
+
+    Tom Scott
+
+*   Fix `Hash#[]` Access On Administrable Options
+
+    Accessing administrable options on `Workarea.config` can produce
+    unexpected results if you don't use the traditional method accessor
+    syntax. For example, an admin field like this:
+
+    ```ruby
+    Workarea::Configuration.define_fields do
+    field :my_admin_setting, type: :string, default: 'default value'
+    end
+    ```
+
+    ...will only be available at `Workarea.config.my_admin_setting`:
+
+    ```ruby
+    Workarea.config.my_admin_setting # => "default value"
+    Workarea.config[:my_admin_setting] # => nil
+    ```
+
+    To resolve this, the code for fetching a key's value from the database
+    has been moved out of `#method_missing` and into an override of `#[]`.
+    [Since the OrderedOptions superclass already overrides this][1] to call
+    `#[]`, we can safely move this code and still maintain all functionality.
+
+    [1]: https://github.com/rails/rails/blob/fbe2433be6e052a1acac63c7faf287c52ed3c5ba/activesupport/lib/active_support/ordered_options.rb#L41-L58
+
+    Tom Scott
+
+*   Fix race condition when merging user metrics
+
+
+    Ben Crouse
+
+*   Improve Content Area Select UX
+
+    Remove the current content name and replace it with a static label
+    indicating what the `<select>` menu to the right of it is selecting,
+    which is the current content area. This UI only displays when there are
+    multiple areas for a given `Content`.
+
+    WORKAREA-244
+
+    Tom Scott
+
+*   Changes to support package product kits
+
+
+    Matt Duffy
+
+*   Update inventory and fulfillment sku policy info text, allow appending
+
+
+    Matt Duffy
+
+
+
 Workarea 3.5.15 (2020-07-07)
 --------------------------------------------------------------------------------
 
