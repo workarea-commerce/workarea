@@ -59,3 +59,36 @@ Supports new `workarea-product-bundles` plugin.
 ### Pull Requests
 
 - [472](https://github.com/workarea-commerce/workarea/pull/472)
+
+## Fix race condition when merging user metrics
+
+### Pull Requests
+
+- [465](https://github.com/workarea-commerce/workarea/pull/465)
+
+## Fix `Hash#[]` access on administrable options
+
+Accessing administrable options on `Workarea.config` can produce
+unexpected results if you don't use the traditional method accessor
+syntax. For example, an admin field like this:
+
+```ruby
+Workarea::Configuration.define_fields do
+  field :my_admin_setting, type: :string, default: 'default value'
+end
+```
+
+...will only be available at `Workarea.config.my_admin_setting`:
+
+```ruby
+Workarea.config.my_admin_setting # => "default value"
+Workarea.config[:my_admin_setting] # => nil
+```
+
+To resolve this, the code for fetching a key's value from the database
+has been moved out of `#method_missing` and into an override of `#[]`.
+Since the OrderedOptions superclass already overrides to call
+`#[]`, we can safely move this code and still maintain all functionality.
+
+- [467](https://github.com/workarea-commerce/workarea/pull/467)
+
