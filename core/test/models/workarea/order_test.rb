@@ -85,6 +85,34 @@ module Workarea
       order.add_item(product_id: '1234', sku: 'SKU', quantity: 2)
       assert_equal(1, order.items.count)
       assert_equal(4, order.items.last.quantity)
+
+      assert_no_changes 'order.items.count' do
+        order.add_item(
+          product_id: '1234',
+          sku: 'SKU',
+          quantity: 1
+        )
+      end
+
+      Workarea.config.distinct_order_item_attributes << :discountable
+
+      assert_changes 'order.items.count' do
+        order.add_item(
+          product_id: '1234',
+          sku: 'SKU',
+          quantity: 1,
+          discountable: false
+        )
+      end
+
+      assert_no_changes 'order.items.count' do
+        order.add_item(
+          product_id: '1234',
+          sku: 'SKU',
+          quantity: 1,
+          discountable: true
+        )
+      end
     end
 
     def test_update_item
@@ -145,7 +173,10 @@ module Workarea
       assert(order.items.find_existing('sku').blank?)
       assert_equal(
         item,
-        order.items.find_existing('sku', { 'email' => 'bcrouse@workarea.com' })
+        order.items.find_existing(
+          'sku',
+          customizations: { 'email' => 'bcrouse@workarea.com' }
+        )
       )
     end
 
