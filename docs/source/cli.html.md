@@ -13,7 +13,7 @@ body_class: body--nude
 Installation on macOS uses Homebrew. If you do not have Homebrew installed see <https://brew.sh/>
 
 ```bash
-brew tap workarea/tools ssh://git@stash.tools.weblinc.com:7999/wl/homebrew-taps.git
+brew tap workarea/tools https://stash.tools.weblinc.com/scm/wl/homebrew-taps.git
 brew cask install workarea-cli
 ```
 
