@@ -102,6 +102,8 @@ en:
       name: "Fulfillment SKU %{id}"
     inventory_sku:
       name: "Inventory %{id}"
+    inquiry:
+      subjects: {}
     order:
       name: "Order %{id}"
       traffic_referrer:
