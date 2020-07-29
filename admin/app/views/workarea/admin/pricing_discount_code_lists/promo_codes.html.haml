@@ -43,8 +43,8 @@
             .grid__cell= link_to t('workarea.admin.shared.bulk_actions.import'), new_data_file_import_path(model_type: Workarea::Pricing::Discount::GeneratedPromoCode, return_to: pricing_discount_code_list_path(@code_list)), class: 'workflow-bar__button'
             .grid__cell= link_to t('workarea.admin.shared.bulk_actions.export'), new_data_file_export_path(model_type: Workarea::Pricing::Discount::GeneratedPromoCode, query_id: generic_admin_search_query_id(model_type: Workarea::Pricing::Discount::GeneratedPromoCode, query_params: { code_list_id: @code_list.id }), return_to: pricing_discount_code_list_path(@code_list)), class: 'workflow-bar__button  workflow-bar__button--left-divide'
           - else
-            .grid__cell= link_to t('workarea.admin.shared.bulk_actions.import'), '#disabled-info', disabled: 'disabled', class: 'workflow-bar__button', data: { tooltip: '' }
-            .grid__cell= link_to t('workarea.admin.shared.bulk_actions.export'), '#disabled-info', disabled: 'disabled', class: 'workflow-bar__button  workflow-bar__button--left-divide', data: { tooltip: '' }
+            .grid__cell= link_to t('workarea.admin.shared.bulk_actions.import'), '#disabled-info', disabled: 'disabled', class: 'workflow-bar__button workflow-bar__button--disabled', data: { tooltip: '' }
+            .grid__cell= link_to t('workarea.admin.shared.bulk_actions.export'), '#disabled-info', disabled: 'disabled', class: 'workflow-bar__button workflow-bar__button--left-divide workflow-bar__button--disabled', data: { tooltip: '' }
 
     #disabled-info.tooltip-content
       %p= t('workarea.admin.pricing_discount_code_lists.show.disabled_info')

@@ -21,19 +21,19 @@
           .grid.grid--auto.grid--right
             - if !@release.has_changes?
               .grid__cell
-                = link_to t('workarea.admin.releases.show.visit_storefront_to_preview'), '#no-changes-to-preview-info', disabled: 'disabled', data: { tooltip: '' }, class: 'workflow-bar__button workflow-bar__button--update'
+                = link_to t('workarea.admin.releases.show.visit_storefront_to_preview'), '#no-changes-to-preview-info', disabled: 'disabled', data: { tooltip: '' }, class: 'workflow-bar__button workflow-bar__button--update workflow-bar__button--disabled'
                 #no-changes-to-preview-info.tooltip-content
                   %p= t('workarea.admin.releases.show.no_changes_to_preview')
 
               .grid__cell
-                = link_to t('workarea.admin.releases.show.publish_now'), '#no-changes-to-publish-info', disabled: 'disabled', data: { tooltip: '' }, class: 'workflow-bar__button workflow-bar__button--update'
+                = link_to t('workarea.admin.releases.show.publish_now'), '#no-changes-to-publish-info', disabled: 'disabled', data: { tooltip: '' }, class: 'workflow-bar__button workflow-bar__button--update workflow-bar__button--disabled'
                 #no-changes-to-publish-info.tooltip-content
                   %p= t('workarea.admin.releases.show.no_changes_to_publish')
 
             - else
               .grid__cell
                 - if @release.published? && !@release.scheduled?
-                  = link_to t('workarea.admin.releases.show.visit_storefront_to_preview'), '#cannot-preview-info', disabled: 'disabled', data: { tooltip: '' }, class: 'workflow-bar__button workflow-bar__button--update'
+                  = link_to t('workarea.admin.releases.show.visit_storefront_to_preview'), '#cannot-preview-info', disabled: 'disabled', data: { tooltip: '' }, class: 'workflow-bar__button workflow-bar__button--update workflow-bar__button--disabled'
                   #cannot-preview-info.tooltip-content
                     %p= t('workarea.admin.releases.show.unscheduled_republish_preview_info')
                 - elsif current_release.try(:id) == @release.id
@@ -50,6 +50,6 @@
                   = form_tag publish_release_path(@release), method: :patch do
                     = button_tag publish_text, value: 'publish', class: 'workflow-bar__button workflow-bar__button--update'
                 - else
-                  = link_to publish_text, '#cannot-publish-info', disabled: 'disabled', data: { tooltip: '' }, class: 'workflow-bar__button workflow-bar__button--update'
+                  = link_to publish_text, '#cannot-publish-info', disabled: 'disabled', data: { tooltip: '' }, class: 'workflow-bar__button workflow-bar__button--update workflow-bar__button--disabled'
                   #cannot-publish-info.tooltip-content
                     %p= t('workarea.admin.releases.show.user_cannot_publish_info')

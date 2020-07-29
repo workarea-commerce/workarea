@@ -25,7 +25,7 @@
             - if @code_list.generation_complete?
               .grid__cell= link_to t('workarea.admin.actions.delete'), pricing_discount_code_list_path(@code_list), class: 'workflow-bar__button workflow-bar__button--delete', data: { method: 'delete', confirm: t('workarea.admin.actions.delete_confirmation') }
             - else
-              .grid__cell= link_to t('workarea.admin.actions.delete'), '#disabled-info', disabled: 'disabled', class: 'workflow-bar__button  workflow-bar__button--delete', data: { tooltip: '' }
+              .grid__cell= link_to t('workarea.admin.actions.delete'), '#disabled-info', disabled: 'disabled', class: 'workflow-bar__button  workflow-bar__button--delete workflow-bar__button--disabled', data: { tooltip: '' }
 
       #disabled-info.tooltip-content
         %p= t('workarea.admin.pricing_discount_code_lists.show.disabled_info')
