@@ -164,8 +164,6 @@
                         %tr
                           %td= link_to t('workarea.storefront.orders.download'), download_url(item.token)
 
-                      = append_partials('storefront.order_summary_item_details', item: item)
-
                       = append_partials('storefront.order_mailer_summary_order_details', item: item)
 
                     - if item.total_adjustments.many?
