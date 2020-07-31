@@ -9,7 +9,13 @@ module Workarea
       end
 
       def subjects
-        Workarea.config.inquiry_subjects.map { |k, v| [v, k] }
+        Workarea.config.inquiry_subjects.map do |key, default_value|
+          [
+            I18n.t('workarea.inquiry.subjects')[key.optionize.to_sym].presence ||
+            default_value,
+            key
+          ]
+        end
       end
 
       private
