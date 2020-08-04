@@ -157,7 +157,13 @@ module Workarea
     # @return [self]
     #
     def update(params = {})
-      steps.each { |s| s.new(self).update(params) }
+      steps.all? do |step|
+        result = step.new(self).update(params)
+
+        next true if result.nil?
+
+        result
+      end
     end
 
     # Whether this checkout needs any further information

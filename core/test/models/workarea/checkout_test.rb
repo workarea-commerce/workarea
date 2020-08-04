@@ -51,6 +51,12 @@ module Workarea
       refute_equal(payment_id, checkout.payment.object_id)
     end
 
+    def test_update_failure_response
+      checkout = Checkout.new(@order)
+
+      refute(checkout.update(payment: 'bogus'))
+    end
+
     def test_continue_as
       checkout = Checkout.new(@order)
       checkout.continue_as(@user)
