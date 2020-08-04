@@ -25,7 +25,7 @@
           .product-images__image-group
             .product-images__image
               .product-images__image-summary
-                .product-images__image-summary-container= image_tag product_image_url(@image, :small), alt: "#{@image.option} #{t('workarea.admin.catalog_product_images.edit.image')}", id: @image.option.parameterize, class: 'product-images__image-summary-image'
+                .product-images__image-summary-container= image_tag product_image_url(@image, :small), alt: "#{@image.option} #{t('workarea.admin.catalog_product_images.edit.image')}", class: 'product-images__image-summary-image'
 
     .section
       %h2= t('workarea.admin.catalog_product_images.edit.edit_image')
