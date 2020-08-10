@@ -108,7 +108,7 @@ handy-dandy [ActiveModel::Unvalidate][] gem!
 This library can be added into your project in Gemfile:
 
 ```ruby
-gem 'active_model-unvalidates'
+gem 'active_model-unvalidate'
 ```
 
 After running `bundle` to install it, you can use the `unvalidates` and
