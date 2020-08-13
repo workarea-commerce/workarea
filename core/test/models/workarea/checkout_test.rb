@@ -51,6 +51,63 @@ module Workarea
       refute_equal(payment_id, checkout.payment.object_id)
     end
 
+    def test_update
+      create_shipping_service
+      checkout = Checkout.new(@order)
+
+      checkout.start_as(:guest)
+
+      refute(
+        checkout.update(
+          email: 'test@workarea.com',
+          shipping_address: {
+            last_name: 'Crouse',
+            street: '22 S. 3rd St.',
+            street_2: 'Second Floor',
+            city: 'Philadelphia',
+            region: 'PA',
+            postal_code: '19106',
+            country: 'US'
+          },
+          billing_address: {
+            first_name: 'Ben',
+            street: '22 S. 3rd St.',
+            street_2: 'Second Floor',
+            city: 'Philadelphia',
+            region: 'PA',
+            postal_code: '19106',
+            country: 'US'
+          }
+        )
+      )
+
+      assert(
+        checkout.update(
+          email: 'test@workarea.com',
+          shipping_address: {
+            first_name: 'Ben',
+            last_name: 'Crouse',
+            street: '22 S. 3rd St.',
+            street_2: 'Second Floor',
+            city: 'Philadelphia',
+            region: 'PA',
+            postal_code: '19106',
+            country: 'US'
+          },
+          billing_address: {
+            first_name: 'Ben',
+            last_name: 'Crouse',
+            street: '22 S. 3rd St.',
+            street_2: 'Second Floor',
+            city: 'Philadelphia',
+            region: 'PA',
+            postal_code: '19106',
+            country: 'US'
+          }
+        )
+      )
+    end
+
     def test_continue_as
       checkout = Checkout.new(@order)
       checkout.continue_as(@user)

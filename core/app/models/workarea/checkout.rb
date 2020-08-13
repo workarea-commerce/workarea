@@ -158,10 +158,14 @@ module Workarea
     # Used in auto completing an order for a logged in user.
     #
     # @param [Hash] parameters for updating
-    # @return [self]
+    # @return [Boolean] whether the update was successful.
     #
     def update(params = {})
-      steps.each { |s| s.new(self).update(params) }
+      return true if params.blank?
+
+      steps.reduce(true) do |result, step|
+        result &= step.new(self).update(params)
+      end
     end
 
     # Whether this checkout needs any further information
