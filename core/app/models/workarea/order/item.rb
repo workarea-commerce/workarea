@@ -156,9 +156,9 @@ module Workarea
     # @return [Boolean] whether this item's attributes is equal to the
     #                   passed-in parameters.
     def attributes_eql?(params = {})
-      equivs = Workarea.config.distinct_order_item_attributes.map(&:to_sym)
-      attrs = params&.symbolize_keys&.slice(*equivs) || {}
-      customizations = params[:customizations]&.stringify_keys!
+      params = params.to_h.with_indifferent_access
+      attrs = params.slice(*Workarea.config.distinct_order_item_attributes)
+      customizations = params[:customizations]&.stringify_keys
       distinct = attrs.all? do |attribute, value|
         self[attribute] == value
       end
