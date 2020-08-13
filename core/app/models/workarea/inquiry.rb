@@ -15,7 +15,8 @@ module Workarea
     validate :subject_exists
 
     def full_subject
-      Workarea.config.inquiry_subjects[subject]
+      I18n.t('workarea.inquiry.subjects')[subject.optionize.to_sym].presence ||
+        Workarea.config.inquiry_subjects[subject]
     end
 
     private

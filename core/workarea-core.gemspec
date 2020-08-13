@@ -91,7 +91,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'loofah', '~> 2.3.1'
   s.add_dependency 'referer-parser', '~> 0.3.0'
   s.add_dependency 'serviceworker-rails', '~> 0.5.5'
-  s.add_dependency 'chartkick', '~> 3.3.0'
+  s.add_dependency 'chartkick', '~> 3.4.0'
   s.add_dependency 'browser', '~> 2.6.1'
   s.add_dependency 'puma', '>= 4.3.1'
   s.add_dependency 'rack' , '>= 2.1.4'
