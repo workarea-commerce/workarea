@@ -21,5 +21,15 @@ module Workarea
         assert_equal([changed_email], changed_mail.from)
       end
     end
+
+    def test_default_url_options
+      @current_options = Rails.application.config.action_mailer.default_url_options.deep_dup
+      Rails.application.config.action_mailer.default_url_options = { port: 12345 }
+
+      assert_equal(12345, ApplicationMailer.new.default_url_options[:port])
+
+    ensure
+      Rails.application.config.action_mailer.default_url_options = @current_options
+    end
   end
 end
