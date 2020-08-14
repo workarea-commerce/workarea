@@ -21,7 +21,7 @@ module Workarea
           @item = OrderItemViewModel.wrap(
             current_order.items.find_existing(
               item_params[:sku],
-              item_params[:customizations].to_h
+              item_params.to_h
             ),
             view_model_options
           )

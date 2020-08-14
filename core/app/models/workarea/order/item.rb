@@ -147,13 +147,32 @@ module Workarea
       customizations.present?
     end
 
+    # Determine whether the additional fields on this item are
+    # equivalent to the passed-in Hash of parameters. Uses the
+    # `distinct_order_item_attributes` configuration setting to filter
+    # down which parameters it will be checking equivalence on.
+    #
+    # @param [Hash] params - Updated order item parameters.
+    # @return [Boolean] whether this item's attributes is equal to the
+    #                   passed-in parameters.
+    def attributes_eql?(params = {})
+      params = params.to_h.with_indifferent_access
+      attrs = params.slice(*Workarea.config.distinct_order_item_attributes)
+      customizations = params[:customizations]&.stringify_keys
+      distinct = attrs.all? do |attribute, value|
+        self[attribute] == value
+      end
+
+      distinct && customizations_eql?(customizations)
+    end
+
     # Determine whether the customizations of this item
     # are equivalent to the customizations of another.
     # This is used when updating/adding items so we can
     # see whether we should merge items that have the
     # same SKU but different customizations.
     #
-    # @param test [Order::Item]
+    # @param [Hash] test
     # @return [Boolean]
     #
     def customizations_eql?(test)

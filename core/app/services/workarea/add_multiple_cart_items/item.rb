@@ -23,7 +23,7 @@ module Workarea
         return @item&.persisted? if defined?(@item)
 
         order.add_item(item_params).tap do |result|
-          @item = order.items.find_existing(sku, customizations&.to_h) if result
+          @item = order.items.find_existing(sku, item_params) if result
         end
       end
 

@@ -1321,6 +1321,16 @@ module Workarea
         cvv
         amount
       ]
+
+      # This is the Array of Symbols used to determine whether
+      # `Order#add_item` will create a new `Order::Item` record or
+      # whether it will update an existing one. The values of this Array
+      # are `Order::Item` field names, used to distinguish items from
+      # one another in a single `Order`. In other words, when these
+      # attributes differ between an existing item and a newly added
+      # item to the cart, the newly added item will appear separately in
+      # the Order.
+      config.distinct_order_item_attributes = []
     end
   end
 end

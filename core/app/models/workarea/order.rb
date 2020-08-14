@@ -242,9 +242,8 @@ module Workarea
     def add_item(attributes)
       quantity = attributes.fetch(:quantity, 1).to_i
       sku = attributes[:sku]
-      customizations = attributes[:customizations]
 
-      if existing_item = items.find_existing(sku, customizations)
+      if existing_item = items.find_existing(sku, attributes)
         update_item(existing_item.id, quantity: existing_item.quantity + quantity)
       else
         items.build(attributes)
@@ -253,15 +252,18 @@ module Workarea
       save
     end
 
-    # Updates an items attributes
+    # Update an item's attributes. When quantity is provided for an
+    # existing item, increase quantity by the provided value rather than
+    # set the quantity to the passed-in value.
     #
     # @param [String] id
-    # @param [Hash] attributes new item attributes
+    # @param [Hash] attributes - new item attributes
     #
     # @return [Boolean]
     #   whether the item was successfully updated
     def update_item(id, attributes)
-      existing_item = items.find_existing(attributes[:sku], attributes[:customizations])
+      existing_item = items.find_existing(attributes[:sku], attributes)
+
       if existing_item.present? && existing_item.id.to_s != id.to_s
         item = items.find(id)
         existing_item.update_attributes(quantity: existing_item.quantity + (attributes[:quantity] || item.quantity))
