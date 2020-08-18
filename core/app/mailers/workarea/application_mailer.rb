@@ -8,7 +8,10 @@ module Workarea
     default from: -> (*) { Workarea.config.email_from }
 
     def default_url_options(options = {})
-      super.merge(host: Workarea.config.host)
+      # super isn't returning the configured options, so manually merge them in
+      super
+        .merge(Rails.application.config.action_mailer.default_url_options.to_h)
+        .merge(host: Workarea.config.host)
     end
   end
 end
