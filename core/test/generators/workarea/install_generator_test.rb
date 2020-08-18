@@ -79,5 +79,11 @@ module Workarea
     def test_favicon
       assert_no_file 'public/favicon.ico'
     end
+
+    def test_development_mailer_port
+      assert_file 'config/environments/development.rb' do |file|
+        assert_match(%(config.action_mailer.default_url_options = { port: 3000 }), file)
+      end
+    end
   end
 end

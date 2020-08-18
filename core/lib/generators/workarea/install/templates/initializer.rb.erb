@@ -4,7 +4,7 @@ Workarea.configure do |config|
 
   config.host = {
     'test' => 'www.example.com',
-    'development' => 'localhost:3000',
+    'development' => 'localhost',
     'production' => 'www.<%= app_name.dasherize %>.com' # TODO
   }[Rails.env]
 

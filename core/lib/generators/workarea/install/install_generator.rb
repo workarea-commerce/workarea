@@ -53,6 +53,19 @@ module Workarea
       remove_file 'public/favicon.ico'
     end
 
+    def add_development_mailer_port
+      development_port = <<-CODE
+
+  config.action_mailer.default_url_options = { port: 3000 }
+      CODE
+
+      inject_into_file(
+        'config/environments/development.rb',
+        development_port,
+        before: /^end/
+      )
+    end
+
     private
 
     def app_name

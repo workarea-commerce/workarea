@@ -17,7 +17,15 @@ module Workarea
           assign_attributes(root, attrs)
           assign_embedded_attributes(root, attrs)
 
-          if root.save || failed_new_record_ids.exclude?(id)
+          possibly_affected_models = root.embedded_children + [root]
+          was_successful = true
+
+          possibly_affected_models.each do |model|
+            meaningful_changes = model.changes.except('updated_at')
+            was_successful &= model.save if model.changed? && meaningful_changes.present?
+          end
+
+          if was_successful || failed_new_record_ids.exclude?(id)
             log(index, root)
           else
             operation.total += 1 # ensure line numbers remain consistent
