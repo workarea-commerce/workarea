@@ -70,10 +70,8 @@ namespace :workarea do
   end
 
   Workarea::Plugin.installed.each do |engine|
-    display_name = engine.name.split('::')[1..-1].join('_').downcase
-
-    desc "Run workarea #{display_name} tests (with decorators)"
-    task "test:#{display_name}" => :prepare do
+    desc "Run workarea #{engine.slug} tests (with decorators)"
+    task "test:#{engine.slug}" => :prepare do
       Rails::TestUnit::Runner.rake_run(
         FileList[engine.root.join('test', '**', '*', '*_test.rb')]
       )
