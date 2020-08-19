@@ -1,3 +1,41 @@
+Workarea 3.4.38 (2020-08-19)
+--------------------------------------------------------------------------------
+
+*   Return Status of `Checkout#update`
+
+    For APIs and other consumers of the Checkout model, return a boolean
+    response from the `#update` method to signify whether the operation
+    succeeded or failed. This response is used directly in the API to return
+    an `:unprocessable_entity` response code when an update operation fails.
+
+    WORKAREA-253
+
+    Tom Scott
+
+*   Remove port from host configuration in installer
+
+    Ports aren't part of hosts, this causes problems when the value is used
+    like a true host.
+
+    This PR also fixes mailer links with missing ports as a result of this
+    change.
+
+    Ben Crouse
+
+*   Bump Chartkick to fix bundler audit warning
+
+    The vulnerability won't affect Workarea in use, but it'll be easier to fix builds doing this.
+
+    Ben Crouse
+
+*   Allow inquiry subjects to be localized
+
+    WORKAREA-238
+
+    Matt Duffy
+
+
+
 Workarea 3.4.37 (2020-07-22)
 --------------------------------------------------------------------------------
 
