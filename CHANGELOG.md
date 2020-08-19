@@ -1,3 +1,66 @@
+Workarea 3.5.17 (2020-08-19)
+--------------------------------------------------------------------------------
+
+*   Fix missing release changes for CSV importing with embedded models
+
+    Trying to update an embedded model via CSV import with a release causes
+    an existing changeset for the root model to get destroyed. This happens
+    because the CSV import calls `#save` on the root, which has no changes
+    so it removes the changeset.
+
+    This patch fixes by iterating over the models the CSV row might affect
+    and calling `#save` on the embedded ones first (if necessary) to ensure
+    the changesets get correctly created and to avoid calling the save on
+    the root without changes which removes the existing changeset.
+
+    Ben Crouse
+
+*   Return Status of `Checkout#update`
+
+    For APIs and other consumers of the Checkout model, return a boolean
+    response from the `#update` method to signify whether the operation
+    succeeded or failed. This response is used directly in the API to return
+    an `:unprocessable_entity` response code when an update operation fails.
+
+    WORKAREA-253
+
+    Tom Scott
+
+*   Remove port from host configuration in installer
+
+    Ports aren't part of hosts, this causes problems when the value is used
+    like a true host.
+
+    This PR also fixes mailer links with missing ports as a result of this
+    change.
+
+    Ben Crouse
+
+*   Bump Chartkick to fix bundler audit warning
+
+    The vulnerability won't affect Workarea in use, but it'll be easier to fix builds doing this.
+
+    Ben Crouse
+
+*   Allow inquiry subjects to be localized
+
+    WORKAREA-238
+
+    Matt Duffy
+
+*   Update inquiry subject documentation
+
+    WORKAREA-238
+
+    Matt Duffy
+
+*   Remove order summary append point from mailer that is meant for storefront views
+
+
+    Matt Duffy
+
+
+
 Workarea 3.5.16 (2020-07-22)
 --------------------------------------------------------------------------------
 
