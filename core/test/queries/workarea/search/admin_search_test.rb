@@ -81,6 +81,16 @@ module Workarea
         assert_equal(results.reverse, search.results)
       end
 
+      def test_default_sort_by_score
+        # Unlike other admin searches (primarily indexes), we want searching to
+        # default sort by score. Testing scores directly is unreliable so just
+        # do a simple check here.
+        assert_equal(
+          [{ _score: :desc }, { updated_at: :desc }],
+          AdminSearch.new.default_admin_sort
+        )
+      end
+
       def test_selected_sorting
         results = [
           create_product(name: 'A', variants: []),
