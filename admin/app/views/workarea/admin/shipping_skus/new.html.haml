@@ -1,0 +1,45 @@
+- @page_title = t('workarea.admin.shipping_skus.new.title')
+
+.view
+  .view__header
+    .grid.grid--right
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@sku)
+          %h1= t('workarea.admin.shipping_skus.new.title')
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@sku)
+
+  .view__container
+    - if @sku.errors.present?
+      - @sku.errors.full_messages.each do |message|
+        = render_message 'error', message
+
+    = form_tag shipping_skus_path, method: 'post', id: 'shipping_sku_form', data: { unsaved_changes: '' } do
+      = hidden_field_tag 'return_to', request.referrer
+
+      .section
+
+        .property.property--required
+          = label_tag 'sku_sku', t('workarea.admin.fields.sku'), class: 'property__name'
+          = text_field_tag 'sku[id]', @sku.id, class: 'text-box', required: true, placeholder: t('workarea.admin.shipping_skus.sku_placeholder')
+
+        .property
+          = label_tag 'sku[weight]', t('workarea.admin.fields.weight'), class: 'property__name'
+          = number_field_tag 'sku[weight]', @sku.model.weight, class: 'text-box', placeholder: t('workarea.admin.shipping_skus.weight_placeholder')
+          %span.property__note= @sku.weight_units
+
+        .property
+          %span.property__name= t('workarea.admin.fields.dimensions')
+          = text_field_tag 'sku[length]', @sku.model.length, class: 'text-box text-box--small', placeholder: t('workarea.admin.fields.length')
+          %span x
+          = text_field_tag 'sku[width]', @sku.model.width, class: 'text-box text-box--small', placeholder: t('workarea.admin.fields.width')
+          %span x
+          = text_field_tag 'sku[height]', @sku.model.height, class: 'text-box text-box--small', placeholder: t('workarea.admin.fields.height')
+          %span.property__note= @sku.length_units
+
+        = append_partials('admin.shipping_sku_fields', sku: @sku)
+
+      .workflow-bar
+        .grid.grid--auto.grid--right.grid--middle
+          .grid__cell= button_tag t('workarea.admin.shipping_skus.new.create_sku'), value: 'create_sku', class: 'workflow-bar__button workflow-bar__button--create'

@@ -1,0 +1,20 @@
+= link_to shipping_sku_path(model, return_to: params[:return_to]), class: 'summary' do
+  %span.summary__name= model.name
+  .summary__info-container
+    %span.summary__info
+      = local_time_ago(model.updated_at)
+    %span.summary__info
+      %p
+        %strong #{t('workarea.admin.fields.weight')}:
+        = model.weight
+      %p
+        %strong #{t('workarea.admin.fields.length')}:
+        = model.length
+      %p
+        %strong #{t('workarea.admin.fields.width')}:
+        = model.width
+      %p
+        %strong #{t('workarea.admin.fields.height')}:
+        = model.height
+  %span.summary__type{ title: t('workarea.admin.shipping_skus.summary.shipping_sku') }
+    = t('workarea.admin.shipping_skus.summary.shipping_sku')

@@ -1,0 +1,35 @@
+.grid.grid--auto.grid--flush.grid--center
+  .grid__cell
+    .card{ class: card_classes(:attributes, local_assigns[:active]) }
+      = link_to edit_shipping_sku_path(model), class: 'card__header' do
+        %span.card__header-text= t('workarea.admin.cards.attributes.title')
+        = inline_svg_tag 'workarea/admin/icons/attributes.svg', class: 'card__icon'
+
+      - if local_assigns[:active].blank?
+        .card__body
+          %ul.list-reset
+            %li
+              %strong #{t('workarea.admin.fields.weight')}:
+              = model.weight
+            %li
+              %strong #{t('workarea.admin.fields.height')}:
+              = model.height
+            %li
+              %strong #{t('workarea.admin.fields.width')}:
+              = model.width
+            %li
+              %strong #{t('workarea.admin.fields.length')}:
+              = model.length
+            = append_partials('admin.shipping_sku_attributes_card', shipping_sku: model)
+            %li
+              %strong= t('workarea.admin.fields.updated_at')
+              = local_time_ago(model.updated_at)
+            %li
+              %strong= t('workarea.admin.fields.created_at')
+              = local_time_ago(model.created_at)
+
+            = link_to edit_shipping_sku_path(model), class: 'card__button' do
+              %span.button.button--small= t('workarea.admin.cards.attributes.button')
+
+  .grid__cell
+    = render 'workarea/admin/timeline/card', timeline: model.timeline, active: local_assigns[:active]

@@ -529,6 +529,7 @@ en:
           variant_pluralize:
             one: "%{count} Variant"
             other: "%{count} Variants"
+          none: '(none)'
         new:
           display_name: Display Name
           heading: New Variant
@@ -1703,6 +1704,7 @@ en:
         geolocation: Geolocation
         merchandise: Merchandise
         head_content: Content Appended to Head Element
+        height: Height
         hidden_breakpoints: Hidden Breakpoints
         id: ID
         image: Image
@@ -1720,6 +1722,7 @@ en:
         last_order_at: Last Order At
         last_published: Last Published
         last_purchase: Last Purchase
+        length: Length
         list: List
         locations: Locations
         logged_in: Logged In
@@ -1849,6 +1852,8 @@ en:
         url: URL
         user_tags: User Tags
         variants: Variants
+        weight: Weight
+        width: Width
       form:
         cancel: Cancel
         csv_field_note: 'Comma separated: just, like, this'
@@ -3772,6 +3777,7 @@ en:
           segments: Segments
           settings: Settings
           shipping_services: Shipping Services
+          shipping: Shipping
           site_planner: Site Planner
           store: Store
           system_pages: System Pages
@@ -3849,6 +3855,39 @@ en:
           service: Service
           service_code: Service Code
           tax_code: Tax Code
+      shipping_skus:
+        unit:
+          inches:
+            one: '%{count}in'
+            other: '%{count}in'
+          centimeters:
+            one: '%{count}cm'
+            other: '%{count}cm'
+          ounces:
+            one: '%{count}oz'
+            other: '%{count}oz'
+          grams:
+            one: '%{count}g'
+            other: '%{count}g'
+        edit:
+          title: Attributes for %{name}
+        index:
+          button: Add New Shipping SKU
+          title: Shipping
+          sku_pluralize:
+            one: "%{count} SKU"
+            other: "%{count} SKUs"
+        new:
+          create_sku: Create Shipping SKU
+          title: New Shipping SKU
+        saved: "%{sku} has been saved."
+        sku: SKU
+        sku_placeholder: SKU123
+        weight_placeholder: 1
+        show:
+          view_product: View Product
+        summary:
+          shipping_sku: Shipping SKU
       status_report_mailer:
         alerts:
           empty_categories: Empty categories

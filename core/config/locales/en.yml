@@ -140,6 +140,8 @@ en:
       name: "Pricing %{id}"
     release:
       undo: Undo %{name}
+    shipping_sku:
+      name: "Shipping %{id}"
     sorts:
       available: Available
       average_order_value: Average Order Total

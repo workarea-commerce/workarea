@@ -34,6 +34,7 @@
             %th= t('workarea.admin.fields.fulfillment')
             %th.align-center= t('workarea.admin.fields.inventory')
             %th.align-right= t('workarea.admin.fields.pricing')
+            %th.align-right= t('workarea.admin.fields.shipping')
             %th
         %tbody{ data: { sort_variant: '', product_id: @product.to_param } }
           - @variants.each do |variant|
@@ -49,6 +50,9 @@
               %td.align-right
                 = link_to pricing_sku_path(variant.sku) do
                   = number_to_currency variant.pricing.sell_price
+              %td.align-right
+                = link_to shipping_sku_path(variant.sku) do
+                  = variant.weight
               %td
                 = form_tag catalog_product_variant_path(@product, variant), method: 'delete', class: 'text-button text-button--destroy' do
                   = button_tag value: 'remove_catalog_variant', class: 'text-button text-button--destroy' do
