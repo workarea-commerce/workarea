@@ -35,6 +35,12 @@
                 = link_to model.created_by.name, user_path(model.created_by)
               - else
                 = t('workarea.admin.users.cards.not_applicable')
+            %li
+              %strong= t('workarea.admin.fields.last_login_at')
+              = model.last_login
+            %li
+              %strong= t('workarea.admin.fields.last_login_attempt_at')
+              = model.last_login_attempt
 
             - unless model.admin?
               %li

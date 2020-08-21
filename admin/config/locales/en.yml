@@ -1718,6 +1718,8 @@ en:
         last_name: Last Name
         last_order: Last Order
         last_order_at: Last Order At
+        last_login_at: Last Logged In
+        last_login_attempt_at: Last Login Attempted
         last_published: Last Published
         last_purchase: Last Purchase
         list: List
@@ -4105,6 +4107,7 @@ en:
           percentile: percentile
         login:
           never: Never logged in
+          never_attempted: Never attempted to log in
           time_ago: "%{period} ago"
         name_types:
           email: email

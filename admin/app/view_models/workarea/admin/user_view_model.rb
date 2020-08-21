@@ -23,6 +23,17 @@ module Workarea
         end
       end
 
+      def last_login_attempt
+        if last_login_attempt_at.present?
+          t(
+            'workarea.admin.users.login.time_ago',
+            period: time_ago_in_words(last_login_attempt_at)
+          )
+        else
+          t('workarea.admin.users.login.never_attempted')
+        end
+      end
+
       def role
         if model.admin?
           t('workarea.admin.users.roles.admin')
