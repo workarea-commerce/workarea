@@ -50,7 +50,8 @@ module Workarea
     end
 
     def current_impersonation
-      @current_impersonation ||= User.find(cookies.signed[:user_id])
+      return @current_impersonation if defined?(@current_impersonation)
+      @current_impersonation = User.find(cookies.signed[:user_id]) rescue nil
     end
 
     def touch_impersonation
