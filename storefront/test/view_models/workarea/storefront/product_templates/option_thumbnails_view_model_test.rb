@@ -7,10 +7,10 @@ module Workarea
         def test_groups_images_by_options
           product = create_product(
             images: [
-              { image: product_image_file, option: 'blue' },
-              { image: product_image_file, option: 'red' },
-              { image: product_image_file, option: 'Blue' },
-              { image: product_image_file, option: nil },
+              { image: product_image_file_path, option: 'blue' },
+              { image: product_image_file_path, option: 'red' },
+              { image: product_image_file_path, option: 'Blue' },
+              { image: product_image_file_path, option: nil },
             ]
          )
 

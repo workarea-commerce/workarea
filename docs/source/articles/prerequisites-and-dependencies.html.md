@@ -109,7 +109,7 @@ The following table lists other notable libraries utilized by Workarea.
 | --- | --- |
 | [Sidekiq](https://github.com/mperham/sidekiq) | Process potentially expensive jobs in the background |
 | [Sidekiq-Cron](https://github.com/ondrejbartas/sidekiq-cron) | Schedule Sidekiq jobs |
-| [Dragonfly](https://markevans.github.io/dragonfly/) | Store files and process images using ImageMagick |
+| [Dragonfly](https://markevans.github.io/dragonfly/) | Store files and process images using libvips and ImageMagick |
 | [Active Merchant](https://github.com/activemerchant/active_merchant) | Integrate with a variety of payment gateways |
 | [I18n.js](https://github.com/fnando/i18n-js) | Provide Ruby I18n translations in JavaScript |
 | [JsRoutes](https://github.com/railsware/js-routes) | Provide Rails named routes in JavaScript |

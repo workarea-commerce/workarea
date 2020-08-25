@@ -12,7 +12,7 @@ module Workarea
 
       def test_creates_an_image
         post admin.catalog_product_images_path(@product),
-          params: { image: { image: product_image_file, option: 'blue' } }
+          params: { image: { image: product_image_file_path, option: 'blue' } }
 
         @product.reload
         assert_equal(1, @product.images.length)
@@ -21,12 +21,12 @@ module Workarea
 
       def test_updates_image_ordering
         image1 = @product.images.create!(
-          image: product_image_file,
+          image: product_image_file_path,
           option: 'blue'
         )
 
         image2 = @product.images.create!(
-          image: product_image_file,
+          image: product_image_file_path,
           option: 'blue'
         )
 
@@ -42,7 +42,7 @@ module Workarea
 
       def test_returns_a_list_of_matching_image_option_values
         @product.images.create!(
-          image: product_image_file,
+          image: product_image_file_path,
           option: 'blue'
         )
 
@@ -54,7 +54,7 @@ module Workarea
 
       def test_destroys_an_image
         image = @product.images.create!(
-          image: product_image_file,
+          image: product_image_file_path,
           option: 'blue'
         )
 

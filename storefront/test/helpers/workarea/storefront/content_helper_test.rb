@@ -21,12 +21,12 @@ module Workarea
       end
 
       def test_intrinsic_ratio_frame_styles
-        asset = create_asset(file: product_image_file)
+        asset = create_asset(file: product_image_file_path)
         result = intrinsic_ratio_frame_styles(asset)
         assert_equal('padding: 0 0 100.0%; height: 0;', result)
 
         asset = create_asset(
-          file: product_image_file,
+          file: product_image_file_path,
           file_inverse_aspect_ratio: nil
         )
 

@@ -16,7 +16,7 @@ module Workarea
           sku = create_fulfillment_sku(
             id: 'SKU1',
             policy: 'download',
-            file: product_image_file
+            file: product_image_file_path
           )
 
           policy = Policies::Download.new(sku)

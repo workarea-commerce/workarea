@@ -52,8 +52,8 @@ module Workarea
             { sku: 'SKU2', details: { 'Color' => 'Blue' } }
           ],
           images: [
-            { image: product_image_file, option: 'blue' },
-            { image: product_image_file, option: 'red' }
+            { image: product_image_file_path, option: 'blue' },
+            { image: product_image_file_path, option: 'red' }
           ]
        )
 
@@ -90,8 +90,8 @@ module Workarea
             { sku: 'SKU2', details: { 'Color' => 'Blue' } }
           ],
           images: [
-            { image: product_image_file, option: 'blue' },
-            { image: product_image_file, option: 'red' }
+            { image: product_image_file_path, option: 'blue' },
+            { image: product_image_file_path, option: 'red' }
           ]
        )
 
@@ -115,12 +115,12 @@ module Workarea
             { sku: 'SKU2', details: { 'Color' => 'Blue' } }
           ],
           images: [
-            { image: product_image_file, option: 'red', position: 0 },
-            { image: product_image_file, option: 'red', position: 9 },
-            { image: product_image_file, option: 'red', position: 5 },
-            { image: product_image_file, option: 'blue', position: 3 },
-            { image: product_image_file, option: 'blue', position: 2 },
-            { image: product_image_file, option: 'blue', position: 1 }
+            { image: product_image_file_path, option: 'red', position: 0 },
+            { image: product_image_file_path, option: 'red', position: 9 },
+            { image: product_image_file_path, option: 'red', position: 5 },
+            { image: product_image_file_path, option: 'blue', position: 3 },
+            { image: product_image_file_path, option: 'blue', position: 2 },
+            { image: product_image_file_path, option: 'blue', position: 1 }
           ]
         )
         product.reload

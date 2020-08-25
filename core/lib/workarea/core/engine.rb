@@ -31,6 +31,7 @@ module Workarea
         Configuration::ActionMailer.load
         Configuration::ErrorHandling.load
         Configuration::I18n.load
+        Configuration::ImageProcessing.load
       end
 
       initializer 'workarea.core.image_optim', before: 'image_optim.initializer' do

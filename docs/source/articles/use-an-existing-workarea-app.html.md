@@ -11,6 +11,7 @@ This is a quick start guide for getting started on an existing Workarea applicat
 * You have Ruby >= 2.4.0, < 2.7.0 installed. See [https://github.com/rbenv/rbenv#installation](https://github.com/rbenv/rbenv#installation) for instructions.
 * You have NodeJS installed. We recommend using [Homebrew](https://brew.sh).
 * You have ImageMagick installed. We recommend using [Homebrew](https://brew.sh).
+* You have libvips installed. We recommend using [Homebrew](https://brew.sh).
 * You have the repository cloned locally.
 
 For more details, see [Prerequisites and Dependencies](/articles/prerequisites-and-dependencies.html).

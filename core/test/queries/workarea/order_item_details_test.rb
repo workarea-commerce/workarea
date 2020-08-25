@@ -16,7 +16,7 @@ module Workarea
       product = create_product(variants: [{ sku: 'SKU', regular: 5.00 }])
       assert_equal('shipping', OrderItemDetails.find('SKU').to_h[:fulfillment])
 
-      sku = create_fulfillment_sku(id: 'SKU', policy: 'download', file: product_image_file)
+      sku = create_fulfillment_sku(id: 'SKU', policy: 'download', file: product_image_file_path)
       assert_equal('download', OrderItemDetails.find('SKU').to_h[:fulfillment])
     end
 
