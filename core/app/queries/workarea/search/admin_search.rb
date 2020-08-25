@@ -11,6 +11,10 @@ module Workarea
       def self.available_sorts
         AdminSorting.available_sorts
       end
+
+      def default_admin_sort
+        [{ _score: :desc }, { updated_at: :desc }]
+      end
     end
   end
 end
