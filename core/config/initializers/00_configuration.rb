@@ -156,14 +156,15 @@ Workarea::Configuration.define_fields do
   end
 
   fieldset 'Communication', namespaced: false do
+
     field 'Email From',
       type: :string,
-      default: 'noreply@example.com',
+      default: -> { "#{Workarea.config.site_name} <noreply@#{Workarea.config.host}>" },
       description: 'The email address used as the sender of system emails'
 
     field 'Email To',
       type: :string,
-      default: 'customerservice@example.com',
+      default: -> { "#{Workarea.config.site_name} <customerservice@#{Workarea.config.host}>" },
       description: 'The email address that receives user generated emails, e.g. contact us inquiries'
 
     field 'Inquiry Subjects',
