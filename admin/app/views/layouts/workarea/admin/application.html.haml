@@ -183,7 +183,9 @@
                   %li.menu__item= link_to t('workarea.admin.layout.log_out'), storefront.logout_path, data: { method: 'delete' }, class: 'menu__link'
 
       .page-content
-        #main.page-content__main{ role: 'main' }= yield
+        #main.page-content__main{ role: 'main' }
+          = append_partials('admin.page_content_top')
+          = yield
 
     %p.visually-hidden= link_to t('workarea.admin.layout.top_of_page'), '#top'
     = yield :javascript

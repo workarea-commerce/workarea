@@ -117,3 +117,8 @@ $workflow-bar-button-confirm-delete-hover-bg-color:  $bright-red !default;
             background-color: $workflow-bar-button-confirm-delete-hover-bg-color;
         }
     }
+
+    .workflow-bar__button--disabled {
+        opacity: $forms-disabled-opacity;
+        cursor: not-allowed;
+    }

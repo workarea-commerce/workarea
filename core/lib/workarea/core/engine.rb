@@ -78,6 +78,10 @@ module Workarea
         # get autoloaded. Without this, admin actions like updating product
         # attributes raises a {NameError} "uninitialized constant BulkIndexProducts".
         require_dependency 'workarea/bulk_index_products'
+
+        # Fixes a constant error raised in middleware (when doing segmentation)
+        # No idea what the cause is. TODO revisit after Zeitwerk.
+        require_dependency 'workarea/metrics/user'
       end
     end
   end

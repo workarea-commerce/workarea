@@ -56,7 +56,7 @@
 
       .grid__cell.grid__cell--50.align-right
         - if segments.size >= 15
-          = link_to t('workarea.admin.segments.index.add_custom'), '#max-segments-info', disabled: 'disabled', data: { tooltip: '' }, class: 'workflow-bar__button workflow-bar__button--create'
+          = link_to t('workarea.admin.segments.index.add_custom'), '#max-segments-info', disabled: 'disabled', data: { tooltip: '' }, class: 'workflow-bar__button workflow-bar__button--create workflow-bar__button--disabled'
           #max-segments-info.tooltip-content
             %p= t('workarea.admin.segments.index.max_segments')
 

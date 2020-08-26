@@ -32,6 +32,8 @@
                 = search_field_tag :q, nil, placeholder: t('workarea.admin.toolbar.search_placeholder'), title: t('workarea.admin.toolbar.search_title'), class: 'search-form__input', data: { categorized_autocomplete_field: '' }, id: 'admin_search', aria: { label: t('workarea.admin.toolbar.search_title') }
                 = submit_tag t('workarea.admin.toolbar.search'), class: 'search-form__button', value: 'search_admin'
 
+            = append_partials('admin.toolbar_header')
+
             - if @model.present?
               - unless @model.active?
                 .header__alert
