@@ -65,7 +65,7 @@ Here are the steps to upgrading to libvips:
 
 * Update any custom Dragonfly Processors
 
-  While we've updated the out-of-the-box Dragonfly processors for libvips, you may have some custom ones setup in your app that need to be updated for lipvips. This will depend on the type of image processing. For example in base we changed
+While we've updated the out-of-the-box Dragonfly processors for libvips, you may have some custom ones setup in your app that need to be updated for libvips. This will depend on the type of image processing. For example in base we changed
 
   ```ruby
   content.process!(:thumb, "#{size}#")
