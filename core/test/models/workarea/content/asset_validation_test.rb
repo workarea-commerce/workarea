@@ -6,7 +6,7 @@ module Workarea
       setup :set_asset
 
       def set_asset
-        @asset = Asset.new(file: product_image_file)
+        @asset = Asset.new(file: product_image_file_path)
         FastImage.expects(:type).returns(nil)
       end
 

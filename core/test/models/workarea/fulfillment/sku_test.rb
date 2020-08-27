@@ -11,7 +11,7 @@ module Workarea
         refute(sku.valid?)
         assert(sku.errors['file'].present?)
 
-        sku.file = product_image_file
+        sku.file = product_image_file_path
         assert(sku.valid?)
       end
 
@@ -46,7 +46,7 @@ module Workarea
         sku.policy = 'download'
         refute(sku.downloadable?)
 
-        sku.file = product_image_file
+        sku.file = product_image_file_path
         assert(sku.downloadable?)
       end
     end

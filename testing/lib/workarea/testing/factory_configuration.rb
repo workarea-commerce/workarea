@@ -23,13 +23,13 @@ defaults.sequential_product_edit = { ids: %w(1 2 3) }
 # factories/catalog.rb
 defaults.category = { name: 'Test Category' }
 defaults.product = { name: 'Test Product', details:  { 'Material' => 'Cotton', 'Style' => '12345' }, filters:  { 'Material' => 'Cotton', 'Style' => '12345' }, variants: [{ sku: 'SKU', regular: 5.00 }] }
-defaults.create_product_placeholder_image = Proc.new { { image: product_image_file } }
+defaults.create_product_placeholder_image = Proc.new { { image: product_image_file_path } }
 
 # factories/comment.rb
 defaults.comment = { author_id: '1234', body: 'foo bar' }
 
 # factories/content.rb
-defaults.asset = Proc.new { { name: 'Test Asset', tag_list: 'test', file: product_image_file } }
+defaults.asset = Proc.new { { name: 'Test Asset', tag_list: 'test', file: product_image_file_path } }
 defaults.content = { name: 'Test content' }
 defaults.page = { name: 'Test Page' }
 

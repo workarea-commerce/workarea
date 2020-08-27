@@ -23,7 +23,7 @@ module Workarea
           params: {
             asset: {
               name: 'Test Asset',
-              file: product_image_file,
+              file: product_image_file_path,
               tag_list: 'foo,bar,baz'
             }
           }
@@ -38,7 +38,7 @@ module Workarea
       def test_can_update_an_asset
         asset = create_asset(
           name: 'Test Asset',
-          file: product_image_file,
+          file: product_image_file_path,
           tag_list: 'foo,bar,baz'
         )
 
@@ -56,7 +56,7 @@ module Workarea
       end
 
       def test_can_destroy_an_asset
-        asset = create_asset(file: product_image_file)
+        asset = create_asset(file: product_image_file_path)
         delete admin.content_asset_path(asset)
         assert(Content::Asset.empty?)
       end

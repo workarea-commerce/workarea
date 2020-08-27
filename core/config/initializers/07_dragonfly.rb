@@ -1,5 +1,15 @@
 Dragonfly.app(:workarea).configure do
-  plugin :imagemagick
+  if Workarea::Configuration::ImageProcessing.libvips?
+    plugin :libvips
+
+    # Allow using the convert processor (part of the ImageMagick plugin).
+    # We need this for .ico files, Vips supposedly supports .ico when installed
+    # with ImageMagick support, but not seeing this in practice.
+    require 'dragonfly/image_magick/processors/convert'
+    Dragonfly.app(:workarea).add_processor :convert, Dragonfly::ImageMagick::Processors::Convert.new
+  else
+    plugin :imagemagick
+  end
 
   verify_urls true
   secret Rails.application.secrets.dragonfly_secret.presence ||
@@ -51,8 +61,7 @@ Dragonfly.app(:workarea).configure do
   #
   #
   analyser :inverse_aspect_ratio do |content|
-    attrs = content.analyse(:image_properties)
-    attrs['height'].to_f / attrs['width']
+    content.analyse(:height).to_f / content.analyse(:width).to_f
   end
 
   unless processors.include?(:small_thumb)
@@ -105,7 +114,11 @@ Dragonfly.app(:workarea).configure do
 
   unless processors.include?(:favicon)
     processor :favicon do |content, size|
-      content.process!(:thumb, "#{size}#")
+      if Workarea::Configuration::ImageProcessing.libvips?
+        content.process!(:thumb, size, gravity: 'center')
+      else
+        content.process!(:thumb, "#{size}#")
+      end
     end
   end
 

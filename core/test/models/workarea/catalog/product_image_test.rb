@@ -11,7 +11,7 @@ module Workarea
 
       def test_valid?
         product = create_product
-        product.images.create(image: product_image_file, position: 0)
+        product.images.create(image: product_image_file_path, position: 0)
 
         image = product.images.build
         image.valid?
@@ -21,8 +21,8 @@ module Workarea
 
       def test_always_order_by_position
         product = create_product
-        product.images.create(image: product_image_file, position: 1)
-        product.images.create(image: product_image_file, position: 0)
+        product.images.create(image: product_image_file_path, position: 1)
+        product.images.create(image: product_image_file_path, position: 0)
         product.reload
 
         assert_equal([0, 1], product.images.map(&:position))
@@ -30,14 +30,14 @@ module Workarea
 
       def test_falling_back_to_recently_updated_sorting
         product = create_product
-        one = product.images.create!(image: product_image_file, position: 0)
-        two = product.images.create!(image: product_image_file, position: 0)
+        one = product.images.create!(image: product_image_file_path, position: 0)
+        two = product.images.create!(image: product_image_file_path, position: 0)
         assert_equal([two, one], product.reload.images)
       end
 
       def test_populate_fields
         product = create_product
-        image = product.images.create!(image: product_image_file, position: 0)
+        image = product.images.create!(image: product_image_file_path, position: 0)
 
         assert_equal(1.0, image.image_inverse_aspect_ratio)
       end

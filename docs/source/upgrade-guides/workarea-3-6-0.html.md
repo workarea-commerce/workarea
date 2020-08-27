@@ -42,8 +42,53 @@ To enable matching images based on localized variant details, the `option` field
 
 The default value for `Workarea.config.localized_image_options` will be `true`. If you're upgrading and don't want to migrate your Mongo data and reindex Elasticsearch (unlikely), you'll want to set this to `false` in an initializer to preserve the former behavior.
 
-```
+```ruby
 Workarea.configure do |config|
   config.localized_image_options = false
 end
 ```
+
+## libvips for Image Processing
+
+### What's Changing?
+
+[libvips](https://libvips.github.io/libvips/) is a modern, threaded image processing library that processes images faster and using less memory than ImageMagick. Image processing has long been a performance bottleneck on Workarea, so we're adopting this newer tool to achieve better performance in that area.
+
+To do this, Workarea is adding the `dragonfly_libvips`(https://github.com/tomasc/dragonfly_libvips) gem dependency, which will allow configuring Dragonfly for libvips.
+
+### What Do You Need to Do?
+
+If you don't do anything, Workarea will fallback to using ImageMagick processing exclusively. But you don't really want to be that lame do you?
+
+Here are the steps to upgrading to libvips:
+* [Install libvips on relevant environments](https://libvips.github.io/libvips/install.html)
+
+* Update any custom Dragonfly Processors
+
+While we've updated the out-of-the-box Dragonfly processors for libvips, you may have some custom ones setup in your app that need to be updated for libvips. This will depend on the type of image processing. For example in base we changed
+
+  ```ruby
+  content.process!(:thumb, "#{size}#")
+  ```
+
+  to
+
+  ```ruby
+  content.process!(:thumb, size, gravity: 'center')
+  ```
+
+  You can read more about options on the [dragonfly_libvips](https://github.com/tomasc/dragonfly_libvips) documentation.
+
+* Update tests for image paths
+
+  libvips and Dragonfly use the file's extension to determine file type, so any tests relying on passing the image binary content directly will need to be updated. For example, change
+
+  ```ruby
+  product.images.create(image: product_image_file)
+  ```
+
+  to
+
+  ```ruby
+  product.images.create(image: product_image_file_path)
+  ```

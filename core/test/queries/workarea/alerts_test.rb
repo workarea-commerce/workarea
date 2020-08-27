@@ -36,7 +36,7 @@ module Workarea
     def test_products_missing_images
       assert_equal(0, Alerts.new.products_missing_images)
 
-      product = create_product(images: [{ image: product_image_file }])
+      product = create_product(images: [{ image: product_image_file_path }])
       IndexAdminSearch.perform(product)
       assert_equal(0, Alerts.new.products_missing_images)
 

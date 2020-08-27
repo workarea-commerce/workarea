@@ -10,7 +10,7 @@ module Workarea
           params: {
             help_article: {
               name: 'Test Article',
-              thumbnail: product_image_file,
+              thumbnail: product_image_file_path,
               category: 'FAQs',
               matching_url: '/admin',
               summary: 'Summary',

@@ -25,8 +25,8 @@ module Workarea
           name: "Test Product",
           filters: { 'color' => ['red', 'blue'] },
           images: [
-            { image: product_image_file, option: 'blue', position: 1 },
-            { image: product_image_file, option: 'red', position: 2 }
+            { image: product_image_file_path, option: 'blue', position: 1 },
+            { image: product_image_file_path, option: 'red', position: 2 }
           ]
         )
 
@@ -34,8 +34,8 @@ module Workarea
           name: "Another Test Product",
           filters: { 'color' => ['red', 'orange'] },
           images: [
-            { image: product_image_file, option: 'red', position: 1 },
-            { image: product_image_file, option: 'orange', position: 2 }
+            { image: product_image_file_path, option: 'red', position: 1 },
+            { image: product_image_file_path, option: 'orange', position: 2 }
           ]
         )
       end

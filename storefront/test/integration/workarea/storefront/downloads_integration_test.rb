@@ -5,7 +5,7 @@ module Workarea
     class DownloadsIntegrationTest < Workarea::IntegrationTest
       def test_show
         token = create_fulfillment_token(sku: 'SKU1')
-        sku = create_fulfillment_sku(id: 'SKU1', policy: :download, file: product_image_file)
+        sku = create_fulfillment_sku(id: 'SKU1', policy: :download, file: product_image_file_path)
 
         get storefront.download_path(token)
         assert(response.ok?)

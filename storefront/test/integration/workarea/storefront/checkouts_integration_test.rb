@@ -354,7 +354,7 @@ module Workarea
 
       def test_no_required_shipping_address_options_flash_message
         product = create_product(name: 'Digital Product', variants: [{ sku: 'SKU' }])
-        create_fulfillment_sku(id: 'SKU', policy: :download, file: product_image_file)
+        create_fulfillment_sku(id: 'SKU', policy: :download, file: product_image_file_path)
 
         post storefront.cart_items_path,
           params: { product_id: product.id, sku: product.skus.first, quantity: 1 }

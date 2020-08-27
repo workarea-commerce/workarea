@@ -29,14 +29,12 @@ module Workarea
       config.email_to = 'customerservice@example.com'
       config.email_from = 'noreply@example.com'
 
-      # Config sent to the ImageMagick through Dragonfly for optimizing jpgs
-      # All metadata profiles are removed, comments cleared by comment -set ""
-      # +profile takes a list of profiles to be removed
-      # 8bim: Adobe path information
-      # exif: Camera metadata
-      # iptc: information exchange metadata
-      # xmp: Extensible metadata platform (Adobe Metadata)
-      config.jpg_encode_options = '+profile "8bim,exif,iptc,xmp" -set comment "" -interlace Plane -quality 85'
+      # Options passed to libvips or ImageMagick through Dragonfly for encoding JPG images.
+      config.jpg_encode_options = if Workarea::Configuration::ImageProcessing.libvips?
+        { output_options: { strip: true, interlace: true, Q: 85 } }
+      else
+        '+profile "8bim,exif,iptc,xmp" -set comment "" -interlace Plane -quality 85'
+      end
 
       # Stores instances of payment gateways for Workarea::Payment to use
       config.gateways = ActiveSupport::Configurable::Configuration.new

@@ -78,7 +78,7 @@ module Workarea
 
         def test_images_with_nil_option
           product = create_product(images: [])
-          image = product.images.create!(image: product_image_file, option: nil)
+          image = product.images.create!(image: product_image_file_path, option: nil)
 
           image_collection = ImageCollection.new(
             product,

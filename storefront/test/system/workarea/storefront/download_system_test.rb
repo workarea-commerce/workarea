@@ -18,8 +18,8 @@ module Workarea
           ]
         )
 
-        create_fulfillment_sku(id: 'SKU1', policy: :download, file: product_image_file)
-        create_fulfillment_sku(id: 'SKU2', policy: :download, file: product_image_file)
+        create_fulfillment_sku(id: 'SKU1', policy: :download, file: product_image_file_path)
+        create_fulfillment_sku(id: 'SKU2', policy: :download, file: product_image_file_path)
 
         visit storefront.product_path(product)
 
@@ -108,8 +108,8 @@ module Workarea
           ]
         )
 
-        create_fulfillment_sku(id: 'SKU1', policy: :download, file: product_image_file)
-        create_fulfillment_sku(id: 'SKU2', policy: :download, file: product_image_file)
+        create_fulfillment_sku(id: 'SKU1', policy: :download, file: product_image_file_path)
+        create_fulfillment_sku(id: 'SKU2', policy: :download, file: product_image_file_path)
 
         visit storefront.product_path(product)
 

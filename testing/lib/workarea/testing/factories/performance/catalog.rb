@@ -52,7 +52,7 @@ module Workarea
           materials = product.variants.flat_map { |v| v.fetch_detail('Material') }.uniq!
 
           colors.each do |color|
-            product.images.build(image: product_image_file, option: color)
+            product.images.build(image: product_image_file_path, option: color)
           end
 
           product.filters = { 'Color' => colors, 'Size' => sizes, 'Material' => materials }

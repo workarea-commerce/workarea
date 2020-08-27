@@ -233,7 +233,7 @@ module Workarea
 
       def test_requires_shipping?
         product = create_product(variants: [{ sku: 'SKU1' }, { sku: 'SKU2' }])
-        sku_1 = create_fulfillment_sku(id: 'SKU1', policy: 'download', file: product_image_file)
+        sku_1 = create_fulfillment_sku(id: 'SKU1', policy: 'download', file: product_image_file_path)
         sku_2 = create_fulfillment_sku(id: 'SKU2', policy: 'shipping')
 
         view_model = ProductViewModel.wrap(product)

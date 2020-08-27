@@ -127,7 +127,7 @@ module Workarea
 
         results = JSON.parse(response.body)['results']
         assert_equal(1, results.length)
-        assert_equal('Test Asset - file.jpg', results.first['label'])
+        assert_equal('Test Asset - product_image.jpg', results.first['label'])
         assert_equal('Assets', results.first['type'])
         assert_equal(admin.content_asset_path(asset), results.first['url'])
 
