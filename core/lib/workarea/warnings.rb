@@ -7,6 +7,7 @@ module Workarea
       check_mongo_notable_scan
       check_dragonfly_config
       check_auto_capture
+      check_libvips_version
     end
 
     def check_timezone
@@ -86,6 +87,22 @@ To achieve the same functionality as Workarea.config.auto_capture, you'd set:
     no_shipping: 'purchase!'
   }
 
+**************************************************
+        eos
+      end
+    end
+
+    def check_libvips_version
+      if Configuration::ImageProcessing.libvips_version.present? &&
+          !Configuration::ImageProcessing.libvips?
+
+        warn <<~eos
+**************************************************
+⛔️ WARNING: libvips is installed but will not be used.
+
+The version of libvips installed is out of date. Workarea will fallback to using
+ImageMagick. We highly recommend upgrading to the latest verison of libvips to
+take advantage of much faster image processing.
 **************************************************
         eos
       end
