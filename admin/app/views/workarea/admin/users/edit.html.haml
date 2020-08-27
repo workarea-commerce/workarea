@@ -97,7 +97,6 @@
                 = label_tag 'user_created_by', t('workarea.admin.fields.created_by'), class: 'property__name'
                 = link_to @user.created_by.name, user_path(@user.created_by)
 
-
       .workflow-bar
         .grid.grid--auto.grid--right.grid--middle
           .grid__cell= button_tag t('workarea.admin.users.edit.button'), value: 'save_user', class: 'workflow-bar__button workflow-bar__button--update'
