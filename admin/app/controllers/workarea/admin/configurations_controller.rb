@@ -1,6 +1,8 @@
 module Workarea
   module Admin
     class ConfigurationsController < Admin::ApplicationController
+      required_permissions :settings
+
       before_action :find_configuration
 
       def show; end
