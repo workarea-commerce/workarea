@@ -98,10 +98,10 @@ To achieve the same functionality as Workarea.config.auto_capture, you'd set:
 
         warn <<~eos
 **************************************************
-⛔️ WARNING: libvips is installed but will not be used.
+⛔️ WARNING: #{Configuration::ImageProcessing.libvips_version} is available but will not be used.
 
 The version of libvips installed is out of date. Workarea will fallback to using
-ImageMagick. We highly recommend upgrading to the latest verison of libvips to
+ImageMagick. We highly recommend upgrading to the latest version of libvips to
 take advantage of much faster image processing.
 **************************************************
         eos
