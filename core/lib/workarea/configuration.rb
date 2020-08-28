@@ -26,8 +26,6 @@ module Workarea
 
       config.site_name = 'Workarea'
       config.host = 'www.example.com'
-      config.email_to = 'customerservice@example.com'
-      config.email_from = 'noreply@example.com'
 
       # Config sent to the ImageMagick through Dragonfly for optimizing jpgs
       # All metadata profiles are removed, comments cleared by comment -set ""
