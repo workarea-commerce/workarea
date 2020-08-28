@@ -31,7 +31,7 @@ module Workarea
 
       delegate :available_to_sell, :displayable?, :purchase, to: :policy_object
 
-      before_validation :set_sellable
+      before_save :set_sellable
 
       index({ sellable: 1 })
 
