@@ -80,6 +80,17 @@
             .property
               = label_tag 'user_created_at', t('workarea.admin.fields.created_at'), class: 'property__name'
               = local_time(@user.created_at)
+          - if @user.last_login_at?
+            .grid__cell.grid__cell--50.grid__cell--25-at-medium
+              .property
+                = label_tag 'user_last_login_at', t('workarea.admin.fields.last_login_at'), class: 'property__name'
+                = local_time(@user.last_login_at)
+          - if @user.last_login_attempt_at?
+            .grid__cell.grid__cell--50.grid__cell--25-at-medium
+              .property
+                = label_tag 'user_last_login_attempt_at', t('workarea.admin.fields.last_login_attempt_at'), class: 'property__name'
+                = local_time(@user.last_login_attempt_at)
+
           - if @user.created_by.present?
             .grid__cell.grid__cell--50.grid__cell--25-at-medium
               .property
