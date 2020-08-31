@@ -33,17 +33,17 @@ module Workarea
     # To allow for custom policies defining their own methods here
     Workarea.config.fulfillment_policies.each do |class_name|
       define_method "#{class_name.demodulize.underscore}?" do
-        fulfillment == class_name.demodulize.underscore
+        fulfilled_by?(class_name.demodulize.underscore)
       end
     end
 
     # These methods exist for findability
     def shipping?
-      fulfillment == 'shipping'
+      fulfilled_by?('shipping')
     end
 
     def download?
-      fulfillment == 'download'
+      fulfilled_by?('download')
     end
 
     # Whether this order has any items that need to be fulfilled by a particular
@@ -53,7 +53,7 @@ module Workarea
     # @return [Boolean]
     #
     def fulfilled_by?(*types)
-      types.any? { |t| send("#{t}?") }
+      types.map(&:to_s).include?(fulfillment)
     end
 
     # Whether this item is a digital (not-shipped) type of item.

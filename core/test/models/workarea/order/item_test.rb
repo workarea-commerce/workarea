@@ -55,6 +55,15 @@ module Workarea
         )
         assert(item.on_sale?)
       end
+
+      def test_fulfilled_by?
+        item.fulfillment = 'shipping'
+        assert(item.fulfilled_by?(:shipping))
+        assert(item.fulfilled_by?(:shipping, :download))
+        refute(item.fulfilled_by?(:download))
+        assert(item.shipping?)
+        refute(item.download?)
+      end
     end
   end
 end
