@@ -55,11 +55,6 @@
                 .property
                   = text_field_tag 'new_details[]', nil, id: nil, class: 'text-box text-box--i18n', title: t('workarea.admin.catalog_variants.new.options.new_attribute_value'), placeholder: t('workarea.admin.catalog_variants.new.options.new_attribute_value_placeholder')
                   %span.property__note= t('workarea.admin.catalog_variants.new.options.new_attribute_value_note')
-                  %span.property__note
-                    = t('workarea.admin.catalog_variants.new.options.new_attribute_value_csv')
-                    = link_to '#csv-help', data: { tooltip: '' } do
-                      = inline_svg('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.catalog_variants.new.options.learn_more'))
-                  = render 'workarea/admin/shared/csv_formatting_tooltip'
               %td.align-center -
 
       .workflow-bar
