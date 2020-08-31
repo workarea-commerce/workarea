@@ -39,7 +39,8 @@ module Workarea
     end
 
     def current_impersonation
-      @current_impersonation ||= User.find(session[:user_id])
+      return @current_impersonation if defined?(@current_impersonation)
+      @current_impersonation = User.find(session[:user_id]) rescue nil
     end
 
     def admin_browse_as_guest
