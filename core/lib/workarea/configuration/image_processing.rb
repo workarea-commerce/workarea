@@ -1,12 +1,18 @@
 module Workarea
   module Configuration
     module ImageProcessing
-      def self.libvips?
-        return @libvips if defined?(@libvips)
-        @libvips = !!system('vips -v') rescue false
+      extend self
+
+      def libvips?
+        !!(libvips_version =~ /\Avips-8/)
       end
 
-      def self.load
+      def libvips_version
+        return @libvips_version if defined?(@libvips_version)
+        @libvips_version = `vips -v` rescue nil
+      end
+
+      def load
         require 'dragonfly_libvips' if libvips?
       end
     end
