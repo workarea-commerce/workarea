@@ -26,8 +26,6 @@ module Workarea
 
       config.site_name = 'Workarea'
       config.host = 'www.example.com'
-      config.email_to = 'customerservice@example.com'
-      config.email_from = 'noreply@example.com'
 
       # Options passed to libvips or ImageMagick through Dragonfly for encoding JPG images.
       config.jpg_encode_options = if Workarea::Configuration::ImageProcessing.libvips?

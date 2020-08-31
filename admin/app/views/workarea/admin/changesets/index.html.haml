@@ -14,7 +14,9 @@
     = render_cards_for(@release, :planned_changes)
 
     - if @release.changesets_with_releasable.blank?
-      %p.heading--2.align-center= t('workarea.admin.changesets.no_activity')
+      .section.align-center
+        %p.heading.heading--3= t('workarea.admin.changesets.no_changesets')
+        %p.heading.heading--3= link_to t('workarea.admin.changesets.plan_some_changes'), release_releasables_path(@release)
 
     .grid.grid--center
       .grid__cell.grid__cell--80-at-medium

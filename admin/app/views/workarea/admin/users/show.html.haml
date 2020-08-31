@@ -24,13 +24,13 @@
       .grid.grid--auto.grid--right.grid--middle.grid--flush
         - if @user == current_user
           .grid__cell
-            = link_to t('workarea.admin.users.show.impersonate'), '#impersonate-yourself-info', disabled: 'disabled', data: { tooltip: '' }, class: 'workflow-bar__button workflow-bar__button--update'
+            = link_to t('workarea.admin.users.show.impersonate'), '#impersonate-yourself-info', disabled: 'disabled', data: { tooltip: '' }, class: 'workflow-bar__button workflow-bar__button--update workflow-bar__button--disabled'
             #impersonate-yourself-info.tooltip-content
               %p= t('workarea.admin.users.show.cant_impersonate_yourself')
 
         - elsif @user.admin?
           .grid__cell
-            = link_to t('workarea.admin.users.show.impersonate'), '#impersonate-other-admins-info', disabled: 'disabled', data: { tooltip: '' }, class: 'workflow-bar__button workflow-bar__button--update'
+            = link_to t('workarea.admin.users.show.impersonate'), '#impersonate-other-admins-info', disabled: 'disabled', data: { tooltip: '' }, class: 'workflow-bar__button workflow-bar__button--update workflow-bar__button--disabled'
             #impersonate-other-admins-info.tooltip-content
               %p= t('workarea.admin.users.show.cant_impersonate_other_administrators')
 

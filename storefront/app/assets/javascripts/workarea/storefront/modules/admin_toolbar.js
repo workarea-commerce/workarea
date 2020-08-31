@@ -70,9 +70,11 @@ WORKAREA.registerModule('adminToolbar', (function () {
         },
 
         shouldDisplay = function (user) {
+            var disable = WORKAREA.url.parse(window.location).queryKey.disable_admin_toolbar;
+
             return user.impersonating
                 || user.browsing_as_guest
-                || (user.admin && user.logged_in);
+                || (user.admin && user.logged_in && disable !== 'true');
         },
 
         create = function (user) {

@@ -7,16 +7,4 @@ Workarea.configure do |config|
     'development' => 'localhost',
     'production' => 'www.<%= app_name.dasherize %>.com' # TODO
   }[Rails.env]
-
-  config.email_to = {
-    'test'        => "#{config.site_name} <customerservice@example.com>",
-    'development' => "#{config.site_name} <customerservice@<%= app_name %>.test>",
-    'production'  => "#{config.site_name} <customerservice@<%= app_name.dasherize %>.com>" # TODO
-  }[Rails.env]
-
-  config.email_from =  {
-    'test'        => "#{config.site_name} <noreply@example.com>",
-    'development' => "#{config.site_name} <noreply@<%= app_name %>.test",
-    'production'  => "#{config.site_name} <noreply@<%= app_name.dasherize %>.com>" # TODO
-  }[Rails.env]
 end

@@ -21,8 +21,9 @@ module Workarea
         end
 
         if attributes[:inventory].present?
-          inventory = Inventory::Sku.find_or_create_by(id: variant.sku)
+          inventory = Inventory::Sku.find_or_initialize_by(id: variant.sku)
           inventory.available = attributes[:inventory]
+          inventory.policy = 'standard' if inventory.new_record?
           inventory.save!
         end
       end

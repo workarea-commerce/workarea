@@ -53,8 +53,6 @@ module Workarea
       assert_file 'config/initializers/workarea.rb' do |file|
         assert_match(%(config.site_name =), file)
         assert_match(%(config.host =), file)
-        assert_match(%(config.email_to =), file)
-        assert_match(%(config.email_from =), file)
       end
     end
 

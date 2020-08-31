@@ -16,7 +16,7 @@ module Workarea
       end
 
       def default_admin_sort
-        [{ _score: :desc },  { updated_at: :desc }]
+        [{ updated_at: :desc }, { _score: :desc }]
       end
 
       def user_selected_sort

@@ -580,6 +580,8 @@ en:
         flash_messages:
           removed: These changes have been removed
         no_activity: No activity to show
+        no_changesets: There aren't any planned changes for this release.
+        plan_some_changes: Go plan some changes!
         planned_changes_for: Planned Changes For
         published_on: Published On
         publishes_on: Publishes On
