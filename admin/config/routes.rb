@@ -430,5 +430,7 @@ Workarea::Admin::Engine.routes.draw do
 
   resource :configuration, only: [:show, :update]
 
+  resources :shipping_skus, except: [:destroy]
+
   root to: 'dashboards#index', via: :get
 end

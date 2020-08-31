@@ -1,0 +1,81 @@
+- @page_title = t('workarea.admin.shipping_skus.index.title')
+
+.view
+  .view__header
+    .grid.grid--middle.grid--center
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to "↑ #{t('workarea.admin.catalog.dashboard_link')}", catalog_dashboards_path, class: 'view__dashboard-button'
+          %h1= t('workarea.admin.shipping_skus.index.title')
+
+  .view__container
+    .browsing-controls.browsing-controls--with-divider.browsing-controls--center{ class: ('browsing-controls--filters-displayed' unless @search.toggle_facets?) }
+      = form_tag shipping_skus_path, method: 'get', id: 'shipping_skus_sort_form', class: 'browsing-controls__form' do
+        = facet_hidden_inputs(@search.facets)
+        .browsing-controls__sort
+          .property.property--inline
+            = label_tag 'sort', t('workarea.admin.search.sort_by'), class: 'property__name'
+            = select_tag :sort, options_for_select(@search.sorts, selected: @search.sort), data: { form_submitting_control: '' }
+
+        .browsing-controls__search
+          .search-form
+            = text_field_tag :q, params[:q], class: 'search-form__input', id: 'search_products', title: t('workarea.admin.search.keywords'), placeholder: t('workarea.admin.search.keywords')
+            = submit_tag 'search_skus', class: 'search-form__button'
+
+        = render 'workarea/admin/shared/creation_date', search: @search, form_path: shipping_skus_path
+
+        - if @search.facets.present?
+          - @search.facets.each do |facet|
+            = render "workarea/admin/facets/#{facet.type}", facet: facet
+
+        - if @search.toggle_facets?
+          .browsing-controls__toggle-filters
+            %button.text-button{ type: 'button', data: { toggle_filters: '' } }= t('workarea.admin.search.show_filters')
+
+      = render 'workarea/admin/facets/applied', search: @search, reset_path: shipping_skus_path
+
+      %p.browsing-controls__count{ data: { browsing_controls_count: @search.total } }
+        = t('workarea.admin.shipping_skus.index.sku_pluralize', count: @search.total)
+
+    - if @search.results.any?
+      %table.index-table
+        %thead
+          %tr
+            %th.index-table__control-cell
+              .checkbox
+                = check_box_tag 'select_all', nil, false, id: 'select_all', class: 'checkbox__input', data: { bulk_action_select_all: '' }
+                = label_tag 'select_all', t('workarea.admin.bulk_actions.select_all'), class: 'checkbox__label'
+            %th= t('workarea.admin.fields.sku')
+            = append_partials('admin.shipping_skus_additional_field_labels')
+            %th.align-center= t('workarea.admin.fields.weight')
+            %th.align-center= t('workarea.admin.fields.length')
+            %th.align-center= t('workarea.admin.fields.width')
+            %th.align-center= t('workarea.admin.fields.height')
+            %th= t('workarea.admin.fields.updated_at')
+        %tbody
+          - @search.results.each do |result|
+            %tr.index-table__row
+              %td.index-table__control-cell
+                .checkbox
+                  = check_box_tag 'global_id', result.to_gid_param, false, class: 'checkbox__input', id: dom_id(result), data: { bulk_action_item: '' }
+                  = label_tag dom_id(result), '', class: 'checkbox__label', title: t('workarea.admin.bulk_actions.add_summary_button')
+              %td
+                = link_to result.id, shipping_sku_path(result)
+                = upcoming_changesets_icon_for(result)
+              = append_partials('admin.shipping_skus_additional_fields', result: result)
+              %td.align-center= result.weight
+              %td.align-center= result.length
+              %td.align-center= result.width
+              %td.align-center= result.height
+              %td= local_time_ago(result.updated_at)
+
+      - if @search.results.total_pages > 1
+        = render 'workarea/admin/shared/pagination', collection: @search.results
+
+  .workflow-bar
+    .grid
+      .grid__cell.grid__cell--50
+        = render 'workarea/admin/shared/bulk_actions', klass: Workarea::Shipping::Sku, search: @search
+
+      .grid__cell.grid__cell--50.align-right
+        = link_to t('workarea.admin.shipping_skus.index.button'), new_shipping_sku_path, id: 'add_shipping_sku', class: 'workflow-bar__button workflow-bar__button--create'

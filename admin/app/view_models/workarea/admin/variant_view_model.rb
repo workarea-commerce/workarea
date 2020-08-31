@@ -2,6 +2,7 @@ module Workarea
   class Admin::VariantViewModel < ApplicationViewModel
     delegate :msrp, :on_sale, :on_sale?, :discountable,
       :discountable?, :tax_code, :sell_price, to: :pricing
+    delegate :weight, :dimensions, to: :shipping
 
     def pricing
       @pricing ||= Pricing::Sku.find_or_create_by(id: sku)
@@ -49,6 +50,12 @@ module Workarea
 
     def detail_3_value
       details_array.third.try(:second)
+    end
+
+    def shipping
+      @shipping ||= Admin::ShippingSkuViewModel.wrap(
+        Shipping::Sku.find_or_initialize_by(id: sku)
+      )
     end
 
     private

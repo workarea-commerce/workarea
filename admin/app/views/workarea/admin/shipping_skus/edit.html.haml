@@ -1,0 +1,57 @@
+- @page_title = t('workarea.admin.shipping_skus.edit.title', name: @sku.name)
+
+.view
+  .view__header
+    .grid.grid--right
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@sku)
+          %h1= link_to @sku.name, url_for(@sku)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@sku)
+
+  .view__container
+    = render_cards_for(@sku, :attributes)
+
+  .view__container.view__container--narrow
+    - @sku.errors.full_messages.each do |message|
+      = render_message 'error', message
+
+    = form_tag shipping_sku_path(@sku), method: :patch, id: 'shipping_sku_form', data: { unsaved_changes: '' } do
+      .section
+        .property.property--required
+          = label_tag 'sku_sku', t('workarea.admin.fields.sku'), class: 'property__name'
+          = text_field_tag 'sku[id]', @sku.id, class: 'text-box', required: true, placeholder: t('workarea.admin.shipping_skus.sku_placeholder')
+
+        .property
+          = label_tag 'sku[weight]', t('workarea.admin.fields.weight'), class: 'property__name'
+          = number_field_tag 'sku[weight]', @sku.model.weight, step: 0.01, class: 'text-box', placeholder: t('workarea.admin.shipping_skus.weight_placeholder')
+          %span.property__note= @sku.weight_units
+
+        .property
+          %span.property__name= t('workarea.admin.fields.dimensions')
+          = number_field_tag 'sku[length]', @sku.model.length, step: 0.01, class: 'text-box text-box--small', placeholder: t('workarea.admin.fields.length')
+          %span x
+          = number_field_tag 'sku[width]', @sku.model.width, step: 0.01, class: 'text-box text-box--small', placeholder: t('workarea.admin.fields.width')
+          %span x
+          = number_field_tag 'sku[height]', @sku.model.height, step: 0.01, class: 'text-box text-box--small', placeholder: t('workarea.admin.fields.height')
+          %span.property__note= @sku.length_units
+
+        = append_partials('admin.shipping_sku_fields', sku: @sku)
+
+        = append_partials('admin.shipping_sku_fields', sku: @sku)
+
+        .grid.grid--huge
+          .grid__cell.grid__cell--50.grid__cell--25-at-medium
+            .property
+              = label_tag 'sku_updated_at', t('workarea.admin.fields.updated_at'), class: 'property__name'
+              = local_time(@sku.updated_at)
+          .grid__cell.grid__cell--50.grid__cell--25-at-medium
+            .property
+              = label_tag 'sku_created_at', t('workarea.admin.fields.created_at'), class: 'property__name'
+              = local_time(@sku.created_at)
+
+      .workflow-bar
+        .grid.grid--auto.grid--right.grid--middle
+          .grid__cell= render 'workarea/admin/shared/publishing_select'
+          .grid__cell= button_tag t('workarea.admin.form.save_changes'), value: 'save_sku', class: 'workflow-bar__button workflow-bar__button--update'

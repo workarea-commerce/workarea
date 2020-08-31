@@ -292,7 +292,8 @@ module Workarea
         'Searches Report' => :searches_report_path,
         'Low Inventory Report' => :low_inventory_report_path,
         'Configuration' => :configuration_path,
-        'Fulfillment SKUs' => :fulfillment_skus_path
+        'Fulfillment SKUs' => :fulfillment_skus_path,
+        'Shipping SKUs' => :shipping_skus_path
       }
 
       # Params to permit when creating URLs on browse pages for facet links
