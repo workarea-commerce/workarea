@@ -11,7 +11,11 @@ module Workarea
         end
 
         def jump_to_text
-          "#{model.id} (#{model.available} available)"
+          I18n.t(
+            'workarea.inventory_sku.jump_to_text',
+            id: model.id,
+            count: model.available_to_sell
+          )
         end
 
         def jump_to_position

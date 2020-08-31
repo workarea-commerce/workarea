@@ -75,7 +75,7 @@ module Workarea
       end
 
       def available_inventory
-        @available_inventory ||= Inventory.total_available(*model.skus)
+        @available_inventory ||= Inventory::Collection.new(model.skus).available_to_sell
       end
 
       def ignore_inventory?
