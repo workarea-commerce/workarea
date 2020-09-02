@@ -102,7 +102,7 @@ en:
       name: "Fulfillment SKU %{id}"
     inventory_sku:
       name: "Inventory %{id}"
-      jump_to_text: "%{id} (%{count} sellable units)"
+      jump_to_text: "%{id} (%{count} sellable)"
     inquiry:
       subjects: {}
     order:
