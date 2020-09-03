@@ -15,10 +15,11 @@ module Workarea
       session[:user_id] = user.id.to_s
 
       user.mark_impersonated_by!(current_user)
-      @current_user = user
+      update_tracking!(email: user.email)
     end
 
     def stop_impersonation
+      update_tracking!(email: current_admin.email)
       session[:user_id] = current_admin.id.to_s
       session.delete(:admin_id)
     end
