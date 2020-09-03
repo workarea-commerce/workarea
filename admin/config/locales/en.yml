@@ -672,6 +672,7 @@ en:
           browser_title: Browser Title
           browser_title_note: The title appears in the top bar of a web browser and is shown in search engine results.
           browser_title_placeholder: "(defaults to content name)"
+          content_security_policy_note: This should be a single line string representing the content security policy for this content. This will be appended to the global security policy, if any.
           clear_asset: Clear asset
           css: CSS
           css_note: The CSS block is output just before the end of the head. The content of this block is automatically is wrapped in a style tags.
@@ -1644,6 +1645,7 @@ en:
         backordered_units: Backordered Units
         backordered_until: Backordered Until
         body: Body
+        blocked_uri: Blocked URI
         breadcrumbs: Breadcrumbs
         browser_info: Browser Info
         browser_title: Browser Title
@@ -1661,6 +1663,7 @@ en:
         completed_at: Completed
         content: Content
         content_blocks: Content Blocks
+        content_security_policy: Content Security Policy
         copied_from_id: Copied From
         count: Count
         country: Country
@@ -1684,6 +1687,7 @@ en:
         discount: Discount
         discounts: Discounts
         display_name: Display Name
+        document_uri: Document URI
         downloads: Downloads
         email: Email
         enabled: Enabled
@@ -1747,6 +1751,7 @@ en:
         order: Order
         orders: Orders
         original_id: Original ID
+        original_policy: Policy
         other: "%{count} fields"
         packaged_product_ids: Packaged Products
         pass: Pass
@@ -1856,6 +1861,7 @@ en:
         url: URL
         user_tags: User Tags
         variants: Variants
+        violated_directive: Violated Directive
         weight: Weight
         width: Width
       form:
@@ -3278,6 +3284,8 @@ en:
           title: Average Order Value
         back: Back
         by: by
+        content_security_policy_violations:
+          title: Content Security Policy Violations
         customers:
           filters:
             all: All Customers

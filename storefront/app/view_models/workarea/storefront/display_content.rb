@@ -1,7 +1,7 @@
 module Workarea
   module Storefront
     module DisplayContent
-      delegate :css, :javascript, :head_content,
+      delegate :css, :javascript, :head_content, :content_security_policy,
         to: :content, allow_nil: true
 
       def browser_title

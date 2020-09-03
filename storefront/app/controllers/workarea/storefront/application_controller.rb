@@ -6,6 +6,7 @@ module Workarea
       include CurrentCheckout
       include CurrentRelease
       include OrderLookup
+      include ContentSecurityPolicy
 
       layout :current_layout
 

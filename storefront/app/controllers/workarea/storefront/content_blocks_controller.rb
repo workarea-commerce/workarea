@@ -6,6 +6,7 @@ module Workarea
     before_action :require_login
     before_action :require_admin
     before_action :disable_xss_protection
+    skip_after_action :set_content_security_policy
 
     def new
       @content = Content.find(params[:content_id])

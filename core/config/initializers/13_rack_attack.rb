@@ -182,6 +182,25 @@ class Rack::Attack
     end
   end
 
+  # Throttle POST requests to /content_security_violations by IP address
+  #
+  # Key: "rack::attack:#{Time.now.to_i/:period}:csp_violations/ip:#{req.ip}"
+  throttle('csp_violations/ip', limit: 10, period: 10.minutes) do |request|
+    if request.path == '/content_security_violations' && request.post?
+      request.ip
+    end
+  end
+
+  # Throttle POST requests to /content_security_violations by blocked uri
+  #
+  # Key: "rack::attack:#{Time.now.to_i/:period}:csp_violations/blocked_uri:#{req.blocked_uri}"
+  throttle('csp_violations/blocked_uri', limit: 1, period: 1.hour) do |request|
+    if request.path == '/content_security_violations' && request.post?
+      # return the blocked_uri if present, nil otherwise
+      request.params['blocked_uri'].presence
+    end
+  end
+
   # Block IP addresses that are hammering credit card endpoints
   #
   # This can happen when credit card fraudsters are trying to use checkout

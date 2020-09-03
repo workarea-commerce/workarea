@@ -19,5 +19,11 @@ module Workarea
     def accessibility; end
     def browser_config; end
     def web_manifest; end
+
+    private
+
+    def page_specific_content_policy
+      @page&.content_security_policy
+    end
   end
 end

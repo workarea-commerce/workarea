@@ -113,6 +113,33 @@ Workarea::Configuration.define_fields do
         justo aliquet. Fusce id felis sem.
       ).squish,
       description: 'Placeholder text used for content block default data'
+
+    field 'Global Content Security Policy',
+      type: :string,
+      description: %(
+        the security policy to enforce across the storefront via the
+        "Content-Security-Policy" header. This will be combined with any
+        page-specific policies defined in the content advanced settings.
+      ).squish
+
+    field 'Enforce Content Security Policy',
+      type: :boolean,
+      default: true,
+      description: %(
+        Determines whether content security policy is enforced or if it will
+        only report violations. If true, policy is defined in the
+        "Content-Security-Policy" header. Otherwise, any defined
+        policies will be set in the "Content-Security-Policy-Report-Only" header.
+        Reporting must be enabled below for disabled enforcement to do anything.
+      ).squish
+
+    field 'Report Content Security Violations',
+      type: :boolean,
+      default: false,
+      description: %(
+        Whether or not to add a report-uri to the "Content-Security-Policy"
+        header to send reports back to the server when the policy is violated.
+      ).squish
   end
 
   fieldset 'Search', namespaced: false do

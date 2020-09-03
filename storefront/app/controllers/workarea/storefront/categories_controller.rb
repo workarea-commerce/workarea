@@ -7,5 +7,11 @@ module Workarea
       raise InvalidDisplay unless model.active? || current_user.try(:admin?)
       @category = Storefront::CategoryViewModel.new(model, view_model_options)
     end
+
+    private
+
+    def page_specific_content_policy
+      @category&.content_security_policy
+    end
   end
 end

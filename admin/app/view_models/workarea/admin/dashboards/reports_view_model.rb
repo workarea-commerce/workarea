@@ -113,6 +113,14 @@ module Workarea
           )
         end
 
+        def content_security_policy_violations
+          @content_security_policy_violations ||=
+            Reports::ContentSecurityPolicyViolationsViewModel.wrap(
+              Workarea::Reports::ContentSecurityPolicyViolations.new(options),
+              options
+            )
+        end
+
         def timeline
           @timeline ||= Reports::TimelineViewModel.wrap(
             Workarea::Reports::SalesOverTime.new(

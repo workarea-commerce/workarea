@@ -54,6 +54,11 @@
         %span.property__note= t('workarea.admin.content.advanced.javascript_note')
 
       .property
+        = label_tag 'content_security_policy', t('workarea.admin.fields.content_security_policy'), class: 'property__name'
+        = text_field_tag 'content[content_security_policy]', @content.content_security_policy, class: 'text-box'
+        %span.property__note= t('workarea.admin.content.advanced.content_security_policy_note')
+
+      .property
         = label_tag 'content_open_graph_asset_id', t('workarea.admin.content.advanced.og_image'), class: 'property__name'
         .asset-picker-field{ data: { asset_picker_field: '' } }
           = hidden_field_tag "content[open_graph_asset_id]", @content.open_graph_asset_id, id: nil, class: 'text-box'

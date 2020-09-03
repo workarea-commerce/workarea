@@ -1328,6 +1328,10 @@ module Workarea
       # item to the cart, the newly added item will appear separately in
       # the Order.
       config.distinct_order_item_attributes = []
+
+      # How long violation reports are kept for content security
+      # policy violations.
+      config.content_security_violation_expiration = 30.days
     end
   end
 end

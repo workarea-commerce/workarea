@@ -112,6 +112,13 @@ module Workarea
         )
       end
 
+      def content_security_policy_violations
+        @report = Reports::ContentSecurityPolicyViolationsViewModel.wrap(
+          Workarea::Reports::ContentSecurityPolicyViolations.new(params),
+          view_model_options
+        )
+      end
+
       def export
         export = Workarea::Reports::Export.new(params[:export])
 

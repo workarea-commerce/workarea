@@ -1,0 +1,31 @@
+- @page_title = t('workarea.admin.reports.content_security_policy_violations.title')
+
+.view
+  .view__header
+    .view__heading
+      = link_to "↑ #{t('workarea.admin.reports.all_reports')}", reports_dashboards_path
+      %h1.heading.heading--no-margin= t('workarea.admin.reports.content_security_policy_violations.title')
+      %p= t('workarea.admin.reports.reference_link_html', path: reference_report_path)
+
+  .view__container
+    .browsing-controls.browsing-controls--with-divider.browsing-controls--center.browsing-controls--filters-displayed
+      .browsing-controls__count
+        = render_reports_results_message(@report)
+        = render 'workarea/admin/reports/export', report: @report
+
+    %table.index-table
+      %thead
+        %tr
+          %th= t('workarea.admin.fields.id')
+          %th= link_to_reports_sorting t('workarea.admin.fields.blocked_uri'), report: @report, sort_by: 'blocked_uri'
+          %th= link_to_reports_sorting t('workarea.admin.fields.document_uri'), report: @report, sort_by: 'document_uri'
+          %th= link_to_reports_sorting t('workarea.admin.fields.violated_directive'), report: @report, sort_by: 'violated_directive'
+          %th= link_to_reports_sorting t('workarea.admin.fields.updated_at'), report: @report, sort_by: 'updated_at'
+      %tbody
+        -  @report.results.each do |result|
+          %tr.index-table__row
+            %td= result._id
+            %td= result.blocked_uri
+            %td= result.document_uri
+            %td= result.violated_directive
+            %td= local_time_ago(result.updated_at)

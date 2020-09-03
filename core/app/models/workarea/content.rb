@@ -12,6 +12,7 @@ module Workarea
     field :css, type: String
     field :automate_metadata, type: Boolean, default: true
     field :open_graph_asset_id, type: String
+    field :content_security_policy, type: String
 
     belongs_to :contentable, polymorphic: true, optional: true, index: true
 

@@ -159,10 +159,15 @@ module Workarea
         assert(page.has_selector?('#content_browser_title', visible: true))
 
         fill_in 'content[browser_title]', with: 'Browser Title'
+        fill_in 'content[content_security_policy]', with: %(default-src 'self')
         click_button 'save'
 
         assert(page.has_content?('Success'))
         assert_current_path(/#{admin.edit_content_path(home)}/)
+
+        home.reload
+        assert_equal('Browser Title', home.browser_title)
+        assert_equal(%(default-src 'self'), home.content_security_policy)
       end
 
       def test_content_previewing

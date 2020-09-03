@@ -248,4 +248,21 @@
             = link_to low_inventory_report_path, class: 'card__button' do
               %span.button.button--small= t('workarea.admin.dashboards.reports.view_full_report')
 
+      .grid__cell
+        .card{ class: card_classes(:content_security_policy_violations_report, local_assigns[:active]) }
+          = link_to content_security_policy_violations_report_path, class: 'card__header' do
+            %span.card__header-text= t('workarea.admin.reports.content_security_policy_violations.title')
+            = inline_svg 'workarea/admin/icons/insights.svg', class: 'card__icon'
+
+          .card__body
+            .card__centered-content
+              %table
+                %tbody
+                  - @dashboard.content_security_policy_violations.results.take(4).each do |result|
+                    %tr
+                      %td= result.blocked_uri
+
+            = link_to content_security_policy_violations_report_path, class: 'card__button' do
+              %span.button.button--small= t('workarea.admin.dashboards.reports.view_full_report')
+
       = append_partials('admin.reports_dashboard', dashboard: @dashboard)

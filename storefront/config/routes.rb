@@ -101,6 +101,8 @@ Workarea::Storefront::Engine.routes.draw do
     post 'analytics/search', to: 'analytics#search', as: :analytics_search
     post 'analytics/search_abandonment', to: 'analytics#search_abandonment', as: :analytics_search_abandonment
     post 'analytics/filters', to: 'analytics#filters', as: :analytics_filters
+
+    resources :content_security_violations, only: :create
   end
 
   match '/404', to: 'errors#not_found', via: :all, as: :not_found

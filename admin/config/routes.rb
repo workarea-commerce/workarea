@@ -151,6 +151,7 @@ Workarea::Admin::Engine.routes.draw do
       get :sales_over_time
       get :searches
       get :timeline
+      get :content_security_policy_violations
 
       resources :custom_events, only: [:create, :update, :destroy]
 
