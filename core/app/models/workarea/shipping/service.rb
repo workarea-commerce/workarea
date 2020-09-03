@@ -37,15 +37,22 @@ module Workarea
       end
 
       def self.by_price(price)
-        cache.select do |method|
-          (method.subtotal_min.nil? || method.subtotal_min <= price) &&
-            (method.subtotal_max.nil? || method.subtotal_max >= price)
+        cache.select do |service|
+          (service.subtotal_min.nil? || service.subtotal_min <= price) &&
+            (service.subtotal_max.nil? || service.subtotal_max >= price)
         end
       end
 
       def self.find_tax_code(carrier, name)
-        method = find_by(carrier: carrier, name: name) rescue nil
-        method.try(:tax_code)
+        service = find_by(carrier: carrier, name: name) rescue nil
+        service.present? ? service.tax_code : default_tax_code(carrier, name)
+      end
+
+      def self.default_tax_code(carrier, name)
+        default = Workarea.config.default_shipping_service_tax_code
+        return default unless default.respond_to?(:call)
+
+        default.call(carrier, name)
       end
 
       def find_rate(price = 0.to_m)

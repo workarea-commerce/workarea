@@ -76,6 +76,16 @@ Workarea::Configuration.define_fields do
         zip: '19106'
       },
       description: 'Origin location for calculating shipping costs'
+
+    # This can be overwritten within the app to use a proc for more complex
+    # scenarios.
+    field 'Default Shipping Service Tax Code',
+      type: String,
+      description: %(
+        Tax code assigned to shipping options when an existing service does
+        not exist. This is useful for third-party gateways to assign tax codes
+        to dynamically generated options.
+      ).squish
   end
 
   fieldset 'Payment', namespaced: false do
