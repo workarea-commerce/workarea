@@ -22,6 +22,7 @@ RUN apt-get update \
     xvfb \
     imagemagick \
     jpegoptim \
+    libvips-tools \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
