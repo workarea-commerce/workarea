@@ -1773,6 +1773,7 @@ en:
         searches: Searches
         segments: Segments
         sell_price: Sell Price
+        sellable: Sellable Units
         send_account_creation_email: Notify Them by Email
         service: Service
         service_code: Service Code
@@ -2281,12 +2282,6 @@ en:
         aux_navigation:
           view_pricing: View Pricing
           view_product: View Product
-        cards:
-          available: 'Available:'
-          backordered: 'Backordered:'
-          policy: 'Policy:'
-          purchased: 'Purchased:'
-          reserve: 'Reserve:'
         edit:
           available_quantity: Available Quantity
           backordered_quantity: Backordered Quantity
