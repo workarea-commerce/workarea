@@ -48,6 +48,7 @@ application-architecture:
     configuration-fields.html.md: articles/configuration-fields.html.md
   misc:
     application-document.html.md: /articles/application-document.html.md
+    cookies.html.md: /articles/cookies.html.md
     releasable.html.md: /articles/releasable.html.md
     swappable-list-data-structure.html.md: /articles/swappable-list-data-structure.html.md
 plugins:
