@@ -1,7 +1,6 @@
 module Workarea
   module CurrentTracking
     extend ActiveSupport::Concern
-    include HttpCaching
 
     included do
       before_action :ensure_current_metrics
@@ -27,7 +26,10 @@ module Workarea
       if email.blank?
         cookies.delete(:email)
       elsif email != cookies.signed[:email]
-        Metrics::User.find_or_initialize_by(id: email).merge!(current_visit&.metrics)
+        unless impersonating?
+          Metrics::User.find_or_initialize_by(id: email).merge!(current_visit&.metrics)
+        end
+
         cookies.permanent.signed[:email] = email
       end
 
