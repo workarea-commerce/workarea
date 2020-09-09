@@ -20,6 +20,10 @@ $toggle-button-status-negative-color:  $red !default;
     display: inline-block;
 }
 
+.toggle-button--disabled {
+    opacity: 0.5;
+}
+
     /**
      * 1. provides positiioning context for `.toggle-button__label`
      * 2. height + vertical margin = `.text-box` height
