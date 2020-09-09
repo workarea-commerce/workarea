@@ -39,9 +39,6 @@ module Workarea
         assert_equal(admin.user_path(user), current_path)
         assert(page.has_content?('Success'))
 
-        find('.view').hover # Ensure tooltipster menu isn't open
-        assert(page.has_content?('bcrouse@workarea.com'))
-
         visit storefront.users_account_path
         assert(page.has_no_content?('impersonated@workarea.com'))
 
