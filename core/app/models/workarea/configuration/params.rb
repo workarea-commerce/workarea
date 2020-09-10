@@ -17,12 +17,7 @@ module Workarea
               value
             end
 
-          memo[field.key] =
-            if formatted_value.blank? && !field.allow_blank?
-              field.default
-            else
-              formatted_value
-            end
+          memo[field.key] = formatted_value.presence || field.default
         end
       end
 

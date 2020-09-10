@@ -53,7 +53,7 @@ module Workarea
         end
 
         def allow_blank?
-          !!@options.allow_blank
+          !@options.to_h.key?(:allow_blank) || !!@options.allow_blank
         end
 
         def merge!(options = {})
