@@ -66,3 +66,7 @@ Workarea::Plugin.installed.each do |plugin|
     require support_file
   end
 end
+
+# The browser gem includes no user agent as a bot, and integration tests don't
+# pass a user agent.
+Browser::Bot.bot_exceptions << ''
