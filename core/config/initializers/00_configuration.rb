@@ -81,6 +81,7 @@ Workarea::Configuration.define_fields do
     # scenarios.
     field 'Default Shipping Service Tax Code',
       type: String,
+      allow_blank: true,
       description: %(
         Tax code assigned to shipping options when an existing service does
         not exist. This is useful for third-party gateways to assign tax codes
