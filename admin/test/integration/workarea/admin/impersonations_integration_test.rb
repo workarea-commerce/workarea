@@ -70,7 +70,14 @@ module Workarea
         post admin.impersonations_path, params: { user_id: @user.id }
         delete admin.impersonations_path
 
-        assert(response.redirect?)
+        assert_redirected_to(admin.user_path(@user.id))
+        assert_equal(previous_user_id, response_cookies['user_id'])
+        assert(session['admin_id'].blank?)
+
+        post admin.impersonations_path, params: { user_id: @user.id }
+        delete admin.impersonations_path(return_to: '/foo')
+
+        assert_redirected_to('/foo')
         assert_equal(previous_user_id, response_cookies['user_id'])
         assert(session['admin_id'].blank?)
       end
