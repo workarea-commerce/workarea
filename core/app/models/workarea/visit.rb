@@ -6,7 +6,6 @@ module Workarea
     attr_writer :override_segments
 
     delegate :postal_code, :city, :subdivision, :region, :country, to: :geolocation
-    delegate :admin?, to: :metrics
 
     def initialize(env)
       @env = env
@@ -23,6 +22,14 @@ module Workarea
 
     def logged_in?
       session[:user_id].present?
+    end
+
+    def impersonating?
+      session[:admin_id].present?
+    end
+
+    def admin?
+      (logged_in? && impersonating?) || metrics.admin?
     end
 
     def request

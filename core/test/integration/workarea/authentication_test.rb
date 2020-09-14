@@ -3,8 +3,9 @@ require 'test_helper'
 module Workarea
   class AuthenticationTest < IntegrationTest
     class AuthenticationController < Workarea::ApplicationController
-      include Authentication
       include HttpCaching
+      include Authentication
+      include Impersonation
       include Storefront::CurrentCheckout
 
       before_action :cache_page, only: :cached

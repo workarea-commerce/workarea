@@ -110,7 +110,10 @@ module Workarea
 
         results = JSON.parse(response.body)['results']
         assert_equal(1, results.length)
-        assert_equal('SKU123 (4 available)', results.first['label'])
+        assert_equal(
+          t('workarea.inventory_sku.jump_to_text', id: 'SKU123', count: 4),
+          results.first['label']
+        )
         assert_equal('Inventory Skus', results.first['type'])
         assert_equal(admin.inventory_sku_path(inventory), results.first['url'])
 

@@ -1,4 +1,4 @@
-.toggle-button{ data: data }
+.toggle-button{ data: data, class: disabled ? 'toggle-button--disabled' : nil }
   .toggle-button__switch
     = radio_button_tag input_name, true, condition, disabled: disabled, class: 'toggle-button__input toggle-button__input--positive', title: title_true, id: "#{dom_id}_true"
     = label_tag "#{dom_id}_false", label_true, class: 'toggle-button__label toggle-button__label--positive', id: "#{dom_id}_false_label"

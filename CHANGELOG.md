@@ -1,3 +1,136 @@
+Workarea 3.5.18 (2020-09-01)
+--------------------------------------------------------------------------------
+
+*   Set Default Inventory Policy to "Standard" in Create Product Workflow
+
+    When creating a new product through the workflow, setting the
+    "Inventory" on a particular SKU would still cause the `Inventory::Sku`
+    to be created with the "Ignore" policy rather than "Standard". Setting
+    inventory on a SKU now automatically causes the `Inventory::Sku` record
+    to be created with a policy of "Standard" so as to deduct the given
+    inventory to the varaint. When no inventory is given, Workarea will fall
+    back to the default of "Ignore".
+
+    WORKAREA-265
+
+    Tom Scott
+
+*   Fix Admin Configuration for Email Addresses
+
+    The hard-coded `config.email_from` and `config.email_to` settings
+    conflict with the out-of-box administrable configuration for the "Email
+    From" and "Email To" settings. This causes a warning for admins that
+    explain why the settings on "Email To" and "Email From" won't take
+    effect. Since the whole purpose of moving these settings to admin
+    configuration was to let admins actually change them, the
+    `config.email_from` and `config.email_to` settings have been removed
+    from both default configuration and the `workarea:install` generator.
+
+    WORKAREA-270
+
+    Tom Scott
+
+*   Add Permissions To Admin::ConfigurationsController
+
+    Admins without "Settings" access are no longer able to access the
+    administrable configuration settings defined in a Workarea application's
+    initializer.
+
+    WORKAREA-261
+
+    Tom Scott
+
+*   Handle missing or invalid current impersonation
+
+    This surfaced as a random failing test, this should make the feature more robust.
+
+    Ben Crouse
+
+*   Fix wrong sorting on default admin index pages
+
+    The query for an admin index page can end up inadvertantly introduce a
+    scoring variation, which can cause results to not match the `updated_at`
+    default sort.
+
+    This makes `updated_at` the true default sort, and allows the general
+    admin search to override, where `_score` is still the desired default
+    sort.
+
+    Ben Crouse
+
+*   Visually improve changesets card when no changesets
+
+
+    Ben Crouse
+
+*   Add modifier for better disabled workflow button display
+
+    This makes it visually clearer that a workflow button is disabled.
+
+    Ben Crouse
+
+*   Add asset index view heading append point
+
+
+    Ben Crouse
+
+*   Pass user into append point
+
+
+    Ben Crouse
+
+*   Add append point for storefront admin toolbar
+
+
+    Ben Crouse
+
+*   Add Rack env key for checking whether it's an asset request
+
+    This is useful for plugins like site builder. This also reduces
+    allocations by moving the regex into a constant and consolidates the
+    check from multiple spots.
+
+    This also skips force passing Rack::Cache for asset requests if you're
+    an admin (minor performance improvement).
+
+    Ben Crouse
+
+*   Add param to allow disabling the admin toolbar in the storefront
+
+    Used in the site builder plugin. Add disable_admin_toolbar=true to the
+    query string to turn off the admin toolbar for that page.
+
+    Ben Crouse
+
+*   Add minor remote selects features to support site builder
+
+    This includes an option for the dropdown parent, and an option to allow
+    autosubmitting a remote select upon selection.
+
+    Ben Crouse
+
+*   Fix constant loading error related to metrics
+
+    Sometimes an error will be raised when Workarea middleware is doing
+    segmentation logic around `Metrics::User`.
+
+    Ben Crouse
+
+*   Move rake task logic into modules
+
+    This will allow decorating this logic for plugins or builds that need
+    to. For example, site builder needs to search-index resources that are
+    unique per-site.
+
+    Ben Crouse
+
+*   Add append point for admin top of page
+
+
+    Ben Crouse
+
+
+
 Workarea 3.5.17 (2020-08-19)
 --------------------------------------------------------------------------------
 

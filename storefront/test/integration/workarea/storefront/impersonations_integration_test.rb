@@ -123,6 +123,84 @@ module Workarea
 
         assert(response.ok?)
       end
+
+      def test_metrics_tracking
+        super_admin = create_user(password: 'W3bl1nc!', super_admin: true)
+        customer = create_user(email: 'bcrouse@workarea.com', password: 'W3bl1nc!')
+        product = create_product
+        create_shipping_service(
+          name: 'Ground',
+          tax_code: '001',
+          rates: [{ price: 7.to_m }]
+        )
+
+        post storefront.login_path,
+          params: { email: super_admin.email, password: 'W3bl1nc!' }
+
+        admin_current_email_cookie = cookies[:email]
+
+        post admin.impersonations_path,
+          params: { user_id: customer.id }
+
+        refute_equal(admin_current_email_cookie, cookies[:email])
+        customer_current_email_cookie = cookies[:email]
+
+        post storefront.cart_items_path,
+          params: {
+            product_id: product.id,
+            sku: product.skus.first,
+            quantity: 2
+          }
+
+        patch storefront.checkout_addresses_path,
+          params: {
+            billing_address: {
+              first_name: 'Ben',
+              last_name: 'Crouse',
+              street: '12 N. 3rd St.',
+              city: 'Philadelphia',
+              region: 'PA',
+              postal_code: '19106',
+              country: 'US',
+              phone_number: '2159251800'
+            },
+            shipping_address: {
+              first_name: 'Ben',
+              last_name: 'Crouse',
+              street: '22 S. 3rd St.',
+              city: 'Philadelphia',
+              region: 'PA',
+              postal_code: '19106',
+              country: 'US',
+              phone_number: '2159251800'
+            }
+          }
+
+        assert_equal(customer_current_email_cookie, cookies[:email])
+
+        patch storefront.checkout_place_order_path,
+          params: {
+            payment: 'new_card',
+            credit_card: {
+              number: '1',
+              month: 1,
+              year: next_year,
+              cvv: '999'
+            }
+          }
+
+        assert_equal(customer_current_email_cookie, cookies[:email])
+        delete admin.impersonations_path
+        assert_equal(admin_current_email_cookie, cookies[:email])
+
+        super_admin_metrics = Metrics::User.find(super_admin.email)
+        assert_equal(0, super_admin_metrics.orders)
+        assert_equal(0, super_admin_metrics.revenue)
+
+        customer_metrics = Metrics::User.find(customer.email)
+        assert_equal(1, customer_metrics.orders)
+        assert(customer_metrics.revenue.positive?)
+      end
     end
   end
 end

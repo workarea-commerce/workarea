@@ -63,11 +63,6 @@
                 .property
                   = text_field_tag 'new_details[]', nil, id: nil, class: 'text-box text-box--i18n', title: t('workarea.admin.catalog_variants.edit.options.new_attribute_value'), placeholder: t('workarea.admin.catalog_variants.edit.options.new_attribute_value_placeholder')
                   %span.property__note= t('workarea.admin.catalog_variants.edit.options.new_attribute_value_note')
-                  %span.property__note
-                    = t('workarea.admin.catalog_variants.edit.options.new_attribute_value_csv')
-                    = link_to '#csv-help', data: { tooltip: '' } do
-                      = inline_svg_tag('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.catalog_variants.edit.options.learn_more'))
-                  = render 'workarea/admin/shared/csv_formatting_tooltip'
               %td.align-center -
 
       = append_partials('admin.additional_variant_information_fields', variant: @variant)

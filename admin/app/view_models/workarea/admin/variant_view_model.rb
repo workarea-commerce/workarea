@@ -13,7 +13,7 @@ module Workarea
     end
 
     def available_inventory
-      inventory.available
+      inventory.available_to_sell
     end
 
     def available_to_sell_inventory
