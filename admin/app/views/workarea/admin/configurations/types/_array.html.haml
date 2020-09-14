@@ -1,3 +1,3 @@
-= text_field_tag "configuration[#{field.key}]", value.join(','), class: 'text-box text-box--wide', required: !field.allow_blank?
+= text_field_tag "configuration[#{field.key}]", value.join(','), class: 'text-box text-box--wide', required: field.required?
 = link_to '#csv-help', data: { tooltip: '' } do
   = inline_svg_tag('workarea/admin/icons/help.svg', class: 'svg-icon svg-icon--small svg-icon--blue', title: t('workarea.admin.catalog_products.edit.filters.learn_more'))

@@ -98,13 +98,13 @@ Of note, `duration` allows you to define a field for periods of time like `3.day
 
 When defining a configuration field, there are a number of options you can provide.
 
-- `allow_blank`
+- `required`
 
-  Defaults to false. Whether or not the field can be set to a blank value by a user. Blank values submitted for a field that does not allow it will be set to the field's default value. The admin UI will also prevent user's from submitting blank field values when this is false.
+  Whether or not the field is required, defaults to `false`. Blank values submitted for a field that does not allow it will be set to the field's default value. The admin UI will also prevent user's from submitting blank field values when this is `false`.
 
 - `default`
 
-  The initial value of the field when newly created. Must match the type defined for the field.
+  The value that will be returned when there isn't a specified value or it is blank. Must match the type defined for the field.
 
 - `description` (`String`)
 

@@ -52,8 +52,8 @@ module Workarea
           self
         end
 
-        def allow_blank?
-          !!@options.allow_blank
+        def required?
+          !!@options.required
         end
 
         def merge!(options = {})

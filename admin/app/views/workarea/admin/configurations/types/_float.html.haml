@@ -1,1 +1,1 @@
-= text_field_tag "configuration[#{field.key}]", value, class: 'text-box', step: 0.01, required: !field.allow_blank?
+= text_field_tag "configuration[#{field.key}]", value, class: 'text-box', step: 0.01, required: field.required?
