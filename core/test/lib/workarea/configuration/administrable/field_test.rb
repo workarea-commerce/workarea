@@ -9,9 +9,14 @@ module Workarea
           assert_equal(:_billz, Field.new('$billz', type: :string).id)
         end
 
+        def test_name
+          assert_equal('Foo Bar', Field.new('foo_bar', type: :string).name)
+          assert_equal('Foo Bar', Field.new(:foo_bar, type: :string).name)
+        end
+
         def test_initialize
           field = Field.new(
-            'Bar',
+            :bar,
             type: :string,
             default: 'baz',
             values: %w(bax qux),
@@ -25,36 +30,32 @@ module Workarea
           assert_equal(%w(bax qux), field.values)
           assert_equal('this is a test field', field.description)
 
-          field = Field.new('Bar', id: 'foobar', type: :string)
+          field = Field.new(:bar, name: 'Foo Bar', type: :string)
 
-          assert_equal('Bar', field.name)
-          assert_equal(:foobar, field.id)
+          assert_equal('Foo Bar', field.name)
+          assert_equal(:bar, field.id)
         end
 
         def test_validate!
-          field = Field.new('Bar', id: 'foobar', type: :string)
+          field = Field.new(:bar, id: 'foobar', type: :string)
           assert(field.validate!)
 
           assert_raise(Field::Invalid) do
-            Field.new('Qux', type: :fake).validate!
-          end
-
-          assert_raise(Field::Invalid) do
-            Field.new('Dolla Billz', type: :string, id: '$billz').validate!
+            Field.new(:qux, type: :fake).validate!
           end
         end
 
         def test_values
-          field = Field.new('Foo', type: :string, values: %w(bar baz))
+          field = Field.new(:foo, type: :string, values: %w(bar baz))
           assert_equal(%w(bar baz), field.values)
 
-          field = Field.new('Foo', type: :string, values: -> { %w(bar baz) })
+          field = Field.new(:foo, type: :string, values: -> { %w(bar baz) })
           assert_equal(%w(bar baz), field.values)
         end
 
         def test_values_type_class
           field = Field.new(
-            'Bar',
+            :bar,
             type: :string,
             values_type: :integer
           )
@@ -62,7 +63,7 @@ module Workarea
           assert_nil(field.values_type_class)
 
           field = Field.new(
-            'Bar',
+            :bar,
             type: :hash,
             values_type: :integer
           )
@@ -71,7 +72,7 @@ module Workarea
         end
 
         def test_overridden?
-          field = Field.new('Foo', type: :string)
+          field = Field.new(:foo, type: :string)
           refute(field.overridden?)
 
           Workarea.config.foo = 'bar'
@@ -83,8 +84,8 @@ module Workarea
           Workarea.config.delete(:foo)
           refute(field.overridden?)
 
-          fieldset = Fieldset.new('Foo')
-          field = Field.new('Bar', type: :string, fieldset: fieldset)
+          fieldset = Fieldset.new(:foo)
+          field = Field.new(:bar, type: :string, fieldset: fieldset)
           refute(field.overridden?)
 
           Workarea.config.foo_bar = 'baz'
@@ -101,8 +102,8 @@ module Workarea
 
           Workarea.config.delete(:bar)
 
-          fieldset = Fieldset.new('Foo', namespaced: false)
-          field = Field.new('Bar', type: :string, fieldset: fieldset)
+          fieldset = Fieldset.new(:foo, namespaced: false)
+          field = Field.new(:bar, type: :string, fieldset: fieldset)
           refute(field.overridden?)
 
           Workarea.config.foo_bar = 'baz'
@@ -113,13 +114,13 @@ module Workarea
         end
 
         def test_allow_blank?
-          field = Field.new('Foo', type: :string)
+          field = Field.new(:foo, type: :string)
           refute(field.allow_blank?)
 
-          field = Field.new('Foo', type: :string, allow_blank: false)
+          field = Field.new(:foo, type: :string, allow_blank: false)
           refute(field.allow_blank?)
 
-          field = Field.new('Foo', type: :string, allow_blank: true)
+          field = Field.new(:foo, type: :string, allow_blank: true)
           assert(field.allow_blank?)
         end
       end

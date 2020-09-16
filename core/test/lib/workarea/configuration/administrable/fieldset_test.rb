@@ -9,10 +9,15 @@ module Workarea
           assert_equal(:_billz, Fieldset.new('$billz').id)
         end
 
-        def test_field
-          fieldset = Fieldset.new('Foo')
+        def test_name
+          assert_equal('Foo Bar', Fieldset.new('foo_bar').name)
+          assert_equal('Foo Bar', Fieldset.new(:foo_bar).name)
+        end
 
-          fieldset.field 'Bar',
+        def test_field
+          fieldset = Fieldset.new(:foo)
+
+          fieldset.field :bar,
             type: :string,
             default: 'baz',
             values: %w(bax qux),
@@ -28,7 +33,7 @@ module Workarea
           assert_equal(%w(bax qux), field.values)
           assert_equal('this is a test field', field.description)
 
-          fieldset.field 'Bar', override: true, type: :symbol, default: :baz
+          fieldset.field :bar, override: true, type: :symbol, default: :baz
 
           assert_equal(1, fieldset.fields.size)
 
@@ -40,7 +45,7 @@ module Workarea
           assert_nil(field.values)
           assert_nil(field.description)
 
-          fieldset.field 'Bar', values: %i(baz qux), default: :qux
+          fieldset.field :bar, values: %i(baz qux), default: :qux
 
           assert_equal(1, fieldset.fields.size)
 
@@ -52,21 +57,17 @@ module Workarea
           assert_equal(%i(baz qux), field.values)
           assert_nil(field.description)
 
-          fieldset.field 'Bar', encrypted: true
+          fieldset.field :bar, encrypted: true
           assert(Rails.application.config.filter_parameters.include?(:foo_bar))
 
           assert_raise(Field::Invalid) do
-            fieldset.field 'Qux', type: :fake
-          end
-
-          assert_raise(Field::Invalid) do
-            fieldset.field 'Dolla Billz', type: :string, id: '$billz'
+            fieldset.field :qux, type: :fake
           end
         end
 
         def test_find_field
-          fieldset = Fieldset.new('Foo')
-          fieldset.field 'Bar', type: :string
+          fieldset = Fieldset.new(:foo)
+          fieldset.field :bar, type: :string
 
           assert_equal(:bar, fieldset.find_field('bar').id)
           assert_equal(:bar, fieldset.find_field(:bar).id)

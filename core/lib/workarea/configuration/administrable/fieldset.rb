@@ -2,24 +2,24 @@ module Workarea
   module Configuration
     module Administrable
       class Fieldset
-        attr_accessor :fields, :name
+        attr_accessor :fields, :id
 
-        def initialize(name, namespaced: true)
-          @name = name
+        def initialize(id, namespaced: true)
+          @id = id.to_s.systemize.to_sym
           @namespaced = namespaced
           @fields = SwappableList.new
         end
 
-        def id
-          name.to_s.systemize.to_sym
+        def name
+          id.to_s.titleize
         end
 
         def namespaced?
           @namespaced
         end
 
-        def field(name, type: nil, override: false, **options)
-          field = Field.new(name, fieldset: self, type: type, **options)
+        def field(id, type: nil, override: false, **options)
+          field = Field.new(id, fieldset: self, type: type, **options)
           existing = find_field(field.id)
 
           if existing.present? && override
