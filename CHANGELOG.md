@@ -1,3 +1,78 @@
+Workarea 3.5.19 (2020-09-16)
+--------------------------------------------------------------------------------
+
+*   Fix Editing Product Images in Admin
+
+    When an image does not include an option, the edit page errors because
+    `#parameterize` cannot be called on `@image.option` since that is
+    returning `nil`. Additionally, the line of code in which this is called
+    is meant to set an ID attribute on the element for which an image is
+    rendered. There doesn't seem to be anything in our codebase that uses
+    this, and furthermore since there's no validation for unique options per
+    set of product images, this could cause a duplicate ID error in certain
+    scenarios. To resolve this, the ID attribute has been removed from this
+    `<img>` tag.
+
+    WORKAREA-254
+
+    Tom Scott
+
+*   Improve display of disabled toggles
+
+    When a toggle button is disabled, it should reflect that visually
+    instead of just looking like it should be functional.
+
+    Ben Crouse
+
+*   Add config to allow defining a default tax code for shipping services
+
+    WORKAREA-256
+
+    Matt Duffy
+
+*   Fix incorrect tracking and metrics after impersonation
+
+    Not managing the email cookie and unintentional merging of metrics leads
+    to incorrect values in the admin.
+
+    Ben Crouse
+
+*   Remove CSV Messaging For Options Fields
+
+    This removes the "Comma separated: just, like, this" messaging and
+    tooltip that explains more about comma-separated fields for filters and
+    details. Options do not have these same constraints, and this help
+    bubble just serves as a point of confusion for admins.
+
+    WORKAREA-266
+
+    Tom Scott
+
+*   Update inventory sku jump to text
+
+    Co-authored-by: Ben Crouse <bcrouse@workarea.com>
+
+    Matt Duffy
+
+*   Make Order::Item#fulfilled_by? the canonical check of item's fulfillment
+
+    Methods such as #shipping? and #download? defined from available
+    fulfillment policies now call #fulfilled_by rather than being called
+    by it. This allows #fulfilled_by? to be modified to support more
+    complex scenarios like bundled items from kits.
+
+    WORKAREA-273
+
+    Matt Duffy
+
+*   Update admin views for consistent display of inventory availability
+
+    WORKAREA-262
+
+    Matt Duffy
+
+
+
 Workarea 3.5.18 (2020-09-01)
 --------------------------------------------------------------------------------
 
