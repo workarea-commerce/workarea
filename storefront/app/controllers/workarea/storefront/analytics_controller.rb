@@ -50,7 +50,7 @@ module Workarea
       private
 
       def ignore_bots
-        if browser.bot?
+        if browser.bot.bot? || browser.bot.search_engine?
           head(:forbidden)
           return false
         end
