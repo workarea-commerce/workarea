@@ -67,6 +67,7 @@
                       = link_to current_impersonation.email, user_path(current_impersonation)
                     %br
                     = form_tag impersonations_path, method: 'delete', data: { disable_delete_confirmation: '' } do
+                      = hidden_field_tag :return_to, return_to
                       = button_tag t('workarea.admin.toolbar.stop_impersonation'), class: 'text-button text-button--destroy'
 
             - if allow_pricing_override?

@@ -3512,7 +3512,7 @@ en:
           changes_saved: Your changes have been saved
           saved: Your changes have been saved
           started: You are now browsing as %{email}
-          stopped: Impersonation for this user has been stopped.
+          stopped: Impersonation has been stopped, you are now browsing as your account.
           created: This account has been created
           error: There was an error saving this account
         index:
