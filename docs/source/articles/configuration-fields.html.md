@@ -100,7 +100,7 @@ When defining a configuration field, there are a number of options you can provi
 
 - `required`
 
-  Whether or not the field is required, defaults to `false`. Blank values submitted for a field that does not allow it will be set to the field's default value. The admin UI will also prevent user's from submitting blank field values when this is `false`.
+  Whether or not the field is required, defaults to `false`. The admin UI will prevent user's from submitting blank field values for required fields. If values are submitted in some other way, blank values for a required field will be set to the field's default value.
 
 - `default`
 
