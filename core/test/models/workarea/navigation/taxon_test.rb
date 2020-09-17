@@ -113,6 +113,23 @@ module Workarea
         assert_equal(navigable.id, taxon_5.navigable_id)
         refute(taxon_6.valid?)
       end
+
+      def test_show_in_sitemap?
+        new_taxon = Taxon.new
+        nav_taxon = create_taxon(navigable: create_page)
+        url_taxon = create_taxon(url: 'http://example.com')
+        eml_taxon = create_taxon(url: 'mailto:noreply@example.com')
+        tel_taxon = create_taxon(url: 'tel:+16108675309')
+        rel_taxon = create_taxon(url: '/foo')
+
+        assert(new_taxon.placeholder?)
+        refute(new_taxon.show_in_sitemap?)
+        assert(nav_taxon.show_in_sitemap?)
+        assert(url_taxon.show_in_sitemap?)
+        assert(rel_taxon.show_in_sitemap?)
+        refute(eml_taxon.show_in_sitemap?)
+        refute(tel_taxon.show_in_sitemap?)
+      end
     end
   end
 end

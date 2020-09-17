@@ -1,5 +1,6 @@
 User-Agent: *
 Allow: <%= sitemap_path %>
+Sitemap: https://<%= Workarea.config.host %>/sitemap.xml.gz
 <% if !Rails.env.production? %>
 Disallow: /
 <% else %>

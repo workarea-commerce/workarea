@@ -126,6 +126,10 @@ module Workarea
         navigable.is_a?(SearchResults)
       end
 
+      def show_in_sitemap?
+        !placeholder? && active? && (navigable.present? || url.to_s.start_with?('http', '/'))
+      end
+
       private
 
       def set_parent

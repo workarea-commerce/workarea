@@ -103,6 +103,7 @@ require 'serviceworker-rails'
 require 'chartkick'
 require 'mongoid/encrypted'
 require 'browser'
+require 'sitemap_generator'
 
 #
 # Extensions
@@ -203,6 +204,7 @@ require 'workarea/asset_endpoints/base'
 require 'workarea/asset_endpoints/product_images'
 require 'workarea/asset_endpoints/product_placeholder_images'
 require 'workarea/asset_endpoints/favicons'
+require 'workarea/asset_endpoints/sitemaps'
 require 'workarea/ping_home_base'
 require 'workarea/monitoring/elasticsearch_check'
 require 'workarea/monitoring/mongoid_check'

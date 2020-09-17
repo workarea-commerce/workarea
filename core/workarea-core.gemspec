@@ -89,6 +89,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'puma', '>= 4.3.1'
   s.add_dependency 'rack' , '>= 2.1.4'
   s.add_dependency 'dragonfly_libvips', '~> 2.4.2'
+  s.add_dependency 'sitemap_generator', '~> 6.1.2'
 
   # HACK for vendoring active_shipping
   s.add_dependency 'active_utils', '~> 3.3.1'
