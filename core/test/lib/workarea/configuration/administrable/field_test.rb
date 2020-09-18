@@ -42,6 +42,10 @@ module Workarea
           assert_raise(Field::Invalid) do
             Field.new('Dolla Billz', type: :string, id: '$billz').validate!
           end
+
+          assert_raise(Field::Invalid) do
+            Field.new('Qoo', type: :string, required: true, default: nil).validate!
+          end
         end
 
         def test_values

@@ -17,7 +17,11 @@ module Workarea
               value
             end
 
-          memo[field.key] = formatted_value.presence || field.default
+          memo[field.key] = if field.required?
+            formatted_value.presence || field.default
+          else
+            formatted_value || field.default
+          end
         end
       end
 
