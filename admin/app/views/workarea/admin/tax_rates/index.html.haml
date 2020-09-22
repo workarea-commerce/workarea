@@ -56,9 +56,9 @@
               %td.align-center= rate.country.try(&:alpha2) || '-'
               %td.align-center= rate.region || '-'
               %td.align-center= rate.postal_code.presence || '-'
-              %td.align-center= number_to_percentage(rate.country_percentage * 100, precision: 1)
-              %td.align-center= number_to_percentage(rate.region_percentage * 100, precision: 1)
-              %td.align-center= number_to_percentage(rate.postal_code_percentage * 100, precision: 1)
+              %td.align-center= number_to_percentage(rate.country_percentage * 100, strip_insignificant_zeros: true)
+              %td.align-center= number_to_percentage(rate.region_percentage * 100, strip_insignificant_zeros: true)
+              %td.align-center= number_to_percentage(rate.postal_code_percentage * 100, strip_insignificant_zeros: true)
               %td.align-center= rate.tier_min.present? ? number_to_currency(rate.tier_min) : t('workarea.admin.tax_rates.index.not_applicable')
               %td.align-center= rate.tier_max.present? ? number_to_currency(rate.tier_max) : t('workarea.admin.tax_rates.index.not_applicable')
               %td.align-center= rate.charge_on_shipping ? t('workarea.admin.true') : t('workarea.admin.false')

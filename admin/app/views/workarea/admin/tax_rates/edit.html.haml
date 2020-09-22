@@ -21,7 +21,7 @@
         .grid__cell.grid__cell--50
           .property
             = label_tag 'rate_country_percentage', t('workarea.admin.tax_rates.index.table.country_percentage'), class: 'property__name'
-            = number_field_tag 'rate[country_percentage]', @rate.country_percentage * 100, min: 0, max: 100, step: 0.01, class: 'text-box text-box--i18n'
+            = number_field_tag 'rate[country_percentage]', @rate.country_percentage * 100, min: 0, max: 100, step: '0.001', class: 'text-box text-box--i18n'
 
         .grid__cell.grid__cell--50
           .property
@@ -31,7 +31,7 @@
         .grid__cell.grid__cell--50
           .property
             = label_tag 'rate_region_percentage', t('workarea.admin.tax_rates.index.table.region_percentage'), class: 'property__name'
-            = number_field_tag 'rate[region_percentage]', @rate.region_percentage * 100, min: 0, max: 100, step: 0.01, class: 'text-box text-box--i18n'
+            = number_field_tag 'rate[region_percentage]', @rate.region_percentage * 100, min: 0, max: 100, step: '0.001', class: 'text-box text-box--i18n'
 
         .grid__cell.grid__cell--50
           .property
@@ -41,7 +41,7 @@
         .grid__cell.grid__cell--50
           .property
             = label_tag 'rate_postal_code_percentage', t('workarea.admin.tax_rates.index.table.postal_code_percentage'), class: 'property__name'
-            = number_field_tag 'rate[postal_code_percentage]', @rate.postal_code_percentage * 100, min: 0, max: 100, step: 0.01, class: 'text-box text-box--i18n'
+            = number_field_tag 'rate[postal_code_percentage]', @rate.postal_code_percentage * 100, min: 0, max: 100, step: '0.001', class: 'text-box text-box--i18n'
 
         .grid__cell.grid__cell--33
           .property
