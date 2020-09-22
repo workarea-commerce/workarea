@@ -49,11 +49,12 @@ module Workarea
         def validate!
           validate_id
           validate_type
+          validate_default
           self
         end
 
-        def allow_blank?
-          !!@options.allow_blank
+        def required?
+          !!@options.required
         end
 
         def merge!(options = {})
@@ -71,6 +72,12 @@ module Workarea
         def validate_type
           unless type_class.present?
             raise Invalid.new("configuration field '#{name}' does not have a valid type - #{@type}.")
+          end
+        end
+
+        def validate_default
+          if required? && default.nil?
+            raise Invalid.new("configuration field '#{name}' is required but doesn't have a default.")
           end
         end
       end

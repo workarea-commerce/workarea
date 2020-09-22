@@ -42,6 +42,10 @@ module Workarea
           assert_raise(Field::Invalid) do
             Field.new('Dolla Billz', type: :string, id: '$billz').validate!
           end
+
+          assert_raise(Field::Invalid) do
+            Field.new('Qoo', type: :string, required: true, default: nil).validate!
+          end
         end
 
         def test_values
@@ -112,15 +116,15 @@ module Workarea
           assert(field.overridden?)
         end
 
-        def test_allow_blank?
+        def test_required?
           field = Field.new('Foo', type: :string)
-          refute(field.allow_blank?)
+          refute(field.required?)
 
-          field = Field.new('Foo', type: :string, allow_blank: false)
-          refute(field.allow_blank?)
+          field = Field.new('Foo', type: :string, required: false)
+          refute(field.required?)
 
-          field = Field.new('Foo', type: :string, allow_blank: true)
-          assert(field.allow_blank?)
+          field = Field.new('Foo', type: :string, required: true)
+          assert(field.required?)
         end
       end
     end

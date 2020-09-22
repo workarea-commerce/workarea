@@ -92,3 +92,13 @@ While we've updated the out-of-the-box Dragonfly processors for libvips, you may
   ```ruby
   product.images.create(image: product_image_file_path)
   ```
+
+## Removal of Configuration DSL Allowing Blank
+
+### What's Changing?
+
+To create functionality more inline with developer expectations, the `allow_blank` option has been removed from the [configuration DSL](/articles/configuration-fields.html). It has been replaced with the `required` option, which defaults to `false`. The default value for the field will be used when the specified value is blank and the `default` option is present.
+
+### What Do You Need to Do?
+
+Replace the `allow_blank` option with the corresponding desired combination of the `required` option and the `default` option.
