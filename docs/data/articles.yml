@@ -84,6 +84,7 @@ orders:
   order-life-cycle.html.md: /articles/order-life-cycle.html.md
   shipping.html.md: /articles/shipping.html.md
   fulfillemnt-skus.html.md: /articles/fulfillment-skus.html.md
+  sequential-order-numbering.html.md: /articles/sequential-order-numbering.html.md
 users:
   configure-logins-and-authentication.html.md: /articles/configure-logins-and-authentication.html.md
 navigation:
