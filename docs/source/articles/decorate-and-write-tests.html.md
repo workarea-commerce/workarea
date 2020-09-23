@@ -129,6 +129,70 @@ module Workarea
 end
 ```
 
+### Change Setup/Teardown Behavior
+
+To change how tests are set up or torn down between each individual run, use the `setup` and `teardown` DSL methods:
+
+```ruby
+module Workarea
+  class ImportInventoryTest < TestCase
+    setup :setup_custom_logic
+    teardown :teardown_custom_logic
+
+    def test_perform
+      # ...
+    end
+
+    def setup_custom_user_logic
+      # do your custom setup logic here
+    end
+
+    def teardown_custom_user_logic
+      # do your custom teardown logic here
+    end
+  end
+end
+```
+
+Applications may also use the block style for these DSL methods, but **plugins should not use this style** as it is impossible to decorate in an application:
+
+```ruby
+module Workarea
+  class ImportInventoryTest < TestCase
+    setup do
+      # do your custom setup logic here
+    end
+
+    teardown do
+      # do your custom teardown logic here
+    end
+
+    def test_perform
+      # ...
+    end
+  end
+end
+```
+
+In Workarea 3.5.0, `Workarea::TestCase` will do a few cleanup tasks for you on teardown, so writing tests like this won't accidentally leak configuration and cause random test failures:
+
+```ruby
+module Workarea
+  decorate UserTest do
+    # When decorating tests with different setup code, make sure to enclose
+    # your `setup` and `teardown` calls in a `decorated { }` block.
+    decorated do
+      setup :use_custom_authentication_gateway
+    end
+
+    def setup_custom_user_logic
+      Workarea.config.gateways.authentication = 'MyCustomAuthGateway'
+    end
+  end
+end
+```
+
+In order to take advantage of all this, however, it's best to use the `setup` and `teardown` DSL methods. This will run the setup/teardown code located in `Workarea::TestCase`, and prevent random test failures. **Do not** set up or teardown your tests by overriding the `#setup` and `#teardown` instance methods, as this will not use the logic in `Workarea::TestCase` and possibly cause some difficult-to-diagnose issues in your tests.
 
 ### Change Configuration within a Test
 
