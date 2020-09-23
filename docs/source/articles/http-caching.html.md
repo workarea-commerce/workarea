@@ -31,7 +31,31 @@ This creates a major complication for any data on the page with user or session 
 
 **Note:** [Rack::Cache](http://rtomayko.github.io/rack-cache/) is a simple way to achieve the caching advantage explained above without the configuration and hosting burden of a more robust HTTP cache like [Varnish](https://www.varnish-cache.org).
 
-## Customizing the Rack::Cache Key
+## Using Rack::Cache
+
+Many Workarea applications use `Rack::Cache` for storing their HTTP cache. In fact, this is the caching solution that is used by [Workarea Commerce Cloud](https://www.workarea.com/pages/commerce-cloud), so if you're on Commerce Cloud, congratulations! You're already using `Rack::Cache`! 🎉
+
+Now that we're done celebrating, we can focus on a few key elements of `Rack::Cache` that are configurable and notable for Workarea applications.
+
+### Ignore User-Specific Tracking Parameters in the Query String
+
+Many stores on the Workarea platform use marketing tools suck as [Listrak](https://github.com/workarea-commerce/workarea-listrak) or [Emarsys](https://github.com/workarea-commerce/workarea-emarsys) to handle abandoned cart emails, marketing campaigns, and so on. These services tend to use query parameters within the URL to identify each individual user, and this can cause an issue with caching. `Rack::Cache` will, by default, generate cache keys based on the given URL. So, if you have multiple requests to your **/categories/mens** page, like this:
+
+```
+GET /categories/mens?tracking_id=96a30500-6add-47e1-9ee8-cf3b5052ecf3
+GET /categories/mens?tracking_id=9d9948e3-df0b-4b17-9396-4bbcbac7f4c9
+GET /categories/mens?tracking_id=0ffc0e09-4041-4876-8f8e-05ae87bc3bf3
+```
+
+That will result in multiple entries written to the cache for the same exact request. This is inefficient at best, and dangerous to your performance at worst. To make sure you won't run into this situation, `Rack::Cache` [allows you to configure ignored query parameters](https://github.com/rtomayko/rack-cache#ignoring-tracking-parameters-in-cache-keys), and since Workarea uses its own subclass of `Rack::Cache::Key`, you'll need to customize the tracking params on that class like so:
+
+```ruby
+Workarea::Cache::RackCacheKey.query_string_ignore = proc { |key, value| key == 'tracking_id' }
+```
+
+If you're using the `Workarea::Listrak` plugin, you're in luck! 🍀 Recent versions of the plugin [include configuration for the cache key](https://github.com/workarea-commerce/workarea-listrak/blob/master/config/initializers/rack_cache.rb) out of the box, so you won't need to do anything to get efficient caches in production.
+
+### Customizing the Cache Key
 
 There are scenarios where it becomes necessary to vary `Rack::Cache` entries, like geolocated content blocks or segmentation-based navigation. In these cases, Workarea provides a relatively straight-forward way to add to the cache key. Refer to [the documentation in the code for Workarea::Cache::Varies](https://github.com/workarea-commerce/workarea/blob/master/core/lib/workarea/cache.rb) for more information.
 
