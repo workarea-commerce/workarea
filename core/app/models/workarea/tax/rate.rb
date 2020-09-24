@@ -57,7 +57,9 @@ module Workarea
         percentage_field = super
         return percentage_field unless percentage_field.zero?
 
-        country_percentage + region_percentage + postal_code_percentage
+        [country_percentage, region_percentage, postal_code_percentage]
+          .compact
+          .sum
       end
     end
   end
