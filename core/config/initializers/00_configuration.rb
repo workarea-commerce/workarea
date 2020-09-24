@@ -2,11 +2,13 @@ Workarea::Configuration.define_fields do
   fieldset 'Users', namespaced: false do
     field 'Allowed Login Attempts',
       type: :integer,
+      required: true,
       default: 6,
       description: 'How many failed login attempts before marking the user locked out'
 
     field 'Password Strength',
       type: :symbol,
+      required: true,
       default: :weak,
       values: [
         ['Weak', :weak, title: 'Requires minimum 7 characters'],
@@ -19,11 +21,13 @@ Workarea::Configuration.define_fields do
   fieldset 'Checkout', namespaced: false do
     field 'Checkout Expiration',
       type: :duration,
+      required: true,
       default: 15.minutes,
       description: 'How long a checkout can be idle before the user is forced to restart'
 
     field 'Item Count Limit',
       type: :integer,
+      required: true,
       default: 100,
       description: 'How many unique items can be added to a single cart'
   end
@@ -31,21 +35,25 @@ Workarea::Configuration.define_fields do
   fieldset 'Orders', namespaced: false do
     field 'Order Active Period',
       type: :duration,
+      required: true,
       default: 2.hours,
       description: 'How long an order is active without changing before considering it abandoned'
 
     field 'Order Expiration Period',
       type: :duration,
+      required: true,
       default: 6.months,
       description: 'How long to wait until abandoned orders are deleted from the database'
 
     field 'Recent Order Count',
       type: :integer,
+      required: true,
       default: 3,
       description: 'Number of orders to show in account summary dashboard'
 
     field 'Storefront User Order Display Count',
       type: :integer,
+      required: true,
       default: 50,
       description: 'Number of orders to display on the user order history page'
   end
@@ -54,11 +62,13 @@ Workarea::Configuration.define_fields do
     field 'Allow Shipping Address P.O. Box',
       id: :allow_shipping_address_po_box,
       type: :boolean,
+      required: true,
       default: false,
       description: 'Whether or not to allow P.O. Box addresses for shipping addresses'
 
     field 'Shipping Dimensions',
       type: :array,
+      required: true,
       default: [1, 1, 1],
       description: %(
         Default package dimensions to use for calculating shipping costs.
@@ -69,6 +79,7 @@ Workarea::Configuration.define_fields do
 
     field 'Shipping Origin',
       type: :hash,
+      required: true,
       default: {
         country: 'US',
         state: 'PA',
@@ -81,7 +92,6 @@ Workarea::Configuration.define_fields do
     # scenarios.
     field 'Default Shipping Service Tax Code',
       type: String,
-      allow_blank: true,
       description: %(
         Tax code assigned to shipping options when an existing service does
         not exist. This is useful for third-party gateways to assign tax codes
@@ -93,6 +103,7 @@ Workarea::Configuration.define_fields do
     field 'Allow Payment Address P.O. Box',
       id: :allow_payment_address_po_box,
       type: :boolean,
+      required: true,
       default: true,
       description: 'Whether or not to allow P.O. Box addresses for billing addresses'
   end
@@ -100,6 +111,7 @@ Workarea::Configuration.define_fields do
   fieldset 'Inventory', namespaced: false do
     field 'Low Inventory Threshold',
       type: :integer,
+      required: true,
       default: 5,
       description: 'Minimum available quantity for a sku before inventory is considered low'
   end
@@ -107,11 +119,13 @@ Workarea::Configuration.define_fields do
   fieldset 'Content', namespaced: false do
     field 'Minimum Content Search Words',
       type: :integer,
+      required: true,
       default: 5,
       description: 'Minimum number of words for content to be searchable on the storefront'
 
     field 'Placeholder Text',
       type: :string,
+      required: true,
       default: %(
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sagittis
         faucibus augue, sit amet mattis leo tincidunt ac. Nullam vulputate
@@ -129,11 +143,13 @@ Workarea::Configuration.define_fields do
   fieldset 'Search', namespaced: false do
     field 'Default Search Facet Result Sizes',
       type: :integer,
+      required: true,
       default: 10,
       description: 'The number of filter results returned for each filter type.'
 
     field 'Search Facet Result Sizes',
       type: :hash,
+      required: true,
       values_type: :integer,
       default: { color: 10, size: 10 },
       description: %(
@@ -144,6 +160,7 @@ Workarea::Configuration.define_fields do
 
     field 'Search Size Facet Sort',
       id: :search_facet_size_sort,
+      required: true,
       type: :array,
       default: ['Extra Small', 'Small', 'Medium', 'Large', 'Extra Large'],
       description: %(
@@ -153,6 +170,7 @@ Workarea::Configuration.define_fields do
 
     field 'Search Sufficient Results',
       type: :integer,
+      required: true,
       default: 2,
       description: %(
         The minimum number of search results required to consider the results
@@ -162,6 +180,7 @@ Workarea::Configuration.define_fields do
 
     field 'Search Suggestions',
       type: :integer,
+      required: true,
       default: 5,
       description: 'How many search suggestions should be shown in the autocomplete searches.'
   end
@@ -171,16 +190,19 @@ Workarea::Configuration.define_fields do
 
     field 'Email From',
       type: :string,
+      required: true,
       default: -> { "#{Workarea.config.site_name} <noreply@#{Workarea.config.host}>" },
       description: 'The email address used as the sender of system emails'
 
     field 'Email To',
       type: :string,
+      required: true,
       default: -> { "#{Workarea.config.site_name} <customerservice@#{Workarea.config.host}>" },
       description: 'The email address that receives user generated emails, e.g. contact us inquiries'
 
     field 'Inquiry Subjects',
       type: :hash,
+      required: true,
       default: {
         'orders' => 'Orders',
         'returns' => 'Returns and Exchanges',
@@ -195,12 +217,14 @@ Workarea::Configuration.define_fields do
     field 'Safe IP Addresses',
       id: :safe_ip_addresses,
       type: :array,
+      required: true,
       default: [],
       description: 'List of known IP addresses and/or IP addresses ranges a that should always have access to the site.'
 
     field 'Blocked IP Addresses',
       id: :blocked_ip_addresses,
       type: :array,
+      required: true,
       default: [],
       description: 'List of known IP addresses and/or IP addresses ranges to block from site access.'
   end
