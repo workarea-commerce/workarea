@@ -129,7 +129,8 @@ jobs:
     - uses: actions/setup-ruby@v1
       with:
         ruby-version: 2.6.x
-    - run: |
+    - name: Generate Application
+      run: |
         cd ..
         mkdir my-store && cd my-store
         echo "source 'https://rubygems.org'" > Gemfile
@@ -146,6 +147,7 @@ jobs:
         --skip-yarn \
         --skip-bundle \
         --skip-webpack-install
+        echo "gem 'workarea', path: '../workarea'" >> Gemfile
         bundle update
         bin/rails workarea:services:up
         bin/rails generate workarea:install
@@ -161,4 +163,18 @@ jobs:
       with:
         ruby-version: 2.6.x
     - run: gem install rails
-    - run: rails plugin new new_plugin --full -m workarea/plugin_template.rb --skip-spring --skip-active-record --skip-action-cable
+    - name: Generate Plugin
+      run: |
+        cd ..
+        rails plugin new my_plugin \
+        --template=workarea/plugin_template.rb \
+        --full \
+        --skip-spring \
+        --skip-active-record \
+        --skip-action-cable \
+        --skip-puma \
+        --skip-coffee \
+        --skip-turbolinks \
+        --skip-bootsnap \
+        --skip-yarn \
+        --skip-webpack-install
