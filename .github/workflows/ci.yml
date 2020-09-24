@@ -133,19 +133,19 @@ jobs:
         cd ..
         mkdir my-store && cd my-store
         echo "source 'https://rubygems.org'" > Gemfile
-        echo "gem 'rails', '~> 5.2'" >> Gemfile
+        echo "gem 'rails'" >> Gemfile
         bundle install
         bundle exec rails new ./ --force \
-          --skip-spring \
-          --skip-active-record \
-          --skip-action-cable \
-          --skip-puma \
-          --skip-coffee \
-          --skip-turbolinks \
-          --skip-bootsnap \
-          --skip-yarn \
-          --skip-bundle
-        echo "gem 'workarea', path: '../workarea'" >> Gemfile
+        --skip-spring \
+        --skip-active-record \
+        --skip-action-cable \
+        --skip-puma \
+        --skip-coffee \
+        --skip-turbolinks \
+        --skip-bootsnap \
+        --skip-yarn \
+        --skip-bundle \
+        --skip-webpack-install
         bundle update
         bin/rails workarea:services:up
         bin/rails generate workarea:install
@@ -160,5 +160,5 @@ jobs:
     - uses: actions/setup-ruby@v1
       with:
         ruby-version: 2.6.x
-    - run: gem install rails -v '~> 5.2'
-    - run: rails plugin new_plugin --full -m workarea/plugin_template.rb --skip-spring --skip-active-record --skip-action-cable
+    - run: gem install rails
+    - run: rails plugin new new_plugin --full -m workarea/plugin_template.rb --skip-spring --skip-active-record --skip-action-cable
