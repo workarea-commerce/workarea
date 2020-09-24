@@ -27,7 +27,7 @@ module Workarea
 
         assert_current_path(admin.content_assets_path)
         assert(page.has_content?('Success'))
-        refute(page.has_content?('Edited Asset'))
+        refute_text('Edited Asset')
       end
 
       def test_insertion

@@ -33,8 +33,8 @@ module Workarea
         click_button 'remove_taxon', match: :first
 
         assert(page.has_content?('Success'))
-        refute(page.has_content?('First Taxon'))
-        refute(page.has_content?('Second Taxon'))
+        refute_text('First Taxon')
+        refute_text('Second Taxon')
       end
     end
   end

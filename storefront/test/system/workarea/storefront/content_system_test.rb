@@ -113,7 +113,7 @@ module Workarea
         assert(page.has_content?('foo bar'))
 
         resize_window_to('medium')
-        refute(page.has_content?('foo bar'))
+        refute_text('foo bar')
 
         resize_window_to('wide')
         assert(page.has_content?('foo bar'))

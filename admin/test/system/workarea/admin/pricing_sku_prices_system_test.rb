@@ -71,9 +71,9 @@ module Workarea
 
         row = find_all("table tr")[1]
         within(row) do
-          refute(page.has_content?('$11.00'))
-          refute(page.has_content?('$9.99'))
-          refute(page.has_content?('1'))
+          refute_text('$11.00')
+          refute_text('$9.99')
+          refute_text('1')
         end
       end
     end
