@@ -174,7 +174,7 @@ module Workarea
 end
 ```
 
-In Workarea 3.5.0, `Workarea::TestCase` will do a few cleanup tasks for you on teardown, so writing tests like this won't accidentally leak configuration and cause random test failures:
+As of Workarea 3.5.0, `Workarea::TestCase` will do a few cleanup tasks for you on teardown, so writing tests like this won't accidentally leak configuration and cause random test failures:
 
 ```ruby
 module Workarea
