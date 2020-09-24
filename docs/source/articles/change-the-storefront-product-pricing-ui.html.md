@@ -347,7 +347,7 @@ module Workarea
         visit storefront.product_path(@product)
         assert(page.has_content?('Integration Product'))
         assert(page.has_content?('From: $10.00'))
-        refute(page.has_content?('$15.00'))
+        refute_text('$15.00')
         assert(page.has_select?('sku', options: ['Select options', 'SKU1', 'SKU2', 'SKU3']))
       end
   end

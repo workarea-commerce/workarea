@@ -60,7 +60,7 @@ module Workarea
         click_link t('workarea.admin.catalog.dashboard_link')
 
         visit admin.catalog_products_path
-        refute(page.has_content?('1 selected'))
+        refute_text('1 selected')
       end
 
       def test_persistence
@@ -85,7 +85,7 @@ module Workarea
         click_button t('workarea.admin.catalog_products.index.edit')
         click_link t('workarea.admin.form.cancel')
 
-        refute(page.has_content?('3 selected'))
+        refute_text('3 selected')
       end
 
       def test_select_all
@@ -95,7 +95,7 @@ module Workarea
         assert(page.has_content?("5 #{t('workarea.admin.shared.bulk_actions.selected')}"))
 
         uncheck 'select_all'
-        refute(page.has_content?(t('workarea.admin.shared.bulk_actions.selected')))
+        refute_text(t('workarea.admin.shared.bulk_actions.selected'))
 
         check 'select_all'
         uncheck "catalog_product_#{@products.fifth.id}"
@@ -103,14 +103,14 @@ module Workarea
         assert(page.has_content?("3 #{t('workarea.admin.shared.bulk_actions.selected')}"))
 
         check 'select_all'
-        refute(page.has_content?(t('workarea.admin.shared.bulk_actions.selected')))
+        refute_text(t('workarea.admin.shared.bulk_actions.selected'))
 
         check "catalog_product_#{@products.fifth.id}"
         check "catalog_product_#{@products.fourth.id}"
         assert(page.has_content?("2 #{t('workarea.admin.shared.bulk_actions.selected')}"))
 
         check 'select_all'
-        refute(page.has_content?(t('workarea.admin.shared.bulk_actions.selected')))
+        refute_text(t('workarea.admin.shared.bulk_actions.selected'))
       end
 
       def test_bulk_editing

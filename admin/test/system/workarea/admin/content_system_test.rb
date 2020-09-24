@@ -35,7 +35,7 @@ module Workarea
 
         find('.content-block').click
         click_link t('workarea.admin.actions.delete')
-        refute(page.has_selector?('.content-block'))
+        refute_selector('.content-block')
       end
 
       def test_reordering_content_blocks
