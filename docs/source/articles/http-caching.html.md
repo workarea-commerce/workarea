@@ -39,7 +39,7 @@ Now that we're done celebrating, we can focus on a few key elements of `Rack::Ca
 
 ### Ignore User-Specific Tracking Parameters in the Query String
 
-Many stores on the Workarea platform use marketing tools suck as [Listrak](https://github.com/workarea-commerce/workarea-listrak) or [Emarsys](https://github.com/workarea-commerce/workarea-emarsys) to handle abandoned cart emails, marketing campaigns, and so on. These services tend to use query parameters within the URL to identify each individual user, and this can cause an issue with caching. `Rack::Cache` will, by default, generate cache keys based on the given URL. So, if you have multiple requests to your **/categories/mens** page, like this:
+Many stores on the Workarea platform use marketing tools suck as [Listrak](https://github.com/workarea-commerce/workarea-listrak) or [Emarsys](https://github.com/workarea-commerce/workarea-emarsys) to handle abandoned cart emails, marketing campaigns, and so on. These services sometimes use query parameters within the URL to identify each individual user, and this can cause an issue with caching. `Rack::Cache` will, by default, generate cache keys based on the given URL. So, if you have multiple requests to your **/categories/shirts** page, like this:
 
 ```
 GET /categories/mens?tracking_id=96a30500-6add-47e1-9ee8-cf3b5052ecf3
