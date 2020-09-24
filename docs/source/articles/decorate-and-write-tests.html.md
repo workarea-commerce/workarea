@@ -154,7 +154,7 @@ module Workarea
 end
 ```
 
-Applications may also use the block style for these DSL methods, but **plugins should not use this style** as it is impossible to decorate in an application:
+Applications may also use the block style for this, but **plugins should not use this style** as it is impossible to decorate in an application:
 
 ```ruby
 module Workarea
