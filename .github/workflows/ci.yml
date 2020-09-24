@@ -119,3 +119,45 @@ jobs:
       with:
         name: Storefront Screenshots
         path: storefront/test/dummy/tmp/screenshots
+
+  new_app:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        path: workarea
+    - uses: actions/setup-ruby@v1
+      with:
+        ruby-version: 2.6.x
+    - run: |
+        mkdir my-store && cd my-store
+        echo "source 'https://rubygems.org'" > Gemfile
+        echo "gem 'rails', '~> 5.2'" >> Gemfile
+        bundle install
+        bundle exec rails new ./ --force \
+          --skip-spring \
+          --skip-active-record \
+          --skip-action-cable \
+          --skip-puma \
+          --skip-coffee \
+          --skip-turbolinks \
+          --skip-bootsnap \
+          --skip-yarn \
+          --skip-bundle
+        echo "gem 'workarea', path: '../workarea'" >> Gemfile
+        bundle update
+        bin/rails workarea:services:up
+        bin/rails generate workarea:install
+        bin/rails db:seed
+
+  new_plugin:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        path: workarea
+    - uses: actions/setup-ruby@v1
+      with:
+        ruby-version: 2.6.x
+    - run: gem install rails -v '~> 5.2'
+    - run: rails plugin new_plugin --full -m workarea/plugin_template.rb --skip-spring --skip-active-record --skip-action-cable
