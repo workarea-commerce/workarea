@@ -1,7 +1,8 @@
 name: Docker Demo Image
 on:
-  release:
-    types: [published]
+  push:
+    tags:
+      - v*
 
 jobs:
   image_build:
