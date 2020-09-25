@@ -83,5 +83,12 @@ unless Workarea.config.skip_service_connections
       cron: '0 1 * * 1',
       queue: 'low'
     )
+
+    Sidekiq::Cron::Job.create(
+      name: 'Workarea::GenerateSitemaps',
+      klass: 'Workarea::GenerateSitemaps',
+      cron: '0 5 * * *',
+      queue: 'low'
+    )
   end
 end

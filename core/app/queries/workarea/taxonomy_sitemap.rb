@@ -24,7 +24,7 @@ module Workarea
     end
 
     def results
-      @results ||= taxons.select(&:active?)
+      @results ||= taxons.select(&:show_in_sitemap?)
     end
 
     def cache_key
