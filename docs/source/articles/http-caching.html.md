@@ -30,7 +30,9 @@ This creates a major complication for any data on the page with user or session 
 
 ## Using Rack::Cache
 
-Workarea applications use [Rack::Cache](https://github.com/rtomayko/rack-cache) to store their HTTP cache. `Rack::Cache` is an HTTP caching Rack middleware that is configured in qa, staging, and production environments. It's backed by [Redis](https://github.com/redis-store/redis-rack-cache), in which Rack::Cache stores all of its metadata and actual cached content.
+Workarea applications use [Rack::Cache](https://github.com/rtomayko/rack-cache) to store their HTTP cache. `Rack::Cache` is a HTTP caching Rack middleware. It's backed by [Redis](https://github.com/redis-store/redis-rack-cache), in which `Rack::Cache` stores all of its metadata and actual cached content.
+
+Out of the box, the effects of `Rack::Cache` are disabled in `test` and `development` environments.
 
 ### Ignore User-Specific Tracking Parameters in the Query String
 
