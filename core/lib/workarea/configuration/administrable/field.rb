@@ -54,6 +54,7 @@ module Workarea
         end
 
         def required?
+          return true unless @options.to_h.key?(:required)
           !!@options.required
         end
 

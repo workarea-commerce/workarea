@@ -52,21 +52,21 @@ module Workarea
           assert_equal(%i(baz qux), field.values)
           assert_nil(field.description)
 
-          fieldset.field 'Bar', encrypted: true
+          fieldset.field 'Bar', encrypted: true, required: false
           assert(Rails.application.config.filter_parameters.include?(:foo_bar))
 
           assert_raise(Field::Invalid) do
-            fieldset.field 'Qux', type: :fake
+            fieldset.field 'Qux', type: :fake, required: false
           end
 
           assert_raise(Field::Invalid) do
-            fieldset.field 'Dolla Billz', type: :string, id: '$billz'
+            fieldset.field 'Dolla Billz', type: :string, id: '$billz', required: false
           end
         end
 
         def test_find_field
           fieldset = Fieldset.new('Foo')
-          fieldset.field 'Bar', type: :string
+          fieldset.field 'Bar', type: :string, required: false
 
           assert_equal(:bar, fieldset.find_field('bar').id)
           assert_equal(:bar, fieldset.find_field(:bar).id)

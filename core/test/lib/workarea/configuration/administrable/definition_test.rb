@@ -14,7 +14,7 @@ module Workarea
           assert_equal(0, fieldset.fields.size)
 
           definition.fieldset('Foo Bar') do
-            field 'Baz', type: :string
+            field 'Baz', type: :string, default: 'baz'
           end
 
           assert_equal(2, definition.fieldsets.size)
@@ -57,7 +57,7 @@ module Workarea
           assert_equal(:application, definition.find_fieldset(:application).id)
 
           definition.fieldset('Foo Bar') do
-            field 'Baz', type: :string
+            field 'Baz', type: :string, default: 'baz'
           end
 
           assert_equal(:foo_bar, definition.find_fieldset('foo_bar').id)

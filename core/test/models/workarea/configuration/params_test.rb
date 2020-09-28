@@ -6,13 +6,13 @@ module Workarea
       def test_to_h
         Workarea.config.admin_definition = Administrable::Definition.new
         Workarea::Configuration.define_fields do
-          field 'foo', type: :string
+          field 'foo', type: :string, required: false
           field 'bar', type: :string, default: 'test'
-          field 'baz', type: :string, required: true, default: 'baz'
+          field 'baz', type: :string, required: false, default: 'baz'
 
-          field 'foo_hash', type: :hash, values_type: :integer
-          field 'bar_array', type: :array
-          field 'baz_duration', type: :duration
+          field 'foo_hash', type: :hash, values_type: :integer, required: false
+          field 'bar_array', type: :array, required: false
+          field 'baz_duration', type: :duration, required: false
         end
 
         params = {
@@ -27,7 +27,7 @@ module Workarea
         result = Params.new(params).to_h
         assert_equal('string value', result[:foo])
         assert_equal('test', result[:bar])
-        assert_equal('baz', result[:baz])
+        assert_equal('', result[:baz])
         assert_equal({ 'one' => 1 }, result[:foo_hash])
         assert_equal(%w(one two three), result[:bar_array])
         assert_equal(20.minutes, result[:baz_duration])

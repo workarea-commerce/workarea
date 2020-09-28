@@ -32,7 +32,7 @@ module Workarea
         end
 
         def test_validate!
-          field = Field.new('Bar', id: 'foobar', type: :string)
+          field = Field.new('Bar', id: 'foobar', type: :string, default: 'bar')
           assert(field.validate!)
 
           assert_raise(Field::Invalid) do
@@ -117,13 +117,13 @@ module Workarea
         end
 
         def test_required?
-          field = Field.new('Foo', type: :string)
-          refute(field.required?)
+          field = Field.new('Foo', type: :string, default: 'foo')
+          assert(field.required?)
 
           field = Field.new('Foo', type: :string, required: false)
           refute(field.required?)
 
-          field = Field.new('Foo', type: :string, required: true)
+          field = Field.new('Foo', type: :string, default: 'foo', required: true)
           assert(field.required?)
         end
       end
