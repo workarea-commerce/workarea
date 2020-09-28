@@ -49,8 +49,8 @@ module Workarea
           click_link 'Published (1)'
         end
 
-        refute(page.has_content?('Scheduled Release'))
-        refute(page.has_content?('Unscheduled Release'))
+        refute_text('Scheduled Release')
+        refute_text('Unscheduled Release')
         assert(page.has_content?('Published Release'))
       end
 
@@ -277,7 +277,7 @@ module Workarea
 
         click_link t('workarea.admin.releases.calendar.next_week')
         wait_for_xhr
-        refute(find('.calendar').has_content?('Foo Release'))
+        refute_text('Foo Release')
 
         click_link t('workarea.admin.releases.calendar.previous_week')
         wait_for_xhr
@@ -285,7 +285,7 @@ module Workarea
 
         click_link t('workarea.admin.releases.calendar.next_week')
         wait_for_xhr
-        refute(find('.calendar').has_content?('Foo Release'))
+        refute_text('Foo Release')
 
         click_button t('workarea.admin.releases.calendar.today')
         wait_for_xhr
@@ -321,8 +321,8 @@ module Workarea
 
         visit admin.releases_path
 
-        refute(page.has_content?('Release Five'))
-        refute(page.has_content?('Release Six'))
+        refute_text('Release Five')
+        refute_text('Release Six')
 
         assert(
           page.has_content?(

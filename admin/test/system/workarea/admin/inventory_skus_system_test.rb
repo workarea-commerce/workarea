@@ -28,7 +28,7 @@ module Workarea
 
         assert_current_path(admin.inventory_skus_path)
         assert(page.has_content?('Success'))
-        refute(page.has_content?('SKU1'))
+        refute_text('SKU1')
       end
 
       def test_editing_a_non_existent_sku

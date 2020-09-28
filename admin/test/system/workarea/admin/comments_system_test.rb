@@ -39,7 +39,7 @@ module Workarea
 
         find_field('comment[body]').send_keys(['@'])
 
-        refute(page.has_content?('Bar Baby'))
+        refute_text('Bar Baby')
         assert(page.has_content?('Baz Bat'))
 
         find('.tribute-container li', text: 'Baz Bat (baz@workarea.com)').click

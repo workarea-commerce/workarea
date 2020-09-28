@@ -59,7 +59,7 @@ module Workarea
 
         scroll_to_bottom
 
-        refute(page.has_content?(t('workarea.storefront.pagination.next_page')))
+        refute_text(t('workarea.storefront.pagination.next_page'))
         click_link t('workarea.storefront.pagination.load_more')
 
         assert_current_path(storefront.category_path(category))
@@ -70,7 +70,7 @@ module Workarea
         assert(page.has_content?('Product 5'))
         assert(page.has_content?('Product 6'))
 
-        refute(page.has_content?(t('workarea.storefront.pagination.load_more')))
+        refute_text(t('workarea.storefront.pagination.load_more'))
 
         find('a', text: 'Product 6').click
         page.execute_script("history.back()")
@@ -79,7 +79,7 @@ module Workarea
 
         wait_for_xhr
 
-        refute(page.has_content?(t('workarea.storefront.pagination.load_more')))
+        refute_text(t('workarea.storefront.pagination.load_more'))
 
         assert_match(/PROD1.*PROD2.*PROD3.*PROD4.*PROD5.*PROD6/m, page.html)
       end
@@ -95,7 +95,7 @@ module Workarea
 
         scroll_to_bottom
 
-        refute(page.has_content?(t('workarea.storefront.pagination.next_page')))
+        refute_text(t('workarea.storefront.pagination.next_page'))
         click_link t('workarea.storefront.pagination.load_more')
 
         assert_current_path(storefront.search_path(q: 'Product'))
@@ -106,7 +106,7 @@ module Workarea
         assert(page.has_content?('Product 5'))
         assert(page.has_content?('Product 6'))
 
-        refute(page.has_content?(t('workarea.storefront.pagination.load_more')))
+        refute_text(t('workarea.storefront.pagination.load_more'))
 
         find('a', text: 'Product 6').click
         page.execute_script("history.back()")
@@ -115,7 +115,7 @@ module Workarea
 
         wait_for_xhr
 
-        refute(page.has_content?(t('workarea.storefront.pagination.load_more')))
+        refute_text(t('workarea.storefront.pagination.load_more'))
 
         assert(page.has_content?('Product 1'))
         assert(page.has_content?('Product 2'))
