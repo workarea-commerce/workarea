@@ -206,7 +206,7 @@
                 %td
                   = text_field_tag 'variants[][tax_code]', variant.tax_code, placeholder: 'Tax Code', class: 'text-box text-box--small', autocomplete: 'off', id: dom_id(variant, 'variant_tax_code')
                 %td
-                  = number_field_tag 'variants[][inventory]', variant.available_inventory, placeholder: '0', class: 'text-box text-box--small', id: dom_id(variant, 'variant_inventory')
+                  = number_field_tag 'variants[][inventory]', variant.inventory.available, placeholder: '0', class: 'text-box text-box--small', id: dom_id(variant, 'variant_inventory')
 
             %tr{ data: { cloneable_row: '' } }
               %td

@@ -502,7 +502,6 @@ en:
             new_attribute_name_note: 'Example: Material'
             new_attribute_name_placeholder: New Attribute Name
             new_attribute_value: New Attribute Value
-            new_attribute_value_csv: 'Comma separated: just, like, this'
             new_attribute_value_note: 'Example: Cotton'
             new_attribute_value_placeholder: New Attribute Value
             remove: Remove
@@ -542,7 +541,6 @@ en:
             new_attribute_name_note: 'Example: Material'
             new_attribute_name_placeholder: New Attribute Name
             new_attribute_value: New Attribute Value
-            new_attribute_value_csv: 'Comma separated: just, like, this'
             new_attribute_value_note: 'Example: Cotton'
             new_attribute_value_placeholder: New Attribute Value
             remove: Remove
@@ -1802,6 +1800,7 @@ en:
         searches: Searches
         segments: Segments
         sell_price: Sell Price
+        sellable: Sellable Units
         send_account_creation_email: Notify Them by Email
         service: Service
         service_code: Service Code
@@ -2312,12 +2311,6 @@ en:
         aux_navigation:
           view_pricing: View Pricing
           view_product: View Product
-        cards:
-          available: 'Available:'
-          backordered: 'Backordered:'
-          policy: 'Policy:'
-          purchased: 'Purchased:'
-          reserve: 'Reserve:'
         edit:
           available_quantity: Available Quantity
           backordered_quantity: Backordered Quantity
@@ -4103,7 +4096,7 @@ en:
           changes_saved: Your changes have been saved
           saved: Your changes have been saved
           started: You are now browsing as %{email}
-          stopped: Impersonation for this user has been stopped.
+          stopped: Impersonation has been stopped, you are now browsing as your account.
           created: This account has been created
           error: There was an error saving this account
           password_reset: Password reset created. User will receive an email shortly.

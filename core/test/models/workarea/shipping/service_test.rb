@@ -35,6 +35,32 @@ module Workarea
         assert_equal(3.to_m, shipping_service.find_rate(7.to_m).price)
         assert_equal(2.to_m, shipping_service.find_rate(10.to_m).price)
       end
+
+      def test_find_tax_code
+        create_shipping_service(name: 'Ground', carrier: 'UPS', tax_code: '001')
+        create_shipping_service(name: 'Express', carrier: 'UPS', tax_code: nil)
+        Workarea.config.default_shipping_service_tax_code = nil
+
+        assert_equal('001', Service.find_tax_code('UPS', 'Ground'))
+        assert_nil(Service.find_tax_code('UPS', 'Express'))
+        assert_nil(Service.find_tax_code('FedEx', 'Express'))
+
+        Workarea.config.default_shipping_service_tax_code = '101'
+
+        assert_equal('001', Service.find_tax_code('UPS', 'Ground'))
+        assert_nil(Service.find_tax_code('UPS', 'Express'))
+        assert_equal('101', Service.find_tax_code('FedEx', 'Express'))
+        assert_equal('101', Service.find_tax_code('FedEx', 'Express'))
+
+        Workarea.config.default_shipping_service_tax_code = -> (carrier, name) do
+          carrier == 'FedEx' ? '101' : '001'
+        end
+
+        assert_equal('001', Service.find_tax_code('UPS', 'Ground'))
+        assert_nil(Service.find_tax_code('UPS', 'Express'))
+        assert_equal('101', Service.find_tax_code('FedEx', 'Express'))
+        assert_equal('001', Service.find_tax_code('DHL', 'Overnight'))
+      end
     end
   end
 end

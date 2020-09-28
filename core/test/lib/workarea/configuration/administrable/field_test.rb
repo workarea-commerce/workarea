@@ -37,11 +37,15 @@ module Workarea
         end
 
         def test_validate!
-          field = Field.new(:bar, id: 'foobar', type: :string)
+          field = Field.new(:bar, id: 'foobar', type: :string, default: 'bar')
           assert(field.validate!)
 
           assert_raise(Field::Invalid) do
             Field.new(:qux, type: :fake).validate!
+          end
+
+          assert_raise(Field::Invalid) do
+            Field.new('Qoo', type: :string, required: true, default: nil).validate!
           end
         end
 
@@ -113,15 +117,15 @@ module Workarea
           assert(field.overridden?)
         end
 
-        def test_allow_blank?
-          field = Field.new(:foo, type: :string)
-          refute(field.allow_blank?)
+        def test_required?
+          field = Field.new(:foo, type: :string, default: 'foo')
+          assert(field.required?)
 
-          field = Field.new(:foo, type: :string, allow_blank: false)
-          refute(field.allow_blank?)
+          field = Field.new(:foo, type: :string, required: false)
+          refute(field.required?)
 
-          field = Field.new(:foo, type: :string, allow_blank: true)
-          assert(field.allow_blank?)
+          field = Field.new(:foo, type: :string, default: 'foo', required: true)
+          assert(field.required?)
         end
       end
     end

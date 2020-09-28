@@ -27,7 +27,7 @@ module Workarea
         clear_current_order
 
         flash[:success] = t('workarea.admin.users.flash_messages.stopped')
-        redirect_to user_path(previous_user_id)
+        redirect_back_or(user_path(previous_user_id))
       end
     end
   end

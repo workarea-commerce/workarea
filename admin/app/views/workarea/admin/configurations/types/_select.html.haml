@@ -1,1 +1,1 @@
-= select_tag "configuration[#{field.key}]", options_for_select(field.values, value), include_blank: field.allow_blank?
+= select_tag "configuration[#{field.key}]", options_for_select(field.values, value), include_blank: !field.required?

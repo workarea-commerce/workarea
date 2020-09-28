@@ -1,3 +1,211 @@
+Workarea 3.5.19 (2020-09-16)
+--------------------------------------------------------------------------------
+
+*   Fix Editing Product Images in Admin
+
+    When an image does not include an option, the edit page errors because
+    `#parameterize` cannot be called on `@image.option` since that is
+    returning `nil`. Additionally, the line of code in which this is called
+    is meant to set an ID attribute on the element for which an image is
+    rendered. There doesn't seem to be anything in our codebase that uses
+    this, and furthermore since there's no validation for unique options per
+    set of product images, this could cause a duplicate ID error in certain
+    scenarios. To resolve this, the ID attribute has been removed from this
+    `<img>` tag.
+
+    WORKAREA-254
+
+    Tom Scott
+
+*   Improve display of disabled toggles
+
+    When a toggle button is disabled, it should reflect that visually
+    instead of just looking like it should be functional.
+
+    Ben Crouse
+
+*   Add config to allow defining a default tax code for shipping services
+
+    WORKAREA-256
+
+    Matt Duffy
+
+*   Fix incorrect tracking and metrics after impersonation
+
+    Not managing the email cookie and unintentional merging of metrics leads
+    to incorrect values in the admin.
+
+    Ben Crouse
+
+*   Remove CSV Messaging For Options Fields
+
+    This removes the "Comma separated: just, like, this" messaging and
+    tooltip that explains more about comma-separated fields for filters and
+    details. Options do not have these same constraints, and this help
+    bubble just serves as a point of confusion for admins.
+
+    WORKAREA-266
+
+    Tom Scott
+
+*   Update inventory sku jump to text
+
+    Co-authored-by: Ben Crouse <bcrouse@workarea.com>
+
+    Matt Duffy
+
+*   Make Order::Item#fulfilled_by? the canonical check of item's fulfillment
+
+    Methods such as #shipping? and #download? defined from available
+    fulfillment policies now call #fulfilled_by rather than being called
+    by it. This allows #fulfilled_by? to be modified to support more
+    complex scenarios like bundled items from kits.
+
+    WORKAREA-273
+
+    Matt Duffy
+
+*   Update admin views for consistent display of inventory availability
+
+    WORKAREA-262
+
+    Matt Duffy
+
+
+
+Workarea 3.5.18 (2020-09-01)
+--------------------------------------------------------------------------------
+
+*   Set Default Inventory Policy to "Standard" in Create Product Workflow
+
+    When creating a new product through the workflow, setting the
+    "Inventory" on a particular SKU would still cause the `Inventory::Sku`
+    to be created with the "Ignore" policy rather than "Standard". Setting
+    inventory on a SKU now automatically causes the `Inventory::Sku` record
+    to be created with a policy of "Standard" so as to deduct the given
+    inventory to the varaint. When no inventory is given, Workarea will fall
+    back to the default of "Ignore".
+
+    WORKAREA-265
+
+    Tom Scott
+
+*   Fix Admin Configuration for Email Addresses
+
+    The hard-coded `config.email_from` and `config.email_to` settings
+    conflict with the out-of-box administrable configuration for the "Email
+    From" and "Email To" settings. This causes a warning for admins that
+    explain why the settings on "Email To" and "Email From" won't take
+    effect. Since the whole purpose of moving these settings to admin
+    configuration was to let admins actually change them, the
+    `config.email_from` and `config.email_to` settings have been removed
+    from both default configuration and the `workarea:install` generator.
+
+    WORKAREA-270
+
+    Tom Scott
+
+*   Add Permissions To Admin::ConfigurationsController
+
+    Admins without "Settings" access are no longer able to access the
+    administrable configuration settings defined in a Workarea application's
+    initializer.
+
+    WORKAREA-261
+
+    Tom Scott
+
+*   Handle missing or invalid current impersonation
+
+    This surfaced as a random failing test, this should make the feature more robust.
+
+    Ben Crouse
+
+*   Fix wrong sorting on default admin index pages
+
+    The query for an admin index page can end up inadvertantly introduce a
+    scoring variation, which can cause results to not match the `updated_at`
+    default sort.
+
+    This makes `updated_at` the true default sort, and allows the general
+    admin search to override, where `_score` is still the desired default
+    sort.
+
+    Ben Crouse
+
+*   Visually improve changesets card when no changesets
+
+
+    Ben Crouse
+
+*   Add modifier for better disabled workflow button display
+
+    This makes it visually clearer that a workflow button is disabled.
+
+    Ben Crouse
+
+*   Add asset index view heading append point
+
+
+    Ben Crouse
+
+*   Pass user into append point
+
+
+    Ben Crouse
+
+*   Add append point for storefront admin toolbar
+
+
+    Ben Crouse
+
+*   Add Rack env key for checking whether it's an asset request
+
+    This is useful for plugins like site builder. This also reduces
+    allocations by moving the regex into a constant and consolidates the
+    check from multiple spots.
+
+    This also skips force passing Rack::Cache for asset requests if you're
+    an admin (minor performance improvement).
+
+    Ben Crouse
+
+*   Add param to allow disabling the admin toolbar in the storefront
+
+    Used in the site builder plugin. Add disable_admin_toolbar=true to the
+    query string to turn off the admin toolbar for that page.
+
+    Ben Crouse
+
+*   Add minor remote selects features to support site builder
+
+    This includes an option for the dropdown parent, and an option to allow
+    autosubmitting a remote select upon selection.
+
+    Ben Crouse
+
+*   Fix constant loading error related to metrics
+
+    Sometimes an error will be raised when Workarea middleware is doing
+    segmentation logic around `Metrics::User`.
+
+    Ben Crouse
+
+*   Move rake task logic into modules
+
+    This will allow decorating this logic for plugins or builds that need
+    to. For example, site builder needs to search-index resources that are
+    unique per-site.
+
+    Ben Crouse
+
+*   Add append point for admin top of page
+
+
+    Ben Crouse
+
+
+
 Workarea 3.5.17 (2020-08-19)
 --------------------------------------------------------------------------------
 

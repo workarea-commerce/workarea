@@ -36,7 +36,7 @@ module Workarea
           end
         end
 
-        assert_equal(admin.user_path(user), current_path)
+        assert_equal(storefront.root_path, current_path)
         assert(page.has_content?('Success'))
 
         visit storefront.users_account_path

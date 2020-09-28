@@ -6,13 +6,13 @@ module Workarea
       def test_to_h
         Workarea.config.admin_definition = Administrable::Definition.new
         Workarea::Configuration.define_fields do
-          field 'foo', type: :string
+          field 'foo', type: :string, required: false
           field 'bar', type: :string, default: 'test'
-          field 'baz', type: :string, allow_blank: true
+          field 'baz', type: :string, required: false, default: 'baz'
 
-          field 'foo_hash', type: :hash, values_type: :integer
-          field 'bar_array', type: :array
-          field 'baz_duration', type: :duration
+          field 'foo_hash', type: :hash, values_type: :integer, required: false
+          field 'bar_array', type: :array, required: false
+          field 'baz_duration', type: :duration, required: false
         end
 
         params = {

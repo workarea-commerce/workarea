@@ -17,6 +17,14 @@ Dragonfly.app(:workarea).configure do
 
   url_format '/media/:job/:name'
   processor :optim, Workarea::ImageOptimProcessor
+
+  response_header 'Cache-Control' do |job, request, headers|
+    if request.path =~ /sitemap/
+      'public, max-age=86400' # 1 day (equal to sitemap generation frequency)
+    else
+      'public, max-age=31536000' # 1 year (Dragonfly default)
+    end
+  end
 end
 
 Dragonfly.logger = Rails.logger
