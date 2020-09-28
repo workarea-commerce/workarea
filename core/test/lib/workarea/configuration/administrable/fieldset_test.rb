@@ -67,10 +67,6 @@ module Workarea
           assert_raise(Field::Invalid) do
             fieldset.field :qux, type: :string, required: true, default: nil
           end
-
-          assert_raise(Field::Invalid) do
-            fieldset.field :$billz, type: :string, required: false
-          end
         end
 
         def test_find_field
