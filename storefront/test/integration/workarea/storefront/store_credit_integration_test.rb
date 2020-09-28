@@ -5,7 +5,9 @@ module Workarea
     class StoreCreditIntegrationTest < Workarea::IntegrationTest
       include Storefront::IntegrationTest
 
-      def setup
+      setup :setup_supporting_data
+
+      def setup_supporting_data
         @user = create_user(email: 'bcrouse@workarea.com', password: 'W3bl1nc!')
 
         @tax = create_tax_category(

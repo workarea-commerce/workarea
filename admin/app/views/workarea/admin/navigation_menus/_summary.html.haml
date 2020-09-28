@@ -6,5 +6,5 @@
         #{local_time_ago(model.updated_at)}
       - else
         %span.summary__info-text-inactive= t('workarea.admin.navigation_menus.summary.inactive')
-    %span.summary__info= t('workarea.admin.navigation_menus.summary.content_block', count: model.content.try(:blocks).size)
+    %span.summary__info= t('workarea.admin.navigation_menus.summary.content_block', count: model.content&.blocks&.size.to_i)
   %span.summary__type{ title: t('workarea.admin.navigation_menus.summary.type') }= t('workarea.admin.navigation_menus.summary.type')

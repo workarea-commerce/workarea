@@ -39,7 +39,7 @@ module Workarea
         within('.navigation-builder__actions') { click_link 'Delete' }
 
         assert(page.has_content?('Success'))
-        refute(page.has_content?('Foo'))
+        refute_text('Foo')
       end
 
       def test_managing_content_redirects_back

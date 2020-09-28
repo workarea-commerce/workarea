@@ -16,7 +16,7 @@ module Workarea
 
         find('.message__dismiss-button').click
         find('#shortcuts_menu').hover
-        refute(page.has_content?('Current Page'))
+        refute_text('Current Page')
 
         find('#shortcuts_menu').hover
         menu_item = all('.menu__item').last
@@ -24,7 +24,7 @@ module Workarea
         find('.menu__delete-link').click
         assert_current_path(admin.root_path)
         assert(page.has_content?('Success'))
-        refute(page.has_content?('Current Page'))
+        refute_text('Current Page')
       end
     end
   end

@@ -55,7 +55,7 @@ module Workarea
         assert_current_path(storefront.root_path)
 
         page.execute_script("$('body').trigger('click');")
-        refute(page.has_content?('Foo'))
+        refute_text('Foo')
       end
 
       def test_left_navigation
@@ -67,7 +67,7 @@ module Workarea
 
         secondary.navigable.update_attributes!(active: false)
         visit storefront.page_path(primary.navigable)
-        refute(page.has_content?('Foo'))
+        refute_text('Foo')
       end
     end
   end

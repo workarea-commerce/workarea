@@ -64,7 +64,7 @@ module Workarea
         Workarea.config.hide_from_settings = %i(fooconfig)
 
         visit admin.settings_dashboards_path
-        refute(page.has_content?('Fooconfig'))
+        refute_text('Fooconfig')
       end
     end
   end
