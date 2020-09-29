@@ -42,7 +42,7 @@ module Workarea
       def storefront_view_model
         @storefront_view_model ||= Storefront::ProductViewModel.wrap(
           model,
-          @options
+          options
         )
       end
 
@@ -93,16 +93,13 @@ module Workarea
         end
       end
 
-      def options
-        variants.reduce({}) do |memo, variant|
+      def variant_details
+        variants.each_with_object({}) do |variant, memo|
           variant.details.each do |name, value|
             memo[name] ||= []
-            memo[name] << value
-            memo[name].flatten!
+            memo[name] += Array.wrap(value)
             memo[name].uniq!
           end
-
-          memo
         end
       end
 
@@ -125,7 +122,7 @@ module Workarea
       end
 
       def insights
-        @insights ||= Insights::ProductViewModel.wrap(model, @options)
+        @insights ||= Insights::ProductViewModel.wrap(model, options)
       end
 
       def inventory
