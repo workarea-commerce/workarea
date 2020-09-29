@@ -74,9 +74,9 @@ module Workarea
           assert(page.has_content?('PA'))
           assert(page.has_content?('19106'))
 
-          assert(page.has_content?('6.0%'))
-          assert(page.has_content?('4.0%'))
-          assert(page.has_content?('2.0%'))
+          assert(page.has_content?('6%'))
+          assert(page.has_content?('4%'))
+          assert(page.has_content?('2%'))
 
           assert(page.has_content?("#{Money.default_currency.symbol}5.00"))
           assert(page.has_content?("#{Money.default_currency.symbol}500.00"))
@@ -91,7 +91,7 @@ module Workarea
           click_link t('workarea.admin.actions.edit')
         end
 
-        fill_in 'rate[country_percentage]', with: 0
+        fill_in 'rate[country_percentage]', with: 0.005
         fill_in 'rate[region_percentage]', with: 10
         fill_in 'rate[postal_code_percentage]', with: 20.5
 
@@ -100,7 +100,8 @@ module Workarea
         assert(page.has_content?('Success'))
 
         within '.index-table__row' do
-          assert(page.has_content?('10.0%'))
+          assert(page.has_content?('0.005%'))
+          assert(page.has_content?('10%'))
           assert(page.has_content?('20.5%'))
         end
 

@@ -7,5 +7,5 @@ env_expire_after = ENV['WORKAREA_SESSION_STORE_EXPIRE_AFTER']
 Rails.application.config.session_store(
   :cookie_store,
   key: "_#{Rails.application.class.name.deconstantize.underscore}_session",
-  expire_after: env_expire_after.present? ? env_expire_after.to_i : 2.weeks
+  expire_after: env_expire_after.present? ? env_expire_after.to_i : 30.minutes
 )

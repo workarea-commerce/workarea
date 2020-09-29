@@ -127,11 +127,6 @@ Workarea::Configuration.define_fields do
   end
 
   fieldset :search, namespaced: false do
-    field :default_search_facet_result_sizes,
-      type: :integer,
-      default: 10,
-      description: 'The number of filter results returned for each filter type.'
-
     field :search_facet_result_sizes,
       type: :hash,
       values_type: :integer,
@@ -139,7 +134,15 @@ Workarea::Configuration.define_fields do
       description: %(
         The number of filter results returned for any specified filter type. If no
         size is defined for a filter type, the default will be what is specified
-        in the default config above.
+        in the default config below.
+      ).squish
+
+    field :default_search_facet_result_sizes,
+      type: :integer,
+      default: 10,
+      description: %(
+        The number of filter results returned for each filter type when not
+        specified above.
       ).squish
 
     field :search_facet_size_sort,

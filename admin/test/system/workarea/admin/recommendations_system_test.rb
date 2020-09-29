@@ -65,8 +65,8 @@ module Workarea
         assert(page.has_content?('Success'))
 
         click_link 'Recommendations'
-        refute(page.has_selector?("option[value='#{product_2.id}']"))
-        refute(page.has_selector?("option[value='#{product_3.id}']"))
+        refute_selector("option[value='#{product_2.id}']")
+        refute_selector("option[value='#{product_3.id}']")
         assert(page.has_ordered_text?('Custom', 'Similar Products', 'Also Purchased'))
 
         #

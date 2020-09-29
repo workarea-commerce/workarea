@@ -20,7 +20,7 @@ module Workarea
         assert(page.has_content?('My Category'))
 
         visit admin.trash_index_path
-        refute(page.has_content?('My Category'))
+        refute_text('My Category')
       end
 
       def test_restore_permission

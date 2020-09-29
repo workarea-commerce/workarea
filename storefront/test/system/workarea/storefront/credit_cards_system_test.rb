@@ -69,7 +69,7 @@ module Workarea
           click_button t('workarea.storefront.forms.save')
         end
 
-        refute(page.has_content?('Success'))
+        refute_text('Success')
         assert(page.has_content?(I18n.t('workarea.payment.store_credit_card_failure')))
       end
     end

@@ -37,7 +37,7 @@
             %ul.list-reset
               - model.newest_rates.each do |rate|
                 %li
-                  %strong= number_to_percentage(rate.percentage * 100, precision: 1)
+                  %strong= number_to_percentage(rate.percentage * 100, strip_insignificant_zeros: true)
 
                   - if rate.tier_min.present? && rate.tier_max.present?
                     #{number_to_currency(rate.tier_min)} - #{number_to_currency(rate.tier_max)},

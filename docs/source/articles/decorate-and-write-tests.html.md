@@ -9,7 +9,7 @@ excerpt: How to decorate Workarea tests and write your own application tests
 From your application, you can decorate the tests that ship with Workarea, and you can write your own application tests.
 See [Testing Concepts, Tests & Decorators](/articles/testing-concepts.html#tests-amp-decorators) for more info, including an explanation of when to decorate vs when to write your own.
 
-This doc explains how to [Decorate a Workarea Test Case](#decorate-a-workarea-test-case), including the special case [Skip a Workarea Test](#skip-a-workarea-test).
+This doc explains how to [Decorate a Workarea Test Case](#decorate-a-workarea-test-case), as well as how to [skip a Workarea test](#skip-a-workarea-test) if you need to.
 
 This doc also covers how to [Write an Application Test Case](#write-an-application-test-case), and when doing so, the following recipes may also be useful:
 
@@ -22,7 +22,7 @@ This doc also covers how to [Write an Application Test Case](#write-an-applicati
 
 Before decorating a Workarea test case, review the advice in [Testing Concepts, Tests & Decorators](/articles/testing-concepts.html#tests-amp-decorators).
 
-If you've determined a test case decorator is appropriate for your situation, [decorate](/articles/decoration.html) a [test case](/articles/testing-concepts.html#test-case-types-amp-mixins) just like any other Ruby class, except the pathname of the decorator must match the pathname of the original file (except for the file extension).
+If you've determined a test case decorator is appropriate for your situation, [decorate](/articles/decoration.html) a [test case](/articles/testing-concepts.html#test-case-types-amp-mixins) much like you would for any other Ruby class, except the pathname of the decorator must match the pathname of the original file (except for the file extension).
 
 For example, to decorate the class definition at:
 
@@ -129,6 +129,70 @@ module Workarea
 end
 ```
 
+### Change Setup/Teardown Behavior
+
+To change how tests are set up or torn down between each individual run, use the `setup` and `teardown` DSL methods:
+
+```ruby
+module Workarea
+  class ImportInventoryTest < TestCase
+    setup :setup_custom_logic
+    teardown :teardown_custom_logic
+
+    def test_perform
+      # ...
+    end
+
+    def setup_custom_logic
+      # do your custom setup logic here
+    end
+
+    def teardown_custom_logic
+      # do your custom teardown logic here
+    end
+  end
+end
+```
+
+Applications may also use the block style for this, but **plugins should not use this style** as it is impossible to decorate in an application:
+
+```ruby
+module Workarea
+  class ImportInventoryTest < TestCase
+    setup do
+      # do your custom setup logic here
+    end
+
+    teardown do
+      # do your custom teardown logic here
+    end
+
+    def test_perform
+      # ...
+    end
+  end
+end
+```
+
+As of Workarea 3.5.0, `Workarea::TestCase` will do a few cleanup tasks for you on teardown, so writing tests like this won't accidentally leak configuration and cause random test failures:
+
+```ruby
+module Workarea
+  decorate UserTest do
+    # When decorating tests with different setup code, make sure to enclose
+    # your `setup` and `teardown` calls in a `decorated { }` block.
+    decorated do
+      setup :use_custom_authentication_gateway
+    end
+
+    def use_custom_authentication_gateway
+      Workarea.config.gateways.authentication = 'MyCustomAuthGateway'
+    end
+  end
+end
+```
+
+In order to take advantage of all this, however, it's best to use the `setup` and `teardown` DSL methods. This will run the setup/teardown code located in `Workarea::TestCase`, and prevent random tests from failing. **Do not** set up or teardown your tests by overriding the `#setup` and `#teardown` instance methods, as this will not use the logic in `Workarea::TestCase` and possibly cause some difficult-to-diagnose issues in your tests.
 
 ### Change Configuration within a Test
 
