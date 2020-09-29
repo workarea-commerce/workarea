@@ -4,18 +4,18 @@ module Workarea
       class Field
         class Invalid < StandardError; end
 
-        attr_reader :name, :type, :fieldset, :options
+        attr_reader :id, :type, :fieldset, :options
         delegate :default, :description, :values_type, :encrypted, to: :options
 
-        def initialize(name, type:, fieldset: nil,  **options)
-          @name = name
+        def initialize(id, type:, fieldset: nil,  **options)
+          @id = id.to_s.systemize.to_sym
           @type = type.to_s.underscore.to_sym
           @fieldset = fieldset
           @options = OpenStruct.new(options)
         end
 
-        def id
-          @id ||= (options.id || name.to_s.systemize).to_sym
+        def name
+          @name ||= (options.name || id.to_s.titleize)
         end
 
         def key

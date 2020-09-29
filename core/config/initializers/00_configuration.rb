@@ -1,11 +1,11 @@
 Workarea::Configuration.define_fields do
-  fieldset 'Users', namespaced: false do
-    field 'Allowed Login Attempts',
+  fieldset :users, namespaced: false do
+    field :allowed_login_attempts,
       type: :integer,
       default: 6,
       description: 'How many failed login attempts before marking the user locked out'
 
-    field 'Password Strength',
+    field :password_strength,
       type: :symbol,
       default: :weak,
       values: [
@@ -16,48 +16,48 @@ Workarea::Configuration.define_fields do
       description: 'Password requirement level for customers. Admin users always require a strong password.'
   end
 
-  fieldset 'Checkout', namespaced: false do
-    field 'Checkout Expiration',
+  fieldset :checkout, namespaced: false do
+    field :checkout_expiration,
       type: :duration,
       default: 15.minutes,
       description: 'How long a checkout can be idle before the user is forced to restart'
 
-    field 'Item Count Limit',
+    field :item_count_limit,
       type: :integer,
       default: 100,
       description: 'How many unique items can be added to a single cart'
   end
 
-  fieldset 'Orders', namespaced: false do
-    field 'Order Active Period',
+  fieldset :orders, namespaced: false do
+    field :order_active_period,
       type: :duration,
       default: 2.hours,
       description: 'How long an order is active without changing before considering it abandoned'
 
-    field 'Order Expiration Period',
+    field :order_expiration_period,
       type: :duration,
       default: 6.months,
       description: 'How long to wait until abandoned orders are deleted from the database'
 
-    field 'Recent Order Count',
+    field :recent_order_count,
       type: :integer,
       default: 3,
       description: 'Number of orders to show in account summary dashboard'
 
-    field 'Storefront User Order Display Count',
+    field :storefront_user_order_display_count,
       type: :integer,
       default: 50,
       description: 'Number of orders to display on the user order history page'
   end
 
-  fieldset 'Shipping', namespaced: false do
-    field 'Allow Shipping Address P.O. Box',
-      id: :allow_shipping_address_po_box,
+  fieldset :shipping, namespaced: false do
+    field :allow_shipping_address_po_box,
+      name: 'Allow Shipping Address P.O. Box',
       type: :boolean,
       default: false,
       description: 'Whether or not to allow P.O. Box addresses for shipping addresses'
 
-    field 'Shipping Dimensions',
+    field :shipping_dimensions,
       type: :array,
       default: [1, 1, 1],
       description: %(
@@ -67,7 +67,7 @@ Workarea::Configuration.define_fields do
         will override this value.
       ).squish
 
-    field 'Shipping Origin',
+    field :shipping_origin,
       type: :hash,
       default: {
         country: 'US',
@@ -89,28 +89,28 @@ Workarea::Configuration.define_fields do
       ).squish
   end
 
-  fieldset 'Payment', namespaced: false do
-    field 'Allow Payment Address P.O. Box',
-      id: :allow_payment_address_po_box,
+  fieldset :payment, namespaced: false do
+    field :allow_payment_address_po_box,
+      name: 'Allow Payment Address P.O. Box',
       type: :boolean,
       default: true,
       description: 'Whether or not to allow P.O. Box addresses for billing addresses'
   end
 
-  fieldset 'Inventory', namespaced: false do
-    field 'Low Inventory Threshold',
+  fieldset :inventory, namespaced: false do
+    field :low_inventory_threshold,
       type: :integer,
       default: 5,
       description: 'Minimum available quantity for a sku before inventory is considered low'
   end
 
-  fieldset 'Content', namespaced: false do
-    field 'Minimum Content Search Words',
+  fieldset :content, namespaced: false do
+    field :minimum_content_search_words,
       type: :integer,
       default: 5,
       description: 'Minimum number of words for content to be searchable on the storefront'
 
-    field 'Placeholder Text',
+    field :placeholder_text,
       type: :string,
       default: %(
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sagittis
@@ -126,8 +126,8 @@ Workarea::Configuration.define_fields do
       description: 'Placeholder text used for content block default data'
   end
 
-  fieldset 'Search', namespaced: false do
-    field 'Search Facet Result Sizes',
+  fieldset :search, namespaced: false do
+    field :search_facet_result_sizes,
       type: :hash,
       values_type: :integer,
       default: { color: 10, size: 10 },
@@ -137,7 +137,7 @@ Workarea::Configuration.define_fields do
         in the default config below.
       ).squish
 
-    field 'Default Search Facet Result Sizes',
+    field :default_search_facet_result_sizes,
       type: :integer,
       default: 10,
       description: %(
@@ -145,8 +145,8 @@ Workarea::Configuration.define_fields do
         specified above.
       ).squish
 
-    field 'Search Size Facet Sort',
-      id: :search_facet_size_sort,
+    field :search_facet_size_sort,
+      name: 'Search Size Facet Sort',
       type: :array,
       default: ['Extra Small', 'Small', 'Medium', 'Large', 'Extra Large'],
       description: %(
@@ -154,7 +154,7 @@ Workarea::Configuration.define_fields do
         and category browse.
       ).squish
 
-    field 'Search Sufficient Results',
+    field :search_sufficient_results,
       type: :integer,
       default: 2,
       description: %(
@@ -163,26 +163,26 @@ Workarea::Configuration.define_fields do
         try another pass with looser options to bring in more matches.
       ).squish
 
-    field 'Search Suggestions',
+    field :search_suggestions,
       type: :integer,
       default: 5,
       description: 'How many search suggestions should be shown in the autocomplete searches.'
   end
 
-  fieldset 'Communication', namespaced: false do
-    field 'Show Privacy Popup', type: :boolean, default: false
+  fieldset :communication, namespaced: false do
+    field :show_privacy_popup, type: :boolean, default: false
 
-    field 'Email From',
+    field :email_from,
       type: :string,
       default: -> { "#{Workarea.config.site_name} <noreply@#{Workarea.config.host}>" },
       description: 'The email address used as the sender of system emails'
 
-    field 'Email To',
+    field :email_to,
       type: :string,
       default: -> { "#{Workarea.config.site_name} <customerservice@#{Workarea.config.host}>" },
       description: 'The email address that receives user generated emails, e.g. contact us inquiries'
 
-    field 'Inquiry Subjects',
+    field :inquiry_subjects,
       type: :hash,
       default: {
         'orders' => 'Orders',
@@ -194,15 +194,15 @@ Workarea::Configuration.define_fields do
       description: 'Subjects list for the contact form'
   end
 
-  fieldset 'Security', namespaced: false do
-    field 'Safe IP Addresses',
-      id: :safe_ip_addresses,
+  fieldset :security, namespaced: false do
+    field :safe_ip_addresses,
+      name: 'Safe IP Addresses',
       type: :array,
       default: [],
       description: 'List of known IP addresses and/or IP addresses ranges a that should always have access to the site.'
 
-    field 'Blocked IP Addresses',
-      id: :blocked_ip_addresses,
+    field :blocked_ip_addresses,
+      name: 'Blocked IP Addresses',
       type: :array,
       default: [],
       description: 'List of known IP addresses and/or IP addresses ranges to block from site access.'
