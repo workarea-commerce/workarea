@@ -108,7 +108,7 @@
               %p.align-center= t('workarea.admin.fields.inventory')
 
               %span.heading.heading--3.heading--no-margin.align-center
-                = model.options.keys.to_sentence
+                = model.variant_details.keys.to_sentence
               %p.align-center= t('workarea.admin.fields.options')
 
               = link_to catalog_product_variants_path(model), class: 'card__button' do

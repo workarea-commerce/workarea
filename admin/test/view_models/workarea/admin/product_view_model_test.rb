@@ -21,7 +21,7 @@ module Workarea
         )
       end
 
-      def test_options
+      def test_variant_details
         @view_model.variants.build(
           sku: 'SKU1',
           name: 'name',
@@ -40,7 +40,7 @@ module Workarea
 
         assert_equal(
           { 'Color' => ['Red', 'Black', 'White'], 'Size' => ['S', 'M', 'L'] },
-          @view_model.options
+          @view_model.variant_details
         )
       end
 
