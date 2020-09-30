@@ -1,3 +1,126 @@
+Workarea 3.5.20 (2020-09-30)
+--------------------------------------------------------------------------------
+
+*   Rename Admin::ProductViewModel#options to avoid conflict with normal options method
+
+
+    Matt Duffy
+
+*   Improve UX of default search filter sizes
+
+
+    Ben Crouse
+
+*   Improve clarity of discount verbiage
+
+    This hopes to address some recent confusion around how the discount
+    works.
+
+    Ben Crouse
+
+*   Fix safe navigation method calls
+
+    This will raise if the menu content is nil.
+
+    Ben Crouse
+
+*   Update preconfigured session length to match recommendations
+
+
+    Ben Crouse
+
+*   Remove unnecessary Capybara blocking when testing content is not present
+
+    Capybara's `page.has_content?` and similar methods block until a timeout
+    is reached if they can't find the content. This is not what we want if
+    we're checking that the content does *not* exist, switch to using
+    `refute_text` in these scenarios.
+
+    The timeout is equal to the number of installed plugins and we have
+    client apps with 30+, which means that the 38 instances removed in this
+    commit could represent twenty minutes of unnecessary blocking in some
+    scenarios.
+
+    Thanks to James Anaipakos in
+    https://discourse.workarea.com/t/capybara-refute-assertions-waiting-full-default-wait-time/1610
+    for alerting me to the issue.
+
+    Jonathan Mast
+
+*   Update docs/source/articles/decorate-and-write-tests.html.md
+
+    Co-authored-by: Ben Crouse <bcrouse@workarea.com>
+
+    Tom Scott
+
+*   Update docs/source/articles/decorate-and-write-tests.html.md
+
+    Co-authored-by: Ben Crouse <bcrouse@workarea.com>
+
+    Tom Scott
+
+*   Update docs/source/articles/http-caching.html.md
+
+    Co-authored-by: Ben Crouse <bcrouse@workarea.com>
+
+    Tom Scott
+
+*   Notate Rack::Cache Ignore Params In Documentation
+
+    Add documentation explaining why one might want to ignore query string
+    params in `Rack::Cache`, how to do it in a Workarea environment, and
+    which plugins will do it for you.
+
+    WORKAREA-287
+
+    Tom Scott
+
+*   Clarify Test Setup and Teardown in Documentation
+
+    Add documentation explaining why the `setup` and `teardown` macros are
+    recommended for use with Workarea to set up and teardown tests, as well
+    as some clear examples of how to do this properly.
+
+    WORKAREA-271
+
+    Tom Scott
+
+*   Handle `nil` Percentages in Tax Rates UI
+
+    The `TaxApplication` module already handles percentages that are not
+    present, but the tax rates UI expects values there. This results in some
+    avoidable 500 errors within admin when you blank out a tax rate
+    percentage field. To resolve this, Workarea now makes sure that all
+    percentages are of type `Float`, so they can be displayed as "0%" in
+    the admin whenever a `nil` value is encountered.
+
+    WORKAREA-278
+
+    Tom Scott
+
+*   Fix Precision of Tax Rates UI
+
+    The `:step` values of the new/edit forms and precision configuration for
+    `#number_to_percentage` were not only rounding certain tax rates to an
+    incorrect number, but were also showing a bunch of insignificant zeroes
+    in the admin for tax rates. To resolve this, configure
+    `#number_to_percentage` to have 3-decimal precision, and strip all
+    insignificant zeroes from the display, leaving the admin with a much
+    nicer percentage display than what was presented before.
+
+    WORKAREA-278
+
+    Tom Scott
+
+*   Redirect back to the previous page after stopping impersonation
+
+    Currently we redirect to the user's show page, which can be pretty
+    disorienting.
+
+    Ben Crouse
+
+
+
 Workarea 3.5.19 (2020-09-16)
 --------------------------------------------------------------------------------
 
