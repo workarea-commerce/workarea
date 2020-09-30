@@ -47,23 +47,6 @@ Workarea 3.5.20 (2020-09-30)
 
     Jonathan Mast
 
-*   Update docs/source/articles/decorate-and-write-tests.html.md
-
-    Co-authored-by: Ben Crouse <bcrouse@workarea.com>
-
-    Tom Scott
-
-*   Update docs/source/articles/decorate-and-write-tests.html.md
-
-    Co-authored-by: Ben Crouse <bcrouse@workarea.com>
-
-    Tom Scott
-
-*   Update docs/source/articles/http-caching.html.md
-
-    Co-authored-by: Ben Crouse <bcrouse@workarea.com>
-
-    Tom Scott
 
 *   Notate Rack::Cache Ignore Params In Documentation
 
