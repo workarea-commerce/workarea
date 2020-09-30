@@ -1,3 +1,33 @@
+Workarea 3.4.41 (2020-09-30)
+--------------------------------------------------------------------------------
+
+*   Rename Admin::ProductViewModel#options to avoid conflict with normal options method
+
+
+    Matt Duffy
+
+*   Improve clarity of discount verbiage
+
+    This hopes to address some recent confusion around how the discount
+    works.
+
+    Ben Crouse
+
+*   Fix safe navigation method calls
+
+    This will raise if the menu content is nil.
+
+    Ben Crouse
+
+*   Redirect back to the previous page after stopping impersonation
+
+    Currently we redirect to the user's show page, which can be pretty
+    disorienting.
+
+    Ben Crouse
+
+
+
 Workarea 3.4.40 (2020-09-16)
 --------------------------------------------------------------------------------
 
