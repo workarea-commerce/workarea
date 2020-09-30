@@ -12,7 +12,8 @@ module Workarea
       private
 
       def check_fieldsets?(name)
-        ::Mongoid.clients.any? &&
+        !Workarea.skip_services? &&
+          ::Mongoid.clients.any? &&
           Configuration::Admin.fields.keys.include?(name.to_s)
       end
     end
