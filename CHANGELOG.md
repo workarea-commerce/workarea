@@ -47,27 +47,6 @@ Workarea 3.5.20 (2020-09-30)
 
     Jonathan Mast
 
-
-*   Notate Rack::Cache Ignore Params In Documentation
-
-    Add documentation explaining why one might want to ignore query string
-    params in `Rack::Cache`, how to do it in a Workarea environment, and
-    which plugins will do it for you.
-
-    WORKAREA-287
-
-    Tom Scott
-
-*   Clarify Test Setup and Teardown in Documentation
-
-    Add documentation explaining why the `setup` and `teardown` macros are
-    recommended for use with Workarea to set up and teardown tests, as well
-    as some clear examples of how to do this properly.
-
-    WORKAREA-271
-
-    Tom Scott
-
 *   Handle `nil` Percentages in Tax Rates UI
 
     The `TaxApplication` module already handles percentages that are not
