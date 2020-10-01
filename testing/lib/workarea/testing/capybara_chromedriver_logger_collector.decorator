@@ -1,12 +1,13 @@
-# Bad responses (like 422 or 401) show as errors as well, which are OK
-# for system tests because they indicate the site is functioning properly.
-decorate Capybara::Chromedriver::Logger::Collector do
-  def flush_logs!
-    browser_logs.each do |log|
-      message = Capybara::Chromedriver::Logger::Message.new(log)
-      errors << message if message.error? && message.message =~ /Uncaught/
+decorate Capybara::Chromedriver::Logger::Message do
+  def extract_file_and_location!
+    match = message.match(/^(.+)\s+?(\d+:\d+)\s+?(.+)$/)
 
-      log_destination.puts message.to_s unless should_filter?(message)
-    end
+    return unless match
+
+    _, @file, @location, _message = match.to_a
+  end
+
+  def error?
+    super || message =~ /Error:/ || message =~ /Uncaught/
   end
 end
