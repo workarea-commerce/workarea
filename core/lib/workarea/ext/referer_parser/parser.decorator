@@ -1,0 +1,43 @@
+module RefererParser
+  # This code is actually in `master` branch of
+  # https://github.com/snowplow-referer-parser/ruby-referer-parser but
+  # has not yet been released. It's used to allow through android-app://
+  # URLs.
+  decorate Parser do
+    # Given a string or URI, return a hash of data
+    def parse(obj)
+      url = obj.is_a?(URI) ? obj : URI.parse(obj.to_s)
+
+      unless ['android-app', 'http', 'https'].include?(url.scheme)
+        raise InvalidUriError, "Only Android-App, HTTP, and HTTPS schemes are supported -- #{url.scheme}"
+      end
+
+      data = { known: false, uri: url.to_s }
+
+      domain, name_key = domain_and_name_key_for(url)
+      if domain && name_key
+        referer_data = @name_hash[name_key]
+        data[:known] = true
+        data[:source] = referer_data[:source]
+        data[:medium] = referer_data[:medium]
+        data[:domain] = domain
+
+        # Parse parameters if the referer uses them
+        if url.query && referer_data[:parameters]
+          query_params = CGI.parse(url.query)
+          referer_data[:parameters].each do |param|
+            # If there is a matching parameter, get the first non-blank value
+            unless (values = query_params[param]).empty?
+              data[:term] = values.reject { |v| v.strip == '' }.first
+              break if data[:term]
+            end
+          end
+        end
+      end
+
+      data
+    rescue URI::InvalidURIError
+      raise InvalidUriError.new("Unable to parse URI, not a URI? -- #{obj.inspect}", $ERROR_INFO)
+    end
+  end
+end

@@ -140,6 +140,7 @@ require 'workarea/ext/mongoid/find_ordered'
 require 'workarea/ext/sprockets/ruby_processor'
 require 'workarea/ext/jbuilder/jbuilder_append_partials'
 require 'workarea/ext/jbuilder/jbuilder_cache'
+require 'workarea/ext/referer_parser/parser.decorator'
 
 if Rails.env.development?
   require 'workarea/ext/freedom_patches/routes_reloader'
