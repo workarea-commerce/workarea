@@ -12,8 +12,10 @@ module Workarea
 
       StatusReporter.new.perform
 
-      assert(2, ActionMailer::Base.deliveries.count)
+      assert_equal(2, ActionMailer::Base.deliveries.count)
+
       delivery_emails = ActionMailer::Base.deliveries.map(&:to).flatten
+
       assert(delivery_emails.include?('foo@workarea.com'))
       assert(delivery_emails.include?('bar@workarea.com'))
     end
