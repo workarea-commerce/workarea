@@ -1,4 +1,4 @@
-unless Workarea.config.skip_service_connections
+unless Workarea.skip_services?
   Sidekiq.logger.log_at(:error) do
     Sidekiq::Cron::Job.create(
       name: 'Workarea::CleanInventoryTransactions',

@@ -3537,10 +3537,10 @@ en:
             description: Define what filters should be shown on search results and categories.
             title: Filters
           synonyms:
-            description: Define groups of search terms that should return the same result.
+            description: Define groups of search terms that mean the same thing. Keep in mind this is not the same as "return the same results". For that task, use search customizations.
             phrase_example: united states,u s a,united states of america => usa
             phrase_example_description: 'You can create synonym functionality out of a phrase like so:'
-            simple_example: "tshirt, t-shirt, tee-shirt \nskirt, skort"
+            simple_example: "denim, jeans, dungarees \nshirt, pullover, blouse"
             simple_example_description: 'Enter one synonym group per line, for example:'
             title: Synonyms
           title: Search Settings

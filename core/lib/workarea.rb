@@ -182,6 +182,16 @@ module Workarea
   def self.deprecation
     @deprecation ||= ActiveSupport::Deprecation.new('3.6', 'Workarea')
   end
+
+  # Whether the app should skip connecting to external services on boot,
+  # such as Mongo, Elasticsearch, or Redis. Note that this will break
+  # functionality relying on these services.
+  #
+  # @return [Boolean]
+  #
+  def self.skip_services?
+    !!(ENV['WORKAREA_SKIP_SERVICES'] =~ /true/)
+  end
 end
 
 require 'workarea/core'

@@ -947,7 +947,10 @@ module Workarea
 
       # Whether the app should skip connecting to external services on boot,
       # such as Mongo, Elasticsearch, or Redis.
-      config.skip_service_connections = ENV['WORKAREA_SKIP_SERVICES'].to_s =~ /true/
+      #
+      # @deprecated Use `Workarea.skip_services?` instead
+      #
+      config.skip_service_connections = Workarea.skip_services?
 
       # This is a feature flag, which enables localized active fields. If you're
       # upgrading, you can set this to false to avoid having to do a MongoDB

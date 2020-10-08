@@ -5,7 +5,7 @@ module Workarea
     # removing a previously scheduled job from initializers doesn't
     # actually stop the job from being enqueued.
     def self.clean
-      return if Workarea.config.skip_service_connections
+      return if Workarea.skip_services?
 
       Sidekiq::Cron::Job.all.each do |job|
         job.destroy unless const_defined?(job.klass)

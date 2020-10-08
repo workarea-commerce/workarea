@@ -17,12 +17,8 @@ module Workarea
     end
 
     def test_redis_not_available
-      @_skip_services = Workarea.config.skip_service_connections
-      Workarea.config.skip_service_connections = true
-
+      Workarea.stubs(skip_services?: true)
       assert_nil(ScheduledJobs.clean)
-    ensure
-      Workarea.config.skip_service_connections = @_skip_services
     end
   end
 end
