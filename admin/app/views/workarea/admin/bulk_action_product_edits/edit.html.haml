@@ -168,7 +168,7 @@
                 #prices-warning.tooltip-content
                   %p= t('workarea.admin.bulk_action_product_edits.pricing.info_message')
                 .grid
-                  .grid__cell.grid__cell--33
+                  .grid__cell
                     .property-toggle
                       .property-toggle__checkbox
                         = check_box_tag 'toggle_msrp', nil, @bulk_action.selected?('pricing', 'msrp'), class: 'property-toggle__checkbox-input'
@@ -177,24 +177,27 @@
                           = label_tag 'bulk_action[pricing][msrp]', t('workarea.admin.fields.msrp'), class: 'property__name'
                           = currency_symbol
                           = text_field_tag 'bulk_action[pricing][msrp]', @bulk_action.pricing['msrp'], class: 'text-box text-box--small'
-                  .grid__cell.grid__cell--33
+                  .grid__cell
                     .property-toggle
                       .property-toggle__checkbox
                         = check_box_tag 'toggle_regular_price', nil, @bulk_action.pricing_prices['regular'].present?, class: 'property-toggle__checkbox-input'
                       .property-toggle__property
                         .property
-                          = label_tag 'bulk_action[pricing][prices][][regular]', t('workarea.admin.fields.regular'), class: 'property__name'
-                          = currency_symbol
-                          = text_field_tag 'bulk_action[pricing][prices][][regular]', @bulk_action.pricing_prices['regular'], class: 'text-box text-box--small'
-                  .grid__cell.grid__cell--33
+                          = label_tag 'bulk_action[pricing][prices][regular][action]', t('workarea.admin.fields.regular'), class: 'property__name'
+                          = select_tag 'bulk_action[pricing][prices][regular][action]', options_for_select(@bulk_action.pricing_actions, @bulk_action.pricing_prices.dig('regular', 'action') || 'set')
+                          = select_tag 'bulk_action[pricing][prices][regular][type]', options_for_select(@bulk_action.pricing_types, @bulk_action.pricing_prices.dig('regular', 'type') || 'flat')
+                          = text_field_tag 'bulk_action[pricing][prices][regular][amount]', @bulk_action.pricing_prices.dig('regular', 'amount'), class: 'text-box text-box--small'
+                  .grid__cell
                     .property-toggle
                       .property-toggle__checkbox
                         = check_box_tag 'toggle_sale_price', nil, @bulk_action.pricing_prices['sale'].present?, class: 'property-toggle__checkbox-input'
                       .property-toggle__property
                         .property
-                          = label_tag 'bulk_action[pricing][prices][][sale]', t('workarea.admin.fields.sale'), class: 'property__name'
-                          = currency_symbol
-                          = text_field_tag 'bulk_action[pricing][prices][][sale]', @bulk_action.pricing_prices['sale'], class: 'text-box text-box--small'
+                          = label_tag 'bulk_action[pricing][prices][sale][action]', t('workarea.admin.fields.sale'), class: 'property__name'
+                          = select_tag 'bulk_action[pricing][prices][sale][action]', options_for_select(@bulk_action.pricing_actions, @bulk_action.pricing_prices.dig('sale', 'action') || 'set')
+                          = select_tag 'bulk_action[pricing][prices][sale][type]', options_for_select(@bulk_action.pricing_types, @bulk_action.pricing_prices.dig('sale', 'type') || 'flat')
+                          = text_field_tag 'bulk_action[pricing][prices][sale][amount]', @bulk_action.pricing_prices.dig('sale', 'amount'), class: 'text-box text-box--small'
+
 
 
             .bulk-actions__section

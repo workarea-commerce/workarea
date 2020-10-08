@@ -4,6 +4,7 @@ module Workarea
   module Admin
     class BulkActionsSystemTest < SystemTest
       include Admin::IntegrationTest
+      include ActionView::Helpers::SanitizeHelper
 
       setup :create_products
       setup :set_config
@@ -143,7 +144,7 @@ module Workarea
         fill_in 'bulk_action[pricing][tax_code]', with: '001'
 
         check 'toggle_regular_price'
-        fill_in 'bulk_action[pricing][prices][][regular]', with: 20
+        fill_in 'bulk_action[pricing][prices][regular][amount]', with: 20
 
         check 'toggle_inventory_policy'
         select 'Standard', from: 'bulk_action[inventory][policy]'
@@ -166,7 +167,14 @@ module Workarea
         assert(page.has_content?('add_attribute_value_1, add_attribute_value_2'))
         assert(page.has_content?('remove_name'))
         assert(page.has_content?("#{t('workarea.admin.fields.tax_code')}: 001"))
-        assert(page.has_content?("#{t('workarea.admin.fields.regular')}: 20"))
+        assert_text(
+          strip_tags(
+            t(
+              'workarea.admin.bulk_action_product_edits.review.pricing.set_html',
+              kind: t('workarea.admin.bulk_action_product_edits.review.pricing.regular')
+            )
+          )
+        )
         assert(page.has_content?("#{t('workarea.admin.fields.policy')}: standard"))
         assert(page.has_content?("#{t('workarea.admin.fields.available')}: 50"))
 
@@ -194,7 +202,15 @@ module Workarea
         assert(page.has_content?('add_attribute_value_1, add_attribute_value_2'))
         assert(page.has_content?('remove_name'))
         assert(page.has_content?("#{t('workarea.admin.fields.tax_code')}: 001"))
-        assert(page.has_content?("#{t('workarea.admin.fields.regular')}: 20"))
+        assert_text(
+          strip_tags(
+            t(
+              'workarea.admin.bulk_action_product_edits.review.pricing.set_html',
+              kind: t('workarea.admin.bulk_action_product_edits.review.pricing.regular')
+            )
+          )
+        )
+        assert_text("#{Money.default_currency.symbol}20.00")
         assert(page.has_content?("#{t('workarea.admin.fields.policy')}: ignore"))
         assert(page.has_content?("#{t('workarea.admin.fields.available')}: 50"))
 
