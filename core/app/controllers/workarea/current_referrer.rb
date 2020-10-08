@@ -9,6 +9,7 @@ module Workarea
       @current_referrer ||= TrafficReferrer.new(
         RefererParser::Parser.new.parse(referrer).slice(:source, :medium, :uri)
       )
+    rescue RefererParser::InvalidUriError
     end
   end
 end
