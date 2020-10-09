@@ -53,12 +53,16 @@ module Workarea
           if params[:id].present?
             Order.not_placed.find(params[:id].to_s)
           elsif params[:user_id].present?
-            Order.recently_updated.not_placed.find_by(params.slice(:user_id))
+            find_current_scope.find_by(params.slice(:user_id))
           else
             Order.new(user_id: params[:user_id])
           end
         rescue Mongoid::Errors::DocumentNotFound
           Order.new(user_id: params[:user_id])
+        end
+
+        def find_current_scope
+          Order.recently_updated.not_placed
         end
 
         def recent(user_id, limit = 3)
