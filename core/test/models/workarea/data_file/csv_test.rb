@@ -309,7 +309,8 @@ module Workarea
       end
 
       def test_blank_rows_are_ignored
-        model = Foo.new(id: nil)
+        model = Foo.new
+        Foo.fields.keys.each { |f| model.send("#{f}=", nil) }
 
         import = create_import(
           model_type: Foo.name,
