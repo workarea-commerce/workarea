@@ -23,8 +23,9 @@ WORKAREA.registerModule('newNavigationTaxons', (function () {
         createRemoteSelect = function (event) {
             var $typeSelect = $(event.currentTarget),
                 $idSelect = $('[name=navigable_id]', event.delegateTarget),
+                $section = $typeSelect.closest('[data-new-navigation-taxon]'),
                 settings = getConfig($typeSelect),
-                selected = $typeSelect.data('newNavigationTaxon');
+                selected = $section.data('newNavigationTaxon');
 
             if ($idSelect.is('.select2-hidden-accessible') && _.isUndefined(selected)) {
                 destroyRemoteSelect($idSelect);
