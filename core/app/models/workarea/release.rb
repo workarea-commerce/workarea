@@ -129,6 +129,14 @@ module Workarea
       scoped.sort_by { |r| [r.publish_at, r.created_at] }
     end
 
+    def self.schedule_affected_by_changesets(changesets)
+      changesets
+        .uniq(&:release)
+        .reject { |cs| cs.release.blank? }
+        .flat_map { |cs| [cs.release] + cs.release.scheduled_after }
+        .uniq
+    end
+
     def as_current
       self.class.with_current(self) { yield }
     end
