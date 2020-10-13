@@ -1,0 +1,10 @@
+.new-navigation-link__section{ data: { new_navigation_taxon: 'bar' } }
+  %fieldset
+    %legend
+      %span.heading.heading--2 Existing
+    .property
+      = label_tag 'navigable_type', 'Type', class: 'property__name'
+      = select_tag 'navigable_type', options_for_select([['Foo', 'foo', { data: { new_navigation_taxon_endpoint: 'http://foo.com' } }], ['Bar', 'bar', { data: { new_navigation_taxon_endpoint: 'http://bar.com' } }]])
+    .property
+      = label_tag 'navigable_id', 'Name', class: 'property__name'
+      = select_tag 'navigable_id', options_for_select([['Bar', 'bar']], 'bar'), include_blank: true
