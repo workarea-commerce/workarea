@@ -37,21 +37,6 @@ Workarea 3.5.21 (2020-10-14)
 
     Tom Scott
 
-*   Patch RefererParser for Android URLs
-
-    Android App URLs have a special `android-app://` scheme that is rejected
-    by the currently released version of the `referer-parser` gem. The code
-    in this patch already exists in the master branch of the gem, but this
-    has not yet been released, and if Android users browse the storefront it
-    can generate an error when collecting referer information. In case a
-    referer cannot be parsed, Workarea also rescues the error so that
-    checkout requests are not blocked.
-
-    WORKAREA-295
-    Fixes #531
-
-    Tom Scott
-
 *   Fix skip services
 
     This was broken due to the admin-based configuration looking for a Mongo
