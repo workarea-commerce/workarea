@@ -123,6 +123,30 @@ module Workarea
         return nil if orders.zero?
         revenue / orders.to_f
       end
+
+      def merge!(other)
+        # To recalculate average_order_value
+        self.orders += other.orders
+        self.revenue += other.revenue
+
+        update = {
+          '$set' => {
+            average_order_value: average_order_value,
+            updated_at: Time.current.utc
+          },
+          '$inc' => {
+            orders: other.orders,
+            revenue: other.revenue,
+            discounts: other.discounts
+          }
+        }
+
+        update['$min'] = { first_order_at: other.first_order_at.utc } if other.first_order_at.present?
+        update['$max'] = { last_order_at: other.last_order_at.utc } if other.last_order_at.present?
+
+        self.class.collection.update_one({ _id: id }, update, upsert: true)
+        reload
+      end
     end
   end
 end
