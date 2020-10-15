@@ -83,11 +83,7 @@ module Workarea
       end
 
       def releases
-        changesets
-          .uniq(&:release)
-          .reject { |cs| cs.release.blank? }
-          .flat_map { |cs| [cs.release] + cs.release.scheduled_after }
-          .uniq
+        Release.schedule_affected_by_changesets(changesets)
       end
 
       def as_document
