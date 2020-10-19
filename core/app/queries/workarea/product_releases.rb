@@ -1,10 +1,4 @@
 module Workarea
-  #
-  # TODO remove in v3.6
-  #
-  # This is no longer used, this logic was moved into the search models to allow
-  # it to be used for any model (not just products).
-  #
   class ProductReleases
     attr_reader :product
 
@@ -13,11 +7,7 @@ module Workarea
     end
 
     def releases
-      changesets
-        .uniq(&:release)
-        .reject { |cs| cs.release.blank? }
-        .flat_map { |cs| [cs.release] + cs.release.scheduled_after }
-        .uniq
+      Release.schedule_affected_by_changesets(changesets)
     end
 
     # All {Releasable}s that could affect the product's Elasticsearch document

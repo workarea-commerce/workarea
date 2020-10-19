@@ -1,3 +1,57 @@
+Workarea 3.5.21 (2020-10-14)
+--------------------------------------------------------------------------------
+
+*   Prevent Clearing Out Navigable When Saving Taxons
+
+    The `WORKAREA.newNavigationTaxons` module was looking in the wrong place
+    for the selected navigable item, therefore the `selected` var would
+    always return `undefined`, causing the `navigable_id` param to be
+    blank every time. Fix this by querying for the correct DOM node (the
+    `[data-new-navigation-taxon]` element) and pulling the selected ID from
+    its data.
+
+    WORKAREA-297
+    Fixes #534
+
+    Tom Scott
+
+*   Make CSV test more robust to decorations
+
+    Improve this test so decorating ApplicationDocument to add a field won't
+    cause the test to break.
+
+    Ben Crouse
+
+*   Refactor product entries to allow accessing logic per-product
+
+    This allows easier reuse of this logic, specifically for the site
+    builder plugin we're working on.
+
+    Ben Crouse
+
+*   Fix Test That Will Never Fail
+
+    This test for the `StatusReporter` worker asserted `2`, which will never
+    fail because `2` will never be falsy. Updated the assertion to use the
+    intended `assert_equals`
+
+    Tom Scott
+
+*   Fix skip services
+
+    This was broken due to the admin-based configuration looking for a Mongo
+    connection.
+
+    Ben Crouse
+
+*   Try to clarify how to use search synonyms
+
+    There has been repeated confusion around why/how to use synonyms, so this is an attempt to clarify.
+
+    Ben Crouse
+
+
+
 Workarea 3.5.20 (2020-09-30)
 --------------------------------------------------------------------------------
 
