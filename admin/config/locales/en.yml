@@ -286,7 +286,7 @@ en:
             views: views
         edit:
           client_id_note: Identifies the category for product import
-          default_sort_note: 'This category has featured products. When a category has featured products, this sort will appear as the "Featured" option on the storefront.'
+          default_sort_note: 'Since this category has featured products, this sort controls the products listed after the selected featured products.'
           filters_note_html: 'Comma separated: just, like, this. If these fields are blank, the global values will be used from %{search_settings_link}.'
           page_title: Attributes for %{category}
           search_settings: search settings
