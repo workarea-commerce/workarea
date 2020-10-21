@@ -48,19 +48,30 @@ module Workarea
             { sku: 'SKU2', regular: 10.00 }
           ]
         )
-
         product_2 = create_product(variants: [{ sku: 'SKU3', regular: 15.00 }])
+        pricing = Pricing::Sku.find_or_create_by(id: 'SKU1').tap do |p|
+          p.prices.create!(regular: 10.to_m, min_quantity: 2)
+        end
 
         edit = ProductEdit.new(
-          pricing: { msrp: '19.99', prices: [{ regular: '14.99' }] }
+          pricing: {
+            msrp: '19.99',
+            'prices' => {
+              regular: {
+                'action' => 'set',
+                'type' => 'flat',
+                'amount' => '14.99'
+              }
+            }
+          }
         )
 
         edit.act_on!(product)
         edit.act_on!(product_2)
 
-        pricing = Pricing::Sku.find_or_create_by(id: 'SKU1')
-        assert_equal(pricing.msrp, 19.99.to_m)
+        assert_equal(pricing.reload.msrp, 19.99.to_m)
         assert_equal(pricing.prices.first.regular, 14.99.to_m)
+        assert_equal(10.to_m, pricing.prices.second.regular)
 
         pricing_2 = Pricing::Sku.find_or_create_by(id: 'SKU2')
         assert_equal(pricing_2.msrp, 19.99.to_m)
@@ -104,7 +115,16 @@ module Workarea
           settings: { 'template' => 'clothing' },
           add_tags: %w(qux),
           remove_tags: %w(bar),
-          pricing: { msrp: '19.99', 'prices' => [{ regular: '14.99' }] },
+          pricing: {
+            msrp: '19.99',
+            'prices' => {
+              regular: {
+                'action' => 'set',
+                'type' => 'flat',
+                'amount' => '14.99'
+              }
+            }
+          },
           inventory: { policy: 'standard', available: 100 },
           release_id: release.id
         )

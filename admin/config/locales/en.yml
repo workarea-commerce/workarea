@@ -200,7 +200,15 @@ en:
           settings: SKU Pricing Settings
           title: Pricing
           info: Prices Info
-          info_message: For products with existing prices, regular and sale prices will be applied to all prices with a minimum quantity of 1.
+          info_message: >
+            For products with existing prices, regular and sale prices
+            will be applied to all prices with a minimum quantity of 1.
+            Setting all prices to a flat amount does not apply to tiered
+            pricing.
+          increase: 'Increase all prices by'
+          decrease: 'Decrease all prices by'
+          set: 'Set prices with a minimum quantity of 1 to'
+          percentage: '%'
         review:
           no_change: No change
           save_and_finish: Save and Finish
@@ -218,6 +226,12 @@ en:
           with_a_new_release: With a new release
           with_release: With %{release_name}
           which_release_placeholder: Mother's Day %{year}
+          pricing:
+            increase_html: 'Increase <strong>all %{kind} prices</strong> by'
+            decrease_html: 'Decrease <strong>all %{kind} prices</strong> by'
+            set_html: 'Set <strong>%{kind} prices</strong> with a minimum quantity of 1 to'
+            regular: regular
+            sale: sale
         settings:
           title: Settings
         tags:

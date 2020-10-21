@@ -52,13 +52,15 @@ module Workarea
 
         pricing_skus(product).each do |sku|
           sku_pricing = pricing.dup
-          prices = sku_pricing.delete('prices') unless sku.prices.blank?
-          sku.update_attributes!(sku_pricing)
+          changes = sku_pricing.delete('prices')
 
-          if prices.present?
-            sku.prices.select(&:generic?).each do |price|
-              price.update_attributes!(prices.first)
-            end
+          sku.update_attributes!(sku_pricing)
+          sku.prices.build unless sku.prices.any?
+
+          sku.prices.each do |price|
+            change = PriceChange.new(price, changes)
+
+            price.update!(change.attributes)
           end
         end
       end

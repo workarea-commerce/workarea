@@ -77,8 +77,20 @@
                   - @bulk_action.pricing.except('prices').each do |name, value|
                     %p <strong>#{t("workarea.admin.fields.#{name}", default: name.titleize)}</strong>: #{bulk_actions_display_value_for(value)}
                   - if @bulk_action.pricing['prices'].present?
-                    - @bulk_action.pricing['prices'].first.each do |name, value|
-                      %p <strong>#{t("workarea.admin.fields.#{name}", default: name.titleize)}</strong>: #{value}
+                    - @bulk_action.pricing['prices'].each do |name, value|
+                      - action = value['action']
+                      - type = value['type']
+                      - amount = value['amount']
+                      - kind = t("workarea.admin.bulk_action_product_edits.review.pricing.#{name}")
+
+                      - if amount.present?
+                        %p
+                          = t("workarea.admin.bulk_action_product_edits.review.pricing.#{action}_html", kind: kind)
+                          %strong
+                            - if type == 'flat'
+                              = number_to_currency(amount)
+                            - else
+                              = number_to_percentage(amount, strip_insignificant_zeros: true)
                 - else
                   %p= t('workarea.admin.bulk_action_product_edits.review.no_change')
 
