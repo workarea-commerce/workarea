@@ -50,17 +50,33 @@ module Workarea
 
         post admin.impersonations_path, params: { user_id: @user.id }
         delete admin.impersonations_path
-
-        assert_redirected_to(admin.user_path(@user.id))
         assert_equal(previous_user_id, session[:user_id])
         assert(session[:admin_id].blank?)
 
         post admin.impersonations_path, params: { user_id: @user.id }
-        delete admin.impersonations_path(return_to: '/foo')
-
-        assert_redirected_to('/foo')
+        delete admin.impersonations_path
         assert_equal(previous_user_id, session[:user_id])
         assert(session[:admin_id].blank?)
+      end
+
+      def test_redirection_after_destroy
+        post admin.impersonations_path, params: { user_id: @user.id }
+        delete admin.impersonations_path
+        assert_redirected_to(admin.user_path(@user.id))
+
+        post admin.impersonations_path, params: { user_id: @user.id }
+        delete admin.impersonations_path(return_to: '/foo')
+        assert_redirected_to('/foo')
+
+        post admin.impersonations_path, params: { user_id: @user.id }
+        delete admin.impersonations_path(return_to: '/foo'),
+          headers: { 'HTTP_REFERER' => admin.catalog_products_path }
+        assert_redirected_to('/foo')
+
+        post admin.impersonations_path, params: { user_id: @user.id }
+        delete admin.impersonations_path,
+          headers: { 'HTTP_REFERER' => admin.catalog_products_url(host: 'foo.com') }
+        assert_redirected_to(admin.catalog_products_path)
       end
     end
   end

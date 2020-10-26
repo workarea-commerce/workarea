@@ -60,6 +60,9 @@
             .property
               = label_tag 'category_default_sort', t('workarea.admin.fields.default_sort'), class: 'property__name'
               = select_tag 'category[default_sort]', options_for_select(@category.sort_options, selected: @category.default_sort)
+              - if @category.featured_products?
+                %span.property__note
+                  = t('workarea.admin.catalog_categories.edit.default_sort_note')
 
         .property
           = label_tag 'category_terms_facets_list', t('workarea.admin.fields.terms_facets_list'), class: 'property__name'
