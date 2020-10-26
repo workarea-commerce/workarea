@@ -51,7 +51,7 @@ module Workarea
           click_button 'Stop Impersonation'
         end
 
-        assert_equal(admin.user_path(user), current_path)
+        assert_equal(admin.root_path, current_path)
         assert(page.has_content?('Success'))
       end
     end

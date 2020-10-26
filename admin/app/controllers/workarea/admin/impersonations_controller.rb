@@ -27,7 +27,8 @@ module Workarea
         clear_current_order
 
         flash[:success] = t('workarea.admin.users.flash_messages.stopped')
-        redirect_back_or(user_path(previous_user_id))
+        referrer = URI.parse(request.referrer).request_uri rescue nil
+        redirect_back_or(referrer.presence || user_path(previous_user_id))
       end
     end
   end
