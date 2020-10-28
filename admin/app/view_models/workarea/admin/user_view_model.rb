@@ -61,7 +61,7 @@ module Workarea
         @orders ||= OrderViewModel.wrap(
           Order
             .placed
-            .where(email: model.email)
+            .any_of({ email: model.email }, { user_id: model.id })
             .order_by([:placed_at, :desc])
             .limit(50)
         )

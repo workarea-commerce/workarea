@@ -6,7 +6,8 @@ module Workarea
       def test_orders
         email = 'test@example.com'
         guest_order = OrderViewModel.wrap(create_placed_order(email: email))
-        user = UserViewModel.wrap(create_user(email: email))
+        model = create_user(email: email)
+        user = UserViewModel.wrap(model)
         logged_in_order = OrderViewModel.wrap(
           create_placed_order(
             id: '5678',
@@ -20,6 +21,14 @@ module Workarea
         assert_includes(user.orders, guest_order)
         refute_includes(user.orders, unplaced_order)
         assert_equal([logged_in_order, guest_order], user.orders)
+
+        model.update!(email: 'changed@example.com')
+        user = UserViewModel.wrap(model)
+
+        assert_includes(user.orders, logged_in_order)
+        refute_includes(user.orders, guest_order)
+        refute_includes(user.orders, unplaced_order)
+        assert_equal([logged_in_order], user.orders)
       end
     end
   end
