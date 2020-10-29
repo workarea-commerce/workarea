@@ -38,7 +38,7 @@ namespace :workarea do
         author: author
       }
 
-      if subject.start_with?('Revert')
+      if subject.start_with?('Revert "')
         reverts << body.match(/[a-f0-9]{40}/)
         reverts << sha
       end

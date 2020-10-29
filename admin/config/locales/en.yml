@@ -4156,6 +4156,17 @@ en:
           aov: AOV
           insights_for_this_customer: Insights for this Customer
           percentile: percentile
+          customer_insights: Wondering about how Workarea customer insights work?
+          customer_insights_info_html: >
+            <strong>How are customer metrics tracked?</strong>
+            <p>Workarea's metrics engine saves reporting and insights data based on the customer's email address.
+            This allows for the best tracking of customers for generating helpful insights like
+            <a href="%{best_customers_path}">Best Customers</a>, <a href="%{customers_at_risk_path}">Customers at Risk</a>,
+            and <a href="%{repeat_purchase_rate_path}">Repeat Purchase Rate</a> as accurately as possible across both
+            guest and account checkouts.</p>
+            <strong>Wondering why some numbers don't line up?</strong>
+            <p>Because reporting is tracked by email address, changes in email address and/or having an account
+            can cause mismatch between the <a href="%{orders_path}">Orders</a> card and these insights.</p>
         login:
           never: Never logged in
           never_attempted: Never attempted to log in
