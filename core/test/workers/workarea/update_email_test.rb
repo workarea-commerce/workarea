@@ -31,8 +31,8 @@ module Workarea
         user.id.to_s,
         'email' => ['user@workarea.com', 'test@workarea.com']
       )
-      assert_equal(2, Metrics::User.count)
-      assert_equal(3, old_metrics.reload.orders)
+      assert_equal(1, Metrics::User.count)
+      assert_raises(Mongoid::Errors::DocumentNotFound) { old_metrics.reload }
       assert_equal(4, new_metrics.reload.orders)
     end
   end

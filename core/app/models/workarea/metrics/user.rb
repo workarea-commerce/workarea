@@ -145,6 +145,7 @@ module Workarea
         update['$max'] = { last_order_at: other.last_order_at.utc } if other.last_order_at.present?
 
         self.class.collection.update_one({ _id: id }, update, upsert: true)
+        other.delete
         reload
       end
     end

@@ -78,7 +78,7 @@ module Workarea
       def test_merging_metrics
         freeze_time
 
-        metrics = User.create!(
+        first = User.create!(
           first_order_at: 2.weeks.ago,
           last_order_at: 1.day.ago,
           orders: 2,
@@ -87,25 +87,27 @@ module Workarea
           average_order_value: 50,
         )
 
-        metrics.merge!(User.new)
-        metrics.reload
-        assert_equal(2.weeks.ago, metrics.first_order_at)
-        assert_equal(1.day.ago, metrics.last_order_at)
-        assert_equal(2, metrics.orders)
-        assert_equal(100, metrics.revenue)
-        assert_equal(-10, metrics.discounts)
-        assert_equal(50, metrics.average_order_value)
+        first.merge!(User.new)
+        first.reload
+        assert_equal(1, Metrics::User.count)
+        assert_equal(2.weeks.ago, first.first_order_at)
+        assert_equal(1.day.ago, first.last_order_at)
+        assert_equal(2, first.orders)
+        assert_equal(100, first.revenue)
+        assert_equal(-10, first.discounts)
+        assert_equal(50, first.average_order_value)
 
-        blank = User.create!(id: 'foo').tap { |u| u.merge!(metrics) }
-        blank.reload
-        assert_equal(2.weeks.ago, blank.first_order_at)
-        assert_equal(1.day.ago, blank.last_order_at)
-        assert_equal(2, blank.orders)
-        assert_equal(100, blank.revenue)
-        assert_equal(-10, blank.discounts)
-        assert_equal(50, blank.average_order_value)
+        second = User.create!(id: 'foo').tap { |u| u.merge!(first) }
+        second.reload
+        assert_equal(1, Metrics::User.count)
+        assert_equal(2.weeks.ago, second.first_order_at)
+        assert_equal(1.day.ago, second.last_order_at)
+        assert_equal(2, second.orders)
+        assert_equal(100, second.revenue)
+        assert_equal(-10, second.discounts)
+        assert_equal(50, second.average_order_value)
 
-        existing = User.create!(
+        third = User.create!(
           first_order_at: 3.weeks.ago,
           last_order_at: 3.weeks.ago,
           orders: 2,
@@ -113,14 +115,15 @@ module Workarea
           average_order_value: 60,
         )
 
-        existing.merge!(metrics)
-        existing.reload
-        assert_equal(3.weeks.ago, existing.first_order_at)
-        assert_equal(1.day.ago, existing.last_order_at)
-        assert_equal(4, existing.orders)
-        assert_equal(220, existing.revenue)
-        assert_equal(-10, existing.discounts)
-        assert_equal(55, existing.average_order_value)
+        third.merge!(second)
+        third.reload
+        assert_equal(1, Metrics::User.count)
+        assert_equal(3.weeks.ago, third.first_order_at)
+        assert_equal(1.day.ago, third.last_order_at)
+        assert_equal(4, third.orders)
+        assert_equal(220, third.revenue)
+        assert_equal(-10, third.discounts)
+        assert_equal(55, third.average_order_value)
       end
     end
   end
