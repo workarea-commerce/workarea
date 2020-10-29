@@ -134,7 +134,7 @@ module Workarea
       def test_merging_metrics
         freeze_time
 
-        metrics = User.create!(
+        first = User.create!(
           first_order_at: 2.weeks.ago,
           last_order_at: 1.day.ago,
           orders: 2,
@@ -147,41 +147,43 @@ module Workarea
           purchased: { product_ids: ['qoo'], category_ids: ['quo'], search_ids: ['qux'] }
         )
 
-        metrics.merge!(User.new)
-        metrics.reload
-        assert_equal(2.weeks.ago, metrics.first_order_at)
-        assert_equal(1.day.ago, metrics.last_order_at)
-        assert_equal(2, metrics.orders)
-        assert_equal(100, metrics.revenue)
-        assert_equal(-10, metrics.discounts)
-        assert_equal(50, metrics.average_order_value)
-        assert_equal(1, metrics.cancellations)
-        assert_equal(-20, metrics.refund)
-        assert_equal(['foo'], metrics.viewed.product_ids)
-        assert_equal(['bar'], metrics.viewed.category_ids)
-        assert_equal(['baz'], metrics.viewed.search_ids)
-        assert_equal(['qoo'], metrics.purchased.product_ids)
-        assert_equal(['quo'], metrics.purchased.category_ids)
-        assert_equal(['qux'], metrics.purchased.search_ids)
+        first.merge!(User.new)
+        first.reload
+        assert_equal(1, Metrics::User.count)
+        assert_equal(2.weeks.ago, first.first_order_at)
+        assert_equal(1.day.ago, first.last_order_at)
+        assert_equal(2, first.orders)
+        assert_equal(100, first.revenue)
+        assert_equal(-10, first.discounts)
+        assert_equal(50, first.average_order_value)
+        assert_equal(1, first.cancellations)
+        assert_equal(-20, first.refund)
+        assert_equal(['foo'], first.viewed.product_ids)
+        assert_equal(['bar'], first.viewed.category_ids)
+        assert_equal(['baz'], first.viewed.search_ids)
+        assert_equal(['qoo'], first.purchased.product_ids)
+        assert_equal(['quo'], first.purchased.category_ids)
+        assert_equal(['qux'], first.purchased.search_ids)
 
-        blank = User.create!(id: 'foo').tap { |u| u.merge!(metrics) }
-        blank.reload
-        assert_equal(2.weeks.ago, blank.first_order_at)
-        assert_equal(1.day.ago, blank.last_order_at)
-        assert_equal(2, blank.orders)
-        assert_equal(100, blank.revenue)
-        assert_equal(-10, blank.discounts)
-        assert_equal(50, blank.average_order_value)
-        assert_equal(1, blank.cancellations)
-        assert_equal(-20, blank.refund)
-        assert_equal(['foo'], blank.viewed.product_ids)
-        assert_equal(['bar'], blank.viewed.category_ids)
-        assert_equal(['baz'], blank.viewed.search_ids)
-        assert_equal(['qoo'], blank.purchased.product_ids)
-        assert_equal(['quo'], blank.purchased.category_ids)
-        assert_equal(['qux'], blank.purchased.search_ids)
+        second = User.create!(id: 'foo').tap { |u| u.merge!(first) }
+        second.reload
+        assert_equal(1, Metrics::User.count)
+        assert_equal(2.weeks.ago, second.first_order_at)
+        assert_equal(1.day.ago, second.last_order_at)
+        assert_equal(2, second.orders)
+        assert_equal(100, second.revenue)
+        assert_equal(-10, second.discounts)
+        assert_equal(50, second.average_order_value)
+        assert_equal(1, second.cancellations)
+        assert_equal(-20, second.refund)
+        assert_equal(['foo'], second.viewed.product_ids)
+        assert_equal(['bar'], second.viewed.category_ids)
+        assert_equal(['baz'], second.viewed.search_ids)
+        assert_equal(['qoo'], second.purchased.product_ids)
+        assert_equal(['quo'], second.purchased.category_ids)
+        assert_equal(['qux'], second.purchased.search_ids)
 
-        existing = User.create!(
+        third = User.create!(
           first_order_at: 3.weeks.ago,
           last_order_at: 3.weeks.ago,
           orders: 2,
@@ -191,70 +193,23 @@ module Workarea
           purchased: { product_ids: ['four'], category_ids: ['five'], search_ids: ['six'] }
         )
 
-        existing.merge!(metrics)
-        existing.reload
-        assert_equal(3.weeks.ago, existing.first_order_at)
-        assert_equal(1.day.ago, existing.last_order_at)
-        assert_equal(4, existing.orders)
-        assert_equal(220, existing.revenue)
-        assert_equal(-10, existing.discounts)
-        assert_equal(55, existing.average_order_value)
-        assert_equal(1, existing.cancellations)
-        assert_equal(-20, existing.refund)
-        assert_equal(%w(one foo), existing.viewed.product_ids)
-        assert_equal(%w(two bar), existing.viewed.category_ids)
-        assert_equal(%w(three baz), existing.viewed.search_ids)
-        assert_equal(%w(four qoo), existing.purchased.product_ids)
-        assert_equal(%w(five quo), existing.purchased.category_ids)
-        assert_equal(%w(six qux), existing.purchased.search_ids)
-      end
-
-      def test_merging_metrics
-        freeze_time
-
-        metrics = User.create!(
-          first_order_at: 2.weeks.ago,
-          last_order_at: 1.day.ago,
-          orders: 2,
-          revenue: 100,
-          discounts: -10,
-          average_order_value: 50,
-        )
-
-        metrics.merge!(User.new)
-        metrics.reload
-        assert_equal(2.weeks.ago, metrics.first_order_at)
-        assert_equal(1.day.ago, metrics.last_order_at)
-        assert_equal(2, metrics.orders)
-        assert_equal(100, metrics.revenue)
-        assert_equal(-10, metrics.discounts)
-        assert_equal(50, metrics.average_order_value)
-
-        blank = User.create!(id: 'foo').tap { |u| u.merge!(metrics) }
-        blank.reload
-        assert_equal(2.weeks.ago, blank.first_order_at)
-        assert_equal(1.day.ago, blank.last_order_at)
-        assert_equal(2, blank.orders)
-        assert_equal(100, blank.revenue)
-        assert_equal(-10, blank.discounts)
-        assert_equal(50, blank.average_order_value)
-
-        existing = User.create!(
-          first_order_at: 3.weeks.ago,
-          last_order_at: 3.weeks.ago,
-          orders: 2,
-          revenue: 120,
-          average_order_value: 60,
-        )
-
-        existing.merge!(metrics)
-        existing.reload
-        assert_equal(3.weeks.ago, existing.first_order_at)
-        assert_equal(1.day.ago, existing.last_order_at)
-        assert_equal(4, existing.orders)
-        assert_equal(220, existing.revenue)
-        assert_equal(-10, existing.discounts)
-        assert_equal(55, existing.average_order_value)
+        third.merge!(second)
+        third.reload
+        assert_equal(1, Metrics::User.count)
+        assert_equal(3.weeks.ago, third.first_order_at)
+        assert_equal(1.day.ago, third.last_order_at)
+        assert_equal(4, third.orders)
+        assert_equal(220, third.revenue)
+        assert_equal(-10, third.discounts)
+        assert_equal(55, third.average_order_value)
+        assert_equal(1, third.cancellations)
+        assert_equal(-20, third.refund)
+        assert_equal(%w(one foo), third.viewed.product_ids)
+        assert_equal(%w(two bar), third.viewed.category_ids)
+        assert_equal(%w(three baz), third.viewed.search_ids)
+        assert_equal(%w(four qoo), third.purchased.product_ids)
+        assert_equal(%w(five quo), third.purchased.category_ids)
+        assert_equal(%w(six qux), third.purchased.search_ids)
       end
     end
   end
