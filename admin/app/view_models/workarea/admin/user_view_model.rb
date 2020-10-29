@@ -57,14 +57,7 @@ module Workarea
 
       def orders
         return [] unless model.email.present?
-
-        @orders ||= OrderViewModel.wrap(
-          Order
-            .placed
-            .where(email: model.email)
-            .order_by([:placed_at, :desc])
-            .limit(50)
-        )
+        @orders ||= OrderViewModel.wrap(Order.recent(model.id, 50))
       end
 
       def insights

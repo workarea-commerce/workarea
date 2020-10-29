@@ -90,6 +90,18 @@
                     = @user.insights.average_order_value_percentile.ordinalize
                     = t('workarea.admin.users.insights.percentile')
 
+        .align-center
+          = link_to '#customer-insights-info', data: { tooltip: { side: 'bottom', interactive: true } } do
+            = t('workarea.admin.users.insights.customer_insights')
+          #customer-insights-info.tooltip-content.align-center
+            = t( |
+              'workarea.admin.users.insights.customer_insights_info_html', |
+              best_customers_path: insights_report_path(type: Workarea::Insights::BestCustomers), |
+              customers_at_risk_path: insights_report_path(type: Workarea::Insights::CustomersAtRisk), |
+              repeat_purchase_rate_path: insights_report_path(type: Workarea::Insights::RepeatPurchaseRate), |
+              orders_path: orders_user_path(@user) |
+            ) |
+
     .section
       %h2.align-center= t('workarea.admin.users.insights.recently_viewed.title')
       .grid.grid--center
