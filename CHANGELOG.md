@@ -29,19 +29,6 @@ Workarea 3.5.22 (2020-11-03)
 
     Ben Crouse
 
-*   Include Guest Orders In Admin For Users
-
-    When looking up recent orders for a user in the admin, also include any
-    guest orders placed with the same email address. This fixes a
-    discrepancy between the amount of orders seen in admin for a given user,
-    and the amount of orders attributed to a user within insights, as
-    insights treat all orders with the same email address as coming from the
-    same user.
-
-    WORKAREA-283
-
-    Tom Scott
-
 *   Add Note To Category Default Sort Edit
 
     The selected `default_sort` of a category will be always used in the
