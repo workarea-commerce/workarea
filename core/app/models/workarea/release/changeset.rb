@@ -11,7 +11,10 @@ module Workarea
       belongs_to :release, class_name: 'Workarea::Release', index: true
       belongs_to :releasable, polymorphic: true, index: true, optional: true
 
-      index({ 'document_path.type' => 1, 'document_path.document_id' => 1})
+      index(
+        { 'document_path.type' => 1, 'document_path.document_id' => 1 },
+        { name: 'document_path' }
+      )
 
       # Whether these value changes to this field should be included when
       # saving a changeset. Used in building changeset hashes.
