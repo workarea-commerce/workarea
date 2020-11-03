@@ -1,3 +1,88 @@
+Workarea 3.5.22 (2020-11-03)
+--------------------------------------------------------------------------------
+
+*   Only merge recent views on tracking updates
+
+    Merging all metrics has caused a lot of confusion in testing, and the
+    only core use-case this matters for is recent views. So this change only
+    merges recent views when metrics are updated.
+
+    Ben Crouse
+
+*   Delete old user metrics after merging
+
+    This will ensure the consistency of user-based reports.
+
+    Ben Crouse
+
+*   Be more specific when matching reverts in changelogs
+
+    This change will allow starting commit messages with the word Revert
+    without the changelog task ignoring the commit.
+
+    Ben Crouse
+
+*   Add metrics explanation for users
+
+    This additional explanation is meant to communicate why customer
+    insights may occasionally mismatch with the orders card.
+
+    Ben Crouse
+
+*   Include Guest Orders In Admin For Users
+
+    When looking up recent orders for a user in the admin, also include any
+    guest orders placed with the same email address. This fixes a
+    discrepancy between the amount of orders seen in admin for a given user,
+    and the amount of orders attributed to a user within insights, as
+    insights treat all orders with the same email address as coming from the
+    same user.
+
+    WORKAREA-283
+
+    Tom Scott
+
+*   Add Note To Category Default Sort Edit
+
+    The selected `default_sort` of a category will be always used in the
+    storefront. If the category contains featured products, this sort will
+    be labelled "Featured", and this might prove confusing to some admins.
+    To resolve this, add a note just below the dropdown indicating what will
+    occur when products are featured in the category.
+
+    WORKAREA-289
+
+    Tom Scott
+
+*   Include referrer in ending impersonation redirect fallbacks
+
+    When ending an impersonation, this changes to allow redirecting to the referrer
+    if the return_to parameter isn't present. Better UX for ending
+    impersonations while working in the admin.
+
+    WORKAREA-293
+
+    Ben Crouse
+
+*   Merge metrics when a user's email is updated
+
+    This ensures the old metrics info stays around after the email change.
+
+    WORKAREA-294
+
+    Ben Crouse
+
+*   Fix release changeset indexing code duplication
+
+    Cleanup duplicate logic so decoration for product indexes can happen in
+    a single place.
+
+    WORKAREA-292
+
+    Ben Crouse
+
+
+
 Workarea 3.5.21 (2020-10-14)
 --------------------------------------------------------------------------------
 
