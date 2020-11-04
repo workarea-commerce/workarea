@@ -38,7 +38,7 @@ module Workarea
         aggregation = search(query)['aggregations']['grouped_by_type']['type']
         aggregation['buckets']
           .reduce([]) { |m, b| m + b['top']['hits']['hits'] }
-          .sort_by { |r| [r['_source']['jump_to_position'], r['_score']] }
+          .sort_by { |r| [r['_source']['jump_to_position'] || 999, r['_score'] || 0] }
           .map do |result|
             {
               label: result['_source']['jump_to_text'],
