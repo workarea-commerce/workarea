@@ -11,13 +11,14 @@ module Workarea
       after_action :check_inventory, except: :create
 
       def create
+        @cart = CartViewModel.new(current_order, view_model_options)
+
         # TODO: for v4, use AddItemToCart for this.
         if current_order.add_item(item_params.to_h.merge(item_details.to_h))
           check_inventory
 
           Pricing.perform(current_order, current_shippings)
 
-          @cart = CartViewModel.new(current_order, view_model_options)
           @item = OrderItemViewModel.wrap(
             current_order.items.find_existing(
               item_params[:sku],
