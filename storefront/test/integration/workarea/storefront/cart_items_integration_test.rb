@@ -47,6 +47,18 @@ module Workarea
         assert_equal(5.to_m, order.items.first.total_price)
       end
 
+      def test_fail_to_add_an_item
+        post storefront.cart_items_path,
+          params: {
+            product_id: @product.id,
+            sku: 'SKU1',
+            quantity: -1
+          }
+
+        assert_response(:success)
+        assert_empty(Order.all)
+      end
+
       def test_adding_product_with_shared_skus
         product_2 = Catalog::Product.create!(name: 'Product', variants: [{ sku: 'SKU1' }])
 

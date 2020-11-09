@@ -27,7 +27,9 @@ module Workarea
         cookies.delete(:email)
       elsif email != cookies.signed[:email]
         unless impersonating?
-          Metrics::User.find_or_initialize_by(id: email).merge!(current_visit&.metrics)
+          Metrics::User
+            .find_or_initialize_by(id: email)
+            .merge_views!(current_visit&.metrics)
         end
 
         cookies.permanent.signed[:email] = email

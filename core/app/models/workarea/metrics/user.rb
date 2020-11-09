@@ -110,6 +110,8 @@ module Workarea
       end
 
       def merge!(other)
+        return if other.blank?
+
         # To recalculate average_order_value
         self.orders += other.orders
         self.revenue += other.revenue
@@ -136,20 +138,27 @@ module Workarea
 
         self.class.save_affinity(
           id: id,
-          action: 'viewed',
-          product_ids: other.viewed.product_ids,
-          category_ids: other.viewed.category_ids,
-          search_ids: other.viewed.search_ids
-        )
-        self.class.save_affinity(
-          id: id,
           action: 'purchased',
           product_ids: other.purchased.product_ids,
           category_ids: other.purchased.category_ids,
           search_ids: other.purchased.search_ids
         )
 
-        reload
+        merge_views!(other)
+      end
+
+      def merge_views!(other)
+        return if other.blank?
+
+        self.class.save_affinity(
+          id: id,
+          action: 'viewed',
+          product_ids: other.viewed.product_ids,
+          category_ids: other.viewed.category_ids,
+          search_ids: other.viewed.search_ids
+        )
+
+        reload rescue self # save_affinity might not have actually persisted anything
       end
     end
   end
