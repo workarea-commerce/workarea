@@ -15,7 +15,10 @@ module Workarea
       belongs_to :release, class_name: 'Workarea::Release', index: true
       belongs_to :releasable, polymorphic: true, index: true, optional: true
 
-      index({ 'document_path.type' => 1, 'document_path.document_id' => 1 })
+      index(
+        { 'document_path.type' => 1, 'document_path.document_id' => 1 },
+        { name: 'document_path' }
+      )
       index('changeset.product_ids' => 1)
       index('original.product_ids' => 1)
       index('releasable_type' => 1, 'releasable_id' => 1)
