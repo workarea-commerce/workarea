@@ -15,6 +15,14 @@ module Workarea
         view_model = ProductViewModel.wrap(@product, one: '1')
         assert_instance_of(ProductTemplates::OptionSelectsViewModel, view_model)
         assert_equal('1', view_model.options[:one])
+
+        Workarea.with_config do |config|
+          config.product_templates << :no_view_model
+          @product.template = 'no_view_model'
+          view_model = ProductViewModel.wrap(@product, one: '1')
+
+          assert_kind_of(ProductViewModel, view_model)
+        end
       end
 
       def test_cache_key
