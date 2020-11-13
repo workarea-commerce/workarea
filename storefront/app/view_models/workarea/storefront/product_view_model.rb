@@ -1,7 +1,6 @@
 module Workarea
   module Storefront
     class ProductViewModel < ApplicationViewModel
-
       def self.wrap(model, options = {})
         if model.is_a?(Enumerable)
           model.map { |m| wrap(m, options) }
@@ -11,6 +10,8 @@ module Workarea
         else
           new(model, options)
         end
+      rescue NameError
+        new(model, options)
       end
 
       def breadcrumbs
