@@ -40,5 +40,12 @@ module Workarea
     include TestCase::Geocoder
     include Factories
     include Configuration
+
+    def set_locales(*)
+      super
+
+      Workarea::Elasticsearch::Document.all.each(&:reset_indexes!)
+      Workarea::Search::Storefront.ensure_dynamic_mappings
+    end
   end
 end
