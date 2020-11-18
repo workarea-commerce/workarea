@@ -74,6 +74,7 @@ module Workarea
     include TestCase::Geocoder
     include Factories
     include IntegrationTest::Configuration
+    include IntegrationTest::Locales
     include Rails.application.routes.mounted_helpers
 
     driven_by :headless_chrome

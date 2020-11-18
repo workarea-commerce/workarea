@@ -28,6 +28,15 @@ module Workarea
       end
     end
 
+    module Locales
+      def set_locales(*)
+        super
+
+        Workarea::Elasticsearch::Document.all.each(&:create_indexes!)
+        Workarea::Search::Storefront.ensure_dynamic_mappings
+      end
+    end
+
     extend TestCase::Decoration
     include TestCase::Configuration
     include TestCase::Workers
@@ -40,5 +49,6 @@ module Workarea
     include TestCase::Geocoder
     include Factories
     include Configuration
+    include Locales
   end
 end
