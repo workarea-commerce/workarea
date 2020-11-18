@@ -11,6 +11,7 @@ module Workarea
     include TestCase::Geocoder
     include Factories
     include IntegrationTest::Configuration
+    include IntegrationTest::Locales
 
     HEADER = %w(measurement created_at workarea rails ruby revision passed)
 
