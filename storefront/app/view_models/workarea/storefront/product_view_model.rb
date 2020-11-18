@@ -10,6 +10,8 @@ module Workarea
         else
           new(model, options)
         end
+      rescue NameError
+        new(model, options)
       end
 
       def breadcrumbs
