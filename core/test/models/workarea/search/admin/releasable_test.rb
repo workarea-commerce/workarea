@@ -28,6 +28,20 @@ module Workarea
           assert_includes(search_model.facets[:upcoming_changes], release_two.id)
           refute_includes(search_model.facets[:upcoming_changes], release_three.id)
         end
+
+        def test_upcoming_changes
+          release_one = create_release
+          release_two = create_release
+
+          product = create_product
+
+          release_one.as_current { product.update!(name: 'Changed Name') }
+          release_two.as_current { product.variants.first.update!(name: 'Changed Name') }
+
+          search_model = Foo.new(product)
+          assert_includes(search_model.facets[:upcoming_changes], release_one.id)
+          assert_includes(search_model.facets[:upcoming_changes], release_two.id)
+        end
       end
     end
   end

@@ -19,6 +19,29 @@ module Workarea
       index('changeset.product_ids' => 1)
       index('original.product_ids' => 1)
       index('releasable_type' => 1, 'releasable_id' => 1)
+      index(updated_at: 1)
+
+      def self.latest(limit = Workarea.config.per_page)
+        order(updated_at: :desc).limit(limit)
+      end
+
+      def self.summary(release_id)
+        collection.aggregate([
+          { '$match' => { 'release_id' => release_id } },
+          {
+            '$addFields' => {
+              'root' => { '$arrayElemAt' => ['$document_path', 0] }
+            }
+          },
+          {
+            '$group' => {
+              '_id' => '$root.type',
+              'count' => { '$sum' => 1 }
+            }
+          },
+          { '$sort' => { '_id' => 1 } }
+        ]).to_a
+      end
 
       # Finds changeset by whether the passed document is in the document
       # path of the changeset. Useful for showing embedded changes in the
