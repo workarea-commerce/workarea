@@ -58,7 +58,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'i18n-js', '~> 3.2.1'
   s.add_dependency 'local_time', '~> 1.0.3'
   s.add_dependency 'lodash-rails', '~> 4.17.4'
-  s.add_dependency 'jquery-rails', '~> 4.3.1'
+  s.add_dependency 'jquery-rails', '~> 4.4.0'
   s.add_dependency 'jquery-ui-rails', '~> 6.0.1'
   s.add_dependency 'tooltipster-rails', '~> 4.1.2'
   s.add_dependency 'chart-js-rails', '~> 0.0.9' # TODO remove v4
