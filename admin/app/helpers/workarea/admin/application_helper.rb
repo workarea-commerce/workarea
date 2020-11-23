@@ -175,6 +175,10 @@ module Workarea
           .map     { |unit, val| t("workarea.duration.#{unit}", count: val) }
           .to_sentence
       end
+
+      def navigation_redirects_enabled?
+        !Rails.application.config.consider_all_requests_local
+      end
     end
   end
 end

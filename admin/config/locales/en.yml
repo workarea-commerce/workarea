@@ -2490,6 +2490,10 @@ en:
           destination_label: Redirect To
           destination_note: Can be any URL
           destination_placeholder: "/new/path.html"
+          disabled: >
+            This application is configured to consider requests to be local, so the Workarea exception handling isn't used.
+            This is most likely because it's running the development environment, where you want exceptions to be seen in responses.
+            These redirects won't work without this.
           from: From
           import: Import Redirects
           modified: Modified
