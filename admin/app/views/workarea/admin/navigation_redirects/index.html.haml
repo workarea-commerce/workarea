@@ -5,6 +5,11 @@
     .view__heading
       = link_to "↑ #{t('workarea.admin.navigation_redirects.index.dashboard_link')}", settings_dashboards_path, class: 'view__dashboard-button'
       %h1= t('workarea.admin.navigation_redirects.index.title')
+      - unless navigation_redirects_enabled?
+        .grid.grid--center
+          .grid__cell.grid__cell--50
+            = render_message 'warning' do
+              = t('workarea.admin.navigation_redirects.index.disabled')
 
   .view__container
 
