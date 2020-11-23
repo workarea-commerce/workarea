@@ -35,6 +35,14 @@ module Workarea
       @release = create_release
     end
 
+    def active?(changeset)
+      if Workarea.config.localized_active_fields
+        changeset['active'][I18n.locale.to_s]
+      else
+        changeset['active']
+      end
+    end
+
     def test_save_can_schedule_activation
       model = Foo.create!(
         name: 'Test',
@@ -48,9 +56,9 @@ module Workarea
       assert_equal(1, model.changesets.length)
       assert_equal(@release.id, model.changesets.first.release_id)
       assert_equal(1, model.changesets.first.changeset.size)
-      assert(model.changesets.first.changeset['active'][I18n.locale.to_s])
+      assert(active?(model.changesets.first.changeset))
       assert_equal(1, model.changesets.first.original.size)
-      refute(model.changesets.first.original['active'][I18n.locale.to_s])
+      refute(active?(model.changesets.first.original))
     end
 
     def test_save_can_schedule_activation_for_an_embedded_document
@@ -74,17 +82,17 @@ module Workarea
       assert_equal(1, embedded_1.changesets.length)
       assert_equal(@release.id, embedded_1.changesets.first.release_id)
       assert_equal(1, embedded_1.changesets.first.changeset.size)
-      assert(embedded_1.changesets.first.changeset['active'][I18n.locale.to_s])
+      assert(active?(embedded_1.changesets.first.changeset))
       assert_equal(1, embedded_1.changesets.first.original.size)
-      refute(embedded_1.changesets.first.original['active'][I18n.locale.to_s])
+      refute(active?(embedded_1.changesets.first.original))
 
       refute(embedded_2.active)
       assert_equal(1, embedded_2.changesets.length)
       assert_equal(@release.id, embedded_2.changesets.first.release_id)
       assert_equal(1, embedded_2.changesets.first.changeset.size)
-      assert(embedded_2.changesets.first.changeset['active'][I18n.locale.to_s])
+      assert(active?(embedded_2.changesets.first.changeset))
       assert_equal(1, embedded_2.changesets.first.original.size)
-      refute(embedded_2.changesets.first.original['active'][I18n.locale.to_s])
+      refute(active?(embedded_2.changesets.first.original))
     end
 
     def test_creating_and_activating_embedded
@@ -104,9 +112,9 @@ module Workarea
       assert_equal(1, embedded.changesets.length)
       assert_equal(@release.id, embedded.changesets.first.release_id)
       assert_equal(1, embedded.changesets.first.changeset.size)
-      assert(embedded.changesets.first.changeset['active'][I18n.locale.to_s])
+      assert(active?(embedded.changesets.first.changeset))
       assert_equal(1, embedded.changesets.first.original.size)
-      refute(embedded.changesets.first.original['active'][I18n.locale.to_s])
+      refute(active?(embedded.changesets.first.original))
       assert(embedded.changesets.first.document_path.present?)
     end
   end
