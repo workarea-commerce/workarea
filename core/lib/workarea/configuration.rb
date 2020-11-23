@@ -948,7 +948,7 @@ module Workarea
       # This is a feature flag, which enables localized active fields. If you're
       # upgrading, you can set this to false to avoid having to do a MongoDB
       # migration.
-      config.localized_active_fields = true
+      config.localized_active_fields = false
 
       # Options passed to the Selenium driver's capabilities
       config.headless_chrome_options = { w3c: false }
