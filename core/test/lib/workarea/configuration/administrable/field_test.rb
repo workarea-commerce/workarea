@@ -68,6 +68,14 @@ module Workarea
           )
 
           assert_equal(Integer, field.values_type_class)
+
+          field = Field.new(
+            'Bar',
+            type: :array,
+            values_type: :integer
+          )
+
+          assert_equal(Integer, field.values_type_class)
         end
 
         def test_overridden?
