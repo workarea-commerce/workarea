@@ -5,8 +5,7 @@ module Workarea
 
     sidekiq_options(
       enqueue_on: { Fulfillment => :save }, queue: 'low',
-      lock: :until_executing,
-      query_cache: true
+      lock: :until_executing
     )
 
     def perform(order_id)

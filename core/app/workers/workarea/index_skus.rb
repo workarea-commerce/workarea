@@ -8,8 +8,7 @@ module Workarea
         Inventory::Sku => [:touch, :save, :save_release_changes, :destroy],
         Pricing::Sku => [:touch, :save, :save_release_changes, :destroy]
       },
-      lock: :until_executing,
-      query_cache: true
+      lock: :until_executing
     )
 
     def perform(sku)

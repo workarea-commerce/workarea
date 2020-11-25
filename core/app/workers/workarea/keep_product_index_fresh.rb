@@ -4,8 +4,7 @@ module Workarea
 
     sidekiq_options(
       lock: :until_executing,
-      retry: false,
-      query_cache: true
+      retry: false
     )
 
     def perform(*args)

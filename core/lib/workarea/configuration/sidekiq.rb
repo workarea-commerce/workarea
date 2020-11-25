@@ -9,7 +9,6 @@ module Workarea
         require_dependency "#{Workarea::Core::Engine.root}/app/middleware/workarea/audit_log_client_middleware"
         require_dependency "#{Workarea::Core::Engine.root}/app/middleware/workarea/audit_log_server_middleware"
         require_dependency "#{Workarea::Core::Engine.root}/app/middleware/workarea/release_server_middleware"
-        require_dependency "#{Workarea::Core::Engine.root}/app/middleware/workarea/query_cache_middleware"
 
         unless manually_configured?
           ::Sidekiq.options.merge!(
@@ -27,7 +26,6 @@ module Workarea
         ::Sidekiq.configure_server do |config|
           config.server_middleware do |chain|
             chain.add I18nServerMiddleware
-            chain.add QueryCacheMiddleware
             chain.add AuditLogServerMiddleware
             chain.add ReleaseServerMiddleware
           end

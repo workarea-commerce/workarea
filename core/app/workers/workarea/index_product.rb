@@ -5,8 +5,7 @@ module Workarea
 
     sidekiq_options(
       enqueue_on: { Catalog::Product => [:save, :save_release_changes, :destroy] },
-      lock: :until_executing,
-      query_cache: true
+      lock: :until_executing
     )
 
     class << self

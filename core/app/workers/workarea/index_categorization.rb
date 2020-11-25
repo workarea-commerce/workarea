@@ -5,8 +5,7 @@ module Workarea
 
     sidekiq_options(
       enqueue_on: { Catalog::Category => [:save, :save_release_changes] },
-      lock: :until_executing,
-      query_cache: true
+      lock: :until_executing
     )
 
     def self.perform(category)
