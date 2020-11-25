@@ -1,3 +1,72 @@
+Workarea 3.4.44 (2020-11-25)
+--------------------------------------------------------------------------------
+
+*   Bump version for release
+
+
+    Ben Crouse
+
+*   Bump jquery-rails to patch XSS vulnerabilities
+
+
+    Ben Crouse
+
+*   Add warning to inform developers why redirects aren't working locally
+
+    This has confused developers a couple of times, so hopefully adding a
+    warning will help.
+
+    Ben Crouse
+
+*   Fix Elasticsearch indexes when changing locales in tests
+
+    This ensures the proper search indexes are in place when you switch
+    locales for an integration test.
+
+    Ben Crouse
+
+*   Prevent Error on Missing Custom Template View Model Class
+
+    Typically, custom product templates use their own subclass of
+    `Workarea::Storefront::ProductViewModel`, but this isn't supposed to be
+    necessary if there's no custom logic that needs to be in the view model
+    layer. However, when developers tried to add a custom template without
+    the view model, they received an error. To prevent this, Workarea will
+    now catch the `NameError` thrown by `Storefront::ProductViewModel.wrap`
+    in the event of a custom product template not having a view model
+    defined.
+
+    WORKAREA-304
+
+    Tom Scott
+
+*   Fix Missing Instance Variable In Cart Items View
+
+    The `@cart` instance variable was only being conditionally defined if
+    `current_order.add_item` succeeded. This caused an error if `#add_item`
+    happens to fail when calling `POST /cart/items` from the storefront,
+    resulting in a 500 error. To prevent this error, the definition of this
+    variable has been moved above the condition.
+
+    WORKAREA-303
+
+    Tom Scott
+
+*   Shorten index name
+
+    Mongo will raise when index names exceed a certain length. For example,
+    having a long Workarea.config.site_name could cause this.
+
+    Ben Crouse
+
+*   Fix missing jump to positions breaking jump to
+
+    Ruby raises when nil is compared, so default these values.
+
+    Ben Crouse
+
+
+
 Workarea 3.4.43 (2020-11-03)
 --------------------------------------------------------------------------------
 
