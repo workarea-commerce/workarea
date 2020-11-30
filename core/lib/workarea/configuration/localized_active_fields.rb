@@ -14,7 +14,7 @@ module Workarea
         return if Workarea.config.localized_active_fields
 
         ::Mongoid.models.each do |klass|
-          if klass < Releasable
+          if klass < Releasable && klass.localized_fields['active'].present?
             klass.localized_fields.delete('active')
             klass.field(:active, type: Boolean, default: true, localize: false)
             klass.index(active: 1)
