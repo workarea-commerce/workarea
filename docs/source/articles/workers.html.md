@@ -612,34 +612,3 @@ end
 ```
 
 It is important to note that throttling, as compared to uniqueness, does not affect when or if jobs are added to a Sidekiq queue. Instead, throttling a worker will only restrict the timing of workers being plucked from the queue for processing.
-
-## Query Cache
-
-To improve performance, workers responsible for indexing have the `query_cache` Sidekiq option enabled.
-Include this option when writing your own indexing workers.
-
-```ruby
-# workarea-core/app/workers/workarea/index_page.rb
-
-module Workarea
-  class IndexPage
-    include Sidekiq::Worker
-    include Sidekiq::CallbacksWorker
-
-    sidekiq_options(
-      enqueue_on: { Content::Page => [:save, :destroy] },
-      lock: :until_executing,
-      query_cache: true
-    )
-
-    def perform(id)
-      page = Content::Page.find(id)
-      Search::Storefront::Page.new(page).save
-    rescue Mongoid::Errors::DocumentNotFound
-      Search::Storefront::Page.new(
-        Content::Page.new(id: id)
-      ).destroy
-    end
-  end
-end
-```

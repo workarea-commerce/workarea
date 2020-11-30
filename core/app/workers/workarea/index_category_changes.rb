@@ -9,8 +9,7 @@ module Workarea
         with: -> { [changes, Release.current.present?] }
       },
       ignore_if: -> { changes['product_ids'].blank? },
-      lock: :until_executing,
-      query_cache: true
+      lock: :until_executing
     )
 
     def perform(changes, for_release = false)
