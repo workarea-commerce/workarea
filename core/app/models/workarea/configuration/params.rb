@@ -27,7 +27,9 @@ module Workarea
       end
 
       def array(field, value)
-        Array.wrap(CSV.parse(value).first).map(&:strip)
+        Array.wrap(CSV.parse(value).first)
+             .map(&:strip)
+             .map { |v| field.values_type_class.mongoize(v) }
       end
 
       def hash(field, value)

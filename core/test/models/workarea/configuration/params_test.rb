@@ -11,6 +11,7 @@ module Workarea
           field 'baz', type: :string, allow_blank: true
 
           field 'foo_hash', type: :hash, values_type: :integer
+          field 'foo_array', type: :array, values_type: :integer
           field 'bar_array', type: :array
           field 'baz_duration', type: :duration
         end
@@ -20,6 +21,7 @@ module Workarea
           bar: nil,
           baz: '',
           foo_hash: ['one', '1', 'two', '', '', ''],
+          foo_array: '1,2,3',
           bar_array: 'one, two, three',
           baz_duration: %w(20 minutes)
         }
@@ -29,6 +31,7 @@ module Workarea
         assert_equal('test', result[:bar])
         assert_equal('', result[:baz])
         assert_equal({ 'one' => 1 }, result[:foo_hash])
+        assert_equal([1, 2, 3], result[:foo_array])
         assert_equal(%w(one two three), result[:bar_array])
         assert_equal(20.minutes, result[:baz_duration])
       end
