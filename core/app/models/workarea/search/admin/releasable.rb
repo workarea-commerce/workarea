@@ -24,7 +24,9 @@ module Workarea
         end
 
         def model_changesets
-          model.changesets.any_in(release_id: upcoming_release_ids)
+          Workarea::Release::Changeset
+            .by_document_path(model)
+            .any_in(release_id: upcoming_release_ids)
         end
 
         def content_changesets

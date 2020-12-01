@@ -581,8 +581,12 @@ en:
         no_changesets: There aren't any planned changes for this release.
         plan_some_changes: Go plan some changes!
         planned_changes_for: Planned Changes For
+        pluralize_change:
+          one: '%{count} Change'
+          other: '%{count} Changes'
         published_on: Published On
         publishes_on: Publishes On
+        recent: Recent Changes
         releases: Releases
         unscheduled: Unscheduled
       catalog_product_copies:
