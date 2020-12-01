@@ -16,6 +16,8 @@ Workarea Builds
 | --- | --- |
 | [master](https://github.com/workarea-commerce/mega-build) | [![Megabuild Edge](https://github.com/workarea-commerce/mega-build/workflows/Edge%20Build/badge.svg)](https://github.com/workarea-commerce/mega-build/actions) |
 | [patch](https://github.com/workarea-commerce/mega-build/tree/patch) | [![Megabuild Patch](https://github.com/workarea-commerce/mega-build/workflows/Patch%20Build/badge.svg)](https://github.com/workarea-commerce/mega-build/actions) |
+| [site-builder](https://github.com/workarea-commerce/mega-build/tree/site-builder) | [![Megabuild Site Builder](https://github.com/workarea-commerce/mega-build/workflows/Site%20Builder%20Build/badge.svg)](https://github.com/workarea-commerce/mega-build/actions) |
+
 
 ## Plugins
 
