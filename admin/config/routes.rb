@@ -108,15 +108,13 @@ Workarea::Admin::Engine.routes.draw do
     resources :releases do
       resources :changesets, only: [:index, :destroy]
       resources :releasables, only: [:index, :show]
-      resource :undo, controller: 'create_release_undos', only: [:new, :create] do
-        get :review
-        post :complete
+
+      resources :undos, controller: 'create_release_undos', only: [:new, :create] do
+        member { get :review }
       end
 
       member do
         get 'edit_for/:type', action: :edit_for, as: :edit_for
-        get :undo
-        get :original
         patch :publish
       end
 

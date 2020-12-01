@@ -11,6 +11,10 @@ module Workarea
         @changeset_count ||= model.changesets.count
       end
 
+      def additional_changesets_count
+        [changeset_count - Workarea.config.per_page, 0].max
+      end
+
       def show_changeset_summary?
         changeset_count > Workarea.config.per_page
       end
@@ -39,9 +43,8 @@ module Workarea
         calendar_at&.to_date
       end
 
-      def undo
-        return unless undo?
-        @undo ||= ReleaseViewModel.wrap(model.undo, options)
+      def undos
+        @undos ||= ReleaseViewModel.wrap(model.undos, options)
       end
 
       def undoes

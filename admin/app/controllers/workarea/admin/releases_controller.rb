@@ -43,9 +43,6 @@ module Workarea
         end
       end
 
-      def original
-      end
-
       def publish
         self.current_release = nil
         PublishRelease.perform_async(@release.id)
@@ -59,7 +56,7 @@ module Workarea
         @release.destroy
 
         flash[:success] = t('workarea.admin.releases.flash_messages.removed')
-        redirect_to releases_path
+        redirect_back_or releases_path
       end
 
       def calendar_feed
