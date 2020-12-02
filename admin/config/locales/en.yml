@@ -681,6 +681,7 @@ en:
           automate: Automate
           automate_metadata: Automate Metadata
           automation_help_content: The system will automatically generate browser title and meta description. These fields will be updated monthly.
+          automation_disabled_help_content_html: Automated SEO data is disabled for the whole site, see <a href="%{configuration_path}">the configuration</a> area to change this.
           automation_note_content: Disable this setting to manually edit the title and meta description for this page
           browser_title: Browser Title
           browser_title_note: The title appears in the top bar of a web browser and is shown in search engine results.

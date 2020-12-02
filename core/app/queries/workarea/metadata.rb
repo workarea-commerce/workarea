@@ -26,7 +26,7 @@ module Workarea
     end
 
     def update
-      return unless content.automate_metadata?
+      return unless Workarea.config.automate_seo_data && content.automate_metadata?
 
       content.browser_title = title
       content.meta_description = description
