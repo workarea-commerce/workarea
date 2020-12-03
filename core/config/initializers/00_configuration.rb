@@ -105,6 +105,11 @@ Workarea::Configuration.define_fields do
   end
 
   fieldset :content, namespaced: false do
+    field :automate_seo_data,
+      type: :boolean,
+      default: true,
+      description: 'Globally control whether automated SEO content is generated'
+
     field :minimum_content_search_words,
       type: :integer,
       default: 5,
