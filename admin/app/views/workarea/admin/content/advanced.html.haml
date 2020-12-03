@@ -45,7 +45,7 @@
             %span#automation-help.tooltip-content
               = t('workarea.admin.content.advanced.automation_disabled_help_content_html', configuration_path: configuration_path(anchor: 'content'))
 
-      - if !Workarea.config.automate_seo_data
+      - unless Workarea.config.automate_seo_data
         .property
           = label_tag 'content_browser_title', t('workarea.admin.fields.browser_title'), class: 'property__name'
           = text_field_tag 'content[browser_title]', @content.browser_title, class: 'text-box text-box--i18n', placeholder: t('workarea.admin.content.advanced.browser_title_placeholder')
