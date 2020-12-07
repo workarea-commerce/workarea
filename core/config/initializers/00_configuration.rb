@@ -60,6 +60,7 @@ Workarea::Configuration.define_fields do
     field :shipping_dimensions,
       type: :array,
       default: [1, 1, 1],
+      values_type: :integer,
       description: %(
         Default package dimensions to use for calculating shipping costs.
         It's recommended to set these to your average or standard box size when

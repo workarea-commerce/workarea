@@ -139,6 +139,11 @@ module Workarea
         end
 
         visit admin.release_path(Release.first)
+        assert(page.has_content?('2 Products'))
+        assert(page.has_content?('1 Pricing Sku'))
+        assert(page.has_content?('1 Discount'))
+        assert(page.has_content?('1 System Page'))
+
         click_link t('workarea.admin.releases.cards.planned_changes.planned')
         assert(page.has_content?('Test Page'))
         assert(page.has_content?('Foo Bar'))
@@ -263,8 +268,7 @@ module Workarea
 
         within('.text.text--large', match: :first) { click_link 'Foo Release' }
         assert(page.has_content?('Foo Release'))
-        assert(page.has_content?('Test Page'))
-        assert(page.has_content?('Foo Bar'))
+        assert(page.has_content?('1 Content Page'))
 
         click_link t('workarea.admin.releases.cards.undo.title')
         assert(page.has_content?('Foo Bar Undo'))
@@ -355,6 +359,43 @@ module Workarea
           assert(page.has_content?('Release Five'))
           assert(page.has_content?('Release Six'))
         end
+      end
+
+      def test_viewing_large_changesets
+        Workarea.config.per_page = 2
+
+        release = create_release
+        product_one = create_product(id: 'PROD1', name: 'Product One')
+        product_two = create_product(id: 'PROD2', name: 'Product Two')
+        content_page = create_page(name: 'Test Page')
+
+        release.as_current do
+          product_one.variants.first.update!(details: { 'Color' => 'Orange' })
+          product_two.update!(name: 'Test Product Changed')
+          content_page.update!(name: 'Test Page Changed')
+        end
+
+        visit admin.release_path(release)
+
+        assert(page.has_content?('2 Products'))
+        assert(page.has_content?('1 Content Page'))
+
+        click_link t('workarea.admin.releases.cards.planned_changes.planned')
+
+        assert(page.has_content?('2 Products'))
+        assert(page.has_content?('1 Content Page'))
+
+        assert(page.has_content?('Test Product Changed'))
+        assert(page.has_content?('Test Page Changed'))
+        assert(page.has_no_content?('Orange'))
+
+        assert(page.has_content?(t('workarea.admin.changesets.recent')))
+        assert(page.has_content?(t('workarea.admin.cards.more', amount: 1)))
+
+        click_link '2 Products'
+
+        assert(page.has_content?('Product One'))
+        assert(page.has_content?('Product Two'))
       end
     end
   end

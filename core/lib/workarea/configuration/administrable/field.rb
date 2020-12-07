@@ -32,7 +32,7 @@ module Workarea
         end
 
         def values_type_class
-          return unless type == :hash
+          return unless type.in?(%i(hash array))
 
           values_type = options.values_type || :string
           Workarea.config.configurable_field_types[values_type]&.constantize

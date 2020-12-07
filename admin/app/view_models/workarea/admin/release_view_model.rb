@@ -7,9 +7,25 @@ module Workarea
         @timeline ||= TimelineViewModel.new(model)
       end
 
+      def changeset_count
+        @changeset_count ||= model.changesets.count
+      end
+
+      def show_changeset_summary?
+        changeset_count > Workarea.config.per_page
+      end
+
+      def changeset_summary
+        @changeset_summary ||=
+          Release::Changeset.summary(model.id).map do |type|
+            ChangesetSummaryViewModel.new(type)
+          end
+      end
+
       def changesets_with_releasable
         @changesets_with_releasable ||= model
                           .changesets
+                          .latest
                           .map { |c| ChangesetViewModel.wrap(c) }
                           .select { |changeset| changeset.root.present? }
                           .reject { |changeset| changeset.releasable.blank? }
