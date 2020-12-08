@@ -1220,7 +1220,7 @@ en:
         review:
           title: Review Undo Changes for %{name}
           changes_description_html: These changes have been saved on the %{undo} release. They are the opposite of the changes in the %{original} release. You can view, edit, or delete these changes like changes in a normal release.
-          change_count_message: The full list of changes is too large to display in its entirety. To further modify the changes, finish creating the release then view the changes card on the detail page for this release.
+          change_count_message: The full list of changes is too large to display. To make more changes, finish creating the release then view the changes card.
         workflow:
           setup: Setup
           review: Review
