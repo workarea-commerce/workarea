@@ -18,11 +18,6 @@ module Workarea
           releasable_icon_path('variants'),
           'workarea/admin/icons/variants.svg'
         )
-
-        assert_equal(
-          releasable_icon_path('notanicon'),
-          'workarea/admin/icons/release.svg'
-        )
       end
     end
   end

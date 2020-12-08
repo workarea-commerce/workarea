@@ -2,22 +2,29 @@ module Workarea
   module Admin::ChangesetsHelper
     def changeset_icon(changeset, options = {})
       type = changeset.root.model_name.element
-      inline_svg(releasable_icon_path(type), options)
+      inline_svg(
+        releasable_icon_path(type),
+        options.reverse_merge(fallback: default_releasable_icon_path)
+      )
     end
 
     def releaseable_icon(model, options = {})
       type = model.model_name.element
-      inline_svg(releasable_icon_path(type), options)
+      inline_svg(
+        releasable_icon_path(type),
+        options.reverse_merge(fallback: default_releasable_icon_path)
+      )
     end
 
     def releasable_icon_path(type)
-      default = 'workarea/admin/icons/release.svg'
-      return default unless type.present?
+      return default_releasable_icon_path unless type.present?
 
-      path = Workarea.config.releasable_icons[type.to_sym] ||
-             "workarea/admin/icons/#{type}.svg"
+      Workarea.config.releasable_icons[type.to_sym] ||
+      "workarea/admin/icons/#{type}.svg"
+    end
 
-      Rails.application.assets.find_asset(path).present? ? path : default
+    def default_releasable_icon_path
+      'workarea/admin/icons/release.svg'
     end
   end
 end
