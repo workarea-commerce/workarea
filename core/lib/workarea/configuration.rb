@@ -1331,6 +1331,12 @@ module Workarea
       # item to the cart, the newly added item will appear separately in
       # the Order.
       config.distinct_order_item_attributes = []
+
+      # How big a file added to a DataFile::Import can be before being
+      # considered large. This will display additional messaging to the user
+      # about potentially long import and release processing times.
+      config.data_file_import_large_csv_threshold = 50_000 # 50KB
+      config.data_file_import_large_json_threshold = 5_000_000 # 5MB
     end
   end
 end

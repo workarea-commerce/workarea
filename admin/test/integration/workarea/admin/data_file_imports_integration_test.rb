@@ -187,6 +187,21 @@ module Workarea
         assert(import.created_by_id.present?)
         assert_equal(release.id.to_s, import.release_id)
       end
+
+      def test_file_size_warning
+        file = create_tempfile([create_product].to_json, extension: 'json')
+        Workarea.config.data_file_import_large_json_threshold = file.size - 1
+
+        post admin.data_file_imports_path,
+          params: {
+            import: {
+              model_type: 'Workarea::Catalog::Product',
+              file: Rack::Test::UploadedFile.new(file.path)
+            }
+          }
+
+        assert(flash[:warning].present?)
+      end
     end
   end
 end

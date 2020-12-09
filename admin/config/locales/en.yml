@@ -2121,6 +2121,7 @@ en:
         example_file_link: See an example file
         flash_messages:
           processing: Your import is processing. We'll send you an email with the results when it's done.
+          large_file_warning: Your import may be slow to process due to the size of the uploaded file.
         more_info_link: More info on Imports
         more_info_tooltip: Import using a CSV file. A CSV (comma-separated values) stores tabular data in plain text
         usage:

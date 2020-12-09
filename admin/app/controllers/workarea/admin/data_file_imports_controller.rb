@@ -14,6 +14,10 @@ module Workarea
 
       def create
         if @import.save
+          if @import.large?
+            flash[:warning] = t('workarea.admin.data_file_imports.flash_messages.large_file_warning')
+          end
+
           flash[:success] = t('workarea.admin.data_file_imports.flash_messages.processing')
           redirect_to return_to.presence || root_path
         else

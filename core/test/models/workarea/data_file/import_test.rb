@@ -172,6 +172,33 @@ module Workarea
         refute(import.error?)
         assert(import.successful?)
       end
+
+      def test_large?
+        product = create_product
+        file = create_tempfile([product].to_json, extension: 'json')
+
+        import = create_import(
+          model_type: Workarea::Catalog::Product,
+          file: file
+        )
+
+        Workarea.config.data_file_import_large_json_threshold = file.size - 1
+        assert(import.large?)
+        Workarea.config.data_file_import_large_json_threshold = file.size + 1
+        refute(import.large?)
+
+        file = create_tempfile(Csv.new.serialize(product), extension: 'csv')
+
+        import = create_import(
+          model_type: Workarea::Catalog::Product,
+          file: file
+        )
+
+        Workarea.config.data_file_import_large_csv_threshold = file.size - 1
+        assert(import.large?)
+        Workarea.config.data_file_import_large_csv_threshold = file.size + 1
+        refute(import.large?)
+      end
     end
   end
 end

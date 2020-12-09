@@ -34,6 +34,19 @@ module Workarea
         error_message.present?
       end
 
+      def large?
+        return false unless file.present?
+
+        (
+          file_type == 'csv' &&
+          file.size > Workarea.config.data_file_import_large_csv_threshold
+        ) ||
+        (
+          file_type == 'json' &&
+          file.size > Workarea.config.data_file_import_large_json_threshold
+        )
+      end
+
       def failed
         total - succeeded
       end
