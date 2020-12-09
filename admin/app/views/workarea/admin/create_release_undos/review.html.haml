@@ -34,15 +34,21 @@
                   - changeset.changed_fields.each do |field|
                     = render_changeset_field(changeset, field)
 
+          - if @undo_release.show_changeset_summary?
+            %li.text.text--large.align-center
+              = t('workarea.admin.cards.more', amount: @release.additional_changesets_count )
+
+              %p= t('workarea.admin.create_release_undos.review.change_count_message')
+
     .workflow-bar
       .grid.grid--middle
         .grid__cell.grid__cell--20
-          = link_to t('workarea.admin.form.cancel'), release_path(@undo_release), class: 'workflow-bar__button workflow-bar__button--delete', data: { method: 'delete', confirm: t('workarea.admin.create_release_undos.workflow.delete_confirmation') }
+          = link_to t('workarea.admin.form.cancel'), release_path(@undo_release, return_to: release_path(@release)), class: 'workflow-bar__button workflow-bar__button--delete', data: { method: 'delete', confirm: t('workarea.admin.create_release_undos.workflow.delete_confirmation') }
 
         .grid__cell.grid__cell--60
           %ol.workflow-bar__steps
             %li.workflow-bar__step
-              1) #{link_to t('workarea.admin.create_release_undos.workflow.setup'), new_release_undo_path(@release)}
+              1) #{link_to t('workarea.admin.create_release_undos.workflow.setup'), new_release_undo_path(@release, id: @undo_release.id)}
             %li.workflow-bar__step
               %strong 2) #{t('workarea.admin.create_release_undos.workflow.review')}
 

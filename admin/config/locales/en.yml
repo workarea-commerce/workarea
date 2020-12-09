@@ -1220,6 +1220,7 @@ en:
         review:
           title: Review Undo Changes for %{name}
           changes_description_html: These changes have been saved on the %{undo} release. They are the opposite of the changes in the %{original} release. You can view, edit, or delete these changes like changes in a normal release.
+          change_count_message: The full list of changes is too large to display. To make more changes, finish creating the release then view the changes card.
         workflow:
           setup: Setup
           review: Review
@@ -3109,19 +3110,6 @@ en:
             changes: Changes
             empty_note: You can view and manage changes for this release once they are planned.
             planned: Planned
-          undo:
-            title: Undo
-            not_setup: This release doesn't have an undo setup.
-            build_an_undo: Build an Undo
-            set_to_publish_html: "%{link} is set to publish at <strong>%{at}</strong>."
-            published_html: "%{link} published at <strong>%{at}</strong>."
-            unscheduled_html: "%{link} is unscheduled."
-            undo_html: The %{link} release was created <strong>%{at}</strong> to undo this release.
-            learn_more: Learn More
-          original:
-            title: Original Release
-            undoes_html: This release undoes the %{link} release.
-            learn_more: Learn More
         edit:
           index_link: Release calendar
           last_published_at: Last Published at
@@ -3187,6 +3175,7 @@ en:
           view: View
           view_release: View Release
         show:
+          build_undo: Build Undo
           index_link: Release calendar
           plan_changes_to_preview: Plan some changes to preview this release
           publish_now: Publish Now
@@ -3199,8 +3188,6 @@ en:
           no_changes_to_publish: There are no changes to publish for this release. Click on the Plan Changes card to start!
           no_changes_to_undo: There are no changes to undo for this release. Click on the Plan Changes card to start!
           user_cannot_publish_info: You do not have permission to publish a release.
-          cannot_undo_info: You cannot undo a release that's not published or already undone.
-          user_cannot_undo_info: You do not have permission to undo a release.
         summary:
           change:
             one: "%{count} Change"
@@ -3225,24 +3212,6 @@ en:
           starts_on: Starts on %{date}
           ends_on: Ends on %{date}
           no_undo_date: There is no undo date set for this release.
-        undo:
-          page_title: Undo %{name}
-          index_link: Release calendar
-          plan_changes: Plan Changes
-          no_changes_html: There are no changes to undo for this release! Head to %{plan_changes} to make some.
-          undoing: Undoing a Release
-          description: You can setup an undo to automatically revert the changes in this release at a future point in time. After being setup, this "undo release" will behave like any other release. You'll be able to edit, reschdule, or modify the changes as you please.
-          build_an_undo_now: Build an Undo Now
-          created_description_html: "%{undo} was created %{at} to undo the %{original} release."
-          no_changes_for_this_release: No changes for this release now.
-          view_the_undo_release: View the Undo Release
-        original:
-          page_title: Original Release for %{name}
-          index_link: Release calendar
-          title: Original Release
-          created_description_html: "%{undo} was created %{at} to undo the %{original} release."
-          no_changes_for_this_release: No changes for this release now.
-          view_the_original_release: View the Original Release
       reports:
         all_reports: View All Reports
         average_order_value:

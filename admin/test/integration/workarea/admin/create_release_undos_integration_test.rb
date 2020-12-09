@@ -11,13 +11,13 @@ module Workarea
 
         release.as_current { releasable.update_attributes!(name: 'Bar') }
 
-        post admin.release_undo_path(release),
+        post admin.release_undos_path(release),
           params: { release: { name: 'Undo Bar', tag_list: 'foo,bar,baz' } }
 
         assert_equal(2, Release.count)
         undo_release = Release.desc(:created_at).first
 
-        assert_equal(undo_release, release.reload.undo)
+        assert_equal(undo_release, release.reload.undos.first)
         assert_equal('Undo Bar', undo_release.name)
         assert_equal(%w(foo bar baz), undo_release.tags)
         assert_equal(1, undo_release.changesets.size)

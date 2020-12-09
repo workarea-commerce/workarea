@@ -64,4 +64,4 @@
 
           - if @release.show_changeset_summary?
             %li.text.text--large.align-center
-              = link_to t('workarea.admin.cards.more', amount: @release.changeset_count - Workarea.config.per_page ), search_path(upcoming_changes: [@release.id])
+              = link_to t('workarea.admin.cards.more', amount: @release.additional_changesets_count ), search_path(upcoming_changes: [@release.id])
