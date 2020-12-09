@@ -1,0 +1,56 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://www.recaptcha.net/recaptcha/api/siteverify?remoteip=127.0.0.1&response=<%= response %>&secret=<%= secret_key %>
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 09 Dec 2020 17:54:18 GMT
+      Expires:
+      - Wed, 09 Dec 2020 17:54:18 GMT
+      Cache-Control:
+      - private, max-age=0
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Security-Policy:
+      - frame-ancestors 'self'
+      X-Xss-Protection:
+      - 1; mode=block
+      Server:
+      - GSE
+      Alt-Svc:
+      - h3-29=":443"; ma=2592000,h3-T051=":443"; ma=2592000,h3-Q050=":443"; ma=2592000,h3-Q046=":443";
+        ma=2592000,h3-Q043=":443"; ma=2592000,quic=":443"; ma=2592000; v="46,43"
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: |-
+        {
+          "success": <%= success %>,
+          "challenge_ts": "2020-12-09T18:01:14Z",
+          "hostname": "localhost",
+          "score": <%= respond_to?(:score) ? score : 0 %>,
+          "action": "<%= respond_to?(:action) ? action : '' %>"
+        }
+    http_version:
+  recorded_at: Wed, 09 Dec 2020 17:54:18 GMT
+recorded_with: VCR 2.9.3

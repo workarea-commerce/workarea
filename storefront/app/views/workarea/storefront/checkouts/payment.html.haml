@@ -181,4 +181,5 @@
                               %span= t('workarea.storefront.carts.free_gift')
 
         .checkout-payment__section
+          = recaptcha(action: 'checkout/place_order')
           %p.checkout-payment__place-order= button_tag t('workarea.storefront.checkouts.place_order'), value: 'place_order', class: 'button button--large', data: { disable_with: loading_indicator(t('workarea.storefront.checkouts.place_order_disabled_text')) }

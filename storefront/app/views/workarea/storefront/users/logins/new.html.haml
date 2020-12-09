@@ -20,6 +20,9 @@
             = label_tag 'log_in_password', nil, class: 'property__name' do
               %span.property__text= t('workarea.storefront.users.password')
             .value= password_field_tag :password, nil, id: 'log_in_password', class: 'text-box', required: true, autocomplete: 'off'
+
+          = recaptcha(action: 'login')
+
           .grid.grid--auto
             %p.grid__cell= button_tag t('workarea.storefront.users.login'), value: 'login', class: 'button'
             %p.grid__cell= link_to t('workarea.storefront.users.forgot_password'), forgot_password_path, class: 'text-button'
@@ -28,6 +31,7 @@
         %h2= t('workarea.storefront.users.create_account')
         = form_tag users_account_path, id: 'signup_form', method: :post, data: { analytics: signup_analytics_data.to_json }, class: 'login__form' do
           = hidden_field_tag :return_to, params[:return_to], id: nil
+
           .property
             = label_tag 'create_account_email', nil, class: 'property__name' do
               %span.property__text= t('workarea.storefront.users.email')
@@ -46,6 +50,8 @@
             .value= check_box_tag :email_signup, true, params[:email_signup]
             = label_tag :email_signup, nil, class: 'button-property__name' do
               %span.button-property__text= t('workarea.storefront.users.sign_up_for_email')
+
+          = recaptcha(action: 'signup')
           = button_tag t('workarea.storefront.users.create_account'), value: 'create_account', class: 'button', data: { disable_with: loading_indicator(t('workarea.storefront.users.create_account_disabled_text')) }
 
     = append_partials('storefront.new_login', user: @user)

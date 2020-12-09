@@ -160,7 +160,9 @@
                 = form_tag email_signup_path, method: :post, id: 'footer_email_signup_form', authenticity_token: !http_caching?, class: 'page-footer__email-signup-form', data: { analytics: email_signup_analytics_data.to_json } do
                   .page-footer__email-value
                     .value= email_field_tag :email, nil, id: 'footer_email_signup_field', class: 'text-box', placeholder: t('workarea.storefront.forms.email_placeholder'), title: t('workarea.storefront.users.email'), required: true, type: 'email', autocapitalize: 'off', autocomplete: 'email', aria: { label: t('workarea.storefront.users.email') }
-                  .page-footer__email-button= button_tag t('workarea.storefront.users.join'), value: 'sign_up', class: 'button'
+                  .page-footer__email-button
+                    = recaptcha(action: 'email_signup')
+                    = button_tag t('workarea.storefront.users.join'), value: 'sign_up', class: 'button'
 
           %p.page-footer__copyright © #{Time.current.year}
 

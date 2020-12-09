@@ -15,7 +15,10 @@ module Workarea
     def create
       @user = User.new(user_params)
 
-      if @user.save
+      if invalid_recaptcha?(action: 'signup')
+        challenge_recaptcha!
+        render 'workarea/storefront/users/logins/new', status: 422
+      elsif @user.save
         login(@user)
         Login.new(@user, current_order).perform
 
@@ -27,7 +30,7 @@ module Workarea
         redirect_back_or users_account_path
       else
         flash[:error] = t('workarea.storefront.flash_messages.account_create_error')
-        render 'workarea/storefront/users/logins/new'
+        render 'workarea/storefront/users/logins/new', status: 422
       end
     end
 

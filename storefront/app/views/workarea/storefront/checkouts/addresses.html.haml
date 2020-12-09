@@ -49,6 +49,7 @@
       .checkout-addresses__fields.hidden-if-js-enabled= render 'workarea/storefront/shared/address_fields', label: 'billing_address', address: @step.billing_address
 
     = append_partials('storefront.checkout_addresses_form', step: @step)
+    = recaptcha(action: 'checkout/addresses')
 
     - if @step.show_shipping_address?
       %p= button_tag t('workarea.storefront.checkouts.continue_to_shipping'), value: 'continue', class: 'button button--large', data: { disable_with: loading_indicator(t('workarea.storefront.checkouts.continue_to_shipping_disabled_text')) }

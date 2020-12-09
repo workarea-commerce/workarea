@@ -12,14 +12,19 @@ module Workarea
 
         # PATCH /checkout/payment
         def update_shipping
-          shipping_step.update(params)
-
-          if request.xhr?
-            updated_shipping_step_summary
-          elsif shipping_step.complete?
-            completed_shipping_step
+          if invalid_recaptcha?(action: 'checkout/shipping')
+            challenge_recaptcha!
+            incomplete_place_order
           else
-            incomplete_shipping_step
+            shipping_step.update(params)
+
+            if request.xhr?
+              updated_shipping_step_summary
+            elsif shipping_step.complete?
+              completed_shipping_step
+            else
+              incomplete_shipping_step
+            end
           end
         end
 

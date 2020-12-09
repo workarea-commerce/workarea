@@ -40,4 +40,6 @@
       = label_tag :message, nil, class: 'property__name' do
         %span.property__text= t('workarea.storefront.contacts.message')
       .value= text_area_tag :message, params[:message], class: 'text-box text-box--multi-line text-box--wide', required: true
+
+    = recaptcha(action: 'contact')
     = button_tag t('workarea.storefront.forms.send'), value: 'submit', class: 'button'

@@ -42,7 +42,7 @@ module Workarea
             password: ''
           }
 
-        assert(response.ok?)
+        assert_equal(422, response.status)
       end
 
       def test_updating_account_info
