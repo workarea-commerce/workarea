@@ -84,6 +84,10 @@ module Workarea
         model_class.new.releasable?
       end
 
+      def within_release?
+        release_id.present?
+      end
+
       private
 
       def set_file_type

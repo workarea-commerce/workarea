@@ -2069,6 +2069,8 @@ en:
           message: Your import of %{name} has completed!
           success: '%{count} imported successfully.'
           link_text: View %{name}
+          edit_release_text: Edit release publish date
+          release_delay_warning: The imported file created a large number of changes for the %{name} release. This may result in longer publish times.
           email_action:
             name: View Import
             description: View all imported items
