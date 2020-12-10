@@ -23,6 +23,7 @@ module Workarea
         assert_equal(1, undo_release.changesets.size)
         assert_equal(1, undo_release.changesets.first.changeset.size)
         assert_equal(releasable, undo_release.changesets.first.releasable)
+        assert_equal([releasable], Search::AdminSearch.new(upcoming_changes: [undo_release.id]).results)
       end
     end
   end

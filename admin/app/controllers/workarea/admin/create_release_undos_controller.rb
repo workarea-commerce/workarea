@@ -15,6 +15,7 @@ module Workarea
         if @undo_release.save
           @release.changesets.each do |changeset|
             changeset.build_undo(release: @undo_release.model).save!
+            changeset.releasable.run_callbacks(:save)
           end
 
           flash[:success] = t('workarea.admin.create_release_undos.flash_messages.saved')
