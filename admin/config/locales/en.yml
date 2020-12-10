@@ -3237,6 +3237,7 @@ en:
           view_release: View Release
         show:
           index_link: Release calendar
+          large_changeset_warning: This release contains a large number of changes that will take longer to publish.
           plan_changes_to_preview: Plan some changes to preview this release
           publish_now: Publish Now
           republish_now: Republish Now

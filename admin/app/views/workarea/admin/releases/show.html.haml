@@ -11,6 +11,9 @@
         = render_aux_navigation_for(@release)
 
   .view__container
+    - if @release.large?
+      .grid.grid--center.grid--auto
+        .grid__cell= render_message 'warning', t('workarea.admin.releases.show.large_changeset_warning')
     = render_cards_for(@release)
 
     .workflow-bar
