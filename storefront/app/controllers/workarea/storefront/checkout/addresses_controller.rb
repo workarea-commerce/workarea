@@ -14,12 +14,17 @@ module Workarea
 
         # PATCH /checkout/addresses
         def update_addresses
-          addresses_step.update(params)
-
-          if addresses_step.complete?
-            completed_addresses_step
-          else
+          if invalid_recaptcha?(action: 'checkout/addresses')
+            challenge_recaptcha!
             incomplete_addresses_step
+          else
+            addresses_step.update(params)
+
+            if addresses_step.complete?
+              completed_addresses_step
+            else
+              incomplete_addresses_step
+            end
           end
         end
 

@@ -7,7 +7,9 @@ module Workarea
     def create
       signup = Email.signup(params[:email])
 
-      if signup.try(:valid?)
+      if invalid_recaptcha?(action: 'email_signup')
+        redirect_back fallback_location: root_path
+      elsif signup.try(:valid?)
         update_tracking!(email: signup.email)
         flash[:success] = t('workarea.storefront.flash_messages.email_signed_up')
       else

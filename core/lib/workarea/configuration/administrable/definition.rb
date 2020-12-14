@@ -10,8 +10,8 @@ module Workarea
           @fieldsets.push(Fieldset.new('Application', namespaced: false))
         end
 
-        def fieldset(id, override: false, namespaced: true, &block)
-          fieldset = Fieldset.new(id, namespaced: namespaced)
+        def fieldset(id, name: nil, override: false, namespaced: true, &block)
+          fieldset = Fieldset.new(id, name: name, namespaced: namespaced)
           existing = find_fieldset(fieldset.id)
 
           if override && existing.present?

@@ -104,6 +104,7 @@ require 'chartkick'
 require 'mongoid/encrypted'
 require 'browser'
 require 'sitemap_generator'
+require 'recaptcha'
 
 #
 # Extensions

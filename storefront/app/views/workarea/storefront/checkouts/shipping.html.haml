@@ -36,4 +36,5 @@
 
     = append_partials('storefront.checkout_shipping_step_form', step: @step, cart: @cart)
 
+    = recaptcha(action: 'checkout/shipping')
     %p= button_tag t('workarea.storefront.checkouts.continue_to_payment'), value: 'continue', class: 'button button--large', data: { disable_with: loading_indicator(t('workarea.storefront.checkouts.continue_to_payment_disabled_text')) }

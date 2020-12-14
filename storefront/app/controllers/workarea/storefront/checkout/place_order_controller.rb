@@ -4,12 +4,17 @@ module Workarea
       class PlaceOrderController < PaymentController
         # PATCH /checkout/place_order
         def place_order
-          payment_step.update(params)
-
-          if payment_step.complete?
-            try_place_order
-          else
+          if invalid_recaptcha?(action: 'checkout/place_order')
+            challenge_recaptcha!
             incomplete_place_order
+          else
+            payment_step.update(params)
+
+            if payment_step.complete?
+              try_place_order
+            else
+              incomplete_place_order
+            end
           end
         end
 

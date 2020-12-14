@@ -9,7 +9,11 @@ module Workarea
     end
 
     def create
-      if user = User.find_for_login(params[:email], params[:password])
+      if invalid_recaptcha?(action: 'login')
+        challenge_recaptcha!
+        @user = User.new
+        render 'new', status: 422
+      elsif user = User.find_for_login(params[:email], params[:password])
         login(user)
 
         login_service = Login.new(user, current_order).tap(&:perform)

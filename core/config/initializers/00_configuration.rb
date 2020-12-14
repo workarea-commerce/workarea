@@ -200,6 +200,44 @@ Workarea::Configuration.define_fields do
       description: 'Subjects list for the contact form'
   end
 
+  fieldset :recaptcha_v3, name: 'reCAPTCHA v3' do
+    description %(
+      <p>reCAPTCHA v3 returns a score for each request without user friction.
+      The score is based on interactions with your site and enables you to take
+      an appropriate action for your site. Register reCAPTCHA v3 keys
+      <a href="https://g.co/recaptcha/v3">here</a>.</p>
+      <p>If this verification fails, and you have reCAPTCHA v2 configured,
+      Workarea will challenge the user with reCAPTCHA v2. We recommend
+      configuring both.</p>
+    ).squish.html_safe
+
+    field :site_key, name: 'v3 Site Key', type: :string, required: false
+    field :secret_key, name: 'v3 Secret Key', type: :string, required: false, encrypted: true
+    field :minimum_score,
+      name: 'Minimum Score',
+      type: :float,
+      default: 0.5,
+      description: %(
+        The minimum score required to consider the user a human and not a bot.
+        1.0 is very likely a good interaction, 0.0 is very likely a bot.
+      ).squish
+  end
+
+  fieldset :recaptcha_v2, name: 'reCAPTCHA v2' do
+    description %(
+      <p><strong>Don't configure this without configuring reCAPTCHA v3 above.</strong></p>
+      <p>reCAPTCHA v2 verifies if an interaction is legitimate with the “I am not a
+      robot” checkbox and invisible reCAPTCHA badge challenges. Register
+      reCAPTCHA v2 keys <a href="https://www.google.com/recaptcha/admin/create">
+      here</a>.</p>
+      <p>This is only used in Workarea if reCAPTCHA v3 isn't configured or the v3
+      verification fails. We recommend configuring both.</p>
+    ).squish.html_safe
+
+    field :site_key, name: 'v2 Site Key', type: :string, required: false
+    field :secret_key, name: 'v2 Secret Key', type: :string, required: false, encrypted: true
+  end
+
   fieldset :security, namespaced: false do
     field :safe_ip_addresses,
       name: 'Safe IP Addresses',

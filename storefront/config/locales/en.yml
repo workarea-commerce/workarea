@@ -218,6 +218,8 @@ en:
         order_custom_pricing: Your cart has custom pricing, you cannot edit the contents of your cart.
         download_unavailable: This download is no longer available. Contact customer support for more information.
         no_available_shipping_options: There are no available shipping options for your shipping address.
+        verify_recaptcha: Please verify you're a human.
+        invalid_recaptcha: You've been identified as spam or another type of automated abuse.
 
       forms:
         required: '*'

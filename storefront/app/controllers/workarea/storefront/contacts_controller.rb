@@ -8,14 +8,18 @@ module Workarea
     def create
       inquiry = Inquiry.new(inquiry_params)
 
-      if inquiry.save
+      if invalid_recaptcha?(action: 'contact')
+        challenge_recaptcha!
+        @inquiry = Storefront::InquiryViewModel.new(inquiry)
+        render :show, status: 422
+      elsif inquiry.save
         flash[:success] = t('workarea.storefront.flash_messages.contact_message_sent')
         Storefront::InquiryMailer.created(inquiry.id.to_s).deliver_later
         redirect_to contact_path
       else
         flash[:error] = t('workarea.storefront.flash_messages.contact_error')
         @inquiry = Storefront::InquiryViewModel.new(inquiry)
-        render :show
+        render :show, status: 422
       end
     end
 

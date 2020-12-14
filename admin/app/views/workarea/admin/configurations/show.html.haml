@@ -20,6 +20,10 @@
             .box__head
               %h2.box__heading{ data: { jump_to_menu_heading: 1 }, id: fieldset.name.systemize  }= fieldset.name
           .box__body.box__body--pad-top
+            - if fieldset.description.present?
+              .box__section
+                = fieldset.description
+
             - fieldset.fields.each do |field|
               .box__section
                 .grid.grid--huge
