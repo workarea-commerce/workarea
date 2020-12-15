@@ -34,7 +34,7 @@
                   - changeset.changed_fields.each do |field|
                     = render_changeset_field(changeset, field)
 
-          - if @undo_release.show_changeset_summary?
+          - if @release.show_changeset_summary?
             %li.text.text--large.align-center
               = t('workarea.admin.cards.more', amount: @release.additional_changesets_count )
 
