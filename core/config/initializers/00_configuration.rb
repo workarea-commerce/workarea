@@ -243,12 +243,14 @@ Workarea::Configuration.define_fields do
       name: 'Safe IP Addresses',
       type: :array,
       default: [],
+      required: false,
       description: 'List of known IP addresses and/or IP addresses ranges a that should always have access to the site.'
 
     field :blocked_ip_addresses,
       name: 'Blocked IP Addresses',
       type: :array,
       default: [],
+      required: false,
       description: 'List of known IP addresses and/or IP addresses ranges to block from site access.'
   end
 end
