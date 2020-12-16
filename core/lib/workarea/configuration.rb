@@ -1335,8 +1335,8 @@ module Workarea
       # How big a file (in bytes) added to a DataFile::Import can be before
       # being considered large. This will display additional messaging to the
       # user about potentially long import and release processing times.
-      config.data_file_import_large_csv_threshold = 50_000 # 50KB
-      config.data_file_import_large_json_threshold = 5_000_000 # 5MB
+      config.data_file_import_large_csv_threshold = 50.kilobytes
+      config.data_file_import_large_json_threshold = 5.megabytes
 
       # How many changes a release can have before an admin user is shown
       # additional messaging warning of potential delays in a scheduled release
