@@ -14,7 +14,7 @@ module Workarea
         end
       end
 
-      release.changesets.each do |changeset|
+      release.changesets.each_by(500) do |changeset|
         next if matching_changeset.call(changeset, existing_changesets)
         changeset.build_undo(release: undo_release).save!
       end

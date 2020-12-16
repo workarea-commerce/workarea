@@ -20,7 +20,7 @@ module Workarea
           BuildReleaseUndoChangesets.perform_async(
             @undo_release.id,
             @release.id
-          ) if @release.show_changeset_summary?
+          ) if @release.changeset_count > Workarea.config.per_page
 
           flash[:success] = t('workarea.admin.create_release_undos.flash_messages.saved')
           redirect_to review_release_undo_path(@release, @undo_release)
