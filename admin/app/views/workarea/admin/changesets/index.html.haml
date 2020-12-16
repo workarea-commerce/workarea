@@ -30,10 +30,16 @@
             .grid.grid--center.grid--auto
               - @release.changeset_summary.each do |summary|
                 .grid__cell
-                  .card.card--button
-                    = link_to search_path(type: [summary.type_filter], upcoming_changes: [@release.id]), class: 'card__header' do
-                      .card__header-text #{summary.count} #{summary.label}
-                      = releaseable_icon summary, { class: 'card__icon'}
+                  - if summary.searchable?
+                    .card.card--button
+                      = link_to search_path(type: [summary.type_filter], upcoming_changes: [@release.id]), class: 'card__header' do
+                        .card__header-text #{summary.count} #{summary.label}
+                        = releaseable_icon summary, { class: 'card__icon'}
+                  - else
+                    .card
+                      .card__header
+                        .card__header-text #{summary.count} #{summary.label}
+                        = releaseable_icon summary, { class: 'card__icon'}
 
         .grid__cell.grid__cell--80-at-medium
           %h2.align-center= t('workarea.admin.changesets.recent')
