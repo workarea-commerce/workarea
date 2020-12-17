@@ -187,6 +187,43 @@ module Workarea
         assert(import.created_by_id.present?)
         assert_equal(release.id.to_s, import.release_id)
       end
+
+      def test_import_and_release_warnings
+        products = Array.new(3) { create_product }
+        release = create_release(publish_at: 1.week.from_now)
+        file = create_tempfile(
+          products.each { |p| p.name = p.name + ' Changed' }.to_json,
+          extension: 'json'
+        )
+
+        Workarea.config.data_file_import_large_json_threshold = file.size - 1
+        Workarea.config.release_large_change_count_threshold = 2
+
+        post admin.data_file_imports_path,
+          params: {
+            publishing: release.id,
+            import: {
+              model_type: 'Workarea::Catalog::Product',
+              file: Rack::Test::UploadedFile.new(file.path)
+            }
+          }
+
+        assert_equal(
+          t('workarea.admin.data_file_imports.flash_messages.large_file_warning'),
+          flash[:warning]
+        )
+
+        email = ActionMailer::Base.deliveries.last
+
+        assert_includes(
+          email.parts.second.body,
+          t('workarea.admin.data_file_mailer.import.release_delay_warning', name: release.name)
+        )
+        assert_includes(
+          email.parts.second.body,
+          t('workarea.admin.data_file_mailer.import.edit_release_text')
+        )
+      end
     end
   end
 end

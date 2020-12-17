@@ -122,6 +122,8 @@ module Workarea
       end
 
       def test_viewing_release_changes
+        Workarea.config.release_large_change_count_threshold = 2
+
         create_the_release
         make_page_change
         product = create_product(name: 'Test Product', variants: [{ sku: 'SKU1' }])
@@ -143,6 +145,7 @@ module Workarea
         assert(page.has_content?('1 Pricing Sku'))
         assert(page.has_content?('1 Discount'))
         assert(page.has_content?('1 System Page'))
+        assert(page.has_content?(t('workarea.admin.releases.show.large_changeset_warning')))
 
         click_link t('workarea.admin.releases.cards.planned_changes.planned')
         assert(page.has_content?('Test Page'))

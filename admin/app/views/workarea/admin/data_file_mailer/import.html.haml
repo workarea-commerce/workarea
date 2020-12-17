@@ -11,6 +11,12 @@
     %p
       = t('workarea.admin.data_file_mailer.import.success', count: pluralize(@import.succeeded, @import.format.unit.downcase))
 
+    - if @import.large? && @release&.large?
+      %p
+        %strong= t('workarea.admin.data_file_mailer.import.release_delay_warning', name: @release.name)
+        - if @release.scheduled?
+          = link_to t('workarea.admin.data_file_mailer.import.edit_release_text'), edit_release_url(@release)
+
 - if index_url.present?
   %tr
     %td

@@ -22,6 +22,7 @@ module Workarea
       def import(id)
         @import = DataFile::Import.find(id)
         @user = User.find(@import.created_by_id)
+        @release = Release.find(@import.release_id) if @import.within_release?
 
         mail(
           to: @user.email,

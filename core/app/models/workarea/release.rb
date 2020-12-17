@@ -232,6 +232,10 @@ module Workarea
       end
     end
 
+    def large?
+      changesets.count > Workarea.config.release_large_change_count_threshold
+    end
+
     private
 
     def publish_at_status

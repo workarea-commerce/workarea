@@ -34,6 +34,19 @@ module Workarea
         error_message.present?
       end
 
+      def large?
+        return false unless file.present?
+
+        (
+          file_type == 'csv' &&
+          file.size > Workarea.config.data_file_import_large_csv_threshold
+        ) ||
+        (
+          file_type == 'json' &&
+          file.size > Workarea.config.data_file_import_large_json_threshold
+        )
+      end
+
       def failed
         total - succeeded
       end
@@ -69,6 +82,10 @@ module Workarea
       def releasable?
         return false unless model_type.present?
         model_class.new.releasable?
+      end
+
+      def within_release?
+        release_id.present?
       end
 
       private
