@@ -14,8 +14,10 @@ module Workarea
 
         if @undo_release.save
           @release.changesets.limit(Workarea.config.per_page).each do |changeset|
-            changeset.build_undo(release: @undo_release.model).save!
-            changeset.releasable.run_callbacks(:save)
+            if changeset.releasable.present?
+              changeset.build_undo(release: @undo_release.model).save!
+              changeset.releasable.run_callbacks(:save)
+            end
           end
 
           BuildReleaseUndoChangesets.perform_async(
