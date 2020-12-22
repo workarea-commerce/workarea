@@ -10,6 +10,7 @@ module Workarea
         release = create_release
 
         release.as_current { releasable.update_attributes!(name: 'Bar') }
+        release.changesets.create!(releasable: Catalog::Product.new) # test missing releasable
 
         post admin.release_undos_path(release),
           params: { release: { name: 'Undo Bar', tag_list: 'foo,bar,baz' } }
