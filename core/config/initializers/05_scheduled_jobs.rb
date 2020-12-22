@@ -90,5 +90,12 @@ unless Workarea.skip_services?
       cron: '0 5 * * *',
       queue: 'low'
     )
+
+    Sidekiq::Cron::Job.create(
+      name: 'Workarea::ProcessDeletionRequests',
+      klass: 'Workarea::ProcessDeletionRequests',
+      cron: "0 0 * * * #{Time.zone.tzinfo.identifier}",
+      queue: 'low'
+    )
   end
 end

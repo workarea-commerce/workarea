@@ -14,6 +14,11 @@ Workarea::Configuration.define_fields do
         ['Strong', :strong, title: 'Requires minimum 8 characters consisting of letters, numbers, and special characters.']
       ],
       description: 'Password requirement level for customers. Admin users always require a strong password.'
+
+    field :deletion_request_delay,
+      type: :duration,
+      default: 1.week,
+      description: 'How long to wait before processing a request by a user to delete their data.'
   end
 
   fieldset :checkout, namespaced: false do

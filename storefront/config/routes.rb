@@ -20,6 +20,7 @@ Workarea::Storefront::Engine.routes.draw do
     resource :contact, only: [:show, :create]
     resources :pages, only: :show
     get 'accessibility', to: 'pages#accessibility'
+    get 'privacy', to: 'pages#privacy'
 
     resources :products, only: :show do
       member do
@@ -78,6 +79,10 @@ Workarea::Storefront::Engine.routes.draw do
       resources :addresses
       resources :credit_cards
       resources :orders, only: [:index, :show]
+    end
+
+    resource :deletion_request, only: :create do
+      get ':id/cancel', to: 'deletion_requests#destroy', as: :cancel
     end
 
     get '/robots.txt', to: 'pages#robots', defaults: { format: 'text' }, as: :robots_txt

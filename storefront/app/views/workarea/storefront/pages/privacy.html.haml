@@ -1,0 +1,26 @@
+- @title = @page.browser_title
+
+- content_for :head do
+  %link{ href: privacy_url, rel: 'canonical' }
+  %meta{ name: :description, content: @page.meta_description }
+
+- content_for :breadcrumbs do
+  = render_schema_org(breadcrumb_list_schema([[t('workarea.storefront.layouts.home'), root_url], [@page.browser_title, privacy_path]]))
+
+  %p.breadcrumbs__node-group
+    %span.breadcrumbs__node
+      = link_to t('workarea.storefront.layouts.home'), root_path, rel: 'home', class: 'breadcrumbs__link'
+    %span.breadcrumbs__node
+      %span.breadcrumbs__text= @page.browser_title
+
+.view
+  = render_content_blocks(@page.content_blocks)
+
+  = form_tag deletion_request_path, method: 'post', id: 'deletion_request_form' do
+    .property
+      = label_tag :email, nil, class: 'property__name' do
+        %span.property__text= t('workarea.storefront.contacts.email')
+      .value= email_field_tag :email, params[:email], class: 'text-box', required: true, placeholder: t('workarea.storefront.forms.email_placeholder'), autocapitalize: 'off', autocomplete: 'email'
+
+    = recaptcha(action: 'privacy')
+    = button_tag t('workarea.storefront.forms.send'), value: 'submit', class: 'button'

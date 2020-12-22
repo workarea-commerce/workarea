@@ -1,0 +1,11 @@
+= append_partials('storefront.deletion_confirmation_mailer.top')
+
+%tr
+  %td
+    %h1= t('workarea.storefront.email.deletion_confirmation.heading')
+
+    %p= t('workarea.storefront.email.deletion_confirmation.info', date: @deletion_request.process_at.to_date.to_s(:date_only))
+
+    = link_to t('workarea.storefront.email.deletion_confirmation.cancel'), cancel_deletion_request_url(@deletion_request.token)
+
+= append_partials('storefront.deletion_confirmation_mailer.bottom')

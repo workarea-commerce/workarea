@@ -153,6 +153,7 @@
             .grid__cell.align-center{ class: ('grid__cell--33-at-medium' if footer_navigation_content.present?)}
               %ul.page-footer__help
                 %li.page-footer__help-item= link_to t('workarea.storefront.contacts.contact_us'), contact_path, class: 'page-footer__help-link'
+                %li.page-footer__help-item= link_to t('workarea.storefront.privacy.link'), privacy_path, class: 'page-footer__help-link'
                 %li.page-footer__help-item= link_to t('workarea.storefront.sitemaps.heading'), sitemap_path, class: 'page-footer__help-link'
                 = append_partials('storefront.footer_help')
             .grid__cell{ class: ('grid__cell--33-at-medium' if footer_navigation_content.present?)}

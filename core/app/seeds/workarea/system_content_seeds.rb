@@ -7,6 +7,7 @@ module Workarea
       add_checkout
       add_search
       add_contact_us
+      add_deletion_request
       add_offline
     end
 
@@ -86,6 +87,38 @@ module Workarea
       Content.for('contact_us').blocks.create!(
         type: 'html',
         data: { html: '<p>We will get back to you as soon as possible.</p>' }
+      )
+    end
+
+    def add_deletion_request
+      content = Content.for('privacy')
+      content.blocks.create!(
+        type: 'html',
+        data: {
+          html: <<-eos.strip_heredoc
+            <h2>Privacy Policy</h2>
+            <p>
+              TODO: Retailer should provide an explanation of their privacy policy and how a user's data is used.
+            </p>
+          eos
+        }
+      )
+      content.blocks.create!(
+        type: 'html',
+        data: {
+          html: <<-eos.strip_heredoc
+            <h2>Delete Your Data</h2>
+            <p>
+              By providing your email address, we will remove all personal information
+              associated to that email address. This includes names, addresses, and the
+              email address itself. Once the request is processed you will no longer be
+              able to access the account tied to this email or order history. You will
+              receive a confirmation email after submitting your request. The
+              confirmation will notify you when the data will be deleted, and allow you
+              to cancel the request any time before that.
+            </p>
+          eos
+        }
       )
     end
 

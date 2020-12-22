@@ -129,6 +129,15 @@ en:
           closing_text: Have a great day!
           email_action:
             name: View Account
+        deletion_confirmation:
+          subject: A request to delete your data has been received.
+          heading: A request to delete your data has been received.
+          info: We have received a request to delete all data on our site associated to this email address. If you did not submit this request or you change your mind, you have until %{date} to cancel this request by clicking the link below. Any in progress orders could delay this request.
+          cancel: Cancel this request
+        deletion_complete:
+          subject: Your data has been deleted
+          heading: Your request to delete your data has been completed.
+          info: All information associated with your email address has been removed. If you decide to return our site and use this email address, you will need to create a new account.
         password_reset:
           subject: Reset Your Password
           info_html: Click this link to reset your password
@@ -220,6 +229,10 @@ en:
         no_available_shipping_options: There are no available shipping options for your shipping address.
         verify_recaptcha: Please verify you're a human.
         invalid_recaptcha: You've been identified as spam or another type of automated abuse.
+        deletion_request_created: Your request has been submitted. You will receive a confirmation email shortly.
+        deletion_request_create_error: Please provide an email address.
+        deletion_request_canceled: Your request to delete your data has been canceled.
+        deletion_request_cancel_error: This request has already been processed and cannot be canceled.
 
       forms:
         required: '*'
@@ -318,6 +331,9 @@ en:
         loading_more: Loading More...
         load_more: Load More
         next_page: Next Page
+
+      privacy:
+        link: Privacy
 
       products:
         filter_title: Filter by %{name}

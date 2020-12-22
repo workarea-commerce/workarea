@@ -15,6 +15,13 @@ module Workarea
       )
     end
 
+    def privacy
+      @page = Storefront::ContentViewModel.new(
+        Content.for('privacy'),
+        view_model_options
+      )
+    end
+
     def robots; end
     def accessibility; end
     def browser_config; end
