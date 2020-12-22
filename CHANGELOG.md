@@ -1,3 +1,91 @@
+Workarea 3.5.24 (2020-12-22)
+--------------------------------------------------------------------------------
+
+*   Fix admin indexing for embedded model changes
+
+    When embedded models are changed, their root documents weren't being
+    reindexed for admin search. This PR ensures admin indexing happens
+    correctly.
+
+    Ben Crouse
+
+*   Apply suggestions from code review
+
+    Co-authored-by: Ben Crouse <bcrouse@workarea.com>
+
+    Matt Duffy
+
+*   Index search customizations, handle missing search models for changeset releasables
+
+    WORKAREA-322
+
+    Matt Duffy
+
+*   Move release undo changeset building to sidekiq for large changesets
+
+    WORKAREA-316
+
+    Matt Duffy
+
+*   Fix undo releases not causing models to reindex
+
+    Because the changeset is the only getting saved when building an undo,
+    admin reindexing for the affected models isn't happening. This change
+    triggers callbacks to ensure any related side-effects happen.
+
+    Ben Crouse
+
+*   Use inline_svg fallback for missing releasable icons
+
+    WORKAREA-310
+
+    Matt Duffy
+
+*   Update admin/config/locales/en.yml
+
+    Co-authored-by: Ben Crouse <bcrouse@workarea.com>
+
+    Matt Duffy
+
+*   Simplify undo releases, allow multiple undo releases from a single release
+
+    WORKAREA-316
+
+    Matt Duffy
+
+*   Update display of release changeset to handle large changesets
+
+    WORKAREA-310
+
+    Matt Duffy
+
+*   Allow admin config array fields to define a values type
+
+    WORKAREA-311
+
+    Matt Duffy
+
+*   Check if a releasable has a localized active field before redefining it
+
+    If Workarea.config.localized_active_field is set to false, the active
+    field is redefined for each Releasable model to ensure the configuration
+    is honored. With inherited models like discounts, this can cause the
+    redefintion of active multiple times causing it to override custom active
+    behaviors for segments. Only redefining the method if its currently in
+    the models localized_fields list should ensure this does not happen.
+
+    WORKAREA-309
+
+    Matt Duffy
+
+*   Update releasable active test to work without localized active fields
+
+    WORKAREA-309
+
+    Matt Duffy
+
+
+
 Workarea 3.5.23 (2020-11-25)
 --------------------------------------------------------------------------------
 
