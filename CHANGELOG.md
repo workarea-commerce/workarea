@@ -9,12 +9,6 @@ Workarea 3.5.25 (2020-12-23)
 
     Ben Crouse
 
-*   Apply suggestions from code review
-
-    Co-authored-by: Ben Crouse <bcrouse@workarea.com>
-
-    Matt Duffy
-
 *   Index search customizations, handle missing search models for changeset releasables
 
     WORKAREA-322
@@ -38,12 +32,6 @@ Workarea 3.5.25 (2020-12-23)
 *   Use inline_svg fallback for missing releasable icons
 
     WORKAREA-310
-
-    Matt Duffy
-
-*   Update admin/config/locales/en.yml
-
-    Co-authored-by: Ben Crouse <bcrouse@workarea.com>
 
     Matt Duffy
 
