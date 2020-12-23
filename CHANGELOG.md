@@ -1,4 +1,4 @@
-Workarea 3.5.24 (2020-12-22)
+Workarea 3.5.25 (2020-12-23)
 --------------------------------------------------------------------------------
 
 *   Fix admin indexing for embedded model changes
@@ -83,6 +83,13 @@ Workarea 3.5.24 (2020-12-22)
     WORKAREA-309
 
     Matt Duffy
+
+
+
+Workarea 3.5.24 (2020-12-22)
+--------------------------------------------------------------------------------
+
+Due to a mistake releasing this gem, it has been yanked. See v3.5.25 instead.
 
 
 
