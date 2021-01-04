@@ -5,7 +5,7 @@ WORKAREA.registerModule('dialogButtons', (function () {
     'use strict';
 
     var isSrc = function (fileName) {
-            var extension = fileName.split('.')[1];
+            var extension = WORKAREA.url.parse(fileName).path.split('.').pop();
 
             return _.includes(WORKAREA.config.imageFileExtensions, extension);
         },
