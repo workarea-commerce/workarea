@@ -135,3 +135,34 @@ end
 ```
 
 [ActionMailer::TestHelper](https://api.rubyonrails.org/v5.2.3/classes/ActionMailer/TestHelper.html) has more information about the assertions you can use here.
+
+## Disable System Emails
+
+There are two configuration values that control the sending of email:
+
+- `Workarea.config.send_email`
+- `Workarea.config.send_transactional_emails`
+
+The `send_email` configuration controls whether or not Workarea will send any email. The default value is a lambda that will return `true` for development, testing, and production. For all other environments (e.g. staging and QA), only emails with a recipient email address that matches an admin user's email will be sent. You can change this configuration value in your application, replacing it with either a static boolean value, or a new lambda that returns a boolean. Lambdas will be passed an instance of [`Mail::Message`](https://github.com/mikel/mail) that represents the email being generated.
+
+```ruby
+# in config/initializers/workarea.rb
+Workarea.configure do |config|
+  config.send_email = true # will send all emails
+
+  # or
+
+  config.send_email = lambda { |message|  
+    # your logic here
+  }
+end
+```
+
+By default, transactional emails are always enabled and sent if `config.send_email` is true and the SMTP settings are configured to allow the sending of mail. Transactional emails include emails like notifying a user of a refund or a shipping update. The `send_transactional_emails` configuration allows for this behavior to be disabled, since these emails are often handled by a system outside of Workarea.
+
+```ruby
+# in config/initializers/workarea.rb
+Workarea.configure do |config|
+  config.send_transactional_emails = false
+end
+```
