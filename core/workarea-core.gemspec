@@ -67,7 +67,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'wysihtml-rails', '~> 0.6.0.beta2'
   s.add_dependency 'rack-attack', '~> 6.3.1'
   s.add_dependency 'jquery-livetype-rails', '~> 0.1.0' # TODO remove v4
-  s.add_dependency 'redcarpet', '~> 3.4.0'
+  s.add_dependency 'redcarpet', '~> 3.5.1', '>= 3.5.1'
   s.add_dependency 'jquery-unique-clone-rails', '~> 1.0.0'
   s.add_dependency 'avalanche-rails', '~> 1.2.0'
   s.add_dependency 'inline_svg', '~> 1.3.0'
