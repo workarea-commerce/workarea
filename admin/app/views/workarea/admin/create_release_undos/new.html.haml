@@ -9,7 +9,7 @@
     - @undo_release.errors.full_messages.each do |message|
       = render_message 'error', message
 
-    = form_tag release_undo_path(@release), method: 'post' do
+    = form_tag release_undos_path(@release), method: 'post' do
       .section
         .property.property--required
           = label_tag 'release_name', t('workarea.admin.fields.name'), class: 'property__name'
@@ -26,12 +26,15 @@
               .grid__cell.grid__cell--50-at-medium
                 .property
                   = label_tag 'release_publish_at', t('workarea.admin.fields.undo_at'), class: 'property__name'
-                  .box.box--rounded= hidden_field_tag 'release[publish_at]', @undo_release.publish_at, data: { datetimepicker_field: { inline: true } }
+                  .box.box--rounded= hidden_field_tag 'release[publish_at]', @undo_release.publish_at, data: { datetimepicker_field: { inline: true, uiOptions: { minDate: (@release.publish_at.present? ? @release.publish_at.to_s(:date_only) : 0) } } }
 
       .workflow-bar
         .grid.grid--middle
           .grid__cell.grid__cell--20
-            = link_to t('workarea.admin.form.cancel'), undo_release_path(@release), class: 'workflow-bar__button workflow-bar__button--delete'
+            - if @undo_release.persisted?
+              = link_to t('workarea.admin.form.cancel'), release_path(@undo_release, return_to: release_path(@release)), class: 'workflow-bar__button workflow-bar__button--delete', data: { method: 'delete', confirm: t('workarea.admin.create_release_undos.workflow.delete_confirmation') }
+            - else
+              = link_to t('workarea.admin.form.cancel'), release_path(@release), class: 'workflow-bar__button workflow-bar__button--delete'
 
           .grid__cell.grid__cell--60
             %ol.workflow-bar__steps

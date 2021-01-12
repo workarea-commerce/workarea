@@ -24,6 +24,11 @@
           .grid.grid--auto.grid--right
             - if !@release.has_changes?
               .grid__cell
+                = link_to t('workarea.admin.releases.show.build_undo'), '#no-changes-to-undo-info', disabled: 'disabled', data: { tooltip: '' }, class: 'workflow-bar__button'
+                #no-changes-to-undo-info.tooltip-content
+                  %p= t('workarea.admin.releases.show.no_changes_to_undo')
+
+              .grid__cell
                 = link_to t('workarea.admin.releases.show.visit_storefront_to_preview'), '#no-changes-to-preview-info', disabled: 'disabled', data: { tooltip: '' }, class: 'workflow-bar__button workflow-bar__button--update workflow-bar__button--disabled'
                 #no-changes-to-preview-info.tooltip-content
                   %p= t('workarea.admin.releases.show.no_changes_to_preview')
@@ -34,6 +39,9 @@
                   %p= t('workarea.admin.releases.show.no_changes_to_publish')
 
             - else
+              .grid__cell
+                = link_to t('workarea.admin.releases.show.build_undo'), new_release_undo_path(@release), class: 'workflow-bar__button'
+
               .grid__cell
                 - if @release.published? && !@release.scheduled?
                   = link_to t('workarea.admin.releases.show.visit_storefront_to_preview'), '#cannot-preview-info', disabled: 'disabled', data: { tooltip: '' }, class: 'workflow-bar__button workflow-bar__button--update workflow-bar__button--disabled'

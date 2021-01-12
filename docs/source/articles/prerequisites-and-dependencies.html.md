@@ -130,7 +130,7 @@ Workarea applications depend on three different document-based (NoSQL) databases
 
 Workarea applications typically run on the latest version of the database, currently v3.2.
 
-While there is a low level Ruby driver for MongoDB, Workarea uses [Mongoid](https://docs.mongodb.org/ecosystem/tutorial/ruby-mongoid-tutorial/), an <dfn>Object-Document Mapper</dfn>, or <dfn>ODM</dfn>. Mongoid provides an API that is purposefully similar to [Active Record](http://guides.rubyonrails.org/active_record_basics.html), the library used to persist models in Rails applictions using relational databases. If you have any familiarity with Active Record, that knowledge should transfer directly to Mongoid.
+While there is a low level Ruby driver for MongoDB, Workarea uses [Mongoid](https://docs.mongodb.org/ecosystem/tutorial/ruby-mongoid-tutorial/), an <dfn>Object-Document Mapper</dfn>, or <dfn>ODM</dfn>. Mongoid provides an API that is purposefully similar to [Active Record](http://guides.rubyonrails.org/active_record_basics.html), the library used to persist models in Rails applications using relational databases. If you have any familiarity with Active Record, that knowledge should transfer directly to Mongoid.
 
 If you're new to MongoDB, I recommend the book [MongoDB in Action, Second Edition](https://www.manning.com/books/mongodb-in-action-second-edition), written by a former employee of [MongoDB, Inc.](https://www.mongodb.com/), the corporate sponsor and developer of MongoDB. The book introduces Mongo and compares it to other databases before explaining how to develop a Mongo application using the MongoDB shell and MongoDB Ruby driver. The second edition was updated to cover MongoDB version 3.0.
 

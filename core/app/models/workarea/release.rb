@@ -13,12 +13,8 @@ module Workarea
     field :undo_job_id, type: String # TODO deprecated, remove in v3.6
 
     has_many :changesets, class_name: 'Workarea::Release::Changeset'
-    has_one :undo, class_name: 'Workarea::Release', inverse_of: :undoes
-    belongs_to :undoes,
-      class_name: 'Workarea::Release',
-      inverse_of: :undo,
-      optional: true,
-      index: true
+    has_many :undos, class_name: 'Workarea::Release', inverse_of: :undoes
+    belongs_to :undoes, class_name: 'Workarea::Release', inverse_of: :undo, optional: true
 
     index({ publish_at: 1 })
     index({ published_at: 1 })
@@ -184,11 +180,10 @@ module Workarea
     end
 
     def build_undo(attributes = {})
-      result = undo || Release.new(attributes)
+      result = undos.build(attributes)
 
       result.name ||= I18n.t('workarea.release.undo', name: name)
       result.tags = %w(undo) if result.tags.blank?
-      self.undo = result
 
       result
     end

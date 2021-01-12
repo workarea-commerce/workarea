@@ -51,10 +51,14 @@ module Workarea
       end
 
       def self.for(model)
+        find_for_model(model)
+      rescue NameError
+        find_for_model(model._root) rescue nil
+      end
+
+      def self.find_for_model(model)
         subclass = model.model_name.singular_route_key.camelize
         "Workarea::Search::Admin::#{subclass}".constantize.new(model)
-      rescue NameError
-        nil
       end
 
       # Allows subclass instances to specify whether they should be included in

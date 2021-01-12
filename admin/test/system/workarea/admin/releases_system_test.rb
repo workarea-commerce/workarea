@@ -251,10 +251,7 @@ module Workarea
 
         visit admin.list_releases_path
         click_link 'Foo Release'
-        click_link t('workarea.admin.releases.cards.undo.title')
-
-        assert(page.has_content?(t('workarea.admin.releases.undo.undoing')))
-        click_link "#{t('workarea.admin.releases.undo.build_an_undo_now')} →"
+        click_link t('workarea.admin.releases.show.build_undo')
 
         fill_in 'release[name]', with: 'Foo Bar Undo'
         click_button t('workarea.admin.create_release_undos.workflow.create_undo')
@@ -263,18 +260,9 @@ module Workarea
 
         click_link "#{t('workarea.admin.create_release_undos.workflow.done')} →"
         assert(page.has_content?('Foo Bar Undo'))
-
-        click_link t('workarea.admin.releases.cards.original.title')
-        assert(page.has_content?('Foo Release'))
-        assert(page.has_content?('Test Page'))
-        assert(page.has_content?('Foo Bar'))
-
-        within('.text.text--large', match: :first) { click_link 'Foo Release' }
-        assert(page.has_content?('Foo Release'))
         assert(page.has_content?('1 Content Page'))
 
-        click_link t('workarea.admin.releases.cards.undo.title')
-        assert(page.has_content?('Foo Bar Undo'))
+        click_link t('workarea.admin.releases.cards.planned_changes.planned')
         assert(page.has_content?('Test Page'))
         assert(page.has_content?('Foo Bar'))
       end

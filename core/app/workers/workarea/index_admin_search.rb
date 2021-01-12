@@ -8,7 +8,7 @@ module Workarea
       lock: :until_executing,
       enqueue_on: {
         ApplicationDocument => [:save, :touch, :destroy],
-        with: -> { [self.class.name, id] },
+        with: -> { IndexAdminSearch.job_arguments(self) },
         ignore_if: -> { !IndexAdminSearch.should_enqueue?(self) }
       }
     )
@@ -16,6 +16,11 @@ module Workarea
     def self.should_enqueue?(model)
       search_model = Search::Admin.for(model)
       search_model.present? && search_model.should_be_indexed?
+    end
+
+    def self.job_arguments(model)
+      search_model = Search::Admin.for(model)
+      [search_model.model.class.name, search_model.model.id]
     end
 
     def self.perform(model)

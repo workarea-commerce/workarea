@@ -13,12 +13,20 @@ module Workarea
         @undo_release.attributes = params[:release]
 
         if @undo_release.save
-          @release.changesets.each do |changeset|
-            changeset.build_undo(release: @undo_release.model).save!
+          @release.changesets.limit(Workarea.config.per_page).each do |changeset|
+            if changeset.releasable.present?
+              changeset.build_undo(release: @undo_release.model).save!
+              changeset.releasable.run_callbacks(:save)
+            end
           end
 
+          BuildReleaseUndoChangesets.perform_async(
+            @undo_release.id,
+            @release.id
+          ) if @release.changeset_count > Workarea.config.per_page
+
           flash[:success] = t('workarea.admin.create_release_undos.flash_messages.saved')
-          redirect_to review_release_undo_path(@release)
+          redirect_to review_release_undo_path(@release, @undo_release)
         else
           render :new, status: :unprocessable_entity
         end
@@ -35,8 +43,14 @@ module Workarea
       end
 
       def find_undo_release
-        model = @release.model.undo || @release.build_undo(params[:release])
-        @undo_release = ReleaseViewModel.new(model, view_model_options)
+        model =
+          if params[:id].present?
+            @release.model.undos.find(params[:id])
+          else
+            @release.build_undo
+          end
+
+        @undo_release = ReleaseViewModel.wrap(model, view_model_options)
       end
     end
   end
