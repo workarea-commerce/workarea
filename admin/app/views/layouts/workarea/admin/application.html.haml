@@ -162,7 +162,7 @@
                       = avatar_for current_user, 'avatar--large'
                   .header__user-menu-cell
                     %span.heading.heading--5.heading--no-margin= Workarea.config.host
-                    %span.text.text--small= I18n.t(:name, I18n.locale)
+                    %span.text.text--small= t(:name)
               #user_menu.tooltip-content.tooltip-content--no-padding
                 %ul.menu
                   = append_partials('admin.user_menu')

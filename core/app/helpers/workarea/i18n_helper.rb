@@ -2,7 +2,7 @@ module Workarea
   module I18nHelper
     def locale_options
       I18n.configured_locales.reduce([]) do |memo, locale|
-        memo << [I18n.t(:name, locale: locale), locale]
+        I18n.with_locale(locale) { memo << [t(:name), locale] }
       end
     end
 
