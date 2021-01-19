@@ -49,7 +49,7 @@ module Workarea
 
         Workarea.s3.directories.new(key: Configuration::S3.bucket).files.create(
           key: DirectUpload.new(:product_image, 'foo.0.jpg').key,
-          body: product_image_file_path
+          body: product_image_file
         )
 
         post admin.direct_uploads_path,
