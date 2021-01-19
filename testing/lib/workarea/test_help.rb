@@ -70,3 +70,7 @@ end
 # The browser gem includes no user agent as a bot, and integration tests don't
 # pass a user agent.
 Browser::Bot.bot_exceptions << ''
+#
+# Set this to the lowest setting to improve performance creating passwords.
+# Read more here: https://github.com/codahale/bcrypt-ruby#cost-factors
+BCrypt::Engine.cost = 4
