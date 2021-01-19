@@ -65,3 +65,7 @@ Workarea::Plugin.installed.each do |plugin|
     require support_file
   end
 end
+
+# Set this to the lowest setting to improve performance creating passwords.
+# Read more here: https://github.com/codahale/bcrypt-ruby#cost-factors
+BCrypt::Engine.cost = 4
