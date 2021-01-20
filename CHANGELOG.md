@@ -1,3 +1,48 @@
+Workarea 3.5.26 (2021-01-20)
+--------------------------------------------------------------------------------
+
+*   Improve password performance when running tests
+
+    Lowering the bcrypt cost lowers the time required to encrypt a password, at the
+    cost of increasing the speed at which an attacker can try to crack the password.
+    This is an acceptable tradeoff for improving performance of running tests. This
+    shaves about 5 minutes off of the admin tests.
+
+    Hat tip to Jeff Yucis for discovery.
+
+    Ben Crouse
+
+*   Bump redcarpet version to fix security warnings
+
+    Redcarpet released a security fix, so ensure using a version with that fix.
+
+    Redcarpet is only used to render help pages in the admin, so the vulnerability in Workarea is minimal.
+
+    Ben Crouse
+
+*   Improve image URL detection for dialog_buttons
+
+    This only worked if the URL had only one dot (before the file extension)
+    and no query parameters. Run it through the URL parser to provide more
+    robust handling.
+
+    Jonathan Mast
+
+*   Improve image URL detection for dialog_buttons
+
+    This only worked if the URL had only one dot (before the file extension)
+    and no query parameters. Run it through the URL parser to provide more
+    robust handling.
+
+    Jonathan Mast
+
+*   Bump version for release
+
+
+    Ben Crouse
+
+
+
 Workarea 3.5.25 (2020-12-23)
 --------------------------------------------------------------------------------
 
