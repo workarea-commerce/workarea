@@ -28,7 +28,7 @@ module Workarea
     end
 
     def changesets_with_children
-      criteria = Release::Changeset.any_of(
+      criteria = Release::Changeset.or(
         { releasable_type: self.class.name, releasable_id: id }
       )
 

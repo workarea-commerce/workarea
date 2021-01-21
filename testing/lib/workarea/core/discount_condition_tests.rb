@@ -1,14 +1,14 @@
 module Workarea
   module DiscountConditionTests
     module OrderTotal
-      def test_order_total?
-        refute(order_total_discount.order_total?)
+      def test_use_order_total?
+        refute(order_total_discount.use_order_total?)
 
         order_total_discount.order_total = 0
-        refute(order_total_discount.order_total?)
+        refute(order_total_discount.use_order_total?)
 
         order_total_discount.order_total = 1.to_m
-        assert(order_total_discount.order_total?)
+        assert(order_total_discount.use_order_total?)
       end
 
       def test_order_total_qualifies?

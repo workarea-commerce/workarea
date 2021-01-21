@@ -30,7 +30,7 @@ module Workarea
         end
 
         def selected_condition_option
-          if order_total?
+          if use_order_total?
             'order_total'
           elsif item_quantity?
             'item_quantity'

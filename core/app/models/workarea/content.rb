@@ -28,9 +28,7 @@ module Workarea
     after_update :touch_contentable
 
     scope :recent, ->(l = 5) { order_by([:created_at, :desc]).limit(l) }
-    scope :system, (lambda do
-      any_of({ :contentable_type.exists => false }, { contentable_type: nil })
-    end)
+    scope :system, -> { where(contentable_type: nil) }
 
     # Find {Content} for a given object. Object
     # can be string or model (polymorphic).

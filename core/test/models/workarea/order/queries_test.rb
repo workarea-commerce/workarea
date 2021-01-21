@@ -142,48 +142,6 @@ module Workarea
         assert_equal(2.to_m, Order.average_order_value)
         assert_equal(1.to_m, Order.average_order_value(2.hours.ago, Time.current))
       end
-
-      # TODO: Remove; no longer used in Base
-      def test_abandoned_count
-        Order.create!(created_at: 4.hours.ago)
-        Order.create!(created_at: 1.hour.ago, items: [{ product_id: '1', sku: 2 }])
-        Order.create!(created_at: 4.hours.ago, items: [{ product_id: '1', sku: 2 }])
-        Order.create!(created_at: 8.hours.ago, items: [{ product_id: '1', sku: 2 }])
-        Order.create!(placed_at: 4.hours.ago, items: [{ product_id: '1', sku: 2 }])
-        Order.create!(created_at: 4.hours.ago, checkout_started_at: 5.hours.ago, items: [{ product_id: '1', sku: 2 }])
-
-        assert_equal(3, Order.abandoned_count)
-        assert_equal(2, Order.abandoned_count(5.hours.ago, Time.current))
-      end
-
-      # TODO: Remove; no longer used in Base
-      def test_abandoned_value
-        Order.create!(created_at: 3.hours.ago, items: [{ product_id: '1', sku: 2 }], total_value: 1.to_m)
-        Order.create!(created_at: 3.hours.ago, items: [{ product_id: '1', sku: 2 }], total_value: 1.to_m)
-        Order.create!(created_at: 5.hours.ago, items: [{ product_id: '1', sku: 2 }], total_value: 1.to_m)
-        Order.create!(placed_at: 3.hours.ago, items: [{ product_id: '1', sku: 2 }], total_value: 1.to_m)
-        Order.create!(checkout_started_at: 5.hours.ago, items: [{ product_id: '1', sku: 2 }], total_value: 1.to_m)
-
-        assert_equal(3.to_m, Order.abandoned_value)
-        assert_equal(2.to_m, Order.abandoned_value(5.hours.ago, Time.current))
-      end
-
-      # TODO: Remove; no longer used in Base
-      def test_abandoned_product_ids
-        Order.create!(items: [{ product_id: '3', sku: 2, total_value: 1 }])
-        Order.create!(created_at: 4.hours.ago, items: [{ product_id: '2', sku: 2, total_value: 1 }])
-        Order.create!(created_at: 4.hours.ago, items: [{ product_id: '1', sku: 2, total_value: 1 }])
-        Order.create!(created_at: 4.hours.ago, items: [{ product_id: '1', sku: 2, total_value: 1 }])
-        Order.create!(created_at: 8.hours.ago, items: [{ product_id: '1', sku: 2, total_value: 1 }])
-        Order.create!(placed_at: 3.hours.ago, items: [{ product_id: '2', sku: 2, total_value: 1 }])
-
-        group = {
-          '1' => { count: 3, total: 3.to_m },
-          '2' => { count: 1, total: 1.to_m }
-        }
-
-        assert_equal(group, Order.abandoned_product_ids)
-      end
     end
   end
 end

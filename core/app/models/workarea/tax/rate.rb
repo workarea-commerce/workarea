@@ -23,6 +23,8 @@ module Workarea
       index({ country: 1 })
       index({ region: 1 })
       index({ postal_code: 1 })
+      index({ 'tier_min.cents': 1 })
+      index({ 'tier_max.cents': 1 })
 
       belongs_to :category,
         class_name: 'Workarea::Tax::Category',
