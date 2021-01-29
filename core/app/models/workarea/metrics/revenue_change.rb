@@ -17,7 +17,7 @@ module Workarea
 
       module ClassMethods
         def revenue_change_median
-          sort = if scoped.selector.merge(declined_revenue.selector) == scoped.selector
+          sort = if scoped.selector.present? && scoped.selector <= declined_revenue.selector
             :desc
           else
             :asc

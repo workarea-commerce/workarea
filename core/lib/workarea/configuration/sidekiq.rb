@@ -25,12 +25,14 @@ module Workarea
       def configure_workarea!
         ::Sidekiq.configure_server do |config|
           config.server_middleware do |chain|
+            chain.add SidekiqUniqueJobs::Middleware::Server
             chain.add I18nServerMiddleware
             chain.add AuditLogServerMiddleware
             chain.add ReleaseServerMiddleware
           end
 
           config.client_middleware do |chain|
+            chain.add SidekiqUniqueJobs::Middleware::Client
             chain.add I18nClientMiddleware
             chain.add AuditLogClientMiddleware
           end
@@ -40,10 +42,17 @@ module Workarea
             size: pool_size,
             pool_timeout: pool_timeout
           }
+
+          # From the sidekiq-unique-jobs README
+          config.death_handlers << lambda do |job, ex|
+            digest = job['lock_digest']
+            SidekiqUniqueJobs::Digests.new.delete_by_digest(digest) if digest
+          end
         end
 
         ::Sidekiq.configure_client do |config|
           config.client_middleware do |chain|
+            chain.add SidekiqUniqueJobs::Middleware::Client
             chain.add Workarea::I18nClientMiddleware
             chain.add AuditLogClientMiddleware
           end

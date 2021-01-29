@@ -32,7 +32,7 @@ module Workarea
       end
 
       def tiered?
-        @tiered ||= rates.or(
+        @tiered ||= rates.any_of(
           { :'tier_min.cents'.exists => true },
           { :'tier_max.cents'.exists => true }
         ).exists?

@@ -28,9 +28,7 @@ module Workarea
     after_save :reset_preview
     before_destroy :remove_publish_job
 
-    scope :not_published, (lambda do
-      any_of({ :published_at.exists => false }, { published_at: nil })
-    end)
+    scope :not_published, -> { where(published_at: nil) }
     scope :published, (lambda do
       where(:published_at.exists => true)
     end)
@@ -40,9 +38,7 @@ module Workarea
         :published_at.lte => ends_at
       )
     end
-    scope :not_scheduled, (lambda do
-      any_of({ :publish_at.exists => false }, { publish_at: nil })
-    end)
+    scope :not_scheduled, -> { where(publish_at: nil) }
     scope :scheduled, ->(before: nil, after: nil) do
       criteria = where(:publish_at.gt => Time.current)
       criteria = criteria.where(:publish_at.lte => before) if before.present?

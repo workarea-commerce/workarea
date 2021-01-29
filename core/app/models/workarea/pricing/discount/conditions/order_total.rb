@@ -25,7 +25,7 @@ module Workarea
           #
           # @return [Boolean]
           #
-          def order_total?
+          def use_order_total?
             order_total.present? && order_total > 0
           end
 
@@ -36,7 +36,7 @@ module Workarea
           # @return [Boolean]
           #
           def order_total_qualifies?(order)
-            return true unless order_total?
+            return true unless use_order_total?
 
             if order_total_operator == :less_than
               order.subtotal_price < order_total
