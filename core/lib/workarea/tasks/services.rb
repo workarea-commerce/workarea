@@ -4,7 +4,7 @@ module Workarea
       extend self
 
       def assert_docker_compose_installed!
-        unless system('docker-compose -v > /dev/null 2>&1')
+        unless system('docker-compose --version > /dev/null 2>&1')
           STDERR.puts <<~eos
   **************************************************
   ⛔️ ERROR: workarea:services tasks depend on Docker Compose being installed. \
