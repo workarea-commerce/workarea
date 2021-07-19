@@ -1,3 +1,14 @@
+Workarea 3.5.27 (2021-07-19)
+--------------------------------------------------------------------------------
+
+*   Fix services which broke due to new docker-compose release
+
+    docker-composer -v is no longer works for the recent version 2.0.0-beta.4 (#598)
+
+    Rocela Durazo
+
+
+
 Workarea 3.5.26 (2021-01-20)
 --------------------------------------------------------------------------------
 
