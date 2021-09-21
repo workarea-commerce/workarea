@@ -28,7 +28,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'kaminari', '~> 1.2.1'
   s.add_dependency 'kaminari-mongoid', '~> 0.1.2'
   s.add_dependency 'activemerchant', '~> 1.52'
-  s.add_dependency 'dragonfly', '~> 1.1.2'
+  s.add_dependency 'dragonfly', '~> 1.4.0'
   s.add_dependency 'sidekiq', '~> 5.2.2'
   s.add_dependency 'sidekiq-cron', '~> 0.6.3'
   s.add_dependency 'sidekiq-unique-jobs', '~> 6.0.6'
