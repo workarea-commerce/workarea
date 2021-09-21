@@ -25,7 +25,7 @@ jobs:
   admin_tests:
     strategy:
       matrix:
-        ruby: [2.4.x, 2.6.x]
+        ruby: [2.6.x]
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
@@ -39,7 +39,7 @@ jobs:
   admin_teaspoon:
     strategy:
       matrix:
-        ruby: [2.4.x, 2.6.x]
+        ruby: [2.6.x]
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
@@ -53,7 +53,7 @@ jobs:
   admin_system_tests:
     strategy:
       matrix:
-        ruby: [2.4.x, 2.6.x]
+        ruby: [2.6.x]
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
@@ -72,7 +72,7 @@ jobs:
   core_teaspoon:
     strategy:
       matrix:
-        ruby: [2.4.x, 2.6.x]
+        ruby: [2.6.x]
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
@@ -86,7 +86,7 @@ jobs:
   core_tests:
     strategy:
       matrix:
-        ruby: [2.4.x, 2.6.x]
+        ruby: [2.6.x]
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
@@ -100,7 +100,7 @@ jobs:
   storefront_tests:
     strategy:
       matrix:
-        ruby: [2.4.x, 2.6.x]
+        ruby: [2.6.x]
 
     runs-on: ubuntu-latest
     steps:
@@ -115,7 +115,7 @@ jobs:
   storefront_teaspoon:
     strategy:
       matrix:
-        ruby: [2.4.x, 2.6.x]
+        ruby: [2.6.x]
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
@@ -129,7 +129,7 @@ jobs:
   storefront_system_tests:
     strategy:
       matrix:
-        ruby: [2.4.x, 2.6.x]
+        ruby: [2.6.x]
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
