@@ -41,7 +41,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'faker', '~> 2.15.0'
   s.add_dependency 'fastimage', '~> 2.2.0'
   s.add_dependency 'rack-timeout', '~> 0.6.0'
-  s.add_dependency 'autoprefixer-rails', '9.8.5' # the newer version prints an obnoxious deprecation warning
+  s.add_dependency 'autoprefixer-rails', '>= 10.2.5.0' # while the newer version prints an obnoxious deprecation warning, the older version has broken the test suite
   s.add_dependency 'sassc-rails', '~> 2.1.0'
   s.add_dependency 'ruby-stemmer', '~> 3.0.0'
   s.add_dependency 'sprockets-rails', '~> 3.2.0'
