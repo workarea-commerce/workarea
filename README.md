@@ -89,6 +89,14 @@ If you have any problems, reach out on our [public Slack](https://www.workarea.c
 
 **Watch the Quickstart Video:** <https://vimeo.com/370085475>
 
+Testing
+--------------------------------------------------------------------------------
+Tests can be executed using the included `script/test` helper. This script adds the bundled version of Bundler to the `PATH` and runs `rake test` for all engines.
+
+```bash
+./script/test
+```
+
 
 Plugins
 --------------------------------------------------------------------------------

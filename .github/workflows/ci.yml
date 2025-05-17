@@ -26,9 +26,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - uses: actions/setup-ruby@v1
+    - uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 2.6.x
+        ruby-version: 2.6.10
     - uses: workarea-commerce/ci/test@v1
       with:
         command: cd admin && bin/rails test -b
@@ -37,9 +37,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - uses: actions/setup-ruby@v1
+    - uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 2.6.x
+        ruby-version: 2.6.10
     - uses: workarea-commerce/ci/test@v1
       with:
         command: cd admin && bin/rails teaspoon
@@ -48,9 +48,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - uses: actions/setup-ruby@v1
+    - uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 2.6.x
+        ruby-version: 2.6.10
     - uses: workarea-commerce/ci/test@v1
       with:
         command: cd admin && bin/rails test test/system/**/*_test.rb -b
@@ -64,9 +64,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - uses: actions/setup-ruby@v1
+    - uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 2.6.x
+        ruby-version: 2.6.10
     - uses: workarea-commerce/ci/test@v1
       with:
         command: cd core && bin/rails teaspoon
@@ -75,9 +75,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - uses: actions/setup-ruby@v1
+    - uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 2.6.x
+        ruby-version: 2.6.10
     - uses: workarea-commerce/ci/test@v1
       with:
         command: cd core && bin/rails test test/**/*_test.rb -b
@@ -86,9 +86,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - uses: actions/setup-ruby@v1
+    - uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 2.6.x
+        ruby-version: 2.6.10
     - uses: workarea-commerce/ci/test@v1
       with:
         command: cd storefront && bin/rails test -b
@@ -97,9 +97,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - uses: actions/setup-ruby@v1
+    - uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 2.6.x
+        ruby-version: 2.6.10
     - uses: workarea-commerce/ci/test@v1
       with:
         command: cd storefront && bin/rails teaspoon
@@ -108,9 +108,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - uses: actions/setup-ruby@v1
+    - uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 2.6.x
+        ruby-version: 2.6.10
     - uses: workarea-commerce/ci/test@v1
       with:
         command: cd storefront && bin/rails test test/system/**/*_test.rb -b

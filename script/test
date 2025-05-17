@@ -1,0 +1,4 @@
+#!/bin/bash
+# Run tests using vendored bundler
+export PATH="$(pwd)/vendor/bundle/ruby/3.2.0/bin:$PATH"
+BUNDLE_GEMFILE="$(pwd)/Gemfile" bundle exec rake test
