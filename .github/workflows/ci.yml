@@ -54,7 +54,7 @@ jobs:
     - uses: workarea-commerce/ci/test@v1
       with:
         command: cd admin && bin/rails test test/system/**/*_test.rb -b
-    - uses: actions/upload-artifact@v1
+    - uses: actions/upload-artifact@v4
       if: failure()
       with:
         name: Admin Screenshots
@@ -114,7 +114,7 @@ jobs:
     - uses: workarea-commerce/ci/test@v1
       with:
         command: cd storefront && bin/rails test test/system/**/*_test.rb -b
-    - uses: actions/upload-artifact@v1
+    - uses: actions/upload-artifact@4
       if: failure()
       with:
         name: Storefront Screenshots
