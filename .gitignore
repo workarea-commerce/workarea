@@ -52,3 +52,6 @@ package-lock.json
 
 # Local bundler install (don’t commit)
 vendor/bundle/
+
+# Local assistant notes
+CLAUDE.md
