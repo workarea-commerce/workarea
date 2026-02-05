@@ -10,7 +10,7 @@ jobs:
   static_analysis:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v4
     - uses: workarea-commerce/ci/bundler-audit@v1
       with:
         args: '--ignore CVE-2020-8161'
@@ -25,10 +25,11 @@ jobs:
   admin_tests:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - uses: actions/setup-ruby@v1
+    - uses: actions/checkout@v4
+    - uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 2.6.x
+        ruby-version: 2.6
+        bundler-cache: true
     - uses: workarea-commerce/ci/test@v1
       with:
         command: cd admin && bin/rails test -b
@@ -36,10 +37,11 @@ jobs:
   admin_teaspoon:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - uses: actions/setup-ruby@v1
+    - uses: actions/checkout@v4
+    - uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 2.6.x
+        ruby-version: 2.6
+        bundler-cache: true
     - uses: workarea-commerce/ci/test@v1
       with:
         command: cd admin && bin/rails teaspoon
@@ -47,14 +49,15 @@ jobs:
   admin_system_tests:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - uses: actions/setup-ruby@v1
+    - uses: actions/checkout@v4
+    - uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 2.6.x
+        ruby-version: 2.6
+        bundler-cache: true
     - uses: workarea-commerce/ci/test@v1
       with:
         command: cd admin && bin/rails test test/system/**/*_test.rb -b
-    - uses: actions/upload-artifact@v1
+    - uses: actions/upload-artifact@v4
       if: failure()
       with:
         name: Admin Screenshots
@@ -63,10 +66,11 @@ jobs:
   core_teaspoon:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - uses: actions/setup-ruby@v1
+    - uses: actions/checkout@v4
+    - uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 2.6.x
+        ruby-version: 2.6
+        bundler-cache: true
     - uses: workarea-commerce/ci/test@v1
       with:
         command: cd core && bin/rails teaspoon
@@ -74,10 +78,11 @@ jobs:
   core_tests:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - uses: actions/setup-ruby@v1
+    - uses: actions/checkout@v4
+    - uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 2.6.x
+        ruby-version: 2.6
+        bundler-cache: true
     - uses: workarea-commerce/ci/test@v1
       with:
         command: cd core && bin/rails test test/**/*_test.rb -b
@@ -85,10 +90,11 @@ jobs:
   storefront_tests:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - uses: actions/setup-ruby@v1
+    - uses: actions/checkout@v4
+    - uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 2.6.x
+        ruby-version: 2.6
+        bundler-cache: true
     - uses: workarea-commerce/ci/test@v1
       with:
         command: cd storefront && bin/rails test -b
@@ -96,10 +102,11 @@ jobs:
   storefront_teaspoon:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - uses: actions/setup-ruby@v1
+    - uses: actions/checkout@v4
+    - uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 2.6.x
+        ruby-version: 2.6
+        bundler-cache: true
     - uses: workarea-commerce/ci/test@v1
       with:
         command: cd storefront && bin/rails teaspoon
@@ -107,14 +114,15 @@ jobs:
   storefront_system_tests:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - uses: actions/setup-ruby@v1
+    - uses: actions/checkout@v4
+    - uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 2.6.x
+        ruby-version: 2.6
+        bundler-cache: true
     - uses: workarea-commerce/ci/test@v1
       with:
         command: cd storefront && bin/rails test test/system/**/*_test.rb -b
-    - uses: actions/upload-artifact@v1
+    - uses: actions/upload-artifact@v4
       if: failure()
       with:
         name: Storefront Screenshots
