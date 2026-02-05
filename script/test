@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Workarea test runner helper for local dev on modern macOS.
+#
+# - Forces a compatible Node runtime for ExecJS/autoprefixer-rails (Node 18)
+# - Unsets NODE_OPTIONS (some flags are rejected by older node versions)
+# - Allows running non-system tests without Chrome installed
+
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+COMPONENT="${1:-core}"
+shift || true
+
+NODE18_BIN="/opt/homebrew/opt/node@18/bin"
+
+PATH_OVERRIDE="$PATH"
+if [[ -d "$NODE18_BIN" ]]; then
+  PATH_OVERRIDE="$NODE18_BIN:$PATH_OVERRIDE"
+fi
+
+export WORKAREA_SKIP_SYSTEM_TESTS="${WORKAREA_SKIP_SYSTEM_TESTS:-true}"
+
+cd "$ROOT_DIR/$COMPONENT"
+
+# Default to running the full component test suite.
+if [[ $# -eq 0 ]]; then
+  set -- test test/**/*_test.rb -b
+fi
+
+# shellcheck disable=SC2090
+exec env -u NODE_OPTIONS PATH="$PATH_OVERRIDE" bin/rails "$@"
