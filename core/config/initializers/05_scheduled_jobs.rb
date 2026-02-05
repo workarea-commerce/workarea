@@ -1,3 +1,7 @@
+# Persisting cron jobs to Redis during app boot isn't relevant for tests and
+# can break boot in newer redis clients.
+return if Rails.env.test?
+
 unless Workarea.skip_services?
   Sidekiq.logger.log_at(:error) do
     Sidekiq::Cron::Job.create(

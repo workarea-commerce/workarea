@@ -49,3 +49,6 @@ docs/build/
 yarn.lock
 yarn-error.log
 package-lock.json
+
+# Local bundler install (don’t commit)
+vendor/bundle/

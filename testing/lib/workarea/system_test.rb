@@ -77,7 +77,13 @@ module Workarea
     include IntegrationTest::Locales
     include Rails.application.routes.mounted_helpers
 
-    driven_by :headless_chrome
+    # Default to headless Chrome, but allow local/dev environments without Chrome
+    # installed to run non-system tests.
+    if ENV['WORKAREA_SKIP_SYSTEM_TESTS'] =~ /true/i
+      driven_by :rack_test
+    else
+      driven_by :headless_chrome
+    end
 
     setup do
       reset_window_size
