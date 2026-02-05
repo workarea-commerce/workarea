@@ -12,11 +12,11 @@ Gem::Specification.new do |s|
   s.description = "Provides application code, seed data, plugin infrastructure, and other core parts of the Workarea Commerce Platform."
 
   s.files = `git ls-files -- . ':!:data/product_images/*.jpg'`.split("\n")
-  s.required_ruby_version = ['>= 2.5.0', '< 2.7.0']
+  s.required_ruby_version = ['>= 2.7.0', '< 3.3.0']
 
   s.add_dependency 'bundler', '>= 1.8.0' # 1.8.0 added env variable for secrets
-  s.add_dependency 'rails', '~> 6.0.0'
-  s.add_dependency 'mongoid', '~> 7.2.0'
+  s.add_dependency 'rails', '~> 6.1.0'
+  s.add_dependency 'mongoid', '~> 7.4.0'
   s.add_dependency 'bcrypt', '~> 3.1.10'
   s.add_dependency 'money-rails', '~> 1.13.0'
   s.add_dependency 'mongoid-audit_log', '>= 0.6.0'
@@ -29,10 +29,10 @@ Gem::Specification.new do |s|
   s.add_dependency 'kaminari-mongoid', '~> 1.0.0'
   s.add_dependency 'activemerchant', '~> 1.52'
   s.add_dependency 'dragonfly', '~> 1.3.0'
-  s.add_dependency 'sidekiq', '~> 6.1.0'
+  s.add_dependency 'sidekiq', '~> 6.5.0'
   s.add_dependency 'sidekiq-cron', '~> 1.2.0'
   s.add_dependency 'sidekiq-unique-jobs', '~> 7.0.0'
-  s.add_dependency 'sidekiq-throttled', '~> 0.13.0'
+  s.add_dependency 'sidekiq-throttled', '~> 0.18.0'
   s.add_dependency 'geocoder', '~> 1.6.3'
   s.add_dependency 'redis-rack-cache', '~> 2.2.0'
   s.add_dependency 'easymon', '~> 1.4.0'
