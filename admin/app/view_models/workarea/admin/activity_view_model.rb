@@ -95,7 +95,7 @@ module Workarea
 
       def convert_to_object_id(id)
         BSON::ObjectId.from_string(id.to_s)
-      rescue BSON::ObjectId::Invalid
+      rescue BSON::Error
         id
       end
 
