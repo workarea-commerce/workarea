@@ -150,10 +150,10 @@
 
             .grid
               .grid__cell.grid__cell--50
-                = area_chart @dashboard.customers_graph_data, Workarea.config.default_chartkick_options
+                = area_chart @dashboard.customers_graph_data, **Workarea.config.default_chartkick_options
 
               .grid__cell.grid__cell--50
-                = area_chart @dashboard.units_sold_graph_data, Workarea.config.default_chartkick_options
+                = area_chart @dashboard.units_sold_graph_data, **Workarea.config.default_chartkick_options
 
         / Activity List
         .insight
