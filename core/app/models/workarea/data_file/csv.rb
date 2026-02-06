@@ -6,7 +6,7 @@ module Workarea
         failed_new_record_ids = []
         options = Workarea.config.csv_import_options.merge(headers: true)
 
-        CSV.foreach(file.path, options) do |row|
+        CSV.foreach(file.path, **options) do |row|
           attrs = row.to_h
           next if attrs.values.all?(&:blank?)
 

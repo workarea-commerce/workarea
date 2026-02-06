@@ -11,7 +11,12 @@ module Workarea
         index({ reporting_on: 1 }, { expire_after_seconds: 2.years.seconds.to_i })
 
         default_scope -> { asc(:reporting_on) }
-        scope :by_date_range, ->(starts_at:, ends_at:) do
+        # Mongoid passes scope args positionally; Ruby 3 won't convert a trailing
+        # Hash to keywords.
+        scope :by_date_range, ->(options = {}) do
+          starts_at = options.fetch(:starts_at)
+          ends_at = options.fetch(:ends_at)
+
           where(
             :reporting_on.gte => starts_at.beginning_of_day,
             :reporting_on.lte => ends_at.end_of_day

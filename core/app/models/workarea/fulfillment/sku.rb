@@ -20,7 +20,7 @@ module Workarea
       end
 
       def self.process!(id, **args)
-        find_or_initialize_by(id: id).process!(args)
+        find_or_initialize_by(id: id).process!(**args)
       end
 
       def self.find_or_initialize_all(ids)
@@ -33,7 +33,7 @@ module Workarea
       end
 
       def process!(**args)
-        policy_object.process(args)
+        policy_object.process(**args)
       end
 
       def downloadable?
