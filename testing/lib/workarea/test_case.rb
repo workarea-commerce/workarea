@@ -138,7 +138,16 @@ module Workarea
         delegate :t, to: :I18n
       end
 
-      def set_locales(available:, default:, current: nil, fallbacks: nil)
+      # Accept either keywords (preferred) or a legacy positional Hash.
+      # Mongoid passes scope args positionally, and older tests sometimes do too.
+      def set_locales(options = nil, available: nil, default: nil, current: nil, fallbacks: nil)
+        options = options.to_h.symbolize_keys if options.respond_to?(:to_h)
+
+        available ||= options&.fetch(:available)
+        default   ||= options&.fetch(:default)
+        current   ||= options&.fetch(:current, nil)
+        fallbacks ||= options&.fetch(:fallbacks, nil)
+
         Rails.application.config.i18n.available_locales = I18n.available_locales = available
         Rails.application.config.i18n.default_locale = I18n.default_locale = default
         I18n.locale = current || default
