@@ -119,10 +119,10 @@
 
             .grid
               .grid__cell.grid__cell--50
-                = area_chart @dashboard.orders_graph_data, Workarea.config.default_chartkick_options
+                = area_chart @dashboard.orders_graph_data, **Workarea.config.default_chartkick_options
 
               .grid__cell.grid__cell--50
-                = area_chart @dashboard.revenue_graph_data, Workarea.config.default_chartkick_options.merge(prefix: Money.default_currency.symbol)
+                = area_chart @dashboard.revenue_graph_data, **Workarea.config.default_chartkick_options.merge(prefix: Money.default_currency.symbol)
 
           .insight__section
             .grid
