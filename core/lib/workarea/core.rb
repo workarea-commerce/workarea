@@ -56,7 +56,10 @@ require 'action_view/template/resolver'
 require 'sassc'
 require 'sassc/rails'
 require 'lingua/stemmer'
-require 'autoprefixer-rails'
+# autoprefixer-rails shells out to a JS runtime via ExecJS.
+# In test we don't need CSS vendor prefixing, and older autoprefixer-rails
+# versions can be incompatible with newer Node runtimes.
+require 'autoprefixer-rails' unless (defined?(Rails) && Rails.env.test?)
 require 'predictor'
 require 'js_routes'
 require 'mongoid/active_merchant'
