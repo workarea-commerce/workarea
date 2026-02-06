@@ -29,17 +29,23 @@ module Workarea
     before_destroy :remove_publish_job
 
     scope :not_published, -> { where(published_at: nil) }
-    scope :published, (lambda do
-      where(:published_at.exists => true)
-    end)
-    scope :published_between, ->(starts_at: nil, ends_at: nil) do
+    scope :published, -> { where(:published_at.exists => true) }
+    # Mongoid scopes pass arguments positionally; Ruby 3 keyword-arg separation
+    # means we can't rely on keyword params here.
+    scope :published_between, ->(options = {}) do
+      starts_at = options[:starts_at]
+      ends_at = options[:ends_at]
+
       where(
         :published_at.gte => starts_at,
         :published_at.lte => ends_at
       )
     end
     scope :not_scheduled, -> { where(publish_at: nil) }
-    scope :scheduled, ->(before: nil, after: nil) do
+    scope :scheduled, ->(options = {}) do
+      before = options[:before]
+      after = options[:after]
+
       criteria = where(:publish_at.gt => Time.current)
       criteria = criteria.where(:publish_at.lte => before) if before.present?
       criteria = criteria.where(:publish_at.gte => after) if after.present?
