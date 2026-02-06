@@ -71,7 +71,7 @@ module Workarea
 
     def mark_segmented_content
       # If loaded with `.only` this might be missing
-      return if attribute_missing?(:active_segment_ids)
+      return if attribute_missing?('active_segment_ids')
 
       CurrentSegments.has_segmented_content! if active_segment_ids.present?
     end
