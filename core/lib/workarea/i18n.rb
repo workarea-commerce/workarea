@@ -52,15 +52,16 @@ module Workarea
       # Delegate all other methods to the global I18n.
       #
       def method_missing(method, *args, &block)
-        if ::I18n.respond_to?(method)
-          self.class.send(:define_method, method) do |*arguments, &blok|
-            ::I18n.send(method, *arguments, &blok)
-          end
+        return super unless ::I18n.respond_to?(method)
 
-          send(method, *args, &block)
-        else
-          super
+        # i18n 1.0+ uses keyword args for options; legacy Workarea code often
+        # passes an options Hash as a second positional arg.
+        if (method == :t || method == :translate) && args.length == 2 && args.last.is_a?(Hash)
+          key, opts = args
+          return ::I18n.public_send(method, key, **opts, &block)
         end
+
+        ::I18n.public_send(method, *args, &block)
       end
 
       def respond_to_missing?(method_name, include_private = false)

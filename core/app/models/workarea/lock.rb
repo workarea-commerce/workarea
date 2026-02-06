@@ -50,7 +50,7 @@ module Workarea
           nx: true # blocks creation of existing lock
         }
 
-        result = Workarea.redis.set(key, value, default.merge(options))
+        result = Workarea.redis.set(key, value, **default.merge(options))
         raise Locked, "#{key} is already locked" unless result
         result
       end

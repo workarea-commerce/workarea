@@ -4,7 +4,7 @@ module Workarea
       def import!
         index = 1
 
-        CSV.foreach(file.path, csv_options) do |row|
+        CSV.foreach(file.path, **csv_options) do |row|
           instance = find_updated_model_for(rate_attributes(row.to_hash))
           instance.save
 
