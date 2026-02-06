@@ -6,7 +6,7 @@ module Workarea
       field :tender_id, type: String
       field :action, type: String
       field :amount, type: Money
-      field :success, type: Boolean, default: false
+      field :success, type: Mongoid::Boolean, default: false
       field :response, type: ActiveMerchant::Billing::Response
       field :cancellation, type: ActiveMerchant::Billing::Response
       field :canceled_at, type: Time

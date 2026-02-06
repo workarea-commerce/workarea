@@ -9,9 +9,9 @@ module Workarea
 
     field :_id, type: StringId, default: -> { BSON::ObjectId.new }
     field :name, type: String, localize: true
-    field :show_navigation, type: Boolean, default: false
+    field :show_navigation, type: Mongoid::Boolean, default: false
     field :template, type: String, default: 'generic'
-    field :display_h1, type: Boolean, default: true
+    field :display_h1, type: Mongoid::Boolean, default: true
 
     belongs_to :copied_from,
       class_name: 'Workarea::Content::Page',

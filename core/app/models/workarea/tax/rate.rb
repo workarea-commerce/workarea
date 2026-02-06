@@ -10,7 +10,7 @@ module Workarea
       field :country, type: Country
       field :region, type: String
       field :postal_code, type: String
-      field :charge_on_shipping, type: Boolean, default: true
+      field :charge_on_shipping, type: Mongoid::Boolean, default: true
       field :tier_min, type: Money
       field :tier_max, type: Money
 

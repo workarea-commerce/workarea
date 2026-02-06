@@ -7,8 +7,8 @@ module Workarea
     field :quantity, type: Integer, default: 1
     field :category_ids, type: Array, default: []
     field :customizations, type: Hash, default: {}
-    field :free_gift, type: Boolean, default: false
-    field :discountable, type: Boolean, default: true
+    field :free_gift, type: Mongoid::Boolean, default: false
+    field :discountable, type: Mongoid::Boolean, default: true
     field :product_attributes, type: Hash, default: {}
     field :total_value, type: Money, default: 0
     field :total_price, type: Money, default: 0

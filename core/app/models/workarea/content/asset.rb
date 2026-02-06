@@ -23,10 +23,10 @@ module Workarea
     field :file_width, type: Integer # asset.width => 900
     field :file_height, type: Integer # asset.height => 450
     field :file_aspect_ratio, type: Float # asset.aspect_ratio => 2.0
-    field :file_portrait, type: Boolean # asset.portrait? => true
-    field :file_landscape, type: Boolean # asset.landscape? => false
+    field :file_portrait, type: Mongoid::Boolean # asset.portrait? => true
+    field :file_landscape, type: Mongoid::Boolean # asset.landscape? => false
     field :file_format, type: String # asset.format => 'png'
-    field :file_image, type: Boolean # asset.image? => true
+    field :file_image, type: Mongoid::Boolean # asset.image? => true
     field :file_inverse_aspect_ratio, type: Float # asset.inverse_aspect_ratio => 0.5
 
     dragonfly_accessor :file, app: :workarea do

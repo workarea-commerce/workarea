@@ -17,7 +17,7 @@ module Workarea
           ::Mongoid.models.each do |klass|
             if klass < Releasable
               klass.localized_fields.delete('active')
-              klass.field(:active, type: Boolean, default: true, localize: false)
+              klass.field(:active, type: Mongoid::Boolean, default: true, localize: false)
               klass.index(active: 1)
             end
           end

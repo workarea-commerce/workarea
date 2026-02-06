@@ -6,7 +6,7 @@ module Workarea
 
       field :first_name, type: String
       field :last_name, type: String
-      field :default, type: Boolean, default: false
+      field :default, type: Mongoid::Boolean, default: false
 
       belongs_to :profile, class_name: 'Workarea::Payment::Profile', index: true
       index({ profile_id: 1, created_at: 1 })

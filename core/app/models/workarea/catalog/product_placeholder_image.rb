@@ -18,10 +18,10 @@ module Workarea
       field :image_width, type: Integer         # image.width         # => 900
       field :image_height, type: Integer        # image.height        # => 450
       field :image_aspect_ratio, type: Float    # image.aspect_ratio  # => 2.0
-      field :image_portrait, type: Boolean      # image.portrait?     # => true
-      field :image_landscape, type: Boolean     # image.landscape?    # => false
+      field :image_portrait, type: Mongoid::Boolean      # image.portrait?     # => true
+      field :image_landscape, type: Mongoid::Boolean     # image.landscape?    # => false
       field :image_format, type: String         # image.format        # => 'png'
-      field :image_image, type: Boolean         # image.image?        # => true
+      field :image_image, type: Mongoid::Boolean         # image.image?        # => true
 
       dragonfly_accessor :image, app: :workarea
 

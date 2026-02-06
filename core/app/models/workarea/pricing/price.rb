@@ -8,7 +8,7 @@ module Workarea
       field :min_quantity, type: Integer, default: 1
       field :regular, type: Money, default: 0
       field :sale, type: Money
-      field :on_sale, type: Boolean, default: false
+      field :on_sale, type: Mongoid::Boolean, default: false
 
       embedded_in :sku, class_name: 'Workarea::Pricing::Sku', touch: true
       delegate :tax_code, :discountable?, to: :sku, allow_nil: true

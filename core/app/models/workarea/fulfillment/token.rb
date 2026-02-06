@@ -7,7 +7,7 @@ module Workarea
       field :order_id, type: String
       field :order_item_id, type: String
       field :sku, type: String
-      field :enabled, type: Boolean, default: true
+      field :enabled, type: Mongoid::Boolean, default: true
       field :downloads, type: Integer, default: 0
 
       index(order_id: 1, order_item_id: 1)

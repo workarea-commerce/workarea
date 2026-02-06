@@ -5,23 +5,23 @@ module Workarea
       include UrlToken
 
       included do
-        field :admin, type: Boolean, default: false
-        field :super_admin, type: Boolean, default: false
-        field :releases_access, type: Boolean, default: false
-        field :store_access, type: Boolean, default: false
-        field :catalog_access, type: Boolean, default: false
-        field :search_access, type: Boolean, default: false
-        field :orders_access, type: Boolean, default: false
-        field :people_access, type: Boolean, default: false
-        field :settings_access, type: Boolean, default: false
-        field :reports_access, type: Boolean, default: false
-        field :marketing_access, type: Boolean, default: false
-        field :help_admin, type: Boolean, default: false
-        field :permissions_manager, type: Boolean, default: false
-        field :orders_manager, type: Boolean, default: false
-        field :can_publish_now, type: Boolean
-        field :can_restore, type: Boolean
-        field :status_email_recipient, type: Boolean, default: false
+        field :admin, type: Mongoid::Boolean, default: false
+        field :super_admin, type: Mongoid::Boolean, default: false
+        field :releases_access, type: Mongoid::Boolean, default: false
+        field :store_access, type: Mongoid::Boolean, default: false
+        field :catalog_access, type: Mongoid::Boolean, default: false
+        field :search_access, type: Mongoid::Boolean, default: false
+        field :orders_access, type: Mongoid::Boolean, default: false
+        field :people_access, type: Mongoid::Boolean, default: false
+        field :settings_access, type: Mongoid::Boolean, default: false
+        field :reports_access, type: Mongoid::Boolean, default: false
+        field :marketing_access, type: Mongoid::Boolean, default: false
+        field :help_admin, type: Mongoid::Boolean, default: false
+        field :permissions_manager, type: Mongoid::Boolean, default: false
+        field :orders_manager, type: Mongoid::Boolean, default: false
+        field :can_publish_now, type: Mongoid::Boolean
+        field :can_restore, type: Mongoid::Boolean
+        field :status_email_recipient, type: Mongoid::Boolean, default: false
         field :last_impersonated_by_id, type: String
         field :last_impersonated_at, type: Time
 

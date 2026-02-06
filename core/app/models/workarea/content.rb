@@ -10,7 +10,7 @@ module Workarea
     field :javascript, type: String
     field :head_content, type: String
     field :css, type: String
-    field :automate_metadata, type: Boolean, default: true
+    field :automate_metadata, type: Mongoid::Boolean, default: true
     field :open_graph_asset_id, type: String
 
     belongs_to :contentable, polymorphic: true, optional: true, index: true

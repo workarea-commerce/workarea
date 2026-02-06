@@ -21,10 +21,10 @@ module Workarea
       field :image_width, type: Integer
       field :image_height, type: Integer
       field :image_aspect_ratio, type: Float
-      field :image_portrait, type: Boolean
-      field :image_landscape, type: Boolean
+      field :image_portrait, type: Mongoid::Boolean
+      field :image_landscape, type: Mongoid::Boolean
       field :image_format, type: String
-      field :image_image, type: Boolean
+      field :image_image, type: Mongoid::Boolean
       field :image_inverse_aspect_ratio, type: Float
 
       embedded_in :product,

@@ -13,7 +13,7 @@ module Workarea
       field :_id, type: StringId, default: -> { BSON::ObjectId.new }
       field :name, type: String, localize: true
       field :client_id, type: String
-      field :show_navigation, type: Boolean, default: true
+      field :show_navigation, type: Mongoid::Boolean, default: true
       field :default_sort, type: String, default: 'top_sellers'
       field :terms_facets, type: Array, default: []
       field :range_facets, type: Hash, default: {}

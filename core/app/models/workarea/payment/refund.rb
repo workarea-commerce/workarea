@@ -3,7 +3,7 @@ module Workarea
     class Refund
       include Processing
 
-      field :includes_shipping, type: Boolean, default: false
+      field :includes_shipping, type: Mongoid::Boolean, default: false
       validate :refundable_amounts
 
       def transaction_type

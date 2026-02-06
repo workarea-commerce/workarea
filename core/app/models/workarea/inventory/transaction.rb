@@ -4,7 +4,7 @@ module Workarea
       include ApplicationDocument
 
       field :order_id, type: String
-      field :captured, type: Boolean, default: false
+      field :captured, type: Mongoid::Boolean, default: false
 
       index({ order_id: 1, captured: 1 })
       index({ updated_at: 1, captured: 1 })

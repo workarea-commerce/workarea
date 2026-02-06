@@ -2,7 +2,7 @@ module Workarea
   class Segment
     module Rules
       class LastOrder < Base
-        field :within, type: Boolean, default: true
+        field :within, type: Mongoid::Boolean, default: true
         field :days, type: Integer
 
         def qualifies?(visit)

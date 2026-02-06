@@ -68,17 +68,17 @@ module Workarea
       # @!attribute single_use
       #   @return [Boolean]
       #
-      field :single_use, type: Boolean, default: false
+      field :single_use, type: Mongoid::Boolean, default: false
 
       # @!attribute allow_sale_items
       #   @return [Boolean]
       #
-      field :allow_sale_items, type: Boolean, default: true
+      field :allow_sale_items, type: Mongoid::Boolean, default: true
 
       # @!attribute auto_deactivated
       #   @return [Boolean] whether to allow auto deactivation
       #
-      field :auto_deactivate, type: Boolean, default: true
+      field :auto_deactivate, type: Mongoid::Boolean, default: true
 
       # @!attribute auto_deactivated_at
       #   @return [Boolean] when the discount was last automatically deactivated

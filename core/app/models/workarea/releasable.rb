@@ -6,7 +6,7 @@ module Workarea
     include Segmentable
 
     included do
-      field :active, type: Boolean, default: true, localize: Workarea.config.localized_active_fields
+      field :active, type: Mongoid::Boolean, default: true, localize: Workarea.config.localized_active_fields
       attr_accessor :release_id
 
       has_many :changesets,

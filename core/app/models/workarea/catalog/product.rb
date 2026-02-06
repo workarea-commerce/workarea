@@ -17,7 +17,7 @@ module Workarea
       field :meta_description, type: String, localize: true
       field :description, type: String, localize: true
       field :last_indexed_at, type: Time
-      field :purchasable, type: Boolean, default: true
+      field :purchasable, type: Mongoid::Boolean, default: true
       field :default_category_id, type: String
 
       # DEPRECATED. This field will be remove in v3.6 in favor of using
@@ -26,7 +26,7 @@ module Workarea
       #
       # TODO: remove in v3.6
       #
-      field :digital, type: Boolean, default: false
+      field :digital, type: Mongoid::Boolean, default: false
 
       index({ 'variants.sku': 1 })
       index({ last_indexed_at: 1 })

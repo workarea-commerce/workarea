@@ -8,8 +8,8 @@ module Workarea
       include UnsupportedSegmentation
 
       field :_id, type: String
-      field :on_sale, type: Boolean, default: false
-      field :discountable, type: Boolean, default: true
+      field :on_sale, type: Mongoid::Boolean, default: false
+      field :discountable, type: Mongoid::Boolean, default: true
       field :tax_code, type: String
       field :msrp, type: Money
 
