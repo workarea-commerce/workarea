@@ -18,8 +18,12 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'workarea-core', Workarea::VERSION::STRING
   s.add_dependency 'capybara', '~> 3.18'
-  s.add_dependency 'webmock', '~> 3.5.0'
-  s.add_dependency 'vcr', '~> 2.9.0'
+  # webmock 3.5.x is not compatible with modern Ruby/net-http.
+  # Allow newer webmock versions while staying < 4.
+  s.add_dependency 'webmock', '>= 3.5', '< 4'
+
+  # vcr 2.x is very old; allow modern vcr which supports newer webmock.
+  s.add_dependency 'vcr', '>= 2.9', '< 7'
   s.add_dependency 'launchy', '~> 2.4.3'
   s.add_dependency 'teaspoon', '~> 1.2.0'
   s.add_dependency 'teaspoon-mocha', '~> 2.3.3'
