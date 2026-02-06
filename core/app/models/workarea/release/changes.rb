@@ -13,20 +13,26 @@ module Workarea
       end
 
       def to_h
-        releasable.changes.keys.inject({}) do |memo, key|
-          old_value, new_value = *releasable.changes[key]
-
+        changes.keys.each_with_object({}) do |key, memo|
+          old_value, new_value = *changes[key]
           memo[key] = new_value if track_change?(key, old_value, new_value)
-          memo
         end
       end
 
       def to_originals_h
-        releasable.changes.keys.inject({}) do |memo, key|
-          old_value, new_value = *releasable.changes[key]
-
+        changes.keys.each_with_object({}) do |key, memo|
+          old_value, new_value = *changes[key]
           memo[key] = old_value if track_change?(key, old_value, new_value)
-          memo
+        end
+      end
+
+      # Mongoid 7 uses `changes_to_save` during callbacks; `changes` may be empty
+      # in before_update/before_save.
+      def changes
+        if releasable.respond_to?(:changes_to_save) && releasable.changes_to_save.present?
+          releasable.changes_to_save
+        else
+          releasable.changes
         end
       end
 

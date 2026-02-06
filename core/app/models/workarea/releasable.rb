@@ -126,7 +126,7 @@ module Workarea
         end
       end
 
-      changes.each do |field, change|
+      (respond_to?(:changes_to_save) && changes_to_save.present? ? changes_to_save : changes).each do |field, change|
         attributes[field] = change.first
       end
     end
