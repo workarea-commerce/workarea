@@ -28,7 +28,7 @@ module Workarea
 
       def test_handle_invalid_path
         path = '/category/FoalBroodmare/Supplements-Mares & Foals/20552.html'
-        encoded_path = URI.encode(path)
+        encoded_path = URI::DEFAULT_PARSER.escape(path)
         redirect = Redirect.create(path: path, destination: '/')
 
         assert(redirect.valid?, redirect.errors.full_messages.to_sentence)

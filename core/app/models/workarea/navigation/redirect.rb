@@ -33,10 +33,11 @@ module Workarea
       end
 
       def self.sanitize_path(path)
+        # URI.encode was removed in Ruby 3.
         encoded_path = if path =~ URI::ESCAPED
                          path
                        else
-                         URI.encode(path)
+                         URI::DEFAULT_PARSER.escape(path)
                        end
         uri = URI.parse(encoded_path)
 
