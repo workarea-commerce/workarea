@@ -8,11 +8,12 @@ module Workarea
       end
 
       def workarea_config
-        (Workarea.config.elasticsearch || {}).deep_symbolize_keys
+        deep_convert_hash_like(Workarea.config.elasticsearch || {})
+          .deep_symbolize_keys
       end
 
       def secrets_config
-        result = Rails.application.secrets.elasticsearch || {}
+        result = deep_convert_hash_like(Rails.application.secrets.elasticsearch || {})
         result.deep_dup.deep_symbolize_keys
       end
 
@@ -27,6 +28,21 @@ module Workarea
       end
 
       private
+
+      # Avoid passing BSON::Document instances into ActiveSupport's deep key
+      # transforms, which will call the deprecated BSON::Document#deep_symbolize_keys!
+      # in bson >= 5.
+      def deep_convert_hash_like(value)
+        if defined?(::BSON::Document) && value.is_a?(::BSON::Document)
+          value.to_h.transform_values { |v| deep_convert_hash_like(v) }
+        elsif value.is_a?(::Hash)
+          value.to_h.transform_values { |v| deep_convert_hash_like(v) }
+        elsif value.is_a?(::Array)
+          value.map { |v| deep_convert_hash_like(v) }
+        else
+          value
+        end
+      end
 
       def env_hosts
         ENV
