@@ -25,6 +25,9 @@ Gem::Specification.new do |s|
   s.add_dependency 'mongoid-sample', '~> 0.1.0'
   s.add_dependency 'mongoid-encrypted', '~> 1.0.0'
   s.add_dependency 'elasticsearch', '~> 5.0.1'
+  # Faraday 2 moved adapters into separate gems; elasticsearch-transport 5 +
+  # Faraday 2 requires an explicit adapter gem.
+  s.add_dependency 'faraday-net_http', '~> 3.0'
   s.add_dependency 'kaminari', '~> 1.2.1'
   s.add_dependency 'kaminari-mongoid', '~> 1.0.0'
   s.add_dependency 'activemerchant', '~> 1.52'
