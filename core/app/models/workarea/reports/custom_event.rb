@@ -11,7 +11,12 @@ module Workarea
       validates :name, presence: true
       validates :occurred_at, presence: true
 
-      scope :occurred_between, ->(starts_at: nil, ends_at: nil) do
+      # Mongoid scopes pass arguments positionally; Ruby 3 keyword-arg
+      # separation means we can't rely on keyword params here.
+      scope :occurred_between, ->(options = {}) do
+        starts_at = options[:starts_at]
+        ends_at = options[:ends_at]
+
         where(
           :occurred_at.gte => starts_at,
           :occurred_at.lte => ends_at
