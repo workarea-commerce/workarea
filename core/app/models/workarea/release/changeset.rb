@@ -149,7 +149,9 @@ module Workarea
       def apply_changeset(model, changeset)
         changeset.each do |field, new_value|
           model.send(:attribute_will_change!, field) # required for correct dirty tracking
-          model.attributes[field] = new_value
+          # Deep-dup values so that in-place mutations by Mongoid's localized
+          # field writers (merge!) don't corrupt the changeset's stored hashes.
+          model.attributes[field] = new_value.duplicable? ? new_value.deep_dup : new_value
         end
       end
     end
