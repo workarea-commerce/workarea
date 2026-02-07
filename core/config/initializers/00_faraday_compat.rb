@@ -7,6 +7,7 @@
 # Faraday 2 moved adapters into separate gems; without explicitly loading one,
 # you can hit "Faraday::Connection without adapter".
 begin
+  require 'faraday'
   require 'faraday/net_http'
 rescue LoadError
   # Adapter gem may not be installed yet; tests will surface this clearly.
