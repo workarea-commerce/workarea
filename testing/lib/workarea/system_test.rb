@@ -113,7 +113,7 @@ module Workarea
     #
     (%i(visit refresh go_back go_forward within within_frame) + Capybara::Session::NODE_METHODS).each do |method|
       class_eval <<-ruby
-        def #{method}(*)
+        def #{method}(*args, **kwargs, &block)
           return super unless javascript?
 
           wait_for_xhr
