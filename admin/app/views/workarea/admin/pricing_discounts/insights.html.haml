@@ -28,7 +28,7 @@
                 - if @discount.insights.discounts_percent_change.present?
                   = insights_trend_icon(@discount.insights.discounts_percent_change)
                   = t('workarea.admin.pricing_discounts.insights.from_previous', percentage: insights_number_to_percentage(@discount.insights.discounts_percent_change))
-              = area_chart @discount.insights.discounts_graph_data, Workarea.config.default_chartkick_options.merge(prefix: Money.default_currency.symbol)
+              = area_chart @discount.insights.discounts_graph_data, **Workarea.config.default_chartkick_options.merge(prefix: Money.default_currency.symbol)
 
         .grid__cell
           .card
@@ -39,7 +39,7 @@
                 - if @discount.insights.orders_percent_change.present?
                   = insights_trend_icon(@discount.insights.orders_percent_change)
                   = t('workarea.admin.pricing_discounts.insights.from_previous', percentage: insights_number_to_percentage(@discount.insights.orders_percent_change))
-              = area_chart @discount.insights.orders_graph_data, Workarea.config.default_chartkick_options
+              = area_chart @discount.insights.orders_graph_data, **Workarea.config.default_chartkick_options
 
         .grid__cell
           .card
@@ -50,7 +50,7 @@
                 - if @discount.insights.revenue_percent_change.present?
                   = insights_trend_icon(@discount.insights.revenue_percent_change)
                   = t('workarea.admin.pricing_discounts.insights.from_previous', percentage: insights_number_to_percentage(@discount.insights.revenue_percent_change))
-              = area_chart @discount.insights.revenue_graph_data, Workarea.config.default_chartkick_options.merge(prefix: Money.default_currency.symbol)
+              = area_chart @discount.insights.revenue_graph_data, **Workarea.config.default_chartkick_options.merge(prefix: Money.default_currency.symbol)
 
   - if @discount.insights.feed.any?
     .view__container.view__container--narrow

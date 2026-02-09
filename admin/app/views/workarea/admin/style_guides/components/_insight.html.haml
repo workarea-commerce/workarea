@@ -79,7 +79,7 @@
         %p.insight__note
           %strong 3
           New Customers
-        = area_chart insight.results.reduce({}) { |m, r| m.merge(r['date'] => r['new_customers']) }, Workarea.config.default_chartkick_options.merge(width: '80%', height: '250px')
+        = area_chart insight.results.reduce({}) { |m, r| m.merge(r['date'] => r['new_customers']) }, **Workarea.config.default_chartkick_options.merge(width: '80%', height: '250px')
 
   %p should visually separate when stacking sections:
   .style-guide__example-block

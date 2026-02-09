@@ -33,7 +33,7 @@
                   = insights_trend_icon(@dashboard.discounts_percent_change)
                   = t('workarea.admin.dashboards.marketing.from_previous', percentage: insights_number_to_percentage(@dashboard.discounts_percent_change))
 
-            .dashboard-graphs__chart= area_chart @dashboard.discounts_graph_data, Workarea.config.default_chartkick_options
+            .dashboard-graphs__chart= area_chart @dashboard.discounts_graph_data, **Workarea.config.default_chartkick_options
 
         .grid__cell.grid__cell--33
           .dashboard-graphs__box
@@ -42,7 +42,7 @@
               = link_to sales_by_traffic_referrer_report_path(starts_at: @dashboard.starts_at.to_s(:date_only), ends_at: @dashboard.ends_at.to_s(:date_only)), class: 'heading heading--1 heading--no-margin' do
                 = t('workarea.admin.dashboards.marketing.days', count: ((@dashboard.ends_at - @dashboard.starts_at) / 1.day).ceil)
 
-            .dashboard-graphs__chart= column_chart @dashboard.traffic_referrer_graph_data, Workarea.config.default_chartkick_options.merge(prefix: Money.default_currency.symbol)
+            .dashboard-graphs__chart= column_chart @dashboard.traffic_referrer_graph_data, **Workarea.config.default_chartkick_options.merge(prefix: Money.default_currency.symbol)
 
         .grid__cell.grid__cell--33
           .dashboard-graphs__box
@@ -56,7 +56,7 @@
                   = insights_trend_icon(@dashboard.email_signups_percent_change)
                   = t('workarea.admin.dashboards.marketing.from_previous', percentage: insights_number_to_percentage(@dashboard.email_signups_percent_change))
 
-            .dashboard-graphs__chart= area_chart @dashboard.email_signups_graph_data, Workarea.config.default_chartkick_options
+            .dashboard-graphs__chart= area_chart @dashboard.email_signups_graph_data, **Workarea.config.default_chartkick_options
 
   .view__container.view__container--narrow
     .section

@@ -52,7 +52,7 @@
             = inline_svg_tag 'workarea/admin/icons/insights.svg', class: 'card__icon'
 
           .card__body
-            .card__centered-content= area_chart @dashboard.sales_over_time.graph_data, Workarea.config.default_chartkick_options.merge(prefix: Money.default_currency.symbol)
+            .card__centered-content= area_chart @dashboard.sales_over_time.graph_data, **Workarea.config.default_chartkick_options.merge(prefix: Money.default_currency.symbol)
 
             = link_to sales_over_time_report_path, class: 'card__button' do
               %span.button.button--small= t('workarea.admin.dashboards.reports.view_full_report')
@@ -65,7 +65,7 @@
 
           .card__body
             .card__centered-content
-              = area_chart @dashboard.average_order_value.graph_data, Workarea.config.default_chartkick_options.merge(prefix: Money.default_currency.symbol)
+              = area_chart @dashboard.average_order_value.graph_data, **Workarea.config.default_chartkick_options.merge(prefix: Money.default_currency.symbol)
 
             = link_to average_order_value_report_path, class: 'card__button' do
               %span.button.button--small= t('workarea.admin.dashboards.reports.view_full_report')
@@ -78,7 +78,7 @@
 
           .card__body
             .card__centered-content
-              = column_chart @dashboard.marketing.traffic_referrer_graph_data, Workarea.config.default_chartkick_options.merge(prefix: Money.default_currency.symbol)
+              = column_chart @dashboard.marketing.traffic_referrer_graph_data, **Workarea.config.default_chartkick_options.merge(prefix: Money.default_currency.symbol)
 
             = link_to sales_by_traffic_referrer_report_path, class: 'card__button' do
               %span.button.button--small= t('workarea.admin.dashboards.reports.view_full_report')
@@ -163,7 +163,7 @@
 
           .card__body
             .card__centered-content
-              = column_chart @dashboard.country_graph_data, Workarea.config.default_chartkick_options.merge(prefix: Money.default_currency.symbol)
+              = column_chart @dashboard.country_graph_data, **Workarea.config.default_chartkick_options.merge(prefix: Money.default_currency.symbol)
 
             = link_to sales_by_country_report_path, class: 'card__button' do
               %span.button.button--small= t('workarea.admin.dashboards.reports.view_full_report')
@@ -176,7 +176,7 @@
 
           .card__body
             .card__centered-content
-              = column_chart @dashboard.tender_graph_data, Workarea.config.default_chartkick_options.merge(prefix: Money.default_currency.symbol)
+              = column_chart @dashboard.tender_graph_data, **Workarea.config.default_chartkick_options.merge(prefix: Money.default_currency.symbol)
 
             = link_to sales_by_tender_report_path, class: 'card__button' do
               %span.button.button--small= t('workarea.admin.dashboards.reports.view_full_report')
@@ -207,7 +207,7 @@
 
           .card__body
             .card__centered-content
-              = area_chart @dashboard.first_time_vs_returning_sales.graph_data, Workarea.config.default_chartkick_options.merge(suffix: '%')
+              = area_chart @dashboard.first_time_vs_returning_sales.graph_data, **Workarea.config.default_chartkick_options.merge(suffix: '%')
 
             = link_to first_time_vs_returning_sales_report_path, class: 'card__button' do
               %span.button.button--small= t('workarea.admin.dashboards.reports.view_full_report')

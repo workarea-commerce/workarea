@@ -27,7 +27,7 @@
                 - if @segment.insights.orders_percent_change.present?
                   = insights_trend_icon(@segment.insights.orders_percent_change)
                   = t('workarea.admin.segments.insights.from_previous', percentage: insights_number_to_percentage(@segment.insights.orders_percent_change))
-              = area_chart @segment.insights.orders_graph_data, Workarea.config.default_chartkick_options
+              = area_chart @segment.insights.orders_graph_data, **Workarea.config.default_chartkick_options
 
         .grid__cell
           .card
@@ -38,7 +38,7 @@
                 - if @segment.insights.revenue_percent_change.present?
                   = insights_trend_icon(@segment.insights.revenue_percent_change)
                   = t('workarea.admin.segments.insights.from_previous', percentage: insights_number_to_percentage(@segment.insights.revenue_percent_change))
-              = area_chart @segment.insights.revenue_graph_data, Workarea.config.default_chartkick_options.merge(prefix: Money.default_currency.symbol)
+              = area_chart @segment.insights.revenue_graph_data, **Workarea.config.default_chartkick_options.merge(prefix: Money.default_currency.symbol)
 
         .grid__cell
           .card
@@ -49,4 +49,4 @@
                 - if @segment.insights.average_order_value_percent_change.present?
                   = insights_trend_icon(@segment.insights.average_order_value_percent_change)
                   = t('workarea.admin.segments.insights.from_previous', percentage: insights_number_to_percentage(@segment.insights.average_order_value_percent_change))
-              = area_chart @segment.insights.average_order_value_graph_data, Workarea.config.default_chartkick_options
+              = area_chart @segment.insights.average_order_value_graph_data, **Workarea.config.default_chartkick_options

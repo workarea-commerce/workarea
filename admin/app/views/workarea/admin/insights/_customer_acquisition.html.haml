@@ -6,6 +6,6 @@
     %p.insight__note
       %strong= insight.results.map(&:new_customers).sum
       = t('workarea.admin.insights.customer_acquisition.total_new_customers')
-    = area_chart insight.results.reduce({}) { |m, r| m.merge(r['date'] => r['new_customers']) }, Workarea.config.default_chartkick_options.merge(width: '90%', height: '200px')
+    = area_chart insight.results.reduce({}) { |m, r| m.merge(r['date'] => r['new_customers']) }, **Workarea.config.default_chartkick_options.merge(width: '90%', height: '200px')
 
 

@@ -28,7 +28,7 @@
                 - if @category.insights.views_percent_change.present?
                   = insights_trend_icon(@category.insights.views_percent_change)
                   = t('workarea.admin.catalog_categories.insights.from_previous', percentage: insights_number_to_percentage(@category.insights.views_percent_change))
-              = area_chart @category.insights.views_graph_data, Workarea.config.default_chartkick_options
+              = area_chart @category.insights.views_graph_data, **Workarea.config.default_chartkick_options
 
         .grid__cell
           .card
@@ -39,7 +39,7 @@
                 - if @category.insights.orders_percent_change.present?
                   = insights_trend_icon(@category.insights.orders_percent_change)
                   = t('workarea.admin.catalog_categories.insights.from_previous', percentage: insights_number_to_percentage(@category.insights.orders_percent_change))
-              = area_chart @category.insights.orders_graph_data, Workarea.config.default_chartkick_options
+              = area_chart @category.insights.orders_graph_data, **Workarea.config.default_chartkick_options
 
         .grid__cell
           .card
@@ -50,7 +50,7 @@
                 - if @category.insights.revenue_percent_change.present?
                   = insights_trend_icon(@category.insights.revenue_percent_change)
                   = t('workarea.admin.catalog_categories.insights.from_previous', percentage: insights_number_to_percentage(@category.insights.revenue_percent_change))
-              = area_chart @category.insights.revenue_graph_data, Workarea.config.default_chartkick_options.merge(prefix: Money.default_currency.symbol)
+              = area_chart @category.insights.revenue_graph_data, **Workarea.config.default_chartkick_options.merge(prefix: Money.default_currency.symbol)
 
         .grid__cell
           .card
@@ -61,7 +61,7 @@
                 - if @category.insights.units_sold_percent_change.present?
                   = insights_trend_icon(@category.insights.units_sold_percent_change)
                   = t('workarea.admin.catalog_categories.insights.from_previous', percentage: insights_number_to_percentage(@category.insights.units_sold_percent_change))
-              = area_chart @category.insights.units_sold_graph_data, Workarea.config.default_chartkick_options
+              = area_chart @category.insights.units_sold_graph_data, **Workarea.config.default_chartkick_options
 
   - if @category.insights.feed.any?
     .view__container.view__container--narrow

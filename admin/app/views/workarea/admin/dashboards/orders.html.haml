@@ -32,7 +32,7 @@
                 = insights_trend_icon(@dashboard.orders_percent_change)
                 = t('workarea.admin.dashboards.orders.from_previous', percentage: insights_number_to_percentage(@dashboard.orders_percent_change))
 
-            = area_chart @dashboard.orders_graph_data, Workarea.config.default_chartkick_options
+            = area_chart @dashboard.orders_graph_data, **Workarea.config.default_chartkick_options
 
       .grid__cell.grid__cell--25
         .insight
@@ -46,7 +46,7 @@
                 = insights_trend_icon(@dashboard.revenue_percent_change)
                 = t('workarea.admin.dashboards.orders.from_previous', percentage: insights_number_to_percentage(@dashboard.revenue_percent_change))
 
-            = area_chart @dashboard.revenue_graph_data, Workarea.config.default_chartkick_options.merge(prefix: Money.default_currency.symbol)
+            = area_chart @dashboard.revenue_graph_data, **Workarea.config.default_chartkick_options.merge(prefix: Money.default_currency.symbol)
 
       .grid__cell.grid__cell--25
         .insight
@@ -60,7 +60,7 @@
                 = insights_trend_icon(@dashboard.aov_percent_change)
                 = t('workarea.admin.dashboards.orders.from_previous', percentage: insights_number_to_percentage(@dashboard.aov_percent_change))
 
-            = area_chart @dashboard.aov_graph_data, Workarea.config.default_chartkick_options.merge(prefix: Money.default_currency.symbol)
+            = area_chart @dashboard.aov_graph_data, **Workarea.config.default_chartkick_options.merge(prefix: Money.default_currency.symbol)
 
       .grid__cell.grid__cell--25
         .insight
@@ -74,7 +74,7 @@
                 = insights_trend_icon(@dashboard.units_sold_percent_change)
                 = t('workarea.admin.dashboards.orders.from_previous', percentage: insights_number_to_percentage(@dashboard.units_sold_percent_change))
 
-            = area_chart @dashboard.units_sold_graph_data, Workarea.config.default_chartkick_options
+            = area_chart @dashboard.units_sold_graph_data, **Workarea.config.default_chartkick_options
 
     - if partials_to_append?('admin.orders_dashboard_top_row')
       .section= append_partials('admin.orders_dashboard_top_row')
