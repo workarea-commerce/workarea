@@ -30,15 +30,14 @@ chrome_options = Workarea::HeadlessChrome.options
 Capybara.server_errors = [Exception]
 Capybara.automatic_label_click = true
 Capybara.register_driver :headless_chrome do |app|
+  options = Selenium::WebDriver::Chrome::Options.new
+  chrome_options.fetch(:args, []).each { |arg| options.add_argument(arg) }
+  options.add_preference(:loggingPrefs, { browser: 'ALL' })
+
   Capybara::Selenium::Driver.new(
     app,
     browser: :chrome,
-    desired_capabilities: Selenium::WebDriver::Remote::Capabilities.chrome(
-      chromeOptions: chrome_options,
-      loggingPrefs: {
-        browser: 'ALL'
-      }
-    )
+    options: options
   )
 end
 
