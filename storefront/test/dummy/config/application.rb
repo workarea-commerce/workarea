@@ -1,5 +1,8 @@
 require_relative 'boot'
 
+# Ruby 3 + Rails 6.1: ensure stdlib Logger is loaded before ActiveSupport
+require 'logger'
+
 require 'action_controller/railtie'
 require 'action_mailer/railtie'
 require 'sprockets/railtie'
