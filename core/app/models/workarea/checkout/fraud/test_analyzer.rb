@@ -5,7 +5,7 @@ module Workarea
         def make_decision
           if order.email == "decline@workarea.com"
             Workarea::Order::FraudDecision.new(
-              decision: :declined,
+              decision: 'declined',
               message: "Forced test fraud decline."
             )
           elsif order.email == "approved@workarea.com"
@@ -15,7 +15,7 @@ module Workarea
             )
           else
             Workarea::Order::FraudDecision.new(
-              decision: :no_decision,
+              decision: 'no_decision',
               message: "Workarea default fraud check. Automatic no decision."
             )
           end

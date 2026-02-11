@@ -3,13 +3,13 @@ module Workarea
     class Discount
       module FlatOrPercentOff
         extend ActiveSupport::Concern
-        AMOUNT_TYPES = %i(percent flat)
+        AMOUNT_TYPES = %w(percent flat)
 
         included do
           # @!attribute amount_type
-          #   @return [Symbol] how to treat the amount field, one of {AMOUNT_TYPES}
+          #   @return [String] how to treat the amount field, one of {AMOUNT_TYPES}
           #
-          field :amount_type, type: Symbol, default: AMOUNT_TYPES.first
+          field :amount_type, type: String, default: AMOUNT_TYPES.first
 
           # @!attribute amount
           #   @return [Float] the amount of the discount

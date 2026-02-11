@@ -5,13 +5,13 @@ module Workarea
 
       embedded_in :order, class_name: 'Workarea::Order'
 
-      field :decision, type: Symbol, default: :no_decision
+      field :decision, type: String, default: :no_decision
       field :analyzer, type: String
       field :message, type: String
       field :response, type: String
 
       def declined?
-        decision == :declined
+        decision.to_s == 'declined'
       end
     end
   end

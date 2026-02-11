@@ -4,13 +4,13 @@ module Workarea
       module Conditions
         module OrderTotal
           extend ActiveSupport::Concern
-          OPERATORS = %i(greater_than less_than)
+          OPERATORS = %w(greater_than less_than)
 
           included do
             # @!attribute order_total_operator
-            #   @return [Symbol] the operator (from {OPERATORS}).
+            #   @return [String] the operator (from {OPERATORS}).
             #
-            field :order_total_operator, type: Symbol, default: OPERATORS.first
+            field :order_total_operator, type: String, default: OPERATORS.first
 
             # @!attribute order_total
             #   @return [Money] the amount to compare against
@@ -38,9 +38,9 @@ module Workarea
           def order_total_qualifies?(order)
             return true unless use_order_total?
 
-            if order_total_operator == :less_than
+            if order_total_operator.to_s == 'less_than'
               order.subtotal_price < order_total
-            elsif order_total_operator == :greater_than
+            elsif order_total_operator.to_s == 'greater_than'
               order.subtotal_price > order_total
             else
               false # This shouldn't happen

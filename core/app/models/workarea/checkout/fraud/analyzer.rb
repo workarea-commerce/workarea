@@ -34,7 +34,7 @@ module Workarea
 
         def error_decision(message)
           Workarea::Order::FraudDecision.new(
-            decision: :no_decision,
+            decision: 'no_decision',
             message: "An error occured during the fraud check: #{message}"
           )
         end

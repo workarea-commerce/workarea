@@ -16,7 +16,7 @@ module Workarea
         product_ids: [product.id],
         item_quantity: 10,
         amount: 10,
-        amount_type: :percent
+        amount_type: 'percent'
       )
 
       category = Catalog::Category.sample
@@ -24,7 +24,7 @@ module Workarea
         name: "15% Off all products in #{category.name}",
         category_ids: [category.id],
         amount: 15,
-        amount_type: :percent,
+        amount_type: 'percent',
         promo_codes: ['CATEGORY']
       )
 
@@ -37,7 +37,7 @@ module Workarea
         attribute_name: 'Brand',
         attribute_value: 'Workarea',
         amount: 10,
-        amount_type: :percent
+        amount_type: 'percent'
       )
 
       category = Catalog::Category.sample

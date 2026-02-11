@@ -1178,7 +1178,7 @@ module Workarea
 
       create_free_gift_discount(
         sku: 'SKU3',
-        order_total_operator: :greater_than,
+        order_total_operator: 'greater_than',
         order_total: 5.to_m
       )
 
@@ -1201,7 +1201,7 @@ module Workarea
         purchase_quantity: 1,
         apply_quantity: 1,
         percent_off: 100,
-        order_total_operator: :greater_than,
+        order_total_operator: 'greater_than',
         order_total: 5.to_m
       )
 
@@ -1243,7 +1243,7 @@ module Workarea
         amount_type: 'flat',
         amount: 2,
         product_ids: ['PRODUCT2'],
-        order_total_operator: :greater_than,
+        order_total_operator: 'greater_than',
         order_total: 5.to_m
       )
 

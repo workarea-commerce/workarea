@@ -21,6 +21,8 @@ class PasswordValidator < ActiveModel::EachValidator
       required_strength = record.send(required_strength)
     end
 
+    required_strength = required_strength.to_sym if required_strength.is_a?(String)
+
     if REGEXES[required_strength] !~ value
       record.errors.add(
         attribute,

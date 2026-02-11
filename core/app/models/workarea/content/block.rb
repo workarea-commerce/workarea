@@ -17,9 +17,9 @@ module Workarea
       include Ordering
 
       # @!attribute type_id
-      #   @return [Symbol] the content block type id
+      #   @return [String] the content block type id
       #
-      field :type_id, type: Symbol
+      field :type_id, type: String
 
       # @!attribute area
       #   @return [String] what area on the page this block belongs to
@@ -101,7 +101,7 @@ module Workarea
       # @return [Workarea::Content::BlockType]
       #
       def type
-        Configuration::ContentBlocks.types.detect { |bt| bt.id == type_id }
+        Configuration::ContentBlocks.types.detect { |bt| bt.id.to_s == type_id.to_s }
       end
 
       def type=(value)

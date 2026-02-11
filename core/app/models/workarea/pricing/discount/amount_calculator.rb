@@ -17,7 +17,7 @@ module Workarea
         # @return [Boolean]
         #
         def percent?
-          amount_type == :percent
+          amount_type.to_s == 'percent'
         end
 
         # Whether this calculator is based on a flat amount
@@ -26,7 +26,7 @@ module Workarea
         # @return [Boolean]
         #
         def flat?
-          amount_type == :flat
+          amount_type.to_s == 'flat'
         end
 
         # The percent representation of the amount off.

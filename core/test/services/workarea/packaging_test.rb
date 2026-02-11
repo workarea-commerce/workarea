@@ -52,7 +52,7 @@ module Workarea
       packaging = Packaging.new(order)
       assert_equal(8.to_m, packaging.total_value)
 
-      create_order_total_discount(amount_type: :flat, amount: 1)
+      create_order_total_discount(amount_type: 'flat', amount: 1)
       Pricing.perform(order)
 
       packaging = Packaging.new(order)

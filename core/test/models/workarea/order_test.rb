@@ -191,7 +191,7 @@ module Workarea
 
       refute(order.fraud_suspected?)
 
-      order.fraud_decision = create_fraud_decision(decision: :declined)
+      order.fraud_decision = create_fraud_decision(decision: 'declined')
       order.fraud_suspected_at = Time.current
       assert(order.fraud_suspected?)
     end
@@ -203,7 +203,7 @@ module Workarea
       refute(order.fraud_suspected_at.present?)
       assert(order.fraud_decided_at.present?)
 
-      order.set_fraud_decision!(create_fraud_decision(decision: :declined))
+      order.set_fraud_decision!(create_fraud_decision(decision: 'declined'))
       assert(order.fraud_suspected_at.present?)
     end
 

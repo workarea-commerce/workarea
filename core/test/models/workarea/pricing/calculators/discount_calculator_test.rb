@@ -71,7 +71,7 @@ module Workarea
             category_ids: [category.id],
             order_total: 9.99.to_m,
             excluded_product_ids: %w(PRODUCT2),
-            amount_type: :percent,
+            amount_type: 'percent',
             amount: 50
           )
 

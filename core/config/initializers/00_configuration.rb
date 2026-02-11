@@ -6,12 +6,12 @@ Workarea::Configuration.define_fields do
       description: 'How many failed login attempts before marking the user locked out'
 
     field :password_strength,
-      type: :symbol,
-      default: :weak,
+      type: :string,
+      default: 'weak',
       values: [
-        ['Weak', :weak, title: 'Requires minimum 7 characters'],
-        ['Medium', :medium, title: 'Requires minimum 7 characters of letters and numbers'],
-        ['Strong', :strong, title: 'Requires minimum 8 characters consisting of letters, numbers, and special characters.']
+        ['Weak', 'weak', title: 'Requires minimum 7 characters'],
+        ['Medium', 'medium', title: 'Requires minimum 7 characters of letters and numbers'],
+        ['Strong', 'strong', title: 'Requires minimum 8 characters consisting of letters, numbers, and special characters.']
       ],
       description: 'Password requirement level for customers. Admin users always require a strong password.'
   end
