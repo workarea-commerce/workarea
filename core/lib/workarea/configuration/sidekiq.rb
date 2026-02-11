@@ -11,12 +11,12 @@ module Workarea
         require_dependency "#{Workarea::Core::Engine.root}/app/middleware/workarea/release_server_middleware"
 
         unless manually_configured?
-          ::Sidekiq.options.merge!(
-            pidfile: pidfile,
-            concurrency: concurrency,
-            timeout: timeout,
-            queues: queues
-          )
+          ::Sidekiq.configure_server do |config|
+            config[:pidfile] = pidfile
+            config[:concurrency] = concurrency
+            config[:timeout] = timeout
+            config[:queues] = queues
+          end
         end
 
         configure_workarea!
@@ -64,6 +64,17 @@ module Workarea
       def configure_plugins!
         ActiveJob::Base.queue_adapter = :sidekiq
 
+        # Sidekiq 6.5 deprecates `default_worker_options` in favor of
+        # `default_job_options`, but still calls it internally.
+        # Provide a shim to avoid noise and prepare for Sidekiq 7.
+        if ::Sidekiq.respond_to?(:default_job_options) &&
+            ::Sidekiq.respond_to?(:default_job_options=)
+          ::Sidekiq.singleton_class.class_eval do
+            define_method(:default_worker_options) { default_job_options }
+            define_method(:default_worker_options=) { |opts| self.default_job_options = opts }
+          end
+        end
+
         if ::Sidekiq.const_defined?('Testing') && ::Sidekiq::Testing.inline?
           ::Sidekiq.configure_client do |config|
             config.client_middleware do |chain|
@@ -102,7 +113,7 @@ module Workarea
 
       def pool_size
         value = ENV['WORKAREA_SIDEKIQ_POOL_SIZE'].presence ||
-          ::Sidekiq.options[:concurrency] + 5
+          (concurrency + 5)
 
         value.to_i
       end
