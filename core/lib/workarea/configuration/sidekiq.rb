@@ -64,6 +64,10 @@ module Workarea
       def configure_plugins!
         ActiveJob::Base.queue_adapter = :sidekiq
 
+        # Sidekiq 7 enables strict argument checking by default, but Workarea
+        # commonly passes BSON::ObjectId and other non-JSON-native types.
+        ::Sidekiq.strict_args!(false) if ::Sidekiq.respond_to?(:strict_args!)
+
         # Sidekiq 6.5 deprecates `default_worker_options` in favor of
         # `default_job_options`, but still calls it internally.
         # Provide a shim to avoid noise and prepare for Sidekiq 7.
@@ -78,13 +82,15 @@ module Workarea
         if ::Sidekiq.const_defined?('Testing') && ::Sidekiq::Testing.inline?
           ::Sidekiq.configure_client do |config|
             config.client_middleware do |chain|
-              chain.remove SidekiqUniqueJobs::Client::Middleware
+              # Avoid uniqueness locking in inline testing mode.
+              chain.remove(SidekiqUniqueJobs::Middleware::Client) if defined?(SidekiqUniqueJobs::Middleware::Client)
             end
           end
         end
 
         ::Sidekiq::Callbacks.assert_valid_config!
-        ::Sidekiq::Throttled.setup!
+        # sidekiq-throttled 1.x automatically installs its server middleware when
+        # `sidekiq/throttled` is required; the old `.setup!` hook was removed.
       end
 
       def pidfile

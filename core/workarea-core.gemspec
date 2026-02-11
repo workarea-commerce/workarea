@@ -34,12 +34,12 @@ Gem::Specification.new do |s|
   s.add_dependency 'kaminari-mongoid', '~> 1.0.0'
   s.add_dependency 'activemerchant', '~> 1.52'
   s.add_dependency 'dragonfly', '~> 1.3.0'
-  s.add_dependency 'sidekiq', '~> 6.5.0'
-  # sidekiq-cron 1.2.0 requires `sidekiq/util`, which no longer exists in Sidekiq 6.5.x.
-  # Use a newer 1.x line that is compatible with Sidekiq 6.5.
+  s.add_dependency 'sidekiq', '~> 7.0'
+  # sidekiq-cron 1.2.0 requires `sidekiq/util`, which no longer exists in Sidekiq 6.5+.
+  # Use a newer 1.x line that is compatible with Sidekiq 7.
   s.add_dependency 'sidekiq-cron', '~> 1.12'
-  s.add_dependency 'sidekiq-unique-jobs', '~> 7.0.0'
-  s.add_dependency 'sidekiq-throttled', '~> 0.18.0'
+  s.add_dependency 'sidekiq-unique-jobs', '~> 8.0'
+  s.add_dependency 'sidekiq-throttled', '~> 1.5'
   s.add_dependency 'geocoder', '~> 1.6.3'
   s.add_dependency 'redis-rack-cache', '~> 2.2.0'
   s.add_dependency 'easymon', '~> 1.4.0'

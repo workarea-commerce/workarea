@@ -267,7 +267,13 @@ module Sidekiq
     end
 
     def _is_a_callback_type_match?(model_class)
-      return is_a?(model_class) if Sidekiq::Callbacks.caching_classes?
+      # Sidekiq 7+ normalizes worker options, which can result in enqueue_on keys
+      # being represented as strings instead of actual class constants.
+      model_name = model_class.respond_to?(:name) ? model_class.name : model_class.to_s
+
+      if Sidekiq::Callbacks.caching_classes? && model_class.is_a?(Module)
+        return is_a?(model_class)
+      end
 
       # This is a funny way of doing the same check as `is_a?`.
       #
@@ -284,7 +290,7 @@ module Sidekiq
       # This hack uses string comparison to alleviate.
       #
       @_callbacks_ancestors_cache ||= self.class.ancestors.map(&:name)
-      @_callbacks_ancestors_cache.include?(model_class.name)
+      @_callbacks_ancestors_cache.include?(model_name)
     end
   end
 end
