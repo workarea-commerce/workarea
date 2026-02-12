@@ -47,13 +47,6 @@ module Workarea
   # @return [Redis]
   #
   def self.redis
-    # Redis 4.x defaults to returning a boolean from `sadd` for single-member
-    # adds, but warns that Redis 5 will always return an Integer.
-    #
-    # Workarea doesn't rely on boolean return values from `sadd`, so opt into the
-    # Redis 5 behavior now to eliminate deprecation warnings.
-    Redis.sadd_returns_boolean = false
-
     @redis ||= Redis.new(Configuration::Redis.persistent.to_h)
   end
 
