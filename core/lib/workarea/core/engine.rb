@@ -25,6 +25,13 @@ module Workarea
 
         Configuration.setup_defaults
 
+        # Redis 4.x defaults to returning a boolean from `sadd` for single-member
+        # adds, but warns that Redis 5 will always return an Integer. Workarea
+        # doesn't rely on boolean return values from `sadd`, so opt into the
+        # Redis 5 behavior now to eliminate deprecation warnings.
+        require 'redis'
+        Redis.sadd_returns_boolean = false
+
         Configuration::Sidekiq.load
         Configuration::CacheStore.load
         Configuration::AssetHost.load
