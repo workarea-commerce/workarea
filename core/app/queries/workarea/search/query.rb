@@ -65,7 +65,9 @@ module Workarea
       end
 
       def total
-        response['hits']['total']
+        total = response['hits']['total']
+        # ES 7.x returns { value: N, relation: "eq" }, older versions return integer
+        total.is_a?(Hash) ? total['value'] : total
       end
 
       def scroll(options = {}, &block)

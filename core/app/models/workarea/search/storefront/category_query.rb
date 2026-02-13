@@ -95,7 +95,7 @@ module Workarea
         def delete
           I18n.for_each_locale do
             begin
-              Storefront.current_index.delete(category.id, type: 'category')
+              Storefront.current_index.delete(category.id, type: '_doc')
             rescue ::Elasticsearch::Transport::Transport::Errors::NotFound
               # doesn't matter we want it deleted
             end
@@ -116,7 +116,7 @@ module Workarea
                 query: Workarea::Search::Categorization.new(rules: category.product_rules).query
               }
 
-              Storefront.current_index.save(document, type: 'category')
+              Storefront.current_index.save(document, type: '_doc')
             end
           end
         end
@@ -133,7 +133,7 @@ module Workarea
                   query: Workarea::Search::Categorization.new(rules: category.product_rules).query
                 }
 
-                Storefront.current_index.save(document, type: 'category')
+                Storefront.current_index.save(document, type: '_doc')
               end
             end
           end

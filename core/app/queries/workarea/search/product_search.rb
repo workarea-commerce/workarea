@@ -126,7 +126,7 @@ module Workarea
       def query_string_clause
         result = {
           bool: {
-            minimum_number_should_match: 1,
+            minimum_should_match: 1,
             should: [
               {
                 terms: {

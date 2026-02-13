@@ -8,13 +8,15 @@ module Workarea
       document Search::Help
 
       def query
+        like_docs = Array(params[:ids]).map { |id| { _id: id } }
+        like_docs << params[:like_text] if params[:like_text].present?
+
         {
           more_like_this: {
             min_term_freq: 1,
             min_doc_freq: 1,
             fields: %w(name facets.category body),
-            ids: Array(params[:ids]),
-            like_text: params[:like_text]
+            like: like_docs
           }
         }
       end

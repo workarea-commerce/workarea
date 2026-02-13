@@ -434,141 +434,135 @@ module Workarea
       # Mappings used for the various Elasticsearch indexes
       config.elasticsearch_mappings = ActiveSupport::Configurable::Configuration.new
       config.elasticsearch_mappings.admin = {
-        admin: {
-          dynamic_templates: [
-            {
-              facet_values: {
-                path_match: 'facets.*',
-                mapping: {  type: 'keyword', analyzer: 'keyword' }
-              }
+        dynamic_templates: [
+          {
+            facet_values: {
+              path_match: 'facets.*',
+              mapping: { type: 'keyword' }
             }
-          ],
-          properties: {
-            id: { type: 'keyword' },
-            name: { type: 'keyword' },
-            model_class: { type: 'keyword' },
-            type: { type: 'keyword' },
-            status: { type: 'keyword' },
-            keywords: { type: 'keyword' },
-            search_text: { type: 'text', analyzer: 'text_analyzer' },
-            jump_to_text: { type: 'text', analyzer: 'autocomplete_analyzer' },
-            jump_to_search_text: { type: 'text', analyzer: 'autocomplete_analyzer' },
-            jump_to_position: { type: 'integer' },
-            jump_to_param: { type: 'keyword' },
-            updated_at: { type: 'date' },
-            releasable: { type: 'boolean' },
-            placed_at: { type: 'date' }
           }
+        ],
+        properties: {
+          id: { type: 'keyword' },
+          name: { type: 'keyword' },
+          model_class: { type: 'keyword' },
+          type: { type: 'keyword' },
+          status: { type: 'keyword' },
+          keywords: { type: 'keyword' },
+          search_text: { type: 'text', analyzer: 'text_analyzer' },
+          jump_to_text: { type: 'text', analyzer: 'autocomplete_analyzer' },
+          jump_to_search_text: { type: 'text', analyzer: 'autocomplete_analyzer' },
+          jump_to_position: { type: 'integer' },
+          jump_to_param: { type: 'keyword' },
+          updated_at: { type: 'date' },
+          releasable: { type: 'boolean' },
+          placed_at: { type: 'date' }
         }
       }
 
       config.elasticsearch_mappings.storefront = {
-        category: { properties: { query: { type: 'percolator' } } },
-        storefront: {
-          dynamic_templates: [
-            {
-              facets: {
-                path_match: 'facets.*',
-                mapping: {  type: 'keyword' }
-              }
-            },
-            {
-              numeric: {
-                path_match: 'numeric.*',
-                mapping: { type: 'float' }
-              }
-            },
-            {
-              keywords: {
-                path_match: 'keywords.*',
-                mapping: { type: 'keyword' }
-              }
-            },
-            {
-              sorts: {
-                path_match: 'sorts.*',
-                mapping: { type: 'float' }
-              }
-            },
-            {
-              content: {
-                path_match: 'content.*',
-                mapping: { type: 'text', analyzer: 'text_analyzer' }
-              }
-            },
-            {
-              cache: {
-                path_match: 'cache.*',
-                mapping: { index: false }
-              }
+        dynamic_templates: [
+          {
+            facets: {
+              path_match: 'facets.*',
+              mapping: { type: 'keyword' }
             }
-          ],
-          properties: {
-            id: { type: 'keyword' },
-            type: { type: 'keyword' },
-            slug: { type: 'keyword' },
-            suggestion_content: { type: 'string', analyzer: 'suggestion_analyzer' },
-
-            # This would be covered by the facets dynamic mapping but to reduce
-            # the likelihood of no-field-mapping errors, including
-            # out-of-the-box mappings here.
-            'keywords.name' => { type: 'keyword' },
-            'keywords.catalog_id' => { type: 'keyword' },
-            'keywords.sku' => { type: 'keyword' },
-            'facets.category_id' => { type: 'keyword' },
-            'facets.on_sale' => { type: 'keyword' }
+          },
+          {
+            numeric: {
+              path_match: 'numeric.*',
+              mapping: { type: 'float' }
+            }
+          },
+          {
+            keywords: {
+              path_match: 'keywords.*',
+              mapping: { type: 'keyword' }
+            }
+          },
+          {
+            sorts: {
+              path_match: 'sorts.*',
+              mapping: { type: 'float' }
+            }
+          },
+          {
+            content: {
+              path_match: 'content.*',
+              mapping: { type: 'text', analyzer: 'text_analyzer' }
+            }
+          },
+          {
+            cache: {
+              path_match: 'cache.*',
+              mapping: { index: false }
+            }
           }
+        ],
+        properties: {
+          id: { type: 'keyword' },
+          type: { type: 'keyword' },
+          slug: { type: 'keyword' },
+          query: { type: 'percolator' },
+          release_id: { type: 'keyword' },
+          changeset_release_ids: { type: 'keyword' },
+          suggestion_content: { type: 'text', analyzer: 'suggestion_analyzer' },
+
+          # This would be covered by the facets dynamic mapping but to reduce
+          # the likelihood of no-field-mapping errors, including
+          # out-of-the-box mappings here.
+          'keywords.name' => { type: 'keyword' },
+          'keywords.catalog_id' => { type: 'keyword' },
+          'keywords.sku' => { type: 'keyword' },
+          'facets.category_id' => { type: 'keyword' },
+          'facets.on_sale' => { type: 'keyword' }
         }
       }
 
       config.elasticsearch_mappings.help = {
-        help: {
-          dynamic_templates: [
-            {
-              facet_values: {
-                path_match: 'facets.*',
-                mapping: {  type: 'string', analyzer: 'keyword' }
-              }
+        dynamic_templates: [
+          {
+            facet_values: {
+              path_match: 'facets.*',
+              mapping: { type: 'keyword' }
             }
-          ],
-          properties: {
-            id: { type: 'string', index: 'not_analyzed' },
-            name: { type: 'string', analyzer: 'text_analyzer' },
-            body: { type: 'string', analyzer: 'text_analyzer' },
-            created_at: { type: 'date' }
           }
+        ],
+        properties: {
+          id: { type: 'keyword' },
+          name: { type: 'text', analyzer: 'text_analyzer' },
+          body: { type: 'text', analyzer: 'text_analyzer' },
+          created_at: { type: 'date' }
         }
       }
 
       config.elasticsearch_mappings.order = {
-        order: {
-          properties: {
-            id: { type: 'string', index: 'not_analyzed' },
-            email: { type: 'string', index: 'not_analyzed'},
-            user_id: { type: 'string', index: 'not_analyzed'},
-            status: { type: 'string', index: 'not_analyzed'},
+        properties: {
+          id: { type: 'keyword' },
+          email: { type: 'keyword' },
+          user_id: { type: 'keyword' },
+          status: { type: 'keyword' },
 
-            placed: { type: 'boolean' },
-            placed_at: { type: 'date' },
-            placed_in: { type: 'integer' },
+          placed: { type: 'boolean' },
+          placed_at: { type: 'date' },
+          placed_in: { type: 'integer' },
 
-            guest_checkout: { type: 'boolean' },
-            returning_customer: { type: 'boolean' },
+          guest_checkout: { type: 'boolean' },
+          returning_customer: { type: 'boolean' },
 
-            total_value: { type: 'double' },
-            total_price: { type: 'double' },
-            total_revenue: { type: 'double' },
+          total_value: { type: 'double' },
+          total_price: { type: 'double' },
+          total_revenue: { type: 'double' },
 
-            shipping_services: { type: 'string', index: 'not_analyzed'},
-            regions: { type: 'string', index: 'not_analyzed'},
-            payment_methods: { type: 'string', index: 'not_analyzed'},
+          shipping_services: { type: 'keyword' },
+          regions: { type: 'keyword' },
+          payment_methods: { type: 'keyword' },
 
-            discounts: { type: 'string', index: 'not_analyzed'},
-            discounts_redeemed: { type: 'integer' },
+          discounts: { type: 'keyword' },
+          discounts_redeemed: { type: 'integer' },
 
-            created_at: { type: 'date' },
-            expires_at: { type: 'date' }
-          }
+          created_at: { type: 'date' },
+          expires_at: { type: 'date' }
         }
       }
 

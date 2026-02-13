@@ -4,7 +4,7 @@ module Workarea
   module Elasticsearch
     class DocumentTest < TestCase
       Workarea.config.elasticsearch_mappings.foo = {
-        foo: { properties: { id: { type: 'keyword' } } }
+        properties: { id: { type: 'keyword' } }
       }
 
       class Foo
@@ -49,7 +49,7 @@ module Workarea
         assert(1, Foo.count)
         results = Foo
                     .current_index
-                    .search({ query: { match_all: {} } }, type: 'foo')
+                    .search({ query: { match_all: {} } }, type: '_doc')
                     .dig('hits', 'hits')
 
         assert_equal({ 'id' => '1' }, results.first['_source'])
@@ -61,7 +61,7 @@ module Workarea
         assert(1, Foo.count)
         results = Foo
                     .current_index
-                    .search({ query: { match_all: {} } }, type: 'foo')
+                    .search({ query: { match_all: {} } }, type: '_doc')
                     .dig('hits', 'hits')
 
         assert_equal({ 'id' => '1' }, results.first['_source'])
@@ -74,7 +74,7 @@ module Workarea
         find_results = -> do
           Foo
             .current_index
-            .search({ query: { match_all: {} } }, type: 'foo')
+            .search({ query: { match_all: {} } }, type: '_doc')
             .dig('hits', 'hits')
         end
 
@@ -94,7 +94,7 @@ module Workarea
         assert(1, Foo.count)
         results = Foo
                     .current_index
-                    .search({ query: { match_all: {} } }, type: 'foo')
+                    .search({ query: { match_all: {} } }, type: '_doc')
                     .dig('hits', 'hits')
 
         assert_equal({ 'id' => '1', 'foo' => 'bar' }, results.first['_source'])
@@ -110,8 +110,8 @@ module Workarea
         Foo.save(id: '1')
 
         assert_equal(1, Foo.count)
-        assert_equal(1, Foo.current_index.count({}, type: 'foo'))
-        assert_equal(0, Foo.current_index.count({}, type: 'bar'))
+        assert_equal(1, Foo.current_index.count({}, type: '_doc'))
+        assert_equal(0, Foo.current_index.count({}, type: '_doc'))
       end
 
       def test_search

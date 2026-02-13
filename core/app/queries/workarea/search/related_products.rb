@@ -25,14 +25,16 @@ module Workarea
       private
 
       def more_like_this_query_clauses
+        like_docs = search_product_ids.map { |id| { _id: id } }
+        like_docs << like_text if like_text.present?
+
         [
           {
             more_like_this: {
               fields: %w(content.name content.category_name content.facets),
               min_term_freq: 1,
               min_doc_freq: 2,
-              ids: search_product_ids,
-              like_text: like_text
+              like: like_docs
             }
           }
         ]

@@ -116,7 +116,9 @@ module Workarea
 
       def count(query = nil, options = {})
         query ||= { query: { match_all: {} } }
-        search(query, options.merge(size: 0))['hits']['total']
+        total = search(query, options.merge(size: 0))['hits']['total']
+        # ES 7.x returns { value: N, relation: "eq" }, older versions return integer
+        total.is_a?(Hash) ? total['value'] : total
       end
 
       def scroll(scroll_id, options = {})
