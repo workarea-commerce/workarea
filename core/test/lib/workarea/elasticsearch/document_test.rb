@@ -49,7 +49,7 @@ module Workarea
         assert(1, Foo.count)
         results = Foo
                     .current_index
-                    .search({ query: { match_all: {} } }, type: '_doc')
+                    .search({ query: { match_all: {} } })
                     .dig('hits', 'hits')
 
         assert_equal({ 'id' => '1' }, results.first['_source'])
@@ -61,7 +61,7 @@ module Workarea
         assert(1, Foo.count)
         results = Foo
                     .current_index
-                    .search({ query: { match_all: {} } }, type: '_doc')
+                    .search({ query: { match_all: {} } })
                     .dig('hits', 'hits')
 
         assert_equal({ 'id' => '1' }, results.first['_source'])
@@ -74,7 +74,7 @@ module Workarea
         find_results = -> do
           Foo
             .current_index
-            .search({ query: { match_all: {} } }, type: '_doc')
+            .search({ query: { match_all: {} } })
             .dig('hits', 'hits')
         end
 
@@ -94,7 +94,7 @@ module Workarea
         assert(1, Foo.count)
         results = Foo
                     .current_index
-                    .search({ query: { match_all: {} } }, type: '_doc')
+                    .search({ query: { match_all: {} } })
                     .dig('hits', 'hits')
 
         assert_equal({ 'id' => '1', 'foo' => 'bar' }, results.first['_source'])
@@ -110,11 +110,11 @@ module Workarea
         Foo.save(id: '1')
 
         assert_equal(1, Foo.count)
-        assert_equal(1, Foo.current_index.count({}, type: '_doc'))
+        assert_equal(1, Foo.current_index.count({}))
         
         # Test count with query filter
-        assert_equal(1, Foo.current_index.count({ query: { term: { id: '1' } } }, type: '_doc'))
-        assert_equal(0, Foo.current_index.count({ query: { term: { id: '999' } } }, type: '_doc'))
+        assert_equal(1, Foo.current_index.count({ query: { term: { id: '1' } } }))
+        assert_equal(0, Foo.current_index.count({ query: { term: { id: '999' } } }))
       end
 
       def test_search

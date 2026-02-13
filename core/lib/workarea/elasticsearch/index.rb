@@ -51,26 +51,28 @@ module Workarea
         )
       end
 
+      # NOTE: We intentionally bypass the elasticsearch-ruby 5.x convenience
+      # methods here. ES 7.x removed mapping types, but the 5.x client requires a
+      # `type` argument for `index`, `update`, and `delete`. Using the transport
+      # layer lets us hit the ES 7.x endpoints that don't accept a type parameter.
       def save(document, options = {})
-        params = {
-          index: name,
-          id: find_id_from(document),
-          body: document,
-          refresh: Workarea.config.auto_refresh_search
-        }
+        id = find_id_from(document)
+        params = { refresh: Workarea.config.auto_refresh_search }.merge(options)
+        body = document
 
-        Workarea.elasticsearch.index(params.merge(options))
+        Workarea.elasticsearch.transport
+          .perform_request('PUT', "#{name}/_doc/#{id}", params, body)
+          .body
       end
 
       def update(document, options = {})
-        params = {
-          index: name,
-          id: find_id_from(document),
-          body: { doc: document },
-          refresh: Workarea.config.auto_refresh_search
-        }
+        id = find_id_from(document)
+        params = { refresh: Workarea.config.auto_refresh_search }.merge(options)
+        body = { doc: document }
 
-        Workarea.elasticsearch.update(params.merge(options))
+        Workarea.elasticsearch.transport
+          .perform_request('POST', "#{name}/_update/#{id}", params, body)
+          .body
       end
 
       def bulk(documents, options = {})
@@ -94,14 +96,16 @@ module Workarea
       end
 
       def delete(id, options = {})
-        params = {
-          index: name,
-          id: id,
-          refresh: Workarea.config.auto_refresh_search,
-          ignore: [404]
-        }
+        params = { refresh: Workarea.config.auto_refresh_search, ignore: [404] }
+          .merge(options)
 
-        Workarea.elasticsearch.delete(params.merge(options))
+        ignore = Array.wrap(params.delete(:ignore))
+
+        Workarea.elasticsearch.transport
+          .perform_request('DELETE', "#{name}/_doc/#{id}", params)
+          .body
+      rescue ::Elasticsearch::Transport::Transport::Errors::NotFound
+        raise unless ignore.include?(404)
       end
 
       def search(query, options = {})

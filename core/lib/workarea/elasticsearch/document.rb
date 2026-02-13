@@ -43,13 +43,10 @@ module Workarea
         end
 
         def save(document, options = {})
-          options = options.merge(type: '_doc')
           current_index.save(document, options)
         end
 
         def bulk(documents = [], options = {})
-          options = options.merge(type: '_doc')
-
           if block_given?
             I18n.for_each_locale { current_index.bulk(Array.wrap(yield), options) }
           else
@@ -58,21 +55,19 @@ module Workarea
         end
 
         def update(document, options = {})
-          options = options.merge(type: '_doc')
           current_index.update(document, options)
         end
 
         def delete(id, options = {})
-          options = options.merge(type: '_doc')
           current_index.delete(id, options)
         end
 
         def count(query = nil, options = {})
-          current_index.count(query, options.merge(type: '_doc'))
+          current_index.count(query, options)
         end
 
         def search(query, options = {})
-          current_index.search(query, options.merge(type: '_doc'))
+          current_index.search(query, options)
         end
 
         def current_index
