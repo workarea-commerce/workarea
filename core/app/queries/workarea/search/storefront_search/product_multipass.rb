@@ -35,8 +35,14 @@ module Workarea
         def sufficient_results?(current_pass)
           valid_suggestion_from?(current_pass) ||
             last_pass? ||
-              current_pass['hits']['total'] >=
+              extract_total(current_pass) >=
                 Workarea.config.search_sufficient_results
+        end
+
+        def extract_total(response)
+          total = response['hits']['total']
+          # ES 7.x returns { value: N, relation: "eq" }, older versions return integer
+          total.is_a?(Hash) ? total['value'] : total
         end
 
         def valid_suggestion_from?(product_response)
