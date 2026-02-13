@@ -8,12 +8,17 @@ module Workarea
       document Search::Storefront
 
       def query
+        clauses = product_display_query_clauses(allow_displayable_when_out_of_stock: false) +
+                  more_like_this_query_clauses +
+                  primary_navigation_query_clauses +
+                  exclusion_query_clauses
+
+        # Return match_none if no valid MLT query can be constructed
+        return { match_none: {} } if clauses.empty?
+
         {
           bool: {
-            must: product_display_query_clauses(allow_displayable_when_out_of_stock: false) +
-                    more_like_this_query_clauses +
-                    primary_navigation_query_clauses +
-                    exclusion_query_clauses
+            must: clauses
           }
         }
       end
@@ -27,6 +32,9 @@ module Workarea
       def more_like_this_query_clauses
         like_docs = search_product_ids.map { |id| { _id: id } }
         like_docs << like_text if like_text.present?
+
+        # ES 7.x rejects more_like_this with empty 'like' array
+        return [] if like_docs.blank?
 
         [
           {

@@ -11,6 +11,9 @@ module Workarea
         like_docs = Array(params[:ids]).map { |id| { _id: id } }
         like_docs << params[:like_text] if params[:like_text].present?
 
+        # ES 7.x rejects more_like_this with empty 'like' array
+        return { match_none: {} } if like_docs.blank?
+
         {
           more_like_this: {
             min_term_freq: 1,

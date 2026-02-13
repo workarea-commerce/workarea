@@ -111,7 +111,10 @@ module Workarea
 
         assert_equal(1, Foo.count)
         assert_equal(1, Foo.current_index.count({}, type: '_doc'))
-        assert_equal(0, Foo.current_index.count({}, type: '_doc'))
+        
+        # Test count with query filter
+        assert_equal(1, Foo.current_index.count({ query: { term: { id: '1' } } }, type: '_doc'))
+        assert_equal(0, Foo.current_index.count({ query: { term: { id: '999' } } }, type: '_doc'))
       end
 
       def test_search

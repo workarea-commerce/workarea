@@ -20,7 +20,7 @@ module Workarea
           filters.map(&:query_clause).reject(&:blank?),
           exclude_filter_clause,
           jump_to_navigation_filter_clause
-        ].flatten
+        ].flatten.reject(&:blank?)
 
         if sanitized_query.blank?
           { bool: { must: filter_clauses } }
@@ -89,9 +89,12 @@ module Workarea
       end
 
       def post_filter
+        clauses = facets.map(&:post_filter_clause).reject(&:blank?)
+        return {} if clauses.blank?
+
         {
           bool: {
-            must: facets.map(&:post_filter_clause).reject(&:blank?)
+            must: clauses
           }
         }
       end
