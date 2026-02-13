@@ -152,10 +152,9 @@ module Workarea
         # Enforce dramatic name match boosting
         if query_string.phrase?
           result[:bool][:should] << {
-            match: {
+            match_phrase: {
               'content.name': {
                 query: query_string.sanitized,
-                type: 'phrase',
                 boost: Workarea.config.search_name_phrase_match_boost
               }
             }

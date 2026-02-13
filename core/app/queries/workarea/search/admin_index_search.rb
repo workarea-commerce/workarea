@@ -54,10 +54,9 @@ module Workarea
                         }
                       },
                       {
-                        match: {
+                        match_phrase: {
                           keywords: {
                             query: params[:q].downcase,
-                            type: 'phrase',
                             boost: 999
                           }
                         }

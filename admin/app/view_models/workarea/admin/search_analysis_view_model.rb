@@ -50,13 +50,19 @@ module Workarea
       def tokens
         @tokens ||= begin
           terms_used = trace.last.query.query_string.sanitized
+          return {} if terms_used.blank?
 
-          options = Workarea
+          analyzer = Workarea
             .config
             .elasticsearch_settings
             .dig(:analysis, :analyzer, :text_analyzer)
-            .except(:char_filter)
-            .merge(index: Search::Storefront.current_index.name, text: terms_used)
+            .except(:char_filter, :type)
+
+          # ES 7.x requires request body for analyze API.
+          options = {
+            index: Search::Storefront.current_index.name,
+            body: analyzer.merge(text: terms_used)
+          }
 
           Workarea.elasticsearch.indices.analyze(options)['tokens'].reduce({}) do |memo, result|
             memo.merge(result['token'] => result['type'].gsub(/\W/, ''))
