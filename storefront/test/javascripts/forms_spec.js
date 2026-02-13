@@ -27,14 +27,14 @@
 
                 WORKAREA.forms.init($(this.fixtures));
 
-                $('#required_input').trigger('focus');
+                $('#required_input').trigger('focus').trigger('focusout');
                 $('#text_box').trigger('focus');
 
                 expect(
                     $('#required_property').is('.property--invalid')
                 ).to.equal(true);
 
-                $('#required_input').trigger('focus').val('Foo');
+                $('#required_input').trigger('focus').val('Foo').trigger('focusout');
                 $('#text_box').trigger('focus');
 
                 expect(
@@ -47,17 +47,17 @@
 
                 WORKAREA.forms.init($(this.fixtures));
 
-                $('#text_box').trigger('focus');
+                $('#text_box').trigger('focus').trigger('focusout');
                 $('#required_input').trigger('focus');
 
                 expect($('#text_box').is('.text-box--invalid')).to.equal(true);
 
-                $('#text_box').trigger('focus').val('Foo');
+                $('#text_box').trigger('focus').val('Foo').trigger('focusout');
                 $('#required_input').trigger('focus');
 
                 expect($('#text_box').is('.text-box--valid')).to.equal(true);
 
-                $('#text_box').trigger('focus').val('');
+                $('#text_box').trigger('focus').val('').trigger('focusout');
                 $('#required_input').trigger('focus');
 
                 expect($('#text_box').is('.text-box--valid')).to.equal(false);

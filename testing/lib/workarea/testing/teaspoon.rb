@@ -1,6 +1,19 @@
 require 'teaspoon-mocha'
 require 'selenium-webdriver'
 require 'webdrivers'
+
+# Chrome 115+ uses Chrome for Testing (CfT) download endpoints.
+# The webdrivers gem (4.x) doesn't know about CfT and fails to resolve
+# chromedriver versions for modern/beta Chrome. Disable auto-update and point
+# Selenium at the locally-installed chromedriver instead.
+chromedriver_path = ENV.fetch('CHROMEDRIVER_PATH') {
+  `which chromedriver 2>/dev/null`.strip
+}
+if chromedriver_path && !chromedriver_path.empty?
+  Webdrivers::Chromedriver.define_singleton_method(:update) { chromedriver_path }
+  Selenium::WebDriver::Chrome::Service.driver_path = chromedriver_path
+end
+
 require 'workarea/testing/engine'
 require 'workarea/testing/headless_chrome'
 
