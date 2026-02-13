@@ -56,6 +56,15 @@ module Workarea
         PingHomeBase.ping unless Rails.env.development? || Rails.env.test?
 
         if Rails.env.test?
+          # Ensure system utilities (like `sysctl`) can be found when running tests.
+          # Some CI environments have a restricted PATH that omits `/usr/sbin`,
+          # which causes ImageOptim to raise Errno::ENOENT when it shells out to
+          # `sysctl` to determine processor count.
+          if File.exist?('/usr/sbin/sysctl')
+            path = ENV['PATH'].to_s.split(File::PATH_SEPARATOR)
+            ENV['PATH'] = ['/usr/sbin', *path].uniq.join(File::PATH_SEPARATOR)
+          end
+
           # System tests can timeout without this, due to slow template resolution
           # if you have many plugins installed.
           ActionView::Resolver.caching = true
