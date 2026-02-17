@@ -38,7 +38,9 @@ module Workarea
     end
 
     def pricing
-      @pricing ||= Pricing::Sku.find(sku)
+      # Pricing docs may not exist yet for a SKU (e.g. in tests or during
+      # import/setup flows). Use defaults instead of raising.
+      @pricing ||= Pricing::Sku.find_or_initialize_by(id: sku)
     end
 
     def fulfillment

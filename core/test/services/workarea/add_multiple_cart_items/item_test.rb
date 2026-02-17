@@ -21,6 +21,11 @@ module Workarea
       def test_save
         order = create_order
         params = { sku: 'sku2', quantity: 1 }
+
+        # Regression: pricing data for a SKU isn't guaranteed to exist in all
+        # flows; adding to cart should not raise.
+        Pricing::Sku.where(id: 'SKU2').delete_all
+
         item = AddMultipleCartItems::Item.new(order, params)
 
         assert(item.valid?)
