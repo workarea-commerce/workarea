@@ -9,7 +9,11 @@ module Workarea
         @category = category
         @price = price
         @postal_code = postal_code
-        @country = country
+
+        # `Workarea::Tax::Rate.country` is stored as an ISO alpha2 string in Mongo.
+        # Callers are inconsistent about passing a `Country` object vs a String.
+        # Normalize to alpha2 string to make lookups deterministic.
+        @country = country.respond_to?(:alpha2) ? country.alpha2 : country
         @region = region
       end
 
@@ -29,7 +33,7 @@ module Workarea
           country_rates
         elsif country.present? && region.present? && postal_code.blank?
           region_rates
-        elsif country == Country['US'] && no_local_postal_code_rates?
+        elsif country.to_s == 'US' && no_local_postal_code_rates?
           regional_postal_code_rates
         else
           postal_code_rates
