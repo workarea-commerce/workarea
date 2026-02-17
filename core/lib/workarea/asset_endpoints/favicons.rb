@@ -13,9 +13,14 @@ module Workarea
       private
 
       def find_asset(type)
-        Content::Asset.favicons(type).first ||
-        Content::Asset.favicons.first ||
-        Content::Asset.favicon_placeholder
+        # Mongoid::Document::Taggable's `tagged_with` scope has shown
+        # inconsistent behavior under newer Ruby/Mongoid combos in test,
+        # causing the generic fallback (`tagged_with('favicon')`) to return no
+        # results even when a favicon asset exists. Query the tags array
+        # directly for deterministic behavior.
+        Content::Asset.where(tags: "favicon-#{type}").first ||
+          Content::Asset.where(tags: 'favicon').first ||
+          Content::Asset.favicon_placeholder
       end
     end
   end
