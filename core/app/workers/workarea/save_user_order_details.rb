@@ -13,6 +13,8 @@ module Workarea
 
       save_payment_details(order, user)
       save_shipping_details(order, user)
+    rescue Mongoid::Errors::DocumentNotFound
+      nil
     end
 
     def save_payment_details(order, user)

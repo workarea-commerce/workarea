@@ -12,6 +12,8 @@ module Workarea
       refund = Payment::Refund.find(id)
       return if refund.total.zero?
       Storefront::PaymentMailer.refunded(id.to_s).deliver_now
+    rescue Mongoid::Errors::DocumentNotFound
+      nil
     end
   end
 end

@@ -36,6 +36,8 @@ module Workarea
 
     def perform(order_id)
       self.class.perform(Order.find(order_id))
+    rescue Mongoid::Errors::DocumentNotFound
+      nil
     end
   end
 end

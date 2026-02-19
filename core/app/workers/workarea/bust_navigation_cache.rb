@@ -13,6 +13,8 @@ module Workarea
       taxon = Navigation::Taxon.find(id)
       taxon.ancestors.each(&:touch)
       taxon.descendants.each(&:touch)
+    rescue Mongoid::Errors::DocumentNotFound
+      nil
     end
   end
 end
