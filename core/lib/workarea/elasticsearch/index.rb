@@ -18,23 +18,40 @@ module Workarea
         Workarea.elasticsearch.indices.exists?(index: name)
       end
 
+      # Create the index, optionally deleting it first when +force+ is true.
+      #
+      # The previous implementation used an +unless exists?+ guard which
+      # introduced a TOCTOU (time-of-check/time-of-use) race condition: the
+      # cluster state visible to +exists?+ could differ from the state seen by
+      # the subsequent +create+ call, causing intermittent
+      # +resource_already_exists_exception+ (400) errors in CI and during rapid
+      # sequential test runs.  When +create!+ raised that exception the index
+      # remained deleted (because +delete!+ had already run), which caused the
+      # cascade +index_not_found_exception+ (404) seen in later test operations.
+      #
+      # The fix removes the guard and instead rescues the 400 BadRequest that
+      # Elasticsearch raises when the index already exists.  This makes the
+      # operation atomic from the caller's perspective: if the index was already
+      # present we simply skip creation, just as the old +unless exists?+ path
+      # intended – but without the window for a concurrent creation to slip in.
+      #
       def create!(force: false)
         delete! if force
 
-        unless exists?
-          Workarea.elasticsearch.indices.create(
-            index: name,
-            body: {
-              settings: Search::Settings.current.elasticsearch_settings,
-              mappings: mappings,
-              aliases: aliases
-            }
-          )
-        end
+        Workarea.elasticsearch.indices.create(
+          index: name,
+          body: {
+            settings: Search::Settings.current.elasticsearch_settings,
+            mappings: mappings,
+            aliases: aliases
+          }
+        )
+      rescue ::Elasticsearch::Transport::Transport::Errors::BadRequest => e
+        raise unless e.message.include?('resource_already_exists_exception')
       end
 
       def delete!
-        Workarea.elasticsearch.indices.delete(index: name, ignore: 404)
+        Workarea.elasticsearch.indices.delete(index: name, ignore: [404])
       end
 
       def while_closed
