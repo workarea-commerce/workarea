@@ -31,6 +31,11 @@ module Workarea
         },
         upsert: true
       )
+    rescue Mongoid::Errors::DocumentNotFound
+      # Callback workers may execute after the underlying document has been
+      # removed (e.g. test cleanup / truncation). Missing documents should be
+      # treated as a no-op.
+      nil
     end
   end
 end

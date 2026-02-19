@@ -17,6 +17,8 @@ module Workarea
     def perform(id)
       product_list = Catalog::Category.find(id)
       IndexCategorization.perform(product_list)
+    rescue Mongoid::Errors::DocumentNotFound
+      nil
     end
   end
 end

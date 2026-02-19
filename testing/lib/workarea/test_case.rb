@@ -71,10 +71,23 @@ module Workarea
     module SearchIndexing
       extend ActiveSupport::Concern
 
+      def wait_for_elasticsearch!(timeout: 30)
+        start = Time.now
+
+        loop do
+          Workarea.elasticsearch.cluster.health(wait_for_status: "yellow")
+          break
+        rescue Faraday::ConnectionFailed, ::Elasticsearch::Transport::Transport::Errors::ServiceUnavailable, ::Elasticsearch::Transport::Transport::Errors::BadGateway
+          raise if (Time.now - start) > timeout
+          sleep 0.5
+        end
+      end
+
       included do
         setup do
           Workarea.config.auto_refresh_search = true
           WebMock.disable_net_connect!(allow_localhost: true)
+          wait_for_elasticsearch!
           Workarea::Elasticsearch::Document.all.each(&:reset_indexes!)
           Workarea::Search::Storefront.ensure_dynamic_mappings
         end
@@ -241,9 +254,21 @@ module Workarea
       extend ActiveSupport::Concern
       include ActiveJob::TestHelper
 
+      def truncate_all_mongoid_clients!
+        # Mongoid.truncate! only truncates the global (default) client.
+        # Workarea uses additional clients (e.g. :metrics), so ensure we clear
+        # data for all configured clients to avoid cross-test pollution.
+        Mongoid::Clients.clients.values.each do |client|
+          client.database.collections.each do |collection|
+            next if collection.name.start_with?('system.')
+            collection.find.delete_many
+          end
+        end
+      end
+
       included do
         setup do
-          Mongoid.truncate!
+          truncate_all_mongoid_clients!
           Workarea.redis.flushdb
           WebMock.disable_net_connect!(allow_localhost: true)
           ActionMailer::Base.deliveries.clear
