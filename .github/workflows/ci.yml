@@ -1,8 +1,10 @@
 name: CI
 
 # CI uses Ruby 2.7.8 (>= 2.7 required by workarea-core).
+# Bundler is pinned to match Gemfile.lock and maintain Ruby 2.7 compatibility.
 env:
   RUBY_VERSION: 2.7.8
+  BUNDLER_VERSION: 2.4.22
 
 on:
   push:
@@ -26,11 +28,12 @@ jobs:
     - uses: ruby/setup-ruby@v1
       with:
         ruby-version: ${{ env.RUBY_VERSION }}
+        bundler: ${{ env.BUNDLER_VERSION }}
         bundler-cache: true
-    - uses: workarea-commerce/ci/bundler-audit@v1
-      with:
-        args: '--ignore CVE-2020-8161'
-    - uses: workarea-commerce/ci/rubocop@v1
+    - name: Bundler Audit
+      run: bundle exec bundle audit check --update --ignore CVE-2020-8161
+    - name: Rubocop
+      run: bundle exec rubocop
     - uses: workarea-commerce/ci/eslint@v1
       with:
         args: '{admin,core,storefront}/{app,test}/**/*.js'
@@ -45,10 +48,14 @@ jobs:
     - uses: ruby/setup-ruby@v1
       with:
         ruby-version: ${{ env.RUBY_VERSION }}
+        bundler: ${{ env.BUNDLER_VERSION }}
         bundler-cache: true
-    - uses: workarea-commerce/ci/test@v1
-      with:
-        command: cd admin && bin/rails test -b
+    - name: Start services
+      run: bundle exec rake services:up
+    - name: Wait for Elasticsearch
+      run: timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w "%{http_code}" localhost:9200)" != "200" ]]; do sleep 1; done' || false
+    - name: Run tests
+      run: cd admin && bin/rails test -b
 
   admin_teaspoon:
     runs-on: ubuntu-latest
@@ -57,10 +64,14 @@ jobs:
     - uses: ruby/setup-ruby@v1
       with:
         ruby-version: ${{ env.RUBY_VERSION }}
+        bundler: ${{ env.BUNDLER_VERSION }}
         bundler-cache: true
-    - uses: workarea-commerce/ci/test@v1
-      with:
-        command: cd admin && bin/rails teaspoon
+    - name: Start services
+      run: bundle exec rake services:up
+    - name: Wait for Elasticsearch
+      run: timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w "%{http_code}" localhost:9200)" != "200" ]]; do sleep 1; done' || false
+    - name: Run tests
+      run: cd admin && bin/rails teaspoon
 
   admin_system_tests:
     runs-on: ubuntu-latest
@@ -69,10 +80,14 @@ jobs:
     - uses: ruby/setup-ruby@v1
       with:
         ruby-version: ${{ env.RUBY_VERSION }}
+        bundler: ${{ env.BUNDLER_VERSION }}
         bundler-cache: true
-    - uses: workarea-commerce/ci/test@v1
-      with:
-        command: cd admin && bin/rails test test/system/**/*_test.rb -b
+    - name: Start services
+      run: bundle exec rake services:up
+    - name: Wait for Elasticsearch
+      run: timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w "%{http_code}" localhost:9200)" != "200" ]]; do sleep 1; done' || false
+    - name: Run tests
+      run: cd admin && bin/rails test test/system/**/*_test.rb -b
     - uses: actions/upload-artifact@v4
       if: failure()
       with:
@@ -86,10 +101,14 @@ jobs:
     - uses: ruby/setup-ruby@v1
       with:
         ruby-version: ${{ env.RUBY_VERSION }}
+        bundler: ${{ env.BUNDLER_VERSION }}
         bundler-cache: true
-    - uses: workarea-commerce/ci/test@v1
-      with:
-        command: cd core && bin/rails teaspoon
+    - name: Start services
+      run: bundle exec rake services:up
+    - name: Wait for Elasticsearch
+      run: timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w "%{http_code}" localhost:9200)" != "200" ]]; do sleep 1; done' || false
+    - name: Run tests
+      run: cd core && bin/rails teaspoon
 
   core_tests:
     runs-on: ubuntu-latest
@@ -98,10 +117,14 @@ jobs:
     - uses: ruby/setup-ruby@v1
       with:
         ruby-version: ${{ env.RUBY_VERSION }}
+        bundler: ${{ env.BUNDLER_VERSION }}
         bundler-cache: true
-    - uses: workarea-commerce/ci/test@v1
-      with:
-        command: cd core && bin/rails test test/**/*_test.rb -b
+    - name: Start services
+      run: bundle exec rake services:up
+    - name: Wait for Elasticsearch
+      run: timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w "%{http_code}" localhost:9200)" != "200" ]]; do sleep 1; done' || false
+    - name: Run tests
+      run: cd core && bin/rails test test/**/*_test.rb -b
 
   storefront_tests:
     runs-on: ubuntu-latest
@@ -110,10 +133,14 @@ jobs:
     - uses: ruby/setup-ruby@v1
       with:
         ruby-version: ${{ env.RUBY_VERSION }}
+        bundler: ${{ env.BUNDLER_VERSION }}
         bundler-cache: true
-    - uses: workarea-commerce/ci/test@v1
-      with:
-        command: cd storefront && bin/rails test -b
+    - name: Start services
+      run: bundle exec rake services:up
+    - name: Wait for Elasticsearch
+      run: timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w "%{http_code}" localhost:9200)" != "200" ]]; do sleep 1; done' || false
+    - name: Run tests
+      run: cd storefront && bin/rails test -b
 
   storefront_teaspoon:
     runs-on: ubuntu-latest
@@ -122,10 +149,14 @@ jobs:
     - uses: ruby/setup-ruby@v1
       with:
         ruby-version: ${{ env.RUBY_VERSION }}
+        bundler: ${{ env.BUNDLER_VERSION }}
         bundler-cache: true
-    - uses: workarea-commerce/ci/test@v1
-      with:
-        command: cd storefront && bin/rails teaspoon
+    - name: Start services
+      run: bundle exec rake services:up
+    - name: Wait for Elasticsearch
+      run: timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w "%{http_code}" localhost:9200)" != "200" ]]; do sleep 1; done' || false
+    - name: Run tests
+      run: cd storefront && bin/rails teaspoon
 
   storefront_system_tests:
     runs-on: ubuntu-latest
@@ -134,10 +165,14 @@ jobs:
     - uses: ruby/setup-ruby@v1
       with:
         ruby-version: ${{ env.RUBY_VERSION }}
+        bundler: ${{ env.BUNDLER_VERSION }}
         bundler-cache: true
-    - uses: workarea-commerce/ci/test@v1
-      with:
-        command: cd storefront && bin/rails test test/system/**/*_test.rb -b
+    - name: Start services
+      run: bundle exec rake services:up
+    - name: Wait for Elasticsearch
+      run: timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w "%{http_code}" localhost:9200)" != "200" ]]; do sleep 1; done' || false
+    - name: Run tests
+      run: cd storefront && bin/rails test test/system/**/*_test.rb -b
     - uses: actions/upload-artifact@v4
       if: failure()
       with:
