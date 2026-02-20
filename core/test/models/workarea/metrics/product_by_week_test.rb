@@ -3,6 +3,10 @@ require 'test_helper'
 module Workarea
   module Metrics
     class ProductByWeekTest < TestCase
+      setup do
+        Metrics::ProductByWeek.delete_all
+        Metrics::ProductForLastWeek.delete_all
+      end
       def test_last_week
         two_weeks_ago = create_product_by_week(reporting_on: Time.zone.local(2018, 11, 25))
         last_week = create_product_by_week(reporting_on: Time.zone.local(2018, 12, 2))
@@ -117,20 +121,34 @@ module Workarea
       def test_weeks_ago
         model = create_product_by_week(reporting_on: Time.zone.local(2019, 1, 25))
 
-        travel_to Time.zone.local(2019, 1, 25)
-        assert_equal(0, model.weeks_ago)
+        travel_to Time.zone.local(2019, 1, 25) do
+          assert_equal(0, model.weeks_ago)
+        end
 
-        travel_to Time.zone.local(2019, 1, 27)
-        assert_equal(0, model.weeks_ago)
+        travel_to Time.zone.local(2019, 1, 27) do
+          assert_equal(0, model.weeks_ago)
+        end
 
-        travel_to Time.zone.local(2019, 2, 8)
-        assert_equal(2, model.weeks_ago)
+        travel_to Time.zone.local(2019, 2, 8) do
+          assert_equal(2, model.weeks_ago)
+        end
 
-        travel_to Time.zone.local(2019, 2, 9)
-        assert_equal(2, model.weeks_ago)
+        travel_to Time.zone.local(2019, 2, 9) do
+          assert_equal(2, model.weeks_ago)
+        end
 
-        travel_to Time.zone.local(2019, 2, 11)
-        assert_equal(3, model.weeks_ago)
+        travel_to Time.zone.local(2019, 2, 11) do
+          assert_equal(3, model.weeks_ago)
+        end
+
+        # Regression: DST boundaries should not affect week math.
+        Time.use_zone('Eastern Time (US & Canada)') do
+          dst_model = create_product_by_week(reporting_on: Time.zone.local(2019, 3, 4, 0, 0, 0))
+
+          travel_to Time.zone.local(2019, 3, 11, 0, 0, 0) do
+            assert_equal(1, dst_model.weeks_ago)
+          end
+        end
       end
     end
   end

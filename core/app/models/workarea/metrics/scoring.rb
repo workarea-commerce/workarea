@@ -22,8 +22,12 @@ module Workarea
       end
 
       def weeks_ago
-        difference = Time.current.beginning_of_week - reporting_on.beginning_of_week
-        difference / 1.week
+        # Use date math instead of second-based math to avoid DST boundary issues.
+        # (e.g. a "week" containing a DST shift is not always 7 * 24 hours)
+        current_week = Time.current.to_date.beginning_of_week
+        reporting_week = reporting_on.to_date.beginning_of_week
+
+        ((current_week - reporting_week) / 7).to_i
       end
     end
   end

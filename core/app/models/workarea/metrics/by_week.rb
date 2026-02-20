@@ -13,9 +13,14 @@ module Workarea
         index({ reporting_on: 1 }, { expire_after_seconds: 2.years.seconds.to_i })
 
         scope :last_week, -> do
+          # Use date math to avoid DST-related boundary shifts.
+          # We want the previous calendar week, not "now minus 7 days".
+          start_of_this_week = Time.current.to_date.beginning_of_week
+          start_of_last_week = start_of_this_week - 1.week
+
           where(
-            :reporting_on.gte => Time.current.last_week,
-            :reporting_on.lt => Time.current.last_week.end_of_week
+            :reporting_on.gte => start_of_last_week.in_time_zone,
+            :reporting_on.lt => start_of_this_week.in_time_zone
           )
         end
       end
