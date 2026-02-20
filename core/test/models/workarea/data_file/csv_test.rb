@@ -369,14 +369,21 @@ module Workarea
           file_type: 'csv'
         )
 
+        # Deterministic: ensure we always assign a randomized password
+        # when the password column is missing for a new user.
+        SecureRandom.stubs(:hex).returns('0123456789abcdef0123')
+
         assert_difference -> { User.count } do
           Csv.new(import).import!
-          user = User.find_by_email('missing@example.com')
-
-          assert user.present?, 'user not imported'
-          refute user.authenticate('password1'),
-            "password authenticated when it shouldn't have"
         end
+
+        user = User.find_by_email('missing@example.com')
+
+        assert user.present?, 'user not imported'
+        assert user.authenticate('0123456789abcdef0123_aA1'),
+          'random password not assigned as expected'
+        refute user.authenticate('password1'),
+          "password authenticated when it shouldn't have"
       end
 
       def test_ignore_password_column_when_user_exists
