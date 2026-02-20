@@ -28,8 +28,7 @@ module Workarea
         {
           query_string: {
             query: sanitized_query,
-            fields: %w(name^1.5 facets^0.75 body),
-            use_dis_max: true
+            fields: %w(name^1.5 facets^0.75 body)
           }
         }
       end
