@@ -60,6 +60,8 @@ module Workarea
           file_type: 'json'
         )
 
+        SecureRandom.stubs(:hex).returns('0123456789abcdef0123')
+
         assert_difference -> { User.count } do
           Json.new(data).import!
         end
@@ -67,6 +69,8 @@ module Workarea
         user = User.find_by_email('test@example.com')
 
         assert user.present?, 'user not imported'
+        assert user.authenticate('0123456789abcdef0123_aA1'),
+          'random password not assigned as expected'
         refute user.authenticate(password), "password authenticated when it shouldn't have"
       end
 
