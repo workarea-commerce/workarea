@@ -31,14 +31,42 @@ module Workarea
           )
         )
 
-        unless checkout.place_order
-          raise(
-            UnplacedOrderError,
-            'failed placing the order in the create_placed_order factory'
-          )
+        # In some environments, the first pass of setting a shipping service can
+        # persist without the base shipping price adjustment, which then causes
+        # `Checkout#shippable?`/`Checkout#place_order` to fail. Re-applying the
+        # currently selected option ensures `Shipping#base_price` is set.
+        if order.requires_shipping?
+          shipping = checkout.shippings.first
+
+          if shipping&.shipping_service.present?
+            option = Workarea::Checkout::ShippingOptions
+              .new(order, shipping)
+              .find_valid(shipping.shipping_service.name)
+
+            shipping.set_shipping_service(option.to_h) if option.present?
+          end
         end
 
-        forced_attrs = overrides.slice(:placed_at, :update_at, :total_price)
+        unless checkout.place_order
+          shipping_errors = checkout
+            .shippings
+            .map { |s| s.errors.full_messages }
+            .flatten
+            .presence
+
+          message = [
+            'failed placing the order in the create_placed_order factory',
+            "complete?=#{checkout.complete?}",
+            "shippable?=#{checkout.shippable?}",
+            "payable?=#{checkout.payable?}",
+            ("shipping_errors=#{shipping_errors.inspect}" if shipping_errors.present?),
+            ("payment_errors=#{checkout.payment.errors.full_messages.inspect}" if checkout.payment&.errors&.any?)
+          ].compact.join(' ')
+
+          raise(UnplacedOrderError, message)
+        end
+
+        forced_attrs = overrides.slice(:placed_at, :updated_at, :total_price)
         order.update_attributes!(forced_attrs)
         order
       end
