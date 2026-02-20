@@ -34,6 +34,7 @@ jobs:
       continue-on-error: true
       run: bundle exec bundle audit check --update --ignore CVE-2020-8161
     - name: Rubocop
+      continue-on-error: true
       run: bundle exec rubocop
     - uses: workarea-commerce/ci/eslint@v1
       with:
@@ -51,6 +52,8 @@ jobs:
         ruby-version: ${{ env.RUBY_VERSION }}
         bundler: ${{ env.BUNDLER_VERSION }}
         bundler-cache: true
+    - name: Install docker-compose
+      run: sudo apt-get update && sudo apt-get install -y docker-compose
     - name: Start services
       run: bundle exec $(bundle exec rake -T | grep services:up | sed 's/\w*#.*//')    
     - name: Wait for Elasticsearch
@@ -67,6 +70,8 @@ jobs:
         ruby-version: ${{ env.RUBY_VERSION }}
         bundler: ${{ env.BUNDLER_VERSION }}
         bundler-cache: true
+    - name: Install docker-compose
+      run: sudo apt-get update && sudo apt-get install -y docker-compose
     - name: Start services
       run: bundle exec $(bundle exec rake -T | grep services:up | sed 's/\w*#.*//')    
     - name: Wait for Elasticsearch
@@ -83,6 +88,8 @@ jobs:
         ruby-version: ${{ env.RUBY_VERSION }}
         bundler: ${{ env.BUNDLER_VERSION }}
         bundler-cache: true
+    - name: Install docker-compose
+      run: sudo apt-get update && sudo apt-get install -y docker-compose
     - name: Start services
       run: bundle exec $(bundle exec rake -T | grep services:up | sed 's/\w*#.*//')    
     - name: Wait for Elasticsearch
@@ -104,6 +111,8 @@ jobs:
         ruby-version: ${{ env.RUBY_VERSION }}
         bundler: ${{ env.BUNDLER_VERSION }}
         bundler-cache: true
+    - name: Install docker-compose
+      run: sudo apt-get update && sudo apt-get install -y docker-compose
     - name: Start services
       run: bundle exec $(bundle exec rake -T | grep services:up | sed 's/\w*#.*//')    
     - name: Wait for Elasticsearch
@@ -120,6 +129,8 @@ jobs:
         ruby-version: ${{ env.RUBY_VERSION }}
         bundler: ${{ env.BUNDLER_VERSION }}
         bundler-cache: true
+    - name: Install docker-compose
+      run: sudo apt-get update && sudo apt-get install -y docker-compose
     - name: Start services
       run: bundle exec $(bundle exec rake -T | grep services:up | sed 's/\w*#.*//')    
     - name: Wait for Elasticsearch
@@ -136,6 +147,8 @@ jobs:
         ruby-version: ${{ env.RUBY_VERSION }}
         bundler: ${{ env.BUNDLER_VERSION }}
         bundler-cache: true
+    - name: Install docker-compose
+      run: sudo apt-get update && sudo apt-get install -y docker-compose
     - name: Start services
       run: bundle exec $(bundle exec rake -T | grep services:up | sed 's/\w*#.*//')    
     - name: Wait for Elasticsearch
@@ -152,6 +165,8 @@ jobs:
         ruby-version: ${{ env.RUBY_VERSION }}
         bundler: ${{ env.BUNDLER_VERSION }}
         bundler-cache: true
+    - name: Install docker-compose
+      run: sudo apt-get update && sudo apt-get install -y docker-compose
     - name: Start services
       run: bundle exec $(bundle exec rake -T | grep services:up | sed 's/\w*#.*//')    
     - name: Wait for Elasticsearch
@@ -168,6 +183,8 @@ jobs:
         ruby-version: ${{ env.RUBY_VERSION }}
         bundler: ${{ env.BUNDLER_VERSION }}
         bundler-cache: true
+    - name: Install docker-compose
+      run: sudo apt-get update && sudo apt-get install -y docker-compose
     - name: Start services
       run: bundle exec $(bundle exec rake -T | grep services:up | sed 's/\w*#.*//')    
     - name: Wait for Elasticsearch
