@@ -7,7 +7,7 @@ if defined?(BSON::Document)
     # Save the original method if it exists
     if method_defined?(:deep_symbolize_keys!)
       alias_method :original_bson_deep_symbolize_keys!, :deep_symbolize_keys!
-      
+
       # Override to convert to Hash first, then symbolize
       def deep_symbolize_keys!
         # Convert to regular Hash to avoid BSON deprecation

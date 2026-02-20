@@ -77,7 +77,7 @@ task "performance_test_ci" do
 
   GEMS.each do |gem|
     $: << "#{gem}/test"
-    paths <<  "#{gem}/test/performance/**/*_test.rb"
+    paths << "#{gem}/test/performance/**/*_test.rb"
   end
 
   Rails::TestUnit::Runner.rake_run(paths)
