@@ -28,7 +28,17 @@ module Workarea
         if user.update(password: new_password)
           destroy
         else
-          errors.merge!(user.errors)
+          # Rails 7 yields ActiveModel::Error objects; older Rails yields
+          # [attribute, message] pairs.
+          user.errors.each do |error|
+            if error.respond_to?(:attribute) && error.respond_to?(:message)
+              errors.add(error.attribute, error.message)
+            else
+              attribute, message = error
+              errors.add(attribute, message)
+            end
+          end
+
           false
         end
       end

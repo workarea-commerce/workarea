@@ -26,7 +26,7 @@ module Workarea
       user = User.sample
 
       if user.first_name.blank? || user.last_name.blank?
-        user.update_attributes!(
+        user.update!(
           first_name: Faker::Name.first_name,
           last_name: Faker::Name.last_name
         )

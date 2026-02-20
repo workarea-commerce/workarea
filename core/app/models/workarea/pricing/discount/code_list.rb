@@ -51,7 +51,7 @@ module Workarea
         #
         def generate_promo_codes!
           count.times { generate_code }
-          update_attributes!(generation_completed_at: Time.current)
+          update!(generation_completed_at: Time.current)
         end
 
         # Whether the list finished generating its codes

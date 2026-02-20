@@ -46,7 +46,7 @@ module Workarea
 
     def set_content(contentable, blocks)
       content = Content.for(contentable)
-      content.update_attributes!(blocks: blocks)
+      content.update!(blocks: blocks)
     end
 
     def seed_images

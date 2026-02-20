@@ -15,7 +15,7 @@ module Workarea
 
           Workarea::Scheduler.delete(release.undo_job_id)
 
-          release.update_attributes!(undo_at: nil, undo_job_id: nil)
+          release.update!(undo_at: nil, undo_job_id: nil)
           count += 1
         end
 

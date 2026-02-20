@@ -41,7 +41,7 @@ module Workarea
       end
 
       def mark_impersonated_by!(user)
-        update_attributes!(
+        update!(
           last_impersonated_by_id: user.id,
           last_impersonated_at: Time.current
         )

@@ -29,7 +29,7 @@ module Workarea
         if current_order.started_checkout?
           Checkout.new(current_order).continue_as(user)
         else
-          current_order.update_attributes!(user_id: user.id)
+          current_order.update!(user_id: user.id)
         end
       end
 

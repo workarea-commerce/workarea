@@ -8,7 +8,7 @@ module Workarea
     private
 
     def add_filters
-      Search::Settings.current.update_attributes!(
+      Search::Settings.current.update!(
         terms_facets: %w(Color Size),
         range_facets: {
           'price' => [

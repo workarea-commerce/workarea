@@ -16,7 +16,7 @@ module Workarea
     end
 
     def perform
-      @taxon.update_attributes!(parent_id: @params[:parent_id])
+      @taxon.update!(parent_id: @params[:parent_id])
       @taxon.move_to_position(@params[:position]) if @params[:position].present?
 
       set_taxonomy_slug
@@ -26,7 +26,7 @@ module Workarea
       Release.with_current(nil) do
         Sidekiq::Callbacks.disable(RedirectNavigableSlugs) do
           slug = FindTaxonomySlug.new(@taxon.navigable, @taxon).slug
-          @taxon.navigable.update_attributes!(slug: slug) if slug.present?
+          @taxon.navigable.update!(slug: slug) if slug.present?
         end
       end
     end

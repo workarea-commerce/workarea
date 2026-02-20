@@ -266,10 +266,10 @@ module Workarea
 
       if existing_item.present? && existing_item.id.to_s != id.to_s
         item = items.find(id)
-        existing_item.update_attributes(quantity: existing_item.quantity + (attributes[:quantity] || item.quantity))
+        existing_item.update(quantity: existing_item.quantity + (attributes[:quantity] || item.quantity))
         item.delete
       else
-        items.find(id).update_attributes(attributes)
+        items.find(id).update(attributes)
       end
     end
 

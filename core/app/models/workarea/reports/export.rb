@@ -32,7 +32,7 @@ module Workarea
       def process!
         set(started_at: Time.current)
         CSV.open(temp_path, 'w') { |csv| yield(csv) }
-        update_attributes!(file: temp_path, completed_at: Time.current)
+        update!(file: temp_path, completed_at: Time.current)
       end
 
       def report
