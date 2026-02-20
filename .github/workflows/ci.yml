@@ -11,10 +11,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - uses: workarea-commerce/ci/bundler-audit@v1
+
+    # Run Ruby-based static analysis on the same Ruby version as the rest of CI.
+    # The docker-based workarea-commerce/ci/* actions are pinned to ruby:2.6,
+    # which cannot bundle workarea-core (>= 2.7).
+    - uses: ruby/setup-ruby@v1
       with:
-        args: '--ignore CVE-2020-8161'
-    - uses: workarea-commerce/ci/rubocop@v1
+        ruby-version: 3.2
+        bundler-cache: true
+
+    - name: bundler-audit
+      run: bundle exec bundler-audit check --update --ignore CVE-2020-8161
+
+    - name: rubocop
+      run: bundle exec rubocop
+
     - uses: workarea-commerce/ci/eslint@v1
       with:
         args: '{admin,core,storefront}/{app,test}/**/*.js'
@@ -30,6 +41,9 @@ jobs:
       with:
         ruby-version: 3.2
         bundler-cache: true
+
+    - name: Ensure docker-compose is installed
+      run: sudo apt-get update && sudo apt-get install -y docker-compose
     - uses: workarea-commerce/ci/test@v1
       with:
         command: cd admin && bin/rails test -b
@@ -42,6 +56,9 @@ jobs:
       with:
         ruby-version: 3.2
         bundler-cache: true
+
+    - name: Ensure docker-compose is installed
+      run: sudo apt-get update && sudo apt-get install -y docker-compose
     - uses: workarea-commerce/ci/test@v1
       with:
         command: cd admin && bin/rails teaspoon
@@ -54,6 +71,9 @@ jobs:
       with:
         ruby-version: 3.2
         bundler-cache: true
+
+    - name: Ensure docker-compose is installed
+      run: sudo apt-get update && sudo apt-get install -y docker-compose
     - uses: workarea-commerce/ci/test@v1
       with:
         command: cd admin && bin/rails test test/system/**/*_test.rb -b
@@ -71,6 +91,9 @@ jobs:
       with:
         ruby-version: 3.2
         bundler-cache: true
+
+    - name: Ensure docker-compose is installed
+      run: sudo apt-get update && sudo apt-get install -y docker-compose
     - uses: workarea-commerce/ci/test@v1
       with:
         command: cd core && bin/rails teaspoon
@@ -83,6 +106,9 @@ jobs:
       with:
         ruby-version: 3.2
         bundler-cache: true
+
+    - name: Ensure docker-compose is installed
+      run: sudo apt-get update && sudo apt-get install -y docker-compose
     - uses: workarea-commerce/ci/test@v1
       with:
         command: cd core && bin/rails test test/**/*_test.rb -b
@@ -95,6 +121,9 @@ jobs:
       with:
         ruby-version: 3.2
         bundler-cache: true
+
+    - name: Ensure docker-compose is installed
+      run: sudo apt-get update && sudo apt-get install -y docker-compose
     - uses: workarea-commerce/ci/test@v1
       with:
         command: cd storefront && bin/rails test -b
@@ -107,6 +136,9 @@ jobs:
       with:
         ruby-version: 3.2
         bundler-cache: true
+
+    - name: Ensure docker-compose is installed
+      run: sudo apt-get update && sudo apt-get install -y docker-compose
     - uses: workarea-commerce/ci/test@v1
       with:
         command: cd storefront && bin/rails teaspoon
@@ -119,6 +151,9 @@ jobs:
       with:
         ruby-version: 3.2
         bundler-cache: true
+
+    - name: Ensure docker-compose is installed
+      run: sudo apt-get update && sudo apt-get install -y docker-compose
     - uses: workarea-commerce/ci/test@v1
       with:
         command: cd storefront && bin/rails test test/system/**/*_test.rb -b
