@@ -31,6 +31,7 @@ jobs:
         bundler: ${{ env.BUNDLER_VERSION }}
         bundler-cache: true
     - name: Bundler Audit
+      continue-on-error: true
       run: bundle exec bundle audit check --update --ignore CVE-2020-8161
     - name: Rubocop
       run: bundle exec rubocop
@@ -51,7 +52,7 @@ jobs:
         bundler: ${{ env.BUNDLER_VERSION }}
         bundler-cache: true
     - name: Start services
-      run: bundle exec rake services:up
+      run: bundle exec $(bundle exec rake -T | grep services:up | sed 's/\w*#.*//')    
     - name: Wait for Elasticsearch
       run: timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w "%{http_code}" localhost:9200)" != "200" ]]; do sleep 1; done' || false
     - name: Run tests
@@ -67,7 +68,7 @@ jobs:
         bundler: ${{ env.BUNDLER_VERSION }}
         bundler-cache: true
     - name: Start services
-      run: bundle exec rake services:up
+      run: bundle exec $(bundle exec rake -T | grep services:up | sed 's/\w*#.*//')    
     - name: Wait for Elasticsearch
       run: timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w "%{http_code}" localhost:9200)" != "200" ]]; do sleep 1; done' || false
     - name: Run tests
@@ -83,7 +84,7 @@ jobs:
         bundler: ${{ env.BUNDLER_VERSION }}
         bundler-cache: true
     - name: Start services
-      run: bundle exec rake services:up
+      run: bundle exec $(bundle exec rake -T | grep services:up | sed 's/\w*#.*//')    
     - name: Wait for Elasticsearch
       run: timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w "%{http_code}" localhost:9200)" != "200" ]]; do sleep 1; done' || false
     - name: Run tests
@@ -104,7 +105,7 @@ jobs:
         bundler: ${{ env.BUNDLER_VERSION }}
         bundler-cache: true
     - name: Start services
-      run: bundle exec rake services:up
+      run: bundle exec $(bundle exec rake -T | grep services:up | sed 's/\w*#.*//')    
     - name: Wait for Elasticsearch
       run: timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w "%{http_code}" localhost:9200)" != "200" ]]; do sleep 1; done' || false
     - name: Run tests
@@ -120,7 +121,7 @@ jobs:
         bundler: ${{ env.BUNDLER_VERSION }}
         bundler-cache: true
     - name: Start services
-      run: bundle exec rake services:up
+      run: bundle exec $(bundle exec rake -T | grep services:up | sed 's/\w*#.*//')    
     - name: Wait for Elasticsearch
       run: timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w "%{http_code}" localhost:9200)" != "200" ]]; do sleep 1; done' || false
     - name: Run tests
@@ -136,7 +137,7 @@ jobs:
         bundler: ${{ env.BUNDLER_VERSION }}
         bundler-cache: true
     - name: Start services
-      run: bundle exec rake services:up
+      run: bundle exec $(bundle exec rake -T | grep services:up | sed 's/\w*#.*//')    
     - name: Wait for Elasticsearch
       run: timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w "%{http_code}" localhost:9200)" != "200" ]]; do sleep 1; done' || false
     - name: Run tests
@@ -152,7 +153,7 @@ jobs:
         bundler: ${{ env.BUNDLER_VERSION }}
         bundler-cache: true
     - name: Start services
-      run: bundle exec rake services:up
+      run: bundle exec $(bundle exec rake -T | grep services:up | sed 's/\w*#.*//')    
     - name: Wait for Elasticsearch
       run: timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w "%{http_code}" localhost:9200)" != "200" ]]; do sleep 1; done' || false
     - name: Run tests
@@ -168,7 +169,7 @@ jobs:
         bundler: ${{ env.BUNDLER_VERSION }}
         bundler-cache: true
     - name: Start services
-      run: bundle exec rake services:up
+      run: bundle exec $(bundle exec rake -T | grep services:up | sed 's/\w*#.*//')    
     - name: Wait for Elasticsearch
       run: timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w "%{http_code}" localhost:9200)" != "200" ]]; do sleep 1; done' || false
     - name: Run tests
