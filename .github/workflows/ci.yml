@@ -24,175 +24,168 @@ jobs:
   static_analysis:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: ${{ env.RUBY_VERSION }}
-        bundler: ${{ env.BUNDLER_VERSION }}
-        bundler-cache: true
-    - name: Bundler Audit
-      continue-on-error: true
-      run: bundle exec bundle audit check --update --ignore CVE-2020-8161
-    - name: Rubocop
-      continue-on-error: true
-      run: bundle exec rubocop
-    - uses: workarea-commerce/ci/eslint@v1
-      with:
-        args: '{admin,core,storefront}/{app,test}/**/*.js'
-    - uses: workarea-commerce/ci/stylelint@v1
-      with:
-        args: '{admin,core,storefront}/{app,test}/**/*.scss'
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - uses: ruby/setup-ruby@cacc9f1c0b3f4eb8a16a6bb0ed10897b43b9de49 # v1.176.0
+        with:
+          ruby-version: ${{ env.RUBY_VERSION }}
+          bundler: ${{ env.BUNDLER_VERSION }}
+          bundler-cache: true
+
+      # Non-blocking until the repo is fully brought into compliance.
+      # Keep these visible in CI without breaking the build for legacy issues.
+      - name: Bundler Audit
+        continue-on-error: true
+        run: bundle exec bundle audit check --update --ignore CVE-2020-8161
+
+      - name: Rubocop
+        continue-on-error: true
+        run: bundle exec rubocop
+
+      - uses: workarea-commerce/ci/eslint@ba76b2fbb0982014783952bbe0e14ab7808d69f1 # v1
+        with:
+          args: '{admin,core,storefront}/{app,test}/**/*.js'
+
+      - uses: workarea-commerce/ci/stylelint@ba76b2fbb0982014783952bbe0e14ab7808d69f1 # v1
+        with:
+          args: '{admin,core,storefront}/{app,test}/**/*.scss'
 
   admin_tests:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: ${{ env.RUBY_VERSION }}
-        bundler: ${{ env.BUNDLER_VERSION }}
-        bundler-cache: true
-    - name: Install docker-compose
-      run: sudo apt-get update && sudo apt-get install -y docker-compose
-    - name: Start services
-      run: bundle exec $(bundle exec rake -T | grep services:up | sed 's/\w*#.*//')    
-    - name: Wait for Elasticsearch
-      run: timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w "%{http_code}" localhost:9200)" != "200" ]]; do sleep 1; done' || false
-    - name: Run tests
-      run: cd admin && bin/rails test -b
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - uses: ruby/setup-ruby@cacc9f1c0b3f4eb8a16a6bb0ed10897b43b9de49 # v1.176.0
+        with:
+          ruby-version: ${{ env.RUBY_VERSION }}
+          bundler: ${{ env.BUNDLER_VERSION }}
+          bundler-cache: true
+
+      - uses: ./.github/actions/services-setup
+
+      - name: Run tests
+        run: cd admin && bin/rails test -b
 
   admin_teaspoon:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: ${{ env.RUBY_VERSION }}
-        bundler: ${{ env.BUNDLER_VERSION }}
-        bundler-cache: true
-    - name: Install docker-compose
-      run: sudo apt-get update && sudo apt-get install -y docker-compose
-    - name: Start services
-      run: bundle exec $(bundle exec rake -T | grep services:up | sed 's/\w*#.*//')    
-    - name: Wait for Elasticsearch
-      run: timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w "%{http_code}" localhost:9200)" != "200" ]]; do sleep 1; done' || false
-    - name: Run tests
-      run: cd admin && bin/rails teaspoon
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - uses: ruby/setup-ruby@cacc9f1c0b3f4eb8a16a6bb0ed10897b43b9de49 # v1.176.0
+        with:
+          ruby-version: ${{ env.RUBY_VERSION }}
+          bundler: ${{ env.BUNDLER_VERSION }}
+          bundler-cache: true
+
+      - uses: ./.github/actions/services-setup
+
+      - name: Run tests
+        run: cd admin && bin/rails teaspoon
 
   admin_system_tests:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: ${{ env.RUBY_VERSION }}
-        bundler: ${{ env.BUNDLER_VERSION }}
-        bundler-cache: true
-    - name: Install docker-compose
-      run: sudo apt-get update && sudo apt-get install -y docker-compose
-    - name: Start services
-      run: bundle exec $(bundle exec rake -T | grep services:up | sed 's/\w*#.*//')    
-    - name: Wait for Elasticsearch
-      run: timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w "%{http_code}" localhost:9200)" != "200" ]]; do sleep 1; done' || false
-    - name: Run tests
-      run: cd admin && bin/rails test test/system/**/*_test.rb -b
-    - uses: actions/upload-artifact@v4
-      if: failure()
-      with:
-        name: Admin Screenshots
-        path: admin/test/dummy/tmp/screenshots
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - uses: ruby/setup-ruby@cacc9f1c0b3f4eb8a16a6bb0ed10897b43b9de49 # v1.176.0
+        with:
+          ruby-version: ${{ env.RUBY_VERSION }}
+          bundler: ${{ env.BUNDLER_VERSION }}
+          bundler-cache: true
+
+      - uses: ./.github/actions/services-setup
+
+      - name: Run tests
+        run: cd admin && bin/rails test test/system/**/*_test.rb -b
+
+      - uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # v4.6.0
+        if: failure()
+        with:
+          name: Admin Screenshots
+          path: admin/test/dummy/tmp/screenshots
 
   core_teaspoon:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: ${{ env.RUBY_VERSION }}
-        bundler: ${{ env.BUNDLER_VERSION }}
-        bundler-cache: true
-    - name: Install docker-compose
-      run: sudo apt-get update && sudo apt-get install -y docker-compose
-    - name: Start services
-      run: bundle exec $(bundle exec rake -T | grep services:up | sed 's/\w*#.*//')    
-    - name: Wait for Elasticsearch
-      run: timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w "%{http_code}" localhost:9200)" != "200" ]]; do sleep 1; done' || false
-    - name: Run tests
-      run: cd core && bin/rails teaspoon
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - uses: ruby/setup-ruby@cacc9f1c0b3f4eb8a16a6bb0ed10897b43b9de49 # v1.176.0
+        with:
+          ruby-version: ${{ env.RUBY_VERSION }}
+          bundler: ${{ env.BUNDLER_VERSION }}
+          bundler-cache: true
+
+      - uses: ./.github/actions/services-setup
+
+      - name: Run tests
+        run: cd core && bin/rails teaspoon
 
   core_tests:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: ${{ env.RUBY_VERSION }}
-        bundler: ${{ env.BUNDLER_VERSION }}
-        bundler-cache: true
-    - name: Install docker-compose
-      run: sudo apt-get update && sudo apt-get install -y docker-compose
-    - name: Start services
-      run: bundle exec $(bundle exec rake -T | grep services:up | sed 's/\w*#.*//')    
-    - name: Wait for Elasticsearch
-      run: timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w "%{http_code}" localhost:9200)" != "200" ]]; do sleep 1; done' || false
-    - name: Run tests
-      run: cd core && bin/rails test test/**/*_test.rb -b
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - uses: ruby/setup-ruby@cacc9f1c0b3f4eb8a16a6bb0ed10897b43b9de49 # v1.176.0
+        with:
+          ruby-version: ${{ env.RUBY_VERSION }}
+          bundler: ${{ env.BUNDLER_VERSION }}
+          bundler-cache: true
+
+      - uses: ./.github/actions/services-setup
+
+      - name: Run tests
+        run: cd core && bin/rails test test/**/*_test.rb -b
 
   storefront_tests:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: ${{ env.RUBY_VERSION }}
-        bundler: ${{ env.BUNDLER_VERSION }}
-        bundler-cache: true
-    - name: Install docker-compose
-      run: sudo apt-get update && sudo apt-get install -y docker-compose
-    - name: Start services
-      run: bundle exec $(bundle exec rake -T | grep services:up | sed 's/\w*#.*//')    
-    - name: Wait for Elasticsearch
-      run: timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w "%{http_code}" localhost:9200)" != "200" ]]; do sleep 1; done' || false
-    - name: Run tests
-      run: cd storefront && bin/rails test -b
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - uses: ruby/setup-ruby@cacc9f1c0b3f4eb8a16a6bb0ed10897b43b9de49 # v1.176.0
+        with:
+          ruby-version: ${{ env.RUBY_VERSION }}
+          bundler: ${{ env.BUNDLER_VERSION }}
+          bundler-cache: true
+
+      - uses: ./.github/actions/services-setup
+
+      - name: Run tests
+        run: cd storefront && bin/rails test -b
 
   storefront_teaspoon:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: ${{ env.RUBY_VERSION }}
-        bundler: ${{ env.BUNDLER_VERSION }}
-        bundler-cache: true
-    - name: Install docker-compose
-      run: sudo apt-get update && sudo apt-get install -y docker-compose
-    - name: Start services
-      run: bundle exec $(bundle exec rake -T | grep services:up | sed 's/\w*#.*//')    
-    - name: Wait for Elasticsearch
-      run: timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w "%{http_code}" localhost:9200)" != "200" ]]; do sleep 1; done' || false
-    - name: Run tests
-      run: cd storefront && bin/rails teaspoon
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - uses: ruby/setup-ruby@cacc9f1c0b3f4eb8a16a6bb0ed10897b43b9de49 # v1.176.0
+        with:
+          ruby-version: ${{ env.RUBY_VERSION }}
+          bundler: ${{ env.BUNDLER_VERSION }}
+          bundler-cache: true
+
+      - uses: ./.github/actions/services-setup
+
+      - name: Run tests
+        run: cd storefront && bin/rails teaspoon
 
   storefront_system_tests:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: ${{ env.RUBY_VERSION }}
-        bundler: ${{ env.BUNDLER_VERSION }}
-        bundler-cache: true
-    - name: Install docker-compose
-      run: sudo apt-get update && sudo apt-get install -y docker-compose
-    - name: Start services
-      run: bundle exec $(bundle exec rake -T | grep services:up | sed 's/\w*#.*//')    
-    - name: Wait for Elasticsearch
-      run: timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w "%{http_code}" localhost:9200)" != "200" ]]; do sleep 1; done' || false
-    - name: Run tests
-      run: cd storefront && bin/rails test test/system/**/*_test.rb -b
-    - uses: actions/upload-artifact@v4
-      if: failure()
-      with:
-        name: Storefront Screenshots
-        path: storefront/test/dummy/tmp/screenshots
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - uses: ruby/setup-ruby@cacc9f1c0b3f4eb8a16a6bb0ed10897b43b9de49 # v1.176.0
+        with:
+          ruby-version: ${{ env.RUBY_VERSION }}
+          bundler: ${{ env.BUNDLER_VERSION }}
+          bundler-cache: true
+
+      - uses: ./.github/actions/services-setup
+
+      - name: Run tests
+        run: cd storefront && bin/rails test test/system/**/*_test.rb -b
+
+      - uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # v4.6.0
+        if: failure()
+        with:
+          name: Storefront Screenshots
+          path: storefront/test/dummy/tmp/screenshots

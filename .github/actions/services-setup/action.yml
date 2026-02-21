@@ -1,0 +1,18 @@
+name: 'Workarea Services Setup'
+description: 'Install docker-compose, start required services, and wait for Elasticsearch to be ready.'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Install docker-compose
+      shell: bash
+      run: sudo apt-get update && sudo apt-get install -y docker-compose
+
+    - name: Start services
+      shell: bash
+      run: bundle exec rake services:up
+
+    - name: Wait for Elasticsearch
+      shell: bash
+      run: |
+        timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w "%{http_code}" localhost:9200)" != "200" ]]; do sleep 1; done'
