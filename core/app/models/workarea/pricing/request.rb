@@ -137,7 +137,14 @@ module Workarea
       def save_order
         # as_document won't contain items in the hash if there isn't any items left.
         # ensure the items get cleared out when this happens
-        @persisted_order.update_attributes!(order.as_document.reverse_merge(items: []))
+        #
+        # NOTE: On Mongoid 7, as_document can produce nested BSON::Document values
+        # (e.g. for Money fields) which then fail to deserialize properly when
+        # persisted via update_attributes!. as_json performs a deep, JSON-safe
+        # conversion so values can be cast correctly when written.
+        @persisted_order.update_attributes!(
+          order.as_json.reverse_merge('items' => [])
+        )
         cache_key.order = @persisted_order
         @persisted_order.set(pricing_cache_key: cache_key.to_s)
       end
