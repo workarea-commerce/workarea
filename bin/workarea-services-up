@@ -77,7 +77,25 @@ wait_for_redis_pong() {
   done
 }
 
+wait_for_mongo_ping() {
+  local timeout_s="${1:-120}"
+  local start
+  start=$(date +%s)
+
+  while true; do
+    if docker exec workarea-mongo-1 mongo --quiet --eval 'db.runCommand({ ping: 1 }).ok' 2>/dev/null | grep -q '^1$'; then
+      return 0
+    fi
+    if (( $(date +%s) - start > timeout_s )); then
+      echo "ERROR: Timed out waiting for MongoDB ping" >&2
+      return 1
+    fi
+    sleep 1
+  done
+}
+
 wait_for_http_200 "http://localhost:9200" 180
 wait_for_redis_pong 180
+wait_for_mongo_ping 180
 
 echo "OK: Workarea services are up and healthy (docker context: $(docker context show))."
