@@ -19,8 +19,11 @@ module Workarea
     end
 
     module ELASTICSEARCH
-      MAJOR = 5
-      MINOR = 6
+      # Workarea's Elasticsearch client code uses the `_doc` type and typed
+      # endpoints, which require Elasticsearch 6.x+. Using 5.x causes CI failures
+      # like: invalid_type_name_exception (mapping type name [_doc] can't start with '_').
+      MAJOR = 6
+      MINOR = 8
       STRING = [MAJOR, MINOR].compact.join('.')
     end
   end
