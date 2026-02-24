@@ -25,12 +25,10 @@ module Workarea
           return false
         end
 
-        if user.update_attributes(password: new_password)
+        if user.update(password: new_password)
           destroy
         else
-          user.errors.each do |attribute, error|
-            errors.add(attribute, error)
-          end
+          errors.merge!(user.errors)
           false
         end
       end
