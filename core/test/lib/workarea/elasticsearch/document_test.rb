@@ -143,6 +143,48 @@ module Workarea
       ensure
         Foo.clear_scroll(results['_scroll_id'])
       end
+
+      # Regression: Index#create! must be idempotent.
+      #
+      # The old implementation used `unless exists?` before calling
+      # `indices.create`.  This introduced a TOCTOU race: between the `exists?`
+      # check and the actual `create` call another request could have created
+      # (or re-created) the same index, causing a
+      # `resource_already_exists_exception` (HTTP 400).  When that exception
+      # propagated the index was left in a deleted state (because `delete!` had
+      # already run), which then caused `index_not_found_exception` (404) for
+      # any search performed by the same test.
+      #
+      # The fix removes the guard and rescues the 400 BadRequest instead, making
+      # the operation atomic.
+      def test_create_idempotent_when_index_already_exists
+        index = Foo.current_index
+
+        # First call – index exists from setup_indexes; should not raise.
+        assert_nothing_raised { index.create! }
+      end
+
+      def test_create_force_recreates_index_and_remains_searchable
+        Foo.save(id: 'before')
+        Foo.current_index.wait_for_health
+
+        # force: true must delete-and-recreate; previously saved documents are gone
+        Foo.reset_indexes!
+
+        assert_equal(0, Foo.count, 'expected empty index after force-recreate')
+
+        Foo.save(id: 'after')
+        assert_equal(1, Foo.count, 'expected new document after force-recreate')
+      end
+
+      def test_create_force_idempotent_called_twice
+        # Calling reset_indexes! back-to-back must not raise
+        # resource_already_exists_exception on the second call.
+        assert_nothing_raised do
+          Foo.reset_indexes!
+          Foo.reset_indexes!
+        end
+      end
     end
   end
 end
