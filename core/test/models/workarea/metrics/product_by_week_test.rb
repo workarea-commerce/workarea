@@ -12,10 +12,11 @@ module Workarea
         last_week = create_product_by_week(reporting_on: Time.zone.local(2018, 12, 2))
         this_week = create_product_by_week(reporting_on: Time.zone.local(2018, 12, 5))
 
-        travel_to Time.zone.local(2018, 12, 5)
-        refute(ProductByWeek.last_week.include?(two_weeks_ago))
-        assert(ProductByWeek.last_week.include?(last_week))
-        refute(ProductByWeek.last_week.include?(this_week))
+        travel_to Time.zone.local(2018, 12, 5) do
+          refute(ProductByWeek.last_week.include?(two_weeks_ago))
+          assert(ProductByWeek.last_week.include?(last_week))
+          refute(ProductByWeek.last_week.include?(this_week))
+        end
       end
 
       def test_by_views_percentile
@@ -109,13 +110,13 @@ module Workarea
           reporting_on: Time.zone.local(2018, 12, 5)
         )
 
-        travel_to Time.zone.local(2018, 12, 5)
+        travel_to Time.zone.local(2018, 12, 5) do
+          Workarea.config.score_decay = 0.5
 
-        Workarea.config.score_decay = 0.5
-
-        assert_equal(3, this_week.score(:orders))
-        assert_equal(1, last_week.score(:orders))
-        assert_equal(0.25, two_weeks_ago.score(:orders))
+          assert_equal(3, this_week.score(:orders))
+          assert_equal(1, last_week.score(:orders))
+          assert_equal(0.25, two_weeks_ago.score(:orders))
+        end
       end
 
       def test_weeks_ago
