@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# SAFE Workarea services reset (dev/test only).
+#
+# This is intentionally conservative. It refuses to run unless:
+# - RAILS_ENV is development or test
+# - docker context is colima-x86
+# - docker socket is the local colima x86 socket
+#
+# It only removes explicitly-named Workarea containers/volumes.
+# No prune. No wildcard beyond the known workarea_* names.
+
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$ROOT_DIR"
+
+RAILS_ENV_VALUE="${RAILS_ENV:-}"  # may be empty
+if [[ "$RAILS_ENV_VALUE" != "development" && "$RAILS_ENV_VALUE" != "test" ]]; then
+  echo "ERROR: Refusing to run. Set RAILS_ENV=development or RAILS_ENV=test (current: '${RAILS_ENV_VALUE:-<unset>}')." >&2
+  exit 1
+fi
+
+CTX="$(docker context show)"
+if [[ "$CTX" != "colima-x86" ]]; then
+  echo "ERROR: Refusing to run. docker context must be colima-x86 (current: $CTX)." >&2
+  exit 1
+fi
+
+SOCK="$(docker context inspect colima-x86 --format '{{ (index .Endpoints "docker").Host }}')"
+if [[ "$SOCK" != *"/.colima/x86/docker.sock"* ]]; then
+  echo "ERROR: Refusing to run. Unexpected docker socket for colima-x86: $SOCK" >&2
+  exit 1
+fi
+
+echo "Resetting Workarea services (RAILS_ENV=$RAILS_ENV_VALUE, context=$CTX)" >&2
+
+# Stop/remove known containers (ignore if missing)
+docker rm -f workarea-elasticsearch-1 workarea-mongo-1 workarea-redis-1 >/dev/null 2>&1 || true
+
+# Remove known volumes (ignore if missing)
+docker volume rm -f workarea_elasticsearch workarea_mongo workarea_redis >/dev/null 2>&1 || true
+
+# Remove known network (ignore if missing)
+docker network rm workarea_default >/dev/null 2>&1 || true
+
+echo "OK: Workarea service containers/volumes removed. Run bin/workarea-services-up to recreate."

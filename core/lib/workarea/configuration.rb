@@ -951,10 +951,10 @@ module Workarea
       # migration.
       config.localized_active_fields = true
 
-# Options passed to the Selenium driver's capabilities
-# Chrome 75+ defaults to W3C protocol. The old `w3c: false` forced the
-# deprecated JSON Wire Protocol, which modern Chrome/chromedriver rejects.
-config.headless_chrome_options = {}
+      # Options passed to the Selenium driver's capabilities
+      # Chrome 75+ defaults to W3C protocol. The old `w3c: false` forced the
+      # deprecated JSON Wire Protocol, which modern Chrome/chromedriver rejects.
+      config.headless_chrome_options = {}
 
       # Arguments passed to headless Chrome for running system tests
       config.headless_chrome_args = [

@@ -1,0 +1,101 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Workarea dev services bootstrap for Apple Silicon.
+#
+# Durable policy:
+# - Workarea external services (ES/Mongo/Redis) run in the colima x86_64 profile
+#   so the amd64 images (ES5/Redis5/Mongo4) run reliably.
+# - This script enforces the docker context and waits for services to be healthy.
+
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$ROOT_DIR"
+
+require_cmd() {
+  command -v "$1" >/dev/null 2>&1 || {
+    echo "ERROR: missing required command: $1" >&2
+    exit 1
+  }
+}
+
+require_cmd colima
+require_cmd docker
+require_cmd curl
+
+# Ensure colima x86 is running
+colima start x86 >/dev/null
+
+# Ensure docker context is colima-x86
+CTX="$(docker context show)"
+if [[ "$CTX" != "colima-x86" ]]; then
+  docker context use colima-x86 >/dev/null
+fi
+
+# Safety: ensure we're on the expected local socket
+SOCK="$(docker context inspect colima-x86 --format '{{ (index .Endpoints "docker").Host }}')"
+if [[ "$SOCK" != *"/.colima/x86/docker.sock"* ]]; then
+  echo "ERROR: Refusing to run. Unexpected docker socket for colima-x86: $SOCK" >&2
+  exit 1
+fi
+
+# Bring services up via the canonical rake task
+bundle exec rake workarea:services:up
+
+# Health checks
+wait_for_http_200() {
+  local url="$1"
+  local timeout_s="${2:-120}"
+  local start
+  start=$(date +%s)
+
+  while true; do
+    if [[ "$(curl -s -o /dev/null -w '%{http_code}' "$url")" == "200" ]]; then
+      return 0
+    fi
+    if (( $(date +%s) - start > timeout_s )); then
+      echo "ERROR: Timed out waiting for $url" >&2
+      return 1
+    fi
+    sleep 1
+  done
+}
+
+wait_for_redis_pong() {
+  local timeout_s="${1:-120}"
+  local start
+  start=$(date +%s)
+
+  while true; do
+    if docker exec workarea-redis-1 redis-cli ping >/dev/null 2>&1; then
+      return 0
+    fi
+    if (( $(date +%s) - start > timeout_s )); then
+      echo "ERROR: Timed out waiting for redis PONG" >&2
+      return 1
+    fi
+    sleep 1
+  done
+}
+
+wait_for_mongo_ping() {
+  local timeout_s="${1:-120}"
+  local start
+  start=$(date +%s)
+
+  while true; do
+    if docker exec workarea-mongo-1 mongo --quiet --eval 'db.runCommand({ ping: 1 }).ok' 2>/dev/null | grep -q '^1$'; then
+      return 0
+    fi
+    if (( $(date +%s) - start > timeout_s )); then
+      echo "ERROR: Timed out waiting for MongoDB ping" >&2
+      return 1
+    fi
+    sleep 1
+  done
+}
+
+wait_for_http_200 "http://localhost:9200" 180
+wait_for_redis_pong 180
+wait_for_mongo_ping 180
+
+echo "OK: Workarea services are up and healthy (docker context: $(docker context show))."
