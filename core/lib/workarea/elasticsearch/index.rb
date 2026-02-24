@@ -38,16 +38,18 @@ module Workarea
       def create!(force: false)
         delete! if force
 
-        Workarea.elasticsearch.indices.create(
-          index: name,
-          body: {
-            settings: Search::Settings.current.elasticsearch_settings,
-            mappings: mappings,
-            aliases: aliases
-          }
-        )
-      rescue ::Elasticsearch::Transport::Transport::Errors::BadRequest => e
-        raise unless e.message.include?('resource_already_exists_exception')
+        create_index!(mappings)
+      rescue ::Elasticsearch::Transport::Transport::Errors::BadRequest,
+             ::Elasticsearch::Transport::Transport::Errors::InternalServerError => e
+        return if e.message.include?('resource_already_exists_exception')
+        raise unless e.message.include?('java.util.ArrayList cannot be cast to java.util.Map')
+
+        begin
+          create_index!(typed_mappings)
+        rescue ::Elasticsearch::Transport::Transport::Errors::BadRequest,
+               ::Elasticsearch::Transport::Transport::Errors::InternalServerError => retry_error
+          raise unless retry_error.message.include?('resource_already_exists_exception')
+        end
       end
 
       def delete!
@@ -157,6 +159,21 @@ module Workarea
       end
 
       private
+
+      def create_index!(mappings_payload)
+        Workarea.elasticsearch.indices.create(
+          index: name,
+          body: {
+            settings: Search::Settings.current.elasticsearch_settings,
+            mappings: mappings_payload,
+            aliases: aliases
+          }
+        )
+      end
+
+      def typed_mappings
+        { _doc: mappings }
+      end
 
       def find_id_from(document)
         document[:id] || document['id'] || document[:_id] || document['_id']
