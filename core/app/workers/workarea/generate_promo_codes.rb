@@ -7,6 +7,8 @@ module Workarea
 
     def perform(id)
       Pricing::Discount::CodeList.find(id).generate_promo_codes!
+    rescue Mongoid::Errors::DocumentNotFound
+      nil
     end
   end
 end

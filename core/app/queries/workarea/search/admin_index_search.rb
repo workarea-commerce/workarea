@@ -49,8 +49,7 @@ module Workarea
                       {
                         query_string: {
                           query: sanitized_query,
-                          fields: fields,
-                          use_dis_max: true
+                          fields: fields
                         }
                       },
                       {

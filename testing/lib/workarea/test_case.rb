@@ -71,10 +71,23 @@ module Workarea
     module SearchIndexing
       extend ActiveSupport::Concern
 
+      def wait_for_elasticsearch!(timeout: 30)
+        start = Time.now
+
+        loop do
+          Workarea.elasticsearch.cluster.health(wait_for_status: "yellow")
+          break
+        rescue Faraday::ConnectionFailed, ::Elasticsearch::Transport::Transport::Errors::ServiceUnavailable, ::Elasticsearch::Transport::Transport::Errors::BadGateway
+          raise if (Time.now - start) > timeout
+          sleep 0.5
+        end
+      end
+
       included do
         setup do
           Workarea.config.auto_refresh_search = true
           WebMock.disable_net_connect!(allow_localhost: true)
+          wait_for_elasticsearch!
           Workarea::Elasticsearch::Document.all.each(&:reset_indexes!)
           Workarea::Search::Storefront.ensure_dynamic_mappings
         end
@@ -241,9 +254,33 @@ module Workarea
       extend ActiveSupport::Concern
       include ActiveJob::TestHelper
 
+      def truncate_all_mongoid_clients!
+        # Safety guard: this is intentionally destructive.
+        #
+        # We only want to run this in the test suite. If a developer or CI job is
+        # misconfigured and points at a non-test Mongo database, this helper
+        # would otherwise delete data across *all* configured Mongoid clients.
+        raise 'Refusing to truncate Mongoid clients outside test environment' unless Rails.env.test?
+
+        # Mongoid.truncate! only truncates the global (default) client.
+        # Workarea uses additional clients (e.g. :metrics), so ensure we clear
+        # data for all configured clients to avoid cross-test pollution.
+        Mongoid::Clients.clients.values.each do |client|
+          db_name = client.database.name.to_s
+          unless db_name.match?(/(^|_)test($|_)/)
+            raise "Refusing to truncate non-test Mongo database: #{db_name.inspect}"
+          end
+
+          client.database.collections.each do |collection|
+            next if collection.name.start_with?('system.')
+            collection.find.delete_many
+          end
+        end
+      end
+
       included do
         setup do
-          Mongoid.truncate!
+          truncate_all_mongoid_clients!
           Workarea.redis.flushdb
           WebMock.disable_net_connect!(allow_localhost: true)
           ActionMailer::Base.deliveries.clear

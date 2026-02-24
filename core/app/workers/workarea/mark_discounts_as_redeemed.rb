@@ -9,6 +9,8 @@ module Workarea
       order = Order.find(order_id)
       shippings = Shipping.where(order_id: order_id).to_a
       mark_redeemed(order, shippings)
+    rescue Mongoid::Errors::DocumentNotFound
+      nil
     end
 
     def mark_redeemed(order, shippings)

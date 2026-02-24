@@ -170,7 +170,6 @@ module Workarea
             query_string: {
               query: customization.rewrite,
               fields: boosted_fields,
-              use_dis_max: true,
               default_operator: default_operator,
               tie_breaker: Workarea.config.search_dismax_tie_breaker
             }

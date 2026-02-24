@@ -15,6 +15,8 @@ module Workarea
     def perform(id)
       category = Catalog::Category.find(id)
       self.class.perform(category)
+    rescue Mongoid::Errors::DocumentNotFound
+      nil
     end
   end
 end
