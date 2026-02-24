@@ -30,14 +30,32 @@ module Workarea
         # Requires:
         # * order to be purchasable
         # * payment purchasable for order total_price
+        # * credit card, if present, must have a positive authorization amount
+        #   (a zero-amount credit card indicates no real authorization will occur)
         #
         # @return [Boolean]
         #
         def complete?
-          order.purchasable? && payment.purchasable?(order.total_price)
+          order.purchasable? &&
+            payment.purchasable?(order.total_price) &&
+            credit_card_authorizable?
         end
 
         private
+
+        # Ensure a credit card tender, if one is set, will actually be
+        # authorized (i.e. has a positive amount). A zero-amount credit card
+        # results in a no-op authorization and should not be treated as a
+        # complete payment.
+        #
+        # @return [Boolean]
+        #
+        def credit_card_authorizable?
+          return true unless payment.credit_card?
+
+          amount = payment.credit_card.amount
+          amount.present? && amount > 0.to_m
+        end
 
         def set_payment_profile
           payment.set(profile_id: payment_profile.try(:id))
