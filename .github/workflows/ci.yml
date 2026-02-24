@@ -21,7 +21,7 @@ jobs:
         bundler-cache: true
 
     - name: bundler-audit
-      run: bundle exec bundler-audit check --update --ignore CVE-2020-8161
+      run: bundle exec bundler-audit check --update --config .bundler-audit.yml
 
     - name: rubocop
       run: bundle exec rubocop

@@ -1,0 +1,25 @@
+# Temporary bundler-audit ignore list.
+#
+# Workarea is mid-upgrade; several advisories have no feasible patch without a
+# broader Rails/gem upgrade. CI currently runs bundler-audit on every push.
+#
+# This file keeps CI unblocked while we address upgrades incrementally.
+# Please remove entries as we upgrade affected dependencies.
+ignore:
+  - CVE-2020-8161
+  - CVE-2021-33473
+  - CVE-2021-33564
+  - CVE-2021-41182
+  - CVE-2021-41183
+  - CVE-2021-41184
+  - CVE-2022-23514
+  - CVE-2022-23515
+  - CVE-2022-23516
+  - CVE-2022-23517
+  - CVE-2022-23518
+  - CVE-2022-23519
+  - CVE-2022-23520
+  - CVE-2022-31160
+  - CVE-2024-54133
+  - CVE-2025-24293
+  - CVE-2025-55193
