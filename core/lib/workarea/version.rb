@@ -13,8 +13,8 @@ module Workarea
     end
 
     module REDIS
-      MAJOR = 5
-      MINOR = 0
+      MAJOR = 6
+      MINOR = 2
       STRING = [MAJOR, MINOR].compact.join('.')
     end
 
