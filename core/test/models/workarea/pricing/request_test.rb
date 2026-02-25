@@ -94,6 +94,20 @@ module Workarea
         @request = Request.new(@order, @shipping)
         assert @request.stale?
       end
+
+      def test_save_preserves_time_types_on_order
+        @order.update_attribute(:checkout_started_at, Time.current.change(usec: 0))
+
+        request = Request.new(@order, @shipping)
+        request.run
+        request.save!
+
+        value = @order.reload.checkout_started_at
+
+        assert(value.present?)
+        refute_instance_of(String, value)
+        assert_respond_to(value, :getlocal)
+      end
     end
   end
 end
