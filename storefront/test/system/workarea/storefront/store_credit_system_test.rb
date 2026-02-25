@@ -12,6 +12,15 @@ module Workarea
 
         start_user_checkout
 
+        # Depending on configuration/state, logged-in checkout may land on
+        # addresses first (requiring a "continue") before payment.
+        if current_path == storefront.checkout_addresses_path
+          click_button t('workarea.storefront.checkouts.continue_to_shipping') if page.has_button?(t('workarea.storefront.checkouts.continue_to_shipping'))
+
+          select_shipping_service if page.has_field?('Ground')
+          click_button t('workarea.storefront.checkouts.continue_to_payment') if page.has_button?(t('workarea.storefront.checkouts.continue_to_payment'))
+        end
+
         assert_current_path(storefront.checkout_payment_path)
         assert(page.has_content?('22 S. 3rd St.'))
         assert(page.has_content?('Philadelphia'))
@@ -73,6 +82,15 @@ module Workarea
         set_store_credit(4.to_m)
 
         start_user_checkout
+
+        # Depending on configuration/state, logged-in checkout may land on
+        # addresses first (requiring a "continue") before payment.
+        if current_path == storefront.checkout_addresses_path
+          click_button t('workarea.storefront.checkouts.continue_to_shipping') if page.has_button?(t('workarea.storefront.checkouts.continue_to_shipping'))
+
+          select_shipping_service if page.has_field?('Ground')
+          click_button t('workarea.storefront.checkouts.continue_to_payment') if page.has_button?(t('workarea.storefront.checkouts.continue_to_payment'))
+        end
 
         assert_current_path(storefront.checkout_payment_path)
         assert(page.has_content?('Success'))

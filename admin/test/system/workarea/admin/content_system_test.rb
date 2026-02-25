@@ -65,7 +65,7 @@ module Workarea
         assert(page.has_content?('Success'))
 
         find('.content-block').hover
-        find('.content-block__action-button--copy').click
+        find('.content-block__action-button--copy', visible: :all).click
 
         assert(page.has_content?('Success'))
         assert(page.has_content?(t('workarea.admin.content_blocks.flash_messages.copied')))

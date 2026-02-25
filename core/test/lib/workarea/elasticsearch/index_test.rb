@@ -132,7 +132,9 @@ module Workarea
           info: { 'version' => { 'number' => '6.8.23' } },
           bulk: nil
         )
-        client.stubs(:bulk) { |params| bulk_calls << params }
+        client.define_singleton_method(:bulk) do |*args, **kwargs|
+          bulk_calls << (args.first || kwargs)
+        end
 
         index = Index.new('test-index', {})
 
@@ -150,7 +152,9 @@ module Workarea
           info: { 'version' => { 'number' => '7.17.0' } },
           bulk: nil
         )
-        client.stubs(:bulk) { |params| bulk_calls << params }
+        client.define_singleton_method(:bulk) do |*args, **kwargs|
+          bulk_calls << (args.first || kwargs)
+        end
 
         index = Index.new('test-index', {})
 
@@ -168,7 +172,9 @@ module Workarea
           info: { 'version' => { 'number' => '6.8.23' } },
           bulk: nil
         )
-        client.stubs(:bulk) { |params| bulk_calls << params }
+        client.define_singleton_method(:bulk) do |*args, **kwargs|
+          bulk_calls << (args.first || kwargs)
+        end
 
         index = Index.new('test-index', {})
 

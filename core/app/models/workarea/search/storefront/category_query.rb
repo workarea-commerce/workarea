@@ -19,15 +19,32 @@ module Workarea
             []
           end
 
+          def percolate_document_type
+            # ES 7+ removed mapping types. ES 6 still supports a single type.
+            version = Workarea.elasticsearch.info.dig('version', 'number').to_s
+            major = Integer(version.split('.').first)
+            major < 7 ? '_doc' : nil
+          rescue StandardError
+            nil
+          end
+
           def find!(options)
+            percolate_options = options.merge(
+              field: 'query',
+              index: Storefront.current_index.name
+            )
+
+            # ES 6 still has mapping types but Workarea stores percolator docs
+            # under the single `_doc` type. Using the legacy `category` type
+            # causes percolate queries to return no matches.
+            if (doc_type = percolate_document_type).present?
+              percolate_options[:document_type] = doc_type
+            end
+
             results = Storefront.current_index.search(
               size: Workarea.config.product_categories_by_rules_max_count,
               query: {
-                percolate: options.merge(
-                  field: 'query',
-                  index: Storefront.current_index.name,
-                  document_type: 'category'
-                )
+                percolate: percolate_options
               },
               post_filter: if Release.current.blank?
                 {

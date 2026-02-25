@@ -223,7 +223,11 @@ module Workarea
         #   java.util.ArrayList cannot be cast to java.util.Map
         #
         # Elasticsearch 7+ expects typeless mappings.
-        if Workarea::VERSION::ELASTICSEARCH::MAJOR >= 7
+        #
+        # IMPORTANT: Use the connected server version here (not the gem default),
+        # because the Workarea gem can be built with an ES 7+ default while CI
+        # (and many deployments) still run ES 6.
+        if server_major_version >= 7
           mappings
         else
           typed_mappings
