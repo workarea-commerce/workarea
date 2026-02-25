@@ -47,7 +47,7 @@ module Workarea
 
         assert_equal(2, indices.create_calls.size)
         assert_equal(
-          { _doc: { dynamic_templates: [{ foo: { mapping: { type: 'keyword' } } }] } },
+          mappings,
           indices.create_calls.last.dig(:body, :mappings)
         )
       end
@@ -71,7 +71,7 @@ module Workarea
 
         assert_equal(2, indices.create_calls.size)
         assert_equal(
-          { _doc: { dynamic_templates: [{ foo: { mapping: { type: 'keyword' } } }] } },
+          mappings,
           indices.create_calls.last.dig(:body, :mappings)
         )
       end
