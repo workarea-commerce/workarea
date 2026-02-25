@@ -108,6 +108,19 @@ module Workarea
         )
       end
 
+      def test_search_rules_with_blank_value_fallback_to_match_all
+        rule = ProductRule.new(
+          name: 'search',
+          operator: 'equals',
+          value: ''
+        )
+
+        assert_equal(
+          [{ query_string: { query: '*', fields: ['content.*'] } }],
+          ProductRules.new([rule]).to_a
+        )
+      end
+
       def test_rules_with_dates
         date = Time.zone.parse('2013/8/25')
         rule = ProductRule.new(

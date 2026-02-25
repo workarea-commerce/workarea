@@ -26,7 +26,7 @@ module Workarea
         end
       end
 
-      def test_create_retries_with_typed_mappings_when_es5_cast_error_is_raised
+      def test_create_retries_with_same_payload_when_es5_cast_error_is_raised
         cast_error = ::Elasticsearch::Transport::Transport::Errors::BadRequest.new(
           '[400] {"error":{"type":"class_cast_exception","reason":"java.util.ArrayList cannot be cast to java.util.Map"}}'
         )
@@ -52,7 +52,7 @@ module Workarea
         )
       end
 
-      def test_create_retries_with_typed_mappings_when_es5_cast_error_is_500
+      def test_create_retries_with_same_payload_when_es5_cast_error_is_500
         cast_error = ::Elasticsearch::Transport::Transport::Errors::InternalServerError.new(
           '[500] {"error":{"type":"class_cast_exception","reason":"java.util.ArrayList cannot be cast to java.util.Map"}}'
         )
