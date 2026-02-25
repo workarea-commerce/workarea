@@ -30,7 +30,10 @@ module Workarea
         end
 
         find('.content-block').click
-        click_link t('workarea.admin.content.form.edit_block_name')
+        # Wait for the block edit panel to render the link (CI headless timing)
+        edit_link = find_link(t('workarea.admin.content.form.edit_block_name'), visible: :all, wait: 5)
+        page.execute_script('arguments[0].scrollIntoView({block:"center"})', edit_link.native)
+        edit_link.click
         fill_in 'block[name]', with: 'Foo Bar Block'
         fill_in 'block[data][html]', with: '<h1>Some Content!</h1>'
         click_button 'save_block'

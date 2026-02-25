@@ -204,6 +204,7 @@ module Workarea
         create_the_release
 
         visit admin.edit_content_page_path(@content_page)
+        assert page.has_field?('page[name]', wait: 5)
 
         fill_in 'page[name]', with: 'Foo Page'
         click_button 'save_page'

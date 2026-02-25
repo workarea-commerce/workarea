@@ -26,7 +26,8 @@ module Workarea
         assert_current_path(storefront.root_path)
         assert(page.has_content?('Success'))
 
-        click_link t('workarea.storefront.users.account')
+        # Use a fresh reference to avoid stale element in headless Chrome
+        page.find_link(t('workarea.storefront.users.account'), wait: 5).click
         assert_current_path(storefront.login_path)
 
         find('.message__dismiss-button').click
