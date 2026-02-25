@@ -92,8 +92,17 @@ module Workarea
         params = { refresh: Workarea.config.auto_refresh_search }.merge(options)
         body = { doc: document }
 
+        # Elasticsearch 6.x requires a mapping type segment in the update URL.
+        # Without it, ES interprets "_update" as the type name and raises:
+        #   invalid_type_name_exception: mapping type name can't start with '_'
+        path = if server_major_version < 7
+                 "#{name}/_doc/#{id}/_update"
+               else
+                 "#{name}/_update/#{id}"
+               end
+
         Workarea.elasticsearch.transport
-          .perform_request('POST', "#{name}/_update/#{id}", params, body)
+          .perform_request('POST', path, params, body)
           .body
       end
 
