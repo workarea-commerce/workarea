@@ -12,15 +12,11 @@ module Workarea
             product = product.in_release(Release.current) if product.persisted?
             search_model = Product.new(product, skip_categorization: true)
 
-            begin
-              find!(id: search_model.id)
-            rescue
-              begin
-                find!(document: search_model.as_document)
-              rescue ::Elasticsearch::Transport::Transport::ServerError
-                []
-              end
-            end
+            find!(document: search_model.as_document)
+          rescue ::Elasticsearch::Transport::Transport::Errors::NotFound,
+                 ::Elasticsearch::Transport::Transport::Errors::ServiceUnavailable,
+                 ::Elasticsearch::Transport::Transport::ServerError
+            []
           end
 
           def find!(options)
@@ -94,7 +90,7 @@ module Workarea
         def delete
           I18n.for_each_locale do
             begin
-              Storefront.current_index.delete(category.id)
+              Storefront.current_index.delete(category.id, refresh: true)
             rescue ::Elasticsearch::Transport::Transport::Errors::NotFound
               # doesn't matter we want it deleted
             end
@@ -115,7 +111,7 @@ module Workarea
                 query: Workarea::Search::Categorization.new(rules: category.product_rules).query
               }
 
-              Storefront.current_index.save(document)
+              Storefront.current_index.save(document, refresh: true)
             end
           end
         end
@@ -132,7 +128,7 @@ module Workarea
                   query: Workarea::Search::Categorization.new(rules: category.product_rules).query
                 }
 
-                Storefront.current_index.save(document)
+                Storefront.current_index.save(document, refresh: true)
               end
             end
           end
