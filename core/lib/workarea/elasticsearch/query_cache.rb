@@ -113,8 +113,9 @@ module Workarea
           # elasticsearch-ruby may send search requests with a request body as
           # POST (or convert GET-with-body into POST). Those are still read-only
           # operations and should be cacheable.
-          original_method = method
-          method = @send_get_body_as if 'GET' == method && body
+          original_method = method.to_s.upcase
+          method = original_method
+          method = @send_get_body_as.to_s.upcase if method == 'GET' && body
 
           cacheable_post = (
             method == 'POST' &&
@@ -122,7 +123,7 @@ module Workarea
           )
 
           if method == 'GET' || cacheable_post
-            cache_key = [original_method, method, path, params, body]
+            cache_key = [original_method, method, path.to_s, params, body]
 
             unless (response = QueryCache.cache_table[cache_key])
               response = transport.perform_request(method, path, params, body)

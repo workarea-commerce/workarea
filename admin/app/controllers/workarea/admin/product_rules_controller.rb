@@ -87,8 +87,19 @@ module Workarea
 
       def validate_query_syntax
         return unless @product_rule.name == 'search'
-        Search::CategoryBrowse.new(rules: [@product_rule]).results
-      rescue ::Elasticsearch::Transport::Transport::ServerError
+        return if @product_rule.value.blank?
+
+        Workarea::Search::Storefront.current_index.search(
+          query: {
+            query_string: {
+              query: @product_rule.value,
+              fields: ['content.*']
+            }
+          },
+          size: 0
+        )
+      rescue ::Elasticsearch::Transport::Transport::ServerError,
+             ::Elasticsearch::Transport::Transport::Errors::BadRequest
         @product_rule.errors.add(:base, t('workarea.admin.product_rules.invalid_lucene_syntax'))
       end
     end

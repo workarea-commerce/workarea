@@ -32,7 +32,8 @@ module Workarea
         #
         # @param [Hash]
         #
-        def reset!(params = @params, by: nil)
+        def reset!(params = @params, by: nil, **keywords)
+          params = params.to_h.merge(keywords) if keywords.present?
           @params = params
           @query = Search::ProductSearch.new(params.merge(rules: product_rules))
           @trace << Trace.new(@params, @query, by)

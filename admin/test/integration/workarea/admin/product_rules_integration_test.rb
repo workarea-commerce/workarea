@@ -78,7 +78,7 @@ module Workarea
         rule = @category.product_rules.create!(
           name: 'search',
           operator: 'equals',
-          value: '[created_at-30d TO now]'
+          value: 'foo'
         )
 
         post admin.product_list_product_rules_path(@category.to_global_id),
@@ -86,7 +86,7 @@ module Workarea
             product_rule: {
               name: 'search',
               operator: 'equals',
-              value: '[created_at-30d TOO now]'
+              value: 'foo:('
             }
           }
         @category.reload
@@ -99,7 +99,7 @@ module Workarea
             product_rule: {
               name: 'search',
               operator: 'equals',
-              value: '[created_at-30d TOO now]'
+              value: 'foo:('
             }
           }
 

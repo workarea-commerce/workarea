@@ -9,14 +9,17 @@ decorate Capybara::Chromedriver::Logger::Collector do
   # Keep system tests resilient by supporting both shapes and falling back to
   # an empty set of logs when unsupported.
   def browser_logs
-    if browser.respond_to?(:logs)
-      browser.logs.get(:browser)
-    elsif browser.respond_to?(:manage) && browser.manage.respond_to?(:logs)
-      browser.manage.logs.get(:browser)
+    target = collector_browser
+    return [] if target.blank?
+
+    if target.respond_to?(:logs)
+      target.logs.get(:browser)
+    elsif target.respond_to?(:manage) && target.manage.respond_to?(:logs)
+      target.manage.logs.get(:browser)
     else
       []
     end
-  rescue NoMethodError
+  rescue NameError, NoMethodError
     []
   end
 
@@ -27,5 +30,24 @@ decorate Capybara::Chromedriver::Logger::Collector do
 
       log_destination.puts message.to_s unless should_filter?(message)
     end
+  end
+
+  private
+
+  # capybara-chromedriver-logger has changed where the selenium driver/browser
+  # is exposed across versions. Resolve whichever hook exists and no-op when
+  # none are available.
+  def collector_browser
+    if respond_to?(:browser)
+      browser
+    elsif respond_to?(:driver)
+      driver
+    elsif instance_variable_defined?(:@browser)
+      instance_variable_get(:@browser)
+    elsif instance_variable_defined?(:@driver)
+      instance_variable_get(:@driver)
+    end
+  rescue NameError, NoMethodError
+    nil
   end
 end
