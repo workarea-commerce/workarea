@@ -329,6 +329,9 @@ GEM
     image_optim_pack (0.7.0.20211002)
       fspath (>= 2.1, < 4)
       image_optim (~> 0.19)
+    image_optim_pack (0.7.0.20211002-x86_64-linux)
+      fspath (>= 2.1, < 4)
+      image_optim (~> 0.19)
     image_size (2.1.2)
     in_threads (1.6.0)
     inline_svg (1.7.2)
@@ -446,6 +449,8 @@ GEM
       net-protocol
     nio4r (2.7.5)
     nokogiri (1.15.7-arm64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.15.7-x86_64-linux)
       racc (~> 1.4)
     normalize-rails (8.0.1)
     parallel (1.27.0)
@@ -636,6 +641,7 @@ GEM
 
 PLATFORMS
   arm64-darwin-25
+  x86_64-linux
 
 DEPENDENCIES
   bundler-audit
