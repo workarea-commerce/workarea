@@ -22,9 +22,13 @@ module Workarea
       # Workarea's Elasticsearch client code uses the `_doc` type and typed
       # endpoints, which require Elasticsearch 6.x+. Using 5.x causes CI failures
       # like: invalid_type_name_exception (mapping type name [_doc] can't start with '_').
+      #
+      # Note: the official Docker image for Elasticsearch 6.8 is published at
+      # docker.elastic.co (not Docker Hub's legacy `library/elasticsearch`).
       MAJOR = 6
       MINOR = 8
-      STRING = [MAJOR, MINOR].compact.join('.')
+      PATCH = 23
+      STRING = [MAJOR, MINOR, PATCH].compact.join('.')
     end
   end
 end
