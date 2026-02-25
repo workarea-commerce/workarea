@@ -115,7 +115,10 @@ module Workarea
         assert_selector('.content-block__add-button--bottom', visible: :all)
 
         add_button = find('.content-block__add-button--bottom', visible: :all)
-        add_button.scroll_to
+        page.execute_script(
+          'arguments[0].scrollIntoView({ block: "center", inline: "nearest" })',
+          add_button.native
+        )
         page.execute_script('arguments[0].click()', add_button.native)
 
         click_link 'Recommendations'
