@@ -126,6 +126,69 @@ module Workarea
           indices.create_calls.last.dig(:body, :mappings)
         )
       end
+
+      def test_bulk_includes_type_metadata_for_elasticsearch_6
+        client = Struct.new(:bulk_calls) do
+          def info
+            { 'version' => { 'number' => '6.8.23' } }
+          end
+
+          def bulk(params)
+            bulk_calls << params
+          end
+        end.new([])
+
+        index = Index.new('test-index', {})
+
+        Workarea.stub(:elasticsearch, client) do
+          index.bulk([{ id: '1', name: 'Foo' }])
+        end
+
+        metadata = client.bulk_calls.first[:body].first[:index]
+        assert_equal('_doc', metadata[:_type])
+      end
+
+      def test_bulk_does_not_include_type_metadata_for_elasticsearch_7
+        client = Struct.new(:bulk_calls) do
+          def info
+            { 'version' => { 'number' => '7.17.0' } }
+          end
+
+          def bulk(params)
+            bulk_calls << params
+          end
+        end.new([])
+
+        index = Index.new('test-index', {})
+
+        Workarea.stub(:elasticsearch, client) do
+          index.bulk([{ id: '1', name: 'Foo' }])
+        end
+
+        metadata = client.bulk_calls.first[:body].first[:index]
+        assert_nil(metadata[:_type])
+      end
+
+      def test_bulk_delete_includes_type_metadata_for_elasticsearch_6
+        client = Struct.new(:bulk_calls) do
+          def info
+            { 'version' => { 'number' => '6.8.23' } }
+          end
+
+          def bulk(params)
+            bulk_calls << params
+          end
+        end.new([])
+
+        index = Index.new('test-index', {})
+
+        Workarea.stub(:elasticsearch, client) do
+          index.bulk([{ id: '1', bulk_action: :delete }])
+        end
+
+        metadata = client.bulk_calls.first[:body].first[:delete]
+        assert_equal('_doc', metadata[:_type])
+      end
     end
   end
 end

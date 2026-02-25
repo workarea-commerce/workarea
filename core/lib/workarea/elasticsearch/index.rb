@@ -106,10 +106,13 @@ module Workarea
           body: documents.map do |document|
                   action = document.delete(:bulk_action).try(:to_sym) || :index
 
+                  metadata = { _id: find_id_from(document) }
+                  metadata[:_type] = '_doc' if bulk_requires_type?
+
                   if action == :delete
-                    { action => { _id: find_id_from(document) } }
+                    { action => metadata }
                   else
-                    { action => { _id: find_id_from(document), data: document } }
+                    { action => metadata.merge(data: document) }
                   end
                 end
         }
@@ -221,6 +224,19 @@ module Workarea
       def class_cast_exception?(error)
         error.message.include?('class_cast_exception') ||
           error.message.include?('java.util.ArrayList cannot be cast to java.util.Map')
+      end
+
+      def bulk_requires_type?
+        server_major_version < 7
+      end
+
+      def server_major_version
+        @server_major_version ||= begin
+          version = Workarea.elasticsearch.info.dig('version', 'number').to_s
+          Integer(version.split('.').first)
+        rescue StandardError
+          Workarea::VERSION::ELASTICSEARCH::MAJOR
+        end
       end
 
       def find_id_from(document)
