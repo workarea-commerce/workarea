@@ -30,7 +30,6 @@ module Workarea
                 percolate: options.merge(
                   field: 'query',
                   index: Storefront.current_index.name,
-                  type: Storefront.type,
                   document_type: 'category'
                 )
               },

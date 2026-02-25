@@ -23,9 +23,15 @@ ignore:
   - CVE-2024-54133
   - CVE-2025-24293
   - CVE-2025-55193
+
+  # faraday SSRF via protocol-relative URL – no feasible patch within current deps
   - CVE-2026-25765
   - GHSA-33mh-2634-fwr2
+
+  # measured gem advisory – no patch available in current version
   - GHSA-29g5-m8v7-v564
+
+  # nokogiri advisories – upgrade blocked by broader Rails/gem upgrade
   - GHSA-353f-x4gh-cqq8
   - GHSA-5w6v-399v-w3cc
   - GHSA-mrxw-mxhj-p664

@@ -37,12 +37,13 @@ module Workarea
         index = Index.new('test-index', mappings)
         index.stubs(:create_mappings_payload).returns(mappings)
 
-        fake_settings = Struct.new(:elasticsearch_settings).new(number_of_shards: 1)
+        # Wrap hash in braces to pass as positional arg; Ruby 3.0+ no longer
+        # coerces keyword args to positional for Struct#initialize.
+        fake_settings = Struct.new(:elasticsearch_settings).new({ number_of_shards: 1 })
         Search::Settings.stubs(:current).returns(fake_settings)
 
-        Workarea.stub(:elasticsearch, client) do
-          index.create!
-        end
+        Workarea.stubs(:elasticsearch).returns(client)
+        index.create!
 
         assert_equal(2, indices.create_calls.size)
         assert_equal(
@@ -62,12 +63,11 @@ module Workarea
         index = Index.new('test-index', mappings)
         index.stubs(:create_mappings_payload).returns(mappings)
 
-        fake_settings = Struct.new(:elasticsearch_settings).new(number_of_shards: 1)
+        fake_settings = Struct.new(:elasticsearch_settings).new({ number_of_shards: 1 })
         Search::Settings.stubs(:current).returns(fake_settings)
 
-        Workarea.stub(:elasticsearch, client) do
-          index.create!
-        end
+        Workarea.stubs(:elasticsearch).returns(client)
+        index.create!
 
         assert_equal(2, indices.create_calls.size)
         assert_equal(
@@ -87,13 +87,12 @@ module Workarea
         index = Index.new('test-index', mappings)
         index.stubs(:create_mappings_payload).returns(mappings)
 
-        fake_settings = Struct.new(:elasticsearch_settings).new(number_of_shards: 1)
+        fake_settings = Struct.new(:elasticsearch_settings).new({ number_of_shards: 1 })
         Search::Settings.stubs(:current).returns(fake_settings)
         index.stubs(:sleep)
 
-        Workarea.stub(:elasticsearch, client) do
-          index.create!
-        end
+        Workarea.stubs(:elasticsearch).returns(client)
+        index.create!
 
         assert_equal(3, indices.create_calls.size)
         assert_equal(mappings, indices.create_calls.first.dig(:body, :mappings))
@@ -112,13 +111,12 @@ module Workarea
         index = Index.new('test-index', mappings)
         index.stubs(:create_mappings_payload).returns(mappings)
 
-        fake_settings = Struct.new(:elasticsearch_settings).new(number_of_shards: 1)
+        fake_settings = Struct.new(:elasticsearch_settings).new({ number_of_shards: 1 })
         Search::Settings.stubs(:current).returns(fake_settings)
         index.stubs(:sleep)
 
-        Workarea.stub(:elasticsearch, client) do
-          index.create!
-        end
+        Workarea.stubs(:elasticsearch).returns(client)
+        index.create!
 
         assert_equal(5, indices.create_calls.size)
         assert_equal(
@@ -128,65 +126,56 @@ module Workarea
       end
 
       def test_bulk_includes_type_metadata_for_elasticsearch_6
-        client = Struct.new(:bulk_calls) do
-          def info
-            { 'version' => { 'number' => '6.8.23' } }
-          end
-
-          def bulk(params)
-            bulk_calls << params
-          end
-        end.new([])
+        bulk_calls = []
+        client = stub(
+          'elasticsearch_6',
+          info: { 'version' => { 'number' => '6.8.23' } },
+          bulk: nil
+        )
+        client.stubs(:bulk) { |params| bulk_calls << params }
 
         index = Index.new('test-index', {})
 
-        Workarea.stub(:elasticsearch, client) do
-          index.bulk([{ id: '1', name: 'Foo' }])
-        end
+        Workarea.stubs(:elasticsearch).returns(client)
+        index.bulk([{ id: '1', name: 'Foo' }])
 
-        metadata = client.bulk_calls.first[:body].first[:index]
+        metadata = bulk_calls.first[:body].first[:index]
         assert_equal('_doc', metadata[:_type])
       end
 
       def test_bulk_does_not_include_type_metadata_for_elasticsearch_7
-        client = Struct.new(:bulk_calls) do
-          def info
-            { 'version' => { 'number' => '7.17.0' } }
-          end
-
-          def bulk(params)
-            bulk_calls << params
-          end
-        end.new([])
+        bulk_calls = []
+        client = stub(
+          'elasticsearch_7',
+          info: { 'version' => { 'number' => '7.17.0' } },
+          bulk: nil
+        )
+        client.stubs(:bulk) { |params| bulk_calls << params }
 
         index = Index.new('test-index', {})
 
-        Workarea.stub(:elasticsearch, client) do
-          index.bulk([{ id: '1', name: 'Foo' }])
-        end
+        Workarea.stubs(:elasticsearch).returns(client)
+        index.bulk([{ id: '1', name: 'Foo' }])
 
-        metadata = client.bulk_calls.first[:body].first[:index]
+        metadata = bulk_calls.first[:body].first[:index]
         assert_nil(metadata[:_type])
       end
 
       def test_bulk_delete_includes_type_metadata_for_elasticsearch_6
-        client = Struct.new(:bulk_calls) do
-          def info
-            { 'version' => { 'number' => '6.8.23' } }
-          end
-
-          def bulk(params)
-            bulk_calls << params
-          end
-        end.new([])
+        bulk_calls = []
+        client = stub(
+          'elasticsearch_6_delete',
+          info: { 'version' => { 'number' => '6.8.23' } },
+          bulk: nil
+        )
+        client.stubs(:bulk) { |params| bulk_calls << params }
 
         index = Index.new('test-index', {})
 
-        Workarea.stub(:elasticsearch, client) do
-          index.bulk([{ id: '1', bulk_action: :delete }])
-        end
+        Workarea.stubs(:elasticsearch).returns(client)
+        index.bulk([{ id: '1', bulk_action: :delete }])
 
-        metadata = client.bulk_calls.first[:body].first[:delete]
+        metadata = bulk_calls.first[:body].first[:delete]
         assert_equal('_doc', metadata[:_type])
       end
     end

@@ -3,15 +3,16 @@ module Workarea
     class StatusReportMailer < Admin::ApplicationMailer
       add_template_helper(InsightsHelper)
 
+      # Build a collection of report mail messages for the given users.
+      #
+      # NOTE: We intentionally do not share pre-computed alerts/dashboard here.
+      # Passing keyword arguments through ActionMailer's class-level
+      # method_missing (which stores args for later delivery) does not work
+      # reliably in Ruby 3.0+ because kwargs are no longer implicitly splatted
+      # from a trailing Hash.  Each call to report/2 will compute its own
+      # AlertsViewModel and DashboardsViewModel, which is the safe fallback.
       def self.report_to_many(users)
-        alerts = AlertsViewModel.wrap(Alerts.new)
-        dashboard = Dashboards::IndexViewModel.new
-
-        users.map do |user|
-          # Ruby 3 keyword arg forwarding requires explicit ** when calling
-          # ActionMailer-generated class methods.
-          report(user.email, **{ user: user, alerts: alerts, dashboard: dashboard })
-        end
+        users.map { |user| report(user.email) }
       end
 
       def report(email, user: nil, alerts: nil, dashboard: nil)

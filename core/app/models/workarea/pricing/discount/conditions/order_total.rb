@@ -20,6 +20,17 @@ module Workarea
             add_qualifier :order_total_qualifies?
           end
 
+          # Historically this has been treated like an identifier symbol
+          # throughout the admin/UI layer. Ruby 3 + Mongoid will consistently
+          # return strings for String-typed fields, so normalize to a symbol.
+          def order_total_operator
+            super&.to_sym
+          end
+
+          def order_total_operator=(value)
+            super(value.to_s)
+          end
+
           # Whether this discount has an order total
           # condition.
           #

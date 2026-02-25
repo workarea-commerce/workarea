@@ -33,6 +33,17 @@ module Workarea
           delegate :percent?, to: :amount_calculator
         end
 
+        # Historically this has been treated like an identifier symbol
+        # throughout the admin/UI layer. Ruby 3 + Mongoid will consistently
+        # return strings for String-typed fields, so normalize to a symbol.
+        def amount_type
+          super&.to_sym
+        end
+
+        def amount_type=(value)
+          super(value.to_s)
+        end
+
         # The calculator used to calculate how much this discount should
         # apply to the order.
         #

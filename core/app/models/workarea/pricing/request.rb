@@ -154,7 +154,10 @@ module Workarea
 
       def save_shippings
         shippings.each do |tmp_shipping|
-          shipping_attrs = tmp_shipping.as_document
+          # Apply the same BSON::Document flattening used in save_order so that
+          # nested BSON::Documents (e.g. Money fields) are converted to plain
+          # Ruby Hashes before Mongoid tries to demongoize them.
+          shipping_attrs = deep_convert_hash_like(tmp_shipping.as_document)
           matching_shipping = @persisted_shippings.detect do |s|
              s.id == tmp_shipping.id
           end
