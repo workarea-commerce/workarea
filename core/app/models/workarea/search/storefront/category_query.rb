@@ -116,7 +116,7 @@ module Workarea
                 query: Workarea::Search::Categorization.new(rules: category.product_rules).query
               }
 
-              Storefront.current_index.save()
+              Storefront.current_index.save(document)
             end
           end
         end
@@ -133,7 +133,7 @@ module Workarea
                   query: Workarea::Search::Categorization.new(rules: category.product_rules).query
                 }
 
-                Storefront.current_index.save()
+                Storefront.current_index.save(document)
               end
             end
           end
