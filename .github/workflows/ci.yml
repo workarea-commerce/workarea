@@ -42,8 +42,8 @@ jobs:
         ruby-version: 3.2
         bundler-cache: true
 
-    - name: Ensure docker-compose is installed
-      run: sudo apt-get update && sudo apt-get install -y docker-compose
+    - name: Install system deps (docker-compose + ImageMagick)
+      run: sudo apt-get update && sudo apt-get install -y docker-compose imagemagick
     - uses: workarea-commerce/ci/test@v1
       with:
         command: cd admin && bin/rails test -b
@@ -57,8 +57,8 @@ jobs:
         ruby-version: 3.2
         bundler-cache: true
 
-    - name: Ensure docker-compose is installed
-      run: sudo apt-get update && sudo apt-get install -y docker-compose
+    - name: Install system deps (docker-compose + ImageMagick)
+      run: sudo apt-get update && sudo apt-get install -y docker-compose imagemagick
     - uses: workarea-commerce/ci/test@v1
       with:
         command: cd admin && bin/rails teaspoon
@@ -72,8 +72,8 @@ jobs:
         ruby-version: 3.2
         bundler-cache: true
 
-    - name: Ensure docker-compose is installed
-      run: sudo apt-get update && sudo apt-get install -y docker-compose
+    - name: Install system deps (docker-compose + ImageMagick)
+      run: sudo apt-get update && sudo apt-get install -y docker-compose imagemagick
     - uses: workarea-commerce/ci/test@v1
       with:
         command: cd admin && bin/rails test test/system/**/*_test.rb -b
@@ -92,8 +92,8 @@ jobs:
         ruby-version: 3.2
         bundler-cache: true
 
-    - name: Ensure docker-compose is installed
-      run: sudo apt-get update && sudo apt-get install -y docker-compose
+    - name: Install system deps (docker-compose + ImageMagick)
+      run: sudo apt-get update && sudo apt-get install -y docker-compose imagemagick
     - uses: workarea-commerce/ci/test@v1
       with:
         command: cd core && bin/rails teaspoon
@@ -107,8 +107,8 @@ jobs:
         ruby-version: 3.2
         bundler-cache: true
 
-    - name: Ensure docker-compose is installed
-      run: sudo apt-get update && sudo apt-get install -y docker-compose
+    - name: Install system deps (docker-compose + ImageMagick)
+      run: sudo apt-get update && sudo apt-get install -y docker-compose imagemagick
     - uses: workarea-commerce/ci/test@v1
       with:
         command: cd core && bin/rails test test/**/*_test.rb -b
@@ -122,8 +122,8 @@ jobs:
         ruby-version: 3.2
         bundler-cache: true
 
-    - name: Ensure docker-compose is installed
-      run: sudo apt-get update && sudo apt-get install -y docker-compose
+    - name: Install system deps (docker-compose + ImageMagick)
+      run: sudo apt-get update && sudo apt-get install -y docker-compose imagemagick
     - uses: workarea-commerce/ci/test@v1
       with:
         command: cd storefront && bin/rails test -b
@@ -137,8 +137,8 @@ jobs:
         ruby-version: 3.2
         bundler-cache: true
 
-    - name: Ensure docker-compose is installed
-      run: sudo apt-get update && sudo apt-get install -y docker-compose
+    - name: Install system deps (docker-compose + ImageMagick)
+      run: sudo apt-get update && sudo apt-get install -y docker-compose imagemagick
     - uses: workarea-commerce/ci/test@v1
       with:
         command: cd storefront && bin/rails teaspoon
@@ -152,8 +152,8 @@ jobs:
         ruby-version: 3.2
         bundler-cache: true
 
-    - name: Ensure docker-compose is installed
-      run: sudo apt-get update && sudo apt-get install -y docker-compose
+    - name: Install system deps (docker-compose + ImageMagick)
+      run: sudo apt-get update && sudo apt-get install -y docker-compose imagemagick
     - uses: workarea-commerce/ci/test@v1
       with:
         command: cd storefront && bin/rails test test/system/**/*_test.rb -b
