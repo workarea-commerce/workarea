@@ -72,7 +72,7 @@ module Workarea
 
         refute_text(t('workarea.storefront.pagination.load_more'))
 
-        find('a', text: 'Product 6').click
+        find('a', text: 'Product 6', match: :first).click
         page.execute_script("history.back()")
 
         assert_current_path(storefront.category_path(category))
@@ -108,7 +108,7 @@ module Workarea
 
         refute_text(t('workarea.storefront.pagination.load_more'))
 
-        find('a', text: 'Product 6').click
+        find('a', text: 'Product 6', match: :first).click
         page.execute_script("history.back()")
 
         assert_current_path(storefront.search_path(q: 'Product'))

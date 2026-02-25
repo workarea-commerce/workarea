@@ -1,0 +1,6 @@
+es:
+  workarea:
+    admin:
+      catalog_products:
+        flash_messages:
+          saved: That product was saved succesfully

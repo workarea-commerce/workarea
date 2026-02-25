@@ -143,7 +143,7 @@
                   = form_tag guest_browsing_path, method: 'delete', data: { disable_delete_confirmation: '', impersonation_notification: t('workarea.admin.actions.guest_browsing_confirmation') } do
                     = hidden_field_tag :return_to, request.path
                     = button_tag t('workarea.admin.toolbar.stop_guest_browsing'), class: 'text-button text-button--destroy'
-          - elsif impersonating?
+          - elsif impersonating? && current_impersonation.present?
             .header__action
               .header__user-menu
                 .header__user-menu-cell=(avatar_for current_impersonation, 'avatar--large')

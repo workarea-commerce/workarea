@@ -42,7 +42,8 @@ module Workarea
 
         find('.content-block').hover
         within('.content-block') do
-          click_link 'Create Preset'
+          assert_selector('a', text: 'Create Preset', visible: :all)
+          click_link 'Create Preset', visible: :all
         end
 
         fill_in 'content_preset[name]', with: 'Preset Test'

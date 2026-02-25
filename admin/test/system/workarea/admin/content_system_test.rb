@@ -30,7 +30,10 @@ module Workarea
         end
 
         find('.content-block').click
-        click_link t('workarea.admin.content.form.edit_block_name')
+        # Wait for the block edit panel to render the link (CI headless timing)
+        edit_link = find_link(t('workarea.admin.content.form.edit_block_name'), visible: :all, wait: 5)
+        page.execute_script('arguments[0].scrollIntoView({block:"center"})', edit_link.native)
+        edit_link.click
         fill_in 'block[name]', with: 'Foo Bar Block'
         fill_in 'block[data][html]', with: '<h1>Some Content!</h1>'
         click_button 'save_block'
@@ -65,7 +68,7 @@ module Workarea
         assert(page.has_content?('Success'))
 
         find('.content-block').hover
-        find('.content-block__action-button--copy').click
+        find('.content-block__action-button--copy', visible: :all).click
 
         assert(page.has_content?('Success'))
         assert(page.has_content?(t('workarea.admin.content_blocks.flash_messages.copied')))
@@ -112,7 +115,14 @@ module Workarea
         assert(page.has_content?('Success'))
 
         find('.content-block').hover
-        find('.content-block__add-button--bottom').click
+        assert_selector('.content-block__add-button--bottom', visible: :all)
+
+        add_button = find('.content-block__add-button--bottom', visible: :all)
+        page.execute_script(
+          'arguments[0].scrollIntoView({ block: "center", inline: "nearest" })',
+          add_button.native
+        )
+        page.execute_script('arguments[0].click()', add_button.native)
 
         click_link 'Recommendations'
         click_button 'create_block'

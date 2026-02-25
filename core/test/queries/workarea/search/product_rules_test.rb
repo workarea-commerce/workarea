@@ -103,7 +103,20 @@ module Workarea
         )
 
         assert_equal(
-          [{ query_string: { query: 'foo bar' } }],
+          [{ query_string: { query: 'foo bar', fields: ['content.*'] } }],
+          ProductRules.new([rule]).to_a
+        )
+      end
+
+      def test_search_rules_with_blank_value_fallback_to_match_all
+        rule = ProductRule.new(
+          name: 'search',
+          operator: 'equals',
+          value: ''
+        )
+
+        assert_equal(
+          [{ query_string: { query: '*', fields: ['content.*'] } }],
           ProductRules.new([rule]).to_a
         )
       end
@@ -136,7 +149,7 @@ module Workarea
 
         assert_equal(
           [
-            { query_string: { query: 'bar' } },
+            { query_string: { query: 'bar', fields: ['content.*'] } },
             {
               bool: {
                 should: [
@@ -144,7 +157,18 @@ module Workarea
                     bool: {
                       should: [
                         { term: { 'facets.category_id' => category_one.id.to_s } },
-                        { bool: { must: [{ query_string: { query: 'foo' } }] } }
+                        {
+                          bool: {
+                            must: [
+                              {
+                                query_string: {
+                                  query: 'foo',
+                                  fields: ['content.*']
+                                }
+                              }
+                            ]
+                          }
+                        }
                       ]
                     }
                   }
@@ -166,7 +190,7 @@ module Workarea
         assert_equal(
           [
             {
-              query_string: { query: "baz" }
+              query_string: { query: "baz", fields: ['content.*'] }
             },
             {
               bool: {
@@ -180,7 +204,12 @@ module Workarea
                         {
                           bool: {
                             must: [
-                              {query_string: {query: "foo"}}
+                              {
+                                query_string: {
+                                  query: "foo",
+                                  fields: ['content.*']
+                                }
+                              }
                             ]
                           }
                         }
@@ -197,7 +226,8 @@ module Workarea
                             must: [
                               {
                                 query_string: {
-                                  query: "bar"
+                                  query: "bar",
+                                  fields: ['content.*']
                                 }
                               }
                             ]
@@ -236,7 +266,8 @@ module Workarea
           [
             {
               query_string: {
-                query: "bar"
+                query: "bar",
+                fields: ['content.*']
               }
             },
             {
@@ -254,7 +285,10 @@ module Workarea
                           bool: {
                             must: [
                               {
-                                query_string: { query: "foo" }
+                                query_string: {
+                                  query: "foo",
+                                  fields: ['content.*']
+                                }
                               },
                               {
                                 bool: {
@@ -270,7 +304,12 @@ module Workarea
                                           {
                                             bool: {
                                               must: [
-                                                { query_string: { query: "bar" } }
+                                                {
+                                                  query_string: {
+                                                    query: "bar",
+                                                    fields: ['content.*']
+                                                  }
+                                                }
                                               ]
                                             }
                                           }

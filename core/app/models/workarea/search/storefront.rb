@@ -13,8 +13,12 @@ module Workarea
       end
 
       def self.ensure_product_mappings
+        # Ensure at least one concrete `content.*` field (e.g. `content.name`)
+        # exists in the index mapping. Percolator queries (used for category
+        # rules) rely on wildcard field expansion like `content.*`, which only
+        # works once Elasticsearch has seen an actual field under that object.
         product = Workarea::Search::Storefront::Product.new(
-          Workarea::Catalog::Product.new(id: 'null_product')
+          Workarea::Catalog::Product.new(id: 'null_product', name: 'Null Product')
         )
         product.save
         Storefront.delete(product.id)

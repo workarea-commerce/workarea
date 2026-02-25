@@ -38,16 +38,21 @@ module Workarea
       def create!(force: false)
         delete! if force
 
-        Workarea.elasticsearch.indices.create(
-          index: name,
-          body: {
-            settings: Search::Settings.current.elasticsearch_settings,
-            mappings: mappings,
-            aliases: aliases
-          }
-        )
-      rescue ::Elasticsearch::Transport::Transport::Errors::BadRequest => e
-        raise unless e.message.include?('resource_already_exists_exception')
+        primary_payload = create_mappings_payload
+        create_index_with_retry!(primary_payload)
+      rescue ::Elasticsearch::Transport::Transport::Errors::BadRequest,
+             ::Elasticsearch::Transport::Transport::Errors::InternalServerError => e
+        return if resource_already_exists_exception?(e)
+        raise unless class_cast_exception?(e)
+
+        fallback_payload = (primary_payload == mappings) ? typed_mappings : mappings
+
+        begin
+          create_index_with_retry!(fallback_payload)
+        rescue ::Elasticsearch::Transport::Transport::Errors::BadRequest,
+               ::Elasticsearch::Transport::Transport::Errors::InternalServerError => retry_error
+          raise unless resource_already_exists_exception?(retry_error)
+        end
       end
 
       def delete!
@@ -73,7 +78,7 @@ module Workarea
       # `type` argument for `index`, `update`, and `delete`. Using the transport
       # layer lets us hit the ES 7.x endpoints that don't accept a type parameter.
       def save(document, options = {})
-        id = find_id_from(document)
+        id = escape_url_component(find_id_from(document))
         params = { refresh: Workarea.config.auto_refresh_search }.merge(options)
         body = document
 
@@ -83,12 +88,21 @@ module Workarea
       end
 
       def update(document, options = {})
-        id = find_id_from(document)
+        id = escape_url_component(find_id_from(document))
         params = { refresh: Workarea.config.auto_refresh_search }.merge(options)
         body = { doc: document }
 
+        # Elasticsearch 6.x requires a mapping type segment in the update URL.
+        # Without it, ES interprets "_update" as the type name and raises:
+        #   invalid_type_name_exception: mapping type name can't start with '_'
+        path = if server_major_version < 7
+                 "#{name}/_doc/#{id}/_update"
+               else
+                 "#{name}/_update/#{id}"
+               end
+
         Workarea.elasticsearch.transport
-          .perform_request('POST', "#{name}/_update/#{id}", params, body)
+          .perform_request('POST', path, params, body)
           .body
       end
 
@@ -101,10 +115,13 @@ module Workarea
           body: documents.map do |document|
                   action = document.delete(:bulk_action).try(:to_sym) || :index
 
+                  metadata = { _id: find_id_from(document) }
+                  metadata[:_type] = '_doc' if bulk_requires_type?
+
                   if action == :delete
-                    { action => { _id: find_id_from(document) } }
+                    { action => metadata }
                   else
-                    { action => { _id: find_id_from(document), data: document } }
+                    { action => metadata.merge(data: document) }
                   end
                 end
         }
@@ -113,6 +130,7 @@ module Workarea
       end
 
       def delete(id, options = {})
+        id = escape_url_component(id)
         params = { refresh: Workarea.config.auto_refresh_search, ignore: [404] }
           .merge(options)
 
@@ -157,6 +175,90 @@ module Workarea
       end
 
       private
+
+      # Elasticsearch transport performs simple URI parsing; document IDs may
+      # contain spaces or other characters that must be URL-escaped.
+      def escape_url_component(value)
+        require 'cgi'
+        CGI.escape(value.to_s).gsub('+', '%20')
+      end
+
+      CREATE_INDEX_RETRIES = 3
+      CREATE_INDEX_RETRY_BASE_DELAY = 0.1
+
+      def create_index_with_retry!(mappings_payload)
+        attempts = 0
+
+        begin
+          create_index!(mappings_payload)
+        rescue ::Elasticsearch::Transport::Transport::Errors::BadRequest,
+               ::Elasticsearch::Transport::Transport::Errors::InternalServerError => e
+          raise if resource_already_exists_exception?(e)
+          raise unless class_cast_exception?(e)
+
+          attempts += 1
+          raise if attempts > CREATE_INDEX_RETRIES
+
+          sleep(CREATE_INDEX_RETRY_BASE_DELAY * (2**(attempts - 1)))
+          retry
+        end
+      end
+
+      def create_index!(mappings_payload)
+        Workarea.elasticsearch.indices.create(
+          index: name,
+          body: {
+            settings: Search::Settings.current.elasticsearch_settings,
+            mappings: mappings_payload,
+            aliases: aliases
+          }
+        )
+      end
+
+      def create_mappings_payload
+        # Elasticsearch 6.x expects mappings to be nested under a single mapping
+        # type (even though ES 7+ removed mapping types entirely). If we send a
+        # typeless mappings hash to ES 6.x, it interprets keys like
+        # `dynamic_templates` as a type name and can raise:
+        #   java.util.ArrayList cannot be cast to java.util.Map
+        #
+        # Elasticsearch 7+ expects typeless mappings.
+        #
+        # IMPORTANT: Use the connected server version here (not the gem default),
+        # because the Workarea gem can be built with an ES 7+ default while CI
+        # (and many deployments) still run ES 6.
+        if server_major_version >= 7
+          mappings
+        else
+          typed_mappings
+        end
+      end
+
+      def typed_mappings
+        { _doc: mappings }
+      end
+
+      def resource_already_exists_exception?(error)
+        error.message.include?('resource_already_exists_exception')
+      end
+
+      def class_cast_exception?(error)
+        error.message.include?('class_cast_exception') ||
+          error.message.include?('java.util.ArrayList cannot be cast to java.util.Map')
+      end
+
+      def bulk_requires_type?
+        server_major_version < 7
+      end
+
+      def server_major_version
+        @server_major_version ||= begin
+          version = Workarea.elasticsearch.info.dig('version', 'number').to_s
+          Integer(version.split('.').first)
+        rescue StandardError
+          Workarea::VERSION::ELASTICSEARCH::MAJOR
+        end
+      end
 
       def find_id_from(document)
         document[:id] || document['id'] || document[:_id] || document['_id']

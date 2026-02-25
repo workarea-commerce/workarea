@@ -59,6 +59,14 @@ module Workarea
             }
           }
 
+        # Explicitly confirm shipping service selection.
+        # The addresses step auto-selects a default shipping service, but the
+        # addresses controller redirects to /checkout/shipping when the order
+        # requires shipping.  Patching shipping here ensures the checkout
+        # passes its complete? check before place_order is attempted.
+        patch storefront.checkout_shipping_path,
+          headers: checkout_headers
+
         patch storefront.checkout_place_order_path,
           headers: checkout_headers,
           params: {

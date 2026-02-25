@@ -107,21 +107,33 @@ module Workarea
         #
         # if post, clear cache and super
         # else fetch or perform and store
-        def perform_request(method, path, params={}, body=nil)
+        def perform_request(method, path, params = {}, body = nil)
           return super unless QueryCache.enabled?
 
-          method = @send_get_body_as if 'GET' == method && body
-          if method == 'GET'
-            cache_key = [method, path, params, body]
+          # elasticsearch-ruby may send search requests with a request body as
+          # POST (or convert GET-with-body into POST). Those are still read-only
+          # operations and should be cacheable.
+          original_method = method.to_s.upcase
+          method = original_method
+          method = @send_get_body_as.to_s.upcase if method == 'GET' && body
 
-            unless response = QueryCache.cache_table[cache_key]
-              response = transport.perform_request method, path, params, body
+          cacheable_post = (
+            method == 'POST' &&
+            path.end_with?('/_search')
+          )
+
+          if method == 'GET' || cacheable_post
+            cache_key = [original_method, method, path.to_s, params, body]
+
+            unless (response = QueryCache.cache_table[cache_key])
+              response = transport.perform_request(method, path, params, body)
               QueryCache.cache_table[cache_key] = response
             end
+
             response
           else
             QueryCache.clear_cache
-            transport.perform_request method, path, params, body
+            transport.perform_request(method, path, params, body)
           end
         end
       end

@@ -19,7 +19,7 @@ module Workarea
       end
 
       def amount
-        if model.respond_to?(:amount_type) && model.amount_type == :percent
+        if model.respond_to?(:amount_type) && model.amount_type.to_s == 'percent'
           "#{model.amount.to_i}%"
         else
           ActionController::Base.helpers.number_to_currency(model.amount)

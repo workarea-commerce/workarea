@@ -12,27 +12,39 @@ module Workarea
             product = product.in_release(Release.current) if product.persisted?
             search_model = Product.new(product, skip_categorization: true)
 
-            begin
-              find!(id: search_model.id)
-            rescue
-              begin
-                find!(document: search_model.as_document)
-              rescue ::Elasticsearch::Transport::Transport::ServerError
-                []
-              end
-            end
+            find!(document: search_model.as_document)
+          rescue ::Elasticsearch::Transport::Transport::Errors::NotFound,
+                 ::Elasticsearch::Transport::Transport::Errors::ServiceUnavailable,
+                 ::Elasticsearch::Transport::Transport::ServerError
+            []
+          end
+
+          def percolate_document_type
+            # ES 7+ removed mapping types. ES 6 still supports a single type.
+            version = Workarea.elasticsearch.info.dig('version', 'number').to_s
+            major = Integer(version.split('.').first)
+            major < 7 ? '_doc' : nil
+          rescue StandardError
+            nil
           end
 
           def find!(options)
+            percolate_options = options.merge(
+              field: 'query',
+              index: Storefront.current_index.name
+            )
+
+            # ES 6 still has mapping types but Workarea stores percolator docs
+            # under the single `_doc` type. Using the legacy `category` type
+            # causes percolate queries to return no matches.
+            if (doc_type = percolate_document_type).present?
+              percolate_options[:document_type] = doc_type
+            end
+
             results = Storefront.current_index.search(
               size: Workarea.config.product_categories_by_rules_max_count,
               query: {
-                percolate: options.merge(
-                  field: 'query',
-                  index: Storefront.current_index.name,
-                  type: Storefront.type,
-                  document_type: 'category'
-                )
+                percolate: percolate_options
               },
               post_filter: if Release.current.blank?
                 {
@@ -95,7 +107,7 @@ module Workarea
         def delete
           I18n.for_each_locale do
             begin
-              Storefront.current_index.delete(category.id)
+              Storefront.current_index.delete(category.id, refresh: true)
             rescue ::Elasticsearch::Transport::Transport::Errors::NotFound
               # doesn't matter we want it deleted
             end
@@ -116,7 +128,7 @@ module Workarea
                 query: Workarea::Search::Categorization.new(rules: category.product_rules).query
               }
 
-              Storefront.current_index.save()
+              Storefront.current_index.save(document, refresh: true)
             end
           end
         end
@@ -133,7 +145,7 @@ module Workarea
                   query: Workarea::Search::Categorization.new(rules: category.product_rules).query
                 }
 
-                Storefront.current_index.save()
+                Storefront.current_index.save(document, refresh: true)
               end
             end
           end

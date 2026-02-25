@@ -15,7 +15,7 @@ services:
       - '127.0.0.1:${REDIS_PORT}:6379'
 
   elasticsearch:
-    image: "elasticsearch:${ELASTICSEARCH_VERSION}"
+    image: "docker.elastic.co/elasticsearch/elasticsearch:${ELASTICSEARCH_VERSION}"
     ports:
       - '127.0.0.1:${ELASTICSEARCH_PORT}:9200'
     volumes:

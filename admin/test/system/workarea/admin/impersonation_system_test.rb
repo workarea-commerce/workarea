@@ -22,7 +22,8 @@ module Workarea
         visit admin.user_path(user)
         click_button t('workarea.admin.users.show.impersonate')
 
-        assert_equal(storefront.users_account_path, current_path)
+        # Wait for impersonation redirect to complete (CI headless timing)
+        assert page.has_current_path?(storefront.users_account_path, wait: 10)
         assert(page.has_content?('Success'))
         assert(page.has_content?('impersonated@workarea.com'))
 

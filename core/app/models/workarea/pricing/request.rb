@@ -139,11 +139,14 @@ module Workarea
         # ensure the items get cleared out when this happens
         #
         # NOTE: On Mongoid 7, as_document can produce nested BSON::Document values
-        # (e.g. for Money fields) which then fail to deserialize properly when
-        # persisted via update_attributes!. as_json performs a deep, JSON-safe
-        # conversion so values can be cast correctly when written.
+        # (e.g. for Money fields) which can fail to deserialize when persisted
+        # directly via update_attributes!.
+        #
+        # Avoid as_json here because it stringifies Time values (ISO8601), which
+        # later breaks Mongoid Time demongoization for typed fields. Convert only
+        # hash-like BSON structures and keep scalar values (including Time) intact.
         @persisted_order.update_attributes!(
-          order.as_json.reverse_merge('items' => [])
+          deep_convert_hash_like(order.as_document).reverse_merge('items' => [])
         )
         cache_key.order = @persisted_order
         @persisted_order.set(pricing_cache_key: cache_key.to_s)
@@ -151,12 +154,27 @@ module Workarea
 
       def save_shippings
         shippings.each do |tmp_shipping|
-          shipping_attrs = tmp_shipping.as_document
+          # Apply the same BSON::Document flattening used in save_order so that
+          # nested BSON::Documents (e.g. Money fields) are converted to plain
+          # Ruby Hashes before Mongoid tries to demongoize them.
+          shipping_attrs = deep_convert_hash_like(tmp_shipping.as_document)
           matching_shipping = @persisted_shippings.detect do |s|
              s.id == tmp_shipping.id
           end
 
           matching_shipping.update_attributes!(shipping_attrs)
+        end
+      end
+
+      def deep_convert_hash_like(value)
+        if defined?(::BSON::Document) && value.is_a?(::BSON::Document)
+          value.to_h.transform_values { |v| deep_convert_hash_like(v) }
+        elsif value.is_a?(::Hash)
+          value.to_h.transform_values { |v| deep_convert_hash_like(v) }
+        elsif value.is_a?(::Array)
+          value.map { |v| deep_convert_hash_like(v) }
+        else
+          value
         end
       end
     end

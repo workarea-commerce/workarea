@@ -46,7 +46,7 @@ module Workarea
         click_button 'save_setup'
 
         visit admin.catalog_categories_path
-        click_link 'Test Category'
+        click_link 'Test Category', match: :first
         click_link 'Attributes'
 
         select 'Fall Release', from: 'release_id'

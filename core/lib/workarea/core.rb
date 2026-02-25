@@ -62,6 +62,16 @@ require 'lingua/stemmer'
 # versions can be incompatible with newer Node runtimes.
 require 'autoprefixer-rails' unless (defined?(Rails) && Rails.env.test?)
 require 'predictor'
+
+# Ruby 3.2 removed Dir.exists? (deprecated alias). Some dependencies (e.g.
+# js-routes 1.4.x) still call it. Define the alias early so Workarea can boot
+# under newer Rubies while we work through upgrades.
+unless Dir.respond_to?(:exists?)
+  class << Dir
+    alias_method :exists?, :exist?
+  end
+end
+
 require 'js_routes'
 require 'mongoid/active_merchant'
 require 'normalize-rails'
@@ -141,6 +151,7 @@ require 'workarea/ext/mongoid/except'
 require 'workarea/ext/mongoid/timestamps_timeless'
 require 'workarea/ext/mongoid/error'
 require 'workarea/ext/mongoid/lookup_hash'
+require 'workarea/ext/mongoid/time_demongoize_string'
 require 'workarea/ext/active_shipping/workarea'
 require 'workarea/ext/mongoid/audit_log_entry'
 require 'workarea/ext/mongoid/find_ordered'

@@ -21,6 +21,17 @@ module Workarea
       #
       field :type_id, type: String
 
+      # Historically this has been treated like an identifier symbol throughout
+      # the admin/UI layer. Ruby 3 + Mongoid will consistently return strings,
+      # so normalize to a symbol for callers.
+      def type_id
+        super&.to_sym
+      end
+
+      def type_id=(value)
+        super(value.to_s)
+      end
+
       # @!attribute area
       #   @return [String] what area on the page this block belongs to
       #

@@ -32,7 +32,7 @@ module Workarea
     def find_existing_file(source_path)
       workarea_plugin_paths
         .map { |plugin_root| File.join(plugin_root, source_path) }
-        .detect { |path| File.exists?(path) }
+        .detect { |path| File.exist?(path) }
     end
 
     def workarea_plugin_paths

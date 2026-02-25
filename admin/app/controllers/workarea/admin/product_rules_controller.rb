@@ -87,9 +87,13 @@ module Workarea
 
       def validate_query_syntax
         return unless @product_rule.name == 'search'
-        Search::CategoryBrowse.new(rules: [@product_rule]).results
-      rescue ::Elasticsearch::Transport::Transport::ServerError
-        @product_rule.errors.add(:base, t('workarea.admin.product_rules.invalid_lucene_syntax'))
+
+        unless Workarea::Search::LuceneSyntaxValidator.valid?(@product_rule.value)
+          @product_rule.errors.add(
+            :base,
+            t('workarea.admin.product_rules.invalid_lucene_syntax')
+          )
+        end
       end
     end
   end

@@ -46,7 +46,8 @@ module Workarea
       private
 
       def search_clauses_for(rule)
-        [{ query_string: { query: rule.value } }]
+        query = QueryString.new(rule.value).sanitized.presence || '*'
+        [{ query_string: { query: query, fields: ['content.*'] } }]
       end
 
       def equality_clauses_for(rule)

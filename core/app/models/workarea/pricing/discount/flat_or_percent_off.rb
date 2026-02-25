@@ -3,7 +3,8 @@ module Workarea
     class Discount
       module FlatOrPercentOff
         extend ActiveSupport::Concern
-        AMOUNT_TYPES = %w(percent flat)
+        AMOUNT_TYPES = %w(percent flat).freeze
+        AMOUNT_TYPE_VALUES = (AMOUNT_TYPES + AMOUNT_TYPES.map(&:to_sym)).freeze
 
         included do
           # @!attribute amount_type
@@ -16,7 +17,7 @@ module Workarea
           #
           field :amount, type: Float
 
-          validates :amount_type, presence: true, inclusion: AMOUNT_TYPES
+          validates :amount_type, presence: true, inclusion: AMOUNT_TYPE_VALUES
           validates :amount,
             presence: true,
             numericality: { greater_than: 0, allow_blank: true },
@@ -31,6 +32,17 @@ module Workarea
             if: :percent?
 
           delegate :percent?, to: :amount_calculator
+
+          # Historically this has been treated like an identifier symbol
+          # throughout the admin/UI layer. Ruby 3 + Mongoid will consistently
+          # return strings for String-typed fields, so normalize to a symbol.
+          def amount_type
+            super&.to_sym
+          end
+
+          def amount_type=(value)
+            super(value.to_s)
+          end
         end
 
         # The calculator used to calculate how much this discount should
