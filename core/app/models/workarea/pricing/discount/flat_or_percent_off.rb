@@ -4,6 +4,7 @@ module Workarea
       module FlatOrPercentOff
         extend ActiveSupport::Concern
         AMOUNT_TYPES = %w(percent flat).freeze
+        AMOUNT_TYPE_VALUES = (AMOUNT_TYPES + AMOUNT_TYPES.map(&:to_sym)).freeze
 
         included do
           # @!attribute amount_type
@@ -16,7 +17,7 @@ module Workarea
           #
           field :amount, type: Float
 
-          validates :amount_type, presence: true, inclusion: AMOUNT_TYPES
+          validates :amount_type, presence: true, inclusion: AMOUNT_TYPE_VALUES
           validates :amount,
             presence: true,
             numericality: { greater_than: 0, allow_blank: true },
