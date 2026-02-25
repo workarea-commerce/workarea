@@ -26,7 +26,7 @@ module Workarea
         end
       end
 
-      def test_create_retries_with_same_payload_when_es5_cast_error_is_raised
+      def test_create_retries_with_same_payload_when_es5_cast_error_is_raised_without_fallback
         cast_error = ::Elasticsearch::Transport::Transport::Errors::BadRequest.new(
           '[400] {"error":{"type":"class_cast_exception","reason":"java.util.ArrayList cannot be cast to java.util.Map"}}'
         )
@@ -52,7 +52,7 @@ module Workarea
         )
       end
 
-      def test_create_retries_with_same_payload_when_es5_cast_error_is_500
+      def test_create_retries_with_same_payload_when_es5_cast_error_is_500_without_fallback
         cast_error = ::Elasticsearch::Transport::Transport::Errors::InternalServerError.new(
           '[500] {"error":{"type":"class_cast_exception","reason":"java.util.ArrayList cannot be cast to java.util.Map"}}'
         )
@@ -89,7 +89,10 @@ module Workarea
 
         fake_settings = Struct.new(:elasticsearch_settings).new({ number_of_shards: 1 })
         Search::Settings.stubs(:current).returns(fake_settings)
-        index.stubs(:sleep)
+
+        seq = sequence('backoff')
+        index.expects(:sleep).with(0.1).in_sequence(seq)
+        index.expects(:sleep).with(0.2).in_sequence(seq)
 
         Workarea.stubs(:elasticsearch).returns(client)
         index.create!
