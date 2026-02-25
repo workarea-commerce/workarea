@@ -3668,6 +3668,7 @@ en:
         edit:
           page_title: Edit %{name}
         flash_messages:
+          saved: Your changes have been saved
           removed: The segment has been removed.
         index:
           page_title: Segments

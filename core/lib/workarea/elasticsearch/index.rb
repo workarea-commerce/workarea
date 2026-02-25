@@ -78,7 +78,7 @@ module Workarea
       # `type` argument for `index`, `update`, and `delete`. Using the transport
       # layer lets us hit the ES 7.x endpoints that don't accept a type parameter.
       def save(document, options = {})
-        id = find_id_from(document)
+        id = escape_url_component(find_id_from(document))
         params = { refresh: Workarea.config.auto_refresh_search }.merge(options)
         body = document
 
@@ -88,7 +88,7 @@ module Workarea
       end
 
       def update(document, options = {})
-        id = find_id_from(document)
+        id = escape_url_component(find_id_from(document))
         params = { refresh: Workarea.config.auto_refresh_search }.merge(options)
         body = { doc: document }
 
@@ -121,6 +121,7 @@ module Workarea
       end
 
       def delete(id, options = {})
+        id = escape_url_component(id)
         params = { refresh: Workarea.config.auto_refresh_search, ignore: [404] }
           .merge(options)
 
@@ -165,6 +166,13 @@ module Workarea
       end
 
       private
+
+      # Elasticsearch transport performs simple URI parsing; document IDs may
+      # contain spaces or other characters that must be URL-escaped.
+      def escape_url_component(value)
+        require 'cgi'
+        CGI.escape(value.to_s).gsub('+', '%20')
+      end
 
       CREATE_INDEX_RETRIES = 3
       CREATE_INDEX_RETRY_BASE_DELAY = 0.1

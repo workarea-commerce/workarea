@@ -1,0 +1,7 @@
+es:
+  workarea:
+    admin:
+      catalog_products:
+        flash_messages:
+          saved: Your changes have been saved
+          deleted: Product has been deleted

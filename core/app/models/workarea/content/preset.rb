@@ -21,6 +21,14 @@ module Workarea
       #
       field :type_id, type: String
 
+      def type_id
+        super&.to_sym
+      end
+
+      def type_id=(value)
+        super(value.to_s)
+      end
+
       # @!attribute name
       #   @return [String]
       #

@@ -8,7 +8,9 @@ module Workarea
         dashboard = Dashboards::IndexViewModel.new
 
         users.map do |user|
-          report(user.email, user: user, alerts: alerts, dashboard: dashboard)
+          # Ruby 3 keyword arg forwarding requires explicit ** when calling
+          # ActionMailer-generated class methods.
+          report(user.email, **{ user: user, alerts: alerts, dashboard: dashboard })
         end
       end
 

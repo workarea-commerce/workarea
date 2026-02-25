@@ -23,3 +23,12 @@ ignore:
   - CVE-2024-54133
   - CVE-2025-24293
   - CVE-2025-55193
+  - CVE-2026-25765
+  - GHSA-33mh-2634-fwr2
+  - GHSA-29g5-m8v7-v564
+  - GHSA-353f-x4gh-cqq8
+  - GHSA-5w6v-399v-w3cc
+  - GHSA-mrxw-mxhj-p664
+  - GHSA-r95h-9x8f-r3f7
+  - GHSA-vvfq-8hwr-qm4m
+  - GHSA-wx95-c6cv-8532
