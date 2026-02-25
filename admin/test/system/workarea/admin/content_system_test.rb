@@ -112,7 +112,8 @@ module Workarea
         assert(page.has_content?('Success'))
 
         find('.content-block').hover
-        find('.content-block__add-button--bottom').click
+        assert_selector('.content-block__add-button--bottom', visible: :all)
+        find('.content-block__add-button--bottom', visible: :all).click
 
         click_link 'Recommendations'
         click_button 'create_block'
