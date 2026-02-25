@@ -33,7 +33,9 @@ module Workarea
 
         indices = FakeIndices.new([cast_error])
         client = FakeClient.new(indices)
-        index = Index.new('test-index', dynamic_templates: [{ foo: { mapping: { type: 'keyword' } } }])
+        mappings = { dynamic_templates: [{ foo: { mapping: { type: 'keyword' } } }] }
+        index = Index.new('test-index', mappings)
+        index.stubs(:create_mappings_payload).returns(mappings)
 
         fake_settings = Struct.new(:elasticsearch_settings).new(number_of_shards: 1)
         Search::Settings.stubs(:current).returns(fake_settings)
@@ -56,7 +58,9 @@ module Workarea
 
         indices = FakeIndices.new([cast_error])
         client = FakeClient.new(indices)
-        index = Index.new('test-index', dynamic_templates: [{ foo: { mapping: { type: 'keyword' } } }])
+        mappings = { dynamic_templates: [{ foo: { mapping: { type: 'keyword' } } }] }
+        index = Index.new('test-index', mappings)
+        index.stubs(:create_mappings_payload).returns(mappings)
 
         fake_settings = Struct.new(:elasticsearch_settings).new(number_of_shards: 1)
         Search::Settings.stubs(:current).returns(fake_settings)
@@ -66,6 +70,57 @@ module Workarea
         end
 
         assert_equal(2, indices.create_calls.size)
+        assert_equal(
+          { _doc: { dynamic_templates: [{ foo: { mapping: { type: 'keyword' } } }] } },
+          indices.create_calls.last.dig(:body, :mappings)
+        )
+      end
+
+      def test_create_retries_with_backoff_using_same_payload_before_fallback
+        cast_error = ::Elasticsearch::Transport::Transport::Errors::InternalServerError.new(
+          '[500] {"error":{"type":"class_cast_exception","reason":"java.util.ArrayList cannot be cast to java.util.Map"}}'
+        )
+
+        indices = FakeIndices.new([cast_error, cast_error])
+        client = FakeClient.new(indices)
+        mappings = { dynamic_templates: [{ foo: { mapping: { type: 'keyword' } } }] }
+        index = Index.new('test-index', mappings)
+        index.stubs(:create_mappings_payload).returns(mappings)
+
+        fake_settings = Struct.new(:elasticsearch_settings).new(number_of_shards: 1)
+        Search::Settings.stubs(:current).returns(fake_settings)
+        index.stubs(:sleep)
+
+        Workarea.stub(:elasticsearch, client) do
+          index.create!
+        end
+
+        assert_equal(3, indices.create_calls.size)
+        assert_equal(mappings, indices.create_calls.first.dig(:body, :mappings))
+        assert_equal(mappings, indices.create_calls[1].dig(:body, :mappings))
+        assert_equal(mappings, indices.create_calls[2].dig(:body, :mappings))
+      end
+
+      def test_create_falls_back_to_typed_mappings_after_exhausting_retries
+        cast_error = ::Elasticsearch::Transport::Transport::Errors::InternalServerError.new(
+          '[500] {"error":{"type":"class_cast_exception","reason":"java.util.ArrayList cannot be cast to java.util.Map"}}'
+        )
+
+        indices = FakeIndices.new([cast_error, cast_error, cast_error, cast_error])
+        client = FakeClient.new(indices)
+        mappings = { dynamic_templates: [{ foo: { mapping: { type: 'keyword' } } }] }
+        index = Index.new('test-index', mappings)
+        index.stubs(:create_mappings_payload).returns(mappings)
+
+        fake_settings = Struct.new(:elasticsearch_settings).new(number_of_shards: 1)
+        Search::Settings.stubs(:current).returns(fake_settings)
+        index.stubs(:sleep)
+
+        Workarea.stub(:elasticsearch, client) do
+          index.create!
+        end
+
+        assert_equal(5, indices.create_calls.size)
         assert_equal(
           { _doc: { dynamic_templates: [{ foo: { mapping: { type: 'keyword' } } }] } },
           indices.create_calls.last.dig(:body, :mappings)

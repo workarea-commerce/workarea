@@ -38,17 +38,20 @@ module Workarea
       def create!(force: false)
         delete! if force
 
-        create_index!(mappings)
+        primary_payload = create_mappings_payload
+        create_index_with_retry!(primary_payload)
       rescue ::Elasticsearch::Transport::Transport::Errors::BadRequest,
              ::Elasticsearch::Transport::Transport::Errors::InternalServerError => e
-        return if e.message.include?('resource_already_exists_exception')
-        raise unless e.message.include?('java.util.ArrayList cannot be cast to java.util.Map')
+        return if resource_already_exists_exception?(e)
+        raise unless class_cast_exception?(e)
+
+        fallback_payload = (primary_payload == mappings) ? typed_mappings : mappings
 
         begin
-          create_index!(typed_mappings)
+          create_index_with_retry!(fallback_payload)
         rescue ::Elasticsearch::Transport::Transport::Errors::BadRequest,
                ::Elasticsearch::Transport::Transport::Errors::InternalServerError => retry_error
-          raise unless retry_error.message.include?('resource_already_exists_exception')
+          raise unless resource_already_exists_exception?(retry_error)
         end
       end
 
@@ -160,6 +163,27 @@ module Workarea
 
       private
 
+      CREATE_INDEX_RETRIES = 3
+      CREATE_INDEX_RETRY_BASE_DELAY = 0.1
+
+      def create_index_with_retry!(mappings_payload)
+        attempts = 0
+
+        begin
+          create_index!(mappings_payload)
+        rescue ::Elasticsearch::Transport::Transport::Errors::BadRequest,
+               ::Elasticsearch::Transport::Transport::Errors::InternalServerError => e
+          raise if resource_already_exists_exception?(e)
+          raise unless class_cast_exception?(e)
+
+          attempts += 1
+          raise if attempts > CREATE_INDEX_RETRIES
+
+          sleep(CREATE_INDEX_RETRY_BASE_DELAY * (2**(attempts - 1)))
+          retry
+        end
+      end
+
       def create_index!(mappings_payload)
         Workarea.elasticsearch.indices.create(
           index: name,
@@ -171,8 +195,32 @@ module Workarea
         )
       end
 
+      def create_mappings_payload
+        # Elasticsearch 6.x expects mappings to be nested under a single mapping
+        # type (even though ES 7+ removed mapping types entirely). If we send a
+        # typeless mappings hash to ES 6.x, it interprets keys like
+        # `dynamic_templates` as a type name and can raise:
+        #   java.util.ArrayList cannot be cast to java.util.Map
+        #
+        # Elasticsearch 7+ expects typeless mappings.
+        if Workarea::VERSION::ELASTICSEARCH::MAJOR >= 7
+          mappings
+        else
+          typed_mappings
+        end
+      end
+
       def typed_mappings
         { _doc: mappings }
+      end
+
+      def resource_already_exists_exception?(error)
+        error.message.include?('resource_already_exists_exception')
+      end
+
+      def class_cast_exception?(error)
+        error.message.include?('class_cast_exception') ||
+          error.message.include?('java.util.ArrayList cannot be cast to java.util.Map')
       end
 
       def find_id_from(document)
