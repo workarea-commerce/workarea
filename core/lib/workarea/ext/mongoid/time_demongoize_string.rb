@@ -13,15 +13,22 @@ module Workarea
       if object.is_a?(String)
         require 'time'
 
-        object = begin
+        parsed = begin
           ::Time.iso8601(object)
         rescue ArgumentError
           begin
             ::Time.parse(object)
           rescue ArgumentError
-            object
+            nil
           end
         end
+
+        # If the string isn't parseable as a Time, return it unchanged.
+        # Calling Mongoid's `demongoize` with a String can crash when it
+        # calls `getlocal`.
+        return object if parsed.nil?
+
+        object = parsed
       end
 
       super(object)
