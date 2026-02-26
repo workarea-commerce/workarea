@@ -25,7 +25,7 @@ module Workarea
           apply_pricing!(product)
           apply_inventory!(product)
 
-          product.update_attributes!(settings)
+          product.update!(settings)
         end
       end
 
@@ -54,7 +54,7 @@ module Workarea
           sku_pricing = pricing.dup
           changes = sku_pricing.delete('prices')
 
-          sku.update_attributes!(sku_pricing)
+          sku.update!(sku_pricing)
           sku.prices.build unless sku.prices.any?
 
           sku.prices.each do |price|
@@ -77,7 +77,7 @@ module Workarea
         collection = Inventory::Collection.new(product.skus)
 
         collection.records.each do |record|
-          record.update_attributes!(inventory)
+          record.update!(inventory)
         end
       end
     end

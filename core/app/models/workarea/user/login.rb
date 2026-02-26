@@ -55,7 +55,7 @@ module Workarea
       end
 
       def update_login!(request)
-        update_attributes!(
+        update!(
           ip_address: request.ip,
           user_agent: request.user_agent
         )

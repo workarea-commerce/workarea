@@ -15,7 +15,7 @@ module Workarea
       def process!
         set(started_at: Time.current)
         run_callbacks(:process) { format.export! }
-        update_attributes!(file: tempfile.tap(&:close), completed_at: Time.current)
+        update!(file: tempfile.tap(&:close), completed_at: Time.current)
       end
 
       def models

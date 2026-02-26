@@ -26,7 +26,7 @@ module Workarea
         user.auto_save_billing_address(billing_address)
 
         if user.public_info.blank?
-          user.update_attributes!(
+          user.update!(
             first_name: billing_address[:first_name],
             last_name: billing_address[:last_name]
           )

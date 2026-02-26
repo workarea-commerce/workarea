@@ -179,7 +179,7 @@ module Workarea
       # Automatically deactivates a discount
       #
       def auto_deactivate!
-        update_attributes!(active: false, auto_deactivated_at: Time.current)
+        update!(active: false, auto_deactivated_at: Time.current)
       end
 
       # Whether this discount qualifies for this order. It does so
