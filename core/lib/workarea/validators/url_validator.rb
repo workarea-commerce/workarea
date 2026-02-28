@@ -5,7 +5,7 @@ class UrlValidator < ActiveModel::EachValidator
 
   def validate_each(record, attribute, value)
     unless self.class.valid_url?(value)
-      record.errors[attribute] << (options[:message] || "must be a valid")
+      record.errors.add(attribute, options[:message] || "must be a valid")
     end
   end
 end
