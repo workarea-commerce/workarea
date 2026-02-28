@@ -68,7 +68,7 @@ module Workarea
 
     def test_cleans_up_tmp_directory
       GenerateSitemaps.new.perform
-      refute(Dir.exists?(Rails.root.join('tmp', 'sitemaps')))
+      refute(Dir.exist?(Rails.root.join('tmp', 'sitemaps')))
     end
 
     def test_overwrites_existing_sitemap
