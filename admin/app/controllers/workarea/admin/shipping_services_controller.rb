@@ -30,7 +30,7 @@ module Workarea
     def update
       build_rules
 
-      if @service.update_attributes(params[:service])
+      if @service.update(params[:service])
         flash[:success] = t('workarea.admin.shipping_services.flash_messages.saved')
         redirect_to shipping_services_path
       else
@@ -60,7 +60,7 @@ module Workarea
         params[:rates].each do |rate, attrs|
           if attrs[:price].present?
             attrs.each { |k,v| attrs[k] = nil if v.blank? }
-            @service.rates.find(rate).update_attributes(attrs)
+            @service.rates.find(rate).update(attrs)
           end
         end
       end

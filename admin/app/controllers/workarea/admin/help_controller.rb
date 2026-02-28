@@ -46,7 +46,7 @@ module Workarea
       end
 
       def update
-        if @help_article.update_attributes(params[:help_article])
+        if @help_article.update(params[:help_article])
           flash[:success] = t('workarea.admin.help.flash_messages.updated')
           redirect_to help_path(@help_article)
         else

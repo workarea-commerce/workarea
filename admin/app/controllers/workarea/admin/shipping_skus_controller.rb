@@ -39,7 +39,7 @@ module Workarea
       def update
         @sku = Shipping::Sku.find(params[:id])
 
-        if @sku.update_attributes(params[:sku])
+        if @sku.update(params[:sku])
           flash[:success] =
             t('workarea.admin.shipping_skus.saved', sku: @sku.id)
           redirect_to shipping_sku_path(@sku)

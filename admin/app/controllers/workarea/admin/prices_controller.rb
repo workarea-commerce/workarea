@@ -27,7 +27,7 @@ module Workarea
       end
 
       def update
-        if @price.update_attributes(price_params)
+        if @price.update(price_params)
           flash[:success] =
             t('workarea.admin.prices.flash_messages.saved', sku: @sku.id)
           redirect_to pricing_sku_prices_path(@sku)

@@ -33,7 +33,7 @@ module Workarea
       def edit; end
 
       def update
-        if @comment.update_attributes(comment_params)
+        if @comment.update(comment_params)
           flash[:success] = t('workarea.admin.comments.flash_messages.saved')
           redirect_to commentable_comments_path(@commentable.to_global_id)
         else

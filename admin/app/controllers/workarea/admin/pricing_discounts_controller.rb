@@ -23,7 +23,7 @@ module Workarea
     end
 
     def update
-      if @discount.update_attributes(params[:discount])
+      if @discount.update(params[:discount])
         flash[:success] = t('workarea.admin.pricing_discounts.flash_messages.saved')
         redirect_to pricing_discount_path(@discount)
       else

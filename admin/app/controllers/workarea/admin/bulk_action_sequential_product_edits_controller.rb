@@ -33,7 +33,7 @@ module Workarea
         set_images
         set_variants
 
-        if @product.update_attributes(params[:product])
+        if @product.update(params[:product])
           if @bulk_action.last?
             flash[:success] = t('workarea.admin.bulk_action_sequential_product_edits.flash_messages.done')
             redirect_to catalog_products_path
@@ -84,7 +84,7 @@ module Workarea
       def set_images
         if params[:image_updates].present?
           params[:image_updates].each do |id, attrs|
-            @product.images.find(id).update_attributes!(attrs)
+            @product.images.find(id).update!(attrs)
           end
         end
 

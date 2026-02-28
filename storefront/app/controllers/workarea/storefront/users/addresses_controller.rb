@@ -25,7 +25,7 @@ module Workarea
     def update
       @address = current_user.addresses.find(params[:id])
 
-      if @address.update_attributes(address_params)
+      if @address.update(address_params)
         flash[:success] = t('workarea.storefront.flash_messages.address_saved')
         redirect_to users_account_path
       else

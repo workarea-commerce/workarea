@@ -35,7 +35,7 @@ module Workarea
     end
 
     def update
-      if current_user.update_attributes(user_params)
+      if current_user.update(user_params)
         update_email_signup
         flash[:success] = t('workarea.storefront.flash_messages.account_updated')
         redirect_to users_account_path
@@ -79,7 +79,7 @@ module Workarea
 
     def save_completed_order_details(user)
       if user.email == completed_order.email
-        completed_order.update_attributes!(user_id: user.id)
+        completed_order.update!(user_id: user.id)
         SaveUserOrderDetails.new.perform(completed_order.id)
       end
 

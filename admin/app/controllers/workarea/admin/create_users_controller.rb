@@ -56,7 +56,7 @@ module Workarea
         return unless params.dig(:profile, :store_credit).present?
 
         payment_profile = Payment::Profile.lookup(PaymentReference.new(@user))
-        payment_profile.update_attributes(
+        payment_profile.update(
           store_credit: params.dig(:profile, :store_credit)
         )
       end

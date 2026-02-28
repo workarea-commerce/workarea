@@ -11,7 +11,7 @@ module Workarea
 
       def update
         @settings.sources = params[:sources].uniq if params[:sources].present?
-        if @settings.update_attributes(params[:settings])
+        if @settings.update(params[:settings])
           flash[:success] = t('workarea.admin.recommendations.flash_messages.saved')
           redirect_to catalog_product_path(@product)
         else

@@ -43,7 +43,7 @@ module Workarea
       end
 
       def update
-        if @customization.update_attributes(params[:customization])
+        if @customization.update(params[:customization])
           flash[:success] = t('workarea.admin.search_customizations.flash_messages.saved')
           redirect_to search_customization_path(@customization)
         else

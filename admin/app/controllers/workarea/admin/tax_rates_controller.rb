@@ -30,7 +30,7 @@ module Workarea
       end
 
       def update
-        if @rate.update_attributes(rate_params)
+        if @rate.update(rate_params)
           flash[:success] = t('workarea.admin.tax_rates.flash_messages.saved')
           redirect_to tax_category_rates_path
         else

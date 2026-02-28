@@ -18,7 +18,7 @@ module Workarea
       end
 
       def update
-        if @segment.update_attributes(params[:segment])
+        if @segment.update(params[:segment])
           flash[:success] = t('workarea.admin.segments.flash_messages.saved')
           redirect_to segment_path(@segment)
         else

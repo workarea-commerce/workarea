@@ -18,7 +18,7 @@ module Workarea
           range_facets: clean_range_facets.result.presence,
         }.merge(params[:settings] || {}).compact
 
-        Search::Settings.current.update_attributes!(attributes)
+        Search::Settings.current.update!(attributes)
         flash[:success] = t('workarea.admin.search_settings.flash_messages.saved')
         redirect_to return_to.presence || search_settings_path
       end

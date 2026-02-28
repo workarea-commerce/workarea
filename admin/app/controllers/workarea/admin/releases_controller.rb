@@ -34,7 +34,7 @@ module Workarea
       end
 
       def update
-        if @release.update_attributes(params[:release])
+        if @release.update(params[:release])
           flash[:success] = t('workarea.admin.releases.flash_messages.saved')
           redirect_to release_path(@release)
         else

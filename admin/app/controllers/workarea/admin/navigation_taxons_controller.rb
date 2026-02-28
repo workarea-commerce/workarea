@@ -39,7 +39,7 @@ module Workarea
     def update
       SetNavigable.new(@taxon, params).set
 
-      if @taxon.update_attributes(params[:taxon])
+      if @taxon.update(params[:taxon])
         flash[:success] = t('workarea.admin.navigation_taxons.flash_messages.updated')
         redirect_to navigation_taxons_path(taxon_ids: @taxon.parent_ids)
       else

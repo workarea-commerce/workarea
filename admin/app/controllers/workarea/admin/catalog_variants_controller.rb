@@ -36,7 +36,7 @@ module Workarea
       @variant = @product.variants.find(params[:id])
       set_details
 
-      if @variant.update_attributes(params[:variant])
+      if @variant.update(params[:variant])
         flash[:success] = t('workarea.admin.catalog_variants.flash_messages.saved')
         redirect_to catalog_product_variants_path(@product)
       else

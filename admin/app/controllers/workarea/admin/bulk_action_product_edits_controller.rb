@@ -10,7 +10,7 @@ module Workarea
       def update
         @bulk_action.reset_to_default!
 
-        if @bulk_action.update_attributes(params[:bulk_action])
+        if @bulk_action.update(params[:bulk_action])
           flash[:success] =
             t('workarea.admin.bulk_action_product_edits.flash_messages.success')
           redirect_to review_bulk_action_product_edit_path(@bulk_action)
@@ -28,7 +28,7 @@ module Workarea
         release = SavePublishing.new(nil, params).release
 
         if release.nil? || release.valid?
-          @bulk_action.update_attributes(release_id: release.try(:id))
+          @bulk_action.update(release_id: release.try(:id))
           PublishBulkAction.perform_async(@bulk_action.id)
 
           flash[:success] =

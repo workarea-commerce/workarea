@@ -35,9 +35,9 @@ module Workarea
       end
 
       def update
-        if @user.update_attributes(user_params)
+        if @user.update(user_params)
           update_email_signup
-          @user.payment_profile.update_attributes(params[:payment])
+          @user.payment_profile.update(params[:payment])
           flash[:success] = t('workarea.admin.users.flash_messages.saved')
           redirect_to user_path(@user)
         else
