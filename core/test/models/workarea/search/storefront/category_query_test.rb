@@ -87,6 +87,26 @@ module Workarea
           assert_equal([@category.id.to_s], CategoryQuery.find_by_product(@product))
         end
       end
+
+      # ES7 compatibility — percolate_document_type version detection
+      def test_percolate_document_type_returns_doc_for_elasticsearch_6
+        client = stub('es6', info: { 'version' => { 'number' => '6.8.23' } })
+        Workarea.stubs(:elasticsearch).returns(client)
+        assert_equal('_doc', CategoryQuery.percolate_document_type)
+      end
+
+      def test_percolate_document_type_returns_nil_for_elasticsearch_7
+        client = stub('es7', info: { 'version' => { 'number' => '7.17.0' } })
+        Workarea.stubs(:elasticsearch).returns(client)
+        assert_nil(CategoryQuery.percolate_document_type)
+      end
+
+      def test_percolate_document_type_returns_nil_when_version_unavailable
+        client = stub('es_unavailable')
+        client.stubs(:info).raises(StandardError, 'connection refused')
+        Workarea.stubs(:elasticsearch).returns(client)
+        assert_nil(CategoryQuery.percolate_document_type)
+      end
     end
   end
 end
