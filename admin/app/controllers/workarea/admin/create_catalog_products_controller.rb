@@ -92,7 +92,7 @@ module Workarea
       end
 
       def save_content
-        @product.update_attributes!(params[:product])
+        @product.update!(params[:product])
         flash[:success] = t('workarea.admin.content_blocks.flash_messages.saved')
         redirect_to categorization_create_catalog_product_path(@product)
       end

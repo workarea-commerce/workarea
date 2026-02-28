@@ -57,7 +57,7 @@ module Workarea
         render :change and return
       end
 
-      if current_user.update_attributes(password: params[:password])
+      if current_user.update(password: params[:password])
         flash[:success] = t('workarea.storefront.flash_messages.password_reset')
         redirect_back_or users_account_path
       else

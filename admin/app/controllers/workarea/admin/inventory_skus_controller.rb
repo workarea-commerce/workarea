@@ -36,7 +36,7 @@ module Workarea
       end
 
       def update
-        if @sku.update_attributes(params[:sku])
+        if @sku.update(params[:sku])
           flash[:success] =
             t('workarea.admin.inventory_skus.flash_messages.saved', id: @sku.id)
           redirect_to inventory_sku_path(@sku)

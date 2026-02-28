@@ -24,7 +24,7 @@ module Workarea
     end
 
     def update
-      if @page.update_attributes(params[:page])
+      if @page.update(params[:page])
         flash[:success] = t('workarea.admin.content_pages.flash_messages.saved')
         redirect_to content_page_path(@page)
       else

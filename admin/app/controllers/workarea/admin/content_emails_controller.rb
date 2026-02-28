@@ -10,7 +10,7 @@ module Workarea
     def edit; end
 
     def update
-      if @email.update_attributes(email_params)
+      if @email.update(email_params)
         flash[:success]= t(
           'workarea.admin.content_emails.flash_messages.updated',
           type: @email.type.titleize

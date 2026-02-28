@@ -28,7 +28,7 @@ module Workarea
         set_range_facets
         @category.save
 
-        if @category.update_attributes(params[:category])
+        if @category.update(params[:category])
           flash[:success] = t('workarea.admin.catalog_categories.flash_messages.saved')
           redirect_to catalog_category_path(@category)
         else

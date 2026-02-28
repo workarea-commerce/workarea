@@ -20,7 +20,7 @@ module Workarea
       set_details
       set_filters
 
-      if @product.update_attributes(params[:product])
+      if @product.update(params[:product])
         flash[:success] = t('workarea.admin.catalog_products.flash_messages.saved')
         redirect_to catalog_product_path(@product)
       else

@@ -39,7 +39,7 @@ module Workarea
     def edit; end
 
     def update
-      if @asset.update_attributes(params[:asset])
+      if @asset.update(params[:asset])
         flash[:success] = t('workarea.admin.content_assets.flash_messages.saved')
         redirect_to content_asset_path(@asset)
       else

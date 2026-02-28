@@ -42,7 +42,7 @@ module Workarea
       end
 
       def update
-        if @menu.update_attributes(params[:menu])
+        if @menu.update(params[:menu])
           flash[:success] = t('workarea.admin.navigation_menus.flash_messages.updated')
           redirect_to navigation_menus_path(menu_id: @menu)
         else
@@ -61,7 +61,7 @@ module Workarea
         position_data = params.fetch(:positions, {})
 
         position_data.each do |menu_id, position|
-          Navigation::Menu.find(menu_id).update_attributes!(position: position)
+          Navigation::Menu.find(menu_id).update!(position: position)
         end
 
         flash[:success] = t('workarea.admin.navigation_menus.flash_messages.moved')

@@ -26,7 +26,7 @@ module Workarea
       def update
         image = @product.images.find(params[:id])
 
-        if image.update_attributes(params[:image])
+        if image.update(params[:image])
           flash[:success] = t('workarea.admin.catalog_product_images.flash_messages.updated')
           redirect_to catalog_product_images_path(@product)
         else

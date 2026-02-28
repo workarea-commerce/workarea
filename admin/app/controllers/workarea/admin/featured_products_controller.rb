@@ -11,7 +11,7 @@ module Workarea
       end
 
       def update
-        @featurable.update_attributes(product_ids: params[:product_ids])
+        @featurable.update(product_ids: params[:product_ids])
         flash[:success] = t('workarea.admin.catalog_variants.flash_messages.saved')
         head :ok
       end

@@ -145,7 +145,7 @@ module Workarea
         # Avoid as_json here because it stringifies Time values (ISO8601), which
         # later breaks Mongoid Time demongoization for typed fields. Convert only
         # hash-like BSON structures and keep scalar values (including Time) intact.
-        @persisted_order.update_attributes!(
+        @persisted_order.update!(
           deep_convert_hash_like(order.as_document).reverse_merge('items' => [])
         )
         cache_key.order = @persisted_order
@@ -162,7 +162,7 @@ module Workarea
              s.id == tmp_shipping.id
           end
 
-          matching_shipping.update_attributes!(shipping_attrs)
+          matching_shipping.update!(shipping_attrs)
         end
       end
 

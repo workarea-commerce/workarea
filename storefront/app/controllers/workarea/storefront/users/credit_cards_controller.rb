@@ -25,7 +25,7 @@ module Workarea
     def update
       @credit_card = current_profile.credit_cards.find(params[:id])
 
-      if @credit_card.update_attributes(credit_card_params)
+      if @credit_card.update(credit_card_params)
         flash[:success] = t('workarea.storefront.flash_messages.credit_card_updated')
         redirect_to users_account_path
       else

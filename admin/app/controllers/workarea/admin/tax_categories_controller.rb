@@ -25,7 +25,7 @@ module Workarea
       end
 
       def update
-        if @category.update_attributes(params[:category])
+        if @category.update(params[:category])
           flash[:success] = t('workarea.admin.tax_categories.flash_messages.saved')
           redirect_to tax_category_path(@category)
         else

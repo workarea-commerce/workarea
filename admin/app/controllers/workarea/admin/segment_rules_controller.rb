@@ -23,7 +23,7 @@ module Workarea
       end
 
       def update
-        if @rule.update_attributes(params[:rule])
+        if @rule.update(params[:rule])
           flash[:success] = t('workarea.admin.segment_rules.flash_messages.saved')
           redirect_to return_to || segment_rules_path(@segment)
         else
