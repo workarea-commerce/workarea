@@ -187,6 +187,45 @@ module Workarea
         metadata = bulk_calls.first[:body].first[:delete]
         assert_equal('_doc', metadata[:_type])
       end
+
+      # ES7 typeless mappings — index creation
+      def test_create_mappings_payload_is_typeless_for_elasticsearch_7
+        client = stub('es7_create', info: { 'version' => { 'number' => '7.17.0' } })
+        mappings = { dynamic_templates: [{ foo: { mapping: { type: 'keyword' } } }] }
+        index = Index.new('test-index', mappings)
+        Workarea.stubs(:elasticsearch).returns(client)
+
+        assert_equal(mappings, index.send(:create_mappings_payload))
+      end
+
+      def test_create_mappings_payload_wraps_type_for_elasticsearch_6
+        client = stub('es6_create', info: { 'version' => { 'number' => '6.8.23' } })
+        mappings = { dynamic_templates: [{ foo: { mapping: { type: 'keyword' } } }] }
+        index = Index.new('test-index', mappings)
+        Workarea.stubs(:elasticsearch).returns(client)
+
+        assert_equal({ _doc: mappings }, index.send(:create_mappings_payload))
+      end
+
+      def test_bulk_delete_does_not_include_type_metadata_for_elasticsearch_7
+        bulk_calls = []
+        client = stub(
+          'elasticsearch_7_delete',
+          info: { 'version' => { 'number' => '7.17.0' } },
+          bulk: nil
+        )
+        client.define_singleton_method(:bulk) do |*args, **kwargs|
+          bulk_calls << (args.first || kwargs)
+        end
+
+        index = Index.new('test-index', {})
+
+        Workarea.stubs(:elasticsearch).returns(client)
+        index.bulk([{ id: '1', bulk_action: :delete }])
+
+        metadata = bulk_calls.first[:body].first[:delete]
+        assert_nil(metadata[:_type])
+      end
     end
   end
 end
