@@ -78,7 +78,7 @@ module ActiveShipping
       scheme = USE_SSL[action] ? 'https://' : 'http://'
       host = test ? TEST_DOMAIN : LIVE_DOMAIN
       resource = test ? TEST_RESOURCE : LIVE_RESOURCE
-      "#{scheme}#{host}/#{resource}?#{API_CODES[action]}=#{URI::DEFAULT_PARSER.escape(request)}"
+      "#{scheme}#{host}/#{resource}?#{API_CODES[action]}=#{CGI.escape(request)}"
     end
 
   end
