@@ -2,7 +2,12 @@ Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Code is not reloaded between requests.
-  config.cache_classes = true
+  # Rails 7.1+ deprecates config.cache_classes in favour of config.enable_reloading.
+  if Rails.version >= "7.1"
+    config.enable_reloading = false
+  else
+    config.cache_classes = true
+  end
 
   # Eager load code on boot. This eager loads most of Rails and
   # your application in memory, allowing both threaded web servers
@@ -19,7 +24,11 @@ Rails.application.configure do
   config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
 
   # Compress JavaScripts and CSS.
-  config.assets.js_compressor = :uglifier
+  # Rails 7 / Sprockets 4 no longer recognises :uglifier shorthand; use the
+  # object form, or skip compression in test dummy apps (not needed for tests).
+  if Rails.version < "7.0"
+    config.assets.js_compressor = :uglifier
+  end
   # config.assets.css_compressor = :sass
 
   # Do not fallback to assets pipeline if a precompiled asset is missed.
@@ -66,7 +75,12 @@ Rails.application.configure do
   config.i18n.fallbacks = true
 
   # Send deprecation notices to registered listeners.
-  config.active_support.deprecation = :notify
+  # Rails 7.1 removes :notify in favour of config.active_support.report_deprecations.
+  if Rails.version >= "7.1"
+    config.active_support.report_deprecations = true
+  else
+    config.active_support.deprecation = :notify
+  end
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
