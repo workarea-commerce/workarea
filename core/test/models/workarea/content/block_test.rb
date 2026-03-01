@@ -68,7 +68,7 @@ module Workarea
 
       def test_data_uses_a_hash_with_indifferent_access
         block = @content.blocks.create!(area: 'body', type: :html)
-        assert(block.data.instance_of?(HashWithIndifferentAccess))
+        assert(block.data.instance_of?(ActiveSupport::HashWithIndifferentAccess))
 
         block.data[:one] = 1
         assert_equal(1, block.data[:one])
