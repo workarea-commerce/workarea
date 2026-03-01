@@ -35,10 +35,8 @@ module Workarea
         name = Rack::Utils::HTTP_STATUS_CODES[error_status].titleize
 
         respond_to do |format|
-          format.all do
-            if !request.format.html?
-              head error_status
-            elsif content = Content.for(name)
+          format.html do
+            if content = Content.for(name)
               @content = ContentViewModel.new(content)
 
               render(
@@ -53,6 +51,8 @@ module Workarea
               )
             end
           end
+
+          format.any { head error_status }
         end
       end
 
