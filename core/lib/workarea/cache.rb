@@ -1,8 +1,12 @@
 module Workarea
   module Cache
-    class RackCacheKey < Rack::Cache::Key
-      def generate
-        "#{super}:#{@request.env['workarea.cache_varies']}"
+    # RackCacheKey is only available on Rails < 7.1 where rack-cache is used.
+    # On Rails 7.1+, HTTP caching is handled natively by ActionDispatch.
+    if defined?(Rack::Cache::Key)
+      class RackCacheKey < Rack::Cache::Key
+        def generate
+          "#{super}:#{@request.env['workarea.cache_varies']}"
+        end
       end
     end
 

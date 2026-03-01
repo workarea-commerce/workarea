@@ -41,6 +41,8 @@ Gem::Specification.new do |s|
   s.add_dependency 'sidekiq-unique-jobs', '~> 8.0'
   s.add_dependency 'sidekiq-throttled', '~> 1.5'
   s.add_dependency 'geocoder', '~> 1.6.3'
+  # redis-rack-cache is loaded conditionally at runtime on Rails < 7.1 only.
+  # On Rails 7.1+ HTTP caching is handled via ActionDispatch without rack-cache.
   s.add_dependency 'redis-rack-cache', '~> 2.2.0'
   s.add_dependency 'easymon', '~> 1.4.0'
   s.add_dependency 'image_optim', '~> 0.28.0'

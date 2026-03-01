@@ -24,11 +24,17 @@ module Workarea
       I18n.locale = locale_from_request(env, request) || I18n.default_locale
     end
 
+    RACK_CACHE_ENABLED = defined?(Rack::Cache) &&
+      (Rails::VERSION::MAJOR < 7 || (Rails::VERSION::MAJOR == 7 && Rails::VERSION::MINOR < 1))
+
     def setup_environment(env, request)
       env['workarea.visit'] = Visit.new(env)
       env['workarea.cache_varies'] = Cache::Varies.new(env['workarea.visit']).to_s
-      env['rack-cache.cache_key'] = Cache::RackCacheKey
-      env['rack-cache.force-pass'] = env['workarea.visit'].admin? && !env['workarea.asset_request']
+
+      if RACK_CACHE_ENABLED
+        env['rack-cache.cache_key'] = Cache::RackCacheKey
+        env['rack-cache.force-pass'] = env['workarea.visit'].admin? && !env['workarea.asset_request']
+      end
     end
 
     def set_segment_request_headers(env)
