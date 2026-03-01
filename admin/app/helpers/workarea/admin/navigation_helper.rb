@@ -11,15 +11,15 @@ module Workarea
 
       def todays_orders_path
         orders_path(
-          placed_at_greater_than: Time.current.to_s(:date_only),
-          placed_at_less_than: Time.current.to_s(:date_only)
+          placed_at_greater_than: Time.current.to_fs(:date_only),
+          placed_at_less_than: Time.current.to_fs(:date_only)
         )
       end
 
       def yesterdays_orders_path
         orders_path(
-          placed_at_greater_than: 1.day.ago.to_s(:date_only),
-          placed_at_less_than: 1.day.ago.to_s(:date_only)
+          placed_at_greater_than: 1.day.ago.to_fs(:date_only),
+          placed_at_less_than: 1.day.ago.to_fs(:date_only)
         )
       end
 
@@ -34,8 +34,8 @@ module Workarea
       # TODO remove in v3.6, no longer used
       def todays_signups_path
         users_path(
-          created_at_greater_than: Time.current.to_s(:date_only),
-          created_at_less_than: Time.current.to_s(:date_only)
+          created_at_greater_than: Time.current.to_fs(:date_only),
+          created_at_less_than: Time.current.to_fs(:date_only)
         )
       end
 

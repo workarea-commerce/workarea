@@ -55,7 +55,7 @@ module Workarea
 
     def datetime_picker_tag(name, value = nil, options = {})
       if value.present? && (value.is_a?(DateTime) || value.is_a?(Time))
-        value = value.to_s(:iso8601)
+        value = value.to_fs(:iso8601)
       end
 
       text_field_tag(name, value, options)

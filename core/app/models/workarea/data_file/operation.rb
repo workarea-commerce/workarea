@@ -68,7 +68,7 @@ module Workarea
       private
 
       def generate_file_name
-        "#{model_class.model_name.route_key}_#{Time.current.to_s(:export)}.#{file_type}"
+        "#{model_class.model_name.route_key}_#{Time.current.to_fs(:export)}.#{file_type}"
       end
     end
   end

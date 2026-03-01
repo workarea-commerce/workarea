@@ -18,7 +18,7 @@ module Workarea
 
         def jump_to_text
           if model.placed?
-            "#{model.id} - Placed @ #{model.placed_at.to_s(:short)}"
+            "#{model.id} - Placed @ #{model.placed_at.to_fs(:short)}"
           else
             "#{model.id} - #{model.status.to_s.titleize}"
           end
