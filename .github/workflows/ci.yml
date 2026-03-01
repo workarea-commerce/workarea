@@ -195,4 +195,13 @@ jobs:
     - uses: ruby/setup-ruby@v1
       with:
         ruby-version: ${{ matrix.ruby-version }}
-        bundler-cache: true
+        bundler-cache: false
+    - name: bundle install
+      run: |
+        bundle install || {
+          if [[ "${{ matrix.experimental }}" == "true" ]]; then
+            echo "::warning::bundle install failed on Ruby ${{ matrix.ruby-version }} (informational — experimental version)"
+            exit 0
+          fi
+          exit 1
+        }
