@@ -162,3 +162,37 @@ jobs:
       with:
         name: Storefront Screenshots
         path: storefront/test/dummy/tmp/screenshots
+
+  # Ruby compatibility matrix — tracks Workarea bundling health across Ruby versions.
+  # Ruby 2.7: legacy baseline (Docker-pinned CI actions run ruby:2.6 internally).
+  # Ruby 3.2: current stable target — must pass (continue-on-error: false).
+  # Ruby 3.3 / 3.4: informational — failures are expected until compat work lands.
+  ruby_compatibility:
+    name: "Ruby ${{ matrix.ruby-version }} — bundle check"
+    runs-on: ubuntu-latest
+    # continue-on-error is set per-matrix-entry via the include block below.
+    # For 3.2 this defaults to false (must pass); for 3.3/3.4 it is true (informational).
+    continue-on-error: ${{ matrix.experimental }}
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby-version: ['2.7', '3.2', '3.3', '3.4']
+        include:
+          # 2.7 — EOL but retained for baseline visibility; expected to fail on Nokogiri/YJIT warnings
+          - ruby-version: '2.7'
+            experimental: true
+          # 3.2 — current stable target
+          - ruby-version: '3.2'
+            experimental: false
+          # 3.3 — informational until compat fixes land
+          - ruby-version: '3.3'
+            experimental: true
+          # 3.4 — informational until compat fixes land
+          - ruby-version: '3.4'
+            experimental: true
+    steps:
+    - uses: actions/checkout@v4
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby-version }}
+        bundler-cache: true
