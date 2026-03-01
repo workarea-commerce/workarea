@@ -38,11 +38,11 @@ module Workarea
       field :area, type: String, default: 'default'
 
       # @!attribute data
-      #   @return [HashWithIndifferentAccess] data passed to partials to render
+      #   @return [ActiveSupport::HashWithIndifferentAccess] data passed to partials to render
       #
       field :data,
-              type: HashWithIndifferentAccess,
-              default: HashWithIndifferentAccess.new,
+              type: ActiveSupport::HashWithIndifferentAccess,
+              default: ActiveSupport::HashWithIndifferentAccess.new,
               localize: true
 
       # @!attribute hidden_breakpoints
@@ -84,12 +84,12 @@ module Workarea
       # Any relevant data for rendering can be stored here. All data will be
       # typecasted and validated by the {Workarea::Content::Field} system.
       #
-      # @return [HashWithIndifferentAccess]
+      # @return [ActiveSupport::HashWithIndifferentAccess]
       #
       def data
         value = super
 
-        unless value.nil? || value.is_a?(HashWithIndifferentAccess)
+        unless value.nil? || value.is_a?(ActiveSupport::HashWithIndifferentAccess)
           wrapped_hash = value.with_indifferent_access
           self.send(:data=, wrapped_hash) unless self.frozen?
           value = wrapped_hash
@@ -99,7 +99,7 @@ module Workarea
       end
 
       def data=(value)
-        unless value.is_a?(HashWithIndifferentAccess)
+        unless value.is_a?(ActiveSupport::HashWithIndifferentAccess)
           value = value.with_indifferent_access
         end
 
@@ -121,7 +121,7 @@ module Workarea
 
       # Any miscellaneous config set on the {#type} by the content block DSL.
       #
-      # @return [HashWithIndifferentAccess]
+      # @return [ActiveSupport::HashWithIndifferentAccess]
       #
       def config
         type.config.with_indifferent_access
