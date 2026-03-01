@@ -35,12 +35,17 @@ module Workarea
 
       def test_to_h
         result = Redis.new(scheme: 'rediss', port: 1234).to_h
-        assert_equal('rediss', result[:scheme])
         assert_equal('localhost', result[:host])
         assert_equal(1234, result[:port])
         assert_equal(0, result[:db])
         assert_nil(result[:password])
         assert(result[:ssl])
+
+        if Gem::Version.new(::Redis::VERSION) < Gem::Version.new('5.0')
+          assert_equal('rediss', result[:scheme])
+        else
+          refute(result.key?(:scheme), "scheme: should be omitted for redis >= 5")
+        end
       end
     end
   end
