@@ -3,7 +3,7 @@ module Workarea
     class DateFilter < Filter
       def query_clause
         return {} unless current_value.present?
-        { range: { name => { options => query_value.to_s(:iso8601) } } }
+        { range: { name => { options => query_value.to_fs(:iso8601) } } }
       end
 
       def query_value

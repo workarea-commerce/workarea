@@ -45,7 +45,7 @@ module Workarea
     def collection
       @collection ||= Mongo::Collection.new(
         report.reporting_class.collection.database,
-        "#{report.class.name.demodulize.underscore}_#{Time.current.to_s(:export)}"
+        "#{report.class.name.demodulize.underscore}_#{Time.current.to_fs(:export)}"
       )
     end
 
