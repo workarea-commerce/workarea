@@ -33,7 +33,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'kaminari', '~> 1.2.1'
   s.add_dependency 'kaminari-mongoid', '~> 1.0.0'
   s.add_dependency 'activemerchant', '~> 1.52'
-  s.add_dependency 'dragonfly', '~> 1.3.0'
+  s.add_dependency 'dragonfly', '~> 1.4'
   s.add_dependency 'sidekiq', '~> 7.0'
   # sidekiq-cron 1.2.0 requires `sidekiq/util`, which no longer exists in Sidekiq 6.5+.
   # Use a newer 1.x line that is compatible with Sidekiq 7.
@@ -96,7 +96,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'browser', '~> 5.3.0'
   s.add_dependency 'puma', '>= 4.3.1'
   s.add_dependency 'rack' , '>= 2.1.4'
-  s.add_dependency 'dragonfly_libvips', '~> 2.4.2'
+  s.add_dependency 'dragonfly_libvips', '~> 2.4'
   s.add_dependency 'sitemap_generator', '~> 6.1.2'
   s.add_dependency 'recaptcha', '~> 5.6.0'
 
