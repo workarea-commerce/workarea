@@ -2,14 +2,22 @@ Dragonfly.app(:workarea).configure do
   if Workarea::Configuration::ImageProcessing.libvips?
     plugin :libvips
 
-    # Allow using the convert processor (part of the ImageMagick plugin).
-    # We need this for .ico files, Vips supposedly supports .ico when installed
-    # with ImageMagick support, but not seeing this in practice.
-    require 'dragonfly/image_magick/processors/convert'
-    Dragonfly.app(:workarea).add_processor :convert, Dragonfly::ImageMagick::Processors::Convert.new
+    # Allow using the ImageMagick convert command (via Commands module) for .ico
+    # files. Vips supposedly supports .ico when installed with ImageMagick support,
+    # but not seeing this in practice.
+    # Note: the :convert *processor* was removed in Dragonfly 1.4 (CVE-2021-33564
+    # security fix). Use Dragonfly::ImageMagick::Commands.convert directly instead.
+    require 'dragonfly/image_magick/commands'
   else
     plugin :imagemagick
   end
+
+  # Dragonfly 1.4 added security validations to the ImageMagick Encode processor,
+  # whitelisting only "-quality" by default (CVE-2021-33564). Workarea's JPEG
+  # encoding options also use "-interlace" and "-set" for progressive encoding
+  # and metadata stripping. Extend the whitelist to permit these safe args.
+  require 'dragonfly/image_magick/processors/encode'
+  Dragonfly::ImageMagick::Processors::Encode::WHITELISTED_ARGS.concat(%w[interlace set])
 
   verify_urls true
   secret Rails.application.secrets.dragonfly_secret.presence ||
@@ -123,7 +131,11 @@ Dragonfly.app(:workarea).configure do
   unless processors.include?(:favicon)
     processor :favicon do |content, size|
       if Workarea::Configuration::ImageProcessing.libvips?
-        content.process!(:thumb, size, gravity: 'center')
+        # Use thumbnail_options: { crop: :centre } for libvips center-crop,
+        # equivalent to the ImageMagick '#' geometry modifier.
+        # Note: the old `gravity: 'center'` keyword arg was silently ignored
+        # by the libvips thumb processor — it has no such top-level option.
+        content.process!(:thumb, size, { 'thumbnail_options' => { 'crop' => 'centre' } })
       else
         content.process!(:thumb, "#{size}#")
       end
@@ -132,7 +144,9 @@ Dragonfly.app(:workarea).configure do
 
   unless processors.include?(:favicon_ico)
     processor :favicon_ico do |content|
-      content.process!(:convert, '-define icon:auto-resize', 'format' => 'ico')
+      # The :convert processor was removed in Dragonfly 1.4 (security fix for
+      # CVE-2021-33564). Use Dragonfly::ImageMagick::Commands.convert directly.
+      Dragonfly::ImageMagick::Commands.convert(content, '-define icon:auto-resize', 'format' => 'ico')
     end
   end
 end
