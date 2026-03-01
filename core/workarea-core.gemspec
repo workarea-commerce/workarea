@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
   s.required_ruby_version = ['>= 2.7.0', '< 3.5.0']
 
   s.add_dependency 'bundler', '>= 1.8.0' # 1.8.0 added env variable for secrets
-  s.add_dependency 'rails', '~> 6.1.0'
+  s.add_dependency 'rails', '>= 6.1', '< 7.2'
   s.add_dependency 'mongoid', '~> 7.4.0'
   s.add_dependency 'bcrypt', '~> 3.1.10'
   s.add_dependency 'money-rails', '~> 1.13.0'
