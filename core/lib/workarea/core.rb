@@ -107,8 +107,11 @@ require 'csv'
 require 'icalendar'
 require 'icalendar/tzinfo'
 require 'premailer/rails'
-require 'rack/cache'
-require 'rack/cache/key'
+# rack-cache is only used on Rails < 7.1; Rails 7.1+ uses ActionDispatch HTTP caching
+if defined?(Rails) && (Rails::VERSION::MAJOR < 7 || (Rails::VERSION::MAJOR == 7 && Rails::VERSION::MINOR < 1))
+  require 'rack/cache'
+  require 'rack/cache/key'
+end
 require 'json/streamer'
 require 'spectrum-rails'
 require 'referer-parser'
