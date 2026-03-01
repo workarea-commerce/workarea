@@ -13,5 +13,10 @@ Rails.application.config.action_controller.per_form_csrf_tokens = false
 Rails.application.config.action_controller.forgery_protection_origin_check = false
 
 # Make Ruby 2.4 preserve the timezone of the receiver when calling `to_time`.
-# Previous versions had false.
-ActiveSupport.to_time_preserves_timezone = false
+# In Rails 7+ this option accepts :zone/:utc/:local; the legacy false value is
+# deprecated. Use the equivalent :utc value when running on Rails 7+.
+if Rails.version >= "7.0"
+  ActiveSupport.to_time_preserves_timezone = :utc
+else
+  ActiveSupport.to_time_preserves_timezone = false
+end
