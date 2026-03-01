@@ -12,6 +12,6 @@ gem 'rubocop'
 gem 'rails-decorators', git: 'https://github.com/workarea-commerce/rails-decorators.git', branch: 'master'
 gem 'teaspoon'
 
-# Workarea's Redis config passes `scheme:` which is supported by redis < 5.
-# Newer redis (5.x) uses redis-client which does not accept `scheme:`.
-gem 'redis', '~> 4.8'
+# redis-rb 5.x removed the `scheme:` connection option (handled in
+# Configuration::Redis#to_h). Allow both 4.x and 5.x.
+gem 'redis', '>= 4.8', '< 6'

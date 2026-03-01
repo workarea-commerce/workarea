@@ -647,7 +647,7 @@ DEPENDENCIES
   bundler-audit
   listen
   rails-decorators!
-  redis (~> 4.8)
+  redis (>= 4.8, < 6)
   rubocop
   teaspoon
   workarea!
