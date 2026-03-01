@@ -80,14 +80,22 @@ module Workarea
       end
 
       def to_h
-        {
-          scheme: scheme,
+        h = {
           host: host,
           port: port,
           db: db,
           password: password,
           ssl: ssl?
         }
+
+        # redis-rb < 5.x accepts `scheme:` as a connection option; 5.x removed
+        # it in favour of the `ssl:` key (already included above). Omit scheme
+        # when running against redis-rb 5+ to avoid an ArgumentError on connect.
+        if Gem::Version.new(::Redis::VERSION) < Gem::Version.new('5.0')
+          h[:scheme] = scheme
+        end
+
+        h
       end
 
       def to_url
