@@ -10,7 +10,7 @@ module Workarea
           tmp = model.name.dup
 
           if model.publish_at.present?
-            tmp << " (#{model.publish_at.to_s(:short)})"
+            tmp << " (#{model.publish_at.to_fs(:short)})"
           else
             tmp << " (Not scheduled)"
           end

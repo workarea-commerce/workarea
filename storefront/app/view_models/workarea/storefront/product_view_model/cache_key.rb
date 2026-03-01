@@ -19,7 +19,7 @@ module Workarea
         def product_parts
           [
             @product.send(:model_key), # Mongoid has this as a private method
-            "#{@product.id}-#{@product.updated_at.utc.to_s(:nsec)}"
+            "#{@product.id}-#{@product.updated_at.utc.to_fs(:nsec)}"
           ]
         end
 

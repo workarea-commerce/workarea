@@ -70,7 +70,7 @@ module Workarea
       case value
       when FalseClass then t('workarea.admin.false')
       when TrueClass then t('workarea.admin.true')
-      when DateTime, Time then value.to_s(:long)
+      when DateTime, Time then value.to_fs(:long)
       when Array then value.map { |v| change_display_value(v) }.join(', ')
       when Money then number_to_currency(value)
       else

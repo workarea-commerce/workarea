@@ -43,7 +43,7 @@ module Workarea
       def temp_path
         @temp_path ||= Pathname
           .new(Dir.tmpdir)
-          .join("#{report_type}_#{Time.current.to_s(:export)}.csv")
+          .join("#{report_type}_#{Time.current.to_fs(:export)}.csv")
       end
 
       private
