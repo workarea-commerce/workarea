@@ -178,6 +178,7 @@ end
 #
 
 require 'workarea/configuration'
+require 'workarea/configuration/app_secrets'
 require 'workarea/configuration/administrable/field'
 require 'workarea/configuration/administrable/fieldset'
 require 'workarea/configuration/administrable/definition'

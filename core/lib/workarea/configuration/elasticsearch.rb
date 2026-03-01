@@ -13,7 +13,7 @@ module Workarea
       end
 
       def secrets_config
-        result = deep_convert_hash_like(Rails.application.secrets.elasticsearch || {})
+        result = deep_convert_hash_like(Workarea::Configuration::AppSecrets.instance[:elasticsearch] || {})
         result.deep_dup.deep_symbolize_keys
       end
 
