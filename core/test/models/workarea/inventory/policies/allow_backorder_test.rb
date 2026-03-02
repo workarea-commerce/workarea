@@ -10,10 +10,10 @@ module Workarea
           policy = AllowBackorder.new(sku)
           assert_equal(2, policy.available_to_sell)
 
-          sku.update_attributes(backordered: 5)
+          sku.update(backordered: 5)
           assert_equal(7, policy.available_to_sell)
 
-          sku.update_attributes(available: 1, backordered: 2)
+          sku.update(available: 1, backordered: 2)
           assert_equal(0, policy.available_to_sell)
         end
 

@@ -100,7 +100,7 @@ module Workarea
         view_model = ContentViewModel.wrap(content)
         assert_equal(default_asset, view_model.open_graph_asset)
 
-        content.update_attributes(open_graph_asset_id: create_asset.id)
+        content.update(open_graph_asset_id: create_asset.id)
         view_model = ContentViewModel.wrap(content)
         og_asset = view_model.open_graph_asset
 

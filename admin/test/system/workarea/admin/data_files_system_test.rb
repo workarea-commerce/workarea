@@ -76,7 +76,7 @@ module Workarea
             started_at: 1.hour.ago,
             file_type: 'csv'
           )
-          export_one.update_attributes!(
+          export_one.update!(
             file: export_one.tempfile.tap(&:close),
             completed_at: Time.current
           )
@@ -88,7 +88,7 @@ module Workarea
             started_at: 2.hour.ago,
             file_type: 'json'
           )
-          export_two.update_attributes!(
+          export_two.update!(
             file: export_two.tempfile.tap(&:close),
             completed_at: Time.current
           )

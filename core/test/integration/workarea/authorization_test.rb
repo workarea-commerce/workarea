@@ -46,29 +46,29 @@ module Workarea
 
     def test_allowing_super_admins
       AuthorizationController.required_permissions(:store)
-      @user.update_attributes!(super_admin: true)
+      @user.update!(super_admin: true)
       assert_authorized
     end
 
     def test_blank_requirements
-      @user.update_attributes!(admin: true)
+      @user.update!(admin: true)
       assert_authorized
     end
 
     def test_invalid_permissions
       AuthorizationController.required_permissions(:store)
-      @user.update_attributes!(admin: true)
+      @user.update!(admin: true)
       refute_authorized
     end
 
     def test_valid_permissions
       AuthorizationController.required_permissions(:store)
-      @user.update_attributes!(admin: true, store_access: true)
+      @user.update!(admin: true, store_access: true)
       assert_authorized
 
       AuthorizationController.reset_permissions!
       AuthorizationController.required_permissions(:orders_manager)
-      @user.update_attributes!(admin: true, orders_manager: true)
+      @user.update!(admin: true, orders_manager: true)
       assert_authorized
     end
 
@@ -80,13 +80,13 @@ module Workarea
     def test_multiple_permissions_requirements
       AuthorizationController.required_permissions(:store, :catalog)
 
-      @user.update_attributes!(admin: true)
+      @user.update!(admin: true)
       refute_authorized
 
-      @user.update_attributes!(store_access: true)
+      @user.update!(store_access: true)
       refute_authorized
 
-      @user.update_attributes!(catalog_access: true)
+      @user.update!(catalog_access: true)
       assert_authorized
     end
   end

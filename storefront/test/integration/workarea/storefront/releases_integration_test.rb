@@ -8,8 +8,8 @@ module Workarea
         second = create_release(publish_at: 2.days.from_now)
 
         product = create_product(name: 'Foo', template: 'generic', description: 'One')
-        first.as_current { product.update_attributes!(name: 'Bar', description: 'Two') }
-        second.as_current { product.update_attributes!(name: 'Baz') }
+        first.as_current { product.update!(name: 'Bar', description: 'Two') }
+        second.as_current { product.update!(name: 'Baz') }
 
         set_current_user(create_user(super_admin: true))
 

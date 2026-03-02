@@ -27,7 +27,7 @@ module Workarea
 
         asset = create_asset
         content = Content.for(page)
-        content.update_attributes!(open_graph_asset_id: asset.id)
+        content.update!(open_graph_asset_id: asset.id)
 
         get storefront.page_path(page)
 

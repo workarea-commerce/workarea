@@ -11,7 +11,7 @@ module Workarea
       slug = FindTaxonomySlug.new(navigable).slug
       assert_equal('baz-foo-bar', slug)
 
-      navigable.update_attributes!(slug: slug)
+      navigable.update!(slug: slug)
       navigable_two = create_category(name: 'Foo Bar')
       create_taxon(navigable: navigable_two, parent: parent_taxon)
       assert_equal('baz-foo-bar-1', FindTaxonomySlug.new(navigable_two).slug)

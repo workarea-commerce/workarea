@@ -323,7 +323,7 @@ module Workarea
       def test_unavailable_inventory
         assert_current_path(storefront.checkout_payment_path)
 
-        Inventory::Sku.find('SKU').update_attributes!(available: 0)
+        Inventory::Sku.find('SKU').update!(available: 0)
         click_button t('workarea.storefront.checkouts.place_order')
 
         assert_current_path(storefront.cart_path)

@@ -52,7 +52,7 @@ module Workarea
       end
 
       def test_redirects_to_the_admin_path_for_admins_by_deafult
-        @user.update_attributes!(admin: true)
+        @user.update!(admin: true)
 
         post storefront.login_path,
           params: {

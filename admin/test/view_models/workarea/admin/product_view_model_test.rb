@@ -137,7 +137,7 @@ module Workarea
 
         refute(@view_model.ignore_inventory?)
 
-        inventory_two.update_attributes!(policy: 'ignore')
+        inventory_two.update!(policy: 'ignore')
         @view_model = ProductViewModel.new(@product)
         assert(@view_model.ignore_inventory?)
       end

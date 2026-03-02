@@ -34,7 +34,7 @@ module Workarea
       def test_days_sorts_results
         travel_to Time.zone.local(2019, 6, 24, 9, 35)
 
-        @release.update_attributes!(name: 'Third', publish_at: 3.hours.from_now)
+        @release.update!(name: 'Third', publish_at: 3.hours.from_now)
         create_release(name: 'First', published_at: 1.hour.ago)
         create_release(name: 'Second', publish_at: 2.hours.from_now)
 

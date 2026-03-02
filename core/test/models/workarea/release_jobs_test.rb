@@ -37,7 +37,7 @@ module Workarea
       assert(release.publish_job_id.present?)
       assert_equal(1, @scheduled_set.size)
 
-      release.update_attributes!(publish_at: nil)
+      release.update!(publish_at: nil)
       release.reload
       assert(release.publish_job_id.blank?)
       assert_equal(0, @scheduled_set.size)

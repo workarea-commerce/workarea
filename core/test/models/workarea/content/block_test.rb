@@ -16,7 +16,7 @@ module Workarea
           data: { 'show_line' => 'true' }
         )
         assert(block.data['show_line'])
-        block.update_attributes(data: { 'show_line' => 'false' })
+        block.update(data: { 'show_line' => 'false' })
         refute(block.data['show_line'])
 
         # NOTE: This is to test the type consistency of `data.show_line`
@@ -43,7 +43,7 @@ module Workarea
 
         assert_equal('1', block.data['html'])
 
-        block.update_attributes(data: { 'html' => 2 })
+        block.update(data: { 'html' => 2 })
         assert_equal('2', block.data['html'])
       end
 

@@ -113,7 +113,7 @@ module Workarea
         assert_equal(0, inventory.purchased)
         assert_equal(0, inventory.available)
 
-        inventory.update_attributes(policy: 'standard', available: 2)
+        inventory.update(policy: 'standard', available: 2)
         complete_checkout
 
         inventory.reload

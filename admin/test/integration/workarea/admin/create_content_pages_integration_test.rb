@@ -66,7 +66,7 @@ module Workarea
 
         assert(page.reload.active?)
 
-        page.update_attributes!(active: false)
+        page.update!(active: false)
 
         post admin.save_publish_create_content_page_path(page),
           params: { activate: 'new_release', release: { name: '' } }
@@ -86,7 +86,7 @@ module Workarea
         release.as_current { assert(page.reload.active?) }
 
         release = create_release
-        page.update_attributes!(active: false)
+        page.update!(active: false)
 
         post admin.save_publish_create_content_page_path(page),
           params: { activate: release.id }

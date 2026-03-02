@@ -151,7 +151,7 @@ module Workarea
       release = create_release
 
       release.as_current do
-        page.update_attributes!(name: 'Bar')
+        page.update!(name: 'Bar')
       end
 
       Content::Page.delete_all # leave changesets with no model

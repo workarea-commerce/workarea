@@ -68,7 +68,7 @@ module Workarea
         end
 
         forced_attrs = overrides.slice(:placed_at, :updated_at, :total_price)
-        order.update_attributes!(forced_attrs)
+        order.update!(forced_attrs)
         order
       end
 
@@ -87,7 +87,7 @@ module Workarea
                             create_shipping_service.name
 
         order.items.each do |item|
-          item.update_attributes!(OrderItemDetails.find!(item.sku).to_h)
+          item.update!(OrderItemDetails.find!(item.sku).to_h)
         end
 
         checkout = Checkout.new(order)

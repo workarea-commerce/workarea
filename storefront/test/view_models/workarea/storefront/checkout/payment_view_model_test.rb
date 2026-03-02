@@ -16,7 +16,7 @@ module Workarea
           2.times { create_saved_credit_card(profile: profile) }
 
           checkout = Workarea::Checkout.new(@order, @user)
-          checkout.payment.update_attributes!(profile_id: profile.id)
+          checkout.payment.update!(profile_id: profile.id)
           view_model = PaymentViewModel.new(checkout)
 
           assert_equal(2, view_model.credit_cards.length)
@@ -30,7 +30,7 @@ module Workarea
           2.times { create_saved_credit_card(profile: profile) }
 
           checkout = Workarea::Checkout.new(@order)
-          checkout.payment.update_attributes!(profile_id: profile.id)
+          checkout.payment.update!(profile_id: profile.id)
           view_model = PaymentViewModel.new(checkout)
           assert(view_model.credit_cards.empty?)
         end
@@ -44,7 +44,7 @@ module Workarea
           )
 
           checkout = Workarea::Checkout.new(@order, @user)
-          checkout.payment.update_attributes!(profile_id: profile.id)
+          checkout.payment.update!(profile_id: profile.id)
 
           @order.total_price = 5
           assert(PaymentViewModel.new(checkout).order_covered_by_store_credit?)
@@ -61,7 +61,7 @@ module Workarea
 
           profile = Payment::Profile.lookup(PaymentReference.new(@user))
           checkout = Workarea::Checkout.new(@order, @user)
-          checkout.payment.update_attributes!(profile_id: profile.id)
+          checkout.payment.update!(profile_id: profile.id)
           credit_card = create_saved_credit_card(profile: profile)
 
           view_model = PaymentViewModel.new(checkout, payment: 'not found')

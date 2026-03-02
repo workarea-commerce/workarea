@@ -32,14 +32,14 @@ module Workarea
       def test_rendering_left_navigation
         top_level = create_taxon(name: 'Foo Taxon', url: 'http://example.com')
         create_taxon(parent: top_level, name: 'Foo Taxon', navigable: @content_page)
-        @content_page.update_attributes!(show_navigation: true)
+        @content_page.update!(show_navigation: true)
 
         visit storefront.page_path(@content_page)
         within '.page-content__aside' do
           assert(page.has_content?('Foo Taxon'))
         end
 
-        @content_page.update_attributes!(show_navigation: false)
+        @content_page.update!(show_navigation: false)
 
         visit storefront.page_path(@content_page)
         assert(page.has_no_selector?('.page-content__aside'))

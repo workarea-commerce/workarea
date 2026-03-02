@@ -6,7 +6,7 @@ module Workarea
       setup :set_search_settings, :create_products_with_images
 
       def set_search_settings
-        Workarea::Search::Settings.current.update_attributes!(
+        Workarea::Search::Settings.current.update!(
           terms_facets: %w(Color)
         )
       end

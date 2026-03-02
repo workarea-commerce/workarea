@@ -69,7 +69,7 @@ module Workarea
             quantity: 1
           }
 
-        order.update_attributes!(email: 'user@workarea.com')
+        order.update!(email: 'user@workarea.com')
 
         post storefront.add_promo_code_to_cart_path,
           params: { promo_code: 'TESTCODE' }

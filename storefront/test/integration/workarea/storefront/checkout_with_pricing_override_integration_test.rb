@@ -9,7 +9,7 @@ module Workarea
       setup :setup_order
 
       def setup_order
-        admin_user.update_attributes!(email: 'csr@workarea.com')
+        admin_user.update!(email: 'csr@workarea.com')
 
         shipping_service = create_shipping_service
         product = create_product(variants: [{ sku: 'SKU', regular: 5.to_m }])
@@ -38,7 +38,7 @@ module Workarea
 
         override = Pricing::Override.find_or_create_by!(id: @order.id)
 
-        override.update_attributes!(
+        override.update!(
           subtotal_adjustment: -6.to_m,
           shipping_adjustment: -0.6.to_m
         )
@@ -90,7 +90,7 @@ module Workarea
 
         override = Pricing::Override.find_or_create_by!(id: @order.id)
 
-        override.update_attributes!(
+        override.update!(
           shipping_adjustment: -0.6.to_m,
           item_prices: {
             @order.items.first.id.to_s => 2.25,
@@ -143,7 +143,7 @@ module Workarea
       def test_checking_out_with_order_set_to_be_free
         override = Pricing::Override.find_or_create_by!(id: @order.id)
 
-        override.update_attributes!(
+        override.update!(
           subtotal_adjustment: -1 * @order.subtotal_price,
           shipping_adjustment: -1 * @order.shipping_total
         )

@@ -36,9 +36,9 @@ module Workarea
         product = create_product_discount(product_ids: @products.map(&:id))
         fixed_price = create_quantity_fixed_price_discount(product_ids: [@products.third.id])
 
-        order_total.update_attributes!(compatible_discount_ids: [category.id, product_attribute.id, free_gift.id])
-        buy_some.update_attributes!(compatible_discount_ids: [product.id, fixed_price.id, order_total.id])
-        category.update_attributes!(compatible_discount_ids: [fixed_price.id,  product_attribute.id])
+        order_total.update!(compatible_discount_ids: [category.id, product_attribute.id, free_gift.id])
+        buy_some.update!(compatible_discount_ids: [product.id, fixed_price.id, order_total.id])
+        category.update!(compatible_discount_ids: [fixed_price.id,  product_attribute.id])
 
         post storefront.add_promo_code_to_cart_path, params: { promo_code: 'TESTCODE' }
       end

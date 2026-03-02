@@ -8,7 +8,7 @@ module Mongoid
         release = create_release
         Mongoid::AuditLog.record do
           release.as_current do
-            product.update_attributes!(name: 'Bar')
+            product.update!(name: 'Bar')
           end
         end
 
@@ -18,7 +18,7 @@ module Mongoid
         order = create_order
         Mongoid::AuditLog.record do
           release.as_current do
-            order.update_attributes!(email: 'bcrouse@weblinc.com')
+            order.update!(email: 'bcrouse@weblinc.com')
           end
         end
 

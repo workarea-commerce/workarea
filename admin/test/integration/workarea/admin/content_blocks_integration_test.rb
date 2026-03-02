@@ -47,7 +47,7 @@ module Workarea
         assert_equal(flash[:error], I18n.t('workarea.admin.publish_authorization.unauthorized'))
 
 
-        content.update_attributes!(active: false)
+        content.update!(active: false)
 
         post admin.content_area_blocks_path(content, area),
           params: { block: { type_id: :html, data: { 'html' => 'foo' } } }

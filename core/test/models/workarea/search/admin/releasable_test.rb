@@ -17,10 +17,10 @@ module Workarea
           release_two = create_release
           release_three = create_release
 
-          release_one.as_current { releasable.update_attributes!(name: 'Bar') }
-          release_two.as_current { content.update_attributes!(browser_title: 'Foo') }
-          release_three.as_current { releasable.update_attributes!(name: 'Bar') }
-          release_three.update_attributes!(published_at: Time.current)
+          release_one.as_current { releasable.update!(name: 'Bar') }
+          release_two.as_current { content.update!(browser_title: 'Foo') }
+          release_three.as_current { releasable.update!(name: 'Bar') }
+          release_three.update!(published_at: Time.current)
 
           search_model = Foo.new(releasable)
           assert_equal(search_model.facets[:active_by_segment], %w(foo bar baz))

@@ -24,7 +24,7 @@ module Workarea
       end
 
       def test_using_custom_products
-        @settings.update_attributes!(
+        @settings.update!(
           sources: %w(custom),
           product_ids: %w(2 3 1)
         )
@@ -54,7 +54,7 @@ module Workarea
 
         ProcessProductRecommendations.new.perform
 
-        @settings.update_attributes!(sources: %w(purchased))
+        @settings.update!(sources: %w(purchased))
         query = ProductBased.new(@product)
         assert_equal(%w(3 2), query.results)
       end
@@ -79,7 +79,7 @@ module Workarea
         end
 
         ProcessProductRecommendations.new.perform
-        @settings.update_attributes!(sources: %w(purchased))
+        @settings.update!(sources: %w(purchased))
 
         Catalog::Product.find('3').destroy
 

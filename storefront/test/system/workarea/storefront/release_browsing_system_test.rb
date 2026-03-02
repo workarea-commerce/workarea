@@ -19,10 +19,10 @@ module Workarea
         second_menu = create_menu(taxon: second_taxon, active: false)
 
         Release.with_current(release.id) do
-          page1.update_attributes!(name: 'Foo Changed')
-          page2.update_attributes!(name: 'Bar Changed')
-          product2.update_attributes!(active: true)
-          second_menu.update_attributes!(active: true)
+          page1.update!(name: 'Foo Changed')
+          page2.update!(name: 'Bar Changed')
+          product2.update!(active: true)
+          second_menu.update!(active: true)
         end
 
         visit storefront.root_path

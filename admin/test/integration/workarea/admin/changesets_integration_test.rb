@@ -9,7 +9,7 @@ module Workarea
         page = create_page(name: 'Foo')
         release = create_release
         release.as_current do
-          page.update_attributes!(name: 'Bar')
+          page.update!(name: 'Bar')
         end
 
         changeset = release.changesets.first

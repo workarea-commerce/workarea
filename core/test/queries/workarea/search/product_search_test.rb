@@ -24,7 +24,7 @@ module Workarea
         assert_equal(0, ProductSearch.new(q: '*').total)
 
         release = create_release
-        release.as_current { product.update_attributes!(active: true) }
+        release.as_current { product.update!(active: true) }
         IndexProduct.perform(product.reload)
 
         assert_equal(0, ProductSearch.new(q: '*').total)
@@ -113,7 +113,7 @@ module Workarea
       end
 
       def test_boosted_fields
-        Settings.current.update_attributes!(
+        Settings.current.update!(
           boosts: {
             'name': 2,
             'category_name': 1,
@@ -132,7 +132,7 @@ module Workarea
           ProductSearch.new.boosted_fields
         )
 
-        Settings.current.update_attributes!(
+        Settings.current.update!(
           boosts: {
             'name': 2,
             'description': 0.75,
@@ -255,7 +255,7 @@ module Workarea
       end
 
       def test_exact_name_phrase_matches
-        Settings.current.update_attributes!(
+        Settings.current.update!(
           boosts: {
             'name': 1,
             'description': 2,
@@ -311,7 +311,7 @@ module Workarea
       end
 
       def test_blank_views_scores_allow_boosts_to_have_effect
-        Settings.current.update_attributes!(
+        Settings.current.update!(
           boosts: {
             'name': 0,
             'description': 0,

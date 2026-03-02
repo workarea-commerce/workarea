@@ -117,7 +117,7 @@ module Workarea
         pricing.prices = [{ regular: 3 }]
         refute(ProductViewModel.new(@product).one_price?)
 
-        pricing.update_attributes!(msrp: 3)
+        pricing.update!(msrp: 3)
         assert(ProductViewModel.new(@product).one_price?)
       end
 
@@ -162,18 +162,18 @@ module Workarea
         pricing_one = create_pricing_sku(id: 'SKU1')
         pricing_two = create_pricing_sku(id: 'SKU2')
 
-        pricing_one.update_attributes!(msrp: 5)
-        pricing_two.update_attributes!(msrp: 6)
+        pricing_one.update!(msrp: 5)
+        pricing_two.update!(msrp: 6)
         pricing_one.prices = [{ regular: 3 }]
         pricing_two.prices = [{ regular: 5 }]
         assert_equal(5.to_m, ProductViewModel.new(@product).original_min_price)
 
-        pricing_one.update_attributes!(msrp: nil)
-        pricing_two.update_attributes!(msrp: nil)
+        pricing_one.update!(msrp: nil)
+        pricing_two.update!(msrp: nil)
         assert_equal(3.to_m, ProductViewModel.new(@product).original_min_price)
 
-        pricing_one.update_attributes!(on_sale: true, msrp: 1)
-        pricing_two.update_attributes!(msrp: 6)
+        pricing_one.update!(on_sale: true, msrp: 1)
+        pricing_two.update!(msrp: 6)
         pricing_one.prices = [{ regular: 3, sale: 2 }]
         pricing_two.prices = [{ regular: 5 }]
         assert_equal(3.to_m, ProductViewModel.new(@product).original_min_price)
@@ -184,18 +184,18 @@ module Workarea
         pricing_one = create_pricing_sku(id: 'SKU1')
         pricing_two = create_pricing_sku(id: 'SKU2')
 
-        pricing_one.update_attributes!(msrp: 2)
-        pricing_two.update_attributes!(msrp: 1)
+        pricing_one.update!(msrp: 2)
+        pricing_two.update!(msrp: 1)
         pricing_one.prices = [{ regular: 1 }]
         pricing_two.prices = [{ regular: 1 }]
         assert_equal(2.to_m, ProductViewModel.new(@product).original_max_price)
 
-        pricing_one.update_attributes!(msrp: nil)
-        pricing_two.update_attributes!(msrp: nil)
+        pricing_one.update!(msrp: nil)
+        pricing_two.update!(msrp: nil)
         assert_equal(1.to_m, ProductViewModel.new(@product).original_max_price)
 
-        pricing_one.update_attributes!(on_sale: true, msrp: 1)
-        pricing_two.update_attributes!(msrp: nil)
+        pricing_one.update!(on_sale: true, msrp: 1)
+        pricing_two.update!(msrp: nil)
         pricing_one.prices = [{ regular: 2, sale: 2 }]
         pricing_two.prices = [{ regular: 3 }]
         assert_equal(3.to_m, ProductViewModel.new(@product).original_max_price)

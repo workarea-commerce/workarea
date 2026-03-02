@@ -78,10 +78,10 @@ module Workarea
         view_model = DiscountRulesViewModel.new(discount)
         assert_nil(view_model.order_total_operator)
 
-        discount.update_attributes!(order_total: 0)
+        discount.update!(order_total: 0)
         assert_nil(view_model.order_total_operator)
 
-        discount.update_attributes!(order_total: 100)
+        discount.update!(order_total: 100)
         assert_equal('greater than', view_model.order_total_operator)
       end
 
@@ -94,10 +94,10 @@ module Workarea
         view_model = DiscountRulesViewModel.new(discount)
         assert_nil(view_model.order_total)
 
-        discount.update_attributes!(order_total: 0)
+        discount.update!(order_total: 0)
         assert_nil(view_model.order_total)
 
-        discount.update_attributes!(order_total: 100)
+        discount.update!(order_total: 100)
         assert_equal(100.to_m, view_model.order_total)
       end
 
@@ -108,7 +108,7 @@ module Workarea
 
         assert_nil(view_model.generated_codes_id)
 
-        discount.update_attributes!(generated_codes_id: code_list.id)
+        discount.update!(generated_codes_id: code_list.id)
         assert_equal('Foo', view_model.generated_codes_id)
 
         code_list.destroy

@@ -11,11 +11,11 @@ module Workarea
         end
 
         def test_includes_role_text
-          @user.update_attributes!(admin: true)
+          @user.update!(admin: true)
           assert_includes(User.new(@user).search_text, 'admin')
           assert_includes(User.new(@user).search_text, 'administrator')
 
-          @user.update_attributes!(admin: false)
+          @user.update!(admin: false)
           assert_includes(User.new(@user).search_text, 'customer')
         end
 

@@ -65,7 +65,7 @@ module Workarea
         visit storefront.page_path(primary.navigable)
         assert(page.has_content?('Foo'))
 
-        secondary.navigable.update_attributes!(active: false)
+        secondary.navigable.update!(active: false)
         visit storefront.page_path(primary.navigable)
         refute_text('Foo')
       end

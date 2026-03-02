@@ -59,7 +59,7 @@ module Workarea
 
       def test_tokens
         customization = create_search_customization(id: 'foo', query: 'Foo')
-        Search::Settings.current.update_attributes!(synonyms: 'foo, bar')
+        Search::Settings.current.update!(synonyms: 'foo, bar')
         BulkIndexProducts.perform
 
         view_model = SearchAnalysisViewModel.wrap(customization)
