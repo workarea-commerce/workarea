@@ -198,8 +198,9 @@ module Workarea
 
         disable_analytics_dom_events
         fill_in 'quantity', with: '1'
+        find_field('quantity').send_keys(:tab) # ensure change/blur handlers fire
 
-        events = find_analytics_events(for_event: 'updateCartItem')
+        events = wait_for_analytics_events('updateCartItem')
         assert_equal(1, events.count)
         payload = events.first['arguments'].first
 

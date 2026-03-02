@@ -34,7 +34,7 @@ module Workarea
         def find_config(name)
           config_slug = name.to_s.underscore.downcase
           from_config = Workarea.config[config_slug].presence ||
-                          Rails.application.secrets[config_slug] ||
+                          Workarea::Configuration::AppSecrets[config_slug] ||
                           {}
 
           env_slug = name.to_s.underscore.upcase
