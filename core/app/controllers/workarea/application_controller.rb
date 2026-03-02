@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Workarea
   class ApplicationController < ActionController::Base
     include I18n::DefaultUrlOptions

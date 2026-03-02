@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Workarea
   class Checkout::CreditCardParams
     attr_accessor :params

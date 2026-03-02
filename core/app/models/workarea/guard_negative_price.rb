@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Workarea::GuardNegativePrice
   def guard_negative_price
     result = yield || 0.to_money

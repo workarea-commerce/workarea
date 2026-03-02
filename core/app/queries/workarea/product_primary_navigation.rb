@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Workarea
   class ProductPrimaryNavigation
     def initialize(product, options = {})

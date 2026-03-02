@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # This class represents the valid shipping options for an order
 # before that order has been placed. Looks up pricing/discounts
 # data to ensure accurate shipping info for display.

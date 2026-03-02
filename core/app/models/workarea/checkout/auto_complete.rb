@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # This class is responsible for consolidating
 # auto completion data for a given checkout. It's
 # params method is passed to {Checkout#update} to complete

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Workarea
   module Storefront
     module ContentHelper
@@ -28,7 +29,7 @@ module Workarea
       end
 
       def render_content_blocks_without_cache(blocks)
-        blocks.inject('') do |result, block|
+        blocks.inject(+'') do |result, block|
           result << render_content_block(block)
           result
         end.html_safe

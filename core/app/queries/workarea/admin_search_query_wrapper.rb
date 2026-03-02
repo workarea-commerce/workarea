@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # Query class for models to match the API of {Search::Query}.
 # Used in exporting models that aren't put into Elasticsearch.
 #

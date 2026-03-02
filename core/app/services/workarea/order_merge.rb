@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Workarea
   class OrderMerge
     attr_reader :original

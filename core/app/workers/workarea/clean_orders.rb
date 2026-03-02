@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Workarea
   class CleanOrders
     include Sidekiq::Worker

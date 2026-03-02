@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Workarea
   module FacetsHelper
     def facet_path(facet, value)
@@ -7,7 +8,7 @@ module Workarea
     end
 
     def price_range_facet_text(range)
-      result = ''
+      result = +''
 
       if range[:from].blank?
         price = number_to_currency(range[:to].to_m)
@@ -31,7 +32,7 @@ module Workarea
     end
 
     def facet_hidden_inputs(facets)
-      result = ''
+      result = +''
 
       params.slice(*facets.map(&:system_name)).each_pair do |key, value|
         if value.respond_to?(:map)

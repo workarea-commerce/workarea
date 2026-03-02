@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Workarea
   module Storefront
     module ApplicationHelper
@@ -46,7 +47,7 @@ module Workarea
       end
 
       def flash_messages
-        flash.keys.inject('') do |memo, name|
+        flash.keys.inject(+'') do |memo, name|
           msg = flash[name]
           html_options = {
             data: {
@@ -112,7 +113,7 @@ module Workarea
         lazy_options[:data] ||= {}
         lazy_options[:data][:lazy_image] = image_source
 
-        lazy_options[:class] ||= ''
+        lazy_options[:class] = (lazy_options[:class] || '').dup
         lazy_options[:class] << ' lazy-image'
 
         tag

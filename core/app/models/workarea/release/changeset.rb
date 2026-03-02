@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # This fixes Release::Changes == Mongoid::AuditLog::Changes in development
 # require_dependency removed: Zeitwerk autoloads app/ files
 

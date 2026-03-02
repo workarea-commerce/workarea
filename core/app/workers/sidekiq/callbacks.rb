@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Sidekiq
   # A plugin for +Sidekiq+ that enables automatic job enqueuing via
   # Rails callback methods. Mix +Sidekiq::Callbacks+ into your model to

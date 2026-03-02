@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Workarea
   class Admin::ContentController < Admin::ApplicationController
     required_permissions :store

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Workarea
   module ApplicationHelper
     def product_image_url(image, job)

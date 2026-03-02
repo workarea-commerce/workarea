@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Workarea
   class BulkIndexAdmin
     include Sidekiq::Worker

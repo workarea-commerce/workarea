@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Workarea
   module CalculatePercentChange
     def calculate_percent_change(first, second)

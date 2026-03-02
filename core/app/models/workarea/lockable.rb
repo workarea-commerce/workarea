@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Workarea
   module Lockable
     # The key used to obtain a lock for this object. Requires the object

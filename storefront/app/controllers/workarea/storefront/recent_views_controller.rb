@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Workarea
   class Storefront::RecentViewsController < Storefront::ApplicationController
     skip_before_action :verify_authenticity_token

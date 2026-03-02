@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Workarea
   class ApplicationMiddleware
     ASSET_REGEX = /(jpe?g|png|ico|gif|bmp|webp|tif?f|css|js|svg|otf|ttf|woff|woff2)$/

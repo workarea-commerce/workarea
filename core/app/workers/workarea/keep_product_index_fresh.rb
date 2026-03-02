@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Workarea
   class KeepProductIndexFresh
     include Sidekiq::Worker

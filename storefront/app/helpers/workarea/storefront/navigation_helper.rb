@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Workarea
   module Storefront
     module NavigationHelper
@@ -49,7 +50,7 @@ module Workarea
       end
 
       def link_to_menu(menu)
-        styles = 'primary-nav__link'
+        styles = +'primary-nav__link'
         styles << ' primary-nav__link--selected' if link_selected?(menu.taxon)
         options = {
           class: styles,

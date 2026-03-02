@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Workarea
   class Admin::OrdersController < Admin::ApplicationController
     required_permissions :orders
