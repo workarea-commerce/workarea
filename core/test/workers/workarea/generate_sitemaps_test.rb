@@ -77,5 +77,15 @@ module Workarea
 
       assert_equal(1, Sitemap.count)
     end
+
+    def test_default_url_options_returns_configured_host
+      original_host = Workarea.config.host
+      Workarea.config.host = 'www.example.com'
+
+      options = GenerateSitemaps.new.send(:default_url_options)
+      assert_equal 'www.example.com', options[:host]
+    ensure
+      Workarea.config.host = original_host
+    end
   end
 end
