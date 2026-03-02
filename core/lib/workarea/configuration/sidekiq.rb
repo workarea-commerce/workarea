@@ -4,11 +4,11 @@ module Workarea
       extend self
 
       def load
-        require_dependency "#{Workarea::Core::Engine.root}/app/middleware/workarea/i18n_client_middleware"
-        require_dependency "#{Workarea::Core::Engine.root}/app/middleware/workarea/i18n_server_middleware"
-        require_dependency "#{Workarea::Core::Engine.root}/app/middleware/workarea/audit_log_client_middleware"
-        require_dependency "#{Workarea::Core::Engine.root}/app/middleware/workarea/audit_log_server_middleware"
-        require_dependency "#{Workarea::Core::Engine.root}/app/middleware/workarea/release_server_middleware"
+        require "#{Workarea::Core::Engine.root}/app/middleware/workarea/i18n_client_middleware"
+        require "#{Workarea::Core::Engine.root}/app/middleware/workarea/i18n_server_middleware"
+        require "#{Workarea::Core::Engine.root}/app/middleware/workarea/audit_log_client_middleware"
+        require "#{Workarea::Core::Engine.root}/app/middleware/workarea/audit_log_server_middleware"
+        require "#{Workarea::Core::Engine.root}/app/middleware/workarea/release_server_middleware"
 
         unless manually_configured?
           ::Sidekiq.configure_server do |config|

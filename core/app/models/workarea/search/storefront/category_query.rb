@@ -1,5 +1,5 @@
 # For some reason, loading Search::Storefront::Product doesn't get triggered
-require_dependency 'workarea/search/storefront/product'
+# require_dependency removed: Zeitwerk autoloads app/ files
 
 module Workarea
   module Search

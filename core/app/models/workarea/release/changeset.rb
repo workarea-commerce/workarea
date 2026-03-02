@@ -1,5 +1,5 @@
 # This fixes Release::Changes == Mongoid::AuditLog::Changes in development
-require_dependency 'workarea/release/changes'
+# require_dependency removed: Zeitwerk autoloads app/ files
 
 module Workarea
   class Release

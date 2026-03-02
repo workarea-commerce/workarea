@@ -59,7 +59,7 @@ module Workarea
     # @deprecated Use `Workarea.define_content_block_types` instead.
     class << self
       def define_block_types(&block)
-        require_dependency 'workarea/content/block_type_definition'
+        # require_dependency removed: Zeitwerk autoloads app/ files
         definition = BlockTypeDefinition.new
         definition.instance_eval(&block)
       end
