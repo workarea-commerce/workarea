@@ -62,8 +62,14 @@ module Workarea
       end
     end
 
+    # Provide URL options for route helper calls on this worker instance.
+    # Rails 7 requires a +:host+ key when absolute-URL helpers (+_url+ suffix)
+    # are called outside of a controller/mailer context.  Workers have no
+    # request context, so we source the host from +Workarea.config.host+.
+    # The locale key ensures locale-scoped path helpers suppress the locale
+    # segment for the default locale.
     def default_url_options
-      { locale: locale }
+      { host: Workarea.config.host, locale: locale }
     end
 
     def locale

@@ -30,5 +30,13 @@ module Workarea
     def mounted_core
       self
     end
+
+    # Rails 7 requires +default_url_options+ to supply at least +:host+ when
+    # absolute-URL helpers (the +_url+ suffix) are called outside of a
+    # controller or mailer context.  Without it, Rails 7 raises
+    # +ActionController::UrlGenerationError: Missing host to link to!+.
+    def default_url_options
+      { host: Workarea.config.host }
+    end
   end
 end
