@@ -34,8 +34,17 @@ end
 # Rack::Timeout and Rack::Attack are inserted at the outermost positions so
 # they wrap the entire request cycle.  Excluded from test/development to
 # avoid masking slow tests and to simplify local request debugging.
+#
+# rack-attack >= 6.2 ships a Railtie that auto-inserts Rack::Attack into the
+# middleware stack for Rails 5.1+ applications.  On those versions the
+# middleware may already be present by the time this initializer runs.  We
+# delete it first (a no-op when absent) so that the explicit insert 1 always
+# lands Rack::Attack at the correct outermost position without creating a
+# duplicate entry.  This is also safe when rack-attack is upgraded to 6.7+,
+# which adds Rack 3 / Rails 7 compatibility.
 unless Rails.env.test? || Rails.env.development?
   app.config.middleware.insert 0, Rack::Timeout
+  app.config.middleware.delete(Rack::Attack)
   app.config.middleware.insert 1, Rack::Attack
 end
 
