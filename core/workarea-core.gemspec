@@ -68,7 +68,7 @@ s.add_dependency 'rails', '>= 6.1', '< 7.2'
   s.add_dependency 'tooltipster-rails', '~> 4.2'        # loosened from ~> 4.2.0
   s.add_dependency 'select2-rails', '~> 4.0'            # loosened from ~> 4.0.3
   s.add_dependency 'wysihtml-rails', '~> 0.6.0.beta2'   # pre-release pin kept
-  s.add_dependency 'rack-attack', '~> 6.3'              # loosened from ~> 6.3.1
+  s.add_dependency 'rack-attack', '>= 6.3', '< 7.0'    # WA-NEW-040: allow 6.x range for Rails 7 / Rack 3 compat
   s.add_dependency 'redcarpet', '~> 3.5'                # loosened from ~> 3.5.1, >= 3.5.1
   s.add_dependency 'jquery-livetype-rails', '~> 0.1'    # loosened from ~> 0.1.0 # TODO remove v4
   s.add_dependency 'jquery-unique-clone-rails', '~> 1.0' # loosened from ~> 1.0.0
