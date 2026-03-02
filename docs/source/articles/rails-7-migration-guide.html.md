@@ -288,15 +288,19 @@ field :active, type: Boolean, default: false
 
 #### Recursive Save Callbacks
 
-Mongoid 8 prevents saving inside `after_save` callbacks:
+Mongoid 8 prevents calling `save` inside `after_save` callbacks (it can recurse indefinitely).
+
+Prefer to **avoid writes inside `after_save`** entirely. If you truly need to persist a derived field from within a callback, use a Mongoid-native atomic update that does not run callbacks again, such as `set`:
 
 \`\`\`ruby
 # Before
-after_save { self.save }
+after_save { save }
 
-# After
-after_save { update_column(:field, value) }
+# After (Mongoid)
+after_save { set(field: value) }
 \`\`\`
+
+(Using `set` writes directly to MongoDB and bypasses validations and callbacks.)
 
 #### Index Creation
 
@@ -409,7 +413,7 @@ Rename files so that \`app/models/my_module/foo_bar.rb\` defines \`MyModule::Foo
 
 **Cause:** Mongoid 8 prevents \`save\` inside \`after_save\` callbacks.
 
-**Fix:** Use \`update_column\` instead. See [Mongoid 8 Migration](#mongoid-8-migration).
+**Fix:** Avoid writes in \`after_save\`. If you must persist a derived field, use a Mongoid atomic update like \`set\` (see [Mongoid 8 Migration](#mongoid-8-migration)).
 
 ---
 
