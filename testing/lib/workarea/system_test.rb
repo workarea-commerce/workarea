@@ -1,4 +1,5 @@
 require 'capybara/rails'
+require 'selenium-webdriver'
 
 require 'puma'
 require 'workarea/integration_test'
@@ -14,7 +15,7 @@ chrome_options = Workarea::HeadlessChrome.options
 Capybara.server_errors = [Exception]
 Capybara.automatic_label_click = true
 Capybara.register_driver :headless_chrome do |app|
-  options = Selenium::WebDriver::Chrome::Options.new
+  options = ::Selenium::WebDriver::Chrome::Options.new
   chrome_options.fetch(:args, []).each { |arg| options.add_argument(arg) }
 
   # Enable browser logging so we can capture JS errors.
