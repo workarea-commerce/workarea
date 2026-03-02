@@ -13,7 +13,15 @@ app.config.to_prepare do
       end
     end
 
-    if preview_path = app.config.action_mailer.preview_path
+    # Rails 7.1 renamed preview_path (string) to preview_paths (array).
+    # Support both forms so the app boots on Rails 6.1 and Rails 7.x.
+    preview_paths = if app.config.action_mailer.respond_to?(:preview_paths)
+      Array(app.config.action_mailer.preview_paths)
+    else
+      Array(app.config.action_mailer.preview_path)
+    end
+
+    preview_paths.compact.each do |preview_path|
       Dir["#{preview_path}/**/*_preview.rb"].sort.each { |file| load file }
     end
   end
