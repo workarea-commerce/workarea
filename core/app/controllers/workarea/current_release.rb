@@ -46,7 +46,7 @@ module Workarea
 
     def current_release=(release)
       current_release_session.save_release_change if release.present?
-      session[:release_id] = release.try(:id)
+      session[:release_id] = release.try(:id).try(:to_s)
       Release.current = release
     end
 

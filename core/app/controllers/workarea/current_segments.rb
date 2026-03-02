@@ -29,7 +29,7 @@ module Workarea
         return
       end
 
-      session[:segment_ids] = segments.map(&:id)
+      session[:segment_ids] = segments.map { |s| s.id.to_s }
       current_visit.override_segments = segments
     end
 

@@ -29,7 +29,7 @@ module Workarea
         @current_order = order
 
         if order.blank? || order.persisted?
-          cookies.permanent.signed[:order_id] = order&.id
+          cookies.permanent.signed[:order_id] = order&.id.to_s.presence
         end
       end
 
@@ -48,7 +48,7 @@ module Workarea
       # page.
       #
       def completed_order=(order)
-        session[:completed_order_id] = order&.id
+        session[:completed_order_id] = order&.id.to_s.presence
         @completed_order = order
       end
 
@@ -95,7 +95,7 @@ module Workarea
 
       def set_order_id_cookie
         if @current_order.present? && @current_order.persisted?
-          cookies.permanent.signed[:order_id] = @current_order.id
+          cookies.permanent.signed[:order_id] = @current_order.id.to_s
         end
       end
 

@@ -13,7 +13,7 @@ module Workarea
       end
 
       def lookup_order=(order)
-        session[:lookup_order_id] = order.try(:id)
+        session[:lookup_order_id] = order.try(:id).try(:to_s)
         @lookup_order = order
       end
     end
