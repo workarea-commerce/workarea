@@ -8,7 +8,7 @@ module Workarea
       field :service_code, type: String
       field :tax_code, type: String
 
-      embedded_in :shipping, class_name: 'Workarea::Shipping'
+      embedded_in :shipping, class_name: 'Workarea::Shipping', touch: false
       validates :name, presence: true
     end
   end

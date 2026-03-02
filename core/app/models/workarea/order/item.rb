@@ -17,7 +17,7 @@ module Workarea
 
     scope :by_newest, -> { desc(:created_at) }
 
-    embedded_in :order, inverse_of: :items
+    embedded_in :order, inverse_of: :items, touch: false
     embeds_many :price_adjustments,
       class_name: 'Workarea::PriceAdjustment',
       extend: PriceAdjustmentExtension

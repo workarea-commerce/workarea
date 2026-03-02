@@ -9,7 +9,7 @@ module Workarea
       field :backordered_until, type: Time
       field :total, type: Integer
 
-      embedded_in :transaction, class_name: 'Workarea::Inventory::Transaction'
+      embedded_in :transaction, class_name: 'Workarea::Inventory::Transaction', touch: false
 
       def expired_backorder?
         !!backordered_until.try(:past?)

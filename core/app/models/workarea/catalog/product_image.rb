@@ -30,10 +30,14 @@ module Workarea
       embedded_in :product,
         class_name: 'Workarea::Catalog::Product',
         inverse_of: :images,
-        touch: true
+        touch: false # Mongoid 8: default changed to true; explicit callbacks below handle touching
 
       dragonfly_accessor :image, app: :workarea
 
+      # Explicitly touch the parent product on save/destroy so product cache
+      # invalidation works correctly in both Mongoid 7 and Mongoid 8.
+      # (Mongoid 8 auto-touches on save when touch: true/default, but we keep
+      # these explicit callbacks with touch: false for predictable behavior.)
       after_save { _parent.touch }
       after_destroy { _parent.touch }
 

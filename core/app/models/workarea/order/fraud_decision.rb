@@ -3,7 +3,7 @@ module Workarea
     class FraudDecision
       include ApplicationDocument
 
-      embedded_in :order, class_name: 'Workarea::Order'
+      embedded_in :order, class_name: 'Workarea::Order', touch: false
 
       field :decision, type: String, default: 'no_decision'
       field :analyzer, type: String

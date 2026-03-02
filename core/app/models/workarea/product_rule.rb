@@ -16,7 +16,7 @@ module Workarea
     field :operator, type: String
     field :value, type: String, localize: true
 
-    embedded_in :product_list, polymorphic: true, inverse_of: :product_rules
+    embedded_in :product_list, polymorphic: true, inverse_of: :product_rules, touch: false
 
     validate :value_is_date_if_field_is_date
     validates :value, presence: true

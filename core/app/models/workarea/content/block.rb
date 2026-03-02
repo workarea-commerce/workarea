@@ -60,7 +60,8 @@ module Workarea
       #
       embedded_in :content,
         class_name: 'Workarea::Content',
-        inverse_of: :blocks
+        inverse_of: :blocks,
+        touch: false
 
       validates :area, presence: true
       validates :type, presence: true

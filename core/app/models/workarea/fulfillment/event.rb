@@ -7,7 +7,7 @@ module Workarea
       field :quantity, type: Integer, default: 0
       field :data, type: Hash, default: {}
 
-      embedded_in :item, inverse_of: :events
+      embedded_in :item, inverse_of: :events, touch: false
       delegate :order_item_id, to: :item
     end
   end
