@@ -51,8 +51,8 @@ s.add_dependency 'rails', '>= 6.1', '< 7.2'
   s.add_dependency 'autoprefixer-rails', '9.8.5' # the newer version prints an obnoxious deprecation warning
   s.add_dependency 'sassc-rails', '~> 2.1'              # loosened from ~> 2.1.0
   s.add_dependency 'ruby-stemmer', '~> 3.0'             # loosened from ~> 3.0.0
-  s.add_dependency 'sprockets-rails', '~> 3.2'          # loosened from ~> 3.2.0; sprockets 4 needed for Rails 7 (BLOCKER)
-  s.add_dependency 'sprockets', '~> 3.7'                # loosened from ~> 3.7.2; sprockets 4 needed for Rails 7 (BLOCKER)
+  s.add_dependency 'sprockets-rails', '>= 3.2', '< 4'   # loosened to allow 3.4.x (latest); sprockets 4 compatible
+  s.add_dependency 'sprockets', '>= 3.7', '< 5'         # allow sprockets 4.x for Rails 7 compat; see ext/sprockets/ruby_processor.rb
   s.add_dependency 'predictor', '~> 2.3'                # loosened from ~> 2.3.0
   s.add_dependency 'js-routes', '~> 1.4'                # loosened from ~> 1.4.0
   s.add_dependency 'mongoid-active_merchant', '~> 0.2'  # loosened from ~> 0.2.0
