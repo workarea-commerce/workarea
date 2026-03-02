@@ -10,7 +10,7 @@ if Workarea.redis && Rails.configuration.action_controller.perform_caching
   )
 end
 
-geocoder_config = Workarea::Configuration::AppSecrets.instance[:geocoder]
+geocoder_config = Workarea::Configuration::AppSecrets[:geocoder]
 if geocoder_config.present?
   Geocoder.configure(geocoder_config.merge(use_https: true))
 end

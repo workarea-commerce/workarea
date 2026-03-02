@@ -20,7 +20,7 @@ Dragonfly.app(:workarea).configure do
   Dragonfly::ImageMagick::Processors::Encode::WHITELISTED_ARGS.concat(%w[interlace set])
 
   verify_urls true
-  secret Workarea::Configuration::AppSecrets.instance[:dragonfly_secret].presence ||
+  secret Workarea::Configuration::AppSecrets[:dragonfly_secret].presence ||
           Rails.application.secret_key_base
 
   url_format '/media/:job/:name'

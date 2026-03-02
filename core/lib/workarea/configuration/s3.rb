@@ -53,7 +53,7 @@ module Workarea
       end
 
       def secrets
-        Workarea::Configuration::AppSecrets.instance[@slug].to_h.with_indifferent_access
+        Workarea::Configuration::AppSecrets[@slug].to_h.with_indifferent_access
       end
 
       def credentials

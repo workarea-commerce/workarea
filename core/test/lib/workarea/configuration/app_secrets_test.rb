@@ -16,9 +16,18 @@ module Workarea
         assert_nil AppSecrets.instance[:totally_unknown_key_xyz]
       end
 
+      def test_class_bracket_delegates_to_instance
+        assert_nil AppSecrets[:totally_unknown_key_xyz]
+      end
+
       def test_bracket_and_method_access_are_equivalent
         # Both access paths should return the same value (nil for unknown keys).
         assert_equal AppSecrets.instance[:unknown_key], AppSecrets.instance.unknown_key
+      end
+
+      def test_method_missing_does_not_mask_args_or_blocks
+        assert_raises(NoMethodError) { AppSecrets.instance.unknown_key(1) }
+        assert_raises(NoMethodError) { AppSecrets.instance.unknown_key { :block } }
       end
 
       def test_credentials_preferred_over_secrets
@@ -48,6 +57,18 @@ module Workarea
         end
       end
 
+      def test_respond_to_missing_is_conservative
+        refute AppSecrets.instance.respond_to?(:any_method_name)
+
+        creds_stub = OpenStruct.new(test_key: 'from_credentials')
+        creds_stub.define_singleton_method(:[]) { |key| key == :test_key ? 'from_credentials' : nil }
+        creds_stub.define_singleton_method(:key?) { |key| key == :test_key }
+
+        with_stubbed_rails_application(:credentials, creds_stub) do
+          assert AppSecrets.instance.respond_to?(:test_key)
+        end
+      end
+
       private
 
       def with_stubbed_rails_application(method_name, value)
@@ -61,10 +82,6 @@ module Workarea
       ensure
         singleton.alias_method(method_name, original_method_name)
         singleton.remove_method(original_method_name)
-      end
-
-      def test_respond_to_missing
-        assert AppSecrets.instance.respond_to?(:any_method_name)
       end
     end
   end

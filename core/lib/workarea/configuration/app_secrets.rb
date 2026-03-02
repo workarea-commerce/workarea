@@ -12,8 +12,10 @@ module Workarea
     # Usage (mirrors the Rails.application.secrets API):
     #
     #   Workarea::Configuration::AppSecrets[:smtp_settings]
-    #   Workarea::Configuration::AppSecrets.smtp_settings
-    #   Workarea::Configuration::AppSecrets.send(:smtp_settings)
+    #   Workarea::Configuration::AppSecrets.instance[:smtp_settings]
+    #
+    # Dot-notation (e.g. +AppSecrets.instance.smtp_settings+) is supported for
+    # zero-arg, no-block calls only.
     #
     class AppSecrets
       # Singleton — callers should use AppSecrets.instance rather than .new.
@@ -21,7 +23,15 @@ module Workarea
         @instance ||= new
       end
 
-      # Bracket accessor.  Returns the credentials value when present,
+      # Convenience wrapper so callers can use:
+      #
+      #   Workarea::Configuration::AppSecrets[:smtp_settings]
+      #
+      def self.[](key)
+        instance[key]
+      end
+
+      # Bracket accessor. Returns the credentials value when present,
       # otherwise falls back to the secrets value.
       def [](key)
         key = key.to_sym
@@ -32,28 +42,37 @@ module Workarea
       end
 
       # Forwards dot-notation calls (e.g. .smtp_settings) to +[]+.
-      def method_missing(name, *_args)
+      #
+      # Only supports zero-arg, no-block calls so we don't mask real bugs.
+      def method_missing(name, *args, &block)
+        return super unless args.empty? && block.nil?
+
         self[name]
       end
 
-      def respond_to_missing?(_name, _include_private = false)
-        true
+      # Only report known keys as supported for dot-notation.
+      def respond_to_missing?(name, include_private = false)
+        key_exists?(name) || super
       end
-
-      # Convenience — allows AppSecrets.send(:some_key) to work the same way
-      # as AppSecrets.some_key or AppSecrets[:some_key].
-      alias_method :public_send, :method_missing
 
       private
 
+      def key_exists?(key)
+        key = key.to_sym
+
+        (Rails.application.credentials.respond_to?(:key?) && Rails.application.credentials.key?(key)) ||
+          (Rails.application.secrets.respond_to?(:key?) && Rails.application.secrets.key?(key))
+      rescue NoMethodError
+        false
+      end
+
       def secrets_fetch(key)
         secrets = Rails.application.secrets
-        # secrets.respond_to?(:send) is always true but secrets[key] may be nil
-        # while secrets.key_name returns nil rather than raising. Both paths are
-        # equivalent for valid identifiers; bracket access is used so that
-        # string/symbol normalisation is handled by Rails.
+        return nil if secrets.nil?
+
+        # Bracket access so Rails normalizes string/symbol keys.
         secrets[key]
-      rescue StandardError
+      rescue NoMethodError
         nil
       end
     end
