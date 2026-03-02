@@ -151,6 +151,20 @@ module Workarea
           all_events.select { |e| e['name'] == for_event }
         end
       end
+
+      def wait_for_analytics_events(event_name, count: 1, timeout: Capybara.default_max_wait_time)
+        events = []
+
+        Timeout.timeout(timeout) do
+          loop do
+            events = find_analytics_events(for_event: event_name)
+            break if events.count >= count
+            sleep 0.05
+          end
+        end
+
+        events
+      end
     end
   end
 end
