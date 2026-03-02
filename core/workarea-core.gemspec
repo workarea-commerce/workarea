@@ -97,6 +97,7 @@ s.add_dependency 'rails', '>= 6.1', '< 7.2'
   s.add_dependency 'serviceworker-rails', '~> 0.6'      # loosened from ~> 0.6.0
   s.add_dependency 'chartkick', '~> 3.4'                # loosened from ~> 3.4.0
   s.add_dependency 'browser', '~> 5.3'                  # loosened from ~> 5.3.0
+  s.add_dependency 'puma', '>= 4.3.1'
   s.add_dependency 'rack' , '>= 2.1.4'
   s.add_dependency 'dragonfly_libvips', '~> 2.4'        # loosened from ~> 2.4.2
   s.add_dependency 'sitemap_generator', '~> 6.1'        # loosened from ~> 6.1.2
