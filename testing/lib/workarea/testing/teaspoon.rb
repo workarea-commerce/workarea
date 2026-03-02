@@ -1,18 +1,5 @@
 require 'teaspoon-mocha'
 require 'selenium-webdriver'
-require 'webdrivers'
-
-# Chrome 115+ uses Chrome for Testing (CfT) download endpoints.
-# The webdrivers gem (4.x) doesn't know about CfT and fails to resolve
-# chromedriver versions for modern/beta Chrome. Disable auto-update and point
-# Selenium at the locally-installed chromedriver instead.
-chromedriver_path = ENV.fetch('CHROMEDRIVER_PATH') {
-  `which chromedriver 2>/dev/null`.strip
-}
-if chromedriver_path && !chromedriver_path.empty?
-  Webdrivers::Chromedriver.define_singleton_method(:update) { chromedriver_path }
-  Selenium::WebDriver::Chrome::Service.driver_path = chromedriver_path
-end
 
 require 'workarea/testing/engine'
 require 'workarea/testing/headless_chrome'
@@ -119,15 +106,14 @@ module Workarea
       # Capybara Webkit: https://github.com/modeset/teaspoon/wiki/Using-Capybara-Webkit
       config.driver = :selenium
 
+      chrome_opts = Selenium::WebDriver::Chrome::Options.new
+      HeadlessChrome.args.each { |arg| chrome_opts.add_argument(arg) }
+      chrome_opts.logging_prefs = { browser: 'ALL' }
+
       config.driver_options = {
         client_driver: :chrome,
         selenium_options: {
-          desired_capabilities: Selenium::WebDriver::Remote::Capabilities.chrome(
-            chromeOptions: HeadlessChrome.options,
-            loggingPrefs: {
-              browser: 'ALL'
-            }
-          )
+          options: chrome_opts
         }
       }
 

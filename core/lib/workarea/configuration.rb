@@ -958,11 +958,12 @@ module Workarea
 
       # Arguments passed to headless Chrome for running system tests
       config.headless_chrome_args = [
-        'headless',
-        'disable-gpu',
-        'disable-popup-blocking',
-        '--enable-features=NetworkService,NetworkServiceInProcess',
-        "--window-size=#{config.capybara_browser_width},#{config.capybara_browser_width}"
+        '--headless=new',
+        '--disable-gpu',
+        '--disable-popup-blocking',
+        '--no-sandbox',
+        '--disable-dev-shm-usage',
+        "--window-size=#{config.capybara_browser_width},#{config.capybara_browser_height}"
       ]
 
       # HTTP caching headers can mess up system tests so we disable HTTP caching in tests.
