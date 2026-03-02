@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Workarea
   module NavigableTest
     def test_validations

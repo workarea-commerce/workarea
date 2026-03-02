@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Workarea
   class Storefront::Users::AccountsController < Storefront::ApplicationController
     before_action :require_login, only: [:show, :edit, :update]

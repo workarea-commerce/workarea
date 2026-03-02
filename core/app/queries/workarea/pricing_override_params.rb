@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Workarea
   class PricingOverrideParams
     attr_reader :params, :user

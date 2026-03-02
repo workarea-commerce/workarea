@@ -3,6 +3,16 @@ module Workarea
     module Sidekiq
       extend self
 
+      # Sidekiq 7 uses Sidekiq::Config::DEFAULTS; Sidekiq 6 used Sidekiq::DEFAULTS.
+      # Use whichever constant is available.
+      SIDEKIQ_DEFAULTS = if defined?(::Sidekiq::Config::DEFAULTS)
+        ::Sidekiq::Config::DEFAULTS
+      elsif defined?(::Sidekiq::DEFAULTS)
+        ::Sidekiq::DEFAULTS
+      else
+        { concurrency: 5, timeout: 25 }.freeze
+      end
+
       def load
         require "#{Workarea::Core::Engine.root}/app/middleware/workarea/i18n_client_middleware"
         require "#{Workarea::Core::Engine.root}/app/middleware/workarea/i18n_server_middleware"
@@ -12,10 +22,14 @@ module Workarea
 
         unless manually_configured?
           ::Sidekiq.configure_server do |config|
-            config[:pidfile] = pidfile
-            config[:concurrency] = concurrency
-            config[:timeout] = timeout
-            config[:queues] = queues
+            # pidfile is a CLI-only concept in Sidekiq 7; skip it here.
+            # In Sidekiq 6 it was configurable via the hash; we set it only
+            # when the legacy constant is present so 6.x deployments still work.
+            config[:pidfile] = pidfile if defined?(::Sidekiq::DEFAULTS)
+
+            config.concurrency = concurrency
+            config[:timeout]   = timeout
+            config.queues      = queues
           end
         end
 
@@ -88,7 +102,7 @@ module Workarea
 
       def concurrency
         value = ENV['WORKAREA_SIDEKIQ_CONCURRENCY'].presence ||
-          ::Sidekiq::DEFAULTS[:concurrency]
+          SIDEKIQ_DEFAULTS[:concurrency]
 
         value.to_i
       end
@@ -96,7 +110,7 @@ module Workarea
       def timeout
         value = ENV['WORKAREA_SIDEKIQ_TIMEOUT'].presence ||
           ENV['WORKAREA_SIDEKIQ_DEFAULT_TIMEOUT'].presence || # legacy
-          ::Sidekiq::DEFAULTS[:timeout]
+          SIDEKIQ_DEFAULTS[:timeout]
 
         value.to_i
       end

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Workarea
   module Admin::ReleasesHelper
     def release_options
@@ -8,7 +9,7 @@ module Workarea
     end
 
     def release_select_attributes
-      css_class = ''
+      css_class = +''
       css_class << 'release-select--active' if current_release.present?
       css_class << ' release-select--emphasize' if current_release_session.remind?
 

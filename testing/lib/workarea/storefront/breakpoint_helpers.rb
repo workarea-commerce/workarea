@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Workarea
   module BreakpointHelpers
     # Resizes the headless browser viewport width & height to a given breakpoint

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Workarea
   module FeaturedProductsTest
     def test_adding_a_product

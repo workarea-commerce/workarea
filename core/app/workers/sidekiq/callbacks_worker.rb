@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Sidekiq
   # Mixin for Sidekiq workers that enables the worker to be called via
   # Rails callback methods.

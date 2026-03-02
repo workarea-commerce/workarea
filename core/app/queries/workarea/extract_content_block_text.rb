@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Workarea
   class ExtractContentBlockText
     def initialize(blocks)
@@ -5,7 +6,7 @@ module Workarea
     end
 
     def text
-      @blocks.reduce('') do |memo, block|
+      @blocks.reduce(+'') do |memo, block|
         memo << ' ' unless memo.blank?
         memo << extract_text(block.data)
       end
@@ -14,7 +15,7 @@ module Workarea
     private
 
     def extract_text(data)
-      data.values.reduce('') do |memo, value|
+      data.values.reduce(+'') do |memo, value|
         value = value.to_s
 
         if value.scan(/[\p{Alnum}\-\_\:\/\/\.']+/).size >= min_words

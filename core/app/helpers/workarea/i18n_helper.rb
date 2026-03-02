@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Workarea
   module I18nHelper
     def locale_options
@@ -7,7 +8,7 @@ module Workarea
     end
 
     def switch_locale_fields
-      result = ''
+      result = +''
 
       params
         .except(:utf8, :controller, :action, :locale)

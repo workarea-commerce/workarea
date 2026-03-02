@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Workarea
   class OrderMetrics
     attr_reader :order

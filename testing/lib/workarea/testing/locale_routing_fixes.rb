@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # These fixes allow us to default locale to nil so routes in tests can be
 # generated as expected. This is unbelievably shitty and makes me really sad.
 # Details on this can be found here: https://github.com/rspec/rspec-rails/issues/255

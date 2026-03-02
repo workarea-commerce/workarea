@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Workarea
   class BulkActionSelections
     attr_reader :bulk_action, :params

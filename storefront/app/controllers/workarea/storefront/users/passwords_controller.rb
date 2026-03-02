@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Workarea
   class Storefront::Users::PasswordsController < Storefront::ApplicationController
     before_action :require_login, only: [:change, :make_change]

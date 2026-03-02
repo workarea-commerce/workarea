@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Workarea
   module Admin
     module ApplicationHelper
@@ -129,7 +130,7 @@ module Workarea
       end
 
       def flash_messages
-        flash.keys.inject('') do |memo, name|
+        flash.keys.inject(+'') do |memo, name|
           msg = flash[name]
 
           if msg.is_a?(Enumerable)

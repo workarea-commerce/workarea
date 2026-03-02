@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Workarea::Tax
   # Finds the appropriate tax rate for a code/price/location
   #

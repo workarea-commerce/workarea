@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Workarea
   module PluginsHelper
     def append_partials(name, locals = {})

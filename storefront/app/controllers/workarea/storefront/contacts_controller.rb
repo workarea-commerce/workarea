@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Workarea
   class Storefront::ContactsController < Storefront::ApplicationController
     def show

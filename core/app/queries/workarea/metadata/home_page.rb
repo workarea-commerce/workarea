@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Workarea
   class Metadata::HomePage < Metadata
     # Provides a default value for use as the html page title of

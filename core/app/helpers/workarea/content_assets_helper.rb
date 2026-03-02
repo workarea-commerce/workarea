@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Workarea
   module ContentAssetsHelper
     # Returns the path to the given content asset, including the asset host

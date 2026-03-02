@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Workarea
   module SchemaOrgHelper
     def render_schema_org(schema)

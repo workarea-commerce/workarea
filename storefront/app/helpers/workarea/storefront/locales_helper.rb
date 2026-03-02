@@ -1,10 +1,11 @@
+# frozen_string_literal: true
 module Workarea
   module Storefront
     module LocalesHelper
       def alternate_locales_tags
         return if I18n.configured_locales.one?
 
-        alternate_locale_urls.reduce('') do |memo, (locale, url)|
+        alternate_locale_urls.reduce(+'') do |memo, (locale, url)|
           memo << tag(:link, href: url, rel: 'alternate', hreflang: locale)
         end.html_safe
       end

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Workarea
   class Storefront::Users::LoginsController < Storefront::ApplicationController
     before_action :ensure_not_locked, only: :create

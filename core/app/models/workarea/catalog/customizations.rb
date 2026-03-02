@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # This is the base class for creating types of product
 # customizations. To make a new type of customizations,
 # simply inherit this class, add the list of customized_fields,

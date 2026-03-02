@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Workarea
   class OrderCancellationMetrics
     attr_reader :order, :occured_at
