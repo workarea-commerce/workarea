@@ -1,25 +1,9 @@
 require 'capybara/rails'
-require 'webdrivers'
-
-# Chrome 115+ uses Chrome for Testing (CfT) download endpoints.
-# The webdrivers gem (4.x) doesn't know about CfT and fails to resolve
-# chromedriver versions for Chrome 115+. Disable auto-update and point
-# Selenium at the locally-installed chromedriver instead.
-chromedriver_path = ENV.fetch('CHROMEDRIVER_PATH') {
-  `which chromedriver 2>/dev/null`.strip.presence
-}
-if chromedriver_path
-  # Prevent webdrivers from trying to download/update chromedriver
-  Webdrivers::Chromedriver.define_singleton_method(:update) { chromedriver_path }
-  Selenium::WebDriver::Chrome::Service.driver_path = chromedriver_path
-end
 
 require 'puma'
-require 'capybara/chromedriver/logger'
 require 'workarea/integration_test'
 require 'workarea/testing/custom_capybara_matchers'
 require 'workarea/testing/headless_chrome'
-require 'workarea/testing/chromedriver_logger_cleaner'
 
 # get options on load to ensure initial configuration is captured.
 # Capybara.register_driver does not execute the passed block immediately, which
@@ -32,7 +16,9 @@ Capybara.automatic_label_click = true
 Capybara.register_driver :headless_chrome do |app|
   options = Selenium::WebDriver::Chrome::Options.new
   chrome_options.fetch(:args, []).each { |arg| options.add_argument(arg) }
-  options.add_preference(:loggingPrefs, { browser: 'ALL' })
+
+  # Enable browser logging so we can capture JS errors.
+  options.logging_prefs = { browser: 'ALL' }
 
   Capybara::Selenium::Driver.new(
     app,
@@ -41,26 +27,8 @@ Capybara.register_driver :headless_chrome do |app|
   )
 end
 
-# Fail tests when JS errors are thrown.
-Capybara::Chromedriver::Logger.raise_js_errors = true
-
-# Ignore common error responses for `/current_user.json` and /login`.
-# These occur during the normal course of testing authentication, so
-# they don't need to be output in the test results.
-Capybara::Chromedriver::Logger.filters = [
-  /(login|current_user\.json) - Failed to load resource: the server responded with a status of (401|422)/
-]
-
 Capybara.server = :puma, { Silent: true }
 Capybara.javascript_driver = :headless_chrome
-
-# If builds want to stick to poltegeist to avoid the pain of upgrading, see if
-# we can define the driver for them. TODO remove in v4
-if defined?(Capybara::Poltergeist)
-  Capybara.register_driver :poltergeist do |app|
-    Capybara::Poltergeist::Driver.new(app, js_errors: true)
-  end
-end
 
 # Because each plugin adds more time to template resolution, more plugins mean
 # slower tests. This is accommodate that slowdown :(
@@ -72,6 +40,12 @@ FileUtils.rm_rf(Rails.root.join('tmp', 'cache', 'assets', 'sprockets'))
 
 # Default screenshots to simple output of file path
 ENV["RAILS_SYSTEM_TESTING_SCREENSHOT"] ||= 'simple'
+
+# JS error patterns to ignore during system tests. These occur during
+# normal authentication testing flows and are not real failures.
+WORKAREA_IGNORED_JS_ERROR_PATTERNS = [
+  /(login|current_user\.json) - Failed to load resource: the server responded with a status of (401|422)/
+].freeze
 
 module Workarea
   class SystemTest < ActionDispatch::SystemTestCase
@@ -103,7 +77,7 @@ module Workarea
     end
 
     teardown do
-      Capybara::Chromedriver::Logger::TestHooks.after_example! if javascript?
+      check_for_js_errors if javascript?
     end
 
     # This is to make sure Chrome chills out and allows XHR requests to finish
@@ -131,9 +105,7 @@ module Workarea
         loop until finished_all_xhr_requests?
       end
     rescue Timeout::Error => error
-      javascript_errors = page.driver.browser.manage.logs.get(:browser).each do |log_entry|
-        log_entry.level == 'SEVERE' && /Uncaught/.match?(log_entry.message)
-      end
+      javascript_errors = collect_js_errors
       if javascript_errors.present?
         raise(
           Timeout::Error,
@@ -171,10 +143,6 @@ module Workarea
       page.execute_script('window.scrollBy(0, 9999999)')
     end
 
-    def scroll_to_bottom
-      page.execute_script('window.scrollBy(0, 9999999)')
-    end
-
     def currency
       Money.default_currency.symbol
     end
@@ -185,6 +153,39 @@ module Workarea
       return unless javascript?
 
       page.evaluate_script("!window['jQuery'] || jQuery.active === 0")
+    end
+
+    # Collect browser log entries that indicate JavaScript errors.
+    # Uses the Selenium logging API, which works across selenium-webdriver 4.x.
+    def collect_js_errors
+      logs = begin
+        page.driver.browser.logs.get(:browser)
+      rescue NoMethodError, Selenium::WebDriver::Error::WebDriverError
+        begin
+          page.driver.browser.manage.logs.get(:browser)
+        rescue NoMethodError, Selenium::WebDriver::Error::WebDriverError
+          []
+        end
+      end
+
+      logs.select do |entry|
+        entry.level == 'SEVERE' && /Uncaught/.match?(entry.message)
+      end
+    end
+
+    # Check for unhandled JS errors at the end of each test.
+    # Raises if SEVERE/Uncaught errors are found (excluding filtered patterns).
+    def check_for_js_errors
+      errors = collect_js_errors.reject do |entry|
+        WORKAREA_IGNORED_JS_ERROR_PATTERNS.any? { |pat| pat.match?(entry.message) }
+      end
+
+      return if errors.blank?
+
+      raise Minitest::Assertion, <<~msg
+        JavaScript errors detected during test:
+          #{errors.map(&:message).join("\n  ")}
+      msg
     end
   end
 end
