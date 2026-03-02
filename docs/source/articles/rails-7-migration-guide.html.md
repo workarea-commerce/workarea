@@ -29,21 +29,21 @@ Before upgrading, ensure your environment meets the minimum requirements.
 
 Rails 7 requires **Ruby 2.7 or later**. Ruby 3.0+ is recommended.
 
-\`\`\`bash
+```bash
 # Check your current Ruby version
 ruby -v
 # => ruby 3.0.x (recommended) or ruby 2.7.x (minimum)
-\`\`\`
+```
 
 If you need to upgrade Ruby, use your version manager (rbenv, RVM, or asdf):
 
-\`\`\`bash
+```bash
 # Example with rbenv
 rbenv install 3.0.6
 rbenv local 3.0.6
-\`\`\`
+```
 
-Update your \`.ruby-version\` file accordingly.
+Update your `.ruby-version` file accordingly.
 
 ### Node.js and Yarn
 
@@ -56,10 +56,10 @@ Workarea continues to use the asset pipeline with Sprockets. Ensure you have:
 
 Use Bundler 2.2 or later:
 
-\`\`\`bash
+```bash
 gem install bundler
 bundler -v
-\`\`\`
+```
 
 ---
 
@@ -67,13 +67,13 @@ bundler -v
 
 ### Update the Rails Version
 
-\`\`\`ruby
+```ruby
 # Before (Rails 6)
 gem 'rails', '~> 6.1'
 
 # After (Rails 7)
 gem 'rails', '~> 7.0'
-\`\`\`
+```
 
 ### Update Workarea
 
@@ -81,26 +81,26 @@ Ensure you are pointing to a Rails 7-compatible Workarea version (check release 
 
 ### Sprockets 4
 
-\`\`\`ruby
+```ruby
 gem 'sprockets', '~> 4.0'
 gem 'sprockets-rails', '>= 3.4.0'
-\`\`\`
+```
 
 ### Remove `rack-cache`
 
-\`\`\`diff
+```diff
 -gem 'rack-cache'
-\`\`\`
+```
 
 ### Update Selenium for System Tests
 
-\`\`\`ruby
+```ruby
 gem 'selenium-webdriver', '>= 4.0'
-\`\`\`
+```
 
 ### Full Diff
 
-\`\`\`diff
+```diff
 -gem 'rails', '~> 6.1'
 +gem 'rails', '~> 7.0'
 
@@ -111,13 +111,13 @@ gem 'selenium-webdriver', '>= 4.0'
 -gem 'rack-cache'
 
  gem 'bootsnap', '>= 1.4.4', require: false
-\`\`\`
+```
 
 After updating, run:
 
-\`\`\`bash
+```bash
 bundle update rails workarea
-\`\`\`
+```
 
 ---
 
@@ -125,61 +125,61 @@ bundle update rails workarea
 
 ### Secrets → Credentials
 
-Rails 7 fully removes \`config/secrets.yml\`. Use credentials instead.
+Rails 7 fully removes `config/secrets.yml`. Use credentials instead.
 
-**Before (\`config/secrets.yml\`):**
+**Before (`config/secrets.yml`):**
 
-\`\`\`yaml
+```yaml
 production:
   secret_key_base: abc123...
-\`\`\`
+```
 
 **After — edit credentials:**
 
-\`\`\`bash
+```bash
 EDITOR="nano" bin/rails credentials:edit
 # or per-environment:
 EDITOR="nano" bin/rails credentials:edit --environment production
-\`\`\`
+```
 
 Replace references in code:
 
-\`\`\`ruby
+```ruby
 # Before
 Rails.application.secrets.my_key
 
 # After
 Rails.application.credentials.my_key
-\`\`\`
+```
 
-Delete \`config/secrets.yml\` once migrated.
+Delete `config/secrets.yml` once migrated.
 
 ### Remove rack-cache Configuration
 
-\`\`\`diff
+```diff
 # config/environments/production.rb
 -config.action_dispatch.rack_cache = { ... }
-\`\`\`
+```
 
 ### Zeitwerk Autoloader
 
 Rails 7 defaults to Zeitwerk. Remove any classic autoloader configuration:
 
-\`\`\`ruby
+```ruby
 # config/application.rb — remove this line if present
 # config.autoloader = :classic
-\`\`\`
+```
 
 ### Update `config.load_defaults`
 
-\`\`\`ruby
+```ruby
 # config/application.rb
 # Before
 config.load_defaults 6.1
 
 # After
 config.load_defaults 7.0
-\`\`\`
+```
 
 Review each new default in the [Rails upgrade guide](https://guides.rubyonrails.org/upgrading_ruby_on_rails.html).
 
@@ -187,13 +187,13 @@ Review each new default in the [Rails upgrade guide](https://guides.rubyonrails.
 
 Rails 7 enables host authorization middleware by default. Add your allowed hosts:
 
-\`\`\`ruby
+```ruby
 # config/environments/development.rb
 config.hosts << "your-app.dev"
 
 # config/environments/test.rb
 config.hosts = nil
-\`\`\`
+```
 
 ---
 
@@ -203,7 +203,7 @@ config.hosts = nil
 
 `update_attributes` was removed in Rails 7.
 
-\`\`\`ruby
+```ruby
 # Before
 record.update_attributes(name: 'Foo')
 record.update_attributes!(name: 'Foo')
@@ -211,17 +211,17 @@ record.update_attributes!(name: 'Foo')
 # After
 record.update(name: 'Foo')
 record.update!(name: 'Foo')
-\`\`\`
+```
 
 Find all occurrences:
 
-\`\`\`bash
+```bash
 grep -rn "update_attributes" app/ lib/
-\`\`\`
+```
 
 ### `to_s(:format)` → `to_formatted_s` or `strftime`
 
-\`\`\`ruby
+```ruby
 # Before
 date.to_s(:long)
 time.to_s(:short)
@@ -231,39 +231,39 @@ date.to_formatted_s(:long)
 time.to_formatted_s(:short)
 # or
 date.strftime('%B %d, %Y')
-\`\`\`
+```
 
 Find all occurrences:
 
-\`\`\`bash
+```bash
 grep -rn '\.to_s(:' app/ lib/
-\`\`\`
+```
 
 ### `require_dependency` Removed
 
 Delete all `require_dependency` calls — Zeitwerk handles autoloading automatically.
 
-\`\`\`ruby
+```ruby
 # Before
 require_dependency 'workarea/foo'
 
 # After — delete the line entirely
 # (use standard `require` only for files outside the autoload paths)
-\`\`\`
+```
 
-\`\`\`bash
+```bash
 grep -rn "require_dependency" app/ lib/
-\`\`\`
+```
 
 ### Mailer Layouts
 
 Rails 7 changed mailer layout application. Declare layouts explicitly if views break:
 
-\`\`\`ruby
+```ruby
 class MyMailer < ApplicationMailer
   layout 'mailer'
 end
-\`\`\`
+```
 
 ---
 
@@ -273,18 +273,18 @@ Workarea uses MongoDB via Mongoid. Rails 7 compatibility requires **Mongoid 8**.
 
 ### Gemfile
 
-\`\`\`ruby
+```ruby
 gem 'mongoid', '~> 8.0'
-\`\`\`
+```
 
 ### Breaking Changes
 
 #### Strict Boolean Defaults
 
-\`\`\`ruby
+```ruby
 # Explicitly set defaults for boolean fields
 field :active, type: Boolean, default: false
-\`\`\`
+```
 
 #### Recursive Save Callbacks
 
@@ -292,13 +292,13 @@ Mongoid 8 prevents calling `save` inside `after_save` callbacks (it can recurse 
 
 Prefer to **avoid writes inside `after_save`** entirely. If you truly need to persist a derived field from within a callback, use a Mongoid-native atomic update that does not run callbacks again, such as `set`:
 
-\`\`\`ruby
+```ruby
 # Before
 after_save { save }
 
 # After (Mongoid)
 after_save { set(field: value) }
-\`\`\`
+```
 
 (Using `set` writes directly to MongoDB and bypasses validations and callbacks.)
 
@@ -306,15 +306,15 @@ after_save { set(field: value) }
 
 After migrating, recreate indexes:
 
-\`\`\`bash
+```bash
 rails db:mongoid:create_indexes
-\`\`\`
+```
 
 ### Update `config/mongoid.yml`
 
 Remove deprecated options:
 
-\`\`\`yaml
+```yaml
 # Remove if present:
 #   identity_map_enabled
 #   allow_dynamic_fields (moved to model level)
@@ -325,7 +325,7 @@ development:
       uri: <%= ENV['MONGODB_URI'] || 'mongodb://localhost:27017/my_app_development' %>
   options:
     belongs_to_required_by_default: false
-\`\`\`
+```
 
 ---
 
@@ -335,39 +335,39 @@ development:
 
 Update Capybara and Selenium:
 
-\`\`\`ruby
+```ruby
 # test/application_system_test_case.rb
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   driven_by :selenium, using: :headless_chrome, screen_size: [1400, 1400]
 end
-\`\`\`
+```
 
 ### Controller Test Host
 
-\`\`\`ruby
+```ruby
 # Before
 @request.host = 'example.com'
 
 # After
 host! 'example.com'
-\`\`\`
+```
 
 ### FactoryBot
 
 Update to FactoryBot 6.2+:
 
-\`\`\`ruby
+```ruby
 gem 'factory_bot_rails', '~> 6.2'
-\`\`\`
+```
 
 ### WebMock / VCR
 
 Update for Ruby 3 Net::HTTP compatibility:
 
-\`\`\`ruby
+```ruby
 gem 'webmock', '>= 3.14'
 gem 'vcr', '>= 6.1'
-\`\`\`
+```
 
 ---
 
@@ -379,11 +379,11 @@ gem 'vcr', '>= 6.1'
 
 **Fix:**
 
-\`\`\`bash
+```bash
 bin/rails zeitwerk:check
-\`\`\`
+```
 
-Rename files so that \`app/models/my_module/foo_bar.rb\` defines \`MyModule::FooBar\`.
+Rename files so that `app/models/my_module/foo_bar.rb` defines `MyModule::FooBar`.
 
 ---
 
@@ -391,29 +391,29 @@ Rename files so that \`app/models/my_module/foo_bar.rb\` defines \`MyModule::Foo
 
 **Cause:** Sprockets 4 requires explicit manifest declarations.
 
-**Fix:** Ensure \`app/assets/config/manifest.js\` exists:
+**Fix:** Ensure `app/assets/config/manifest.js` exists:
 
-\`\`\`js
+```js
 //= link_tree ../images
 //= link_directory ../stylesheets .css
 //= link_directory ../javascripts .js
-\`\`\`
+```
 
 ---
 
 ### `ActionView::Template::Error` with `to_s` Format
 
-**Cause:** \`Date#to_s(:format)\` removed in Rails 7.
+**Cause:** `Date#to_s(:format)` removed in Rails 7.
 
-**Fix:** Replace with \`to_formatted_s\` or \`strftime\`. See [Code Changes](#code-changes).
+**Fix:** Replace with `to_formatted_s` or `strftime`. See [Code Changes](#code-changes).
 
 ---
 
 ### Mongoid Recursive Save Error
 
-**Cause:** Mongoid 8 prevents \`save\` inside \`after_save\` callbacks.
+**Cause:** Mongoid 8 prevents `save` inside `after_save` callbacks.
 
-**Fix:** Avoid writes in \`after_save\`. If you must persist a derived field, use a Mongoid atomic update like \`set\` (see [Mongoid 8 Migration](#mongoid-8-migration)).
+**Fix:** Avoid writes in `after_save`. If you must persist a derived field, use a Mongoid atomic update like `set` (see [Mongoid 8 Migration](#mongoid-8-migration)).
 
 ---
 
@@ -429,7 +429,7 @@ Upgrade in this order:
 4. Rails (6.x → 7.0)
 5. Run test suite, fix failures
 
-Use \`bin/rails app:update\` to get a diff of generated file changes.
+Use `bin/rails app:update` to get a diff of generated file changes.
 
 ---
 
@@ -437,14 +437,14 @@ Use \`bin/rails app:update\` to get a diff of generated file changes.
 
 Check for violations:
 
-\`\`\`bash
+```bash
 bin/rails zeitwerk:check
-\`\`\`
+```
 
 Common fixes:
 - Rename files to match class/module names exactly
 - Move files into appropriate directories
-- Replace \`require_dependency\` with nothing (Zeitwerk handles it) or \`require\`
+- Replace `require_dependency` with nothing (Zeitwerk handles it) or `require`
 
 Note: Rails 7 does not support the classic autoloader. Migration is required.
 
@@ -452,9 +452,9 @@ Note: Rails 7 does not support the classic autoloader. Migration is required.
 
 ### How do I verify my upgrade is complete?
 
-1. \`bin/rails zeitwerk:check\` — no errors
-2. \`bin/rails test\` — full test suite passes
-3. \`bin/rails test:system\` — system tests pass
+1. `bin/rails zeitwerk:check` — no errors
+2. `bin/rails test` — full test suite passes
+3. `bin/rails test:system` — system tests pass
 4. Smoke test key flows locally (checkout, admin, search)
 5. Review logs for remaining deprecation warnings
 
@@ -462,7 +462,7 @@ Note: Rails 7 does not support the classic autoloader. Migration is required.
 
 ### Where do I report new issues?
 
-Open an issue on the [Workarea GitHub repository](https://github.com/workarea-commerce/workarea) with the label \`rails-7-migration\`. Include your Ruby version, Workarea version, and a minimal reproduction.
+Open an issue on the [Workarea GitHub repository](https://github.com/workarea-commerce/workarea) with the label `rails-7-migration`. Include your Ruby version, Workarea version, and a minimal reproduction.
 
 ---
 
