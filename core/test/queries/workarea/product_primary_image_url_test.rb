@@ -18,5 +18,10 @@ module Workarea
       url = ProductPrimaryImageUrl.new(@product, :medium_thumb).url
       assert_includes(url, 'medium_thumb')
     end
+
+    def test_default_url_options_returns_configured_host
+      options = ProductPrimaryImageUrl.new(@product).default_url_options
+      assert_equal({ host: Workarea.config.host }, options)
+    end
   end
 end

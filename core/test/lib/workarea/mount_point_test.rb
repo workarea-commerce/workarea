@@ -47,6 +47,21 @@ module Workarea
       assert_nil result
     end
 
+    def test_find_returns_nil_when_route_raises_during_traversal
+      # Simulate a route that raises StandardError during .app traversal.
+      # MountPoint.find should rescue and continue, returning nil overall.
+      bad_route = Object.new
+      def bad_route.app; raise StandardError, 'simulated route error'; end
+
+      # Stub Rails.application.routes.routes to include the bad route
+      fake_routes = [bad_route]
+      Rails.application.routes.stub(:routes, fake_routes) do
+        MountPoint.cache = nil
+        result = MountPoint.find(Class.new)
+        assert_nil result
+      end
+    end
+
     def test_find_memoizes_result
       first  = MountPoint.find(Workarea::Core::Engine)
       second = MountPoint.find(Workarea::Core::Engine)
