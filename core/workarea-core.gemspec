@@ -74,7 +74,7 @@ s.add_dependency 'rails', '>= 6.1', '< 7.2'
   s.add_dependency 'jquery-unique-clone-rails', '~> 1.0' # loosened from ~> 1.0.0
   s.add_dependency 'avalanche-rails', '~> 1.2'          # loosened from ~> 1.2.0
   s.add_dependency 'inline_svg', '~> 1.7'               # loosened from ~> 1.7.0
-  s.add_dependency 'haml', '~> 5.2'                     # loosened from ~> 5.2.0; haml 6 may need Rails 7 work (BLOCKER)
+  s.add_dependency 'haml', '~> 5.2'                     # confirmed Rails 7 compatible (two-arity handler); haml 6 deferred — see docs/research/haml-rails7-compat.md
   s.add_dependency 'ejs', '~> 1.1'                      # loosened from ~> 1.1.1
   s.add_dependency 'jbuilder', '~> 2.10'                # loosened from ~> 2.10.0
   s.add_dependency 'tribute', '~> 3.6'                  # loosened from ~> 3.6.0.0
