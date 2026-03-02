@@ -1,0 +1,12 @@
+# frozen_string_literal: true
+
+# Rails compatibility Gemfile.
+#
+# Usage:
+#   BUNDLE_GEMFILE=gemfiles/rails_7_1.gemfile bundle install
+#
+# This gemfile evaluates the root Gemfile then overrides Rails.
+
+eval_gemfile File.expand_path('../Gemfile', __dir__)
+
+gem 'rails', '~> 7.1.0'

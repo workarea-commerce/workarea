@@ -163,6 +163,36 @@ jobs:
         name: Storefront Screenshots
         path: storefront/test/dummy/tmp/screenshots
 
+  # Rails compatibility matrix — provides signal for upcoming Rails upgrades.
+  rails_compatibility:
+    name: "Rails ${{ matrix.rails }} — test"
+    runs-on: ubuntu-latest
+    continue-on-error: ${{ matrix.experimental }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - rails: "6.1 (default)"
+            gemfile: Gemfile
+            experimental: false
+          - rails: "7.1"
+            gemfile: gemfiles/rails_7_1.gemfile
+            experimental: true
+    env:
+      BUNDLE_GEMFILE: ${{ matrix.gemfile }}
+    steps:
+    - uses: actions/checkout@v4
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 3.2
+        bundler-cache: true
+
+    - name: Install system deps (docker-compose + ImageMagick)
+      run: sudo apt-get update && sudo apt-get install -y docker-compose imagemagick
+    - uses: workarea-commerce/ci/test@v1
+      with:
+        command: bundle exec rake test
+
   # Ruby compatibility matrix — tracks Workarea bundling health across Ruby versions.
   # Ruby 2.7: legacy baseline (Docker-pinned CI actions run ruby:2.6 internally).
   # Ruby 3.2: current stable target — must pass (continue-on-error: false).
