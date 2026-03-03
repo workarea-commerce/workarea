@@ -29,7 +29,7 @@ module Workarea
     field :phone_number, type: String
     field :phone_extension, type: String
 
-    embedded_in :addressable, polymorphic: true
+    embedded_in :addressable, polymorphic: true, touch: false
 
     ATTRIBUTES_FOR_LENGTH_VALIDATION.each do |field|
       validates field, length: { maximum: 500 }

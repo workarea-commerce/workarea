@@ -8,7 +8,7 @@ module Workarea
       field :category_ids, type: Array, default: []
       field :search_ids, type: Array, default: []
 
-      embedded_in :user, class_name: 'Workarea::Metrics::User'
+      embedded_in :user, class_name: 'Workarea::Metrics::User', touch: false
 
       def recent_product_ids(max: Workarea.config.affinity_default_recent_size, unique: false)
         recent_ids(product_ids, max: max, unique: unique)

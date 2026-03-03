@@ -9,7 +9,7 @@ module Workarea
 
       embeds_many :events, class_name: 'Workarea::Fulfillment::Event', inverse_of: :item
 
-      embedded_in :fulfillment, class_name: 'Workarea::Fulfillment'
+      embedded_in :fulfillment, class_name: 'Workarea::Fulfillment', touch: false
 
       def quantity_pending
         [0, quantity - events.sum(&:quantity)].max

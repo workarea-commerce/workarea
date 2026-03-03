@@ -8,7 +8,8 @@ module Workarea
       field :amount, type: Money, default: 0
 
       embedded_in :payment,
-        class_name: 'Workarea::Payment'
+        class_name: 'Workarea::Payment',
+        touch: false
 
       has_many :transactions,
         class_name: 'Workarea::Payment::Transaction',

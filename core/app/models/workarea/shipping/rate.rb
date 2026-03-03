@@ -8,7 +8,7 @@ module Workarea
       field :tier_min, type: Money
       field :tier_max, type: Money
 
-      embedded_in :service, class_name: 'Workarea::Shipping::Service'
+      embedded_in :service, class_name: 'Workarea::Shipping::Service', touch: false
 
       validates :price, presence: true
 

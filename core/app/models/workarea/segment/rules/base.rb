@@ -5,7 +5,7 @@ module Workarea
       class Base
         include ApplicationDocument
 
-        embedded_in :segment, class_name: 'Workarea::Segment', inverse_of: :rules
+        embedded_in :segment, class_name: 'Workarea::Segment', inverse_of: :rules, touch: false
         delegate :slug, to: :class
 
         def self.slug
