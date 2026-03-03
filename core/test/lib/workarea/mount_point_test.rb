@@ -72,5 +72,12 @@ module Workarea
         assert_equal first, second
       end
     end
+
+    def test_unwrap_app_stops_at_class
+      # Engine classes are Classes — unwrap_app must NOT call .app on them
+      # (engines respond to .app but we must treat them as the final node)
+      assert_equal Workarea::Storefront::Engine,
+                   Workarea::MountPoint.unwrap_app(Workarea::Storefront::Engine)
+    end
   end
 end
