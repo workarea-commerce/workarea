@@ -9,4 +9,8 @@
 
 eval_gemfile File.expand_path('../Gemfile', __dir__)
 
-gem 'rails', '~> 7.1.0'
+# NOTE: We pin Rails to a known-good 7.1.x to keep Bundler resolution stable
+# for CI. Using "~> 7.1.0" allows any 7.1.x and can fail to resolve as upstream
+# dependencies shift.
+
+gem 'rails', '7.1.5.1'

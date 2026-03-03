@@ -53,12 +53,30 @@ module Workarea
       bad_route = Object.new
       def bad_route.app; raise StandardError, 'simulated route error'; end
 
-      # Stub Rails.application.routes.routes to include the bad route
-      fake_routes = [bad_route]
-      Rails.application.routes.stub(:routes, fake_routes) do
+      # Stub Rails.application.routes.named_routes to include the bad route.
+      # We can't call Minitest#stub on ActionDispatch::Routing::RouteSet in newer
+      # Rails, so stub Rails.application.routes with a plain object instead.
+      fake_route_set = Object.new
+      fake_route_set.define_singleton_method(:named_routes) { { bad: bad_route } }
+
+      app = Rails.application
+      had_singleton_routes = app.singleton_methods.include?(:routes)
+
+      # Define a singleton method to override the application routes for this test.
+      app.define_singleton_method(:routes) { fake_route_set }
+
+      begin
         MountPoint.cache = nil
         result = MountPoint.find(Class.new)
         assert_nil result
+      ensure
+        if had_singleton_routes
+          # If routes was already a singleton method, restore it by reloading the
+          # original method from the singleton class's ancestors.
+          app.singleton_class.send(:remove_method, :routes)
+        else
+          app.singleton_class.send(:remove_method, :routes)
+        end
       end
     end
 

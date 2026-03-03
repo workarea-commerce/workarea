@@ -89,7 +89,10 @@ s.add_dependency 'rails', '>= 6.1', '< 7.2'
   s.add_dependency 'json-streamer', '~> 2.1'            # loosened from ~> 2.1.0
   s.add_dependency 'spectrum-rails', '~> 1.8'           # loosened from ~> 1.8.0
   s.add_dependency 'dragonfly-s3_data_store', '~> 1.3'  # loosened from ~> 1.3.0
-  s.add_dependency 'loofah', '~> 2.9.0'                 # NOTE: PR #708 (wa-new-036) updates to 2.25.0
+  # Loofah is used via ActionView sanitizers; newer Rails requires newer Loofah.
+  # Keep the constraint broad within the major version to avoid Bundler
+  # resolution failures in Rails compatibility Gemfiles.
+  s.add_dependency 'loofah', '>= 2.9.0', '< 3'
   s.add_dependency 'referer-parser', '~> 0.3'           # loosened from ~> 0.3.0
   s.add_dependency 'serviceworker-rails', '~> 0.6'      # loosened from ~> 0.6.0
   s.add_dependency 'chartkick', '~> 3.4'                # loosened from ~> 3.4.0

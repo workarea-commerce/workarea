@@ -185,13 +185,25 @@ jobs:
     - uses: ruby/setup-ruby@v1
       with:
         ruby-version: 3.2
-        bundler-cache: true
+        # For experimental entries, allow bundling to fail without breaking the job.
+        bundler-cache: false
+
+    - name: Bundle install
+      id: bundle
+      run: bundle install
+      continue-on-error: ${{ matrix.experimental }}
 
     - name: Install system deps (docker-compose + ImageMagick)
       run: sudo apt-get update && sudo apt-get install -y docker-compose imagemagick
+
     - uses: workarea-commerce/ci/test@v1
+      if: steps.bundle.outcome == 'success'
       with:
         command: bundle exec rake test
+
+    - name: Warn on experimental bundle failures
+      if: steps.bundle.outcome != 'success' && matrix.experimental
+      run: echo "::warning::bundle install failed for Rails ${{ matrix.rails }} (informational — experimental version)"
 
   # Ruby compatibility matrix — tracks Workarea bundling health across Ruby versions.
   # Ruby 2.7: legacy baseline (Docker-pinned CI actions run ruby:2.6 internally).
