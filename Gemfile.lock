@@ -467,6 +467,8 @@ GEM
     prism (1.9.0)
     progress (3.6.0)
     public_suffix (5.1.1)
+    puma (6.6.1)
+      nio4r (~> 2.0)
     raabro (1.4.0)
     racc (1.8.1)
     rack (2.2.22)
