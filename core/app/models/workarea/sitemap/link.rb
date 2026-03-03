@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Workarea
   class Sitemap
     # Model object for representing a single link in the sitemap. A

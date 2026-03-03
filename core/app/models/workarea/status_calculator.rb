@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Workarea
   # TODO: for v4, remove @order, as this can be/is used with other classes.
   class StatusCalculator

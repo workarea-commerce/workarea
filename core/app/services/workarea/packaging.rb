@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # Out of the box, the system assumes one package per order. This is a very naive
 # implementation, but the complexities required to handle all the possibilities
 # is beyond the scope of this system.

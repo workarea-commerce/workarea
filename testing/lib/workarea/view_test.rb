@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # This fix allows us to default locale to nil so routes in helper tests can be
 # generated as expected. This is unbelievably shitty and makes me really sad.
 # Details on this can be found here: https://github.com/rspec/rspec-rails/issues/255

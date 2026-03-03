@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Workarea
   class OrderItemDetails
     class InvalidPurchase < StandardError; end

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Workarea
   module PriceAdjustmentExtension
     def adjusting(*args)

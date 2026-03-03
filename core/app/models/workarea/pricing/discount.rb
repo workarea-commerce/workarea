@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Workarea
   module Pricing
     # This is the base class for representing a discount in the system.

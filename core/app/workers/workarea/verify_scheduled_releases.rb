@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Workarea
   # Verify that jobs for publishing releases do not get removed
   # unintentionally from Sidekiq and prevent the release from updating at the

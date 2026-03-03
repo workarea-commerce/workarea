@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Workarea
   module Pricing
     # This class is responsible for evenly (or as best as possible)

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Workarea
   # This class exists to disable all HTTP caching in the test envionrment.
   # There's no way to disable caching in headless Chrome so this ensures

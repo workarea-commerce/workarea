@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 config = Workarea::Configuration.config
 config.testing_factory_defaults = ActiveSupport::Configurable::Configuration.new
 

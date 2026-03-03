@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Workarea
   class DeferredGarbageCollection
     DEFERRED_GC_THRESHOLD = (ENV['DEFER_GC'] || 3.0).to_f

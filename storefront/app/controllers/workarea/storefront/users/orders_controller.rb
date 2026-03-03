@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Workarea
   class Storefront::Users::OrdersController < Storefront::ApplicationController
     before_action :require_login

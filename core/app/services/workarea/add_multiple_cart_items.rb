@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Workarea
   class AddMultipleCartItems
     def initialize(order, items_params = [])

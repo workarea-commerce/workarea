@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'minitest/spec'
 require 'sidekiq/testing/inline'
 require 'sidekiq_unique_jobs/testing'

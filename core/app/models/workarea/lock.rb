@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Workarea
   # Redis lock primative suitable for single instance redis configurations.
   # Allows the prevention of multiple processes from performing actions guarded

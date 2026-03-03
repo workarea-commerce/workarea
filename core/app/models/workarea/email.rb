@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # TODO v4 get rid of this
 module Workarea::Email
   # Add an email address to the email sign ups list

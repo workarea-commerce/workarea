@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Workarea
   class Admin::VariantViewModel < ApplicationViewModel
     delegate :msrp, :on_sale, :on_sale?, :discountable,

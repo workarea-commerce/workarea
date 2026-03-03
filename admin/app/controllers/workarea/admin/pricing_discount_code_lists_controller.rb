@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Workarea
   class Admin::PricingDiscountCodeListsController < Admin::ApplicationController
     required_permissions :marketing

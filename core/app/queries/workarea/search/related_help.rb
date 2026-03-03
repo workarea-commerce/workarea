@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Workarea
   module Search
     # TODO remove related help in v4

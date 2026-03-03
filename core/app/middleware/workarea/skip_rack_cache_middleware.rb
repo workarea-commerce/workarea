@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Workarea
   # TODO here for legacy support, remove in v4
   class SkipRackCacheMiddleware

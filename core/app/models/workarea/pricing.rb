@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Workarea
   module Pricing
     # Build price adjustments and set order total prices.

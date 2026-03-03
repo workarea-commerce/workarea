@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Workarea
   class IndexReleaseSchedulePreviews
     attr_reader :release, :starts_at, :ends_at

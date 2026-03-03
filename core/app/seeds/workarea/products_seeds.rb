@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Workarea
   class ProductsSeeds
     SAMPLE_IMAGES_BASE_URL = "https://github.com/workarea-commerce/workarea/raw/master/core/data/product_images"

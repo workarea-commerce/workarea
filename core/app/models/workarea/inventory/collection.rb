@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Workarea
   module Inventory
     # This class represents a collection of {Sku}s. It is more

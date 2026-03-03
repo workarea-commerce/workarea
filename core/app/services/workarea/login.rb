@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Workarea
   class Login
     attr_reader :user, :current_order

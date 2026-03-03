@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Workarea
   class SavePublishing
     delegate :errors, to: :release, allow_nil: true

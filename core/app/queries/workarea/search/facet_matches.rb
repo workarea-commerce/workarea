@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Workarea
   module Search
     # TODO remove in v4, unused now

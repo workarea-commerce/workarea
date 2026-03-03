@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Workarea
   # This mixin includes 2 responsibilities:
   # *   Provide logic to aggregate discount IDs from price adjustments

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Workarea
   class FindPipelineAsset
     def initialize(name, path: nil)

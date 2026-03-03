@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Workarea
   class Sort < Struct.new(:name, :slug, :field, :direction)
     class Collection < SimpleDelegator

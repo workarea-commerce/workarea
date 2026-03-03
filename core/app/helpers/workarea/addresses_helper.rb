@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Workarea
   module AddressesHelper
     def country_options

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Workarea
   class Admin::CatalogProductsController < Admin::ApplicationController
     required_permissions :catalog
