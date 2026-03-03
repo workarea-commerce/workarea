@@ -2,20 +2,18 @@ module Workarea
   module MountPoint
     mattr_accessor :cache
 
-    # Traverse the app-delegation chain to find the underlying app class.
-    # In Rails 7, mounted engines are wrapped in one or more
-    # +ActionDispatch::Routing::Mapper::Constraints+ layers.  Plain routes use
-    # +ActionDispatch::Routing::RouteSet::Dispatcher+, which does not respond to
-    # +#app+, so we must guard before each step.
+    # Traverse Rack app-delegation wrappers (Constraints layers added by Rails router)
+    # stopping as soon as we reach a Class (engine classes are Classes) or something
+    # that does not respond to :app.  A depth ceiling prevents infinite loops.
     #
-    # A depth ceiling prevents infinite loops in degenerate cases (e.g., a
-    # Rack app whose +#app+ method returns +self+).
-    #
-    # @param app [Object] the route app (or a wrapper around it)
-    # @param depth [Integer] recursion depth guard (stops at 10)
-    # @return [Object] the innermost app object
+    # @param app   [Object] current app object to inspect
+    # @param depth [Integer] recursion depth guard
+    # @return [Object] the innermost non-wrapper app
     def self.unwrap_app(app, depth = 0)
       return app if depth > 10
+      # Stop when we reach a Class — Rails engines ARE classes and respond to .app,
+      # but we should not traverse into them.
+      return app if app.is_a?(Class)
       app.respond_to?(:app) ? unwrap_app(app.app, depth + 1) : app
     end
 
