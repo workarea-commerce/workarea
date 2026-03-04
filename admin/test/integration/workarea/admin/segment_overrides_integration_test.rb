@@ -13,7 +13,7 @@ module Workarea
             segment_ids: { segment_one.id => 'true', segment_two.id => 'false' },
             return_to: '/foo'
           }
-        assert_equal([segment_one.id], session[:segment_ids])
+        assert_equal([segment_one.id.to_s], session[:segment_ids])
         assert_redirected_to('/foo')
 
         post admin.segment_override_path,

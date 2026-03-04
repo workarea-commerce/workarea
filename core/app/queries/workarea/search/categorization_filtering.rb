@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Workarea
   module Search
     # TODO: v4 - use ProductRulesFiltering and refactor category_ids to

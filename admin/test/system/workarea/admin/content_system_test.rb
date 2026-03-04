@@ -33,7 +33,9 @@ module Workarea
         # Wait for the block edit panel to render the link (CI headless timing)
         edit_link = find_link(t('workarea.admin.content.form.edit_block_name'), visible: :all, wait: 5)
         page.execute_script('arguments[0].scrollIntoView({block:"center"})', edit_link.native)
-        edit_link.click
+        # Selenium/Chrome can intermittently refuse clicks if the element is considered obscured.
+        # Force a DOM click to reduce flakiness (seen in CI on Rails 6.1).
+        page.execute_script('arguments[0].click()', edit_link.native)
         fill_in 'block[name]', with: 'Foo Bar Block'
         fill_in 'block[data][html]', with: '<h1>Some Content!</h1>'
         click_button 'save_block'

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Workarea
   module Search
     # This class exists to provide plugins and host applications a single

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Workarea
   module Admin::ProductsHelper
     def format_variant_options(hash)

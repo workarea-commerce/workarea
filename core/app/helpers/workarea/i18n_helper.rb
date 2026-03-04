@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Workarea
   module I18nHelper
     def locale_options

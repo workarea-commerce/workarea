@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Workarea
   class Storefront::CategoriesController < Storefront::ApplicationController
     before_action :cache_page

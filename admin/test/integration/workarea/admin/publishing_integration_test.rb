@@ -16,7 +16,7 @@ module Workarea
           }
 
         assert_nil(Release.current)
-        assert_equal(release.id, session[:release_id])
+        assert_equal(release.id.to_s, session[:release_id])
         assert_equal('Foo', product.reload.name)
         assert_equal(1, product.changesets.length)
 

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # This view model has methods for showing the checkout
 # summary partial.
 #

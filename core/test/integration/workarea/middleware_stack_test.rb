@@ -44,7 +44,12 @@ module Workarea
         'Rails::Rack::Logger'
       ]
 
-      # Reproduce the initializer algorithm
+      # Reproduce the initializer algorithm (all 3 steps):
+      #   1. insert 0, Rack::Timeout  (moves Timeout to index 0)
+      #   2. delete(Rack::Attack)
+      #   3. insert 1, Rack::Attack   (places Attack immediately after Timeout)
+      stack.delete('Rack::Timeout')
+      stack.insert(0, 'Rack::Timeout')
       stack.delete('Rack::Attack')
       stack.insert(1, 'Rack::Attack')
 
@@ -68,6 +73,12 @@ module Workarea
         'Rails::Rack::Logger'
       ]
 
+      # Reproduce the initializer algorithm (all 3 steps):
+      #   1. insert 0, Rack::Timeout  (moves Timeout to index 0)
+      #   2. delete(Rack::Attack)     (no-op — not present)
+      #   3. insert 1, Rack::Attack   (places Attack immediately after Timeout)
+      stack.delete('Rack::Timeout')
+      stack.insert(0, 'Rack::Timeout')
       stack.delete('Rack::Attack') # no-op
       stack.insert(1, 'Rack::Attack')
 
@@ -91,7 +102,10 @@ module Workarea
         'Rails::Rack::Logger'
       ]
 
+      # Each iteration reproduces all 3 initializer steps
       2.times do
+        stack.delete('Rack::Timeout')
+        stack.insert(0, 'Rack::Timeout')
         stack.delete('Rack::Attack')
         stack.insert(1, 'Rack::Attack')
       end

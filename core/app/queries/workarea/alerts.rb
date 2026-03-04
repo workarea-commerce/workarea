@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Workarea
   class Alerts
     def products_missing_prices

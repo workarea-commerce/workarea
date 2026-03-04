@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Workarea
   module Storefront
     class CartsController < Storefront::ApplicationController

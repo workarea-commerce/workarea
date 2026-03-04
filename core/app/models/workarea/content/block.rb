@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Workarea
   class Content
     # This class represents a single block of content. These are grouped

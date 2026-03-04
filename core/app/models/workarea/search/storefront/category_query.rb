@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # For some reason, loading Search::Storefront::Product doesn't get triggered
 # require_dependency removed: Zeitwerk autoloads app/ files
 

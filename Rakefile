@@ -39,7 +39,17 @@ task :test do
   # Override this to print a command that we rerun the test on failure
   Rails::TestUnitReporter.class_eval do
     def format_rerun_snippet(result)
-      location, line = result.method(result.name).source_location
+      location, line =
+        if result.respond_to?(:source_location)
+          result.source_location
+        elsif result.respond_to?(:klass) && result.respond_to?(:name)
+          result.klass.instance_method(result.name).source_location
+        else
+          [nil, nil]
+        end
+
+      return super if location.blank? || line.blank?
+
       rel_path = relative_path_for(location)
 
       GEMS.each do |gem|

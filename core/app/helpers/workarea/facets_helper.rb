@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Workarea
   module FacetsHelper
     def facet_path(facet, value)

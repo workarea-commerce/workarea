@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Workarea
   class FindUniqueSlug
     def initialize(navigable, original_slug)
