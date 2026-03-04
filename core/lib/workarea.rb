@@ -180,7 +180,13 @@ module Workarea
   # @return [ActiveSupport::Deprecation]
   #
   def self.deprecation
-    @deprecation ||= ActiveSupport::Deprecation.new('3.6', 'Workarea')
+    @deprecation ||= begin
+      deprecator = ActiveSupport::Deprecation.new('3.6', 'Workarea')
+      if Rails.application.respond_to?(:deprecators)
+        Rails.application.deprecators[:workarea] ||= deprecator
+      end
+      deprecator
+    end
   end
 
   # Whether the app should skip connecting to external services on boot,
