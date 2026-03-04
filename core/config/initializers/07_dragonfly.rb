@@ -2,14 +2,36 @@ Dragonfly.app(:workarea).configure do
   if Workarea::Configuration::ImageProcessing.libvips?
     plugin :libvips
 
-    # Allow using the ImageMagick convert command (via Commands module) for .ico
-    # files. Vips supposedly supports .ico when installed with ImageMagick support,
-    # but not seeing this in practice.
-    # Note: the :convert *processor* was removed in Dragonfly 1.4 (CVE-2021-33564
-    # security fix). Use Dragonfly::ImageMagick::Commands.convert directly instead.
+    # Allow using the convert processor (backed by ImageMagick commands).
+    # We need this for .ico files; Vips supposedly supports .ico when installed
+    # with ImageMagick support, but not seeing this in practice.
+    #
+    # Note: dragonfly >= 1.4.0 removed Dragonfly::ImageMagick::Processors::Convert.
+    # We add an equivalent processor using the Commands module instead.
     require 'dragonfly/image_magick/commands'
+    Dragonfly.app(:workarea).add_processor(:convert) do |content, args = '', opts = {}|
+      Dragonfly::ImageMagick::Commands.convert(content, args, opts)
+    end
   else
     plugin :imagemagick
+
+    require 'dragonfly/image_magick/commands'
+
+    # dragonfly >= 1.4.0 removed the :convert processor (it now raises on call).
+    # Re-register it using the Commands module so downstream code and the
+    # favicon_ico processor continue to work without changes.
+    Dragonfly.app(:workarea).add_processor(:convert) do |content, args = '', opts = {}|
+      Dragonfly::ImageMagick::Commands.convert(content, args, opts)
+    end
+
+    # dragonfly >= 1.4.0 restricts the :encode processor to only the -quality
+    # flag. Workarea passes additional ImageMagick options (e.g. -interlace,
+    # +profile) to strip metadata and produce progressive JPEGs. Override the
+    # built-in :encode with one that delegates to Commands.convert directly,
+    # preserving all arguments as in dragonfly 1.3.x.
+    Dragonfly.app(:workarea).add_processor(:encode) do |content, format, args = ''|
+      Dragonfly::ImageMagick::Commands.convert(content, args.to_s, 'format' => format.to_s)
+    end
   end
 
   # Dragonfly 1.4 added security validations to the ImageMagick Encode processor,

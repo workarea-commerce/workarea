@@ -1,40 +1,46 @@
-# Temporary bundler-audit ignore list.
+# bundler-audit ignore list
 #
-# Workarea is mid-upgrade; several advisories have no feasible patch without a
-# broader Rails/gem upgrade. CI currently runs bundler-audit on every push.
+# Workarea is pinned to Rails 6.1 and Ruby 2.7.8 pending a full Rails upgrade.
+# Several advisories cannot be patched without upgrading Rails (>= 7.0) or Ruby
+# (>= 3.0/3.2). All remaining entries are documented with justification below.
 #
-# This file keeps CI unblocked while we address upgrades incrementally.
-# Please remove entries as we upgrade affected dependencies.
+# Resolved in WA-NEW-036 (2026-03-01):
+#   - dragonfly:              CVE-2021-33473, CVE-2021-33564 (updated to 1.4.1)
+#   - loofah:                 CVE-2022-23514, CVE-2022-23515, CVE-2022-23516 (updated to 2.25.0)
+#   - rails-html-sanitizer:   CVE-2022-23517, CVE-2022-23518, CVE-2022-23519, CVE-2022-23520 (updated to 1.7.0)
+#
+# Please remove entries below once the blocking upgrade lands.
 ignore:
-  - CVE-2020-8161
-  - CVE-2021-33473
-  - CVE-2021-33564
-  - CVE-2021-41182
-  - CVE-2021-41183
-  - CVE-2021-41184
-  - CVE-2022-23514
-  - CVE-2022-23515
-  - CVE-2022-23516
-  - CVE-2022-23517
-  - CVE-2022-23518
-  - CVE-2022-23519
-  - CVE-2022-23520
-  - CVE-2022-31160
-  - CVE-2024-54133
-  - CVE-2025-24293
-  - CVE-2025-55193
+  # ── Rails 6.1 → blocked by Rails upgrade ──────────────────────────────────
+  # Fixes require Rails >= 7.0. Tracked in the Rails upgrade work stream.
+  - CVE-2024-54133   # actionpack   – CSP bypass in Action Dispatch
+  - CVE-2025-24293   # activestorage – unsafe transformation methods
+  - CVE-2025-55193   # activerecord – ANSI escape injection in logging
 
-  # faraday SSRF via protocol-relative URL – no feasible patch within current deps
-  - CVE-2026-25765
+  # ── faraday 2.8.1 → blocked by Ruby upgrade ───────────────────────────────
+  # faraday >= 2.14.1 (fix) requires Ruby >= 3.0. Stuck on 2.7.8.
+  - CVE-2026-25765   # faraday – SSRF via protocol-relative URL
   - GHSA-33mh-2634-fwr2
 
-  # measured gem advisory – no patch available in current version
+  # ── nokogiri 1.15.7 → blocked by Ruby upgrade ─────────────────────────────
+  # nokogiri >= 1.16.x requires Ruby >= 3.2. Stuck on 2.7.8.
+  - GHSA-353f-x4gh-cqq8   # libxml2 multiple CVEs
+  - GHSA-5w6v-399v-w3cc   # libxml2 CVE-2025-32414 and CVE-2025-32415
+  - GHSA-mrxw-mxhj-p664   # libxslt multiple CVEs (High)
+  - GHSA-r95h-9x8f-r3f7   # libxml2 CVE-2024-34459
+  - GHSA-vvfq-8hwr-qm4m   # libxml2 CVE-2025-24928 and CVE-2024-56171
+  - GHSA-wx95-c6cv-8532   # return value check missing
+
+  # ── measured 2.8.2 → blocked by API compatibility ─────────────────────────
+  # measured 3.x is a breaking API change. Workarea uses measured for unit
+  # handling; upgrading requires auditing all call sites across core and plugins.
   - GHSA-29g5-m8v7-v564
 
-  # nokogiri advisories – upgrade blocked by broader Rails/gem upgrade
-  - GHSA-353f-x4gh-cqq8
-  - GHSA-5w6v-399v-w3cc
-  - GHSA-mrxw-mxhj-p664
-  - GHSA-r95h-9x8f-r3f7
-  - GHSA-vvfq-8hwr-qm4m
-  - GHSA-wx95-c6cv-8532
+  # ── jquery-ui-rails 6.0.1 → blocked by jQuery UI upgrade effort ───────────
+  # jquery-ui-rails >= 7.0 ships a significantly different jQuery UI version.
+  # Workarea's admin and storefront UIs rely on jQuery UI 1.12 APIs; upgrading
+  # requires a thorough UI regression pass. Tracked separately.
+  - CVE-2021-41182   # XSS in Datepicker altField
+  - CVE-2021-41183   # XSS in Datepicker *Text options
+  - CVE-2021-41184   # XSS in .position() util
+  - CVE-2022-31160   # XSS in checkboxradio refresh
