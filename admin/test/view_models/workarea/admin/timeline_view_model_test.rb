@@ -9,27 +9,27 @@ module Workarea
 
       def test_upcoming_changesets
         release = create_release(name: 'Foo', publish_at: 3.days.from_now)
-        release.as_current { @releasable.update_attributes!(name: 'Changed') }
+        release.as_current { @releasable.update!(name: 'Changed') }
 
         view_model = TimelineViewModel.new(@releasable)
         assert_equal(view_model.upcoming_changesets.length, 1)
         assert_equal(view_model.upcoming_changesets.first.release_id, release.id)
 
         release = create_release(name: 'Bar', publish_at: 4.days.from_now)
-        release.as_current { @releasable.update_attributes!(name: 'Changed Again') }
+        release.as_current { @releasable.update!(name: 'Changed Again') }
 
         view_model = TimelineViewModel.new(@releasable)
         assert_equal(view_model.upcoming_changesets.length, 2)
         assert_equal(view_model.upcoming_changesets.second.release_id, release.id)
 
         release = create_release(name: 'Baz')
-        release.as_current { @releasable.update_attributes!(name: 'Changed') }
+        release.as_current { @releasable.update!(name: 'Changed') }
 
         view_model = TimelineViewModel.new(@releasable)
         assert_equal(view_model.upcoming_changesets.length, 2)
 
         release = create_release(name: 'Foo', published_at: 3.days.ago)
-        release.as_current { @releasable.update_attributes!(name: 'Changed') }
+        release.as_current { @releasable.update!(name: 'Changed') }
 
         view_model = TimelineViewModel.new(@releasable)
         assert_equal(view_model.upcoming_changesets.length, 2)
@@ -41,7 +41,7 @@ module Workarea
       def test_upcoming_changesets_with_content
         release = create_release(publish_at: 1.day.from_now)
         content = Content.for(@releasable)
-        release.as_current { content.update_attributes!(browser_title: 'Foo') }
+        release.as_current { content.update!(browser_title: 'Foo') }
 
         view_model = TimelineViewModel.new(@releasable)
         assert_equal(view_model.upcoming_changesets.length, 1)
@@ -53,7 +53,7 @@ module Workarea
         assert(view_model.empty?)
 
         release = create_release(name: 'Foo', publish_at: 3.days.from_now)
-        release.as_current { @releasable.update_attributes!(name: 'Changed') }
+        release.as_current { @releasable.update!(name: 'Changed') }
         view_model = TimelineViewModel.new(@releasable)
         refute(view_model.empty?)
 
@@ -61,7 +61,7 @@ module Workarea
         view_model = TimelineViewModel.new(@releasable)
         assert(view_model.empty?)
 
-        Mongoid::AuditLog.record { @releasable.update_attributes!(name: 'Changed') }
+        Mongoid::AuditLog.record { @releasable.update!(name: 'Changed') }
         view_model = TimelineViewModel.new(@releasable)
         refute(view_model.empty?)
       end
@@ -77,7 +77,7 @@ module Workarea
         timeline = OrderTimelineViewModel.new(OrderViewModel.wrap(order))
         assert(timeline.entries.none?)
 
-        override.update_attributes!(subtotal_adjustment: 10.to_m)
+        override.update!(subtotal_adjustment: 10.to_m)
         timeline = OrderTimelineViewModel.new(OrderViewModel.wrap(order))
         assert(timeline.entries.one?)
         assert_equal(:price_overridden, timeline.entries.first.slug)

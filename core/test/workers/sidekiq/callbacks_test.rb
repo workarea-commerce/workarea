@@ -241,7 +241,7 @@ module Sidekiq
 
     def test_custom_arguments
       model = Model.create!(name: 'foo')
-      model.update_attributes!(name: 'bar')
+      model.update!(name: 'bar')
 
       args = CustomArgsWorker.jobs.last['args']
       assert_equal(args.first, model.id.to_s)

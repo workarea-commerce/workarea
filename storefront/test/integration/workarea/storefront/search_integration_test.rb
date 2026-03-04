@@ -62,7 +62,7 @@ module Workarea
           refute(response.redirect?)
         end
 
-        Search::Settings.current.update_attributes!(boosts: { 'name': 9999999 })
+        Search::Settings.current.update!(boosts: { 'name': 9999999 })
         get storefront.search_path(q: 'sweet product')
         refute(response.redirect?)
       end

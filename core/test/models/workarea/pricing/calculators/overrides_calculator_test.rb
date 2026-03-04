@@ -22,7 +22,7 @@ module Workarea
         end
 
         def test_adjusting_total_for_items
-          override.update_attributes!(
+          override.update!(
             item_prices: {
               @order.items.first.id.to_s => 6.0, # increasing price
               @order.items.second.id.to_s => 15.0
@@ -41,7 +41,7 @@ module Workarea
         end
 
         def test_adjusting_subtotal
-          override.update_attributes!(
+          override.update!(
             item_prices: {
               @order.items.first.id.to_s => 6.0,
               @order.items.second.id.to_s => 7.5
@@ -61,7 +61,7 @@ module Workarea
         end
 
         def test_adjusting_shipping
-          override.update_attributes!(
+          override.update!(
             subtotal_adjustment: -12.to_m,
             shipping_adjustment: -3.to_m,
           )
@@ -97,7 +97,7 @@ module Workarea
         end
 
         def test_negative_prices
-          override.update_attributes!(
+          override.update!(
             item_prices: {
               @order.items.first.id.to_s => -1.0,
               @order.items.second.id.to_s => -5.0

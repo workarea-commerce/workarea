@@ -29,7 +29,7 @@ module Workarea
       end
 
       def test_does_not_allow_impersonating_another_admin
-        @user.update_attributes!(admin: true)
+        @user.update!(admin: true)
 
         assert_raises Admin::InvalidImpersonation do
           post admin.impersonations_path, params: { user_id: @user.id }

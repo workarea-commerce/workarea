@@ -37,7 +37,7 @@ module Workarea
 
         @payment_profile = Payment::Profile.lookup(
           PaymentReference.new(@user)
-        ).tap { |p| p.update_attributes(store_credit: 5.to_m) }
+        ).tap { |p| p.update(store_credit: 5.to_m) }
       end
 
       def test_saving_order_info

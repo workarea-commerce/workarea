@@ -40,7 +40,7 @@ module Workarea
         visit admin.trash_index_path
         assert(page.has_no_content?(t('workarea.admin.activities.restore')))
 
-        user.update_attributes(can_restore: true)
+        user.update(can_restore: true)
 
         visit admin.trash_index_path
 

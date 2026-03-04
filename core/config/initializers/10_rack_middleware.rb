@@ -1,8 +1,11 @@
 app = Rails.application
 
 # Mongoid query cache middleware — clears per-request Mongoid query cache.
-# Mongoid::QueryCache::Middleware exists in Mongoid 7.x (pinned via gemspec).
-app.config.middleware.use(Mongoid::QueryCache::Middleware)
+# Mongoid 8.x deprecated Mongoid::QueryCache in favor of Mongo::QueryCache.
+# Mongoid 9.x removes Mongoid::QueryCache entirely.
+# Use Mongo::QueryCache::Middleware (available in mongo driver >= 2.14, used by Mongoid 8+).
+# On Mongoid 7.x the mongo driver also ships Mongo::QueryCache, so this is backward-compatible.
+app.config.middleware.use(Mongo::QueryCache::Middleware)
 app.config.middleware.use(Workarea::Elasticsearch::QueryCache::Middleware)
 
 # Rack::Cache was removed from Rails 7.1.  On Rails < 7.1 it may be present

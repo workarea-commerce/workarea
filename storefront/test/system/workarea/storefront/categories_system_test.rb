@@ -50,7 +50,7 @@ module Workarea
       end
 
       def categorize_products(category)
-        category.update_attributes!(
+        category.update!(
           product_ids: [@products.second.id, @products.first.id, @products.fourth.id]
         )
       end
@@ -210,7 +210,7 @@ module Workarea
         )
 
         sku = Pricing::Sku.find_or_create_by(id: @products.first.skus.first)
-        sku.update_attributes(on_sale: true)
+        sku.update(on_sale: true)
 
         visit storefront.category_path(category)
 

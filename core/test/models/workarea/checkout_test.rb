@@ -160,7 +160,7 @@ module Workarea
     end
 
     def test_user_changed
-      @order.update_attributes!(user_id: @user.id)
+      @order.update!(user_id: @user.id)
 
       checkout = Checkout.new(@order)
       refute(checkout.user_changed?)

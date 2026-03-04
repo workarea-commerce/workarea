@@ -69,7 +69,7 @@ PATH
       measured (>= 2.0)
       minitest (~> 5.14)
       money-rails (~> 1.13)
-      mongoid (~> 7.4)
+      mongoid (>= 7.4, < 9)
       mongoid-active_merchant (~> 0.2)
       mongoid-audit_log (>= 0.6.0)
       mongoid-document_path (~> 0.2)

@@ -15,7 +15,7 @@ module Workarea
       IndexAdminSearch.perform(product)
       assert_equal(1, Alerts.new.products_missing_prices)
 
-      product.update_attributes!(active: false)
+      product.update!(active: false)
       IndexAdminSearch.perform(product)
       assert_equal(0, Alerts.new.products_missing_prices)
     end
@@ -28,7 +28,7 @@ module Workarea
       IndexAdminSearch.perform(category)
       assert_equal(0, Alerts.new.empty_categories)
 
-      category.update_attributes!(product_ids: [])
+      category.update!(product_ids: [])
       IndexAdminSearch.perform(category)
       assert_equal(1, Alerts.new.empty_categories)
     end
@@ -40,11 +40,11 @@ module Workarea
       IndexAdminSearch.perform(product)
       assert_equal(0, Alerts.new.products_missing_images)
 
-      product.update_attributes!(images: [])
+      product.update!(images: [])
       IndexAdminSearch.perform(product)
       assert_equal(1, Alerts.new.products_missing_images)
 
-      product.update_attributes!(active: false)
+      product.update!(active: false)
       IndexAdminSearch.perform(product)
       assert_equal(0, Alerts.new.products_missing_images)
     end
@@ -56,11 +56,11 @@ module Workarea
       IndexAdminSearch.perform(product)
       assert_equal(0, Alerts.new.products_missing_descriptions)
 
-      product.update_attributes!(description: nil)
+      product.update!(description: nil)
       IndexAdminSearch.perform(product)
       assert_equal(1, Alerts.new.products_missing_descriptions)
 
-      product.update_attributes!(active: false)
+      product.update!(active: false)
       IndexAdminSearch.perform(product)
       assert_equal(0, Alerts.new.products_missing_descriptions)
     end
@@ -72,7 +72,7 @@ module Workarea
       IndexAdminSearch.perform(product)
       assert_equal(0, Alerts.new.products_missing_variants)
 
-      product.update_attributes!(variants: [])
+      product.update!(variants: [])
       IndexAdminSearch.perform(product)
       assert_equal(1, Alerts.new.products_missing_variants)
     end
@@ -89,7 +89,7 @@ module Workarea
       IndexAdminSearch.perform(product)
       assert_equal(1, Alerts.new.products_missing_categories)
 
-      product.update_attributes!(active: false)
+      product.update!(active: false)
       IndexAdminSearch.perform(product)
       assert_equal(0, Alerts.new.products_missing_categories)
     end
@@ -122,7 +122,7 @@ module Workarea
 
       page = create_page(name: 'Foo')
       Release.with_current(has_changes.id) do
-        page.update_attributes!(name: 'Bar')
+        page.update!(name: 'Bar')
       end
 
       assert_equal([empty], Alerts.new.empty_upcoming_releases)

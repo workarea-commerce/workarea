@@ -49,8 +49,8 @@ module Workarea
 
         old_token = user.token
 
-        user.update_attributes!(admin: false)
-        user.update_attributes!(admin: true, releases_access: true)
+        user.update!(admin: false)
+        user.update!(admin: true, releases_access: true)
 
         get admin.calendar_feed_releases_path(token: old_token)
         assert_response :unauthorized
@@ -91,8 +91,8 @@ module Workarea
         second = create_release(publish_at: 2.days.from_now)
 
         product = create_product(name: 'Foo', description: 'One')
-        first.as_current { product.update_attributes!(name: 'Bar', description: 'Two') }
-        second.as_current { product.update_attributes!(name: 'Baz') }
+        first.as_current { product.update!(name: 'Bar', description: 'Two') }
+        second.as_current { product.update!(name: 'Baz') }
 
         post admin.release_session_path, params: { release_id: second.id }
         patch admin.catalog_product_path(product), params: { product: { name: 'Qux' } }
@@ -132,8 +132,8 @@ module Workarea
         second = create_release(publish_at: publish_at)
 
         product = create_product(name: 'Foo', description: 'One')
-        first.as_current { product.update_attributes!(name: 'Bar', description: 'Two') }
-        second.as_current { product.update_attributes!(name: 'Baz') }
+        first.as_current { product.update!(name: 'Bar', description: 'Two') }
+        second.as_current { product.update!(name: 'Baz') }
 
         post admin.release_session_path, params: { release_id: second.id }
         patch admin.catalog_product_path(product), params: { product: { name: 'Qux' } }

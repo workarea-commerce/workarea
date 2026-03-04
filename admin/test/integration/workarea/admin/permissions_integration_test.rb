@@ -18,7 +18,7 @@ module Workarea
       end
 
       def test_allows_if_you_do_have_permissions
-        @user.update_attributes!(catalog_access: true)
+        @user.update!(catalog_access: true)
         get admin.catalog_products_path
         assert(response.ok?)
       end

@@ -10,7 +10,7 @@ module Workarea
           params: { email: super_admin.email, password: 'W3bl1nc!' }
 
         post admin.impersonations_path, params: { user_id: customer.id }
-        customer.update_attributes!(ip_address: '173.252.132.26')
+        customer.update!(ip_address: '173.252.132.26')
 
         get storefront.users_account_path
         refute(response.redirect?)

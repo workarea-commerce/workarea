@@ -63,17 +63,17 @@ module Workarea
       )
       category_two = create_category
 
-      @product.update_attributes(default_category_id: category_two.id)
+      @product.update(default_category_id: category_two.id)
 
       categorization = Categorization.new(@product)
       assert_equal(category_one.id, categorization.default)
 
-      category_two.update_attributes(product_ids: [@product.id])
+      category_two.update(product_ids: [@product.id])
 
       categorization = Categorization.new(@product)
       assert_equal(category_two.id, categorization.default)
 
-      category_two.update_attributes(active: false)
+      category_two.update(active: false)
 
       categorization = Categorization.new(@product)
       assert_equal(category_one.id, categorization.default)

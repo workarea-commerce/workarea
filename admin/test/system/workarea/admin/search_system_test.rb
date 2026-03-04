@@ -15,7 +15,7 @@ module Workarea
         create_menu(name: 'Foo Menu')
 
         Release.with_current(release.id) do
-          product.update_attributes!(name: 'Updated Foo Product 1')
+          product.update!(name: 'Updated Foo Product 1')
         end
       end
 

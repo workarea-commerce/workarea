@@ -57,7 +57,7 @@ module Workarea
 
           assert_equal('green', image_collection.primary.option)
 
-          Workarea::Search::Settings.current.update_attributes!(terms_facets: %w(Color))
+          Workarea::Search::Settings.current.update!(terms_facets: %w(Color))
           product_result_options = { color: 'BLUE' }.with_indifferent_access
 
           image_collection = ImageCollection.new(

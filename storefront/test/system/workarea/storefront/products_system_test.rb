@@ -25,7 +25,7 @@ module Workarea
       end
 
       def test_showing_a_product_with_inactive_skus
-        @product.variants.first.update_attributes!(active: false)
+        @product.variants.first.update!(active: false)
 
         visit storefront.product_path(@product)
         assert(page.has_content?('Integration Product'))

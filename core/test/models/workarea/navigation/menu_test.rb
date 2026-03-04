@@ -7,15 +7,15 @@ module Workarea
         menu = create_menu(active: false)
         refute(menu.active?)
 
-        menu.update_attributes!(active: true)
+        menu.update!(active: true)
         assert(menu.active?)
 
         page = create_page(active: false)
         taxon = create_taxon(navigable: page)
-        menu.update_attributes!(taxon: taxon)
+        menu.update!(taxon: taxon)
         refute(menu.active?)
 
-        page.update_attributes!(active: true)
+        page.update!(active: true)
         assert(menu.active?)
       end
     end

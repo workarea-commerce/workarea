@@ -33,7 +33,7 @@ module Workarea
         assert_equal(product_one, view_model.products.first.model)
         assert_equal(product_two, view_model.products.second.model)
 
-        product_two.update_attributes!(active: false)
+        product_two.update!(active: false)
         view_model = UserActivityViewModel.new(metrics)
 
         assert_equal(1, view_model.products.length)

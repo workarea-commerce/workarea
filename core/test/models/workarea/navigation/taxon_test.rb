@@ -28,7 +28,7 @@ module Workarea
         navigable = create_page(slug: 'test')
         taxon = create_taxon(navigable: navigable)
 
-        taxon.update_attributes(url: 'http://example.com')
+        taxon.update(url: 'http://example.com')
         assert(taxon.navigable.blank?)
         assert(taxon.navigable_slug.blank?)
       end

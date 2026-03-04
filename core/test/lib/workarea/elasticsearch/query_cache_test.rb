@@ -62,7 +62,7 @@ module Workarea
 
         Search::Storefront::CategoryQuery.find_by_product(product)
 
-        product.update_attributes(name: 'New Name')
+        product.update(name: 'New Name')
 
         WebMock.reset!
 
@@ -76,7 +76,7 @@ module Workarea
 
         Search::Storefront::CategoryQuery.find_by_product(product)
 
-        product.update_attributes(name: 'New Name')
+        product.update(name: 'New Name')
 
         product_2 = create_product
 

@@ -19,7 +19,7 @@ module Workarea
         one = create_product(name: 'Foo Bar Baz 1')
         two = create_product(active: false, name: 'Foo Bar Baz 2')
 
-        @category_one.update_attributes!(product_ids: [one.id, two.id])
+        @category_one.update!(product_ids: [one.id, two.id])
 
         search = RelatedProducts.new(product_ids: one.id)
         assert_equal(0, search.total)
@@ -34,7 +34,7 @@ module Workarea
         search = RelatedProducts.new(product_ids: one.id)
         assert_equal(2, search.total)
 
-        @category_one.update_attributes!(product_ids: [one.id, two.id])
+        @category_one.update!(product_ids: [one.id, two.id])
 
         search = RelatedProducts.new(product_ids: one.id)
         assert_equal(1, search.total)
@@ -46,7 +46,7 @@ module Workarea
         two = create_product(name: 'Foo Bar Baz 2')
         three = create_product(name: 'Foo Bar Baz 3')
 
-        @category_one.update_attributes!(product_ids: [one.id, two.id, three.id])
+        @category_one.update!(product_ids: [one.id, two.id, three.id])
 
         search = RelatedProducts.new(product_ids: one.id)
         results = search.results.map { |r| r[:model] }

@@ -102,7 +102,7 @@ module Workarea
 
         comment.reload
         assert_equal('body', comment.body)
-        comment.update_attributes(author_id: current_user.id)
+        comment.update(author_id: current_user.id)
 
         patch admin.commentable_comment_path(commentable.to_global_id, comment),
           params: { comment: { body: 'different body' } }
@@ -116,7 +116,7 @@ module Workarea
         delete admin.commentable_comment_path(commentable.to_global_id, comment)
 
         assert_equal(1, Comment.count)
-        comment.update_attributes(author_id: current_user.id)
+        comment.update(author_id: current_user.id)
 
         delete admin.commentable_comment_path(commentable.to_global_id, comment)
         assert_equal(0, Comment.count)

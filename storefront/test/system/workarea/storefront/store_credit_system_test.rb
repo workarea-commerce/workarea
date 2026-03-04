@@ -177,7 +177,7 @@ module Workarea
       def set_store_credit(value)
         user = User.find_by_email('bcrouse@workarea.com')
         payment_profile = Payment::Profile.lookup(PaymentReference.new(user))
-        payment_profile.update_attributes(store_credit: value)
+        payment_profile.update(store_credit: value)
       end
     end
   end

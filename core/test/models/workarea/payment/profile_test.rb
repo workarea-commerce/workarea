@@ -23,7 +23,7 @@ module Workarea
       end
 
       def test_purchase_on_store_credit
-        profile.update_attributes(store_credit: 10.to_m)
+        profile.update(store_credit: 10.to_m)
 
         profile.purchase_on_store_credit(500)
         profile.reload
@@ -36,7 +36,7 @@ module Workarea
       end
 
       def test_reload_store_credit
-        profile.update_attributes(store_credit: 0.to_m)
+        profile.update(store_credit: 0.to_m)
 
         profile.reload_store_credit(500)
         profile.reload

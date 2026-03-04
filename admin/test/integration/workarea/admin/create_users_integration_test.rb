@@ -151,7 +151,7 @@ module Workarea
       end
 
       def test_creating_an_admin_without_permissions_management
-        admin_user.update_attributes!(
+        admin_user.update!(
           super_admin: false,
           admin: true,
           people_access: true,

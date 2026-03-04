@@ -20,7 +20,7 @@ module Workarea
         assert_equal(0, CategoryBrowse.new(category_ids: [category.id]).total)
 
         release = create_release
-        release.as_current { product.update_attributes!(active: true) }
+        release.as_current { product.update!(active: true) }
         IndexProduct.perform(product.reload)
 
         assert_equal(0, CategoryBrowse.new(category_ids: [category.id]).total)

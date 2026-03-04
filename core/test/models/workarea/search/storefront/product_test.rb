@@ -26,7 +26,7 @@ module Workarea
           assert_includes(search_model.sku, 'SKU')
           assert_includes(search_model.sku, 'SKU1')
 
-          inventory.update_attributes!(available: 0)
+          inventory.update!(available: 0)
           search_model = Product.new(product)
           assert_equal(['SKU'], search_model.sku)
         end

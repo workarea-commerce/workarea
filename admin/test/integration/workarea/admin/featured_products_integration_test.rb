@@ -34,7 +34,7 @@ module Workarea
         assert_redirected_to(admin.featured_product_path(category.to_global_id))
         assert_equal(flash[:error], I18n.t('workarea.admin.publish_authorization.unauthorized'))
 
-        category.update_attributes!(active: false)
+        category.update!(active: false)
 
         post admin.add_featured_product_path(category.to_global_id),
               params: { product_id: product.id }

@@ -120,7 +120,7 @@ module Workarea
       end
 
       def test_does_not_add_if_there_is_no_available_inventory
-        @inventory.update_attributes(available: 0)
+        @inventory.update(available: 0)
 
         post storefront.cart_items_path,
           params: {
@@ -136,7 +136,7 @@ module Workarea
       end
 
       def test_does_not_add_if_there_are_invalid_customizations
-        @product.update_attributes(customizations: 'foo_cust')
+        @product.update(customizations: 'foo_cust')
 
         post storefront.cart_items_path,
           params: {
@@ -178,7 +178,7 @@ module Workarea
             quantity: 1
           }
 
-        @product.update_attributes(customizations: 'foo_cust')
+        @product.update(customizations: 'foo_cust')
 
         patch storefront.cart_item_path(order.items.first),
           params: { sku: 'SKU2', quantity: 2, foo: 'Test' }
@@ -188,7 +188,7 @@ module Workarea
       end
 
       def test_adds_customizations_to_item
-        @product.update_attributes(customizations: 'foo_cust')
+        @product.update(customizations: 'foo_cust')
 
         post storefront.cart_items_path,
           params: {
@@ -231,7 +231,7 @@ module Workarea
             quantity: 1
           }
 
-        @inventory.update_attributes(available: 0)
+        @inventory.update(available: 0)
 
         patch storefront.cart_item_path(order.items.first),
           params: { quantity: 4 }

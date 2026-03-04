@@ -102,7 +102,7 @@ module Workarea
       end
 
       def test_searching_for_product_content
-        @products.first.update_attributes!(description: 'nice product')
+        @products.first.update!(description: 'nice product')
         visit storefront.search_path(q: 'nice')
         assert(page.has_content?(@products.first.name))
       end
@@ -133,7 +133,7 @@ module Workarea
       end
 
       def test_products_with_display_rules
-        @products[0].update_attributes(active: false)
+        @products[0].update(active: false)
         visit storefront.search_path(q: 'test')
 
         assert(page.has_no_content?('Test Product 1'))
@@ -209,7 +209,7 @@ module Workarea
         # cause.
         skip if Workarea.elasticsearch.info['version']['number'] =~ /alpha/
 
-        Search::Settings.current.update_attributes!(synonyms: 'test, ben')
+        Search::Settings.current.update!(synonyms: 'test, ben')
         visit storefront.search_path(q: 'ben')
 
         assert(page.has_content?('Test Product 1'))

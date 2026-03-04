@@ -133,11 +133,11 @@ module Workarea
         content.blocks.create!(area: 'test', type: 'html', data: { 'foo' => 'bar' })
 
         Release.first.as_current do
-          product.update_attributes!(name: 'Changed Product')
-          product.variants.first.update_attributes!(active: false)
-          pricing_sku.update_attributes!(tax_code: '002')
-          discount.update_attributes!(product_ids: [product.id])
-          content.blocks.first.update_attributes!(data: { 'foo' => 'baz' })
+          product.update!(name: 'Changed Product')
+          product.variants.first.update!(active: false)
+          pricing_sku.update!(tax_code: '002')
+          discount.update!(product_ids: [product.id])
+          content.blocks.first.update!(data: { 'foo' => 'baz' })
         end
 
         visit admin.release_path(Release.first)

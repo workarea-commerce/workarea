@@ -19,10 +19,10 @@ module Workarea
       user = create_user(admin: false)
       assert_nil(User.find_admin(user.id))
 
-      user.update_attributes!(admin: true)
+      user.update!(admin: true)
       assert_equal(user, User.find_admin(user.id))
 
-      user.update_attributes!(super_admin: true)
+      user.update!(super_admin: true)
       assert_equal(user, User.find_admin(user.id))
     end
 
@@ -45,26 +45,26 @@ module Workarea
 
     def test_allows_a_normal_user_to_reuse_the_same_password
       user = create_user
-      assert(user.update_attributes(password: 'Password1!'))
+      assert(user.update(password: 'Password1!'))
       assert_equal(user, user.authenticate('Password1!'))
 
-      assert(user.update_attributes(password: 'Password2!'))
+      assert(user.update(password: 'Password2!'))
       assert_equal(user, user.authenticate('Password2!'))
 
-      assert(user.update_attributes(password: 'Password1!'))
+      assert(user.update(password: 'Password1!'))
       assert_equal(user, user.authenticate('Password1!'))
     end
 
     def test_does_not_allow_admins_to_reuse_the_same_password
       user = create_user(admin: true)
 
-      assert(user.update_attributes(password: 'Password1!'))
+      assert(user.update(password: 'Password1!'))
       assert_equal(user, user.authenticate('Password1!'))
 
-      assert(user.update_attributes(password: 'Password2!'))
+      assert(user.update(password: 'Password2!'))
       assert_equal(user, user.authenticate('Password2!'))
 
-      refute(user.update_attributes(password: 'Password1!'))
+      refute(user.update(password: 'Password1!'))
     end
 
     def test_find_for_login
@@ -294,7 +294,7 @@ module Workarea
 
     def test_admin_permissions_revoked_when_no_longer_admin
       user = create_user(admin: true, releases_access: true)
-      user.update_attributes!(admin: false)
+      user.update!(admin: false)
       refute(user.releases_access?)
 
       user = create_user(super_admin: true, releases_access: true)

@@ -40,7 +40,7 @@ module Workarea
     end
 
     def test_refunding_payment
-      @order.update_attributes!(email: 'test@workarea.com')
+      @order.update!(email: 'test@workarea.com')
 
       profile = create_payment_profile(store_credit: 6.to_m)
       payment = create_payment(id: @order.id, profile: profile)

@@ -13,43 +13,43 @@ module Workarea
           visit = create_visit(email: 'bcrouse@workarea.com')
           refute(Orders.new(minimum: 1).qualifies?(visit))
 
-          metrics.update_attributes!(orders: 0)
+          metrics.update!(orders: 0)
           visit = create_visit(email: 'bcrouse@workarea.com')
           refute(Orders.new(minimum: 1).qualifies?(visit))
 
-          metrics.update_attributes!(orders: 1)
+          metrics.update!(orders: 1)
           visit = create_visit(email: 'bcrouse@workarea.com')
           assert(Orders.new(minimum: 1).qualifies?(visit))
 
-          metrics.update_attributes!(orders: 2)
+          metrics.update!(orders: 2)
           visit = create_visit(email: 'bcrouse@workarea.com')
           assert(Orders.new(minimum: 1).qualifies?(visit))
 
-          metrics.update_attributes!(orders: 0)
+          metrics.update!(orders: 0)
           visit = create_visit(email: 'bcrouse@workarea.com')
           assert(Orders.new(maximum: 2).qualifies?(visit))
 
-          metrics.update_attributes!(orders: 1)
+          metrics.update!(orders: 1)
           visit = create_visit(email: 'bcrouse@workarea.com')
           assert(Orders.new(maximum: 2).qualifies?(visit))
 
-          metrics.update_attributes!(orders: 2)
+          metrics.update!(orders: 2)
           visit = create_visit(email: 'bcrouse@workarea.com')
           assert(Orders.new(maximum: 2).qualifies?(visit))
 
-          metrics.update_attributes!(orders: 3)
+          metrics.update!(orders: 3)
           visit = create_visit(email: 'bcrouse@workarea.com')
           refute(Orders.new(maximum: 2).qualifies?(visit))
 
-          metrics.update_attributes!(orders: 3)
+          metrics.update!(orders: 3)
           visit = create_visit(email: 'bcrouse@workarea.com')
           refute(Orders.new(minimum: 1, maximum: 2).qualifies?(visit))
 
-          metrics.update_attributes!(orders: 1)
+          metrics.update!(orders: 1)
           visit = create_visit(email: 'bcrouse@workarea.com')
           assert(Orders.new(minimum: 1, maximum: 2).qualifies?(visit))
 
-          metrics.update_attributes!(orders: 2)
+          metrics.update!(orders: 2)
           visit = create_visit(email: 'bcrouse@workarea.com')
           assert(Orders.new(minimum: 1, maximum: 2).qualifies?(visit))
         end

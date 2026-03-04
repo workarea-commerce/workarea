@@ -61,7 +61,7 @@ module Workarea
       def test_permissions_management
         user = create_user
 
-        admin_user.update_attributes!(
+        admin_user.update!(
           super_admin: false,
           admin: true,
           people_access: true,
@@ -94,7 +94,7 @@ module Workarea
         refute(user.people_access)
         refute(user.marketing_access)
 
-        admin_user.update_attributes!(permissions_manager: true)
+        admin_user.update!(permissions_manager: true)
         get admin.permissions_user_path(create_user)
         assert(response.ok?)
 

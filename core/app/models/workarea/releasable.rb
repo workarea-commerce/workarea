@@ -75,7 +75,7 @@ module Workarea
         result
       else
         Release.with_current(release) do
-          Mongoid::QueryCache.uncached { self.class.find(id) }
+          Mongo::QueryCache.uncached { self.class.find(id) }  # Mongoid 8+: Mongoid::QueryCache replaced by Mongo::QueryCache
         end
       end
     end

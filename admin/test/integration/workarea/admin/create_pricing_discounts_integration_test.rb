@@ -216,7 +216,7 @@ module Workarea
 
         assert(discount.reload.active?)
 
-        discount.update_attributes!(active: false)
+        discount.update!(active: false)
 
         post admin.save_publish_create_pricing_discount_path(discount),
           params: { activate: 'new_release', release: { name: '' } }
@@ -236,7 +236,7 @@ module Workarea
         release.as_current { assert(discount.reload.active?) }
 
         release = create_release
-        discount.update_attributes!(active: false)
+        discount.update!(active: false)
 
         post admin.save_publish_create_pricing_discount_path(discount),
           params: { activate: release.id }

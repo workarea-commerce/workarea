@@ -66,7 +66,7 @@ module Workarea
 
         assert(category.reload.active?)
 
-        category.update_attributes!(active: false)
+        category.update!(active: false)
 
         post admin.save_publish_create_catalog_category_path(category),
           params: { activate: 'new_release', release: { name: '' } }
@@ -86,7 +86,7 @@ module Workarea
         release.as_current { assert(category.reload.active?) }
 
         release = create_release
-        category.update_attributes!(active: false)
+        category.update!(active: false)
 
         post admin.save_publish_create_catalog_category_path(category),
           params: { activate: release.id }

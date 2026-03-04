@@ -99,8 +99,8 @@ module Workarea
        assert_equal(1, view_model.images.size)
        assert_equal('blue', view_model.images.first.option)
 
-       product.images.find_by(option: 'blue').update_attributes!(position: 999)
-       product.images.find_by(option: 'red').update_attributes!(position: 0)
+       product.images.find_by(option: 'blue').update!(position: 999)
+       product.images.find_by(option: 'red').update!(position: 0)
        product.reload
 
        view_model = TestViewModel.wrap(product)

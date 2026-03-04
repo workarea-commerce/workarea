@@ -22,7 +22,7 @@ module Workarea
         product = create_product
 
         Workarea.config.product_templates.each do |template|
-          product.update_attributes!(template: template)
+          product.update!(template: template)
 
           get storefront.product_path(product, via: category.to_gid_param)
           assert_select(

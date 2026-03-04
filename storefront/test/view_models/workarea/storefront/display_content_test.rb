@@ -24,7 +24,7 @@ module Workarea
         assert_equal('Ben', view_model.browser_title)
 
         content = Content.for(model)
-        content.update_attributes!(browser_title: 'Foo')
+        content.update!(browser_title: 'Foo')
 
         view_model = DisplayContentViewModel.wrap(model)
         assert_equal('Foo', view_model.browser_title)
@@ -43,7 +43,7 @@ module Workarea
         )
 
         content = Content.for(model)
-        content.update_attributes!(meta_description: 'Foo')
+        content.update!(meta_description: 'Foo')
 
         view_model = DisplayContentViewModel.wrap(model)
         assert_equal('Foo', view_model.meta_description)
@@ -98,7 +98,7 @@ module Workarea
         view_model = ContentViewModel.wrap(content)
         assert_equal(default_asset, view_model.open_graph_asset)
 
-        content.update_attributes(open_graph_asset_id: create_asset.id)
+        content.update(open_graph_asset_id: create_asset.id)
         view_model = ContentViewModel.wrap(content)
         og_asset = view_model.open_graph_asset
 

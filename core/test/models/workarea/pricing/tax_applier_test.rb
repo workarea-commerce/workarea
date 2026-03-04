@@ -108,7 +108,7 @@ module Workarea
           )
         ])
 
-        @shipping.update_attributes!(quantities: { @item.id => 1 })
+        @shipping.update!(quantities: { @item.id => 1 })
 
         applier = TaxApplier.new(@shipping, @adjustments_to_tax)
         applier.apply

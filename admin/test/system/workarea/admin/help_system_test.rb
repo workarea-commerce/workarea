@@ -12,7 +12,7 @@ module Workarea
         visit admin.help_index_path
         assert(page.has_no_content?('Add New Article'))
 
-        admin_user.update_attributes!(help_admin: true)
+        admin_user.update!(help_admin: true)
 
         visit admin.help_index_path
         click_link 'Add New Article'

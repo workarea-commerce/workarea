@@ -44,7 +44,7 @@ module Workarea
       end
 
       def test_new_value_for
-        @changeset.update_attributes!(
+        @changeset.update!(
           changeset: { 'name' => { I18n.locale.to_s => 'foo' }}
         )
 
@@ -54,22 +54,22 @@ module Workarea
       def test_old_value_for
         Sidekiq::Testing.fake! # setting publish_at will schedule the job, which runs inline
 
-        @release.update_attributes!(publish_at: nil)
-        @releasable.update_attributes!(name: 'foo')
-        @release.as_current { @releasable.update_attributes!(name: 'bar') }
+        @release.update!(publish_at: nil)
+        @releasable.update!(name: 'foo')
+        @release.as_current { @releasable.update!(name: 'bar') }
         changeset = @releasable.changesets.first
 
         view_model = ChangesetViewModel.wrap(changeset)
         assert_equal('foo', view_model.old_value_for('name'))
         assert_equal('foo', @releasable.name)
 
-        @release.update_attributes!(publish_at: 1.week.from_now)
+        @release.update!(publish_at: 1.week.from_now)
         view_model = ChangesetViewModel.wrap(changeset.reload)
         assert_equal('foo', view_model.old_value_for('name'))
         assert_equal('foo', @releasable.name)
 
         previous = create_release(publish_at: 1.day.from_now)
-        previous.as_current { @releasable.update_attributes!(name: 'baz') }
+        previous.as_current { @releasable.update!(name: 'baz') }
 
         view_model = ChangesetViewModel.wrap(changeset.reload)
         assert_equal('baz', view_model.old_value_for('name'))
@@ -82,32 +82,32 @@ module Workarea
         assert_equal('baz', view_model.old_value_for('name'))
         assert_equal('foo', @releasable.name)
 
-        @release.update_attributes!(publish_at: nil)
+        @release.update!(publish_at: nil)
         view_model = ChangesetViewModel.wrap(changeset.reload)
         assert_equal('foo', view_model.old_value_for('name'))
         assert_equal('foo', @releasable.name)
 
-        undo.update_attributes!(publish_at: 1.week.from_now)
+        undo.update!(publish_at: 1.week.from_now)
         view_model = ChangesetViewModel.wrap(changeset.reload)
         assert_equal('foo', view_model.old_value_for('name'))
         assert_equal('foo', @releasable.name)
 
-        undo.update_attributes!(publish_at: 1.week.from_now)
+        undo.update!(publish_at: 1.week.from_now)
         view_model = ChangesetViewModel.wrap(undo_changeset.reload)
         assert_equal('baz', view_model.old_value_for('name'))
         assert_equal('foo', @releasable.name)
 
-        @release.update_attributes!(publish_at: 1.day.from_now)
+        @release.update!(publish_at: 1.day.from_now)
         view_model = ChangesetViewModel.wrap(undo_changeset.reload)
         assert_equal('bar', view_model.old_value_for('name'))
         assert_equal('foo', @releasable.name)
 
-        undo.update_attributes!(publish_at: nil)
+        undo.update!(publish_at: nil)
         view_model = ChangesetViewModel.wrap(undo_changeset.reload)
         assert_equal('bar', view_model.old_value_for('name'))
         assert_equal('foo', @releasable.name)
 
-        @release.update_attributes!(publish_at: nil)
+        @release.update!(publish_at: nil)
         view_model = ChangesetViewModel.wrap(undo_changeset.reload)
         assert_equal('bar', view_model.old_value_for('name'))
         assert_equal('foo', @releasable.name)

@@ -125,7 +125,7 @@ module Workarea
       assert(response.ok?)
       refute(response.redirect?)
 
-      @user.update_attributes!(ip_address: '192.168.0.1')
+      @user.update!(ip_address: '192.168.0.1')
 
       get '/login_required'
       assert(flash[:info].present?)

@@ -40,7 +40,7 @@ module Workarea
       end
 
       def categorize_products(category)
-        category.update_attributes!(
+        category.update!(
           product_ids: @products.map(&:id)
         )
       end

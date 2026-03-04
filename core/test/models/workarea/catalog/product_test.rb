@@ -35,7 +35,7 @@ module Workarea
         results = Product.find_ordered_for_display(products.map(&:id).reverse)
         assert_equal(products.reverse, results)
 
-        products.first.update_attributes(active: false)
+        products.first.update(active: false)
         products.first.reload
 
         results = Product.find_ordered_for_display(products.map(&:id))

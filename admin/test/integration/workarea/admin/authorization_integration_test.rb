@@ -20,7 +20,7 @@ module Workarea
 
       def test_does_not_allow_the_request_when_non_admin_user
         # login
-        @user.update_attributes!(admin: false)
+        @user.update!(admin: false)
         post storefront.login_path,
           params: { email: @user.email, password: 'W3bl1nc!' }
 

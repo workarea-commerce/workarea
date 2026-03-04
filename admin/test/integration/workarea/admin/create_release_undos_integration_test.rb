@@ -9,7 +9,7 @@ module Workarea
         releasable = create_page(name: 'Foo')
         release = create_release
 
-        release.as_current { releasable.update_attributes!(name: 'Bar') }
+        release.as_current { releasable.update!(name: 'Bar') }
         release.changesets.create!(releasable: Catalog::Product.new) # test missing releasable
 
         post admin.release_undos_path(release),

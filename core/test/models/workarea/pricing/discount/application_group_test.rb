@@ -78,7 +78,7 @@ module Workarea
           ids = compatible_sets.map(&:id).map(&:to_s)
 
           compatible_sets.each do |discount|
-            discount.update_attributes(compatible_discount_ids: ids)
+            discount.update(compatible_discount_ids: ids)
           end
 
           results = ApplicationGroup.calculate(@discounts, @order, @shippings)
@@ -94,7 +94,7 @@ module Workarea
           @discounts.each_slice(5) do |discount_subset|
             ids = discount_subset.map(&:id).map(&:to_s)
             discount_subset
-              .each { |d| d.update_attributes(compatible_discount_ids: ids) }
+              .each { |d| d.update(compatible_discount_ids: ids) }
           end
 
           results = ApplicationGroup.calculate(@discounts, @order, @shippings)

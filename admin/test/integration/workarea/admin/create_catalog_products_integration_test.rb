@@ -182,7 +182,7 @@ module Workarea
 
         assert(product.reload.active?)
 
-        product.update_attributes!(active: false)
+        product.update!(active: false)
 
         post admin.save_publish_create_catalog_product_path(product),
           params: { activate: 'new_release', release: { name: '' } }
@@ -202,7 +202,7 @@ module Workarea
         release.as_current { assert(product.reload.active?) }
 
         release = create_release
-        product.update_attributes!(active: false)
+        product.update!(active: false)
 
         post admin.save_publish_create_catalog_product_path(product),
           params: { activate: release.id }

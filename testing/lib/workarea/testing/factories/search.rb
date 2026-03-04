@@ -67,7 +67,7 @@ module Workarea
 
       def update_search_settings(overrides = {})
         attributes = factory_defaults(:search_settings).merge(overrides)
-        Workarea::Search::Settings.current.update_attributes!(attributes)
+        Workarea::Search::Settings.current.update!(attributes)
       end
     end
   end

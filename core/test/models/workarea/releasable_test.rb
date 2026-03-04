@@ -209,7 +209,7 @@ module Workarea
       model = Foo.create!(name: 'Test')
 
       Release.with_current(@release.id) do
-        model.update_attributes!(name: 'Changed')
+        model.update!(name: 'Changed')
       end
 
       fields_in_change = model.changesets.first.changeset.keys
@@ -223,7 +223,7 @@ module Workarea
       model = Foo.create!(name: 'Test', slug: 'test')
 
       Release.with_current(@release.id) do
-        model.update_attributes(slug: 'test-changed')
+        model.update(slug: 'test-changed')
 
         refute(model.valid?)
         assert_includes(
@@ -237,7 +237,7 @@ module Workarea
       model = Foo.create!(name: 'Test', blank_field: nil)
 
       Release.with_current(@release.id) do
-        model.update_attributes!(name: 'Changed', blank_field: '')
+        model.update!(name: 'Changed', blank_field: '')
       end
 
       fields_in_change = model.changesets.first.changeset.keys
@@ -376,7 +376,7 @@ module Workarea
       assert_equal('Foo', in_release.name)
       refute_equal(in_release.object_id, model.object_id)
 
-      Mongoid::QueryCache.cache do
+      Mongo::QueryCache.cache do
         cached = Foo.find(model.id) # a find to ensure it's in the cache table
         cached.name = 'Bar' # so the cache table's instance has a change
 
@@ -387,7 +387,7 @@ module Workarea
       end
 
     ensure
-      Mongoid::QueryCache.clear_cache
+      Mongo::QueryCache.clear
     end
 
     def test_skip_changeset
