@@ -83,7 +83,7 @@ PATH
       rack (>= 2.1.4)
       rack-attack (>= 6.3, < 7.0)
       rack-timeout (~> 0.6)
-      rails (>= 6.1, < 7.2)
+      rails (>= 6.1, < 7.3)
       rails-decorators (~> 1.0.0.pre)
       recaptcha (~> 5.6)
       redcarpet (~> 3.5)
