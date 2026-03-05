@@ -14,17 +14,14 @@ rack_cache_enabled = app.config.action_dispatch.rack_cache &&
 if rack_cache_enabled
   require 'rack/cache'
 
-  # Insert Dragonfly after Rack::Cache so Dragonfly-served assets bypass
-  # the cache correctly.  We defer to after_initialize so we can verify
-  # Rack::Cache is actually present in the finalized middleware stack
-  # (it may not be if the app removed it explicitly after configuration).
-  app.config.after_initialize do |initialized_app|
-    if initialized_app.middleware.include?(Rack::Cache)
-      initialized_app.middleware.insert_after Rack::Cache, Dragonfly::Middleware, :workarea
-    else
-      initialized_app.middleware.use Dragonfly::Middleware, :workarea
-    end
-  end
+  # Insert Dragonfly after Rack::Cache so Dragonfly-served assets bypass the
+  # cache correctly.
+  #
+  # NOTE: Middleware stacks are frozen after initialization, so we must
+  # configure this during boot (not in an `after_initialize` hook).
+  app.config.middleware.delete(Rack::Cache)
+  app.config.middleware.use(Rack::Cache)
+  app.config.middleware.insert_after Rack::Cache, Dragonfly::Middleware, :workarea
 else
   # On Rails >= 7.1 or when Rack::Cache is not configured, append Dragonfly
   # at the end of the stack.
