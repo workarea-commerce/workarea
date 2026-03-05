@@ -81,7 +81,10 @@ module Workarea
         #
         # Don't override the :test adapter in test suites, since Workarea relies
         # on ActiveJob's test adapter helpers (perform_enqueued_jobs, etc.).
-        unless ActiveJob::Base.queue_adapter.is_a?(ActiveJob::QueueAdapters::TestAdapter)
+        # Uses the public queue_adapter_name API (Rails 5.2+) rather than
+        # is_a?(TestAdapter) so it works even when the adapter constant is not
+        # yet loaded at call time.
+        unless ActiveJob::Base.queue_adapter_name.to_s == 'test'
           ActiveJob::Base.queue_adapter = :sidekiq
         end
 
