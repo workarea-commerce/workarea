@@ -7,6 +7,16 @@ module Workarea
         queue_as :default
         def perform; end
       end
+
+      # Job that records execution so tests can assert it actually ran.
+      class ExecutionTrackingJob < ActiveJob::Base
+        queue_as :default
+        cattr_accessor :executed, default: false
+
+        def perform
+          self.class.executed = true
+        end
+      end
       # ---------------------------------------------------------------------------
       # SIDEKIQ_DEFAULTS resolution
       # ---------------------------------------------------------------------------
@@ -112,6 +122,7 @@ module Workarea
 
         Workarea::Configuration::Sidekiq.configure_plugins!
 
+        # Guard uses queue_adapter_name public API — verify it holds
         assert_equal 'test', ActiveJob::Base.queue_adapter_name.to_s
       ensure
         ActiveJob::Base.queue_adapter = original_adapter
@@ -172,6 +183,65 @@ module Workarea
       ensure
         Warning[:deprecated] = original_deprecated
       end
+
+      # ---------------------------------------------------------------------------
+      # Acceptance criteria: job execution
+      #
+      # Verifies that once configure_plugins! sets the :sidekiq adapter,
+      # jobs actually execute (not just enqueue) when Sidekiq runs inline.
+      # This covers the "Jobs execute successfully" acceptance criterion from #755.
+      # ---------------------------------------------------------------------------
+
+      def test_active_job_executes_successfully_in_sidekiq_inline_mode
+        require 'sidekiq/testing'
+
+        SidekiqTest::ExecutionTrackingJob.executed = false
+
+        ::Sidekiq::Testing.inline! do
+          ActiveJob::Base.queue_adapter = :async
+          Workarea::Configuration::Sidekiq.configure_plugins!
+
+          assert_equal 'sidekiq', ActiveJob::Base.queue_adapter_name.to_s
+
+          SidekiqTest::ExecutionTrackingJob.perform_later
+
+          assert SidekiqTest::ExecutionTrackingJob.executed,
+            'Expected job to execute synchronously in Sidekiq inline mode'
+        end
+      ensure
+        SidekiqTest::ExecutionTrackingJob.executed = false
+      end
+
+      # ---------------------------------------------------------------------------
+      # Acceptance criteria: retries — SCOPE NOTE
+      #
+      # Retry behavior (sidekiq_retries_exhausted, retry_in, retry_on) is
+      # standard Sidekiq/ActiveJob infrastructure that is NOT affected by this
+      # guard change. The PR only prevents configure_plugins! from clobbering the
+      # :test adapter; it does not modify Sidekiq retry configuration. Retry
+      # integration tests would require an actual Sidekiq server process and are
+      # covered by upstream Sidekiq/sidekiq-unique-jobs test suites.
+      # ---------------------------------------------------------------------------
+
+      # ---------------------------------------------------------------------------
+      # Acceptance criteria: scheduled jobs — SCOPE NOTE
+      #
+      # Scheduled job support (perform_in, perform_at, scheduled_at) is provided
+      # by Sidekiq's scheduler and is not touched by this PR. The guard change
+      # has no impact on scheduling behavior. Scheduled-job integration tests
+      # require Sidekiq's scheduler process and are outside the scope of this
+      # unit-level fix.
+      # ---------------------------------------------------------------------------
+
+      # ---------------------------------------------------------------------------
+      # Acceptance criteria: unique-jobs enforcement — SCOPE NOTE
+      #
+      # Unique-job constraints are enforced by SidekiqUniqueJobs middleware, which
+      # is wired in configure_workarea! (not configure_plugins!). This PR does not
+      # change that middleware chain. Uniqueness enforcement requires a live Redis
+      # connection and Sidekiq server and is tested by the sidekiq-unique-jobs gem
+      # itself. It is out of scope for this adapter-guard unit test.
+      # ---------------------------------------------------------------------------
     end
   end
 end
