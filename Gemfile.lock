@@ -237,6 +237,7 @@ GEM
     crass (1.0.6)
     css_parser (1.17.1)
       addressable
+    csv (3.3.5)
     date (3.5.1)
     dragonfly (1.4.1)
       addressable (~> 2.3)
@@ -250,6 +251,7 @@ GEM
       base64
       dragonfly (~> 1.0)
       ruby-vips (~> 2.0, >= 2.0.16)
+    drb (2.2.3)
     easymon (1.4.2)
       redis
     ejs (1.1.1)
@@ -435,6 +437,7 @@ GEM
     mongoid-tree (2.1.1)
       mongoid (>= 4.0, < 8)
     multi_json (1.15.0)
+    mutex_m (0.3.0)
     net-imap (0.4.23)
       date
       net-protocol
@@ -640,7 +643,12 @@ PLATFORMS
 
 DEPENDENCIES
   bundler-audit
+  csv
+  drb
   listen
+  logger
+  mutex_m
+  ostruct
   rails-decorators!
   redis (>= 4.8, < 6)
   rubocop
