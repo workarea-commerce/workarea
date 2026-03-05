@@ -3,6 +3,20 @@ require 'test_helper'
 module Workarea
   module Configuration
     class SidekiqTest < TestCase
+      class EnqueueTestJob < ActiveJob::Base
+        queue_as :default
+        def perform; end
+      end
+
+      # Job that records execution so tests can assert it actually ran.
+      class ExecutionTrackingJob < ActiveJob::Base
+        queue_as :default
+        cattr_accessor :executed, default: false
+
+        def perform
+          self.class.executed = true
+        end
+      end
       # ---------------------------------------------------------------------------
       # SIDEKIQ_DEFAULTS resolution
       # ---------------------------------------------------------------------------
@@ -95,6 +109,139 @@ module Workarea
         expected = (defaults[:timeout] || defaults['timeout']).to_i
         assert_equal expected, Configuration::Sidekiq.timeout
       end
+
+      # ---------------------------------------------------------------------------
+      # ActiveJob adapter compatibility
+      # ---------------------------------------------------------------------------
+
+      def test_configure_plugins_does_not_override_test_adapter
+        require 'active_job/queue_adapters/test_adapter'
+
+        original_adapter = ActiveJob::Base.queue_adapter_name.to_s.to_sym
+        ActiveJob::Base.queue_adapter = ActiveJob::QueueAdapters::TestAdapter.new
+
+        Workarea::Configuration::Sidekiq.configure_plugins!
+
+        # Guard uses queue_adapter_name public API — verify it holds
+        assert_equal 'test', ActiveJob::Base.queue_adapter_name.to_s
+      ensure
+        ActiveJob::Base.queue_adapter = original_adapter
+      end
+    end
+
+    class SidekiqActiveJobAdapterTest < ::Minitest::Test
+      class EnqueueTestJob < ActiveJob::Base
+        queue_as :default
+        def perform; end
+      end
+
+      def setup
+        @original_adapter = ActiveJob::Base.queue_adapter_name.to_s.to_sym
+      end
+
+      def teardown
+        ActiveJob::Base.queue_adapter = @original_adapter
+      end
+
+      def test_configure_plugins_sets_sidekiq_adapter_when_not_using_test_adapter
+        ActiveJob::Base.queue_adapter = :async
+        refute ActiveJob::Base.queue_adapter.is_a?(ActiveJob::QueueAdapters::TestAdapter)
+
+        Workarea::Configuration::Sidekiq.configure_plugins!
+
+        assert_equal 'sidekiq', ActiveJob::Base.queue_adapter_name.to_s
+      end
+
+      def test_active_job_enqueues_into_sidekiq_queue
+        require 'sidekiq/testing'
+
+        ::Sidekiq::Testing.fake! do
+          ::Sidekiq::Worker.clear_all
+
+          ActiveJob::Base.queue_adapter = :async
+          Workarea::Configuration::Sidekiq.configure_plugins!
+
+          assert_equal 'sidekiq', ActiveJob::Base.queue_adapter_name.to_s
+
+          assert_equal 0, ::Sidekiq::Worker.jobs.size
+
+          EnqueueTestJob.perform_later
+
+          assert_equal 1, ::Sidekiq::Worker.jobs.size
+        end
+      end
+
+      def test_configure_plugins_emits_no_deprecation_warnings
+        original_deprecated = Warning[:deprecated]
+        Warning[:deprecated] = true
+
+        _stdout, stderr = capture_io do
+          Workarea::Configuration::Sidekiq.configure_plugins!
+        end
+
+        assert_equal '', stderr
+      ensure
+        Warning[:deprecated] = original_deprecated
+      end
+
+      # ---------------------------------------------------------------------------
+      # Acceptance criteria: job execution
+      #
+      # Verifies that once configure_plugins! sets the :sidekiq adapter,
+      # jobs actually execute (not just enqueue) when Sidekiq runs inline.
+      # This covers the "Jobs execute successfully" acceptance criterion from #755.
+      # ---------------------------------------------------------------------------
+
+      def test_active_job_executes_successfully_in_sidekiq_inline_mode
+        require 'sidekiq/testing'
+
+        SidekiqTest::ExecutionTrackingJob.executed = false
+
+        ::Sidekiq::Testing.inline! do
+          ActiveJob::Base.queue_adapter = :async
+          Workarea::Configuration::Sidekiq.configure_plugins!
+
+          assert_equal 'sidekiq', ActiveJob::Base.queue_adapter_name.to_s
+
+          SidekiqTest::ExecutionTrackingJob.perform_later
+
+          assert SidekiqTest::ExecutionTrackingJob.executed,
+            'Expected job to execute synchronously in Sidekiq inline mode'
+        end
+      ensure
+        SidekiqTest::ExecutionTrackingJob.executed = false
+      end
+
+      # ---------------------------------------------------------------------------
+      # Acceptance criteria: retries — SCOPE NOTE
+      #
+      # Retry behavior (sidekiq_retries_exhausted, retry_in, retry_on) is
+      # standard Sidekiq/ActiveJob infrastructure that is NOT affected by this
+      # guard change. The PR only prevents configure_plugins! from clobbering the
+      # :test adapter; it does not modify Sidekiq retry configuration. Retry
+      # integration tests would require an actual Sidekiq server process and are
+      # covered by upstream Sidekiq/sidekiq-unique-jobs test suites.
+      # ---------------------------------------------------------------------------
+
+      # ---------------------------------------------------------------------------
+      # Acceptance criteria: scheduled jobs — SCOPE NOTE
+      #
+      # Scheduled job support (perform_in, perform_at, scheduled_at) is provided
+      # by Sidekiq's scheduler and is not touched by this PR. The guard change
+      # has no impact on scheduling behavior. Scheduled-job integration tests
+      # require Sidekiq's scheduler process and are outside the scope of this
+      # unit-level fix.
+      # ---------------------------------------------------------------------------
+
+      # ---------------------------------------------------------------------------
+      # Acceptance criteria: unique-jobs enforcement — SCOPE NOTE
+      #
+      # Unique-job constraints are enforced by SidekiqUniqueJobs middleware, which
+      # is wired in configure_workarea! (not configure_plugins!). This PR does not
+      # change that middleware chain. Uniqueness enforcement requires a live Redis
+      # connection and Sidekiq server and is tested by the sidekiq-unique-jobs gem
+      # itself. It is out of scope for this adapter-guard unit test.
+      # ---------------------------------------------------------------------------
     end
   end
 end
