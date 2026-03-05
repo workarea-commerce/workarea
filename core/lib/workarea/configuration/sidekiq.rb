@@ -76,7 +76,14 @@ module Workarea
       end
 
       def configure_plugins!
-        ActiveJob::Base.queue_adapter = :sidekiq
+        # Ensure ActiveJob-backed features (notably ActionMailer deliver_later)
+        # enqueue through Sidekiq by default.
+        #
+        # Don't override the :test adapter in test suites, since Workarea relies
+        # on ActiveJob's test adapter helpers (perform_enqueued_jobs, etc.).
+        unless ActiveJob::Base.queue_adapter.is_a?(ActiveJob::QueueAdapters::TestAdapter)
+          ActiveJob::Base.queue_adapter = :sidekiq
+        end
 
         # Sidekiq 7 enables strict argument checking by default, but Workarea
         # commonly passes BSON::ObjectId and other non-JSON-native types.
