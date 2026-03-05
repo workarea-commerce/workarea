@@ -30,7 +30,7 @@ module Workarea
         # doesn't rely on boolean return values from `sadd`, so opt into the
         # Redis 5 behavior now to eliminate deprecation warnings.
         require 'redis'
-        Redis.sadd_returns_boolean = false
+        Redis.sadd_returns_boolean = false if Redis.respond_to?(:sadd_returns_boolean=)
 
         Configuration::Sidekiq.load
         Configuration::CacheStore.load
