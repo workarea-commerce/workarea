@@ -238,7 +238,10 @@ module Sidekiq
       end
     end
 
-    def run_callbacks(kind, *)
+    # Mongoid 8 changed run_callbacks to use keyword arguments (with_children: true).
+    # In Ruby 3.x keyword args and hash args are no longer interchangeable, so
+    # the splat must explicitly capture kwargs to pass them through to super.
+    def run_callbacks(kind, *args, **kwargs, &block)
       result = super
       _enqueue_callback_workers(kind) if result != false && kind != :find
       result
