@@ -47,7 +47,8 @@
                       .calendar__day-header-cell
                         - if current_user.can_publish_now?
                           - if Date.parse(day).today?
-                            = link_to create_releases_path(release: { publish_at: Time.current.end_of_day - 4.minutes }), class: 'calendar__new-release' do
+                            - publish_at = [Time.current.end_of_day - 4.minutes, 1.minute.from_now].max
+                            = link_to create_releases_path(release: { publish_at: publish_at }), class: 'calendar__new-release' do
                               %span.calendar__new-release-text= t('workarea.admin.releases.calendar.add_new_release')
                               = inline_svg_tag('workarea/admin/icons/add.svg', title: t('workarea.admin.releases.calendar.add_new_release'), class: 'calendar__new-release-icon')
 
