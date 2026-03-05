@@ -3,6 +3,10 @@ require 'test_helper'
 module Workarea
   module Configuration
     class SidekiqTest < TestCase
+      class EnqueueTestJob < ActiveJob::Base
+        queue_as :default
+        def perform; end
+      end
       # ---------------------------------------------------------------------------
       # SIDEKIQ_DEFAULTS resolution
       # ---------------------------------------------------------------------------
@@ -101,14 +105,73 @@ module Workarea
       # ---------------------------------------------------------------------------
 
       def test_configure_plugins_does_not_override_test_adapter
-        original_adapter = ActiveJob::Base.queue_adapter
-        ActiveJob::Base.queue_adapter = :test
+        require 'active_job/queue_adapters/test_adapter'
+
+        original_adapter = ActiveJob::Base.queue_adapter_name.to_s.to_sym
+        ActiveJob::Base.queue_adapter = ActiveJob::QueueAdapters::TestAdapter.new
 
         Workarea::Configuration::Sidekiq.configure_plugins!
 
         assert_equal 'test', ActiveJob::Base.queue_adapter_name.to_s
       ensure
         ActiveJob::Base.queue_adapter = original_adapter
+      end
+
+    end
+
+    class SidekiqActiveJobAdapterTest < ::Minitest::Test
+      class EnqueueTestJob < ActiveJob::Base
+        queue_as :default
+        def perform; end
+      end
+
+      def setup
+        @original_adapter = ActiveJob::Base.queue_adapter_name.to_s.to_sym
+      end
+
+      def teardown
+        ActiveJob::Base.queue_adapter = @original_adapter
+      end
+
+      def test_configure_plugins_sets_sidekiq_adapter_when_not_using_test_adapter
+        ActiveJob::Base.queue_adapter = :async
+        refute ActiveJob::Base.queue_adapter.is_a?(ActiveJob::QueueAdapters::TestAdapter)
+
+        Workarea::Configuration::Sidekiq.configure_plugins!
+
+        assert_equal 'sidekiq', ActiveJob::Base.queue_adapter_name.to_s
+      end
+
+      def test_active_job_enqueues_into_sidekiq_queue
+        require 'sidekiq/testing'
+
+        ::Sidekiq::Testing.fake! do
+          ::Sidekiq::Worker.clear_all
+
+          ActiveJob::Base.queue_adapter = :async
+          Workarea::Configuration::Sidekiq.configure_plugins!
+
+          assert_equal 'sidekiq', ActiveJob::Base.queue_adapter_name.to_s
+
+          assert_equal 0, ::Sidekiq::Worker.jobs.size
+
+          EnqueueTestJob.perform_later
+
+          assert_equal 1, ::Sidekiq::Worker.jobs.size
+        end
+      end
+
+      def test_configure_plugins_emits_no_deprecation_warnings
+        original_deprecated = Warning[:deprecated]
+        Warning[:deprecated] = true
+
+        _stdout, stderr = capture_io do
+          Workarea::Configuration::Sidekiq.configure_plugins!
+        end
+
+        assert_equal '', stderr
+      ensure
+        Warning[:deprecated] = original_deprecated
       end
     end
   end
