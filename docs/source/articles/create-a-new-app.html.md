@@ -57,7 +57,7 @@ bundle exec rails new ./ --force \
 --skip-bootsnap \
 --skip-yarn \
 --skip-bundle \
---skip-webpack-install
+--skip-javascript
 ```
 
 ## Add the Workarea gem
