@@ -35,6 +35,15 @@ two-parameter requirement. **This is the critical check — and HAML 5.2.2 passe
 
 ---
 
+## Workarea Audit: Template Handler Registration
+
+A repo-wide search for `ActionView::Template.register_template_handler` found **no calls in
+Workarea itself** (other than this research note). This means Workarea does **not** ship any
+custom ActionView template handlers.
+
+HAML integration is provided by the `haml` gem's Railtie, which registers the handler using
+a two-arity `call(template, source)` implementation (see below).
+
 ## HAML 5.2.2 Rails Integration Checklist
 
 | Check | Status | Notes |
