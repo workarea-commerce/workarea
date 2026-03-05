@@ -19,6 +19,13 @@ module Workarea
           http.start { |h| h.request(request) }
 
         rescue Exception => e
+          Workarea::ErrorReporting.report(
+            e,
+            handled: true,
+            severity: :warning,
+            context: { service: 'homebase.weblinc.com', url: URL }
+          )
+
           Rails.logger.error '-------------------------------------'
           Rails.logger.error "There was an error contacting #{URL}!"
           Rails.logger.error e.class
