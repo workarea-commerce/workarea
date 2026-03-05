@@ -5,7 +5,7 @@ module ActionView
         if condition
           link_to link, html_options, &block
         else
-          capture &block
+          capture(&block)
         end
       end
 
@@ -13,7 +13,7 @@ module ActionView
         unless condition
           link_to link, html_options, &block
         else
-          capture &block
+          capture(&block)
         end
       end
     end
