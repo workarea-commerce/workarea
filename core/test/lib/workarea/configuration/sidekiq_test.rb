@@ -116,7 +116,6 @@ module Workarea
       ensure
         ActiveJob::Base.queue_adapter = original_adapter
       end
-
     end
 
     class SidekiqActiveJobAdapterTest < ::Minitest::Test
