@@ -1,2 +1,0 @@
-zsh:1: no such file or directory: bin/rails
-bin/rails runner "puts Rails.version"  0.00s user 0.00s system 51% cpu 0.000 total
