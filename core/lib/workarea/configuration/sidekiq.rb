@@ -91,6 +91,7 @@ module Workarea
           end
         end
 
+        require 'sidekiq/callbacks' unless defined?(::Sidekiq::Callbacks)
         ::Sidekiq::Callbacks.assert_valid_config!
         # sidekiq-throttled 1.x automatically installs its server middleware when
         # `sidekiq/throttled` is required; the old `.setup!` hook was removed.

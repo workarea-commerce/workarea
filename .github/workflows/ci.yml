@@ -175,6 +175,9 @@ jobs:
           - rails: "6.1 (default)"
             gemfile: Gemfile
             experimental: false
+          - rails: "7.0"
+            gemfile: gemfiles/rails_7_0.gemfile
+            experimental: true
           - rails: "7.1"
             gemfile: gemfiles/rails_7_1.gemfile
             experimental: true
