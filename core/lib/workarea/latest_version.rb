@@ -14,6 +14,13 @@ module Workarea
         JSON.parse(response.body)['version']
       end
     rescue Exception => e
+      Workarea::ErrorReporting.report(
+        e,
+        handled: true,
+        severity: :warning,
+        context: { service: 'rubygems.org', url: 'https://rubygems.org/api/v1/gems/workarea.json' }
+      )
+
       Rails.logger.error '-------------------------------------'
       Rails.logger.error "There was an error contacting rubygems.org!"
       Rails.logger.error e.class
