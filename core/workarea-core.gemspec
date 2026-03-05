@@ -106,4 +106,13 @@ s.add_dependency 'rails', '>= 6.1', '< 7.3'
   # HACK for vendoring active_shipping
   s.add_dependency 'active_utils', '~> 3.3'             # loosened from ~> 3.3.1
   s.add_dependency 'measured', '>= 2.0'
+
+  # Ruby 3.4+ extracted these from the default/bundled stdlib into standalone gems.
+  # Declaring them here ensures downstream implementations inherit them automatically
+  # when workarea-core is installed as a gem (not path-referenced).
+  s.add_dependency 'mutex_m'   # Ruby 3.4+: no longer stdlib
+  s.add_dependency 'csv'       # Ruby 3.4+: no longer stdlib
+  s.add_dependency 'drb'       # Ruby 3.4+: no longer stdlib
+  s.add_dependency 'logger'    # Ruby 3.4+: no longer stdlib
+  s.add_dependency 'ostruct'   # Ruby 3.4+: no longer stdlib
 end
