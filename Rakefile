@@ -31,38 +31,20 @@ Rake::Task['test:system'].clear_comments
 Rake::Task["test"].clear
 desc 'Run tests for all gems'
 task :test do
-  require 'rails/test_unit/reporter'
-
-  $: << 'core/test'
-  Rails::TestUnitReporter.executable = 'bin/rails test'
-
-  # Override this to print a command that we rerun the test on failure
-  Rails::TestUnitReporter.class_eval do
-    def format_rerun_snippet(result)
-      location, line =
-        if result.respond_to?(:source_location)
-          result.source_location
-        elsif result.respond_to?(:klass) && result.respond_to?(:name)
-          result.klass.instance_method(result.name).source_location
-        else
-          [nil, nil]
-        end
-
-      return super if location.blank? || line.blank?
-
-      rel_path = relative_path_for(location)
-
-      GEMS.each do |gem|
-        if rel_path.include?(gem)
-          return "cd #{gem} && bin/rails test #{rel_path}:#{line}"
-        end
-      end
-
-      "#{executable} #{rel_path}:#{line}"
-    end
-  end
-
-  Rails::TestUnit::Runner.rake_run(GEMS.map { |g| "#{g}/test" })
+  # Run each gem's tests via its isolated Rake::TestTask subprocess target.
+  #
+  # Previously this task called Rails::TestUnit::Runner.rake_run with all gem
+  # test paths in a single in-process Ruby invocation. That caused 99.6% setup
+  # failures: every test file calls `require 'test_helper'`, but Ruby's require
+  # cache returns the first match found in $LOAD_PATH.  With only 'core/test'
+  # on the path, admin and storefront tests all booted core's dummy app (which
+  # has neither engine installed), and setup transactions / fixtures failed.
+  #
+  # Each per-gem Rake::TestTask (core_test, admin_test, storefront_test) spawns
+  # a fresh Ruby subprocess with only that gem's test/ directory on $LOAD_PATH,
+  # so its own test_helper and dummy app are used — providing correct RAILS_ENV
+  # propagation and isolated setup per engine.
+  GEMS.each { |gem| Rake::Task["#{gem}_test"].invoke }
 end
 
 desc 'Run performance tests for all gems'

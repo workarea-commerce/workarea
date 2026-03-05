@@ -1,7 +1,57 @@
 load 'rails/test_unit/testing.rake'
 
+# Rails 7.2 removed Rails::TestUnit::Runner.rake_run.
+# Provide a compatibility shim so tests run on both Rails 7.x and 7.2+.
+#
+# This shim also ensures RAILS_ENV=test is set before test files are loaded
+# and that each engine's test directory is on $LOAD_PATH using absolute paths,
+# so `require 'test_helper'` resolves correctly regardless of the CWD from
+# which rake is invoked.
+module WorkareaTestRunner
+  def self.run(test_paths)
+    # Propagate RAILS_ENV=test by default. Without this, invoking rake from the
+    # repo root (where no test_helper hardcodes the env before Rails boots) can
+    # leave RAILS_ENV unset, causing the dummy app to initialize in development
+    # mode and failing all database/fixture setup.
+    ENV['RAILS_ENV'] ||= 'test'
+
+    # Add absolute paths of any test *directories* passed in to $LOAD_PATH so
+    # that `require 'test_helper'` inside test files resolves to the correct
+    # engine's test_helper regardless of the CWD. The :prepare task appends the
+    # relative string 'test', which only works when rake is run from inside the
+    # engine directory itself; absolute paths here are CWD-independent.
+    Array(test_paths).each do |path|
+      dir = File.expand_path(path.to_s)
+      if File.directory?(dir) && !$LOAD_PATH.include?(dir)
+        $LOAD_PATH.unshift(dir)
+      end
+    end
+
+    if Rails::TestUnit::Runner.respond_to?(:rake_run)
+      # Rails < 7.2
+      Rails::TestUnit::Runner.rake_run(test_paths)
+    else
+      # Rails 7.2+: load test files directly and let Minitest autorun handle them.
+      test_files = Array(test_paths).flat_map do |path|
+        path_str = path.to_s
+        if File.directory?(path_str)
+          Dir.glob("#{path_str}/**/*_test.rb")
+        else
+          [path_str]
+        end
+      end
+      test_files.uniq.sort.each { |f| require File.expand_path(f) }
+      require "active_support/testing/autorun"
+    end
+  end
+end
+
 namespace :workarea do
   task :prepare do
+    # Propagate RAILS_ENV=test so engine test tasks work regardless of whether
+    # the caller remembered to set it. Individual tasks may override by setting
+    # ENV['RAILS_ENV'] before invoking rake.
+    ENV['RAILS_ENV'] ||= 'test'
     $: << 'test'
   end
 
@@ -11,7 +61,7 @@ namespace :workarea do
               Workarea::Plugin.installed.map(&:root) +
               [Rails.root]
 
-    Rails::TestUnit::Runner.rake_run(
+    WorkareaTestRunner.run(
       roots
         .map { |r| FileList["#{r}/test/**/*_test.rb"] }
         .reduce(&:+)
@@ -20,7 +70,7 @@ namespace :workarea do
 
   desc 'Run workarea/core tests (with decorators)'
   task 'test:core' => :prepare do
-    Rails::TestUnit::Runner.rake_run(["#{Workarea::Core::Engine.root}/test"])
+    WorkareaTestRunner.run(["#{Workarea::Core::Engine.root}/test"])
   end
 
   desc 'Run decorated tests'
@@ -33,7 +83,7 @@ namespace :workarea do
     roots = [Workarea::Core::Engine.root] +
               Workarea::Plugin.installed.map(&:root)
 
-    Rails::TestUnit::Runner.rake_run(
+    WorkareaTestRunner.run(
       decorated.reduce([]) do |memo, relative_original|
         original = roots
           .map { |root| "#{root}/#{relative_original}" }
@@ -59,20 +109,20 @@ namespace :workarea do
       %w(admin storefront).include?(engine.slug)
     end.map(&:root)
 
-    Rails::TestUnit::Runner.rake_run(
+    WorkareaTestRunner.run(
       engines.map { |r| FileList["#{r}/test/**/*_test.rb"] }.reduce(&:+) || []
     )
   end
 
   desc 'Run all app specific tests'
   task 'test:app' => :prepare do
-    Rails::TestUnit::Runner.rake_run(FileList["#{Rails.root}/test/**/*_test.rb"])
+    WorkareaTestRunner.run(FileList["#{Rails.root}/test/**/*_test.rb"])
   end
 
   Workarea::Plugin.installed.each do |engine|
     desc "Run workarea #{engine.slug} tests (with decorators)"
     task "test:#{engine.slug}" => :prepare do
-      Rails::TestUnit::Runner.rake_run(
+      WorkareaTestRunner.run(
         FileList[engine.root.join('test', '**', '*', '*_test.rb')]
       )
     end
@@ -85,7 +135,7 @@ namespace :workarea do
               [Rails.root]
 
     ENV['PERF_TEST'] = 'true'
-    Rails::TestUnit::Runner.rake_run(
+    WorkareaTestRunner.run(
       roots
         .map { |r| FileList["#{r}/test/performance/**/*_test.rb"] }
         .reduce(&:+)
