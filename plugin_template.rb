@@ -12,7 +12,7 @@ rails plugin new path/to/my_plugin \
   --skip-turbolinks \
   --skip-bootsnap \
   --skip-yarn \
-  --skip-webpack-install
+  --skip-javascript
 =end
 
 #

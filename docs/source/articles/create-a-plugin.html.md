@@ -20,7 +20,7 @@ rails plugin new path/to/my_plugin \
   --skip-turbolinks \
   --skip-bootsnap \
   --skip-yarn \
-  --skip-webpack-install
+  --skip-javascript
 ```
 
 This template can be found in the [workarea repository](https://github.com/workarea-commerce/workarea) at [https://github.com/workarea-commerce/workarea/blob/master/plugin_template.rb](https://github.com/workarea-commerce/workarea/blob/master/plugin_template.rb).
