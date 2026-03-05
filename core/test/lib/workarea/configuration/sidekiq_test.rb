@@ -95,6 +95,21 @@ module Workarea
         expected = (defaults[:timeout] || defaults['timeout']).to_i
         assert_equal expected, Configuration::Sidekiq.timeout
       end
+
+      # ---------------------------------------------------------------------------
+      # ActiveJob adapter compatibility
+      # ---------------------------------------------------------------------------
+
+      def test_configure_plugins_does_not_override_test_adapter
+        original_adapter = ActiveJob::Base.queue_adapter
+        ActiveJob::Base.queue_adapter = :test
+
+        Workarea::Configuration::Sidekiq.configure_plugins!
+
+        assert_equal 'test', ActiveJob::Base.queue_adapter_name.to_s
+      ensure
+        ActiveJob::Base.queue_adapter = original_adapter
+      end
     end
   end
 end
