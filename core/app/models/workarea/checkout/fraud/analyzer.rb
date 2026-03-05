@@ -18,6 +18,17 @@ module Workarea
           begin
             decision = make_decision.tap { |r| r.analyzer = self.class.name }
           rescue => e
+            Workarea::ErrorReporting.report(
+              e,
+              handled: true,
+              severity: :warning,
+              context: {
+                analyzer: self.class.name,
+                order_id: order&.id,
+                checkout_class: checkout.class.name
+              }
+            )
+
             decision = error_decision(e.message)
           ensure
             order.set_fraud_decision!(decision)
