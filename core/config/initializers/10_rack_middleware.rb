@@ -53,17 +53,19 @@ Rails.application.config.middleware.insert_after(
   "#{Workarea::Admin.root}/public"
 )
 
-# Rails 7.0 (Zeitwerk) does not always autoload middleware from engines.
-# Require explicitly so the constant is available during initialization.
-require "#{Workarea::Core::Engine.root}/app/middleware/workarea/enforce_host_middleware"
-
+require_relative '../../app/middleware/workarea/enforce_host_middleware'
 app.config.middleware.use Workarea::EnforceHostMiddleware
 
 # ApplicationMiddleware must wrap the entire Workarea request pipeline so it
 # can set up the Workarea::Visit, locale, and cache-key env vars before any
 # controller or caching layer runs.
+#
+# NOTE: On Rails 7.0 the middleware constant may not be autoloaded yet when
+# initializers run, so we require it explicitly.
+require_relative '../../app/middleware/workarea/application_middleware'
 app.config.middleware.insert(0, Workarea::ApplicationMiddleware)
 
 # In test environments, strip all HTTP caching headers from responses so that
 # headless-browser tests behave consistently regardless of cache state.
+require_relative '../../app/middleware/workarea/strip_http_caching_middleware'
 app.config.middleware.insert(0, Workarea::StripHttpCachingMiddleware) if Rails.env.test?
