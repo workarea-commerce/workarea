@@ -5,6 +5,11 @@ application from Rails 6.1 to Rails 7.0. Follow the sections in order. The
 [quick checklist](#quick-checklist) at the top gives you a bird's-eye view; each
 step links to the detailed section below.
 
+For common upgrade problems (especially around the asset pipeline and JavaScript tooling),
+see the [Rails 7 migration patterns catalog](rails7-migration-patterns/README.md). It’s an
+opinionated set of field-tested approaches for Workarea client apps, and can help you pick
+a path quickly when the guide calls for broader changes.
+
 **Target:** Rails 7.0.x + Mongoid 8.1.x  
 **Minimum Ruby:** 2.7 (Ruby 3.0+ recommended)  
 **Workarea branch:** `next`
