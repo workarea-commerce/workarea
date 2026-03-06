@@ -53,6 +53,10 @@ Rails.application.config.middleware.insert_after(
   "#{Workarea::Admin.root}/public"
 )
 
+# Rails 7.0 (Zeitwerk) does not always autoload middleware from engines.
+# Require explicitly so the constant is available during initialization.
+require "#{Workarea::Core::Engine.root}/app/middleware/workarea/enforce_host_middleware"
+
 app.config.middleware.use Workarea::EnforceHostMiddleware
 
 # ApplicationMiddleware must wrap the entire Workarea request pipeline so it
