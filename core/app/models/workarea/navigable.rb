@@ -18,7 +18,7 @@ module Workarea
 
       before_validation :generate_slug, if: proc { |l| l.slug.blank? }
       after_validation :reset_slug!, if: proc { |l| l.errors.present? }
-      after_save :update_taxon_slug
+      after_save :update_taxon_slug, if: :saved_change_to_slug?
     end
 
     def to_param
@@ -41,7 +41,7 @@ module Workarea
     end
 
     def update_taxon_slug
-      return if taxon.blank? || changes['slug'].blank?
+      return if taxon.blank?
       taxon.set(navigable_slug: slug)
     end
   end
