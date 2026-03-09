@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Default appraisal boot smoke test.
+#
+# Goal: verify the DEFAULT stack (Gemfile.lock) can boot in test mode.
+# Must NOT require Rails 7.1/7.2 appraisals.
+
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$ROOT_DIR"
+
+export RAILS_ENV="${RAILS_ENV:-test}"
+
+# Ensure we don't accidentally run under appraisal.
+unset BUNDLE_GEMFILE
+unset BUNDLE_GEMFILE_LOCK
+
+PASS_MSG="PASS: default appraisal booted successfully (RAILS_ENV=$RAILS_ENV)"
+FAIL_MSG="FAIL: default appraisal boot failed (RAILS_ENV=$RAILS_ENV)"
+
+# Rails 6.1 + Ruby 3.2 may require stdlib gems (logger) to be explicitly loaded.
+# (This is also why Gemfile declares these stdlib gems.)
+DUMMY_ENV_FILE="${DUMMY_ENV_FILE:-core/test/dummy/config/environment}"
+
+SMOKE_RUBY="require 'logger'; require_relative '${DUMMY_ENV_FILE}'; puts :boot_ok"
+
+if ! bundle exec ruby -e "$SMOKE_RUBY" >/dev/null; then
+  echo "$FAIL_MSG" >&2
+  exit 1
+fi
+
+echo "$PASS_MSG"
