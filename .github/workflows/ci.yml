@@ -198,6 +198,9 @@ jobs:
           - rails: "7.1"
             gemfile: gemfiles/rails_7_1.gemfile
             experimental: true
+          - rails: "7.2"
+            gemfile: gemfiles/rails_7_2.gemfile
+            experimental: true
     env:
       BUNDLE_GEMFILE: ${{ matrix.gemfile }}
     steps:
