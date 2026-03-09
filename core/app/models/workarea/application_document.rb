@@ -19,6 +19,56 @@ module Workarea
       is_a?(Releasable)
     end
 
+    # Rails/ActiveRecord expose change tracking helpers like:
+    #   saved_change_to_name?
+    #   saved_change_to_name
+    #   name_before_last_save
+    # Mongoid exposes similar information via #previous_changes, but it does not
+    # provide the same convenience methods. Some parts of Workarea (and plugins)
+    # expect the Rails API when running under newer Rails versions.
+    #
+    # Provide a small, backwards-compatible shim that works for Mongoid 7/8.
+    #
+    # @see ActiveModel::Dirty (ActiveRecord)
+    def saved_change_to_attribute?(attr_name)
+      return super if defined?(super)
+      previous_changes.key?(attr_name.to_s)
+    end
+
+    def saved_change_to_attribute(attr_name)
+      return super if defined?(super)
+      previous_changes[attr_name.to_s]
+    end
+
+    def attribute_before_last_save(attr_name)
+      return super if defined?(super)
+
+      change = previous_changes[attr_name.to_s]
+      change.is_a?(Array) ? change.first : nil
+    end
+
+    def method_missing(method_name, *args, &block)
+      name = method_name.to_s
+
+      if name =~ /\Asaved_change_to_(.+)\?\z/
+        return saved_change_to_attribute?(Regexp.last_match(1))
+      elsif name =~ /\Asaved_change_to_(.+)\z/
+        return saved_change_to_attribute(Regexp.last_match(1))
+      elsif name =~ /\A(.+)_before_last_save\z/
+        return attribute_before_last_save(Regexp.last_match(1))
+      end
+
+      super
+    end
+
+    def respond_to_missing?(method_name, include_private = false)
+      name = method_name.to_s
+
+      name.start_with?('saved_change_to_') ||
+        name.end_with?('_before_last_save') ||
+        super
+    end
+
     private
 
     def ensure_default_locale_values
