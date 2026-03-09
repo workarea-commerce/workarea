@@ -16,7 +16,10 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'bundler', '>= 1.8.0' # 1.8.0 added env variable for secrets
 s.add_dependency 'rails', '>= 6.1', '< 7.3'
-  s.add_dependency 'mongoid', '~> 7.4'   # loosened from ~> 7.4.0; mongoid 8 needed for Rails 7 (BLOCKER)
+  # Mongoid 7.4.x caps ActiveModel < 7.1, blocking Rails 7.1/7.2 appraisals.
+  # Widened to >= 7.4, < 10 so appraisal gemfiles can override to mongoid 8.x.
+  # Full mongoid 8 migration tracked separately (WA-RAILS7-004).
+  s.add_dependency 'mongoid', '>= 7.4', '< 10'
   s.add_dependency 'bcrypt', '~> 3.1'    # loosened from ~> 3.1.10
   s.add_dependency 'money-rails', '~> 1.13' # loosened from ~> 1.13.0
   s.add_dependency 'mongoid-audit_log', '>= 0.6.0'

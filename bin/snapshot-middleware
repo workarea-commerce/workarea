@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+# bin/snapshot-middleware
+#
+# Captures the Rack middleware stack for each appraisal (default, rails_7_1,
+# rails_7_2) and writes snapshots to docs/middleware-snapshots/.
+#
+# Usage:
+#   bin/snapshot-middleware
+#
+# Prerequisites:
+#   - Ruby 3.2.7 (rbenv)
+#   - Bundle installed for each appraisal gemfile
+#   - Docker: mongo and redis running
+
+set -euo pipefail
+
+REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+OUT_DIR="$REPO_ROOT/docs/middleware-snapshots"
+mkdir -p "$OUT_DIR"
+
+cd "$REPO_ROOT"
+
+echo "==> Snapshotting default appraisal (Rails 6.1)..."
+bundle exec rake -f storefront/test/dummy/Rakefile middleware \
+  2>/dev/null \
+  > "$OUT_DIR/default.txt"
+echo "    Written: docs/middleware-snapshots/default.txt"
+
+echo "==> Snapshotting rails_7_1 appraisal..."
+BUNDLE_GEMFILE="$REPO_ROOT/gemfiles/rails_7_1.gemfile" bundle install --quiet
+BUNDLE_GEMFILE="$REPO_ROOT/gemfiles/rails_7_1.gemfile" \
+  bundle exec ruby storefront/test/dummy/bin/rails middleware \
+  2>/dev/null \
+  > "$OUT_DIR/rails_7_1.txt"
+echo "    Written: docs/middleware-snapshots/rails_7_1.txt"
+
+echo "==> Snapshotting rails_7_2 appraisal..."
+BUNDLE_GEMFILE="$REPO_ROOT/gemfiles/rails_7_2.gemfile" bundle install --quiet
+BUNDLE_GEMFILE="$REPO_ROOT/gemfiles/rails_7_2.gemfile" \
+  bundle exec ruby storefront/test/dummy/bin/rails middleware \
+  2>/dev/null \
+  > "$OUT_DIR/rails_7_2.txt"
+echo "    Written: docs/middleware-snapshots/rails_7_2.txt"
+
+echo ""
+echo "Done. Snapshots written to docs/middleware-snapshots/"
+echo "Run 'git diff docs/middleware-snapshots/' to see any changes."

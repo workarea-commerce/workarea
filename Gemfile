@@ -9,7 +9,8 @@ gem 'workarea-testing', path: 'testing'
 gem 'listen'
 gem 'bundler-audit'
 gem 'rubocop'
-gem 'rails-decorators', git: 'https://github.com/workarea-commerce/rails-decorators.git', branch: 'master'
+# rails-decorators master targets Rails 7.2+; use next branch to keep Rails 7.1 appraisals booting.
+gem 'rails-decorators', git: 'https://github.com/workarea-commerce/rails-decorators.git', branch: 'next'
 gem 'teaspoon'
 
 # redis-rb 5.x removed the `scheme:` connection option (handled in
