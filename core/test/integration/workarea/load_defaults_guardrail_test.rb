@@ -13,10 +13,12 @@ module Workarea
   # Checklist reference:
   #   docs/rails7-migration-patterns/load-defaults-behavioral-flags.md
   class LoadDefaultsGuardrailTest < ActiveSupport::TestCase
+    REPO_ROOT = Rails.root.join('../../..').expand_path.freeze
+
     DUMMY_APPS = {
-      admin:      Rails.root.join('../admin/test/dummy/config/application.rb'),
+      admin:      REPO_ROOT.join('admin/test/dummy/config/application.rb'),
       core:       Rails.root.join('config/application.rb'),
-      storefront: Rails.root.join('../storefront/test/dummy/config/application.rb')
+      storefront: REPO_ROOT.join('storefront/test/dummy/config/application.rb')
     }.freeze
 
     test 'dummy apps pin load_defaults explicitly (review required to change)' do
