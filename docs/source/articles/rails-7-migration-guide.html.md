@@ -27,13 +27,13 @@ Before upgrading, ensure your environment meets the minimum requirements.
 
 ### Ruby Version
 
-Rails 7 requires **Ruby 2.7 or later**. For Workarea, we recommend **Ruby 3.2.7** (this matches Workarea core development).
+Rails 7 requires **Ruby 2.7 or later**. For Workarea, we recommend **Ruby 3.2.x** (Workarea core targets/tests with 3.2.7).
 
 ```bash
 # Check your current Ruby version
 ruby -v
 # Minimum (Rails 7): ruby 2.7.x
-# Recommended (Workarea): ruby 3.2.7
+# Recommended (Workarea): ruby 3.2.x (core targets/tests with 3.2.7)
 ```
 
 If you need to upgrade Ruby, use your version manager (rbenv, RVM, or asdf):

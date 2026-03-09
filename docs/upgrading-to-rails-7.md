@@ -11,7 +11,7 @@ opinionated set of field-tested approaches for Workarea client apps, and can hel
 a path quickly when the guide calls for broader changes.
 
 **Target:** Rails 7.0.x + Mongoid 8.1.x  
-**Minimum Ruby:** 2.7 (Ruby 3.2.7 recommended)  
+**Minimum Ruby:** 2.7 (Ruby 3.2.x recommended; core targets/tests with 3.2.7)  
 **Workarea branch:** `next`
 
 ---
@@ -21,7 +21,7 @@ a path quickly when the guide calls for broader changes.
 Use this as a tracking list during your upgrade. Check off each item as you complete it.
 
 ### Environment
-- [ ] Ruby ≥ 2.7 (3.2.7 recommended) — see [Ruby Version](#ruby-version)
+- [ ] Ruby ≥ 2.7 (3.2.x recommended; core targets/tests with 3.2.7) — see [Ruby Version](#ruby-version)
 - [ ] Bundler ≥ 2.2
 - [ ] Node.js ≥ 14, Yarn 1.x (classic)
 
@@ -88,11 +88,11 @@ already fixed inside Workarea core.
 
 ### Ruby Version
 
-Rails 7 requires Ruby 2.7 or later. For Workarea, Ruby **3.2.7** is recommended.
+Rails 7 requires Ruby 2.7 or later. For Workarea, Ruby **3.2.x** is recommended (core targets/tests with 3.2.7).
 
 ```bash
 ruby -v
-# Recommended: ruby 3.2.7
+# Recommended: ruby 3.2.x (core targets/tests with 3.2.7)
 # Legacy only: ruby 2.7.x (for apps/branches still pinned to Ruby 2.7)
 ```
 
