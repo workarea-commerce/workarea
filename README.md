@@ -93,15 +93,23 @@ and local ports:
 - `ELASTICSEARCH_VERSION`, `ELASTICSEARCH_PORT`
 
 If you run `docker compose` (or `docker-compose`) directly without setting these
-variables, Docker Compose will not be able to resolve the images/ports, and the
-services may fail to start (common symptom: no `mongo`/`redis`/`elasticsearch`
-containers in `docker ps`).
+variables, Docker Compose will not be able to resolve the images/ports and the
+services may fail to start.
+
+Note: Elasticsearch 6.8 images are published under Elastic's registry
+(`docker.elastic.co/elasticsearch/elasticsearch:6.8.23`).
+
+Common symptom: the services do not appear (or are not running) in:
+
+```bash
+docker compose ps
+```
 
 ### Recommended start command
 Workarea's `workarea:services:*` tasks set these variables automatically.
 
 If you want to start the services with Docker Compose directly, use a one-liner
-like this:
+like this (canonical versions live in `core/lib/workarea/version.rb`):
 
 ```bash
 MONGODB_VERSION=4.0 MONGODB_PORT=27017 \
@@ -118,7 +126,13 @@ ELASTICSEARCH_VERSION=6.8.23 ELASTICSEARCH_PORT=9200 docker compose up -d elasti
 ```
 
 ### Quick verification
-After starting services, you should see all three containers running:
+After starting services, you should see all three services running:
+
+```bash
+docker compose ps
+```
+
+If you want to confirm the image tags/ports as well:
 
 ```bash
 docker ps --format 'table {{.Names}}\t{{.Image}}\t{{.Ports}}'
