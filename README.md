@@ -79,6 +79,52 @@ Once complete, you can view the Workarea Storefront at <http://localhost:3000> a
 See the [README](demo/README.md) in the [`demo`](https://github.com/workarea-commerce/workarea/tree/master/demo) directory for more information.
 
 
+Running dependent services (Docker Compose)
+--------------------------------------------------------------------------------
+This repository ships a `docker-compose.yml` for running Workarea's dependent
+services locally (MongoDB, Redis, and Elasticsearch).
+
+### Important: required environment variables
+The compose file uses environment variables to define the service image versions
+and local ports:
+
+- `MONGODB_VERSION`, `MONGODB_PORT`
+- `REDIS_VERSION`, `REDIS_PORT`
+- `ELASTICSEARCH_VERSION`, `ELASTICSEARCH_PORT`
+
+If you run `docker compose` (or `docker-compose`) directly without setting these
+variables, Docker Compose will not be able to resolve the images/ports, and the
+services may fail to start (common symptom: no `mongo`/`redis`/`elasticsearch`
+containers in `docker ps`).
+
+### Recommended start command
+Workarea's `workarea:services:*` tasks set these variables automatically.
+
+If you want to start the services with Docker Compose directly, use a one-liner
+like this:
+
+```bash
+MONGODB_VERSION=4.0 MONGODB_PORT=27017 \
+REDIS_VERSION=6.2 REDIS_PORT=6379 \
+ELASTICSEARCH_VERSION=6.8.23 ELASTICSEARCH_PORT=9200 \
+docker compose up -d mongo redis elasticsearch
+```
+
+To start only Elasticsearch (for example, when you already have MongoDB/Redis
+running elsewhere):
+
+```bash
+ELASTICSEARCH_VERSION=6.8.23 ELASTICSEARCH_PORT=9200 docker compose up -d elasticsearch
+```
+
+### Quick verification
+After starting services, you should see all three containers running:
+
+```bash
+docker ps --format 'table {{.Names}}\t{{.Image}}\t{{.Ports}}'
+```
+
+
 Getting Started
 --------------------------------------------------------------------------------
 We'd suggest checking out our introductory overview article on Workarea to wrap your head around the technology. [Read the Workarea developer overview article](https://developer.workarea.com/articles/overview.html).
