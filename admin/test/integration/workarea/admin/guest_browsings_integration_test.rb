@@ -7,10 +7,11 @@ module Workarea
       setup :set_admin_user
 
       def set_admin_user
-        admin_user.update!(password: 'W3bl1nc!')
+        new_password = 'N3wP@ssw0rd!'
+        admin_user.update!(password: new_password)
 
         post storefront.login_path,
-          params: { email: admin_user.email, password: 'W3bl1nc!' }
+          params: { email: admin_user.email, password: new_password }
       end
 
       def test_start_guest_browsing
