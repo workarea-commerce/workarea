@@ -1,3 +1,5 @@
+require 'rack/request'
+
 module Workarea
   module AssetEndpoints
     class Base

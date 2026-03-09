@@ -1,3 +1,5 @@
+require 'rack/request'
+
 #
 # This adds basic support for running +#call+ on the +url_host+
 # configuration given to Dragonfly during app initialization. It's

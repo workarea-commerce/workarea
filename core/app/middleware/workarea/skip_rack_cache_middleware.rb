@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'rack/request'
+
 module Workarea
   # TODO here for legacy support, remove in v4
   class SkipRackCacheMiddleware

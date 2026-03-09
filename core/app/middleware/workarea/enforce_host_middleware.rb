@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'rack/request'
+
 module Workarea
   class EnforceHostMiddleware
     def initialize(app)
