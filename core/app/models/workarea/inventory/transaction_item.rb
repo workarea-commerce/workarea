@@ -11,7 +11,12 @@ module Workarea
       field :backordered_until, type: Time
       field :total, type: Integer
 
-      embedded_in :transaction, class_name: 'Workarea::Inventory::Transaction', touch: false
+      # Mongoid 9.x reserves `transaction` for session handling, so we avoid
+      # defining an association with that name.
+      embedded_in :inventory_transaction,
+        class_name: 'Workarea::Inventory::Transaction',
+        inverse_of: :items,
+        touch: false
 
       def expired_backorder?
         !!backordered_until.try(:past?)

@@ -53,6 +53,8 @@ package-lock.json
 # Local bundler install (don’t commit)
 vendor/bundle/
 
+gemfiles/vendor/
+
 # Local assistant notes
 CLAUDE.md
 IceCreamFormulator
