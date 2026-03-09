@@ -3,8 +3,10 @@
 **Date:** 2026-03-01  
 **Branch:** `wa-new-032-gem-dep-audit`  
 **Gemspec:** `core/workarea-core.gemspec`  
-**Ruby baseline:** 2.7.8  
+**Ruby baseline:** 3.2.7  
 **Rails baseline:** 6.1.x  
+
+Note: Ruby 2.7.8 was historically used for Rails 6.1-era Workarea development, but Ruby 2.7 is end-of-life. Use Ruby 2.7.8 only when working on legacy branches that still require it.
 
 ---
 

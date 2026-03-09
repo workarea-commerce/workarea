@@ -27,23 +27,26 @@ Before upgrading, ensure your environment meets the minimum requirements.
 
 ### Ruby Version
 
-Rails 7 requires **Ruby 2.7 or later**. Ruby 3.0+ is recommended.
+Rails 7 requires **Ruby 2.7 or later**. For Workarea, we recommend **Ruby 3.2.7** (this matches Workarea core development).
 
 ```bash
 # Check your current Ruby version
 ruby -v
-# => ruby 3.0.x (recommended) or ruby 2.7.x (minimum)
+# Minimum (Rails 7): ruby 2.7.x
+# Recommended (Workarea): ruby 3.2.7
 ```
 
 If you need to upgrade Ruby, use your version manager (rbenv, RVM, or asdf):
 
 ```bash
 # Example with rbenv
-rbenv install 3.0.6
-rbenv local 3.0.6
+rbenv install 3.2.7
+rbenv local 3.2.7
 ```
 
 Update your `.ruby-version` file accordingly.
+
+Note: Ruby 2.7 is end-of-life. Only use Ruby 2.7.x for legacy branches/apps that still require it.
 
 ### Node.js and Yarn
 

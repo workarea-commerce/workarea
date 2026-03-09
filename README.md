@@ -139,6 +139,32 @@ docker ps --format 'table {{.Names}}\t{{.Image}}\t{{.Ports}}'
 ```
 
 
+Ruby versions
+--------------------------------------------------------------------------------
+Workarea core development targets **Ruby 3.2.7** (see `.ruby-version` and `Gemfile.lock`).
+
+If you use rbenv, these are the exact commands we use to select Ruby 3.2.7:
+
+```bash
+export PATH="$HOME/.rbenv/shims:$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init - zsh)"
+rbenv install -s 3.2.7
+rbenv shell 3.2.7
+ruby -v
+```
+
+**Ruby 2.7.8** is only relevant when working on legacy branches/apps that are still pinned
+to Ruby 2.7.x. In that case, select 2.7.8 explicitly:
+
+```bash
+export PATH="$HOME/.rbenv/shims:$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init - zsh)"
+rbenv install -s 2.7.8
+rbenv shell 2.7.8
+ruby -v
+```
+
+
 Getting Started
 --------------------------------------------------------------------------------
 We'd suggest checking out our introductory overview article on Workarea to wrap your head around the technology. [Read the Workarea developer overview article](https://developer.workarea.com/articles/overview.html).

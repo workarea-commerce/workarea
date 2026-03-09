@@ -11,7 +11,7 @@ opinionated set of field-tested approaches for Workarea client apps, and can hel
 a path quickly when the guide calls for broader changes.
 
 **Target:** Rails 7.0.x + Mongoid 8.1.x  
-**Minimum Ruby:** 2.7 (Ruby 3.0+ recommended)  
+**Minimum Ruby:** 2.7 (Ruby 3.2.7 recommended)  
 **Workarea branch:** `next`
 
 ---
@@ -21,7 +21,7 @@ a path quickly when the guide calls for broader changes.
 Use this as a tracking list during your upgrade. Check off each item as you complete it.
 
 ### Environment
-- [ ] Ruby ≥ 2.7 (3.0+ recommended) — see [Ruby Version](#ruby-version)
+- [ ] Ruby ≥ 2.7 (3.2.7 recommended) — see [Ruby Version](#ruby-version)
 - [ ] Bundler ≥ 2.2
 - [ ] Node.js ≥ 14, Yarn 1.x (classic)
 
@@ -30,7 +30,7 @@ Use this as a tracking list during your upgrade. Check off each item as you comp
 - [ ] Mongoid: `~> 7.4` → `~> 8.1`
 - [ ] Sprockets: `~> 3.7` → `~> 4.0`; add `sprockets-rails ~> 3.4`
 - [ ] Remove `rack-cache` (or guard behind `Rails < 7.1`)
-- [ ] Selenium: `~> 4.9` (for Ruby 2.7 compatibility)
+- [ ] Selenium: `~> 4.9` (legacy Ruby 2.7 compatibility)
 - [ ] Sidekiq: `~> 7.0` (if not already)
 - [ ] Run `bundle update rails workarea mongoid`
 
@@ -88,12 +88,12 @@ already fixed inside Workarea core.
 
 ### Ruby Version
 
-Rails 7 requires Ruby 2.7 or later. Ruby 3.0+ is strongly recommended.
+Rails 7 requires Ruby 2.7 or later. For Workarea, Ruby **3.2.7** is recommended.
 
 ```bash
 ruby -v
-# Acceptable: ruby 2.7.x
-# Recommended: ruby 3.0.x or later
+# Recommended: ruby 3.2.7
+# Legacy only: ruby 2.7.x (for apps/branches still pinned to Ruby 2.7)
 ```
 
 To upgrade with rbenv:
