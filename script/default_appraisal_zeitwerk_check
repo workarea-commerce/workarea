@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Default appraisal Zeitwerk check.
+#
+# Goal: verify the DEFAULT stack (Gemfile.lock) passes `zeitwerk:check` in test mode.
+# Must NOT require Rails 7.1/7.2 appraisals.
+
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$ROOT_DIR"
+
+export RAILS_ENV="${RAILS_ENV:-test}"
+
+# Ensure we don't accidentally run under appraisal.
+unset BUNDLE_GEMFILE
+unset BUNDLE_GEMFILE_LOCK
+
+PASS_MSG="PASS: default appraisal zeitwerk check succeeded (RAILS_ENV=$RAILS_ENV)"
+FAIL_MSG="FAIL: default appraisal zeitwerk check failed (RAILS_ENV=$RAILS_ENV)"
+
+# If Docker is running services on non-default ports, set host/port env vars
+# automatically (avoids false negatives when services aren't on default ports).
+if command -v docker >/dev/null 2>&1; then
+  if [[ -z "${WORKAREA_MONGOID_HOST:-}" ]] && docker ps --format '{{.Names}}' | grep -qx 'workarea-mongo-1'; then
+    # Example output: "0.0.0.0:32770" or "127.0.0.1:27017"
+    MONGO_PORT_MAPPING="$(docker port workarea-mongo-1 27017/tcp 2>/dev/null | head -n 1)"
+    if [[ -n "$MONGO_PORT_MAPPING" ]]; then
+      export WORKAREA_MONGOID_HOST="${MONGO_PORT_MAPPING/0.0.0.0/127.0.0.1}"
+    fi
+  fi
+
+  if [[ -z "${WORKAREA_REDIS_PORT:-}" ]] && docker ps --format '{{.Names}}' | grep -qx 'workarea-redis-1'; then
+    REDIS_PORT_MAPPING="$(docker port workarea-redis-1 6379/tcp 2>/dev/null | head -n 1)"
+    if [[ -n "$REDIS_PORT_MAPPING" ]]; then
+      export WORKAREA_REDIS_PORT="${REDIS_PORT_MAPPING##*:}"
+    fi
+  fi
+fi
+
+# Run against the core dummy app (standard Rails app) so `zeitwerk:check` exists.
+cd "$ROOT_DIR/core/test/dummy"
+
+# Prefer `rbenv exec` when available so this script works even if your shell
+# hasn't initialized rbenv shims (common in non-interactive environments).
+if command -v rbenv >/dev/null 2>&1; then
+  if ! RBENV_VERSION="${RBENV_VERSION:-$(cat "$ROOT_DIR/.ruby-version")}" \
+    RAILS_ENV="$RAILS_ENV" \
+    rbenv exec ruby bin/rails zeitwerk:check; then
+    echo "$FAIL_MSG" >&2
+    exit 1
+  fi
+else
+  if ! RAILS_ENV="$RAILS_ENV" bin/rails zeitwerk:check; then
+    echo "$FAIL_MSG" >&2
+    exit 1
+  fi
+fi
+
+echo "$PASS_MSG"
