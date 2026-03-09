@@ -31,6 +31,20 @@ jobs:
     - name: shellcheck
       run: shellcheck script/*
 
+  default_appraisal_boot_smoke:
+    name: "Default appraisal — boot smoke"
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 3.2
+        bundler-cache: true
+
+    - name: Default appraisal boot smoke
+      run: ./script/default_appraisal_boot_smoke
+
   static_analysis:
     runs-on: ubuntu-latest
     steps:
