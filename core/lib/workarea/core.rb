@@ -26,6 +26,13 @@ end
 #
 #
 require 'mongoid'
+
+# Mongoid 9.x validates field options against a fixed allowlist (plus any
+# custom options registered via Mongoid::Fields.option). Workarea historically
+# uses the `mongoid-encrypted` gem which introduces an `:encrypted` field
+# option; register it so Rails 7.2 + Mongoid 9 can boot.
+Mongoid::Fields.option(:encrypted) { |_model, _field, _value| }
+
 require 'sidekiq'
 require 'sidekiq/web'
 require 'sidekiq/cron'
@@ -96,6 +103,19 @@ require 'jquery-validation-rails'
 require 'countries/global'
 require 'countries/mongoid'
 require 'waypoints_rails'
+
+# Rails 7.2 removed `config.autoloader` (Zeitwerk is the only loader). Older
+# versions of rails-decorators still reference it; provide a tiny shim so the
+# engine doesn't crash during boot.
+if defined?(Rails::Application::Configuration) &&
+   !Rails::Application::Configuration.method_defined?(:autoloader)
+  Rails::Application::Configuration.class_eval do
+    def autoloader
+      :zeitwerk
+    end
+  end
+end
+
 require 'rails/decorators'
 require 'haml'
 require 'ejs'

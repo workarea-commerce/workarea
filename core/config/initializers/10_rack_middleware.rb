@@ -1,8 +1,22 @@
 app = Rails.application
 
+# Ensure middleware classes are loaded before referencing them. This initializer
+# runs early during boot, and Rails 7.2+ strict autoloading can raise NameError
+# if constants are referenced before Zeitwerk has fully prepared autoload paths.
+require 'workarea/application_middleware'
+require 'workarea/strip_http_caching_middleware'
+require 'workarea/enforce_host_middleware'
+
 # Mongoid query cache middleware — clears per-request Mongoid query cache.
-# Mongoid::QueryCache::Middleware exists in Mongoid 7.x (pinned via gemspec).
-app.config.middleware.use(Mongoid::QueryCache::Middleware)
+#
+# - Mongoid 7.x: Mongoid::QueryCache::Middleware
+# - Mongoid 9.x: uses the Mongo driver middleware (Mongo::QueryCache::Middleware)
+if defined?(Mongoid::QueryCache::Middleware)
+  app.config.middleware.use(Mongoid::QueryCache::Middleware)
+elsif defined?(Mongo::QueryCache::Middleware)
+  app.config.middleware.use(Mongo::QueryCache::Middleware)
+end
+
 app.config.middleware.use(Workarea::Elasticsearch::QueryCache::Middleware)
 
 # Rack::Cache was removed from Rails 7.1.  On Rails < 7.1 it may be present

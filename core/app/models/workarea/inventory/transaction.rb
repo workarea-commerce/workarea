@@ -12,7 +12,8 @@ module Workarea
       index({ updated_at: 1, captured: 1 })
 
       embeds_many :items,
-        class_name: 'Workarea::Inventory::TransactionItem'
+        class_name: 'Workarea::Inventory::TransactionItem',
+        inverse_of: :inventory_transaction
 
       # Creates a {Inventory::Transaction} based on order ID and items
       #

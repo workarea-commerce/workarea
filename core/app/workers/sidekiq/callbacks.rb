@@ -239,7 +239,7 @@ module Sidekiq
     end
 
     def run_callbacks(kind, *)
-      result = super
+      result = super(kind)
       _enqueue_callback_workers(kind) if result != false && kind != :find
       result
     end
