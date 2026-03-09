@@ -50,11 +50,19 @@ module Workarea
 
       request = Rack::MockRequest.new(stack)
 
-      write_response = request.get('/write')
+      # Rails 6.1 requires several action_dispatch.* env vars to be present in
+      # the Rack env — normally injected by the full middleware stack
+      # (ActionDispatch::Executor / railtie initializers).  Rack::MockRequest
+      # bypasses all of that, so we populate them from the running Rails app.
+      # Rails 7+ derives signing/encryption keys from the middleware options and
+      # does not require these in the env, so providing them is a harmless no-op.
+      rack_env = rails_cookie_env
+
+      write_response = request.get('/write', rack_env)
       cookie_header = write_response['Set-Cookie']
       assert cookie_header.present?, 'Expected Set-Cookie header to be set'
 
-      request.get('/read', 'HTTP_COOKIE' => cookie_header)
+      request.get('/read', rack_env.merge('HTTP_COOKIE' => cookie_header))
 
       # Our dummy app config uses :json cookies_serializer, which will coerce
       # non-JSON-native types (BigDecimal, Time, ActiveSupport::TimeWithZone)
@@ -65,6 +73,41 @@ module Workarea
       expected['time_with_zone'] = payload['time_with_zone'].as_json
 
       assert_equal expected, retrieved
+    end
+
+    private
+
+    # Builds the minimal set of Rack env vars that ActionDispatch::Cookies and
+    # ActionDispatch::Session::CookieStore need when used outside a full Rails
+    # middleware stack (e.g. with Rack::MockRequest).
+    #
+    # Rails 6.1 reads key_generator, cookie salts, and the serializer from the
+    # Rack env.  Rails 7+ infers them from the middleware/app options, so these
+    # entries are harmless no-ops on later versions.
+    def rails_cookie_env
+      env = {}
+      ad = Rails.application.config.action_dispatch
+
+      # Signing/encryption key generator (Rails 6.1 required, 7+ optional).
+      if Rails.application.respond_to?(:key_generator)
+        env['action_dispatch.key_generator'] = Rails.application.key_generator
+      end
+
+      # Cookie salts and feature flags — read from the running app's config so
+      # the mock requests use the same values as the real cookie jar.
+      {
+        'action_dispatch.signed_cookie_salt'                  => :signed_cookie_salt,
+        'action_dispatch.encrypted_cookie_salt'               => :encrypted_cookie_salt,
+        'action_dispatch.encrypted_signed_cookie_salt'        => :encrypted_signed_cookie_salt,
+        'action_dispatch.authenticated_encrypted_cookie_salt' => :authenticated_encrypted_cookie_salt,
+        'action_dispatch.use_authenticated_cookie_encryption' => :use_authenticated_cookie_encryption,
+        'action_dispatch.cookies_serializer'                  => :cookies_serializer,
+      }.each do |env_key, config_attr|
+        val = ad.public_send(config_attr)
+        env[env_key] = val unless val.nil?
+      end
+
+      env
     end
   end
 end
