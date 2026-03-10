@@ -1,0 +1,141 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+  cat <<'USAGE'
+Usage: script/system_prereqs [--verify]
+
+Installs and/or verifies system prerequisites used by CI.
+
+Options:
+  --verify   Only verify prerequisites (do not install)
+USAGE
+}
+
+VERIFY_ONLY=false
+
+case "${1:-}" in
+  "") ;;
+  --verify) VERIFY_ONLY=true ;;
+  -h|--help) usage; exit 0 ;;
+  *)
+    echo "Unknown argument: $1" >&2
+    usage >&2
+    exit 2
+    ;;
+esac
+
+log() { echo "[system_prereqs] $*"; }
+fail() { echo "[system_prereqs] ERROR: $*" >&2; exit 1; }
+
+have() { command -v "$1" >/dev/null 2>&1; }
+
+print_versions() {
+  log "Versions:"
+
+  if have docker; then
+    docker --version | sed 's/^/[system_prereqs]   /'
+  else
+    log "  docker: (missing)"
+  fi
+
+  if have docker && docker compose version >/dev/null 2>&1; then
+    docker compose version | head -n 1 | sed 's/^/[system_prereqs]   /'
+  elif have docker-compose; then
+    docker-compose --version | sed 's/^/[system_prereqs]   /'
+  else
+    log "  docker compose: (missing)"
+  fi
+
+  if have convert; then
+    convert --version | head -n 1 | sed 's/^/[system_prereqs]   /'
+  else
+    log "  convert: (missing)"
+  fi
+}
+
+verify() {
+  local missing=false
+
+  if ! have docker; then
+    echo "[system_prereqs] Missing: docker" >&2
+    missing=true
+  fi
+
+  if ! (have docker && docker compose version >/dev/null 2>&1) && ! have docker-compose; then
+    echo "[system_prereqs] Missing: docker compose (docker compose or docker-compose)" >&2
+    missing=true
+  fi
+
+  if ! have convert; then
+    echo "[system_prereqs] Missing: ImageMagick (convert)" >&2
+    missing=true
+  fi
+
+  if [[ "$missing" == "true" ]]; then
+    print_versions
+    fail "One or more prerequisites are missing"
+  fi
+
+  print_versions
+  log "All prerequisites satisfied"
+}
+
+install_debian_like() {
+  if [[ "$VERIFY_ONLY" == "true" ]]; then
+    verify
+    return
+  fi
+
+  if ! have sudo; then
+    fail "sudo is required to install prerequisites"
+  fi
+
+  log "Installing prerequisites via apt"
+  sudo apt-get update
+
+  # Prefer Docker Compose v2 plugin when available; fall back to legacy docker-compose package.
+  if sudo apt-get install -y imagemagick docker-compose-plugin; then
+    :
+  else
+    log "docker-compose-plugin not available; falling back to docker-compose"
+    sudo apt-get install -y imagemagick docker-compose
+  fi
+
+  verify
+}
+
+main() {
+  local uname_out
+  uname_out="$(uname -s)"
+
+  case "$uname_out" in
+    Darwin)
+      log "macOS detected; skipping system package installation."
+      if [[ "$VERIFY_ONLY" == "true" ]]; then
+        log "--verify is best-effort on macOS; printing versions when present."
+        print_versions
+      fi
+      exit 0
+      ;;
+    Linux)
+      if [[ -f /etc/os-release ]]; then
+        # shellcheck disable=SC1091
+        . /etc/os-release
+        case "${ID_LIKE:-$ID}" in
+          *debian*|*ubuntu*|debian|ubuntu)
+            install_debian_like
+            exit 0
+            ;;
+        esac
+      fi
+
+      fail "Unsupported Linux distribution. Only Ubuntu/Debian are supported by this script."
+      ;;
+    *)
+      fail "Unsupported OS: $uname_out"
+      ;;
+  esac
+}
+
+main
