@@ -30,6 +30,10 @@ fail() { echo "[system_prereqs] ERROR: $*" >&2; exit 1; }
 
 have() { command -v "$1" >/dev/null 2>&1; }
 
+have_compose() {
+  (have docker && docker compose version >/dev/null 2>&1) || have docker-compose
+}
+
 print_versions() {
   log "Versions:"
 
@@ -54,25 +58,31 @@ print_versions() {
   fi
 }
 
-verify() {
+check_prereqs() {
+  local print_missing="${1:-false}"
   local missing=false
 
   if ! have docker; then
-    echo "[system_prereqs] Missing: docker" >&2
+    [[ "$print_missing" == "true" ]] && echo "[system_prereqs] Missing: docker" >&2
     missing=true
   fi
 
-  if ! (have docker && docker compose version >/dev/null 2>&1) && ! have docker-compose; then
-    echo "[system_prereqs] Missing: docker compose (docker compose or docker-compose)" >&2
+  if ! have_compose; then
+    [[ "$print_missing" == "true" ]] && echo "[system_prereqs] Missing: docker compose (docker compose or docker-compose)" >&2
     missing=true
   fi
 
   if ! have convert; then
-    echo "[system_prereqs] Missing: ImageMagick (convert)" >&2
+    [[ "$print_missing" == "true" ]] && echo "[system_prereqs] Missing: ImageMagick (convert)" >&2
     missing=true
   fi
 
-  if [[ "$missing" == "true" ]]; then
+  [[ "$missing" == "true" ]] && return 1
+  return 0
+}
+
+verify() {
+  if ! check_prereqs true; then
     print_versions
     fail "One or more prerequisites are missing"
   fi
@@ -82,24 +92,43 @@ verify() {
 }
 
 install_debian_like() {
+  # Verify-first: GitHub-hosted runners typically already have Docker + Compose.
+  # Only attempt installation when something is missing.
   if [[ "$VERIFY_ONLY" == "true" ]]; then
     verify
     return
   fi
 
-  if ! have sudo; then
-    fail "sudo is required to install prerequisites"
+  if check_prereqs false; then
+    log "Prerequisites already satisfied; skipping installation."
+    verify
+    return
   fi
 
-  log "Installing prerequisites via apt"
-  sudo apt-get update
+  local missing_docker=false
+  local missing_compose=false
+  local missing_convert=false
 
-  # Prefer Docker Compose v2 plugin when available; fall back to legacy docker-compose package.
-  if sudo apt-get install -y imagemagick docker-compose-plugin; then
-    :
-  else
-    log "docker-compose-plugin not available; falling back to docker-compose"
-    sudo apt-get install -y imagemagick docker-compose
+  have docker || missing_docker=true
+  have_compose || missing_compose=true
+  have convert || missing_convert=true
+
+  # We intentionally do NOT install Docker/Compose here. CI images should provide them,
+  # and package names differ across distros.
+  if [[ "$missing_docker" == "true" || "$missing_compose" == "true" ]]; then
+    print_versions
+    fail "Docker and/or Docker Compose are missing. Please install via your OS method, then re-run."
+  fi
+
+  if [[ "$missing_convert" == "true" ]]; then
+    if ! have sudo; then
+      print_versions
+      fail "ImageMagick (convert) is missing and sudo is required to install it"
+    fi
+
+    log "Installing ImageMagick via apt"
+    sudo apt-get update
+    sudo apt-get install -y imagemagick
   fi
 
   verify
