@@ -195,9 +195,11 @@ jobs:
           - rails: "7.0"
             gemfile: gemfiles/rails_7_0.gemfile
             experimental: true
+            tracking_issue: 841
           - rails: "7.1"
             gemfile: gemfiles/rails_7_1.gemfile
             experimental: true
+            tracking_issue: 841
     env:
       BUNDLE_GEMFILE: ${{ matrix.gemfile }}
     steps:
@@ -221,9 +223,14 @@ jobs:
       with:
         command: bundle exec rake test
 
-    - name: Warn on experimental bundle failures
+    - name: Explain experimental bundle failures
       if: steps.bundle.outcome != 'success' && matrix.experimental
-      run: echo "::warning::bundle install failed for Rails ${{ matrix.rails }} (informational — experimental version)"
+      run: |
+        echo "::warning title=Rails compatibility (experimental)::bundle install failed for Rails ${{ matrix.rails }}. This entry is marked experimental, so failures are expected and will not fail CI."
+
+        if [[ -n "${{ matrix.tracking_issue }}" ]]; then
+          echo "See tracking issue: https://github.com/workarea-commerce/workarea/issues/${{ matrix.tracking_issue }}"
+        fi
 
   # Ruby compatibility matrix — tracks Workarea bundling health across Ruby versions.
   # Ruby 2.7: legacy baseline (Docker-pinned CI actions run ruby:2.6 internally).
