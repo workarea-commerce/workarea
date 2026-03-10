@@ -1,0 +1,91 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Verifies that the docker-compose services Workarea expects for local testing are running.
+#
+# Safe/read-only: this script only inspects `docker ps` output. It does NOT start/stop containers.
+
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$ROOT_DIR"
+
+if ! command -v docker >/dev/null 2>&1; then
+  echo "FAIL: docker is not installed or not on PATH." >&2
+  echo "Hint: Install Docker Desktop (macOS/Windows) or the docker engine (Linux)." >&2
+  exit 1
+fi
+
+if ! docker info >/dev/null 2>&1; then
+  echo "FAIL: docker daemon does not appear to be running." >&2
+  echo "Hint: Start Docker Desktop (or your docker service) and try again." >&2
+  exit 1
+fi
+
+# Only running containers are listed by `docker ps`.
+DOCKER_PS_OUTPUT="$(docker ps --format '{{.Names}}\t{{.Image}}' || true)"
+
+has_service_container() {
+  local service="$1"; shift
+  local expected_name="$1"; shift
+
+  # First, check the exact container name we expect from this repo's compose defaults.
+  if echo "$DOCKER_PS_OUTPUT" | awk -F'\t' '{print $1}' | grep -Fxq "$expected_name"; then
+    return 0
+  fi
+
+  # Fall back to fuzzy matching by service name and/or image.
+  # This makes the script more resilient to:
+  # - different compose project names
+  # - container name suffix differences
+  # - docker image repositories (e.g. docker.elastic.co/...)
+  local line name image
+  while IFS=$'\t' read -r name image; do
+    [[ -z "${name:-}" ]] && continue
+
+    # Prefer containers that look like they belong to the Workarea compose project.
+    if [[ "$name" == *workarea* && "$name" == *"$service"* ]]; then
+      return 0
+    fi
+
+    # Otherwise, match by image name.
+    if [[ "$image" == *"$service"* ]]; then
+      return 0
+    fi
+  done <<< "$DOCKER_PS_OUTPUT"
+
+  return 1
+}
+
+missing=()
+
+if ! has_service_container mongo workarea-mongo-1; then
+  missing+=("mongo")
+fi
+
+if ! has_service_container redis workarea-redis-1; then
+  missing+=("redis")
+fi
+
+if ! has_service_container elasticsearch workarea-elasticsearch-1; then
+  missing+=("elasticsearch")
+fi
+
+if [[ ${#missing[@]} -eq 0 ]]; then
+  echo "PASS: docker services are running (mongo, redis, elasticsearch)."
+  exit 0
+fi
+
+echo "FAIL: missing docker services: ${missing[*]}" >&2
+
+echo >&2
+
+echo "Action:" >&2
+echo "  Start the required services from the repo root:" >&2
+echo "    docker compose up -d mongo redis elasticsearch" >&2
+
+echo >&2
+
+echo "Note:" >&2
+echo "  docker-compose.yml requires env vars for image versions/ports (e.g. ELASTICSEARCH_VERSION)." >&2
+echo "  Set them in your shell environment before running docker compose." >&2
+
+exit 1
