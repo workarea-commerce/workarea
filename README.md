@@ -18,6 +18,11 @@ Workarea Commerce Platform
 
 ![Workarea Screenshot](https://raw.githubusercontent.com/workarea-commerce/workarea/master/docs/source/images/readme-hero.png)
 
+CI notes
+--------------------------------------------------------------------------------
+- The **Rails compatibility** GitHub Actions job runs a matrix of Rails versions to provide early warning for upcoming upgrades.
+- Entries marked **experimental** are allowed to fail (the workflow will continue). If `bundle install` fails for an experimental entry, CI prints a warning explaining that the failure is expected and links to the tracking issue when available.
+
 Features
 --------------------------------------------------------------------------------
 Workarea combines commerce, content, search, and insights into a unified platform to enable merchants to move faster and work smarter. Out-of-the-box features include:
@@ -103,6 +108,20 @@ Common symptom: the services do not appear (or are not running) in:
 
 ```bash
 docker compose ps
+```
+
+### Quick env var check
+If you're running Docker Compose directly, you can verify the required variables
+are set:
+
+```bash
+script/docker_compose_env_check
+```
+
+To print `export ...` lines you can paste/eval (does not mutate any files):
+
+```bash
+script/docker_compose_env_check --export-defaults
 ```
 
 ### Recommended start command

@@ -1,0 +1,118 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+  cat <<'USAGE'
+Usage: script/docker_compose_env_check [--export-defaults] [--help]
+
+Checks that required environment variables referenced by the repo's Docker Compose
+config are set.
+
+Options:
+  --export-defaults  Print `export KEY=value` lines (to stdout) for required vars.
+                    Uses current env when set; otherwise prints a suggested default
+                    when known.
+  --help            Show this help.
+
+Exit codes:
+  0  all required variables are set
+  1  one or more required variables are missing
+
+Examples:
+  script/docker_compose_env_check
+
+  # Print export lines you can eval in your shell (does not mutate any files):
+  script/docker_compose_env_check --export-defaults
+USAGE
+}
+
+EXPORT_DEFAULTS=false
+for arg in "$@"; do
+  case "$arg" in
+    --export-defaults) EXPORT_DEFAULTS=true ;;
+    --help|-h) usage; exit 0 ;;
+    *) echo "Unknown argument: $arg" >&2; usage >&2; exit 2 ;;
+  esac
+done
+
+# Compose files to scan (repo-root only). Keep deterministic and avoid demo/.
+compose_files=()
+for f in docker-compose.yml docker-compose.override.yml docker-compose.*.yml docker-compose.*.yaml; do
+  [[ -f "$f" ]] && compose_files+=("$f")
+done
+
+if [[ ${#compose_files[@]} -eq 0 ]]; then
+  echo "No docker-compose files found in repo root." >&2
+  exit 0
+fi
+
+# Extract ${VARS} / ${VARS:-default} references.
+# Note: we intentionally ignore lower-case vars and non-Compose interpolation.
+required_vars=$(
+  perl -ne 'while (/\$\{([A-Z0-9_]+)(?::[^}]*)?\}/g) { print "$1\n" }' "${compose_files[@]}" \
+    | sort -u
+)
+
+# Suggested defaults (best-effort). Keep these aligned with README examples.
+# If these drift, the check still works; only the hints would be stale.
+# Note: keep this compatible with macOS' default Bash (3.2) — no associative arrays.
+suggested_default() {
+  case "$1" in
+    MONGODB_VERSION) echo "4.0" ;;
+    MONGODB_PORT) echo "27017" ;;
+    REDIS_VERSION) echo "6.2" ;;
+    REDIS_PORT) echo "6379" ;;
+    ELASTICSEARCH_VERSION) echo "6.8.23" ;;
+    ELASTICSEARCH_PORT) echo "9200" ;;
+    *) echo "" ;;
+  esac
+}
+
+missing=()
+
+while IFS= read -r var; do
+  [[ -z "$var" ]] && continue
+  # Indirect expansion; treat unset/empty as missing.
+  value="${!var-}"
+  if [[ -z "$value" ]]; then
+    missing+=("$var")
+  fi
+
+done <<< "$required_vars"
+
+if $EXPORT_DEFAULTS; then
+  while IFS= read -r var; do
+    [[ -z "$var" ]] && continue
+    value="${!var-}"
+    if [[ -n "$value" ]]; then
+      printf 'export %s=%q\n' "$var" "$value"
+    else
+      default="$(suggested_default "$var")"
+      if [[ -n "$default" ]]; then
+        printf 'export %s=%q\n' "$var" "$default"
+      else
+        printf 'export %s=\n' "$var"
+      fi
+    fi
+  done <<< "$required_vars"
+fi
+
+if [[ ${#missing[@]} -eq 0 ]]; then
+  echo "✅ Docker Compose env check: all required variables are set."
+  exit 0
+fi
+
+echo "⛔️ Docker Compose env check: missing required environment variables:" >&2
+for var in "${missing[@]}"; do
+  hint="$(suggested_default "$var")"
+  if [[ -n "$hint" ]]; then
+    echo "  - $var (suggested: $hint)" >&2
+  else
+    echo "  - $var" >&2
+  fi
+  echo "    See README.md → Running dependent services (Docker Compose)" >&2
+  echo >&2
+
+done
+
+exit 1
