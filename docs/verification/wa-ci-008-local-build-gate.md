@@ -4,10 +4,19 @@ Keep this short: it’s the same set of checks CI will run, but optimized for ru
 
 ## 1) Ensure required services are running (Docker)
 
-Workarea tests and boot rely on MongoDB, Redis, and Elasticsearch.
+Workarea tests and boot rely on **MongoDB**, **Redis**, and **Elasticsearch**.
+
+### Recommended startup command (explicit env vars)
+
+A common source of confusion is starting `docker compose` without the env vars that
+populate the version/port placeholders in `docker-compose.yml`.
+
+From the repo root, run:
 
 ```bash
-# from repo root
+MONGODB_VERSION=4.0 \
+REDIS_VERSION=6.2 \
+ELASTICSEARCH_VERSION=6.8.23 \
 docker compose up -d
 
 docker compose ps
@@ -15,12 +24,24 @@ docker compose ps
 
 You should see **mongo**, **redis**, and **elasticsearch** in a running/healthy state.
 
-If you need a clean restart:
+### Troubleshooting
 
-```bash
-docker compose down
-docker compose up -d
-```
+- If services don’t start, double-check you exported the env vars above (or use the one-liner).
+- If you need a clean restart:
+
+  ```bash
+  docker compose down
+  docker compose up -d
+  ```
+
+- If MongoDB fails to start due to a data directory/volume incompatibility (common when reusing old Docker volumes from a different Mongo major version), the safe workaround is:
+
+  ```bash
+  # removes named volumes used by the compose file
+  docker compose down -v
+  ```
+
+  Then start again. If you need to preserve old data, run MongoDB **4.2** against the volume long enough to migrate/backup it.
 
 ## 2) RuboCop (diff-only vs base `next`)
 
