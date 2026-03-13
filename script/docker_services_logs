@@ -1,0 +1,92 @@
+#!/bin/sh
+set -eu
+
+# Print the last N lines of logs for Workarea's dependent service containers.
+#
+# Usage:
+#   script/docker_services_logs               # defaults to 200 lines
+#   script/docker_services_logs --lines 50
+#
+# This script is intentionally read-only.
+
+cd "$(dirname "$0")/.."
+
+usage() {
+  cat <<'USAGE'
+Usage:
+  script/docker_services_logs [--lines N]
+
+Options:
+  --lines N   Number of log lines to show per container (default: 200)
+  -h, --help  Show this help
+USAGE
+}
+
+LINES=200
+
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --lines)
+      shift
+      if [ $# -eq 0 ]; then
+        echo "ERROR: --lines requires a value" >&2
+        usage >&2
+        exit 2
+      fi
+      LINES="$1"
+      ;;
+    -h|--help)
+      usage
+      exit 0
+      ;;
+    *)
+      echo "ERROR: Unknown argument: $1" >&2
+      usage >&2
+      exit 2
+      ;;
+  esac
+  shift
+done
+
+case "$LINES" in
+  ''|*[!0-9]*)
+    echo "ERROR: --lines must be a positive integer (got: $LINES)" >&2
+    exit 2
+    ;;
+  0)
+    echo "ERROR: --lines must be a positive integer (got: $LINES)" >&2
+    exit 2
+    ;;
+esac
+
+fail() {
+  echo "ERROR: $*" >&2
+  exit 1
+}
+
+command -v docker >/dev/null 2>&1 || fail "docker is not installed or not on PATH"
+
+docker info >/dev/null 2>&1 || fail "docker is unavailable (is Docker running?)"
+
+# Explicit container targets (docker compose v2 default naming)
+CONTAINERS="workarea-mongo-1 workarea-redis-1 workarea-elasticsearch-1"
+
+MISSING=""
+for name in $CONTAINERS; do
+  # docker inspect exits non-zero if missing
+  if ! docker inspect "$name" >/dev/null 2>&1; then
+    MISSING="$MISSING $name"
+  fi
+done
+
+if [ -n "$MISSING" ]; then
+  echo "ERROR: Missing required docker container(s):$MISSING" >&2
+  echo "Hint: start services with: script/services_up" >&2
+  exit 1
+fi
+
+for name in $CONTAINERS; do
+  echo "==> $name (last $LINES lines)"
+  docker logs --tail "$LINES" "$name"
+  echo
+done
