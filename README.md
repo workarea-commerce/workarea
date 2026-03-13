@@ -147,6 +147,35 @@ If you want to confirm the image tags/ports as well:
 docker ps --format 'table {{.Names}}\t{{.Image}}\t{{.Ports}}'
 ```
 
+### Troubleshooting: Elasticsearch "Empty reply" / bootstrap checks
+Sometimes the `elasticsearch` container will show as **Up**, but Elasticsearch
+is not actually usable (for example, `curl` returns an empty reply).
+
+Confirm it:
+
+```bash
+curl -v http://127.0.0.1:9200/
+# (symptom) curl: (52) Empty reply from server
+
+docker compose logs elasticsearch
+# look for "bootstrap checks failed" in the output
+```
+
+Recommended fix (local dev): if logs mention `vm.max_map_count`, increase it to
+meet Elasticsearch's bootstrap checks (Linux example):
+
+```bash
+sudo sysctl -w vm.max_map_count=262144
+```
+
+Then restart the service:
+
+```bash
+docker compose up -d elasticsearch
+```
+
+See also: [`docs/verification/wa-ci-008-local-build-gate.md`](docs/verification/wa-ci-008-local-build-gate.md)
+
 ### Troubleshooting: port conflicts / stale containers
 If `docker compose up` fails with errors like `bind: address already in use`, an
 older container may still be running and holding the port.
