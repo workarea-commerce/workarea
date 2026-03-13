@@ -71,21 +71,24 @@ port_listener_line() {
 
   if have lsof; then
     # Any LISTENing TCP socket on this port?
-    lsof -nP -iTCP:"$port" -sTCP:LISTEN 2>/dev/null | awk 'NR>1 { print; exit 0 } END { exit 1 }'
-    return $?
+    result=$(lsof -nP -iTCP:"$port" -sTCP:LISTEN 2>/dev/null | awk 'NR>1')
+    [ -n "$result" ] && printf '%s\n' "$result" && return 0
+    return 1
   fi
 
   # Fallback: use ss if present (Linux).
   if have ss; then
     # Example: LISTEN ... 127.0.0.1:6379 ... users:("redis-server",pid=...)
-    ss -ltnp 2>/dev/null | awk -v p=":${port}" '$0 ~ p { print; exit 0 } END { exit 1 }'
-    return $?
+    result=$(ss -ltnp 2>/dev/null | awk -v p=":${port}" '$0 ~ p')
+    [ -n "$result" ] && printf '%s\n' "$result" && return 0
+    return 1
   fi
 
   # Fallback: netstat (macOS/Linux) (no owner info).
   if have netstat; then
-    netstat -an 2>/dev/null | awk -v p=".${port} " '($0 ~ /LISTEN/ || $0 ~ /LISTENING/) && $0 ~ p { print "(listening)"; exit 0 } END { exit 1 }'
-    return $?
+    result=$(netstat -an 2>/dev/null | awk -v p=".${port} " '($0 ~ /LISTEN/ || $0 ~ /LISTENING/) && $0 ~ p { print "(listening)" }')
+    [ -n "$result" ] && printf '%s\n' "$result" && return 0
+    return 1
   fi
 
   return 2
@@ -158,7 +161,7 @@ for port in $PORTS; do
       echo "  owner: (unknown)"
     fi
 
-    containers="$(docker_containers_publishing_port "$port" 2>/dev/null | tr '\n' ' ' | sed 's/[[:space:]]\+$//')"
+    containers="$(docker_containers_publishing_port "$port" 2>/dev/null | tr '\n' ' ' | sed 's/[[:space:]]*$//')"
     if [ -n "${containers:-}" ]; then
       echo "  docker: publishing containers: ${containers}"
 
