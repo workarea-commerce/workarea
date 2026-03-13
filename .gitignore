@@ -53,6 +53,11 @@ package-lock.json
 # Local bundler install (don’t commit)
 vendor/bundle/
 
+# Local env overrides
+.env
+.env.*
+!.env.example
+
 # Local assistant notes
 CLAUDE.md
 IceCreamFormulator
