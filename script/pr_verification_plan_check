@@ -1,0 +1,82 @@
+#!/bin/sh
+# script/pr_verification_plan_check
+#
+# Check that a PR body includes a Verification (or Verification Plan) section
+# and at least one fenced code block.
+#
+# Usage:
+#   ./script/pr_verification_plan_check <PR_NUMBER_OR_URL>
+#
+# Examples:
+#   ./script/pr_verification_plan_check 920
+#   ./script/pr_verification_plan_check https://github.com/workarea-commerce/workarea/pull/920
+#
+# Exits 0 when the PR body meets all requirements.
+# Exits 1 with a clear message when any requirement is missing.
+
+set -e
+
+REPO="workarea-commerce/workarea"
+
+if [ -z "$1" ]; then
+  echo "Usage: $0 <PR_NUMBER_OR_URL>" >&2
+  exit 1
+fi
+
+# Accept either a raw number or a full GitHub PR URL
+PR_INPUT="$1"
+case "$PR_INPUT" in
+  http*pull/*)
+    # Extract the number from the trailing path segment
+    PR_NUM="${PR_INPUT##*/}"
+    ;;
+  *)
+    PR_NUM="$PR_INPUT"
+    ;;
+esac
+
+# Validate that PR_NUM looks like a number
+case "$PR_NUM" in
+  ''|*[!0-9]*)
+    echo "ERROR: Could not determine PR number from: $PR_INPUT" >&2
+    exit 1
+    ;;
+esac
+
+echo "Fetching PR #${PR_NUM} from ${REPO} ..."
+
+# Fetch the PR body via gh CLI
+BODY="$(gh pr view "$PR_NUM" --repo "$REPO" --json body --jq '.body' 2>&1)" || {
+  echo "ERROR: Failed to fetch PR #${PR_NUM}. Make sure 'gh' is authenticated and the PR exists." >&2
+  exit 1
+}
+
+if [ -z "$BODY" ]; then
+  echo "ERROR: PR #${PR_NUM} has an empty body." >&2
+  exit 1
+fi
+
+# ── Check 1: Verification section heading ────────────────────────────────────
+# Match a Markdown heading (## or ###) containing "Verification" or
+# "Verification Plan" (case-insensitive).
+if echo "$BODY" | grep -qi "^##\{0,\} *verification"; then
+  echo "✓ Verification section found."
+else
+  echo "FAIL: PR #${PR_NUM} body does not contain a 'Verification' or 'Verification Plan' section." >&2
+  echo "  Expected a Markdown heading like '## Verification' or '## Verification Plan'." >&2
+  exit 1
+fi
+
+# ── Check 2: At least one fenced code block ───────────────────────────────────
+# A fenced code block starts with a line of three or more backticks.
+if echo "$BODY" | grep -q '^\`\`\`'; then
+  echo "✓ Fenced code block found."
+else
+  echo "FAIL: PR #${PR_NUM} body does not contain a fenced code block (\`\`\` ... \`\`\`)." >&2
+  echo "  Add at least one shell command inside a fenced code block in the Verification section." >&2
+  exit 1
+fi
+
+echo ""
+echo "PR #${PR_NUM} passes verification plan checks."
+exit 0
