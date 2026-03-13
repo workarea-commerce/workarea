@@ -214,6 +214,8 @@ GEM
     base64 (0.3.0)
     bcrypt (3.1.21)
     bigdecimal (4.0.1)
+    brakeman (8.0.4)
+      racc
     browser (5.3.1)
     bson (5.2.0)
     builder (3.3.0)
@@ -647,6 +649,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  brakeman
   bundler-audit
   csv
   drb
