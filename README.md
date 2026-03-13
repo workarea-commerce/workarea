@@ -105,10 +105,21 @@ Note: Elasticsearch 6.8 images are published under Elastic's registry
 (`docker.elastic.co/elasticsearch/elasticsearch:6.8.23`).
 
 Note for Apple Silicon/ARM hosts: Elasticsearch 6.x images are only published
-for `linux/amd64`. The repo's `docker-compose.yml` sets `platform: linux/amd64`
-for the `elasticsearch` service to avoid confusing architecture-related errors.
+for `linux/amd64` (there is no `linux/arm64` image for 6.8). The repo's
+`docker-compose.yml` sets `platform: linux/amd64` for the `elasticsearch`
+service so Docker Desktop will run the image under emulation.
 
-Common symptom: the services do not appear (or are not running) in:
+If you're using a different compose file (or an older copy) without
+`platform: linux/amd64`, you can force the architecture for a single command:
+
+```bash
+DOCKER_DEFAULT_PLATFORM=linux/amd64 \
+  ELASTICSEARCH_VERSION=6.8.23 ELASTICSEARCH_PORT=9200 \
+  docker compose up -d elasticsearch
+```
+
+Common symptom when the platform is wrong: the service exits immediately or the
+container never appears as healthy in:
 
 ```bash
 docker compose ps
@@ -139,6 +150,12 @@ After starting services, you should see all three services running:
 
 ```bash
 docker compose ps
+```
+
+To confirm Elasticsearch is responding (and see the version number):
+
+```bash
+curl -sSf http://127.0.0.1:9200/ | jq -r '.version.number'
 ```
 
 If you want to confirm the image tags/ports as well:
@@ -178,6 +195,34 @@ For the services started by *this* repo, prefer:
 ```bash
 docker compose down
 ```
+
+### Troubleshooting: MongoDB volume version mismatch ("data files are incompatible")
+If MongoDB won’t start and immediately exits/restarts, check the container logs:
+
+```bash
+docker compose logs mongo
+# or
+# docker logs workarea-mongo-1
+```
+
+Typical symptoms include error strings like:
+
+- `UnsupportedFormat: ... data files are incompatible with this version of MongoDB`
+- `WiredTiger error ... unsupported ... version`
+- `Failed global initialization` (followed by WiredTiger/UnsupportedFormat output)
+
+**How to confirm:** if the logs reference `/data/db` and WiredTiger/"unsupported format" errors, you likely have a persisted Docker volume that was created by a *different MongoDB major version* than the `MONGODB_VERSION` you are starting now.
+
+**Preferred path (safest):** start MongoDB using a compatible `MONGODB_VERSION` (matching what originally created the volume), then migrate/backup your dev data.
+
+**Fast dev reset (data loss):** remove and recreate the named Docker volumes used by this compose file:
+
+```bash
+# WARNING: deletes your local Mongo/Redis/Elasticsearch data volumes
+docker compose down -v
+```
+
+Then start again.
 
 See also: [`docs/verification/wa-ci-008-local-build-gate.md`](docs/verification/wa-ci-008-local-build-gate.md)
 
