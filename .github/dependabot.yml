@@ -1,0 +1,27 @@
+# See https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+version: 2
+updates:
+  # Ruby gems (Bundler)
+  - package-ecosystem: bundler
+    directory: "/"
+    schedule:
+      interval: weekly
+    target-branch: next
+    open-pull-requests-limit: 5
+    groups:
+      bundler-minor-and-patch:
+        update-types:
+          - minor
+          - patch
+
+  # GitHub Actions
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+    target-branch: next
+    open-pull-requests-limit: 5
+    groups:
+      github-actions:
+        patterns:
+          - "*"
