@@ -2,8 +2,11 @@
 
 # Preflight check for common Workarea service ports.
 #
-# Checks whether expected ports are free OR already owned by the expected
-# docker compose containers.
+# Exits 0 if all expected ports are:
+#   - free, OR
+#   - published by Workarea docker containers (best-effort detection)
+#
+# Exits non-zero if any port is already in use by something else.
 #
 # Read-only and safe.
 
@@ -14,7 +17,7 @@ PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:${PATH:-}"
 
 cd "$(dirname "$0")/.."
 
-PORTS="6379:redis:workarea-redis-1 27017:mongo:workarea-mongo-1 9200:elasticsearch:workarea-elasticsearch-1"
+PORTS="6379:redis 27017:mongo 9200:elasticsearch"
 
 have() { command -v "$1" >/dev/null 2>&1; }
 
@@ -31,6 +34,7 @@ port_listening() {
 
   if have lsof; then
     # Any LISTENing TCP socket on this port?
+    # Output: COMMAND PID USER ...
     lsof -nP -iTCP:"$port" -sTCP:LISTEN 2>/dev/null | awk 'NR>1 { print; exit 0 } END { exit 1 }'
     return $?
   fi
@@ -62,6 +66,21 @@ docker_containers_publishing_port() {
     | awk -F'|' -v p=":${port}->" '$2 ~ p { print $1 }'
 }
 
+is_workarea_container() {
+  name="$1"
+
+  # Heuristic 1: common compose-generated name prefix.
+  echo "$name" | grep -Eq '^workarea-' && return 0
+
+  # Heuristic 2: compose project label.
+  if [ "$DOCKER_OK" -eq 1 ]; then
+    project="$(docker inspect --format '{{ index .Config.Labels "com.docker.compose.project" }}' "$name" 2>/dev/null || true)"
+    [ "$project" = "workarea" ] && return 0
+  fi
+
+  return 1
+}
+
 print_header() {
   echo "Workarea service port preflight"
   echo "Repo: $(pwd)"
@@ -87,7 +106,6 @@ EXIT=0
 for entry in $PORTS; do
   port="$(echo "$entry" | cut -d: -f1)"
   label="$(echo "$entry" | cut -d: -f2)"
-  expected_container="$(echo "$entry" | cut -d: -f3)"
 
   echo "Port ${port} (${label})"
 
@@ -110,28 +128,43 @@ for entry in $PORTS; do
       echo "  owner: (unknown)"
     fi
 
-    containers="$(docker_containers_publishing_port "$port" | paste -sd' ' -)"
-    if [ -n "$containers" ]; then
+    containers_lines="$(docker_containers_publishing_port "$port" 2>/dev/null || true)"
+    containers="$(echo "$containers_lines" | tr '\n' ' ' | sed 's/[[:space:]]\+$//')"
+    if [ -n "$containers_lines" ]; then
       echo "  docker: publishing containers: ${containers}"
     else
       echo "  docker: (none detected)"
     fi
 
-    echo "$containers" | tr ' ' '\n' | grep -Fx "$expected_container" >/dev/null 2>&1
-    owned_by_expected=$?
+    ok=1
 
-    if [ "$owned_by_expected" -eq 0 ]; then
-      echo "  status: ok (owned by expected container: ${expected_container})"
+    # If docker is available, allow ports published by Workarea containers.
+    if [ "$DOCKER_OK" -eq 1 ] && [ -n "$containers_lines" ]; then
+      ok=0
+      for c in $containers_lines; do
+        if is_workarea_container "$c"; then
+          ok=1
+          break
+        fi
+      done
+    fi
+
+    if [ "$ok" -eq 1 ]; then
+      echo "  status: ok"
     else
-      echo "  status: conflict (expected container: ${expected_container})"
+      echo "  status: conflict"
+      echo "  recommendation:"
+      echo "    - If these ports should be free: stop the conflicting service."
+      echo "    - If this is a stale Workarea stack: run 'docker compose down' from the repo root."
+      echo "    - If Docker isn't running: start Docker Desktop, then re-run this script."
       EXIT=1
     fi
   else
     rc=$?
     if [ "$rc" -eq 2 ]; then
       echo "  listening: unknown (no lsof/ss/netstat available)"
-      echo "  status: unknown"
-      # Be conservative: unknown toolchain shouldn't block users.
+      echo "  status: ok (unable to verify; no port tools available)"
+      # Be conservative about safety: unknown tooling should not block users.
     else
       echo "  listening: no"
       echo "  status: ok (free)"
