@@ -147,6 +147,40 @@ If you want to confirm the image tags/ports as well:
 docker ps --format 'table {{.Names}}\t{{.Image}}\t{{.Ports}}'
 ```
 
+### Troubleshooting: port conflicts / stale containers
+If `docker compose up` fails with errors like `bind: address already in use`, an
+older container may still be running and holding the port.
+
+From anywhere, list containers and their published ports:
+
+```bash
+docker ps --format 'table {{.ID}}\t{{.Names}}\t{{.Image}}\t{{.Ports}}'
+```
+
+To narrow it down to likely Workarea-related services:
+
+```bash
+docker ps --format 'table {{.ID}}\t{{.Names}}\t{{.Image}}\t{{.Ports}}' | grep -Ei 'workarea|mongo|redis|elasticsearch'
+```
+
+To stop/remove stale containers (example):
+
+```bash
+docker stop <container_id>
+docker rm <container_id>
+
+# or, force remove
+docker rm -f <container_id>
+```
+
+For the services started by *this* repo, prefer:
+
+```bash
+docker compose down
+```
+
+See also: [`docs/verification/wa-ci-008-local-build-gate.md`](docs/verification/wa-ci-008-local-build-gate.md)
+
 
 Getting Started
 --------------------------------------------------------------------------------
