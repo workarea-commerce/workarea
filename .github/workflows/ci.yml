@@ -6,16 +6,27 @@ on:
       - 'docs/**'
       - '**.md'
 
+# Minimal token scope: read-only access to the repository.
+# Individual jobs that need additional permissions (e.g. artifact upload)
+# are not required to add them because artifact storage uses the separate
+# ACTIONS_RUNTIME_TOKEN rather than GITHUB_TOKEN.
+permissions:
+  contents: read
+
 jobs:
   static_analysis:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    # Pinned to commit SHA for supply-chain safety (this job runs security
+    # tooling — bundler-audit — so reproducibility matters most here).
+    # actions/checkout v4 → 34e114876b0b11c390a56381ad16ebd13914f8d5
+    - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
 
     # Run Ruby-based static analysis on the same Ruby version as the rest of CI.
     # The docker-based workarea-commerce/ci/* actions are pinned to ruby:2.6,
     # which cannot bundle workarea-core (>= 2.7).
-    - uses: ruby/setup-ruby@v1
+    # ruby/setup-ruby v1.292.0 → 4eb9f110bac952a8b68ecf92e3b5c7a987594ba6
+    - uses: ruby/setup-ruby@4eb9f110bac952a8b68ecf92e3b5c7a987594ba6
       with:
         ruby-version: 3.2
         bundler-cache: true

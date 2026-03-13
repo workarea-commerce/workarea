@@ -10,6 +10,11 @@ on:
       - 'docs/*/*'
       - 'docs/*/*/*'
 
+# Minimal token scope: read-only checkout; S3 publishing uses explicit secrets,
+# not the GITHUB_TOKEN, so no additional scopes are required.
+permissions:
+  contents: read
+
 jobs:
   build:
     name: Build & Publish
