@@ -31,11 +31,13 @@
 When posting a GitHub issue comment from your shell, be careful with content that
 includes literal backticks (`` ` ``) or `${...}`.
 
-* Backticks are command substitution in many shells.
-* `${...}` expands in double-quoted strings.
+* Backticks and `$(...)` are command substitution in many shells.
+* `${...}` may be expanded by your shell (parameter expansion).
 
 A safe pattern is to pass the comment body via STDIN using a *single-quoted*
 heredoc delimiter, which prevents your shell from interpreting the content:
+
+Note: the quotes in `<<'EOF'` are important — they prevent expansion and command substitution inside the heredoc.
 
 ````sh
 gh issue comment <N> --body-file - <<'EOF'
