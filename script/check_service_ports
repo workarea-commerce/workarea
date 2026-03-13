@@ -110,7 +110,7 @@ for entry in $PORTS; do
       echo "  owner: (unknown)"
     fi
 
-    containers="$(docker_containers_publishing_port "$port" | tr '\n' ' ' | sed 's/[[:space:]]\+$//')"
+    containers="$(docker_containers_publishing_port "$port" | paste -sd' ' -)"
     if [ -n "$containers" ]; then
       echo "  docker: publishing containers: ${containers}"
     else
