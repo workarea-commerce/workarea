@@ -59,6 +59,11 @@ if ! docker compose version >/dev/null 2>&1; then
   fail "docker compose is unavailable (Docker Compose v2 is required)"
 fi
 
+# Ensure there's a compose file we can use (helps produce a clearer error).
+if [[ ! -f docker-compose.yml && ! -f docker-compose.yaml && ! -f compose.yml && ! -f compose.yaml ]]; then
+  fail "no docker compose file found (expected docker-compose.yml/docker-compose.yaml/compose.yml/compose.yaml)"
+fi
+
 if [[ "$MODE" == "down" ]]; then
   docker compose stop "${SERVICES[@]}"
   echo
@@ -75,9 +80,29 @@ docker compose ps
 
 # Fail if any service is not in a running state.
 # (Note: Elasticsearch may take a few seconds to become healthy, but it should be running.)
-RUNNING_SERVICES="$(docker compose ps --services --status running 2>/dev/null || true)"
-for svc in "${SERVICES[@]}"; do
-  if ! echo "$RUNNING_SERVICES" | grep -qx "$svc"; then
-    fail "service failed to start: $svc"
+# Retry briefly to avoid flakiness right after `docker compose up -d`.
+MAX_WAIT_SECONDS=30
+SLEEP_SECONDS=2
+
+SECONDS_WAITED=0
+while :; do
+  RUNNING_SERVICES="$(docker compose ps --services --status running 2>/dev/null || true)"
+
+  MISSING=()
+  for svc in "${SERVICES[@]}"; do
+    if ! echo "$RUNNING_SERVICES" | grep -qx "$svc"; then
+      MISSING+=("$svc")
+    fi
+  done
+
+  if [[ ${#MISSING[@]} -eq 0 ]]; then
+    break
   fi
+
+  if (( SECONDS_WAITED >= MAX_WAIT_SECONDS )); then
+    fail "service(s) failed to start: ${MISSING[*]}"
+  fi
+
+  sleep "$SLEEP_SECONDS"
+  (( SECONDS_WAITED += SLEEP_SECONDS ))
 done
