@@ -96,6 +96,13 @@ If you run `docker compose` (or `docker-compose`) directly without setting these
 variables, Docker Compose will not be able to resolve the images/ports and the
 services may fail to start.
 
+To avoid this, copy the repo's example env file to `.env` (which is ignored by
+git):
+
+```bash
+cp -n .env.example .env
+```
+
 Note: Elasticsearch 6.8 images are published under Elastic's registry
 (`docker.elastic.co/elasticsearch/elasticsearch:6.8.23`).
 
