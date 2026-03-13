@@ -84,17 +84,15 @@ Running dependent services (Docker Compose)
 This repository ships a `docker-compose.yml` for running Workarea's dependent
 services locally (MongoDB, Redis, and Elasticsearch).
 
-### Important: required environment variables
+### Environment variables (optional)
 The compose file uses environment variables to define the service image versions
-and local ports:
+and local ports.
 
-- `MONGODB_VERSION`, `MONGODB_PORT`
-- `REDIS_VERSION`, `REDIS_PORT`
-- `ELASTICSEARCH_VERSION`, `ELASTICSEARCH_PORT`
+Defaults are provided in `docker-compose.yml`, but you can override them:
 
-If you run `docker compose` (or `docker-compose`) directly without setting these
-variables, Docker Compose will not be able to resolve the images/ports and the
-services may fail to start.
+- `MONGODB_VERSION` (default: `4.0`), `MONGODB_PORT` (default: `27017`)
+- `REDIS_VERSION` (default: `6.2`), `REDIS_PORT` (default: `6379`)
+- `ELASTICSEARCH_VERSION` (default: `6.8.23`), `ELASTICSEARCH_PORT` (default: `9200`)
 
 Note: Elasticsearch 6.8 images are published under Elastic's registry
 (`docker.elastic.co/elasticsearch/elasticsearch:6.8.23`).
