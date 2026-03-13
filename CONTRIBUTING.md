@@ -26,6 +26,28 @@
 * Before submitting, please read the [Contribute Code](https://developer.workarea.com/articles/contribute-code.html)
   guide to know more about coding conventions and benchmarks.
 
+#### Posting GitHub comments from the CLI (safe quoting)
+
+When posting a GitHub issue comment from your shell, be careful with content that
+includes literal backticks (`` ` ``) or `${...}`.
+
+* Backticks are command substitution in many shells.
+* `${...}` expands in double-quoted strings.
+
+A safe pattern is to pass the comment body via STDIN using a *single-quoted*
+heredoc delimiter, which prevents your shell from interpreting the content:
+
+````sh
+gh issue comment <N> --body-file - <<'EOF'
+Here is a code sample containing literal backticks and ${...}:
+
+```ruby
+puts `echo hello`
+puts "${NOT_EXPANDED}"
+```
+EOF
+````
+
 #### Did you fix whitespace, format code, or make a purely cosmetic patch?
 
 Changes that are purely cosmetic in nature, and do not add anything
