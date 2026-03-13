@@ -1,0 +1,146 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Wait for Workarea's dependent services to be reachable.
+#
+# This is intentionally read-only and is safe to run in CI.
+#
+# Usage:
+#   script/wait_for_services
+#   script/wait_for_services --timeout 60
+#   MONGODB_HOST=localhost script/wait_for_services
+
+cd "$(dirname "${BASH_SOURCE[0]}")/.."
+
+usage() {
+  cat <<'USAGE'
+Usage:
+  script/wait_for_services [--timeout SECONDS]
+
+Options:
+  --timeout SECONDS   Overall timeout (default: 60)
+  -h, --help          Show this help
+
+Environment overrides:
+  MONGODB_HOST (default: 127.0.0.1)
+  MONGODB_PORT (default: 27017)
+  REDIS_HOST (default: 127.0.0.1)
+  REDIS_PORT (default: 6379)
+  ELASTICSEARCH_HOST (default: 127.0.0.1)
+  ELASTICSEARCH_PORT (default: 9200)
+  ELASTICSEARCH_URL  (default: http://$ELASTICSEARCH_HOST:$ELASTICSEARCH_PORT)
+USAGE
+}
+
+fail() {
+  echo "ERROR: $*" >&2
+  exit 1
+}
+
+need_cmd() {
+  local cmd="$1"
+  local install_hint="$2"
+
+  if ! command -v "$cmd" >/dev/null 2>&1; then
+    echo "ERROR: required command not found: $cmd" >&2
+    echo "       $install_hint" >&2
+    exit 1
+  fi
+}
+
+# Defaults match docker-compose.yml
+: "${MONGODB_HOST:=127.0.0.1}"
+: "${MONGODB_PORT:=27017}"
+: "${REDIS_HOST:=127.0.0.1}"
+: "${REDIS_PORT:=6379}"
+: "${ELASTICSEARCH_HOST:=127.0.0.1}"
+: "${ELASTICSEARCH_PORT:=9200}"
+: "${ELASTICSEARCH_URL:=http://${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}}"
+
+TIMEOUT_SECONDS=60
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --timeout)
+      [[ -n "${2:-}" ]] || fail "--timeout requires a value"
+      TIMEOUT_SECONDS="$2"
+      shift 2
+      ;;
+    -h|--help)
+      usage
+      exit 0
+      ;;
+    *)
+      fail "unknown argument: $1"
+      ;;
+  esac
+done
+
+[[ "$TIMEOUT_SECONDS" =~ ^[0-9]+$ ]] || fail "--timeout must be an integer number of seconds"
+
+need_cmd nc "Install netcat (macOS includes it; Debian/Ubuntu: apt-get install netcat-openbsd)"
+need_cmd curl "Install curl (macOS includes it; Debian/Ubuntu: apt-get install curl)"
+
+try_tcp() {
+  local name="$1"
+  local host="$2"
+  local port="$3"
+
+  # nc flags vary a bit across platforms, but -z and -w are widely supported.
+  nc -z -w 1 "$host" "$port" >/dev/null 2>&1
+}
+
+try_http() {
+  local name="$1"
+  local url="$2"
+
+  # Keep the request cheap and fail fast.
+  curl -fsS --max-time 2 "$url" >/dev/null 2>&1
+}
+
+wait_for() {
+  local name="$1"
+  local check_fn="$2"
+  shift 2
+
+  local deadline=$(( $(date +%s) + TIMEOUT_SECONDS ))
+  local attempt=0
+  local sleep_seconds=1
+
+  while :; do
+    if "$check_fn" "$name" "$@"; then
+      echo "OK: $name is reachable"
+      return 0
+    fi
+
+    local now
+    now=$(date +%s)
+    if (( now >= deadline )); then
+      fail "$name did not become reachable within ${TIMEOUT_SECONDS}s"
+    fi
+
+    (( attempt += 1 ))
+
+    # Small backoff to reduce flakiness and avoid tight loops.
+    # 1s for the first few attempts, then 2s, then 3s (cap).
+    if (( attempt == 5 )); then
+      sleep_seconds=2
+    elif (( attempt == 12 )); then
+      sleep_seconds=3
+    fi
+
+    sleep "$sleep_seconds"
+  done
+}
+
+echo "Waiting up to ${TIMEOUT_SECONDS}s for dependent services..."
+
+wait_for "MongoDB (${MONGODB_HOST}:${MONGODB_PORT})" try_tcp "$MONGODB_HOST" "$MONGODB_PORT"
+wait_for "Redis (${REDIS_HOST}:${REDIS_PORT})" try_tcp "$REDIS_HOST" "$REDIS_PORT"
+
+# Root endpoint is enough to prove HTTP reachability; cluster health can be red
+# during startup. If you want a stronger check, point ELASTICSEARCH_URL at
+# /_cluster/health.
+wait_for "Elasticsearch (${ELASTICSEARCH_URL})" try_http "${ELASTICSEARCH_URL}/"
+
+echo "All dependent services are reachable."
