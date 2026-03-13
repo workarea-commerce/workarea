@@ -30,7 +30,7 @@ You should see **mongo**, **redis**, and **elasticsearch** in a running/healthy 
 
 ### Troubleshooting
 
-- If services don’t start, double-check you exported the env vars above (or use the one-liner).
+- If services don’t start, first confirm Docker is running. If you’re overriding defaults, double-check the env vars above (or use the one-liner).
 - If you need a clean restart:
 
   ```bash
