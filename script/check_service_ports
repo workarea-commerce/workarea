@@ -136,11 +136,11 @@ for entry in $PORTS; do
       echo "  docker: (none detected)"
     fi
 
-    ok=1
+    # Fail-safe: assume conflict whenever a port is listening.
+    # Only clear to OK if we can positively confirm a Workarea container owns it.
+    ok=0
 
-    # If docker is available, allow ports published by Workarea containers.
     if [ "$DOCKER_OK" -eq 1 ] && [ -n "$containers_lines" ]; then
-      ok=0
       for c in $containers_lines; do
         if is_workarea_container "$c"; then
           ok=1
