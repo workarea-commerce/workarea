@@ -19,6 +19,10 @@ services:
     # Elasticsearch 6.x images are only published for amd64. Setting the platform
     # prevents confusing pull/run failures on Apple Silicon/ARM hosts.
     platform: linux/amd64
+    # On macOS/Apple Silicon (Docker Desktop + qemu), Elasticsearch 6.8 can fail
+    # bootstrap checks with "system call filters failed to install", leaving
+    # port 9200 up but returning an empty reply.
+    command: ["elasticsearch", "-Ebootstrap.system_call_filter=false"]
     ports:
       - '127.0.0.1:${ELASTICSEARCH_PORT:-9200}:9200'
     volumes:
