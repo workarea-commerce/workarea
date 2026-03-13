@@ -226,6 +226,15 @@ Then start again.
 
 See also: [`docs/verification/wa-ci-008-local-build-gate.md`](docs/verification/wa-ci-008-local-build-gate.md)
 
+### Troubleshooting: Elasticsearch starts but is unusable (bootstrap checks)
+On Linux hosts (and some Docker-on-Mac configurations), Elasticsearch may start
+but immediately refuse connections with an empty reply, returning no data to
+`curl`. This is caused by **Elasticsearch bootstrap checks** failing — most
+commonly a low `vm.max_map_count` kernel setting.
+
+See **[docs/elasticsearch-bootstrap-checks.md](docs/elasticsearch-bootstrap-checks.md)**
+for symptoms, diagnosis steps, and the recommended fix.
+
 
 Getting Started
 --------------------------------------------------------------------------------
