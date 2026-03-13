@@ -1,0 +1,93 @@
+#!/usr/bin/env sh
+
+# Verify Elasticsearch is actually responding over HTTP.
+#
+# This is stricter than checking that a container is "Up" or that a port is open.
+# It attempts an HTTP request to the local Elasticsearch root endpoint and reports
+# PASS/FAIL with actionable guidance.
+#
+# Read-only and safe.
+
+set -eu
+
+# Ensure common admin tools are discoverable on macOS/Linux.
+PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:${PATH:-}"
+
+cd "$(dirname "$0")/.."
+
+URL="http://127.0.0.1:9200/"
+
+have() { command -v "$1" >/dev/null 2>&1; }
+
+fail() {
+  echo "FAIL: $1" 1>&2
+  shift || true
+  if [ "$#" -gt 0 ]; then
+    echo 1>&2
+    printf '%s\n' "$@" 1>&2
+  fi
+  exit 1
+}
+
+extract_version() {
+  body="$1"
+
+  if have jq; then
+    echo "$body" | jq -r '.version.number // empty' 2>/dev/null || true
+    return 0
+  fi
+
+  # Fallback: extract "number" from the version block with a simple regex.
+  echo "$body" \
+    | tr '\n' ' ' \
+    | sed -n 's/.*"version"[^{]*{[^}]*"number"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' \
+    | head -n 1
+}
+
+print_header() {
+  echo "Elasticsearch HTTP check"
+  echo "Repo: $(pwd)"
+  echo "URL:  ${URL}"
+  echo
+}
+
+print_header
+
+have curl || fail "curl not found" \
+  "Install curl (or ensure it's on your PATH), then re-run." \
+  "" \
+  "On macOS (Homebrew):  brew install curl" \
+  "On Debian/Ubuntu:     sudo apt-get install -y curl"
+
+resp_file="$(mktemp -t es_http_check.XXXXXX)"
+trap 'rm -f "$resp_file"' EXIT
+
+if ! curl -sS --max-time 3 "$URL" -o "$resp_file"; then
+  fail "Elasticsearch is not responding at ${URL}" \
+    "Things to try:" \
+    "  - Start services:             docker compose up -d" \
+    "  - Check container status:     ./script/docker_services_status" \
+    "  - Check port ownership:       ./script/check_service_ports" \
+    "  - Inspect Elasticsearch logs: docker compose logs --tail=200 elasticsearch" \
+    "" \
+    "If the container is Up but curl fails (e.g. empty reply), Elasticsearch may have failed bootstrap checks."
+fi
+
+body="$(cat "$resp_file")"
+version="$(extract_version "$body")"
+
+if [ -n "$version" ]; then
+  echo "PASS: Elasticsearch responded over HTTP"
+  echo "Detected version: ${version}"
+  exit 0
+fi
+
+snippet="$(echo "$body" | head -n 20)"
+
+fail "Elasticsearch responded, but the response did not look like Elasticsearch JSON" \
+  "Response (first 20 lines):" \
+  "$snippet" \
+  "" \
+  "Things to try:" \
+  "  - Inspect Elasticsearch logs: docker compose logs --tail=200 elasticsearch" \
+  "  - Confirm the service on 9200 is Elasticsearch (and not another process)."
