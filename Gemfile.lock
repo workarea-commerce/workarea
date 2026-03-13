@@ -9,23 +9,23 @@ GIT
 PATH
   remote: .
   specs:
-    workarea (3.6.0.pre)
-      workarea-admin (= 3.6.0.pre)
-      workarea-core (= 3.6.0.pre)
-      workarea-storefront (= 3.6.0.pre)
-      workarea-testing (= 3.6.0.pre)
+    workarea (3.6.0)
+      workarea-admin (= 3.6.0)
+      workarea-core (= 3.6.0)
+      workarea-storefront (= 3.6.0)
+      workarea-testing (= 3.6.0)
 
 PATH
   remote: admin
   specs:
-    workarea-admin (3.6.0.pre)
-      workarea-core (= 3.6.0.pre)
-      workarea-storefront (= 3.6.0.pre)
+    workarea-admin (3.6.0)
+      workarea-core (= 3.6.0)
+      workarea-storefront (= 3.6.0)
 
 PATH
   remote: core
   specs:
-    workarea-core (3.6.0.pre)
+    workarea-core (3.6.0)
       active_utils (~> 3.3)
       activemerchant (~> 1.52)
       autoprefixer-rails (= 9.8.5)
@@ -117,13 +117,13 @@ PATH
 PATH
   remote: storefront
   specs:
-    workarea-storefront (3.6.0.pre)
-      workarea-core (= 3.6.0.pre)
+    workarea-storefront (3.6.0)
+      workarea-core (= 3.6.0)
 
 PATH
   remote: testing
   specs:
-    workarea-testing (3.6.0.pre)
+    workarea-testing (3.6.0)
       capybara (~> 3.18)
       launchy (~> 2.4.3)
       minitest-retry (~> 0.1.5)
@@ -133,7 +133,7 @@ PATH
       teaspoon-mocha (~> 2.3.3)
       vcr (>= 2.9, < 7)
       webmock (>= 3.5, < 4)
-      workarea-core (= 3.6.0.pre)
+      workarea-core (= 3.6.0)
 
 GEM
   remote: https://rubygems.org/
