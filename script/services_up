@@ -1,0 +1,108 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Start (or stop) Workarea's dependent services via Docker Compose.
+#
+# Usage:
+#   script/services_up            # start mongo/redis/elasticsearch
+#   script/services_up --down     # stop mongo/redis/elasticsearch
+#
+# This script is intentionally small and read-only. It sets sane defaults for the
+# docker-compose.yml placeholders if they are not already set.
+
+cd "$(dirname "${BASH_SOURCE[0]}")/.."
+
+SERVICES=(mongo redis elasticsearch)
+
+usage() {
+  cat <<'USAGE'
+Usage:
+  script/services_up            Start dependent services (mongo, redis, elasticsearch)
+  script/services_up --down     Stop dependent services (mongo, redis, elasticsearch)
+USAGE
+}
+
+MODE="up"
+if [[ "${1:-}" == "--down" || "${1:-}" == "down" ]]; then
+  MODE="down"
+elif [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
+  usage
+  exit 0
+elif [[ -n "${1:-}" ]]; then
+  echo "Unknown argument: ${1}" >&2
+  usage >&2
+  exit 2
+fi
+
+# Defaults (canonical versions live in core/lib/workarea/version.rb)
+: "${MONGODB_VERSION:=4.0}"
+: "${MONGODB_PORT:=27017}"
+: "${REDIS_VERSION:=6.2}"
+: "${REDIS_PORT:=6379}"
+: "${ELASTICSEARCH_VERSION:=6.8.23}"
+: "${ELASTICSEARCH_PORT:=9200}"
+
+export MONGODB_VERSION MONGODB_PORT REDIS_VERSION REDIS_PORT ELASTICSEARCH_VERSION ELASTICSEARCH_PORT
+
+fail() {
+  echo "ERROR: $*" >&2
+  exit 1
+}
+
+command -v docker >/dev/null 2>&1 || fail "docker is not installed or not on PATH"
+
+# Ensure Docker is reachable (daemon running, permissions ok)
+docker info >/dev/null 2>&1 || fail "docker is unavailable (is Docker running?)"
+
+# Ensure Compose is available
+if ! docker compose version >/dev/null 2>&1; then
+  fail "docker compose is unavailable (Docker Compose v2 is required)"
+fi
+
+# Ensure there's a compose file we can use (helps produce a clearer error).
+if [[ ! -f docker-compose.yml && ! -f docker-compose.yaml && ! -f compose.yml && ! -f compose.yaml ]]; then
+  fail "no docker compose file found (expected docker-compose.yml/docker-compose.yaml/compose.yml/compose.yaml)"
+fi
+
+if [[ "$MODE" == "down" ]]; then
+  docker compose stop "${SERVICES[@]}"
+  echo
+  docker compose ps
+  exit 0
+fi
+
+# Start only the required services.
+docker compose up -d "${SERVICES[@]}"
+
+echo
+
+docker compose ps
+
+# Fail if any service is not in a running state.
+# (Note: Elasticsearch may take a few seconds to become healthy, but it should be running.)
+# Retry briefly to avoid flakiness right after `docker compose up -d`.
+MAX_WAIT_SECONDS=30
+SLEEP_SECONDS=2
+
+SECONDS_WAITED=0
+while :; do
+  RUNNING_SERVICES="$(docker compose ps --services --status running 2>/dev/null || true)"
+
+  MISSING=()
+  for svc in "${SERVICES[@]}"; do
+    if ! echo "$RUNNING_SERVICES" | grep -qx "$svc"; then
+      MISSING+=("$svc")
+    fi
+  done
+
+  if [[ ${#MISSING[@]} -eq 0 ]]; then
+    break
+  fi
+
+  if (( SECONDS_WAITED >= MAX_WAIT_SECONDS )); then
+    fail "service(s) failed to start: ${MISSING[*]}"
+  fi
+
+  sleep "$SLEEP_SECONDS"
+  (( SECONDS_WAITED += SLEEP_SECONDS ))
+done
