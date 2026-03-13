@@ -99,6 +99,10 @@ services may fail to start.
 Note: Elasticsearch 6.8 images are published under Elastic's registry
 (`docker.elastic.co/elasticsearch/elasticsearch:6.8.23`).
 
+Note for Apple Silicon/ARM hosts: Elasticsearch 6.x images are only published
+for `linux/amd64`. The repo's `docker-compose.yml` sets `platform: linux/amd64`
+for the `elasticsearch` service to avoid confusing architecture-related errors.
+
 Common symptom: the services do not appear (or are not running) in:
 
 ```bash
