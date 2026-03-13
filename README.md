@@ -94,6 +94,13 @@ Defaults are provided in `docker-compose.yml`, but you can override them:
 - `REDIS_VERSION` (default: `6.2`), `REDIS_PORT` (default: `6379`)
 - `ELASTICSEARCH_VERSION` (default: `6.8.23`), `ELASTICSEARCH_PORT` (default: `9200`)
 
+To avoid this, copy the repo's example env file to `.env` (which is ignored by
+git):
+
+```bash
+cp -n .env.example .env
+```
+
 Note: Elasticsearch 6.8 images are published under Elastic's registry
 (`docker.elastic.co/elasticsearch/elasticsearch:6.8.23`).
 
