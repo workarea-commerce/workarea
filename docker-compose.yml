@@ -1,23 +1,26 @@
 version: '3'
 services:
   mongo:
-    image: "mongo:${MONGODB_VERSION}"
+    image: "mongo:${MONGODB_VERSION:-4.0}"
     volumes:
       - mongo:/data/db
     ports:
-      - '127.0.0.1:${MONGODB_PORT}:27017'
+      - '127.0.0.1:${MONGODB_PORT:-27017}:27017'
 
   redis:
-    image: "redis:${REDIS_VERSION}"
+    image: "redis:${REDIS_VERSION:-6.2}"
     volumes:
       - redis:/data
     ports:
-      - '127.0.0.1:${REDIS_PORT}:6379'
+      - '127.0.0.1:${REDIS_PORT:-6379}:6379'
 
   elasticsearch:
-    image: "docker.elastic.co/elasticsearch/elasticsearch:${ELASTICSEARCH_VERSION}"
+    image: "docker.elastic.co/elasticsearch/elasticsearch:${ELASTICSEARCH_VERSION:-6.8.23}"
+    # Elasticsearch 6.x images are only published for amd64. Setting the platform
+    # prevents confusing pull/run failures on Apple Silicon/ARM hosts.
+    platform: linux/amd64
     ports:
-      - '127.0.0.1:${ELASTICSEARCH_PORT}:9200'
+      - '127.0.0.1:${ELASTICSEARCH_PORT:-9200}:9200'
     volumes:
       - elasticsearch:/usr/share/elasticsearch/data
 

@@ -6,27 +6,31 @@ Keep this short: it’s the same set of checks CI will run, but optimized for ru
 
 Workarea tests and boot rely on **MongoDB**, **Redis**, and **Elasticsearch**.
 
-### Recommended startup command (explicit env vars)
-
-A common source of confusion is starting `docker compose` without the env vars that
-populate the version/port placeholders in `docker-compose.yml`.
+### Recommended startup command
 
 From the repo root, run:
+
+```bash
+docker compose up -d
+
+docker compose ps
+```
+
+If you need to override the default service versions and/or ports, you can set the
+env vars used by `docker-compose.yml`:
 
 ```bash
 MONGODB_VERSION=4.0 \
 REDIS_VERSION=6.2 \
 ELASTICSEARCH_VERSION=6.8.23 \
 docker compose up -d
-
-docker compose ps
 ```
 
 You should see **mongo**, **redis**, and **elasticsearch** in a running/healthy state.
 
 ### Troubleshooting
 
-- If services don’t start, double-check you exported the env vars above (or use the one-liner).
+- If services don’t start, first confirm Docker is running. If you’re overriding defaults, double-check the env vars above (or use the one-liner).
 - If you need a clean restart:
 
   ```bash
