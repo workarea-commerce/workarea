@@ -1,4 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env sh
+
+set -eu
 
 rm -f admin/spec/dummy/log/test.log
 rm -f core/spec/dummy/log/test.log

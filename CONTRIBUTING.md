@@ -23,6 +23,17 @@
 * Ensure the PR description clearly describes the problem and solution.
   Include the relevant issue number if applicable.
 
+* Run ShellCheck on repo scripts (CI will run this too):
+
+  ```bash
+  # macOS
+  brew install shellcheck
+
+  shellcheck script/*
+  ```
+
+  Note: some `script/*` utilities require `bash` (see their shebang).
+
 * Before submitting, please read the [Contribute Code](https://developer.workarea.com/articles/contribute-code.html)
   guide to know more about coding conventions and benchmarks.
 
