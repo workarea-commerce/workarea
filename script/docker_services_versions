@@ -30,8 +30,17 @@ need_cmd() {
 need_cmd docker "Install Docker (https://docs.docker.com/get-docker/)"
 need_cmd curl "Install curl (macOS includes it; Debian/Ubuntu: apt-get install curl)"
 
+echo "# docker ps (workarea containers)"
+docker ps --format 'table {{.Names}}\t{{.Image}}\t{{.Status}}\t{{.Ports}}' --filter 'name=workarea-' || true
+echo
+
 container_exists() {
   docker inspect "$1" >/dev/null 2>&1
+}
+
+container_running() {
+  # Prints "true" or "false" (or empty on error)
+  docker inspect --format '{{.State.Running}}' "$1" 2>/dev/null || true
 }
 
 container_image() {
@@ -61,7 +70,6 @@ print_service_header() {
     ports="(none)"
   fi
 
-  echo "service=$svc container=$cname"
   echo "service=$svc image=$img"
   echo "service=$svc ports=$ports"
 }
@@ -69,12 +77,35 @@ print_service_header() {
 mongo_version() {
   cname="$1"
 
+  # Prefer client version (as requested by WA-VERIFY-062). Fall back to db.version().
   if docker exec "$cname" sh -lc 'command -v mongosh >/dev/null 2>&1'; then
+    ver=$(docker exec "$cname" mongosh --version 2>/dev/null | tr -d '\r' | head -n 1 || true)
+    ver_num=$(echo "$ver" | sed -nE 's/.*([0-9]+\.[0-9]+\.[0-9]+).*/\1/p')
+    if [ -n "$ver_num" ]; then
+      echo "$ver_num"
+      return 0
+    fi
+    if [ -n "$ver" ]; then
+      echo "$ver"
+      return 0
+    fi
+
     docker exec "$cname" mongosh --quiet --eval 'db.version()' 2>/dev/null | tr -d '\r' | head -n 1 || true
     return 0
   fi
 
   if docker exec "$cname" sh -lc 'command -v mongo >/dev/null 2>&1'; then
+    ver=$(docker exec "$cname" mongo --version 2>/dev/null | tr -d '\r' | head -n 1 || true)
+    ver_num=$(echo "$ver" | sed -nE 's/.*v?([0-9]+\.[0-9]+\.[0-9]+).*/\1/p')
+    if [ -n "$ver_num" ]; then
+      echo "$ver_num"
+      return 0
+    fi
+    if [ -n "$ver" ]; then
+      echo "$ver"
+      return 0
+    fi
+
     docker exec "$cname" mongo --quiet --eval 'db.version()' 2>/dev/null | tr -d '\r' | head -n 1 || true
     return 0
   fi
@@ -84,6 +115,11 @@ mongo_version() {
 
 redis_version() {
   cname="$1"
+
+  if ! docker exec "$cname" sh -lc 'command -v redis-cli >/dev/null 2>&1'; then
+    echo "(unavailable - redis-cli missing in container)"
+    return 0
+  fi
 
   # INFO output includes 'redis_version:7.2.4' (CRLF)
   ver=$(docker exec "$cname" redis-cli INFO server 2>/dev/null \
@@ -134,13 +170,20 @@ check_container_or_fail() {
   svc="$1"
   cname="$2"
 
+  echo "service=$svc container=$cname"
+
   if ! container_exists "$cname"; then
-    echo "service=$svc container=$cname"
     echo "service=$svc status=missing"
     return 1
   fi
 
-  echo "service=$svc status=present"
+  running=$(container_running "$cname")
+  if [ "$running" != "true" ]; then
+    echo "service=$svc status=not_running"
+    return 1
+  fi
+
+  echo "service=$svc status=running"
   return 0
 }
 
@@ -169,11 +212,15 @@ echo "---"
 # Elasticsearch
 if check_container_or_fail elasticsearch workarea-elasticsearch-1; then
   print_service_header elasticsearch workarea-elasticsearch-1
-  echo "service=elasticsearch version=$(elasticsearch_version workarea-elasticsearch-1)"
+  es_ver=$(elasticsearch_version workarea-elasticsearch-1)
+  echo "service=elasticsearch version=${es_ver}"
+  case "$es_ver" in
+    ""|\(*unavailable*) rc=1 ;;
+  esac
 else
   rc=1
 fi
 
-[ "$rc" -eq 0 ] || fail "One or more required service containers are missing"
+[ "$rc" -eq 0 ] || fail "One or more required service containers are missing, not running, or unreachable"
 
 echo "OK: all required service containers are present"
