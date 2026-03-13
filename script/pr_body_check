@@ -1,0 +1,133 @@
+#!/usr/bin/env sh
+
+# pr_body_check — Verify a PR body contains required sections.
+#
+# Usage:
+#   ./script/pr_body_check <PR_NUMBER|PR_URL>
+#
+# Checks that the pull request body includes both:
+#   - "Client impact" section
+#   - "Verification Plan" section
+#
+# Exits 0 if both sections are present; exits 1 otherwise.
+# Read-only: no repository mutations are performed.
+
+set -eu
+
+# ---------------------------------------------------------------------------
+# Helpers
+# ---------------------------------------------------------------------------
+
+have() { command -v "$1" >/dev/null 2>&1; }
+
+die() {
+  echo "error: $*" >&2
+  exit 1
+}
+
+usage() {
+  echo "Usage: $0 <PR_NUMBER|PR_URL>" >&2
+  echo "" >&2
+  echo "Examples:" >&2
+  echo "  $0 123" >&2
+  echo "  $0 https://github.com/workarea-commerce/workarea/pull/123" >&2
+  exit 1
+}
+
+# ---------------------------------------------------------------------------
+# Preflight checks
+# ---------------------------------------------------------------------------
+
+if ! have gh; then
+  die "gh (GitHub CLI) is not installed or not on PATH.
+  Install it from https://cli.github.com/ and run 'gh auth login'."
+fi
+
+if ! gh auth status >/dev/null 2>&1; then
+  die "gh is not authenticated. Run 'gh auth login' first."
+fi
+
+if [ $# -ne 1 ]; then
+  usage
+fi
+
+INPUT="$1"
+
+# ---------------------------------------------------------------------------
+# Parse PR number / URL
+# ---------------------------------------------------------------------------
+
+# Accept bare number OR full GitHub PR URL.
+case "$INPUT" in
+  https://github.com/*/pull/*)
+    # Extract the trailing number from the URL.
+    PR_NUMBER="$(echo "$INPUT" | sed 's|.*/pull/||' | sed 's|[^0-9].*||')"
+    REPO_PART="$(echo "$INPUT" | sed 's|https://github.com/||' | sed 's|/pull/.*||')"
+    REPO_FLAG="--repo $REPO_PART"
+    ;;
+  [0-9]*)
+    PR_NUMBER="$INPUT"
+    REPO_FLAG=""
+    ;;
+  *)
+    die "Unrecognised input '$INPUT'. Provide a PR number or a GitHub PR URL."
+    ;;
+esac
+
+# Validate that we extracted a number.
+case "$PR_NUMBER" in
+  ''|*[!0-9]*)
+    die "Could not parse a PR number from '$INPUT'."
+    ;;
+esac
+
+# ---------------------------------------------------------------------------
+# Fetch PR body via gh
+# ---------------------------------------------------------------------------
+
+echo "Fetching PR #${PR_NUMBER} body..."
+
+# gh pr view exits non-zero if the PR does not exist or auth fails.
+# shellcheck disable=SC2086
+BODY="$(gh pr view "$PR_NUMBER" $REPO_FLAG --json body --jq '.body' 2>&1)" || {
+  echo "error: Could not fetch PR #${PR_NUMBER}. Output from gh:" >&2
+  echo "$BODY" >&2
+  exit 1
+}
+
+if [ -z "$BODY" ] || [ "$BODY" = "null" ]; then
+  die "PR #${PR_NUMBER} has no body text."
+fi
+
+# ---------------------------------------------------------------------------
+# Check for required sections (case-insensitive)
+# ---------------------------------------------------------------------------
+
+PASS=1
+
+# Use grep with -i (case-insensitive); POSIX-compliant on macOS and Linux.
+check_section() {
+  section_name="$1"
+  pattern="$2"
+
+  if echo "$BODY" | grep -qi "$pattern"; then
+    echo "  [PASS] '${section_name}' section found."
+  else
+    echo "  [FAIL] '${section_name}' section is MISSING." >&2
+    PASS=0
+  fi
+}
+
+echo ""
+echo "Checking required sections in PR #${PR_NUMBER}:"
+check_section "Client impact"      "client impact"
+check_section "Verification Plan"  "verification plan"
+echo ""
+
+if [ "$PASS" -eq 1 ]; then
+  echo "All required sections are present. ✓"
+  exit 0
+else
+  echo "One or more required sections are missing. Please update the PR body." >&2
+  exit 1
+fi
