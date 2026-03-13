@@ -1,0 +1,333 @@
+{
+  "scan_info": {
+    "app_path": "/Users/Shared/openclaw/workarea/core",
+    "rails_version": "6.1",
+    "security_warnings": 11,
+    "start_time": "2026-03-13 12:18:18 -0400",
+    "end_time": "2026-03-13 12:18:19 -0400",
+    "duration": 1.009031,
+    "checks_performed": [
+      "BasicAuth",
+      "BasicAuthTimingAttack",
+      "CSRFTokenForgeryCVE",
+      "ContentTag",
+      "CookieSerialization",
+      "CreateWith",
+      "CrossSiteScripting",
+      "DefaultRoutes",
+      "Deserialize",
+      "DetailedExceptions",
+      "DigestDoS",
+      "DynamicFinders",
+      "EOLRails",
+      "EOLRuby",
+      "EscapeFunction",
+      "Evaluation",
+      "Execute",
+      "FileAccess",
+      "FileDisclosure",
+      "FilterSkipping",
+      "ForgerySetting",
+      "HeaderDoS",
+      "I18nXSS",
+      "JRubyXML",
+      "JSONEncoding",
+      "JSONEntityEscape",
+      "JSONParsing",
+      "LinkTo",
+      "LinkToHref",
+      "MailTo",
+      "MassAssignment",
+      "MimeTypeDoS",
+      "ModelAttrAccessible",
+      "ModelAttributes",
+      "ModelSerialize",
+      "NestedAttributes",
+      "NestedAttributesBypass",
+      "NumberToCurrency",
+      "PageCachingCVE",
+      "Pathname",
+      "PermitAttributes",
+      "QuoteTableName",
+      "Ransack",
+      "Redirect",
+      "RegexDoS",
+      "Render",
+      "RenderDoS",
+      "RenderInline",
+      "RenderRCE",
+      "ResponseSplitting",
+      "RouteDoS",
+      "SQL",
+      "SQLCVEs",
+      "SSLVerify",
+      "SafeBufferManipulation",
+      "SanitizeConfigCve",
+      "SanitizeMethods",
+      "SelectTag",
+      "SelectVulnerability",
+      "Send",
+      "SendFile",
+      "SessionManipulation",
+      "SessionSettings",
+      "SimpleFormat",
+      "SingleQuotes",
+      "SkipBeforeFilter",
+      "SprocketsPathTraversal",
+      "StripTags",
+      "SymbolDoSCVE",
+      "TemplateInjection",
+      "TranslateBug",
+      "UnsafeReflection",
+      "UnsafeReflectionMethods",
+      "ValidationRegex",
+      "VerbConfusion",
+      "WeakRSAKey",
+      "WithoutProtection",
+      "XMLDoS",
+      "YAMLParsing"
+    ],
+    "number_of_controllers": 1,
+    "number_of_models": 162,
+    "number_of_templates": 0,
+    "ruby_version": "3.2.7",
+    "brakeman_version": "8.0.4"
+  },
+  "warnings": [
+    {
+      "warning_type": "Path Traversal",
+      "warning_code": 108,
+      "fingerprint": "0ce765cdb411132904054c8498af3e48fd43d33df7c7f010cbd4f3cd2f2e1a7b",
+      "check_name": "SprocketsPathTraversal",
+      "message": "sprockets 3.7 has a path traversal vulnerability (CVE-2018-3760). Upgrade to sprockets 3.7.2 or newer",
+      "file": "workarea-core.gemspec",
+      "line": 55,
+      "link": "https://groups.google.com/d/msg/rubyonrails-security/ft_J--l55fM/7roDfQ50BwAJ",
+      "code": null,
+      "render_path": null,
+      "location": null,
+      "user_input": null,
+      "confidence": "High",
+      "cwe_id": [
+        22,
+        200
+      ]
+    },
+    {
+      "warning_type": "Cross-Site Request Forgery",
+      "warning_code": 86,
+      "fingerprint": "0f75fdfb431a0103f2e84fa40e724aed55b448f1f6a4acc5ae7e56bba6981c39",
+      "check_name": "ForgerySetting",
+      "message": "`protect_from_forgery` should be configured with `with: :exception`",
+      "file": "app/controllers/workarea/application_controller.rb",
+      "line": null,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross-site_request_forgery/",
+      "code": null,
+      "render_path": null,
+      "location": {
+        "type": "controller",
+        "controller": "Workarea::ApplicationController"
+      },
+      "user_input": null,
+      "confidence": "Medium",
+      "cwe_id": [
+        352
+      ]
+    },
+    {
+      "warning_type": "Command Injection",
+      "warning_code": 14,
+      "fingerprint": "12785de4df11077b4365842818fced20a42508181119233f28bbade915c4f51a",
+      "check_name": "Execute",
+      "message": "Possible command injection",
+      "file": "lib/workarea/tasks/cache.rb",
+      "line": 32,
+      "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
+      "code": "`curl #{URI.join(\"https://#{Workarea.config.host}\", dynamic_product_image_url(image.product.slug, image.option, image.id, job, :only_path => true)).to_s}`",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Workarea::Tasks::Cache",
+        "method": "prime_images"
+      },
+      "user_input": "URI.join(\"https://#{Workarea.config.host}\", dynamic_product_image_url(image.product.slug, image.option, image.id, job, :only_path => true))",
+      "confidence": "Medium",
+      "cwe_id": [
+        77
+      ]
+    },
+    {
+      "warning_type": "Remote Code Execution",
+      "warning_code": 25,
+      "fingerprint": "3b40681dd662454a1ac2b9f20fef54465bf4204cb8b72eeede1653c78b26f699",
+      "check_name": "Deserialize",
+      "message": "Use of `Marshal.load` may be dangerous",
+      "file": "lib/workarea/elasticsearch/serializer.rb",
+      "line": 38,
+      "link": "https://brakemanscanner.org/docs/warning_types/unsafe_deserialization",
+      "code": "Marshal.load(Base64.decode64(object))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Workarea::Elasticsearch::Serializer",
+        "method": "self.deserialize_object"
+      },
+      "user_input": null,
+      "confidence": "Weak",
+      "cwe_id": [
+        502
+      ]
+    },
+    {
+      "warning_type": "SSL Verification Bypass",
+      "warning_code": 71,
+      "fingerprint": "3e65eef08bb83bf07aa3877262e89ad73581f5c35c4719104815f06cbf53b1b8",
+      "check_name": "SSLVerify",
+      "message": "SSL certificate verification was bypassed",
+      "file": "lib/workarea/latest_version.rb",
+      "line": 11,
+      "link": "https://brakemanscanner.org/docs/warning_types/ssl_verification_bypass/",
+      "code": "Net::HTTP.new(URI(\"https://rubygems.org\").host, URI(\"https://rubygems.org\").port).verify_mode = OpenSSL::SSL::VERIFY_NONE",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Workarea::LatestVersion",
+        "method": "self.get"
+      },
+      "user_input": null,
+      "confidence": "High",
+      "cwe_id": [
+        295
+      ]
+    },
+    {
+      "warning_type": "Dangerous Eval",
+      "warning_code": 13,
+      "fingerprint": "472b6b8fc3bb5a93a5be86de62d0b6a5dee7e72779fd495f7c1ff23353a5ea4a",
+      "check_name": "Evaluation",
+      "message": "Dynamic string evaluated as code",
+      "file": "lib/workarea/ext/mongoid/list_field.rb",
+      "line": 4,
+      "link": "https://brakemanscanner.org/docs/warning_types/dangerous_eval/",
+      "code": "self.class_eval(\"        def #{name}_list\\n          #{name}.join(', ') if #{name}.present?\\n        end\\n\\n        def #{name}_list=(val)\\n          if val.blank?\\n            self.#{name} = []\\n          else\\n            self.#{name} = val.split(',').map(&:strip).delete_if(&:blank?)\\n          end\\n        end\\n\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Mongoid::ListField",
+        "method": "list_field"
+      },
+      "user_input": null,
+      "confidence": "Weak",
+      "cwe_id": [
+        913,
+        95
+      ]
+    },
+    {
+      "warning_type": "Remote Code Execution",
+      "warning_code": 24,
+      "fingerprint": "898781c3628d1fbb3eab2022b112a4dc41b9b135d53fba9043bddb6a5071029b",
+      "check_name": "UnsafeReflection",
+      "message": "Unsafe reflection method `constantize` called on parameter value",
+      "file": "app/queries/workarea/admin_search_query_wrapper.rb",
+      "line": 27,
+      "link": "https://brakemanscanner.org/docs/warning_types/remote_code_execution/",
+      "code": "params[:model_type].constantize",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Workarea::AdminSearchQueryWrapper",
+        "method": "klass"
+      },
+      "user_input": "params[:model_type]",
+      "confidence": "High",
+      "cwe_id": [
+        470
+      ]
+    },
+    {
+      "warning_type": "SSL Verification Bypass",
+      "warning_code": 71,
+      "fingerprint": "ac4c763e1a91e3c1e45cd46af0d83e2fc51c4f28b7c62d457b45fcf8e3c47e7f",
+      "check_name": "SSLVerify",
+      "message": "SSL certificate verification was bypassed",
+      "file": "lib/workarea/ping_home_base.rb",
+      "line": 18,
+      "link": "https://brakemanscanner.org/docs/warning_types/ssl_verification_bypass/",
+      "code": "Net::HTTP.new(URI(\"https://homebase.weblinc.com\").host, URI(\"https://homebase.weblinc.com\").port).verify_mode = OpenSSL::SSL::VERIFY_NONE",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Workarea::PingHomeBase",
+        "method": "self.ping"
+      },
+      "user_input": null,
+      "confidence": "High",
+      "cwe_id": [
+        295
+      ]
+    },
+    {
+      "warning_type": "Remote Code Execution",
+      "warning_code": 24,
+      "fingerprint": "cf2e3a9b0c294cd106c6fc2cfcd4284061a022b196d62d8f6af140ca2637c4f4",
+      "check_name": "UnsafeReflection",
+      "message": "Unsafe reflection method `constantize` called on model attribute",
+      "file": "app/models/workarea/catalog/customizations.rb",
+      "line": 46,
+      "link": "https://brakemanscanner.org/docs/warning_types/remote_code_execution/",
+      "code": "\"Workarea::Catalog::Customizations::#{Workarea::Catalog::Product.find(product_id).customizations.classify}\".constantize",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Workarea::Catalog::Customizations",
+        "method": "Workarea::Catalog::Customizations.find"
+      },
+      "user_input": "Workarea::Catalog::Product.find(product_id).customizations",
+      "confidence": "Medium",
+      "cwe_id": [
+        470
+      ]
+    },
+    {
+      "warning_type": "Remote Code Execution",
+      "warning_code": 110,
+      "fingerprint": "f81575e42c93e74e1cdd1ceada2905f8287b7f30a335c041915afd6d98f9a720",
+      "check_name": "CookieSerialization",
+      "message": "Use of unsafe cookie serialization strategy `:hybrid` might lead to remote code execution",
+      "file": "config/initializers/22_session_store.rb",
+      "line": 27,
+      "link": "https://brakemanscanner.org/docs/warning_types/unsafe_deserialization",
+      "code": "Rails.application.config.action_dispatch.cookies_serializer = :hybrid",
+      "render_path": null,
+      "location": null,
+      "user_input": null,
+      "confidence": "Medium",
+      "cwe_id": [
+        565,
+        502
+      ]
+    },
+    {
+      "warning_type": "Unmaintained Dependency",
+      "warning_code": 120,
+      "fingerprint": "fb532c40291a697ef3778b094d5c20fcee308e839e1418a04c3eb848e5651cb2",
+      "check_name": "EOLRails",
+      "message": "Support for Rails 6.1 ended on 2024-10-01",
+      "file": "workarea-core.gemspec",
+      "line": 18,
+      "link": "https://brakemanscanner.org/docs/warning_types/unmaintained_dependency/",
+      "code": null,
+      "render_path": null,
+      "location": null,
+      "user_input": null,
+      "confidence": "High",
+      "cwe_id": [
+        1104
+      ]
+    }
+  ],
+  "ignored_warnings": [],
+  "errors": [],
+  "obsolete": []
+}
