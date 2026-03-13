@@ -1,0 +1,179 @@
+#!/usr/bin/env sh
+set -eu
+
+# Print the docker image tags and service versions for Workarea's dependent services.
+#
+# This script is intentionally read-only and safe to run locally or in CI.
+#
+# Usage:
+#   script/docker_services_versions
+
+# Run from repo root
+cd "$(dirname "$0")/.."
+
+fail() {
+  echo "ERROR: $*" >&2
+  exit 1
+}
+
+need_cmd() {
+  cmd="$1"
+  install_hint="$2"
+
+  if ! command -v "$cmd" >/dev/null 2>&1; then
+    echo "ERROR: required command not found: $cmd" >&2
+    echo "       $install_hint" >&2
+    exit 1
+  fi
+}
+
+need_cmd docker "Install Docker (https://docs.docker.com/get-docker/)"
+need_cmd curl "Install curl (macOS includes it; Debian/Ubuntu: apt-get install curl)"
+
+container_exists() {
+  docker inspect "$1" >/dev/null 2>&1
+}
+
+container_image() {
+  docker inspect --format '{{.Config.Image}}' "$1" 2>/dev/null || true
+}
+
+container_ports() {
+  # docker port output example:
+  #   27017/tcp -> 0.0.0.0:27017
+  # If nothing is published, it prints nothing.
+  docker port "$1" 2>/dev/null || true
+}
+
+join_lines_semicolon() {
+  # Join stdin lines into a single '; '-separated line.
+  awk 'NR==1{out=$0;next}{out=out"; "$0} END{print out}'
+}
+
+print_service_header() {
+  svc="$1"
+  cname="$2"
+
+  img=$(container_image "$cname")
+  ports=$(container_ports "$cname" | join_lines_semicolon)
+
+  if [ -z "$ports" ]; then
+    ports="(none)"
+  fi
+
+  echo "service=$svc container=$cname"
+  echo "service=$svc image=$img"
+  echo "service=$svc ports=$ports"
+}
+
+mongo_version() {
+  cname="$1"
+
+  if docker exec "$cname" sh -lc 'command -v mongosh >/dev/null 2>&1'; then
+    docker exec "$cname" mongosh --quiet --eval 'db.version()' 2>/dev/null | tr -d '\r' | head -n 1 || true
+    return 0
+  fi
+
+  if docker exec "$cname" sh -lc 'command -v mongo >/dev/null 2>&1'; then
+    docker exec "$cname" mongo --quiet --eval 'db.version()' 2>/dev/null | tr -d '\r' | head -n 1 || true
+    return 0
+  fi
+
+  echo "(unavailable - no mongo client in container)"
+}
+
+redis_version() {
+  cname="$1"
+
+  # INFO output includes 'redis_version:7.2.4' (CRLF)
+  ver=$(docker exec "$cname" redis-cli INFO server 2>/dev/null \
+    | tr -d '\r' \
+    | awk -F: '/^redis_version:/{print $2; exit}')
+
+  if [ -n "${ver:-}" ]; then
+    echo "$ver"
+  else
+    echo "(unavailable)"
+  fi
+}
+
+# Find host port for a container's exposed port (like 9200/tcp). If multiple,
+# use the first.
+host_port_for() {
+  cname="$1"
+  container_port="$2"
+
+  docker port "$cname" "$container_port" 2>/dev/null \
+    | head -n 1 \
+    | sed -E 's/.*:([0-9]+)$/\1/'
+}
+
+elasticsearch_version() {
+  # Prefer the docker-mapped host port so this works even if 9200 isn't mapped
+  # to 9200.
+  cname="$1"
+  host_port=$(host_port_for "$cname" '9200/tcp')
+
+  if [ -z "${host_port:-}" ]; then
+    # Fall back to default.
+    host_port=9200
+  fi
+
+  body=$(curl -fsS --max-time 2 "http://127.0.0.1:${host_port}/" 2>/dev/null || true)
+
+  if [ -z "$body" ]; then
+    echo "(unavailable - no response from http://127.0.0.1:${host_port}/)"
+    return 0
+  fi
+
+  # Extract version.number from JSON without jq.
+  echo "$body" | tr -d '\n' | sed -nE 's/.*"number"[[:space:]]*:[[:space:]]*"([^\"]+)".*/\1/p' | head -n 1
+}
+
+check_container_or_fail() {
+  svc="$1"
+  cname="$2"
+
+  if ! container_exists "$cname"; then
+    echo "service=$svc container=$cname"
+    echo "service=$svc status=missing"
+    return 1
+  fi
+
+  echo "service=$svc status=present"
+  return 0
+}
+
+rc=0
+
+# MongoDB
+if check_container_or_fail mongo workarea-mongo-1; then
+  print_service_header mongo workarea-mongo-1
+  echo "service=mongo version=$(mongo_version workarea-mongo-1)"
+else
+  rc=1
+fi
+
+echo "---"
+
+# Redis
+if check_container_or_fail redis workarea-redis-1; then
+  print_service_header redis workarea-redis-1
+  echo "service=redis version=$(redis_version workarea-redis-1)"
+else
+  rc=1
+fi
+
+echo "---"
+
+# Elasticsearch
+if check_container_or_fail elasticsearch workarea-elasticsearch-1; then
+  print_service_header elasticsearch workarea-elasticsearch-1
+  echo "service=elasticsearch version=$(elasticsearch_version workarea-elasticsearch-1)"
+else
+  rc=1
+fi
+
+[ "$rc" -eq 0 ] || fail "One or more required service containers are missing"
+
+echo "OK: all required service containers are present"
