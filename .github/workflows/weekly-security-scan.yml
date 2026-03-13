@@ -1,0 +1,31 @@
+name: Weekly security scan
+
+on:
+  schedule:
+    # Weekly (Mondays at 09:00 UTC)
+    - cron: '0 9 * * 1'
+  workflow_dispatch:
+
+jobs:
+  security_scan:
+    name: Brakeman + bundler-audit (next)
+    runs-on: ubuntu-latest
+    concurrency:
+      group: weekly-security-scan
+      cancel-in-progress: false
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: next
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.2
+          bundler-cache: true
+
+      - name: brakeman (new warnings only)
+        run: bundle exec brakeman --quiet --compare core/brakeman.baseline.json core
+
+      - name: bundler-audit
+        run: bundle exec bundler-audit check --update --config .bundler-audit.yml
