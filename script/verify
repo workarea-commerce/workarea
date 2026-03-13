@@ -1,0 +1,119 @@
+#!/usr/bin/env sh
+# script/verify — repo-root dispatcher for Workarea verification/preflight scripts.
+#
+# Usage:
+#   ./script/verify list          # print supported checks
+#   ./script/verify <name>        # run a named check; forwards exit code
+#
+# Read-only. Does not modify any files.
+# POSIX-compatible; avoids GNU-only flags for macOS compatibility.
+
+set -eu
+
+cd "$(dirname "$0")/.."
+SCRIPT_DIR="$(pwd)/script"
+
+# ---------------------------------------------------------------------------
+# Registry: name|relative-script-path|description
+# Add entries here to expose new checks via this dispatcher.
+# ---------------------------------------------------------------------------
+REGISTRY="
+default-appraisal-boot-smoke|script/default_appraisal_boot_smoke|Boot the default appraisal stack in test mode (smoke test)
+default-appraisal-zeitwerk-check|script/default_appraisal_zeitwerk_check|Run zeitwerk:check against the default appraisal stack
+check-service-ports|script/check_service_ports|Preflight check for common Workarea service ports
+"
+
+# ---------------------------------------------------------------------------
+# Helpers
+# ---------------------------------------------------------------------------
+
+usage() {
+  cat >&2 <<USAGE
+Usage:
+  ./script/verify list        List supported checks
+  ./script/verify <name>      Run named check; exits with the check's exit code
+
+USAGE
+  exit 1
+}
+
+# Print the registry, skipping blank/comment lines.
+# Each entry: "name|script_path|description"
+each_entry() {
+  echo "$REGISTRY" | grep -v '^[[:space:]]*$'
+}
+
+cmd_list() {
+  echo "Supported verification checks:"
+  echo ""
+  each_entry | while IFS='|' read -r name script desc; do
+    if [ -f "$script" ]; then
+      status="ok"
+    else
+      status="script not found: $script"
+    fi
+    printf "  %-42s %s\n" "$name" "$desc"
+    if [ "$status" != "ok" ]; then
+      printf "  %-42s  ^^^ %s\n" "" "$status"
+    fi
+  done
+  echo ""
+  echo "Run a check: ./script/verify <name>"
+}
+
+cmd_run() {
+  check_name="$1"
+
+  # Look up the name in the registry.
+  matched=""
+  each_entry | while IFS='|' read -r name script desc; do
+    if [ "$name" = "$check_name" ]; then
+      echo "$script"
+      return 0
+    fi
+  done
+}
+
+# ---------------------------------------------------------------------------
+# Main
+# ---------------------------------------------------------------------------
+
+[ $# -ge 1 ] || usage
+
+SUBCOMMAND="$1"
+shift
+
+case "$SUBCOMMAND" in
+  list)
+    cmd_list
+    ;;
+  help|--help|-h)
+    usage
+    ;;
+  *)
+    # Look up the named check in the registry.
+    script_path=""
+    each_entry | while IFS='|' read -r name script desc; do
+      if [ "$name" = "$SUBCOMMAND" ]; then
+        # Print the script path to stdout for the parent shell to capture.
+        echo "$script"
+      fi
+    done | {
+      read -r script_path || true
+      if [ -z "$script_path" ]; then
+        echo "error: unknown check '${SUBCOMMAND}'" >&2
+        echo "Run './script/verify list' to see available checks." >&2
+        exit 1
+      fi
+      if [ ! -f "$script_path" ]; then
+        echo "error: script for check '${SUBCOMMAND}' not found: ${script_path}" >&2
+        exit 1
+      fi
+      if [ ! -x "$script_path" ]; then
+        echo "error: script for check '${SUBCOMMAND}' is not executable: ${script_path}" >&2
+        exit 1
+      fi
+      exec "$script_path" "$@"
+    }
+    ;;
+esac
