@@ -38,6 +38,25 @@ upgrade to the latest version.
 
 * Please read [Contribute Documentation](https://developer.workarea.com/articles/contribute-documentation.html).
 
+#### Brakeman static analysis baseline
+
+Workarea uses [Brakeman](https://brakemanscanner.org/) for static security
+analysis.  A baseline file (`core/brakeman.baseline.json`) suppresses
+pre-existing warnings so that CI only fails on **new** findings introduced by a
+PR.
+
+**If Brakeman reports a new warning in your PR:**
+
+1. Fix the issue if you reasonably can.
+2. If the warning is a confirmed false positive, or the fix belongs in a
+   separate issue, add the fingerprint to `core/brakeman.baseline.json` **and**
+   add a row to [`docs/security/brakeman-baseline-triage.md`](docs/security/brakeman-baseline-triage.md)
+   with either a tracking-issue link or an explicit risk-acceptance rationale.
+3. Never add to the baseline silently — the triage doc is the paper trail.
+
+See [`docs/security/brakeman-baseline-triage.md`](docs/security/brakeman-baseline-triage.md)
+for the full inventory of accepted warnings and their owners.
+
 Thanks!
 
 The Workarea Core Team
