@@ -1,0 +1,145 @@
+#!/usr/bin/env sh
+
+# Preflight check for common Workarea service ports.
+#
+# Checks whether expected ports are free OR already owned by the expected
+# docker compose containers.
+#
+# Read-only and safe.
+
+set -eu
+
+# Ensure common admin tools are discoverable on macOS/Linux.
+PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:${PATH:-}"
+
+cd "$(dirname "$0")/.."
+
+PORTS="6379:redis:workarea-redis-1 27017:mongo:workarea-mongo-1 9200:elasticsearch:workarea-elasticsearch-1"
+
+have() { command -v "$1" >/dev/null 2>&1; }
+
+# Best-effort: Docker may not be installed/running; still report port owners.
+DOCKER_OK=0
+if have docker; then
+  if docker info >/dev/null 2>&1; then
+    DOCKER_OK=1
+  fi
+fi
+
+port_listening() {
+  port="$1"
+
+  if have lsof; then
+    # Any LISTENing TCP socket on this port?
+    lsof -nP -iTCP:"$port" -sTCP:LISTEN 2>/dev/null | awk 'NR>1 { print; exit 0 } END { exit 1 }'
+    return $?
+  fi
+
+  # Fallback: use ss if present (Linux).
+  if have ss; then
+    # Example: LISTEN 0 4096 127.0.0.1:6379 ... users:("redis-server",pid=...)
+    ss -ltnp 2>/dev/null | awk -v p=":${port}" '$0 ~ p { print; exit 0 } END { exit 1 }'
+    return $?
+  fi
+
+  # Fallback: netstat (macOS/Linux) (no owner info).
+  if have netstat; then
+    netstat -an 2>/dev/null | awk -v p=".${port} " '($0 ~ /LISTEN/ || $0 ~ /LISTENING/) && $0 ~ p { print "(listening)"; exit 0 } END { exit 1 }'
+    return $?
+  fi
+
+  return 2
+}
+
+docker_containers_publishing_port() {
+  port="$1"
+
+  [ "$DOCKER_OK" -eq 1 ] || return 1
+
+  # Output: name (one per line). Best-effort parse of `docker ps` PORTS column.
+  # Matches e.g. "0.0.0.0:6379->6379/tcp" or "127.0.0.1:9200->9200/tcp".
+  docker ps --format '{{.Names}}|{{.Ports}}' 2>/dev/null \
+    | awk -F'|' -v p=":${port}->" '$2 ~ p { print $1 }'
+}
+
+print_header() {
+  echo "Workarea service port preflight"
+  echo "Repo: $(pwd)"
+  echo
+
+  if [ "$DOCKER_OK" -eq 1 ]; then
+    echo "Docker: OK"
+  else
+    if have docker; then
+      echo "Docker: unavailable (is Docker running?)"
+    else
+      echo "Docker: not installed"
+    fi
+  fi
+
+  echo
+}
+
+print_header
+
+EXIT=0
+
+for entry in $PORTS; do
+  port="$(echo "$entry" | cut -d: -f1)"
+  label="$(echo "$entry" | cut -d: -f2)"
+  expected_container="$(echo "$entry" | cut -d: -f3)"
+
+  echo "Port ${port} (${label})"
+
+  listen_line=""
+  if listen_line="$(port_listening "$port" 2>/dev/null)"; then
+    echo "  listening: yes"
+
+    # Best-effort owner info
+    if [ -n "$listen_line" ]; then
+      # lsof: COMMAND PID USER ...
+      cmd="$(echo "$listen_line" | awk '{print $1}')"
+      pid="$(echo "$listen_line" | awk '{print $2}')"
+      usr="$(echo "$listen_line" | awk '{print $3}')"
+      if [ -n "$cmd" ] && [ -n "$pid" ]; then
+        echo "  owner: ${cmd} (pid ${pid}, user ${usr})"
+      else
+        echo "  owner: (unknown)"
+      fi
+    else
+      echo "  owner: (unknown)"
+    fi
+
+    containers="$(docker_containers_publishing_port "$port" | tr '\n' ' ' | sed 's/[[:space:]]\+$//')"
+    if [ -n "$containers" ]; then
+      echo "  docker: publishing containers: ${containers}"
+    else
+      echo "  docker: (none detected)"
+    fi
+
+    echo "$containers" | tr ' ' '\n' | grep -Fx "$expected_container" >/dev/null 2>&1
+    owned_by_expected=$?
+
+    if [ "$owned_by_expected" -eq 0 ]; then
+      echo "  status: ok (owned by expected container: ${expected_container})"
+    else
+      echo "  status: conflict (expected container: ${expected_container})"
+      EXIT=1
+    fi
+  else
+    rc=$?
+    if [ "$rc" -eq 2 ]; then
+      echo "  listening: unknown (no lsof/ss/netstat available)"
+      echo "  status: unknown"
+      # Be conservative: unknown toolchain shouldn't block users.
+    else
+      echo "  listening: no"
+      echo "  status: ok (free)"
+    fi
+  fi
+
+  echo
+
+done
+
+exit "$EXIT"
