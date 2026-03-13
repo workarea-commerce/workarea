@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Print a concise snapshot of Docker services for Workarea's compose project.
+# Suitable for copy/paste into GitHub issues.
+#
+# Read-only and safe.
+
+cd "$(dirname "${BASH_SOURCE[0]}")/.."
+
+fail() {
+  echo "ERROR: $*" >&2
+  exit 1
+}
+
+command -v docker >/dev/null 2>&1 || fail "docker is not installed or not on PATH"
+
+# Ensure Docker is reachable (daemon running, permissions ok)
+docker info >/dev/null 2>&1 || fail "docker is unavailable (is Docker running?)"
+
+# Ensure Compose is available
+if ! docker compose version >/dev/null 2>&1; then
+  fail "docker compose is unavailable (Docker Compose v2 is required)"
+fi
+
+# Ensure there's a compose file we can use (helps produce a clearer error).
+if [[ ! -f docker-compose.yml && ! -f docker-compose.yaml && ! -f compose.yml && ! -f compose.yaml ]]; then
+  fail "no docker compose file found (expected docker-compose.yml/docker-compose.yaml/compose.yml/compose.yaml)"
+fi
+
+echo "### docker compose ps"
+# Suppress compose-file warnings (keep output copy/paste-friendly).
+docker compose ps --all 2>/dev/null || true
+
+echo
+
+echo "### docker ps (workarea-* containers)"
+# Show only likely Workarea/compose containers by name, with the most useful columns.
+# Note: `name=` is a substring/regex match in docker, so `workarea-` works well.
+docker ps -a \
+  --filter "name=workarea-" \
+  --format "table {{.Names}}\t{{.Image}}\t{{.Status}}\t{{.Ports}}" || true
+
+echo
+
+RUNNING_SERVICES="$(docker compose ps --services --status running 2>/dev/null || true)"
+if [[ -z "$RUNNING_SERVICES" ]]; then
+  cat <<'HINT'
+Hint: no running compose services were detected.
+- Start dependent services:  script/services_up
+- Or start everything:       docker compose up -d
+HINT
+fi
