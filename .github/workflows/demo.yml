@@ -3,6 +3,11 @@ on:
   release:
     types: [published]
 
+# Minimal token scope: read-only checkout; Docker Hub push uses explicit secrets,
+# not the GITHUB_TOKEN, so no additional scopes are required.
+permissions:
+  contents: read
+
 jobs:
   image_build:
     name: Build, Tag & Push
