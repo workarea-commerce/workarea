@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+set -o pipefail
+
+# Change to the root of the repository
+REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+cd "$REPO_ROOT" || exit 1
+
+echo "Checking Gemfile.lock against path gemspecs in frozen mode..."
+
+# Run bundle install in frozen mode to simulate CI's deployment check
+# We redirect stdout/stderr to a variable to parse the error if it fails
+if OUTPUT=$(BUNDLE_FROZEN=true bundle install 2>&1); then
+    echo "✅ Gemfile.lock is up to date."
+    exit 0
+else
+    # Check if the error is the specific frozen mode lockfile mismatch
+    if echo "$OUTPUT" | grep -q "The gemspecs for path gems changed"; then
+        echo "❌ ERROR: Gemfile.lock is stale relative to path gemspecs."
+        echo ""
+        echo "Several PRs have failed CI early due to this mismatch. CI runs in"
+        echo "frozen/deployment mode, which requires Gemfile.lock to perfectly"
+        echo "match the dependencies declared in your local path gemspecs."
+        echo ""
+        echo "Canonical fix steps:"
+        echo "  1. Switch to Ruby 3.2.7 (e.g. \`rbenv shell 3.2.7\`)"
+        echo "  2. Run \`bundle install\` locally to refresh the lockfile"
+        echo "  3. Commit the updated \`Gemfile.lock\`"
+        echo ""
+        echo "  $ bundle install"
+        echo "  $ git add Gemfile.lock"
+        echo "  $ git commit -m 'Refresh Gemfile.lock for path gemspec changes'"
+        echo ""
+    else
+        # Print the original error if it failed for another reason
+        echo "$OUTPUT"
+    fi
+    exit 1
+fi
