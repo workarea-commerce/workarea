@@ -1,0 +1,204 @@
+#!/usr/bin/env sh
+
+# Detect conflicting docker compose projects by checking common Workarea ports.
+#
+# Goal: identify when required service ports are already bound by *other*
+# containers/processes (often from stale compose projects).
+#
+# Defaults: 6379 (redis), 27017 (mongo), 9200 (elasticsearch)
+#
+# Exit codes:
+#   0 - all ports are free OR owned by expected Workarea containers
+#   1 - one or more ports are owned by a non-Workarea container/process
+#
+# Read-only and safe.
+
+set -eu
+
+# Ensure common admin tools are discoverable on macOS/Linux.
+PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:${PATH:-}"
+
+cd "$(dirname "$0")/.."
+
+have() { command -v "$1" >/dev/null 2>&1; }
+
+PORTS_DEFAULT="6379 27017 9200"
+PORTS="${PORTS:-$PORTS_DEFAULT}"
+
+# Container name prefix expected for this repo's services.
+# Compose v2 typically uses: workarea-redis-1, etc.
+# Some setups may use underscores: workarea_redis_1
+EXPECTED_RE="${EXPECTED_RE:-^workarea[-_]}"
+
+usage() {
+  cat <<EOF
+Usage: script/docker_compose_conflicts [PORT ...]
+
+Checks whether PORTS are free or already owned by expected Workarea containers.
+
+Environment:
+  PORTS="6379 27017 9200"   Override default port list
+  EXPECTED_RE="^workarea[-_]" Regex for expected container names
+
+Examples:
+  script/docker_compose_conflicts
+  script/docker_compose_conflicts 6379 27017 9200 8025
+  PORTS="6379 27017" script/docker_compose_conflicts
+EOF
+}
+
+case "${1:-}" in
+  -h|--help)
+    usage
+    exit 0
+    ;;
+esac
+
+if [ "$#" -gt 0 ]; then
+  PORTS="$*"
+fi
+
+# Best-effort: Docker may not be installed/running; still report port owners.
+DOCKER_OK=0
+if have docker; then
+  if docker info >/dev/null 2>&1; then
+    DOCKER_OK=1
+  fi
+fi
+
+port_listener_line() {
+  port="$1"
+
+  if have lsof; then
+    # Any LISTENing TCP socket on this port?
+    result=$(lsof -nP -iTCP:"$port" -sTCP:LISTEN 2>/dev/null | awk 'NR>1')
+    [ -n "$result" ] && printf '%s\n' "$result" && return 0
+    return 1
+  fi
+
+  # Fallback: use ss if present (Linux).
+  if have ss; then
+    # Example: LISTEN ... 127.0.0.1:6379 ... users:("redis-server",pid=...)
+    result=$(ss -ltnp 2>/dev/null | awk -v p=":${port}" '$0 ~ p')
+    [ -n "$result" ] && printf '%s\n' "$result" && return 0
+    return 1
+  fi
+
+  # Fallback: netstat (macOS/Linux) (no owner info).
+  if have netstat; then
+    result=$(netstat -an 2>/dev/null | awk -v p=".${port} " '($0 ~ /LISTEN/ || $0 ~ /LISTENING/) && $0 ~ p { print "(listening)" }')
+    [ -n "$result" ] && printf '%s\n' "$result" && return 0
+    return 1
+  fi
+
+  return 2
+}
+
+docker_containers_publishing_port() {
+  port="$1"
+
+  [ "$DOCKER_OK" -eq 1 ] || return 1
+
+  # Output: container names (one per line). Best-effort parse of `docker ps` PORTS.
+  # Matches e.g. "0.0.0.0:6379->6379/tcp" or "127.0.0.1:9200->9200/tcp".
+  docker ps --format '{{.Names}}|{{.Ports}}' 2>/dev/null \
+    | awk -F'|' -v p=":${port}->" '$2 ~ p { print $1 }'
+}
+
+print_header() {
+  echo "Docker compose port conflict check"
+  echo "Repo: $(pwd)"
+  echo "Ports: ${PORTS}"
+  echo "Expected container regex: ${EXPECTED_RE}"
+  echo
+
+  if [ "$DOCKER_OK" -eq 1 ]; then
+    echo "Docker: OK"
+  else
+    if have docker; then
+      echo "Docker: unavailable (is Docker running?)"
+    else
+      echo "Docker: not installed"
+    fi
+  fi
+
+  echo
+}
+
+print_hints() {
+  cat <<EOF
+Remediation hints
+  - If this repo's services are up: docker compose down
+  - Find containers publishing the port: docker ps
+  - Remove stale containers: docker rm -f <container>
+
+Tip: port conflicts are often caused by an old compose project still running.
+EOF
+}
+
+print_header
+
+EXIT=0
+
+for port in $PORTS; do
+  echo "Port ${port}"
+
+  listen_line=""
+  if listen_line="$(port_listener_line "$port" 2>/dev/null)"; then
+    echo "  listening: yes"
+
+    # Best-effort process owner info (works well with lsof)
+    if [ -n "$listen_line" ]; then
+      cmd="$(echo "$listen_line" | awk '{print $1}')"
+      pid="$(echo "$listen_line" | awk '{print $2}')"
+      usr="$(echo "$listen_line" | awk '{print $3}')"
+      if [ -n "${cmd:-}" ] && [ -n "${pid:-}" ]; then
+        echo "  owner: ${cmd} (pid ${pid}, user ${usr})"
+      else
+        echo "  owner: (unknown)"
+      fi
+    else
+      echo "  owner: (unknown)"
+    fi
+
+    containers="$(docker_containers_publishing_port "$port" 2>/dev/null | tr '\n' ' ' | sed 's/[[:space:]]*$//')"
+    if [ -n "${containers:-}" ]; then
+      echo "  docker: publishing containers: ${containers}"
+
+      conflict=0
+      for name in $containers; do
+        echo "$name" | grep -Eq "$EXPECTED_RE" || conflict=1
+      done
+
+      if [ "$conflict" -eq 0 ]; then
+        echo "  status: ok (owned by expected Workarea container(s))"
+      else
+        echo "  status: conflict (non-Workarea container detected)"
+        EXIT=1
+      fi
+    else
+      echo "  docker: (no publishing container detected)"
+      echo "  status: conflict (port is in use, but not by an expected Workarea container)"
+      EXIT=1
+    fi
+  else
+    rc=$?
+    if [ "$rc" -eq 2 ]; then
+      echo "  listening: unknown (no lsof/ss/netstat available)"
+      echo "  status: unknown"
+      # Unknown toolchain shouldn't block users.
+    else
+      echo "  listening: no"
+      echo "  status: ok (free)"
+    fi
+  fi
+
+  echo
+
+done
+
+if [ "$EXIT" -ne 0 ]; then
+  print_hints
+fi
+
+exit "$EXIT"
