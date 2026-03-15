@@ -1,0 +1,112 @@
+#!/bin/sh
+# script/verify — Verification script dispatcher
+#
+# Usage:
+#   ./script/verify list          List all available verification checks
+#   ./script/verify <name>        Run a named verification check
+#
+# This script delegates to existing verification scripts in script/.
+# It does not modify any files or repository state.
+
+set -e
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+
+# Map of check names to script paths (relative to repo root)
+# Format: "name:script_path:description"
+CHECKS="
+boot-smoke:script/default_appraisal_boot_smoke:Boot smoke test across default appraisal gemfiles
+zeitwerk:script/default_appraisal_zeitwerk_check:Zeitwerk autoload check across default appraisal gemfiles
+docker:script/docker_services_status:Check Docker service health and status
+ports:script/check_service_ports:Check required service ports are available
+bundler:script/bundler_deployment_check:Validate Gemfile.lock deployment mode compatibility
+"
+
+usage() {
+  cat <<EOF
+Usage: $(basename "$0") <command> [options]
+
+Commands:
+  list        List all available verification checks
+  <name>      Run a named check (see 'list' for available names)
+
+Examples:
+  ./script/verify list
+  ./script/verify docker
+  ./script/verify boot-smoke
+EOF
+}
+
+cmd_list() {
+  echo "Available verification checks:"
+  echo ""
+  printf "  %-16s  %s\n" "NAME" "DESCRIPTION"
+  printf "  %-16s  %s\n" "----------------" "--------------------------------------------------"
+  echo "$CHECKS" | while IFS=: read -r name script desc; do
+    # Skip empty lines
+    [ -z "$name" ] && continue
+    if [ -f "$SCRIPT_DIR/../$script" ]; then
+      printf "  %-16s  %s\n" "$name" "$desc"
+    else
+      printf "  %-16s  %s [MISSING: %s]\n" "$name" "$desc" "$script"
+    fi
+  done
+  echo ""
+  echo "Run a check with: ./script/verify <name>"
+}
+
+cmd_run() {
+  local check_name="$1"
+  local matched_script=""
+
+  matched_script=$(echo "$CHECKS" | while IFS=: read -r name script desc; do
+    [ -z "$name" ] && continue
+    if [ "$name" = "$check_name" ]; then
+      echo "$script"
+      break
+    fi
+  done)
+
+  if [ -z "$matched_script" ]; then
+    echo "Error: Unknown check '$check_name'" >&2
+    echo "" >&2
+    echo "Run './script/verify list' to see available checks." >&2
+    exit 1
+  fi
+
+  local script_path="$SCRIPT_DIR/../$matched_script"
+
+  if [ ! -f "$script_path" ]; then
+    echo "Error: Script '$matched_script' not found." >&2
+    echo "The check '$check_name' is configured but its script is missing." >&2
+    exit 1
+  fi
+
+  if [ ! -x "$script_path" ]; then
+    echo "Error: Script '$matched_script' is not executable." >&2
+    exit 1
+  fi
+
+  echo "==> Running check: $check_name"
+  echo "    Script: $matched_script"
+  echo ""
+
+  exec "$script_path"
+}
+
+# Main dispatch
+case "${1:-}" in
+  list)
+    cmd_list
+    ;;
+  help|--help|-h)
+    usage
+    ;;
+  "")
+    usage
+    exit 1
+    ;;
+  *)
+    cmd_run "$1"
+    ;;
+esac
