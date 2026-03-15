@@ -1,0 +1,136 @@
+#!/bin/sh
+# script/bundler_config_report
+#
+# Prints Bundler configuration flags that most commonly cause CI/local
+# mismatches: deployment, frozen, and path.
+#
+# Read-only — does not modify any repo state.
+# Related: script/bundler_deployment_check (WA-VERIFY-036 / issue #892)
+#          which performs a pass/fail check; this script focuses on
+#          visibility into ALL three config keys for triage purposes.
+
+set -e
+
+BOLD=''
+RESET=''
+YELLOW=''
+RED=''
+GREEN=''
+
+# Only use colour when writing to a terminal
+if [ -t 1 ]; then
+  BOLD='\033[1m'
+  RESET='\033[0m'
+  YELLOW='\033[33m'
+  RED='\033[31m'
+  GREEN='\033[32m'
+fi
+
+echo "${BOLD}=== Bundler Config Report ===${RESET}"
+echo ""
+
+# ── Runtime versions ────────────────────────────────────────────────────────
+echo "${BOLD}Runtime:${RESET}"
+printf "  ruby    : "
+ruby -v 2>/dev/null || echo "(not found)"
+printf "  bundler : "
+bundle -v 2>/dev/null || echo "(not found)"
+echo ""
+
+# ── Helper: fetch a bundle config value (empty string if unset) ─────────────
+bundle_config_get() {
+  # `bundle config get KEY` exits 0 even when key is unset (prints nothing).
+  # Capture stdout; treat blank as "not set".
+  bundle config get "$1" 2>/dev/null || true
+}
+
+# ── deployment ───────────────────────────────────────────────────────────────
+DEPLOYMENT_VAL="$(bundle_config_get deployment)"
+echo "${BOLD}bundle config get deployment:${RESET}"
+if [ -z "$DEPLOYMENT_VAL" ]; then
+  printf "  ${GREEN}(not set)${RESET}\n"
+  DEPLOYMENT_ENABLED=0
+else
+  printf "  %s\n" "$DEPLOYMENT_VAL"
+  # Check whether the value resolves to true
+  case "$DEPLOYMENT_VAL" in
+    *true*|*1*) DEPLOYMENT_ENABLED=1 ;;
+    *)          DEPLOYMENT_ENABLED=0 ;;
+  esac
+fi
+
+# ── frozen ───────────────────────────────────────────────────────────────────
+FROZEN_VAL="$(bundle_config_get frozen)"
+echo "${BOLD}bundle config get frozen:${RESET}"
+if [ -z "$FROZEN_VAL" ]; then
+  printf "  ${GREEN}(not set)${RESET}\n"
+  FROZEN_ENABLED=0
+else
+  printf "  %s\n" "$FROZEN_VAL"
+  case "$FROZEN_VAL" in
+    *true*|*1*) FROZEN_ENABLED=1 ;;
+    *)          FROZEN_ENABLED=0 ;;
+  esac
+fi
+
+# ── path ─────────────────────────────────────────────────────────────────────
+PATH_VAL="$(bundle_config_get path)"
+echo "${BOLD}bundle config get path:${RESET}"
+if [ -z "$PATH_VAL" ]; then
+  printf "  ${GREEN}(not set — gems install to system/rbenv default)${RESET}\n"
+else
+  printf "  %s\n" "$PATH_VAL"
+fi
+
+echo ""
+
+# ── Warnings ─────────────────────────────────────────────────────────────────
+WARNED=0
+
+if [ "$DEPLOYMENT_ENABLED" = "1" ]; then
+  WARNED=1
+  echo "${RED}${BOLD}⚠  WARNING: Bundler deployment mode is ENABLED${RESET}"
+  echo ""
+  echo "  Deployment mode treats the Gemfile.lock as frozen and prevents"
+  echo "  any gem installation outside the configured path. This is the"
+  echo "  most common cause of the 'You have modified your Gemfile' /  "
+  echo "  'frozen lockfile' error when switching branches or running CI"
+  echo "  locally."
+  echo ""
+  echo "  Fix:"
+  echo "    bundle config unset deployment"
+  echo "    # — or, to disable only for this project —"
+  echo "    bundle config set --local deployment false"
+  echo ""
+fi
+
+if [ "$FROZEN_ENABLED" = "1" ]; then
+  WARNED=1
+  echo "${YELLOW}${BOLD}⚠  WARNING: Bundler frozen mode is ENABLED${RESET}"
+  echo ""
+  echo "  Frozen mode prevents bundle install from modifying Gemfile.lock."
+  echo "  Combined with deployment mode this produces the same lockfile"
+  echo "  mismatch errors; on its own it can block updates during development."
+  echo ""
+  echo "  Fix:"
+  echo "    bundle config unset frozen"
+  echo "    # — or, to disable only for this project —"
+  echo "    bundle config set --local frozen false"
+  echo ""
+fi
+
+if [ "$WARNED" = "1" ]; then
+  echo "  For a deeper explanation of frozen-lockfile mismatches in this"
+  echo "  codebase see:"
+  echo ""
+  echo "    docs/rails7-migration-patterns/README.md"
+  echo ""
+  echo "  or run:  script/bundler_deployment_check"
+  echo "  which performs a pass/fail gate on deployment/frozen config."
+  echo ""
+else
+  echo "${GREEN}✓  No deployment or frozen flags detected — config looks clean.${RESET}"
+  echo ""
+fi
+
+echo "${BOLD}=== End of report ===${RESET}"
