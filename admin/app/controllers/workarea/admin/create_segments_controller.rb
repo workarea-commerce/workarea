@@ -62,9 +62,17 @@ module Workarea
         @rule = if params[:rule_id].present?
           @segment.rules.where(id: params[:rule_id]).first
         else
-          klass = "Workarea::Segment::Rules::#{params[:rule_type].to_s.camelize}"
-          @segment.model.rules.build(params[:rule], klass.constantize)
+          klass = segment_rule_class_for(params[:rule_type])
+          head(:unprocessable_entity) and return unless klass
+          @segment.model.rules.build(params[:rule], klass)
         end
+      end
+
+      def segment_rule_class_for(rule_type)
+        slug = rule_type.to_s.underscore
+        Workarea.config.segment_rule_types.lazy
+          .map { |t| t.constantize }
+          .find { |klass| klass.slug.to_s == slug }
       end
     end
   end

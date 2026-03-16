@@ -24,7 +24,13 @@ module Workarea
     end
 
     def klass
-      params[:model_type].constantize
+      model_type = params[:model_type].to_s
+      unless model_type.in?(Workarea.config.admin_exportable_models)
+        raise ArgumentError,
+          "#{model_type.inspect} is not in Workarea.config.admin_exportable_models. " \
+          "Add it to the allowlist before using it with AdminSearchQueryWrapper."
+      end
+      model_type.constantize
     end
 
     def results

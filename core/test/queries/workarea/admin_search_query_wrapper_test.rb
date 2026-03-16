@@ -57,6 +57,16 @@ module Workarea
       assert_equal([a], query.results.to_a)
     end
 
+    def test_rejects_model_type_not_in_allowlist
+      query = AdminSearchQueryWrapper.new(model_type: 'Kernel')
+      assert_raises(ArgumentError) { query.klass }
+    end
+
+    def test_rejects_blank_model_type
+      query = AdminSearchQueryWrapper.new({})
+      assert_raises(ArgumentError) { query.klass }
+    end
+
     def test_scroll
       50.times { |i| create_redirect(path: "/#{i}", destination: '/bar') }
 

@@ -5,6 +5,32 @@ module Workarea
     class BulkActionsIntegrationTest < Workarea::IntegrationTest
       include Admin::IntegrationTest
 
+      def test_rejects_unknown_bulk_action_type
+        post admin.bulk_actions_path,
+          headers: { 'Referer' => admin.catalog_products_path },
+          params: {
+            type: 'Kernel',
+            query_id: 'fake',
+            ids: %w(1)
+          }
+
+        assert_equal(422, response.status)
+        assert_equal(0, BulkAction.count)
+      end
+
+      def test_rejects_non_bulk_action_subclass
+        post admin.bulk_actions_path,
+          headers: { 'Referer' => admin.catalog_products_path },
+          params: {
+            type: 'Workarea::User',
+            query_id: 'fake',
+            ids: %w(1)
+          }
+
+        assert_equal(422, response.status)
+        assert_equal(0, BulkAction.count)
+      end
+
       def test_create
         6.times.each do |id|
           create_product(id: id, name: 'foo', filters: { 'bar' => 'baz' })

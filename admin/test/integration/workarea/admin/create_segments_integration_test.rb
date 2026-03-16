@@ -5,6 +5,15 @@ module Workarea
     class CreateSegmentsIntegrationTest < Workarea::IntegrationTest
       include Admin::IntegrationTest
 
+      def test_new_rule_rejects_unknown_rule_type
+        segment = create_segment(rules: [])
+
+        get admin.new_rule_create_segment_path(segment),
+          params: { rule_type: 'kernel' }
+
+        assert_equal(422, response.status)
+      end
+
       def test_creates_segments
         post admin.create_segments_path, params: { segment: { name: 'foo bar' } }
 
