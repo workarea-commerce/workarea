@@ -11,7 +11,6 @@
 set -eu
 
 cd "$(dirname "$0")/.."
-SCRIPT_DIR="$(pwd)/script"
 
 # ---------------------------------------------------------------------------
 # Registry: name|relative-script-path|description
@@ -65,7 +64,6 @@ cmd_run() {
   check_name="$1"
 
   # Look up the name in the registry.
-  matched=""
   each_entry | while IFS='|' read -r name script desc; do
     if [ "$name" = "$check_name" ]; then
       echo "$script"
