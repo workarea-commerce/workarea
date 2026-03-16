@@ -37,7 +37,7 @@ has_service_container() {
   # - different compose project names
   # - container name suffix differences
   # - docker image repositories (e.g. docker.elastic.co/...)
-  local line name image
+  local name image
   while IFS=$'\t' read -r name image; do
     [[ -z "${name:-}" ]] && continue
 
