@@ -1,0 +1,141 @@
+#!/usr/bin/env sh
+# markdown_github_link_check — Validate GitHub issue/PR links in markdown docs.
+#
+# Usage:
+#   ./script/markdown_github_link_check [file ...]
+#
+# With no arguments, scans docs/rails7-migration-patterns/*.md (excluding README).
+#
+# Behaviour:
+#   - Extracts every github.com/workarea-commerce/workarea/issues/<N> and
+#     github.com/workarea-commerce/workarea/pull[s]/<N> URL from each file.
+#   - Queries the GitHub API to verify the issue or PR exists.
+#   - Prints MISSING links to stdout with ✗ markers.
+#   - Exits 0 when all links are valid; exits 1 if any link is bad or missing.
+#
+# Read-only: no repository mutations are performed.
+#
+# Dependencies: gh (GitHub CLI, authenticated), grep, awk, sort
+#
+# Environment:
+#   REPO  — GitHub repository slug (default: workarea-commerce/workarea)
+
+set -eu
+
+REPO="${REPO:-workarea-commerce/workarea}"
+
+# ---------------------------------------------------------------------------
+# Helpers
+# ---------------------------------------------------------------------------
+
+have() { command -v "$1" >/dev/null 2>&1; }
+die()  { echo "error: $*" >&2; exit 1; }
+
+# ---------------------------------------------------------------------------
+# Pre-flight: require gh and authentication
+# ---------------------------------------------------------------------------
+
+have gh || die "gh (GitHub CLI) is not installed. Install from https://cli.github.com/ then run: gh auth login"
+
+gh auth status >/dev/null 2>&1 || die "gh is not authenticated. Run: gh auth login"
+
+# ---------------------------------------------------------------------------
+# Collect files to scan
+# ---------------------------------------------------------------------------
+
+DOCS_DIR="$(cd "$(dirname "$0")/.." && pwd)/docs/rails7-migration-patterns"
+
+if [ "$#" -gt 0 ]; then
+  # Files supplied on command line — collect into temp list
+  TMP_FILES="$(mktemp)"
+  trap 'rm -f "$TMP_FILES"' EXIT INT TERM
+  for f in "$@"; do printf '%s\n' "$f" >> "$TMP_FILES"; done
+else
+  # Default: docs/rails7-migration-patterns/*.md excluding README
+  [ -d "$DOCS_DIR" ] || die "docs directory not found: $DOCS_DIR"
+
+  TMP_FILES="$(mktemp)"
+  trap 'rm -f "$TMP_FILES"' EXIT INT TERM
+
+  for f in "$DOCS_DIR"/*.md; do
+    [ -f "$f" ] || continue
+    case "$(basename "$f")" in
+      README.md|readme.md) continue ;;
+    esac
+    printf '%s\n' "$f" >> "$TMP_FILES"
+  done
+fi
+
+if [ ! -s "$TMP_FILES" ]; then
+  echo "No markdown files found to scan."
+  exit 0
+fi
+
+echo "Scanning files:"
+while IFS= read -r f; do echo "  $f"; done < "$TMP_FILES"
+echo ""
+
+# ---------------------------------------------------------------------------
+# Extract unique issue/PR refs from all files
+# ---------------------------------------------------------------------------
+# Output per-line format:  <api_type> <number>
+# api_type is "issues" or "pulls"
+
+TMP_REFS="$(mktemp)"
+# Update trap to clean up both temps
+trap 'rm -f "$TMP_FILES" "$TMP_REFS"' EXIT INT TERM
+
+while IFS= read -r f; do
+  # Match URLs: .../issues/NNN  or  .../pull/NNN  or  .../pulls/NNN
+  grep -oE "https://github\.com/${REPO}/(issues|pulls?)/[0-9]+" "$f" 2>/dev/null | \
+  awk -F/ '{
+    seg = $(NF-1)          # "issues", "pull", or "pulls"
+    num = $NF              # the number
+    if (seg == "issues") type = "issues"
+    else                  type = "pulls"
+    print type " " num
+  }' >> "$TMP_REFS" || true
+done < "$TMP_FILES"
+
+# Deduplicate
+sort -u "$TMP_REFS" -o "$TMP_REFS"
+
+if [ ! -s "$TMP_REFS" ]; then
+  echo "No github.com/${REPO} issue/PR links found in scanned files."
+  exit 0
+fi
+
+TOTAL="$(wc -l < "$TMP_REFS" | tr -d ' ')"
+echo "Found ${TOTAL} unique link(s) to validate."
+echo ""
+
+# ---------------------------------------------------------------------------
+# Validate each ref via GitHub API (main shell loop — no subshell for BAD)
+# ---------------------------------------------------------------------------
+
+BAD=0
+
+while IFS=' ' read -r api_type num; do
+  [ -z "$api_type" ] && continue
+
+  if gh api "repos/${REPO}/${api_type}/${num}" --silent >/dev/null 2>&1; then
+    echo "  ✓  ${api_type}/${num}"
+  else
+    echo "  ✗  MISSING: https://github.com/${REPO}/${api_type}/${num}"
+    BAD=$((BAD + 1))
+  fi
+done < "$TMP_REFS"
+
+echo ""
+
+# ---------------------------------------------------------------------------
+# Summary
+# ---------------------------------------------------------------------------
+
+if [ "$BAD" -gt 0 ]; then
+  echo "Result: ${BAD} invalid link(s) found. See ✗ lines above." >&2
+  exit 1
+else
+  echo "Result: All ${TOTAL} link(s) are valid. ✓"
+  exit 0
+fi
