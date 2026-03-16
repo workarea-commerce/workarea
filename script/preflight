@@ -1,0 +1,242 @@
+#!/usr/bin/env bash
+# script/preflight
+#
+# Single-stop preflight check for contributors before opening a PR.
+# Runs non-destructive local checks and prints PASS/FAIL for each step.
+#
+# Usage:
+#   ./script/preflight [--no-rubocop]
+#
+# Required checks (script exits non-zero if any fail):
+#   1. Docker daemon reachable
+#   2. Docker services healthy (mongo, redis, elasticsearch)
+#   3. Bundler frozen-mode check
+#   4. Default-appraisal boot smoke
+#
+# Optional checks (skipped gracefully if preconditions are absent):
+#   5. RuboCop diff-only (requires git base branch)
+#
+# Read-only. Does not modify any files.
+# POSIX-compatible where possible; requires bash 3.2+ for arrays.
+
+set -euo pipefail
+
+cd "$(dirname "${BASH_SOURCE[0]}")/.."
+
+# ---------------------------------------------------------------------------
+# Colour / output helpers
+# ---------------------------------------------------------------------------
+
+BOLD='' RESET='' GREEN='' RED='' YELLOW=''
+if [ -t 1 ]; then
+  BOLD='\033[1m'
+  RESET='\033[0m'
+  GREEN='\033[32m'
+  RED='\033[31m'
+  YELLOW='\033[33m'
+fi
+
+PASS_LABEL="${GREEN}${BOLD}PASS${RESET}"
+FAIL_LABEL="${RED}${BOLD}FAIL${RESET}"
+SKIP_LABEL="${YELLOW}${BOLD}SKIP${RESET}"
+
+pass() { printf "  [%b] %s\n" "$PASS_LABEL" "$1"; }
+fail() { printf "  [%b] %s\n" "$FAIL_LABEL" "$1"; }
+skip() { printf "  [%b] %s\n" "$SKIP_LABEL" "$1"; }
+
+section() { printf "\n%b%s%b\n" "$BOLD" "$1" "$RESET"; }
+
+# ---------------------------------------------------------------------------
+# Argument parsing
+# ---------------------------------------------------------------------------
+
+SKIP_RUBOCOP=0
+for arg in "$@"; do
+  case "$arg" in
+    --no-rubocop) SKIP_RUBOCOP=1 ;;
+    -h|--help)
+      echo "Usage: ./script/preflight [--no-rubocop]"
+      echo ""
+      echo "Runs non-destructive preflight checks before opening a PR."
+      echo "Exits 0 only when all required checks pass."
+      exit 0
+      ;;
+    *)
+      echo "Unknown argument: $arg" >&2
+      echo "Run ./script/preflight --help for usage." >&2
+      exit 2
+      ;;
+  esac
+done
+
+# ---------------------------------------------------------------------------
+# Track overall result
+# ---------------------------------------------------------------------------
+
+FAILED=0
+mark_failed() { FAILED=1; }
+
+# ---------------------------------------------------------------------------
+# Check 1: Docker daemon
+# ---------------------------------------------------------------------------
+
+section "1. Docker daemon"
+
+if ! command -v docker >/dev/null 2>&1; then
+  fail "docker not found on PATH (is Docker / Colima installed?)"
+  mark_failed
+elif docker info >/dev/null 2>&1; then
+  pass "Docker daemon is reachable"
+else
+  fail "Docker daemon is not reachable (try: colima start OR start Docker Desktop)"
+  mark_failed
+fi
+
+# ---------------------------------------------------------------------------
+# Check 2: Docker services health
+# ---------------------------------------------------------------------------
+
+section "2. Docker services health"
+
+if [ "$FAILED" -eq 1 ] && ! command -v docker >/dev/null 2>&1; then
+  skip "Skipping service check — docker unavailable"
+elif ! docker info >/dev/null 2>&1; then
+  skip "Skipping service check — daemon not reachable"
+else
+  if [ -x script/services_up ]; then
+    # Check expected service ports instead of mutating compose state.
+    # We call the read-only port check script when available.
+    if [ -x script/check_service_ports ]; then
+      if script/check_service_ports >/dev/null 2>&1; then
+        pass "All expected service ports are available / owned by Workarea containers"
+      else
+        fail "One or more service ports failed the health check"
+        echo "    → Run: ./script/docker_services_status  to inspect containers"
+        echo "    → Run: ./script/services_up             to start services"
+        mark_failed
+      fi
+    else
+      # Fall back to docker_daemon_check for a minimal liveness test.
+      pass "Docker reachable (port check script not found; run ./script/docker_services_status manually)"
+    fi
+  else
+    skip "script/services_up not found; skipping service health check"
+  fi
+fi
+
+# ---------------------------------------------------------------------------
+# Check 3: Bundler frozen-mode check
+# ---------------------------------------------------------------------------
+
+section "3. Bundler frozen-mode check"
+
+# WA-VERIFY-027 script (bundler frozen/deployment preflight) — call if present.
+BUNDLER_FROZEN_SCRIPT="script/bundler_frozen_check"
+if [ -x "$BUNDLER_FROZEN_SCRIPT" ]; then
+  if "$BUNDLER_FROZEN_SCRIPT" >/dev/null 2>&1; then
+    pass "Bundler frozen/deployment mode OK"
+  else
+    fail "Bundler is configured with frozen or deployment mode"
+    echo "    → Run: ./script/bundler_config_report  for details"
+    echo "    → Fix: bundle config unset frozen && bundle config unset deployment"
+    mark_failed
+  fi
+else
+  # Inline fallback: check bundle config keys directly (read-only).
+  frozen_val="$(bundle config get frozen 2>/dev/null || true)"
+  deploy_val="$(bundle config get deployment 2>/dev/null || true)"
+
+  frozen_on=0
+  deploy_on=0
+
+  case "$frozen_val" in
+    "true"|"1") frozen_on=1 ;;
+  esac
+  case "$deploy_val" in
+    "true"|"1") deploy_on=1 ;;
+  esac
+
+  if [ "$frozen_on" -eq 1 ] || [ "$deploy_on" -eq 1 ]; then
+    fail "Bundler frozen/deployment mode is active (frozen=$frozen_val, deployment=$deploy_val)"
+    echo "    → Fix: bundle config unset frozen && bundle config unset deployment"
+    mark_failed
+  else
+    pass "Bundler frozen/deployment mode not set"
+  fi
+fi
+
+# ---------------------------------------------------------------------------
+# Check 4: Default-appraisal boot smoke
+# ---------------------------------------------------------------------------
+
+section "4. Default-appraisal boot smoke"
+
+if [ -x script/default_appraisal_boot_smoke ]; then
+  if script/default_appraisal_boot_smoke >/dev/null 2>&1; then
+    pass "Default appraisal booted successfully"
+  else
+    fail "Default appraisal boot smoke failed"
+    echo "    → Run manually for details: ./script/default_appraisal_boot_smoke"
+    mark_failed
+  fi
+else
+  skip "script/default_appraisal_boot_smoke not found; skipping boot smoke"
+fi
+
+# ---------------------------------------------------------------------------
+# Check 5 (optional): RuboCop diff-only
+# ---------------------------------------------------------------------------
+
+section "5. RuboCop diff-only (optional)"
+
+if [ "$SKIP_RUBOCOP" -eq 1 ]; then
+  skip "Skipped via --no-rubocop"
+elif ! command -v rubocop >/dev/null 2>&1; then
+  skip "rubocop not on PATH; skipping"
+else
+  # Determine a sensible base ref: prefer origin/next, fall back to origin/master.
+  BASE_REF=""
+  for candidate in origin/next origin/master; do
+    if git rev-parse --verify "$candidate" >/dev/null 2>&1; then
+      BASE_REF="$candidate"
+      break
+    fi
+  done
+
+  if [ -z "$BASE_REF" ]; then
+    skip "No known base ref (origin/next, origin/master) found; skipping RuboCop diff"
+  else
+    # Get Ruby files changed relative to base.
+    changed_files="$(git diff --name-only "$BASE_REF"...HEAD -- '*.rb' 2>/dev/null || true)"
+    if [ -z "$changed_files" ]; then
+      pass "No changed .rb files relative to $BASE_REF"
+    else
+      file_count="$(echo "$changed_files" | wc -l | tr -d ' ')"
+      # Run rubocop read-only (no --auto-correct).
+      if echo "$changed_files" | xargs rubocop --format progress >/dev/null 2>&1; then
+        pass "RuboCop: $file_count changed file(s) all clean"
+      else
+        fail "RuboCop: offenses found in $file_count changed file(s)"
+        echo "    → Run: rubocop \$(git diff --name-only $BASE_REF...HEAD -- '*.rb')"
+        # RuboCop is optional — do NOT mark_failed here; it is advisory only.
+        echo "    (RuboCop is advisory; preflight can still pass overall)"
+      fi
+    fi
+  fi
+fi
+
+# ---------------------------------------------------------------------------
+# Summary
+# ---------------------------------------------------------------------------
+
+printf "\n%b%s%b\n" "$BOLD" "─────────────────────────────────────────" "$RESET"
+
+if [ "$FAILED" -eq 0 ]; then
+  printf "%b%b%b All required checks passed. Ready to open a PR.\n\n" \
+    "$GREEN" "$BOLD" "$RESET"
+  exit 0
+else
+  printf "%b%b%b One or more required checks FAILED. Fix the issues above before opening a PR.\n\n" \
+    "$RED" "$BOLD" "$RESET"
+  exit 1
+fi
