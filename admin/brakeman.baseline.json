@@ -1,0 +1,398 @@
+{
+  "scan_info": {
+    "rails_version": "4.x",
+    "security_warnings": 12,
+    "checks_performed": [
+      "BasicAuth",
+      "BasicAuthTimingAttack",
+      "CSRFTokenForgeryCVE",
+      "ContentTag",
+      "CookieSerialization",
+      "CreateWith",
+      "CrossSiteScripting",
+      "DefaultRoutes",
+      "Deserialize",
+      "DetailedExceptions",
+      "DigestDoS",
+      "DynamicFinders",
+      "EOLRails",
+      "EOLRuby",
+      "EscapeFunction",
+      "Evaluation",
+      "Execute",
+      "FileAccess",
+      "FileDisclosure",
+      "FilterSkipping",
+      "ForgerySetting",
+      "HeaderDoS",
+      "I18nXSS",
+      "JRubyXML",
+      "JSONEncoding",
+      "JSONEntityEscape",
+      "JSONParsing",
+      "LinkTo",
+      "LinkToHref",
+      "MailTo",
+      "MassAssignment",
+      "MimeTypeDoS",
+      "ModelAttrAccessible",
+      "ModelAttributes",
+      "ModelSerialize",
+      "NestedAttributes",
+      "NestedAttributesBypass",
+      "NumberToCurrency",
+      "PageCachingCVE",
+      "Pathname",
+      "PermitAttributes",
+      "QuoteTableName",
+      "Redirect",
+      "RegexDoS",
+      "Render",
+      "RenderDoS",
+      "RenderInline",
+      "ResponseSplitting",
+      "RouteDoS",
+      "SQL",
+      "SQLCVEs",
+      "SSLVerify",
+      "SafeBufferManipulation",
+      "SanitizeConfigCve",
+      "SanitizeMethods",
+      "SelectTag",
+      "SelectVulnerability",
+      "Send",
+      "SendFile",
+      "SessionManipulation",
+      "SessionSettings",
+      "SimpleFormat",
+      "SingleQuotes",
+      "SkipBeforeFilter",
+      "SprocketsPathTraversal",
+      "StripTags",
+      "SymbolDoSCVE",
+      "TemplateInjection",
+      "TranslateBug",
+      "UnsafeReflection",
+      "UnsafeReflectionMethods",
+      "ValidationRegex",
+      "VerbConfusion",
+      "WeakRSAKey",
+      "WithoutProtection",
+      "XMLDoS",
+      "YAMLParsing"
+    ]
+  },
+  "warnings": [
+    {
+      "warning_type": "File Access",
+      "warning_code": 16,
+      "fingerprint": "110802646f4442a93cea9658625cade716ec945577dc8b8f575ff6e3b029012b",
+      "check_name": "SendFile",
+      "message": "Parameter value used in file name",
+      "file": "app/controllers/workarea/admin/reports_controller.rb",
+      "line": 131,
+      "link": "https://brakemanscanner.org/docs/warning_types/file_access/",
+      "code": "send_file(Workarea::Reports::Export.find(params[:id]).file.file, :filename => Workarea::Reports::Export.find(params[:id]).file_name)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Workarea::Admin::ReportsController",
+        "method": "download"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "cwe_id": [
+        22
+      ]
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 70,
+      "fingerprint": "166cfa7869f015aa616ab29d1667e0f195b29010167abf319c3adcb746edfdc0",
+      "check_name": "MassAssignment",
+      "message": "Specify exact keys allowed for mass assignment instead of using `permit!` which allows any keys",
+      "file": "app/controllers/workarea/admin/application_controller.rb",
+      "line": 17,
+      "link": "https://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "params.permit!",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Workarea::Admin::ApplicationController",
+        "method": "before_filter"
+      },
+      "user_input": null,
+      "confidence": "Medium",
+      "cwe_id": [
+        915
+      ]
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "265c2afec07efdd5e600e189e5a18dee4d2d5b7aba14f2094f9a5c029600a8e3",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped parameter value",
+      "file": "app/views/workarea/admin/help/show.html.haml",
+      "line": 23,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "Redcarpet::Markdown.new(Redcarpet::Render::HTML.new(:hard_wrap => true)).render((Help::Article.find(params[:id]) or Help::Article.new(params[:help_article])).body.html_safe)",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "Workarea::Admin::HelpController",
+          "method": "show",
+          "line": 30,
+          "file": "app/controllers/workarea/admin/help_controller.rb",
+          "rendered": {
+            "name": "workarea/admin/help/show",
+            "file": "app/views/workarea/admin/help/show.html.haml"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "workarea/admin/help/show"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "cwe_id": [
+        79
+      ]
+    },
+    {
+      "warning_type": "Dynamic Render Path",
+      "warning_code": 15,
+      "fingerprint": "5f4396d1005fab0b51368ce7cc6c55e6ef965ab968f02f80a015b58eb030f065",
+      "check_name": "Render",
+      "message": "Render path contains parameter value",
+      "file": "app/views/workarea/admin/payment_transactions/show.html.haml",
+      "line": 17,
+      "link": "https://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
+      "code": "render(action => \"workarea/admin/orders/tenders/#{Admin::TransactionViewModel.wrap(Payment::Transaction.find(params[:id])).payment_type}\", { :tender => Admin::TransactionViewModel.wrap(Payment::Transaction.find(params[:id])).tender })",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "Workarea::Admin::PaymentTransactionsController",
+          "method": "show",
+          "line": 18,
+          "file": "app/controllers/workarea/admin/payment_transactions_controller.rb",
+          "rendered": {
+            "name": "workarea/admin/payment_transactions/show",
+            "file": "app/views/workarea/admin/payment_transactions/show.html.haml"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "workarea/admin/payment_transactions/show"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "cwe_id": [
+        22
+      ]
+    },
+    {
+      "warning_type": "Remote Code Execution",
+      "warning_code": 24,
+      "fingerprint": "84c27752982e41c6e542f84c26c9a922d3aa116ca9d151172c586e4ad97b2734",
+      "check_name": "UnsafeReflection",
+      "message": "Unsafe reflection method `constantize` called on parameter value",
+      "file": "app/controllers/workarea/admin/segment_rules_controller.rb",
+      "line": 59,
+      "link": "https://brakemanscanner.org/docs/warning_types/remote_code_execution/",
+      "code": "\"Workarea::Segment::Rules::#{params[:rule_type].to_s.camelize}\".constantize",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Workarea::Admin::SegmentRulesController",
+        "method": "find_rule"
+      },
+      "user_input": "params[:rule_type].to_s.camelize",
+      "confidence": "High",
+      "cwe_id": [
+        470
+      ]
+    },
+    {
+      "warning_type": "Remote Code Execution",
+      "warning_code": 24,
+      "fingerprint": "8d5f9c595489a321077f3e1a98bb247e31f3612a6b53d4ecaedae4ba46660f11",
+      "check_name": "UnsafeReflection",
+      "message": "Unsafe reflection method `constantize` called on parameter value",
+      "file": "app/controllers/workarea/admin/bulk_actions_controller.rb",
+      "line": 7,
+      "link": "https://brakemanscanner.org/docs/warning_types/remote_code_execution/",
+      "code": "params[:type].constantize",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Workarea::Admin::BulkActionsController",
+        "method": "create"
+      },
+      "user_input": "params[:type]",
+      "confidence": "High",
+      "cwe_id": [
+        470
+      ]
+    },
+    {
+      "warning_type": "Dynamic Render Path",
+      "warning_code": 15,
+      "fingerprint": "a2d7524c214d4e15099b3a428f4533058a428bc7549bdc28c1245bb5e22e9528",
+      "check_name": "Render",
+      "message": "Render path contains parameter value",
+      "file": "app/views/workarea/admin/pricing_discounts/rules.html.haml",
+      "line": 27,
+      "link": "https://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
+      "code": "render(action => \"workarea/admin/pricing_discounts/properties/#{Admin::DiscountViewModel.wrap(Pricing::Discount.find(params[:id]), view_model_options).slug}\", { :discount => Admin::DiscountViewModel.wrap(Pricing::Discount.find(params[:id]), view_model_options) })",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "Workarea::Admin::PricingDiscountsController",
+          "method": "rules",
+          "line": 43,
+          "file": "app/controllers/workarea/admin/pricing_discounts_controller.rb",
+          "rendered": {
+            "name": "workarea/admin/pricing_discounts/rules",
+            "file": "app/views/workarea/admin/pricing_discounts/rules.html.haml"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "workarea/admin/pricing_discounts/rules"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "cwe_id": [
+        22
+      ]
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 70,
+      "fingerprint": "aa69a707ad4182b5a97484208d2785d4e33c275d10901611360efcd116a0f514",
+      "check_name": "MassAssignment",
+      "message": "Specify exact keys allowed for mass assignment instead of using `permit!` which allows any keys",
+      "file": "app/controllers/workarea/admin/application_controller.rb",
+      "line": 17,
+      "link": "https://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "params.permit!",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "ApplicationController",
+        "method": null
+      },
+      "user_input": null,
+      "confidence": "Medium",
+      "cwe_id": [
+        915
+      ]
+    },
+    {
+      "warning_type": "Remote Code Execution",
+      "warning_code": 24,
+      "fingerprint": "aae4496c12be7a6f5c2e68d590dfac856d70bc502fa5d6d8924e4489bc85c377",
+      "check_name": "UnsafeReflection",
+      "message": "Unsafe reflection method `constantize` called on parameter value",
+      "file": "app/controllers/workarea/admin/create_segments_controller.rb",
+      "line": 66,
+      "link": "https://brakemanscanner.org/docs/warning_types/remote_code_execution/",
+      "code": "\"Workarea::Segment::Rules::#{params[:rule_type].to_s.camelize}\".constantize",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Workarea::Admin::CreateSegmentsController",
+        "method": "find_rule"
+      },
+      "user_input": "params[:rule_type].to_s.camelize",
+      "confidence": "High",
+      "cwe_id": [
+        470
+      ]
+    },
+    {
+      "warning_type": "Dynamic Render Path",
+      "warning_code": 15,
+      "fingerprint": "ae3c27ff1341b9fa1724e0bdf88ce5e378771b4850f25ed829e7378b40268469",
+      "check_name": "Render",
+      "message": "Render path contains parameter value",
+      "file": "app/controllers/workarea/admin/pricing_discounts_controller.rb",
+      "line": 33,
+      "link": "https://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
+      "code": "render(action => (params[:template] or :edit), { :status => :unprocessable_entity })",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Workarea::Admin::PricingDiscountsController",
+        "method": "update"
+      },
+      "user_input": "params[:template]",
+      "confidence": "High",
+      "cwe_id": [
+        22
+      ]
+    },
+    {
+      "warning_type": "Dynamic Render Path",
+      "warning_code": 15,
+      "fingerprint": "af6df80408098d7051cb4509f42a270e53063a7120eb1d85d6b10e486dae09a9",
+      "check_name": "Render",
+      "message": "Render path contains parameter value",
+      "file": "app/views/workarea/admin/create_pricing_discounts/rules.html.haml",
+      "line": 28,
+      "link": "https://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
+      "code": "render(action => \"workarea/admin/pricing_discounts/properties/#{DiscountViewModel.wrap((Pricing::Discount.find(params[:id]) or if params[:type].present? then\n  NewDiscount.new_discount(params[:type], params[:discount])\nelse\n  Pricing::Discount.new(params[:discount])\nend), view_model_options).slug}\", { :discount => DiscountViewModel.wrap((Pricing::Discount.find(params[:id]) or if params[:type].present? then\n  NewDiscount.new_discount(params[:type], params[:discount])\nelse\n  Pricing::Discount.new(params[:discount])\nend), view_model_options) })",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "Workarea::Admin::CreatePricingDiscountsController",
+          "method": "create",
+          "line": 21,
+          "file": "app/controllers/workarea/admin/create_pricing_discounts_controller.rb",
+          "rendered": {
+            "name": "workarea/admin/create_pricing_discounts/rules",
+            "file": "app/views/workarea/admin/create_pricing_discounts/rules.html.haml"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "workarea/admin/create_pricing_discounts/rules"
+      },
+      "user_input": "params[:discount]",
+      "confidence": "Weak",
+      "cwe_id": [
+        22
+      ]
+    },
+    {
+      "warning_type": "File Access",
+      "warning_code": 16,
+      "fingerprint": "ef083eb044c8ff4d0c4ebbe9e067cac82dca72337391c202eb3c4483edab3fe0",
+      "check_name": "SendFile",
+      "message": "Parameter value used in file name",
+      "file": "app/controllers/workarea/admin/data_file_exports_controller.rb",
+      "line": 10,
+      "link": "https://brakemanscanner.org/docs/warning_types/file_access/",
+      "code": "send_file(DataFile::Export.find(params[:id]).file.file, :filename => DataFile::Export.find(params[:id]).file_name)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Workarea::Admin::DataFileExportsController",
+        "method": "show"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "cwe_id": [
+        22
+      ]
+    }
+  ],
+  "ignored_warnings": [],
+  "errors": [],
+  "obsolete": []
+}

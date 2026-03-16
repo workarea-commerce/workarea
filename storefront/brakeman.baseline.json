@@ -1,0 +1,332 @@
+{
+  "scan_info": {
+    "rails_version": "4.x",
+    "security_warnings": 9,
+    "checks_performed": [
+      "BasicAuth",
+      "BasicAuthTimingAttack",
+      "CSRFTokenForgeryCVE",
+      "ContentTag",
+      "CookieSerialization",
+      "CreateWith",
+      "CrossSiteScripting",
+      "DefaultRoutes",
+      "Deserialize",
+      "DetailedExceptions",
+      "DigestDoS",
+      "DynamicFinders",
+      "EOLRails",
+      "EOLRuby",
+      "EscapeFunction",
+      "Evaluation",
+      "Execute",
+      "FileAccess",
+      "FileDisclosure",
+      "FilterSkipping",
+      "ForgerySetting",
+      "HeaderDoS",
+      "I18nXSS",
+      "JRubyXML",
+      "JSONEncoding",
+      "JSONEntityEscape",
+      "JSONParsing",
+      "LinkTo",
+      "LinkToHref",
+      "MailTo",
+      "MassAssignment",
+      "MimeTypeDoS",
+      "ModelAttrAccessible",
+      "ModelAttributes",
+      "ModelSerialize",
+      "NestedAttributes",
+      "NestedAttributesBypass",
+      "NumberToCurrency",
+      "PageCachingCVE",
+      "Pathname",
+      "PermitAttributes",
+      "QuoteTableName",
+      "Redirect",
+      "RegexDoS",
+      "Render",
+      "RenderDoS",
+      "RenderInline",
+      "ResponseSplitting",
+      "RouteDoS",
+      "SQL",
+      "SQLCVEs",
+      "SSLVerify",
+      "SafeBufferManipulation",
+      "SanitizeConfigCve",
+      "SanitizeMethods",
+      "SelectTag",
+      "SelectVulnerability",
+      "Send",
+      "SendFile",
+      "SessionManipulation",
+      "SessionSettings",
+      "SimpleFormat",
+      "SingleQuotes",
+      "SkipBeforeFilter",
+      "SprocketsPathTraversal",
+      "StripTags",
+      "SymbolDoSCVE",
+      "TemplateInjection",
+      "TranslateBug",
+      "UnsafeReflection",
+      "UnsafeReflectionMethods",
+      "ValidationRegex",
+      "VerbConfusion",
+      "WeakRSAKey",
+      "WithoutProtection",
+      "XMLDoS",
+      "YAMLParsing"
+    ]
+  },
+  "warnings": [
+    {
+      "warning_type": "Dynamic Render Path",
+      "warning_code": 15,
+      "fingerprint": "0d340cbb941793c81cc1f51f9bb35b3b231fb45d8fb743b770053dadc4587231",
+      "check_name": "Render",
+      "message": "Render path contains parameter value",
+      "file": "app/views/workarea/storefront/products/details.html.haml",
+      "line": 2,
+      "link": "https://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
+      "code": "render(action => \"workarea/storefront/products/templates/#{Storefront::ProductViewModel.wrap(Catalog::Product.find_by(:slug => params[:id]), view_model_options).template}\", { :product => Storefront::ProductViewModel.wrap(Catalog::Product.find_by(:slug => params[:id]), view_model_options) })",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "Workarea::Storefront::ProductsController",
+          "method": "details",
+          "line": 22,
+          "file": "app/controllers/workarea/storefront/products_controller.rb",
+          "rendered": {
+            "name": "workarea/storefront/products/details",
+            "file": "app/views/workarea/storefront/products/details.html.haml"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "workarea/storefront/products/details"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "cwe_id": [
+        22
+      ]
+    },
+    {
+      "warning_type": "Dynamic Render Path",
+      "warning_code": 15,
+      "fingerprint": "1a1141603dc2db829cc3c5a08b430b48dcb71fc25d0f49774d8101144f5521cc",
+      "check_name": "Render",
+      "message": "Render path contains parameter value",
+      "file": "app/controllers/workarea/storefront/recent_views_controller.rb",
+      "line": 10,
+      "link": "https://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
+      "code": "render(action => params[:view].in?(allowed_alt_views) ? (params[:view]) : (:show), {})",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Workarea::Storefront::RecentViewsController",
+        "method": "show"
+      },
+      "user_input": "params[:view]",
+      "confidence": "High",
+      "cwe_id": [
+        22
+      ]
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 70,
+      "fingerprint": "38ed61d1d1be54ab80868fd52de4e0f6a527329c8ea179e1a49ede38a6388012",
+      "check_name": "MassAssignment",
+      "message": "Specify exact keys allowed for mass assignment instead of using `permit!` which allows any keys",
+      "file": "app/controllers/workarea/storefront/checkouts_controller.rb",
+      "line": 15,
+      "link": "https://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "params.permit!",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "CheckoutsController",
+        "method": null
+      },
+      "user_input": null,
+      "confidence": "Medium",
+      "cwe_id": [
+        915
+      ]
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 70,
+      "fingerprint": "6f4bcedb164c5f50b0827e7516d4d2559383dd1f2eb2a2c18fbceca9d2c78755",
+      "check_name": "MassAssignment",
+      "message": "Specify exact keys allowed for mass assignment instead of using `permit!` which allows any keys",
+      "file": "app/controllers/workarea/storefront/checkouts_controller.rb",
+      "line": 15,
+      "link": "https://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "params.permit!",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Workarea::Storefront::CheckoutsController",
+        "method": "before_filter"
+      },
+      "user_input": null,
+      "confidence": "Medium",
+      "cwe_id": [
+        915
+      ]
+    },
+    {
+      "warning_type": "Dynamic Render Path",
+      "warning_code": 15,
+      "fingerprint": "762fec69481052e1e2510ef64d9c825547d5bbb6f96a6b5cbe9e3389f855e200",
+      "check_name": "Render",
+      "message": "Render path contains parameter value",
+      "file": "app/views/workarea/storefront/products/show.html.haml",
+      "line": 29,
+      "link": "https://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
+      "code": "render(action => \"workarea/storefront/products/templates/#{Storefront::ProductViewModel.wrap(Catalog::Product.find_by(:slug => params[:id]), view_model_options).template}\", { :product => Storefront::ProductViewModel.wrap(Catalog::Product.find_by(:slug => params[:id]), view_model_options) })",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "Workarea::Storefront::ProductsController",
+          "method": "show",
+          "line": 12,
+          "file": "app/controllers/workarea/storefront/products_controller.rb",
+          "rendered": {
+            "name": "workarea/storefront/products/show",
+            "file": "app/views/workarea/storefront/products/show.html.haml"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "workarea/storefront/products/show"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "cwe_id": [
+        22
+      ]
+    },
+    {
+      "warning_type": "Dynamic Render Path",
+      "warning_code": 15,
+      "fingerprint": "774554fb154da61b9b29300817ea5604def555ebbcfda2c0174d6f2c284bdf24",
+      "check_name": "Render",
+      "message": "Render path contains parameter value",
+      "file": "app/views/workarea/storefront/pages/show.html.haml",
+      "line": 29,
+      "link": "https://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
+      "code": "render(action => \"workarea/storefront/pages/templates/#{Storefront::PageViewModel.new(Content::Page.find_by(:slug => params[:id]), view_model_options).template}\", { :page => Storefront::PageViewModel.new(Content::Page.find_by(:slug => params[:id]), view_model_options) })",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "Workarea::Storefront::PagesController",
+          "method": "show",
+          "line": 11,
+          "file": "app/controllers/workarea/storefront/pages_controller.rb",
+          "rendered": {
+            "name": "workarea/storefront/pages/show",
+            "file": "app/views/workarea/storefront/pages/show.html.haml"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "workarea/storefront/pages/show"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "cwe_id": [
+        22
+      ]
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "84dd23c73afb0ecabb60fc0243c3ac1b448f951e69a7c4e4b3f522ff90bfcf00",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped parameter value",
+      "file": "app/views/workarea/storefront/products/show.html.haml",
+      "line": 34,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "Storefront::ProductViewModel.wrap(Catalog::Product.find_by(:slug => params[:id]), view_model_options).description",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "Workarea::Storefront::ProductsController",
+          "method": "show",
+          "line": 12,
+          "file": "app/controllers/workarea/storefront/products_controller.rb",
+          "rendered": {
+            "name": "workarea/storefront/products/show",
+            "file": "app/views/workarea/storefront/products/show.html.haml"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "workarea/storefront/products/show"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "cwe_id": [
+        79
+      ]
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "94f4855550434e3a1772d1343be3c28a2f11c6353fa7f444805563277161e8d9",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/controllers/workarea/storefront/cart_items_controller.rb",
+      "line": 83,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "Catalog::Customizations.find(product_id, params.to_unsafe_h)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Workarea::Storefront::CartItemsController",
+        "method": "customizations"
+      },
+      "user_input": "params.to_unsafe_h",
+      "confidence": "Medium",
+      "cwe_id": [
+        89
+      ]
+    },
+    {
+      "warning_type": "File Access",
+      "warning_code": 16,
+      "fingerprint": "e9707af2a175c7ac3e4052781a98b9ac9130e042bafdb8cf473b7973d4ec15e5",
+      "check_name": "SendFile",
+      "message": "Parameter value used in file name",
+      "file": "app/controllers/workarea/storefront/downloads_controller.rb",
+      "line": 12,
+      "link": "https://brakemanscanner.org/docs/warning_types/file_access/",
+      "code": "send_file((Fulfillment::Sku.find(Fulfillment::Token.find(params[:id]).sku) rescue nil).file.file, :filename => (Fulfillment::Sku.find(Fulfillment::Token.find(params[:id]).sku) rescue nil).file_name)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Workarea::Storefront::DownloadsController",
+        "method": "show"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "cwe_id": [
+        22
+      ]
+    }
+  ],
+  "ignored_warnings": [],
+  "errors": [],
+  "obsolete": []
+}
