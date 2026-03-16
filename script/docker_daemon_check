@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+
+# Checks whether the Docker CLI can reach a running Docker daemon.
+# Safe/read-only: does not create containers, images, volumes, etc.
+
+set -euo pipefail
+
+if ! command -v docker >/dev/null 2>&1; then
+  cat <<'MSG'
+Docker is not installed (or not on your PATH).
+
+Next steps:
+  - Docker Desktop (macOS): https://www.docker.com/products/docker-desktop/
+  - Colima (macOS): https://github.com/abiosoft/colima
+
+After installing, re-run:
+  ./script/docker_daemon_check
+MSG
+  exit 1
+fi
+
+# Use a lightweight command; `docker info` does not modify state.
+if docker info >/dev/null 2>&1; then
+  echo "Docker daemon is reachable."
+  exit 0
+fi
+
+error_output="$(docker info 2>&1 || true)"
+
+cat <<MSG
+Docker is installed, but the Docker daemon is not reachable.
+
+Docker error:
+${error_output}
+
+Common fixes:
+  - Colima users:     colima start
+  - Docker Desktop:   start Docker Desktop, then wait for it to finish starting
+
+Then re-run:
+  ./script/docker_daemon_check
+MSG
+
+exit 2
