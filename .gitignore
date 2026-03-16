@@ -49,3 +49,8 @@ docs/build/
 yarn.lock
 yarn-error.log
 package-lock.json
+
+# OpenClaw operational artifacts (do not commit)
+STATE.md
+DISPATCHER-LOG.md
+DISPATCHER-LOG*.md
