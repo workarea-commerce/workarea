@@ -1,11 +1,7 @@
 {
   "scan_info": {
-    "app_path": "/private/tmp/workarea/admin",
     "rails_version": "4.x",
     "security_warnings": 12,
-    "start_time": "2026-03-16 05:52:10 -0400",
-    "end_time": "2026-03-16 05:52:17 -0400",
-    "duration": 7.638568,
     "checks_performed": [
       "BasicAuth",
       "BasicAuthTimingAttack",
@@ -84,12 +80,7 @@
       "WithoutProtection",
       "XMLDoS",
       "YAMLParsing"
-    ],
-    "number_of_controllers": 86,
-    "number_of_models": 0,
-    "number_of_templates": 589,
-    "ruby_version": "2.6.10",
-    "brakeman_version": "5.4.1"
+    ]
   },
   "warnings": [
     {
@@ -401,13 +392,7 @@
       ]
     }
   ],
-  "ignored_warnings": [
-
-  ],
-  "errors": [
-
-  ],
-  "obsolete": [
-
-  ]
+  "ignored_warnings": [],
+  "errors": [],
+  "obsolete": []
 }
