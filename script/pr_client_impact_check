@@ -1,0 +1,85 @@
+#!/bin/sh
+# script/pr_client_impact_check
+#
+# Usage: script/pr_client_impact_check <PR-number-or-URL>
+#
+# Fetches the body of the given GitHub PR (workarea-commerce/workarea) and
+# verifies it contains a "Client impact" section heading.
+# Exits 0 when the section is found; exits 1 with a clear message otherwise.
+#
+# Requirements: gh (GitHub CLI) must be authenticated.
+
+set -e
+
+REPO="workarea-commerce/workarea"
+
+usage() {
+  echo "Usage: $0 <PR-number-or-URL>" >&2
+  echo "  e.g. $0 919" >&2
+  echo "  e.g. $0 https://github.com/workarea-commerce/workarea/pull/919" >&2
+  exit 2
+}
+
+# ---- parse argument --------------------------------------------------------
+if [ $# -ne 1 ]; then
+  usage
+fi
+
+PR_ARG="$1"
+
+# Extract a plain number if a full GitHub PR URL was supplied.
+# e.g. https://github.com/owner/repo/pull/123  →  123
+case "$PR_ARG" in
+  https://github.com/*/pull/*)
+    PR_NUM="${PR_ARG##*/pull/}"
+    # Strip any trailing path/query fragments.
+    PR_NUM="${PR_NUM%%/*}"
+    PR_NUM="${PR_NUM%%\?*}"
+    ;;
+  [0-9]*)
+    PR_NUM="$PR_ARG"
+    ;;
+  *)
+    echo "ERROR: Cannot parse PR number from: $PR_ARG" >&2
+    usage
+    ;;
+esac
+
+# ---- fetch PR body ---------------------------------------------------------
+PR_BODY="$(gh pr view "$PR_NUM" --repo "$REPO" --json body --jq '.body' 2>&1)" || {
+  echo "ERROR: Failed to fetch PR #${PR_NUM} from ${REPO}." >&2
+  echo "       Make sure 'gh' is authenticated and the PR exists." >&2
+  exit 1
+}
+
+if [ -z "$PR_BODY" ]; then
+  echo "ERROR: PR #${PR_NUM} has an empty body." >&2
+  echo "       A 'Client impact' section is required." >&2
+  exit 1
+fi
+
+# ---- check for "Client impact" section ------------------------------------
+# Accepts common Markdown heading styles (##, ###, **, etc.) as well as plain
+# text labels, all case-insensitively.
+#
+# Patterns matched (examples):
+#   ## Client impact
+#   ### Client Impact
+#   **Client Impact**
+#   Client impact:
+#   Client Impact
+#
+# We use grep with a basic regex for POSIX portability (no -P, no \i flag).
+# Simulate case-insensitivity by matching both upper and lower variants of
+# each letter via character classes.
+
+PATTERN='[Cc][Ll][Ii][Ee][Nn][Tt][  ][Ii][Mm][Pp][Aa][Cc][Tt]'
+
+if echo "$PR_BODY" | grep -q "$PATTERN"; then
+  echo "OK: PR #${PR_NUM} contains a 'Client impact' section."
+  exit 0
+else
+  echo "FAIL: PR #${PR_NUM} is missing a 'Client impact' section." >&2
+  echo "      Please add a 'Client impact' section to the PR body." >&2
+  exit 1
+fi
