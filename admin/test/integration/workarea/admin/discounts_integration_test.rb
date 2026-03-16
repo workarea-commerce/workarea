@@ -28,6 +28,43 @@ module Workarea
         assert_equal(4.to_m, discount.amount)
       end
 
+      def test_update_with_allowed_template_param
+        discount = create_shipping_discount(
+          name: 'Test Discount',
+          active: true,
+          shipping_service: 'Ground',
+          amount: 5
+        )
+
+        # 'rules' is an allowed template; invalid data triggers render
+        patch admin.pricing_discount_path(discount),
+          params: {
+            template: 'rules',
+            discount: { name: '' } # empty name causes validation failure
+          }
+
+        # Should render the 'rules' template, not raise or redirect to arbitrary path
+        assert_response :unprocessable_entity
+      end
+
+      def test_update_with_disallowed_template_param_falls_back_to_edit
+        discount = create_shipping_discount(
+          name: 'Test Discount',
+          active: true,
+          shipping_service: 'Ground',
+          amount: 5
+        )
+
+        # An unknown/disallowed template must fall back to :edit safely
+        patch admin.pricing_discount_path(discount),
+          params: {
+            template: '../../etc/passwd',
+            discount: { name: '' }
+          }
+
+        assert_response :unprocessable_entity
+      end
+
       def test_removes_a_discount
         discount = create_shipping_discount(
           name: 'Test Discount',

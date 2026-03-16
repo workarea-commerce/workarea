@@ -24,6 +24,32 @@ module Workarea
         get storefront.recent_views_path(via: category.id)
         assert_select(%(.product-summary__name a[href="#{product_url}"]))
       end
+
+      def test_show_with_allowed_views
+        password = 'W3bl1nc!'
+        user = create_user(password: password)
+
+        post storefront.login_path,
+          params: { email: user.email, password: password }
+
+        # 'aside' and 'narrow' are allowed alternate views
+        %w[aside narrow].each do |view|
+          get storefront.recent_views_path(view: view)
+          assert_response :success
+        end
+      end
+
+      def test_show_rejects_disallowed_view_param
+        password = 'W3bl1nc!'
+        user = create_user(password: password)
+
+        post storefront.login_path,
+          params: { email: user.email, password: password }
+
+        # An arbitrary/unknown view param falls back to default :show
+        get storefront.recent_views_path(view: '../../etc/passwd')
+        assert_response :success
+      end
     end
   end
 end
