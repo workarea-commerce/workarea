@@ -5,6 +5,11 @@ on:
       - 'demo/**'
       - 'docs/**'
       - '**.md'
+  pull_request:
+    paths-ignore:
+      - 'demo/**'
+      - 'docs/**'
+      - '**.md'
 
 # Minimal token scope: read-only access to the repository.
 # Individual jobs that need additional permissions (e.g. artifact upload)

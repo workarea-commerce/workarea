@@ -92,6 +92,29 @@ PR.
 See [`docs/security/brakeman-baseline-triage.md`](docs/security/brakeman-baseline-triage.md)
 for the full inventory of accepted warnings and their owners.
 
+#### bundler-audit dependency vulnerability scanning
+
+Workarea uses [bundler-audit](https://github.com/rubysec/bundler-audit) to scan
+gem dependencies for known CVEs on every PR and push.
+
+**Run locally before opening a PR:**
+
+```sh
+bundle exec bundler-audit check --update --config .bundler-audit.yml
+```
+
+`--update` fetches the latest advisory database. `--config` applies the project
+ignore list (`.bundler-audit.yml`) for CVEs that are blocked by an in-progress
+Rails or Ruby upgrade.
+
+**If bundler-audit reports a new vulnerability in your PR:**
+
+1. Upgrade the affected gem if a patched version is compatible.
+2. If upgrading is blocked (e.g. requires a Rails or Ruby version bump that is
+   not yet landed), add the CVE or GHSA identifier to `.bundler-audit.yml` with
+   a comment explaining the blocker and a link to the tracking issue.
+3. Never ignore a CVE silently — always add a justification comment.
+
 Thanks!
 
 The Workarea Core Team
