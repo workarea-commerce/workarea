@@ -1,0 +1,199 @@
+#!/usr/bin/env bash
+# script/smoke_tests — Run a minimal targeted test subset across core/admin/storefront.
+#
+# Purpose:
+#   Fast guardrail to verify that each engine's test infrastructure can boot and
+#   that a representative sample of unit/integration tests passes. Intended for
+#   local pre-push and CI health checks — not a replacement for the full suite.
+#
+# Usage:
+#   script/smoke_tests [--help]
+#
+# Required services (MongoDB, Redis, Elasticsearch):
+#   Start:  script/services_up
+#   Stop:   script/services_up --down
+#   Status: script/docker_services_status
+#
+# Read-only. Does not modify any files.
+
+set -uo pipefail
+
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$ROOT_DIR"
+
+# ---------------------------------------------------------------------------
+# Config
+# ---------------------------------------------------------------------------
+
+# Per-engine smoke targets: a single representative test file in each engine.
+# These are deliberately narrow (< 1s each) so the script stays fast.
+CORE_TARGET="test/models/workarea/address_test.rb"
+ADMIN_TARGET="test/helpers/workarea/admin/application_helper_test.rb"
+STOREFRONT_TARGET="test/helpers/workarea/storefront/application_helper_test.rb"
+
+# Use node@18 if present (required for ExecJS/autoprefixer-rails on modern macOS).
+NODE18_BIN="/opt/homebrew/opt/node@18/bin"
+PATH_OVERRIDE="$PATH"
+if [[ -d "$NODE18_BIN" ]]; then
+  PATH_OVERRIDE="$NODE18_BIN:$PATH_OVERRIDE"
+fi
+export WORKAREA_SKIP_SYSTEM_TESTS="${WORKAREA_SKIP_SYSTEM_TESTS:-true}"
+
+# ---------------------------------------------------------------------------
+# Helpers
+# ---------------------------------------------------------------------------
+
+usage() {
+  cat <<'USAGE'
+Usage:
+  script/smoke_tests           Run the smoke test suite
+  script/smoke_tests --help    Show this help
+
+Required services (must be running before executing this script):
+  Start:  script/services_up
+  Stop:   script/services_up --down
+  Status: script/docker_services_status
+
+The script runs one representative test file per engine (core / admin / storefront),
+prints PASS or FAIL per engine, and exits non-zero if any engine fails.
+USAGE
+}
+
+if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
+  usage
+  exit 0
+fi
+
+# Print a timestamped status line.
+log() { printf '[smoke_tests] %s\n' "$*"; }
+
+OVERALL_PASS=true
+declare -A RESULTS
+
+# Run a single engine's smoke file via `bin/rails test`.
+# Returns 0 on success, non-zero on failure.
+run_engine() {
+  local engine="$1"   # e.g. "core"
+  local target="$2"   # relative path under the engine dir
+
+  local engine_dir="$ROOT_DIR/$engine"
+  if [[ ! -d "$engine_dir" ]]; then
+    log "ERROR: engine directory not found: $engine_dir"
+    return 1
+  fi
+
+  local test_file="$engine_dir/$target"
+  if [[ ! -f "$test_file" ]]; then
+    log "ERROR: smoke target not found: $test_file"
+    return 1
+  fi
+
+  (
+    cd "$engine_dir"
+    env -u NODE_OPTIONS \
+      PATH="$PATH_OVERRIDE" \
+      bin/rails test "$target" -b 2>&1
+  )
+}
+
+# ---------------------------------------------------------------------------
+# Pre-flight: verify Docker services are reachable before running tests.
+# This catches the most common failure mode (services not started) and prints
+# a clear actionable hint rather than a cryptic connection error.
+# ---------------------------------------------------------------------------
+
+log "Checking required Docker services…"
+
+if ! command -v docker >/dev/null 2>&1; then
+  log "ERROR: docker not found. Install Docker Desktop (https://www.docker.com/products/docker-desktop/)."
+  exit 1
+fi
+
+if ! docker info >/dev/null 2>&1; then
+  log "ERROR: Docker daemon is not running."
+  log "  → Start Docker Desktop, then retry."
+  exit 1
+fi
+
+SERVICES=(mongo redis elasticsearch)
+MISSING_SERVICES=()
+
+RUNNING_SERVICES="$(docker compose ps --services --status running 2>/dev/null || true)"
+for svc in "${SERVICES[@]}"; do
+  if ! echo "$RUNNING_SERVICES" | grep -qx "$svc"; then
+    MISSING_SERVICES+=("$svc")
+  fi
+done
+
+if [[ ${#MISSING_SERVICES[@]} -gt 0 ]]; then
+  log "ERROR: required service(s) not running: ${MISSING_SERVICES[*]}"
+  log ""
+  log "  Start all services with:"
+  log "    script/services_up"
+  log ""
+  log "  Then re-run this script."
+  exit 1
+fi
+
+log "All required services are running (${SERVICES[*]})."
+log ""
+
+# ---------------------------------------------------------------------------
+# Run per-engine smoke tests
+# ---------------------------------------------------------------------------
+
+ENGINES=(
+  "core:${CORE_TARGET}"
+  "admin:${ADMIN_TARGET}"
+  "storefront:${STOREFRONT_TARGET}"
+)
+
+for entry in "${ENGINES[@]}"; do
+  engine="${entry%%:*}"
+  target="${entry#*:}"
+
+  log "── $engine ──────────────────────────────────────────────────────────"
+  log "  target: $target"
+
+  set +e
+  output="$(run_engine "$engine" "$target" 2>&1)"
+  exit_code=$?
+  set -e
+
+  echo "$output"
+  echo ""
+
+  if [[ $exit_code -eq 0 ]]; then
+    RESULTS[$engine]="PASS"
+    log "  ✓ $engine: PASS"
+  else
+    RESULTS[$engine]="FAIL (exit $exit_code)"
+    OVERALL_PASS=false
+    log "  ✗ $engine: FAIL (exit $exit_code)"
+  fi
+  log ""
+done
+
+# ---------------------------------------------------------------------------
+# Summary
+# ---------------------------------------------------------------------------
+
+log "══════════════════════════════════════════════════"
+log "  Smoke Test Results"
+log "══════════════════════════════════════════════════"
+for engine in core admin storefront; do
+  result="${RESULTS[$engine]:-NOT RUN}"
+  printf '[smoke_tests]   %-14s  %s\n' "$engine" "$result"
+done
+log "══════════════════════════════════════════════════"
+
+if $OVERALL_PASS; then
+  log "Overall: PASS"
+  exit 0
+else
+  log "Overall: FAIL"
+  log ""
+  log "Tip: ensure all services are up (script/services_up) and that"
+  log "     dependencies are installed in each engine (cd <engine> && bundle install)."
+  exit 1
+fi
