@@ -69,7 +69,7 @@ fi
 
 # ── Check 2: At least one fenced code block ───────────────────────────────────
 # A fenced code block starts with a line of three or more backticks.
-if echo "$BODY" | grep -q '^\`\`\`'; then
+if echo "$BODY" | grep -q '^```'; then
   echo "✓ Fenced code block found."
 else
   echo "FAIL: PR #${PR_NUM} body does not contain a fenced code block (\`\`\` ... \`\`\`)." >&2
