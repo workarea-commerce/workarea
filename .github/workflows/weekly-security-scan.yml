@@ -24,8 +24,14 @@ jobs:
           ruby-version: 3.2
           bundler-cache: true
 
-      - name: brakeman (new warnings only)
+      - name: brakeman – core (new warnings only)
         run: bundle exec brakeman --quiet --compare core/brakeman.baseline.json core
+
+      - name: brakeman – admin (new warnings only)
+        run: bundle exec brakeman --quiet --compare admin/brakeman.baseline.json admin
+
+      - name: brakeman – storefront (new warnings only)
+        run: bundle exec brakeman --quiet --compare storefront/brakeman.baseline.json storefront
 
       - name: bundler-audit
         run: bundle exec bundler-audit check --update --config .bundler-audit.yml
