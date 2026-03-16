@@ -9,3 +9,4 @@ These documents are primarily for downstream Workarea client applications.
 - **[Webpacker → Sprockets 4](./webpacker-to-sprockets-4.md)** (recommended default)
 - **[Optional: jsbundling-rails (esbuild) + Sprockets](./jsbundling-rails-esbuild.md)** (for apps that need modern JS tooling)
 - **[Sprockets 4 manifest.js format changes](./sprockets-manifest-format.md)** (fixing missing assets after Sprockets 4 upgrade)
+- **[URL/routing helper behavior changes](./url-routing-helpers.md)** (default_url_options context changes)
