@@ -29,3 +29,58 @@ jobs:
 
       - name: bundler-audit
         run: bundle exec bundler-audit check --update --config .bundler-audit.yml
+
+  notify_failure:
+    name: Open issue on scan failure
+    needs: security_scan
+    # Only runs when security_scan fails; skipped on success.
+    if: failure()
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Create failure issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const branch = context.ref.replace(/^refs\/heads\//, '');
+            const runUrl =
+              `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+
+            const today = new Date().toISOString().slice(0, 10);
+            const title = `Security scan failed (${today})`;
+
+            // Avoid creating a duplicate issue if one is already open for this week.
+            const existing = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: 'security',
+              state: 'open',
+              per_page: 20,
+            });
+            const alreadyOpen = existing.data.some(
+              (issue) => issue.title.startsWith('Security scan failed')
+            );
+            if (alreadyOpen) {
+              core.info('An open security scan failure issue already exists — skipping creation.');
+              return;
+            }
+
+            const body = [
+              '## :warning: Weekly security scan failed',
+              '',
+              `The weekly Brakeman + bundler-audit scan failed on \`${branch}\`.`,
+              '',
+              `**Failed run:** ${runUrl}`,
+              '',
+              'Please review the scan output and remediate any findings.',
+              'Close this issue once resolved.',
+            ].join('\n');
+
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title,
+              body,
+              labels: ['security'],
+            });
