@@ -5,6 +5,11 @@ on:
       - 'demo/**'
       - 'docs/**'
       - '**.md'
+  pull_request:
+    paths-ignore:
+      - 'demo/**'
+      - 'docs/**'
+      - '**.md'
 
 # Minimal token scope: read-only access to the repository.
 # Individual jobs that need additional permissions (e.g. artifact upload)
@@ -45,6 +50,17 @@ jobs:
 
     - name: bundler-audit
       run: bundle exec bundler-audit check --update --config .bundler-audit.yml
+
+    # Run Brakeman static analysis against core/ using the committed baseline so
+    # only *new* high-confidence findings fail the build.
+    #
+    # To run the same check locally:
+    #   bundle exec brakeman --quiet --compare core/brakeman.baseline.json core
+    #
+    # To regenerate the baseline after resolving existing findings:
+    #   bundle exec brakeman --quiet -o core/brakeman.baseline.json core
+    - name: brakeman
+      run: bundle exec brakeman --quiet --compare core/brakeman.baseline.json core
 
     - name: rubocop
       run: bundle exec rubocop
