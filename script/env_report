@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+# Print a short environment report for debugging.
+# Paste the output into GitHub issues or PR comments.
+set -euo pipefail
+
+echo "=== Workarea Environment Report ==="
+echo ""
+
+echo "--- Git ---"
+echo "Branch:  $(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo 'not a git repo')"
+echo "HEAD:    $(git rev-parse --short HEAD 2>/dev/null || echo 'n/a')"
+echo "Dirty:   $(git diff --quiet 2>/dev/null && echo 'no' || echo 'yes')"
+echo ""
+
+echo "--- Ruby ---"
+echo "ruby:    $(ruby -v 2>/dev/null || echo 'not found')"
+echo "bundler: $(bundle -v 2>/dev/null || echo 'not found')"
+if command -v rbenv &>/dev/null; then
+  echo "rbenv:   $(rbenv version 2>/dev/null)"
+fi
+echo ""
+
+echo "--- Bundler Config ---"
+frozen=$(bundle config get frozen 2>/dev/null | grep -oE '(true|false|Set)' | head -1 || echo 'unknown')
+echo "frozen:  ${frozen}"
+echo ""
+
+echo "--- Docker ---"
+if command -v docker &>/dev/null; then
+  echo "docker:  $(docker --version 2>/dev/null)"
+  echo ""
+  echo "Workarea containers:"
+  docker ps --filter "name=workarea" --format "  {{.Names}}  {{.Status}}  {{.Ports}}" 2>/dev/null || echo "  (docker not running)"
+else
+  echo "docker:  not found"
+fi
+echo ""
+
+echo "--- Services ---"
+for svc_port in mongo:27017 redis:6379 elasticsearch:9200; do
+  svc="${svc_port%%:*}"
+  port="${svc_port##*:}"
+  if nc -z localhost "$port" 2>/dev/null; then
+    echo "  $svc (port $port): UP"
+  else
+    echo "  $svc (port $port): DOWN"
+  fi
+done
+echo ""
+echo "Tip: run script/services_up to start Docker services."
+echo "See docs/elasticsearch-bootstrap-checks.md for ES troubleshooting."
