@@ -1,0 +1,102 @@
+#!/usr/bin/env bash
+# Pre-PR preflight checks. Run from the repo root before opening a pull request.
+# Each step prints PASS/FAIL. Exits non-zero if any required step fails.
+set -uo pipefail
+
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$ROOT_DIR"
+
+FAIL=0
+
+pass() { echo "  ✅ PASS: $1"; }
+fail() { echo "  ❌ FAIL: $1"; FAIL=1; }
+skip() { echo "  ⏭️  SKIP: $1"; }
+
+echo "=== Workarea Preflight Checks ==="
+echo ""
+
+# 1. Docker services
+echo "--- Docker services ---"
+if command -v docker &>/dev/null && docker info &>/dev/null 2>&1; then
+  for svc_port in mongo:27017 redis:6379 elasticsearch:9200; do
+    svc="${svc_port%%:*}"
+    port="${svc_port##*:}"
+    if nc -z localhost "$port" 2>/dev/null; then
+      pass "$svc (port $port) is reachable"
+    else
+      fail "$svc (port $port) is not reachable — run script/services_up"
+    fi
+  done
+else
+  fail "Docker is not running — start Docker Desktop or Colima"
+fi
+echo ""
+
+# 2. Bundler frozen-mode check
+echo "--- Bundler frozen mode ---"
+frozen=$(bundle config get frozen 2>/dev/null | grep -oE 'true' | head -1 || true)
+if [[ "$frozen" == "true" ]]; then
+  pass "Bundler frozen mode is set"
+else
+  # Also check deployment mode
+  deployment=$(bundle config get deployment 2>/dev/null | grep -oE 'true' | head -1 || true)
+  if [[ "$deployment" == "true" ]]; then
+    pass "Bundler deployment mode is set (implies frozen)"
+  else
+    skip "Bundler frozen/deployment mode not set (CI sets this; optional locally)"
+  fi
+fi
+echo ""
+
+# 3. Boot smoke test
+echo "--- Boot smoke test ---"
+if [[ -x script/default_appraisal_boot_smoke ]]; then
+  if script/default_appraisal_boot_smoke 2>/dev/null; then
+    pass "Default appraisal boot smoke"
+  else
+    fail "Boot smoke failed — check gem compatibility"
+  fi
+else
+  skip "script/default_appraisal_boot_smoke not found"
+fi
+echo ""
+
+# 4. ShellCheck (optional)
+echo "--- ShellCheck ---"
+if command -v shellcheck &>/dev/null; then
+  sc_fails=0
+  for f in script/*; do
+    [[ -f "$f" ]] || continue
+    head -1 "$f" | grep -qE '#!/.*(bash|sh)' || continue
+    if ! shellcheck "$f" >/dev/null 2>&1; then
+      sc_fails=$((sc_fails + 1))
+    fi
+  done
+  if [[ "$sc_fails" -eq 0 ]]; then
+    pass "All repo scripts pass ShellCheck"
+  else
+    fail "$sc_fails script(s) have ShellCheck warnings"
+  fi
+else
+  skip "shellcheck not installed (brew install shellcheck)"
+fi
+echo ""
+
+# 5. Dirty tree warning
+echo "--- Git status ---"
+if git diff --quiet 2>/dev/null && git diff --cached --quiet 2>/dev/null; then
+  pass "Working tree is clean"
+else
+  echo "  ⚠️  WARN: Uncommitted changes detected"
+fi
+echo ""
+
+# Summary
+echo "==========================="
+if [[ "$FAIL" -eq 0 ]]; then
+  echo "All checks passed. Ready to open a PR."
+  exit 0
+else
+  echo "Some checks failed. Fix issues above before opening a PR."
+  exit 1
+fi
