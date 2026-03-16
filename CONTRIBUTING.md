@@ -73,6 +73,36 @@ upgrade to the latest version.
 
 * Please read [Contribute Documentation](https://developer.workarea.com/articles/contribute-documentation.html).
 
+#### CI failure: "gemspecs for path gems changed, but the lockfile can't be updated because frozen mode is set"
+
+If CI reports this error your `Gemfile.lock` is stale and must be regenerated
+locally before pushing. Workarea CI runs Bundler with `--frozen`; any gemspec
+change requires an explicit lockfile update.
+
+**Quick fix** (from the repo root, clean shell):
+
+```bash
+rbenv local 3.2.7   # lockfile regeneration requires Ruby 3.2.7
+ruby --version      # confirm
+bundle install
+git add Gemfile.lock
+git commit -m "docs: regenerate Gemfile.lock"
+git push
+```
+
+**Common gotchas:**
+- Running under Ruby 2.7.8 (the test-suite Ruby) produces the wrong lockfile —
+  always use **3.2.7** for `bundle install`.
+- A local `vendor/bundle` directory can mask the issue; run
+  `bundle config unset path` to clear it.
+- Your branch must be based on `next`; branching from the wrong base can cause
+  gemspec mismatches.
+
+For full details, see
+[docs/source/articles/bundler-frozen-mode-lockfile-fix.html.md](docs/source/articles/bundler-frozen-mode-lockfile-fix.html.md).
+
+---
+
 #### Brakeman static analysis baseline
 
 Workarea uses [Brakeman](https://brakemanscanner.org/) for static security
