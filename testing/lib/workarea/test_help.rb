@@ -3,7 +3,12 @@
 require 'minitest/spec'
 require 'sidekiq/testing/inline'
 require 'sidekiq_unique_jobs/testing'
-require 'mocha/mini_test'
+# mocha 2.x renamed mocha/mini_test to mocha/minitest
+begin
+  require 'mocha/minitest'
+rescue LoadError
+  require 'mocha/mini_test'
+end
 require 'webmock/minitest'
 require 'vcr'
 require 'rails/test_unit/reporter'
@@ -52,7 +57,8 @@ Mongoid.purge!
 Mongoid::Tasks::Database.create_indexes
 
 Workarea::Testing::Indexes.enable_enforcing!
-MiniTest.after_run { Workarea::Testing::Indexes.disable_enforcing! }
+# MiniTest was renamed to Minitest in Minitest 5.15+
+(defined?(Minitest) ? Minitest : MiniTest).after_run { Workarea::Testing::Indexes.disable_enforcing! }
 
 VCR.configure do |config|
   config.cassette_persisters[:workarea] = Workarea::Testing::CassettePersister

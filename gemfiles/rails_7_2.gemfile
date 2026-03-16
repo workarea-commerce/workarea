@@ -3,3 +3,10 @@
 eval_gemfile File.expand_path('../Gemfile', __dir__)
 
 gem 'rails', '~> 7.2.0'
+# mongoid 7.x only supports activemodel < 7.1; mongoid 8+ is required for Rails 7.2+
+gem 'mongoid', '~> 8.1'
+# serviceworker-rails 0.6.0 uses rack/file which was removed in Rack 3.
+# Pin Rack to 2.x until serviceworker-rails gains Rack 3 support.
+gem 'rack', '~> 2.2'
+# mocha 1.3.0 uses MiniTest (uppercase T) which is gone in Minitest 5.15+; use 2.x which uses Minitest
+gem 'mocha', '~> 2.0'
