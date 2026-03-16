@@ -19,6 +19,7 @@ cd "$(dirname "$0")/.."
 REGISTRY="
 default-appraisal-boot-smoke|script/default_appraisal_boot_smoke|Boot the default appraisal stack in test mode (smoke test)
 default-appraisal-zeitwerk-check|script/default_appraisal_zeitwerk_check|Run zeitwerk:check against the default appraisal stack
+default-appraisal-deprecations|script/default_appraisal_deprecations|Capture DEPRECATION WARNING lines from the default appraisal stack
 check-service-ports|script/check_service_ports|Preflight check for common Workarea service ports
 "
 
