@@ -77,7 +77,7 @@ module Workarea
           :reports,
           slug,
           Time.current.strftime('%Y%m%d'),
-          Digest::SHA1.hexdigest(cache_params.to_s)
+          Digest::SHA256.hexdigest(cache_params.to_s)
         ].join('/')
       end
     end
