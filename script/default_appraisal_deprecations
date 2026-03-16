@@ -1,0 +1,162 @@
+#!/usr/bin/env bash
+# script/default_appraisal_deprecations
+#
+# Capture ActiveSupport deprecation warnings from the default appraisal stack.
+#
+# RUBY SETUP
+# ----------
+# This script targets Ruby 3.2.7 (the dev-tooling Ruby for this repo).
+# Expected rbenv setup:
+#
+#   export PATH="$HOME/.rbenv/shims:$HOME/.rbenv/bin:$PATH"
+#   eval "$(rbenv init - bash)"    # or: eval "$(rbenv init - zsh)"
+#   rbenv install 3.2.7            # if not already installed
+#   # The repo's .ruby-version (3.2.7) will be picked up automatically.
+#
+# USAGE
+# -----
+#   cd /path/to/workarea
+#   ./script/default_appraisal_deprecations
+#
+# OUTPUT
+# ------
+#   Deprecation warnings are written to:
+#     log/default_appraisal_deprecations.log
+#
+#   Each captured line is also echoed to stdout with the prefix:
+#     [DEPRECATION] <engine>: <warning text>
+#
+#   Exit codes:
+#     0  — completed (warnings are normal; they do NOT cause non-zero exit)
+#     1  — one or more engines failed to boot
+#
+# WHAT IT DOES
+# ------------
+# For each engine (core, admin, storefront) it:
+#   1. Boots the engine's dummy app via `bundle exec ruby -e "require_relative …"`
+#   2. Captures stderr (where ActiveSupport writes DEPRECATION WARNING: lines)
+#   3. Filters for lines containing "DEPRECATION WARNING:"
+#   4. Appends them to the log file
+#
+# No assumption is made about a `bin/rails` at the repo root.
+# Each engine's dummy `config/environment.rb` is used as the minimal boot surface.
+
+set -uo pipefail
+
+# ---------------------------------------------------------------------------
+# Config
+# ---------------------------------------------------------------------------
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$ROOT_DIR" || exit
+
+LOG_FILE="${LOG_FILE:-$ROOT_DIR/log/default_appraisal_deprecations.log}"
+RAILS_ENV="${RAILS_ENV:-test}"
+export RAILS_ENV
+
+# Ensure we use the default Gemfile (not an appraisal variant).
+unset BUNDLE_GEMFILE
+unset BUNDLE_GEMFILE_LOCK
+
+ENGINES=(core admin storefront)
+
+# ---------------------------------------------------------------------------
+# Helpers
+# ---------------------------------------------------------------------------
+log_info()  { printf '\033[0;36m[INFO]\033[0m  %s\n' "$*"; }
+log_warn()  { printf '\033[0;33m[WARN]\033[0m  %s\n' "$*"; }
+log_error() { printf '\033[0;31m[ERROR]\033[0m %s\n' "$*" >&2; }
+log_ok()    { printf '\033[0;32m[OK]\033[0m    %s\n' "$*"; }
+
+# ---------------------------------------------------------------------------
+# Pre-flight
+# ---------------------------------------------------------------------------
+mkdir -p "$(dirname "$LOG_FILE")"
+
+TIMESTAMP="$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+{
+  echo "# default_appraisal_deprecations — run started at $TIMESTAMP"
+  echo "# RAILS_ENV=$RAILS_ENV"
+  echo "# Ruby: $(ruby --version 2>/dev/null || echo 'unknown')"
+  echo "# Bundler: $(bundle --version 2>/dev/null || echo 'unknown')"
+  echo "#"
+} >> "$LOG_FILE"
+
+log_info "Log file: $LOG_FILE"
+log_info "RAILS_ENV: $RAILS_ENV"
+log_info "Ruby: $(ruby --version 2>/dev/null || echo 'unknown')"
+echo ""
+
+# ---------------------------------------------------------------------------
+# Boot each engine's dummy app and capture deprecation warnings
+# ---------------------------------------------------------------------------
+BOOT_ERRORS=0
+
+for ENGINE in "${ENGINES[@]}"; do
+  DUMMY_ENV="$ROOT_DIR/$ENGINE/test/dummy/config/environment"
+
+  log_info "Booting $ENGINE dummy app …"
+
+  if [[ ! -f "${DUMMY_ENV}.rb" ]]; then
+    log_error "  $ENGINE: dummy config/environment.rb not found at ${DUMMY_ENV}.rb — skipping"
+    BOOT_ERRORS=$(( BOOT_ERRORS + 1 ))
+    echo "# $ENGINE: dummy environment not found — skipped" >> "$LOG_FILE"
+    continue
+  fi
+
+  # Ruby snippet that:
+  #   - pre-requires stdlib gems needed under Ruby 3.2 (logger, etc.)
+  #   - boots the dummy app (which triggers all initializers and thus all deprecation notices)
+  BOOT_SNIPPET="$(cat <<RUBY
+require 'logger' rescue nil
+require 'mutex_m' rescue nil
+require 'ostruct' rescue nil
+require_relative '${DUMMY_ENV}'
+RUBY
+)"
+
+  # Run boot; capture stderr separately so we can grep it.
+  # stdout is discarded (test:dummy apps print nothing useful on boot).
+  STDERR_OUTPUT="$(bundle exec ruby -e "$BOOT_SNIPPET" 2>&1 >/dev/null)" || {
+    EXIT_CODE=$?
+    log_error "  $ENGINE: boot FAILED (exit $EXIT_CODE)"
+    log_error "  Last output:"
+    printf '%s\n' "$STDERR_OUTPUT" | tail -20 | sed 's/^/    /' >&2
+    echo "# $ENGINE: BOOT ERROR (exit $EXIT_CODE)" >> "$LOG_FILE"
+    echo "$STDERR_OUTPUT" | tail -20 >> "$LOG_FILE"
+    BOOT_ERRORS=$(( BOOT_ERRORS + 1 ))
+    continue
+  }
+
+  # Filter deprecation lines.
+  DEPRECATION_LINES="$(printf '%s\n' "$STDERR_OUTPUT" | grep 'DEPRECATION WARNING:' || true)"
+
+  if [[ -z "$DEPRECATION_LINES" ]]; then
+    log_ok "  $ENGINE: no DEPRECATION WARNING lines detected"
+    echo "# $ENGINE: no DEPRECATION WARNING lines" >> "$LOG_FILE"
+  else
+    DEPRECATION_COUNT="$(printf '%s\n' "$DEPRECATION_LINES" | wc -l | tr -d ' ')"
+    log_warn "  $ENGINE: $DEPRECATION_COUNT DEPRECATION WARNING line(s) captured"
+    echo "# $ENGINE: $DEPRECATION_COUNT DEPRECATION WARNING line(s)" >> "$LOG_FILE"
+
+    while IFS= read -r line; do
+      echo "[DEPRECATION] $ENGINE: $line"
+      echo "[DEPRECATION] $ENGINE: $line" >> "$LOG_FILE"
+    done <<< "$DEPRECATION_LINES"
+  fi
+
+  echo "" >> "$LOG_FILE"
+done
+
+# ---------------------------------------------------------------------------
+# Summary
+# ---------------------------------------------------------------------------
+echo ""
+echo "# run completed at $(date -u '+%Y-%m-%dT%H:%M:%SZ')" >> "$LOG_FILE"
+
+if [[ "$BOOT_ERRORS" -gt 0 ]]; then
+  log_error "Completed with $BOOT_ERRORS boot error(s). See $LOG_FILE for details."
+  exit 1
+fi
+
+log_ok "All engines checked. See $LOG_FILE for the full deprecation log."
+exit 0
