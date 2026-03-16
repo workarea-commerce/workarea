@@ -14,3 +14,7 @@ eval_gemfile File.expand_path('../Gemfile', __dir__)
 # dependencies shift.
 
 gem 'rails', '7.1.5.1'
+
+# Mongoid 7.4.x caps ActiveModel < 7.1, blocking Rails 7.1+ resolution.
+# Override to Mongoid 8.x for this appraisal until the core gemspec is updated.
+gem 'mongoid', '~> 8.1'

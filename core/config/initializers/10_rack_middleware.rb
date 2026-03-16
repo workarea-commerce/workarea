@@ -1,3 +1,7 @@
+require_relative '../../app/middleware/workarea/application_middleware'
+require_relative '../../app/middleware/workarea/enforce_host_middleware'
+require_relative '../../app/middleware/workarea/strip_http_caching_middleware'
+
 app = Rails.application
 
 # Mongoid query cache middleware — clears per-request Mongoid query cache.
