@@ -1,0 +1,108 @@
+#!/usr/bin/env bash
+# script/rubocop_diff — Run RuboCop only on Ruby files changed vs a base ref.
+#
+# Usage:
+#   ./script/rubocop_diff [BASE_REF]
+#
+# The base ref can also be supplied via the RUBOCOP_DIFF_BASE environment
+# variable.  Command-line argument takes precedence.
+#
+# Defaults (in order of precedence):
+#   1. First positional argument
+#   2. $RUBOCOP_DIFF_BASE env var
+#   3. origin/next
+#
+# Examples:
+#   ./script/rubocop_diff                  # compare vs origin/next
+#   ./script/rubocop_diff origin/main      # compare vs origin/main
+#   RUBOCOP_DIFF_BASE=main ./script/rubocop_diff
+#
+# Exits 0 when no Ruby changes are detected or RuboCop reports no offenses.
+# Exits 1 when RuboCop reports offenses.
+# Exits 2 when a setup/usage error occurs.
+#
+# Read-only — never modifies any file.
+# Requires: git, bundle exec rubocop
+
+set -euo pipefail
+
+# ---------------------------------------------------------------------------
+# Resolve repo root so the script is safe to run from anywhere.
+# ---------------------------------------------------------------------------
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$REPO_ROOT"
+
+# ---------------------------------------------------------------------------
+# Determine base ref.
+# ---------------------------------------------------------------------------
+BASE_REF="${1:-${RUBOCOP_DIFF_BASE:-origin/next}}"
+
+# ---------------------------------------------------------------------------
+# Helpers
+# ---------------------------------------------------------------------------
+print_separator() {
+  printf '%0.s-' {1..72}
+  printf '\n'
+}
+
+# ---------------------------------------------------------------------------
+# Verify git is available and we're inside a repo.
+# ---------------------------------------------------------------------------
+if ! git rev-parse --git-dir > /dev/null 2>&1; then
+  echo "ERROR: Not inside a git repository." >&2
+  exit 2
+fi
+
+# Verify the base ref is resolvable.
+if ! git rev-parse --verify "${BASE_REF}" > /dev/null 2>&1; then
+  echo "ERROR: Base ref '${BASE_REF}' is not resolvable." >&2
+  echo "  Try running: git fetch origin" >&2
+  exit 2
+fi
+
+# ---------------------------------------------------------------------------
+# Compute changed Ruby/Rails files.
+# ---------------------------------------------------------------------------
+echo "Base ref : ${BASE_REF}"
+echo "Repo root: ${REPO_ROOT}"
+print_separator
+
+CHANGED_FILES="$(
+  git diff --name-only --diff-filter=ACMR "${BASE_REF}"...HEAD -- \
+    '*.rb' '*.rake' '*.ru' \
+  2>/dev/null
+)"
+
+if [ -z "$CHANGED_FILES" ]; then
+  echo "No Ruby changes detected vs ${BASE_REF}."
+  echo "Nothing to check — exiting 0."
+  exit 0
+fi
+
+FILE_COUNT="$(echo "$CHANGED_FILES" | wc -l | tr -d '[:space:]')"
+echo "Found ${FILE_COUNT} changed Ruby file(s):"
+echo "$CHANGED_FILES" | sed 's/^/  /'
+print_separator
+
+# ---------------------------------------------------------------------------
+# Run RuboCop.
+# ---------------------------------------------------------------------------
+echo "Running: bundle exec rubocop ${CHANGED_FILES}"
+print_separator
+
+# Pass files as individual arguments; use xargs to handle any whitespace safely.
+# shellcheck disable=SC2046
+set +e
+echo "$CHANGED_FILES" | xargs bundle exec rubocop --force-exclusion
+RUBOCOP_EXIT="$?"
+set -e
+
+print_separator
+
+if [ "$RUBOCOP_EXIT" -eq 0 ]; then
+  echo "PASS — RuboCop found no offenses in ${FILE_COUNT} changed file(s)."
+  exit 0
+else
+  echo "FAIL — RuboCop reported offenses in changed file(s). Exit code: ${RUBOCOP_EXIT}"
+  exit 1
+fi
