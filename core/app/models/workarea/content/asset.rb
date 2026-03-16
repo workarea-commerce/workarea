@@ -39,6 +39,26 @@ module Workarea
       end
     end
 
+    # --- Prototype: optional non-Dragonfly backend ---
+    #
+    # This keeps the existing fields (`file_uid`, `file_name`, magic attributes)
+    # but allows swapping the runtime implementation for Content::Asset only.
+    #
+    # Enable with: WORKAREA_MEDIA_BACKEND=media_v2
+    #
+    alias_method :dragonfly_file, :file
+    alias_method :dragonfly_file=, :file=
+
+    def file
+      return dragonfly_file unless use_media_v2?
+      @media_v2_file ||= Workarea::Media::Attachment.new(self, :file)
+    end
+
+    def file=(value)
+      return self.dragonfly_file = value unless use_media_v2?
+      Workarea::Media::Attachment.assign(self, :file, value)
+    end
+
     validates :file, presence: true
 
     scope :of_type, ->(t) { where(type: t) }
@@ -146,6 +166,10 @@ module Workarea
 
     def skip_type?
       new_record? && type.present?
+    end
+
+    def use_media_v2?
+      ENV['WORKAREA_MEDIA_BACKEND'].to_s == 'media_v2'
     end
   end
 end
