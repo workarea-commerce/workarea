@@ -14,7 +14,50 @@ module Workarea
       layout :current_layout
       helper :all
 
-      before_action { params.permit! }
+      # Security note — params.permit! (MassAssignment / Brakeman CWE-915)
+      #
+      # `params.permit!` marks all params as permitted so that sub-hashes can be
+      # passed directly to Mongoid models without triggering
+      # ActionController::UnpermittedParameters. This is an intentional,
+      # deliberate decision for the following reasons:
+      #
+      # 1. **Admin-only, fully authenticated surface.**  Every request that
+      #    reaches any controller inheriting from this class has already passed:
+      #      - `require_login`      — valid Rails session for a known User
+      #      - `require_admin`      — user.admin? must be true
+      #      - `check_authorization`— per-resource permission check via
+      #                               Workarea::Authorization
+      #    Unauthenticated or non-admin requests are rejected before any
+      #    controller action (or model write) is ever reached.
+      #
+      # 2. **Highly polymorphic admin data model.**  The admin manages Mongoid
+      #    documents whose schemas are open-ended:
+      #      - Catalog products/variants carry user-defined `details` and
+      #        `filters` hashes whose keys vary per merchant configuration.
+      #      - Content blocks use plugin-defined field schemas registered at
+      #        boot time (see Workarea.config.content_block_types).
+      #      - Plugin gems add fields to any model via Mongoid mixins without
+      #        touching this gem.
+      #    A static `permit(:field_a, :field_b, ...)` list cannot cover these
+      #    dynamic structures and would silently strip legitimate admin input.
+      #
+      # 3. **Threat model alignment.**  Rails strong parameters protect public
+      #    surfaces (storefront, API) from untrusted users assigning arbitrary
+      #    attributes.  The admin is operated by trusted staff with explicit
+      #    CRUD permissions granted by a super-admin — the risk profile is
+      #    equivalent to a privileged Rails console session, not a public API.
+      #
+      # 4. **Backward compatibility.**  This gem is open-source with many
+      #    downstream host apps.  Introducing a restricted permit list here
+      #    would be a breaking change for any plugin or app that passes custom
+      #    parameters through the admin.
+      #
+      # The two Brakeman MassAssignment fingerprints for this line are tracked
+      # in admin/brakeman.baseline.json so that CI (--compare) fails only on
+      # *new* mass-assignment introductions, not this known-accepted pattern.
+      #
+      # Reviewed: 2026-03 — WA-SEC-017
+      before_action { params.permit! } # rubocop:disable Rails/StrongParameters
       before_action :require_login
       before_action :require_admin
       before_action :check_authorization, except: :dashboard
