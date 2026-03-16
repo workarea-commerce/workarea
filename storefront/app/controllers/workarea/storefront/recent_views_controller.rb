@@ -2,9 +2,9 @@
 
 module Workarea
   class Storefront::RecentViewsController < Storefront::ApplicationController
-    skip_before_action :verify_authenticity_token
-
     ALLOWED_VIEWS = %w[show aside narrow].freeze
+
+    skip_before_action :verify_authenticity_token
 
     def show
       if stale?(etag: current_metrics, last_modified: current_metrics.updated_at)

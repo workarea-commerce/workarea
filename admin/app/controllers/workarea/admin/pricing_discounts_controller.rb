@@ -2,6 +2,8 @@
 
 module Workarea
   class Admin::PricingDiscountsController < Admin::ApplicationController
+    ALLOWED_TEMPLATES = %w[edit rules].freeze
+
     required_permissions :marketing
 
     before_action :check_publishing_authorization
@@ -23,8 +25,6 @@ module Workarea
     def edit
       @discount = Admin::DiscountViewModel.wrap(@discount, view_model_options)
     end
-
-    ALLOWED_TEMPLATES = %w[edit rules].freeze
 
     def update
       if @discount.update(params[:discount])
