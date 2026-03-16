@@ -47,7 +47,7 @@ set -uo pipefail
 # Config
 # ---------------------------------------------------------------------------
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-cd "$ROOT_DIR"
+cd "$ROOT_DIR" || exit
 
 LOG_FILE="${LOG_FILE:-$ROOT_DIR/log/default_appraisal_deprecations.log}"
 RAILS_ENV="${RAILS_ENV:-test}"
