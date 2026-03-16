@@ -3,6 +3,8 @@
 module Workarea
   module Admin
     class SegmentRulesController < Admin::ApplicationController
+      include SegmentRuleLookup
+
       before_action :find_segment, except: :geolocation_options
       before_action :find_rules, except: :geolocation_options
       before_action :find_rule, except: [:index, :geolocation_options]
@@ -56,16 +58,9 @@ module Workarea
           @segment.rules.where(id: params[:id]).first
         else
           klass = segment_rule_class_for(params[:rule_type])
-          head(:unprocessable_entity) and return unless klass
+          return head(:unprocessable_entity) if klass.nil?
           @segment.model.rules.build(params[:rule], klass)
         end
-      end
-
-      def segment_rule_class_for(rule_type)
-        slug = rule_type.to_s.underscore
-        Workarea.config.segment_rule_types.lazy
-          .map { |t| t.constantize }
-          .find { |klass| klass.slug.to_s == slug }
       end
     end
   end

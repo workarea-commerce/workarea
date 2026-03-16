@@ -5,11 +5,7 @@ module Workarea
     class BulkActionsController < Admin::ApplicationController
       def create
         klass = bulk_action_class_for(params[:type])
-
-        if klass.nil?
-          head :unprocessable_entity
-          return
-        end
+        return head(:unprocessable_entity) if klass.nil?
 
         raise unless klass < BulkAction
         bulk_action = Mongoid::Factory.build(klass, bulk_action_params(klass))
@@ -48,7 +44,7 @@ module Workarea
       # raw parameter value.
       def bulk_action_class_for(type_name)
         target = type_name.to_s
-        Workarea.config.bulk_action_types.lazy
+        Workarea.config.bulk_action_types
           .map { |t| t.constantize }
           .find { |klass| klass.name == target }
       end
