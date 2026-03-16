@@ -106,11 +106,9 @@ install_debian_like() {
   fi
 
   local missing_docker=false
-  local missing_compose=false
   local missing_convert=false
 
   have docker || missing_docker=true
-  have_compose || missing_compose=true
   have convert || missing_convert=true
 
   if [[ "$missing_docker" == "true" || "$missing_convert" == "true" ]]; then
@@ -170,7 +168,7 @@ main() {
         # shellcheck disable=SC1091
         . /etc/os-release
         case "${ID_LIKE:-$ID}" in
-          *debian*|*ubuntu*|debian|ubuntu)
+          *debian*|*ubuntu*)
             install_debian_like
             exit 0
             ;;
