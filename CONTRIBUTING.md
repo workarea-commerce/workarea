@@ -90,7 +90,9 @@ PR.
 3. Never add to the baseline silently — the triage doc is the paper trail.
 
 See [`docs/security/brakeman-baseline-triage.md`](docs/security/brakeman-baseline-triage.md)
-for the full inventory of accepted warnings and their owners.
+for the full inventory of accepted warnings and their owners.  For a high-level
+map of finding categories → tracking issues, see
+[`docs/security/brakeman-findings.md`](docs/security/brakeman-findings.md).
 
 Thanks!
 
