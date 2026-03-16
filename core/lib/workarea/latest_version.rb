@@ -6,10 +6,9 @@ module Workarea
         request.content_type = 'application/json'
 
         uri = URI('https://rubygems.org')
-        http = Net::HTTP.new(uri.host, uri.port)
-        http.use_ssl = true
-        http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-        response = http.start { |h| h.request(request) }
+        response = Net::HTTP.start(uri.host, uri.port, use_ssl: true) do |h|
+          h.request(request)
+        end
 
         JSON.parse(response.body)['version']
       end
