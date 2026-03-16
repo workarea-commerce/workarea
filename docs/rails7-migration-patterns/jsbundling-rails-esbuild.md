@@ -96,10 +96,42 @@ on Webpacker’s compilation step, you may need to add a build step explicitly.
 
 ---
 
+## Troubleshooting
+
+### Symptom: `The asset "application.js" is not present in the asset pipeline`
+
+**Detection**: This usually appears during `assets:precompile` or when rendering a
+layout that calls `javascript_include_tag 'application'`.
+
+**Fix**:
+
+1. Ensure `app/assets/config/manifest.js` links the builds directory:
+
+   ```js
+   //= link_tree ../builds
+   ```
+
+2. Ensure the JS build runs *before* `assets:precompile` in CI / production:
+
+   ```bash
+   yarn build
+   bin/rails assets:precompile
+   ```
+
+### Symptom: JS changes don’t show up in development
+
+**Fix**: Use `bin/dev` (or otherwise run the esbuild watch process) so changes get
+rebuilt into `app/assets/builds`.
+
+---
+
 ## Notes for Workarea apps
 
 - Workarea’s admin/storefront JS is still Sprockets-managed.
 - Your host app’s custom JS can be bundled and delivered via `app/assets/builds`.
+- Workarea itself has **no hard dependency on Webpacker** (no `javascript_pack_tag`,
+  `Webpacker` constants, etc.). Webpacker references should be limited to docs/migration
+  guides.
 - If you also want modern CSS tooling, consider `cssbundling-rails` similarly, but keep
   the surface area small during the Rails 7 upgrade.
 
