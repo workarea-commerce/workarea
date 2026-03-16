@@ -24,13 +24,16 @@ module Workarea
       @discount = Admin::DiscountViewModel.wrap(@discount, view_model_options)
     end
 
+    ALLOWED_TEMPLATES = %w[edit rules].freeze
+
     def update
       if @discount.update(params[:discount])
         flash[:success] = t('workarea.admin.pricing_discounts.flash_messages.saved')
         redirect_to pricing_discount_path(@discount)
       else
         @discount = Admin::DiscountViewModel.wrap(@discount, view_model_options)
-        render params[:template] || :edit, status: :unprocessable_entity
+        template = ALLOWED_TEMPLATES.include?(params[:template].to_s) ? params[:template].to_s : 'edit'
+        render template, status: :unprocessable_entity
       end
     end
 
