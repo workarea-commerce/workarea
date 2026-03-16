@@ -1,7 +1,11 @@
 {
   "scan_info": {
+    "app_path": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront",
     "rails_version": "4.x",
-    "security_warnings": 9,
+    "security_warnings": 6,
+    "start_time": "2026-03-16 18:06:23 -0400",
+    "end_time": "2026-03-16 18:06:24 -0400",
+    "duration": 0.769758,
     "checks_performed": [
       "BasicAuth",
       "BasicAuthTimingAttack",
@@ -45,11 +49,13 @@
       "Pathname",
       "PermitAttributes",
       "QuoteTableName",
+      "Ransack",
       "Redirect",
       "RegexDoS",
       "Render",
       "RenderDoS",
       "RenderInline",
+      "RenderRCE",
       "ResponseSplitting",
       "RouteDoS",
       "SQL",
@@ -80,42 +86,14 @@
       "WithoutProtection",
       "XMLDoS",
       "YAMLParsing"
-    ]
+    ],
+    "number_of_controllers": 31,
+    "number_of_models": 0,
+    "number_of_templates": 6,
+    "ruby_version": "3.2.7",
+    "brakeman_version": "8.0.4"
   },
   "warnings": [
-    {
-      "warning_type": "Dynamic Render Path",
-      "warning_code": 15,
-      "fingerprint": "0d340cbb941793c81cc1f51f9bb35b3b231fb45d8fb743b770053dadc4587231",
-      "check_name": "Render",
-      "message": "Render path contains parameter value",
-      "file": "app/views/workarea/storefront/products/details.html.haml",
-      "line": 2,
-      "link": "https://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
-      "code": "render(action => \"workarea/storefront/products/templates/#{Storefront::ProductViewModel.wrap(Catalog::Product.find_by(:slug => params[:id]), view_model_options).template}\", { :product => Storefront::ProductViewModel.wrap(Catalog::Product.find_by(:slug => params[:id]), view_model_options) })",
-      "render_path": [
-        {
-          "type": "controller",
-          "class": "Workarea::Storefront::ProductsController",
-          "method": "details",
-          "line": 22,
-          "file": "app/controllers/workarea/storefront/products_controller.rb",
-          "rendered": {
-            "name": "workarea/storefront/products/details",
-            "file": "app/views/workarea/storefront/products/details.html.haml"
-          }
-        }
-      ],
-      "location": {
-        "type": "template",
-        "template": "workarea/storefront/products/details"
-      },
-      "user_input": "params[:id]",
-      "confidence": "Weak",
-      "cwe_id": [
-        22
-      ]
-    },
     {
       "warning_type": "Dynamic Render Path",
       "warning_code": 15,
@@ -161,6 +139,24 @@
       ]
     },
     {
+      "warning_type": "Unmaintained Dependency",
+      "warning_code": 123,
+      "fingerprint": "40be17ee84017c91503dab23873e24bdd71665ab665bf6f351cfc09ff83e6582",
+      "check_name": "EOLRuby",
+      "message": "Support for Ruby 3.2.7 ends on 2026-03-31",
+      "file": ".ruby-version",
+      "line": 1,
+      "link": "https://brakemanscanner.org/docs/warning_types/unmaintained_dependency/",
+      "code": null,
+      "render_path": null,
+      "location": null,
+      "user_input": null,
+      "confidence": "Medium",
+      "cwe_id": [
+        1104
+      ]
+    },
+    {
       "warning_type": "Mass Assignment",
       "warning_code": 70,
       "fingerprint": "6f4bcedb164c5f50b0827e7516d4d2559383dd1f2eb2a2c18fbceca9d2c78755",
@@ -180,105 +176,6 @@
       "confidence": "Medium",
       "cwe_id": [
         915
-      ]
-    },
-    {
-      "warning_type": "Dynamic Render Path",
-      "warning_code": 15,
-      "fingerprint": "762fec69481052e1e2510ef64d9c825547d5bbb6f96a6b5cbe9e3389f855e200",
-      "check_name": "Render",
-      "message": "Render path contains parameter value",
-      "file": "app/views/workarea/storefront/products/show.html.haml",
-      "line": 29,
-      "link": "https://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
-      "code": "render(action => \"workarea/storefront/products/templates/#{Storefront::ProductViewModel.wrap(Catalog::Product.find_by(:slug => params[:id]), view_model_options).template}\", { :product => Storefront::ProductViewModel.wrap(Catalog::Product.find_by(:slug => params[:id]), view_model_options) })",
-      "render_path": [
-        {
-          "type": "controller",
-          "class": "Workarea::Storefront::ProductsController",
-          "method": "show",
-          "line": 12,
-          "file": "app/controllers/workarea/storefront/products_controller.rb",
-          "rendered": {
-            "name": "workarea/storefront/products/show",
-            "file": "app/views/workarea/storefront/products/show.html.haml"
-          }
-        }
-      ],
-      "location": {
-        "type": "template",
-        "template": "workarea/storefront/products/show"
-      },
-      "user_input": "params[:id]",
-      "confidence": "Weak",
-      "cwe_id": [
-        22
-      ]
-    },
-    {
-      "warning_type": "Dynamic Render Path",
-      "warning_code": 15,
-      "fingerprint": "774554fb154da61b9b29300817ea5604def555ebbcfda2c0174d6f2c284bdf24",
-      "check_name": "Render",
-      "message": "Render path contains parameter value",
-      "file": "app/views/workarea/storefront/pages/show.html.haml",
-      "line": 29,
-      "link": "https://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
-      "code": "render(action => \"workarea/storefront/pages/templates/#{Storefront::PageViewModel.new(Content::Page.find_by(:slug => params[:id]), view_model_options).template}\", { :page => Storefront::PageViewModel.new(Content::Page.find_by(:slug => params[:id]), view_model_options) })",
-      "render_path": [
-        {
-          "type": "controller",
-          "class": "Workarea::Storefront::PagesController",
-          "method": "show",
-          "line": 11,
-          "file": "app/controllers/workarea/storefront/pages_controller.rb",
-          "rendered": {
-            "name": "workarea/storefront/pages/show",
-            "file": "app/views/workarea/storefront/pages/show.html.haml"
-          }
-        }
-      ],
-      "location": {
-        "type": "template",
-        "template": "workarea/storefront/pages/show"
-      },
-      "user_input": "params[:id]",
-      "confidence": "Weak",
-      "cwe_id": [
-        22
-      ]
-    },
-    {
-      "warning_type": "Cross-Site Scripting",
-      "warning_code": 2,
-      "fingerprint": "84dd23c73afb0ecabb60fc0243c3ac1b448f951e69a7c4e4b3f522ff90bfcf00",
-      "check_name": "CrossSiteScripting",
-      "message": "Unescaped parameter value",
-      "file": "app/views/workarea/storefront/products/show.html.haml",
-      "line": 34,
-      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
-      "code": "Storefront::ProductViewModel.wrap(Catalog::Product.find_by(:slug => params[:id]), view_model_options).description",
-      "render_path": [
-        {
-          "type": "controller",
-          "class": "Workarea::Storefront::ProductsController",
-          "method": "show",
-          "line": 12,
-          "file": "app/controllers/workarea/storefront/products_controller.rb",
-          "rendered": {
-            "name": "workarea/storefront/products/show",
-            "file": "app/views/workarea/storefront/products/show.html.haml"
-          }
-        }
-      ],
-      "location": {
-        "type": "template",
-        "template": "workarea/storefront/products/show"
-      },
-      "user_input": "params[:id]",
-      "confidence": "Weak",
-      "cwe_id": [
-        79
       ]
     },
     {
@@ -327,6 +224,667 @@
     }
   ],
   "ignored_warnings": [],
-  "errors": [],
+  "errors": [
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/layouts/workarea/storefront/application.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/layouts/workarea/storefront/checkout.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/layouts/workarea/storefront/content_preview.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/layouts/workarea/storefront/email.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/layouts/workarea/storefront/empty.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/layouts/workarea/storefront/navigation.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/account_mailer/creation.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/account_mailer/password_reset.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/cart_items/create.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/carts/_pricing.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/carts/show.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/categories/show.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/checkouts/_checkout_progress.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/checkouts/_summary.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/checkouts/addresses.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/checkouts/confirmation.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/checkouts/payment.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/checkouts/shipping.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/checkouts/summary.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/contacts/show.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/content_areas/show.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/content_blocks/_button.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/content_blocks/_category_summary.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/content_blocks/_divider.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/content_blocks/_hero.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/content_blocks/_html.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/content_blocks/_image.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/content_blocks/_image_and_text.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/content_blocks/_image_group.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/content_blocks/_product_insights.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/content_blocks/_product_list.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/content_blocks/_quote.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/content_blocks/_recommendations.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/content_blocks/_social_networks.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/content_blocks/_taxonomy.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/content_blocks/_text.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/content_blocks/_three_column_taxonomy.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/content_blocks/_two_column_taxonomy.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/content_blocks/_video.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/content_blocks/_video_and_text.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/content_blocks/show.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/email_signups/show.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/errors/show.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/facets/_range.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/facets/_terms.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/favicons/_tags.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/fulfillment_mailer/canceled.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/fulfillment_mailer/shipped.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/inquiry_mailer/created.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/mailers/_recommendations.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/menus/index.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/menus/show.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/order_mailer/_summary.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/order_mailer/confirmation.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/order_mailer/reminder.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/order_mailer/tenders/_credit_card.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/order_mailer/tenders/_store_credit.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/orders/_summary.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/orders/index.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/orders/show.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/orders/tenders/_credit_card.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/orders/tenders/_store_credit.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/pages/accessibility.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/pages/home_page.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/pages/show.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/pages/templates/_generic.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/pages/templates/_test.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/payment_mailer/refunded.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/products/_price.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/products/_pricing.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/products/_summary.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/products/details.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/products/show.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/products/templates/_generic.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/products/templates/_option_selects.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/products/templates/_option_thumbnails.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/products/templates/_test.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/recent_views/aside.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/recent_views/narrow.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/recent_views/show.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/recommendations/show.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/searches/no_results.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/searches/show.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/shared/_address_fields.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/shared/_left_navigation.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/shared/_message.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/sitemaps/_pagination.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/sitemaps/show.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/_navigation.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/base/_forms.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/base/_tables.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/components/_box.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/components/_breadcrumbs.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/components/_button.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/components/_button_content_block.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/components/_button_property.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/components/_category_summary_content_block.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/components/_data_card.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/components/_divider_content_block.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/components/_hero_content_block.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/components/_html_content_block.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/components/_image_and_text_content_block.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/components/_image_content_block.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/components/_image_group_content_block.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/components/_inline_form.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/components/_loading.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/components/_message.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/components/_mobile_filters.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/components/_pagination.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/components/_payment_icon.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/components/_personalized_recommendations_content_block.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/components/_product_insights_content_block.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/components/_product_list.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/components/_product_list_content_block.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/components/_product_prices.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/components/_product_summary.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/components/_property.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/components/_quote_content_block.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/components/_recommendations.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/components/_social_networks_content_block.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/components/_svg_icon.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/components/_table.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/components/_taxonomy_content_block.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/components/_text_box.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/components/_text_button.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/components/_text_content_block.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/components/_ui_dialog.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/components/_ui_dialog_image.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/components/_ui_helper_hidden_accessible.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/components/_value.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/components/_video_and_text_content_block.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/components/_video_content_block.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/index.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/objects/_button_reset.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/objects/_inline_list.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/objects/_list_reset.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/objects/_text_field_reset.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/settings/_color_variables.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/show.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/trumps/_break_word.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/trumps/_clearfix.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/trumps/_hidden.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/trumps/_hidden_if_js_enabled.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/trumps/_image_replacement.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/trumps/_truncate.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/trumps/_visible.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/trumps/_visually_hidden.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/typography/_align.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/typography/_fonts.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/typography/_headings.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/typography/_links.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/style_guides/typography/_text.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/users/accounts/edit.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/users/accounts/show.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/users/addresses/edit.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/users/addresses/new.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/users/credit_cards/edit.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/users/credit_cards/new.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/users/logins/new.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/users/orders/_summary.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/users/orders/index.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/users/orders/show.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/users/passwords/change.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/users/passwords/edit.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    },
+    {
+      "error": "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger While processing /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/storefront/app/views/workarea/storefront/users/passwords/new.html.haml",
+      "location": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/vendor/bundle/ruby/3.2.0/gems/activesupport-6.1.7.10/lib/active_support/logger_thread_safe_level.rb:16:in `<module:LoggerThreadSafeLevel>'"
+    }
+  ],
   "obsolete": []
 }
