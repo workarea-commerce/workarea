@@ -48,7 +48,7 @@ bundle_config_get() {
 DEPLOYMENT_VAL="$(bundle_config_get deployment)"
 echo "${BOLD}bundle config get deployment:${RESET}"
 if [ -z "$DEPLOYMENT_VAL" ]; then
-  printf "  ${GREEN}(not set)${RESET}\n"
+  printf '  %s(not set)%s\n' "$GREEN" "$RESET"
   DEPLOYMENT_ENABLED=0
 else
   printf "  %s\n" "$DEPLOYMENT_VAL"
@@ -63,7 +63,7 @@ fi
 FROZEN_VAL="$(bundle_config_get frozen)"
 echo "${BOLD}bundle config get frozen:${RESET}"
 if [ -z "$FROZEN_VAL" ]; then
-  printf "  ${GREEN}(not set)${RESET}\n"
+  printf '  %s(not set)%s\n' "$GREEN" "$RESET"
   FROZEN_ENABLED=0
 else
   printf "  %s\n" "$FROZEN_VAL"
@@ -77,7 +77,7 @@ fi
 PATH_VAL="$(bundle_config_get path)"
 echo "${BOLD}bundle config get path:${RESET}"
 if [ -z "$PATH_VAL" ]; then
-  printf "  ${GREEN}(not set — gems install to system/rbenv default)${RESET}\n"
+  printf '  %s(not set — gems install to system/rbenv default)%s\n' "$GREEN" "$RESET"
 else
   printf "  %s\n" "$PATH_VAL"
 fi
