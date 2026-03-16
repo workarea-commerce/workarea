@@ -81,7 +81,7 @@ fi
 
 FILE_COUNT="$(echo "$CHANGED_FILES" | wc -l | tr -d '[:space:]')"
 echo "Found ${FILE_COUNT} changed Ruby file(s):"
-echo "$CHANGED_FILES" | sed 's/^/  /'
+printf '%s\n' "$CHANGED_FILES" | while IFS= read -r f; do printf '  %s\n' "$f"; done
 print_separator
 
 # ---------------------------------------------------------------------------
