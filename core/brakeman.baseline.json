@@ -1,11 +1,7 @@
 {
   "scan_info": {
-    "app_path": "/Users/Shared/openclaw/workarea/core",
     "rails_version": "6.1",
     "security_warnings": 11,
-    "start_time": "2026-03-13 12:18:18 -0400",
-    "end_time": "2026-03-13 12:18:19 -0400",
-    "duration": 1.009031,
     "checks_performed": [
       "BasicAuth",
       "BasicAuthTimingAttack",
@@ -331,3 +327,4 @@
   "errors": [],
   "obsolete": []
 }
+

@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+# script/update_brakeman_baseline
+#
+# Generate a sanitized Brakeman baseline for workarea-core.
+#
+# Machine-specific metadata (app_path, timestamps, duration) is stripped so
+# committed diffs only reflect actual warning changes, not contributor
+# environments or scan timing.
+#
+# Usage:
+#   script/update_brakeman_baseline
+#
+# The baseline is written to core/brakeman.baseline.json.
+# Run from the repository root.
+
+set -euo pipefail
+
+BASELINE="core/brakeman.baseline.json"
+TMP="$(mktemp)"
+
+cleanup() { rm -f "$TMP"; }
+trap cleanup EXIT
+
+echo "Running Brakeman against core/ ..."
+bundle exec brakeman \
+  --quiet \
+  --format json \
+  --output "$TMP" \
+  core || true  # brakeman exits non-zero when warnings are found; that's expected
+
+# Sanitize: strip fields that embed contributor-machine paths or timestamps.
+# Keeping: checks_performed, version fields, counts, and all warnings.
+ruby - "$TMP" "$BASELINE" <<'RUBY'
+require 'json'
+
+raw   = File.read(ARGV[0])
+data  = JSON.parse(raw)
+info  = data['scan_info'] || {}
+
+# Remove environment- and time-specific keys
+%w[app_path start_time end_time duration].each { |k| info.delete(k) }
+
+# Write with consistent formatting and a trailing newline
+File.write(ARGV[1], JSON.pretty_generate(data) + "\n")
+RUBY
+
+echo "Baseline updated: $BASELINE"
