@@ -1,0 +1,54 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# script/rails7_migration_patterns_check
+#
+# Validates that each Rails 7 migration pattern doc contains the required
+# structural headings: Symptom, Root cause, Detection, Fix.
+#
+# Usage:
+#   ./script/rails7_migration_patterns_check
+#
+# Exit codes:
+#   0 — all docs pass
+#   1 — one or more docs are missing required sections
+
+DOCS_DIR = File.expand_path("../docs/rails7-migration-patterns", __dir__)
+REQUIRED_SECTIONS = %w[Symptom Detection Fix].freeze
+# "Root cause" contains a space so we match it separately
+REQUIRED_SECTIONS_EXTRA = ["Root cause"].freeze
+ALL_REQUIRED = (REQUIRED_SECTIONS + REQUIRED_SECTIONS_EXTRA).freeze
+
+docs = Dir.glob(File.join(DOCS_DIR, "*.md")).reject { |f| File.basename(f) == "README.md" }.sort
+
+if docs.empty?
+  puts "No migration pattern docs found in #{DOCS_DIR}"
+  exit 1
+end
+
+failures = {}
+
+docs.each do |path|
+  content = File.read(path, encoding: "utf-8")
+  missing = ALL_REQUIRED.reject do |section|
+    # Match markdown headings of any level (## Symptom, ### Root cause, etc.)
+    content.match?(/^#+\s+#{Regexp.escape(section)}\b/i)
+  end
+  failures[path] = missing unless missing.empty?
+end
+
+if failures.empty?
+  puts "✅  All #{docs.size} migration pattern doc(s) passed structure check."
+  puts "    Required sections present in every file: #{ALL_REQUIRED.join(', ')}"
+  exit 0
+else
+  puts "❌  Structure check failed — #{failures.size} file(s) missing required sections:\n\n"
+  failures.each do |path, missing|
+    rel = path.sub("#{Dir.pwd}/", "")
+    puts "  #{rel}"
+    missing.each { |s| puts "    • missing: #{s}" }
+    puts
+  end
+  puts "Required sections: #{ALL_REQUIRED.join(', ')}"
+  exit 1
+end
