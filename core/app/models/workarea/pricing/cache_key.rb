@@ -26,7 +26,7 @@ module Workarea
       end
 
       def to_s
-        Digest::SHA1.hexdigest(parts.join('/'))
+        Digest::SHA256.hexdigest(parts.join('/'))
       end
 
       private
