@@ -31,7 +31,7 @@ module Workarea
         end
 
         def deserialize_mongoid(klass, serialized)
-          Mongoid::Factory.from_db(klass, deserialize_object(serialized))
+          klass.instantiate(deserialize_object(serialized))
         end
 
         def deserialize_object(object)
