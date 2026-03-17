@@ -384,7 +384,7 @@ class USPSTest < ActiveSupport::TestCase
   end
 
   def test_strip_9_digit_zip_codes
-    request = URI.decode(@carrier.send(:build_us_rate_request, package_fixtures[:book], "90210-1234", "123456789"))
+    request = CGI.unescape(@carrier.send(:build_us_rate_request, package_fixtures[:book], "90210-1234", "123456789"))
     assert !(request =~ /\>90210-1234\</)
     assert request =~ /\>90210\</
     assert !(request =~ /\>123456789\</)
@@ -392,8 +392,8 @@ class USPSTest < ActiveSupport::TestCase
   end
 
   def test_strip_9_digit_zip_codes_world_rates
-    request = URI.decode(@carrier.send(:build_world_rate_request, location_fixtures[:beverly_hills_9_zip],
-                                        package_fixtures[:book], location_fixtures[:auckland], {}))
+    request = CGI.unescape(@carrier.send(:build_world_rate_request, location_fixtures[:beverly_hills_9_zip],
+                                          package_fixtures[:book], location_fixtures[:auckland], {}))
     refute_match /\<OriginZip\>90210-1234/, request
     assert_match /\<OriginZip\>90210/, request
   end
