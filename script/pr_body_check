@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+# script/pr_body_check
+# Validates that a PR body includes required sections.
+# Usage: ./script/pr_body_check <PR_NUMBER_OR_URL>
+
+set -euo pipefail
+
+if [[ $# -lt 1 ]]; then
+  echo "Usage: $0 <PR_NUMBER_OR_URL>" >&2
+  exit 1
+fi
+
+PR_ARG="$1"
+
+# Fetch the PR body via gh CLI
+if ! PR_BODY=$(gh pr view "$PR_ARG" --json body --jq '.body' 2>&1); then
+  echo "Error fetching PR: $PR_BODY" >&2
+  exit 2
+fi
+
+PASS=true
+
+# Case-insensitive check for "Client impact" section
+if echo "$PR_BODY" | grep -qi "client impact"; then
+  echo "✅  \"Client impact\" section found."
+else
+  echo "❌  Missing required section: \"Client impact\"."
+  PASS=false
+fi
+
+# Case-insensitive check for "Verification Plan" section
+if echo "$PR_BODY" | grep -qi "verification plan"; then
+  echo "✅  \"Verification Plan\" section found."
+else
+  echo "❌  Missing required section: \"Verification Plan\"."
+  PASS=false
+fi
+
+if [[ "$PASS" == "false" ]]; then
+  echo ""
+  echo "PR body validation FAILED. Please add the missing section(s) above." >&2
+  exit 1
+fi
+
+echo ""
+echo "PR body validation PASSED."
