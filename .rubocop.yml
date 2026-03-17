@@ -219,3 +219,7 @@ Style/RedundantPercentQ:
 Lint/RequireParentheses:
   Enabled: true
 
+# BigDecimal.new was removed in Ruby 3.4. Use BigDecimal() instead.
+Lint/BigDecimalNew:
+  Enabled: true
+
