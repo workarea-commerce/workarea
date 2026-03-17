@@ -219,3 +219,7 @@ Style/RedundantPercentQ:
 Lint/RequireParentheses:
   Enabled: true
 
+# Ruby 3 removed URI.escape/unescape. Prevent reintroduction.
+Lint/UriEscapeUnescape:
+  Enabled: true
+
