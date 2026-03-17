@@ -1,10 +1,48 @@
 # Webpacker → Sprockets 4 (WA-RAILS7-019)
 
-Rails 7 removed Webpacker from the default stack. Workarea’s Rails 7 upgrade path uses
+Rails 7 removed Webpacker from the default stack. Workarea's Rails 7 upgrade path uses
 **Sprockets 4** (see the Sprockets 4 work that landed in PR #740).
 
 This guide documents a practical migration path for **host applications** that historically
 used Webpacker alongside Workarea.
+
+---
+
+## Symptom
+
+After upgrading to Rails 7, asset compilation fails or JavaScript/CSS is missing at
+runtime. Applications that relied on `javascript_pack_tag` / `stylesheet_pack_tag` see
+errors such as:
+
+```
+Webpacker::Manifest::MissingEntryError: Webpacker can't find application.js
+```
+
+Or, if Webpacker is removed without a replacement:
+
+```
+ActionController::RoutingError: No route matches [GET] "/packs/js/application-abc123.js"
+```
+
+## Root cause
+
+Rails 7 removed Webpacker as the default JavaScript bundler. Workarea's Rails 7 path
+uses **Sprockets 4** instead. Host applications that previously mixed Webpacker with
+Sprockets must migrate their JavaScript/CSS entrypoints and view helpers to
+Sprockets-compatible equivalents.
+
+## Detection
+
+```bash
+# Find Webpacker view helpers in layouts/views
+grep -r "javascript_pack_tag\|stylesheet_pack_tag" app/ --include="*.erb" -l
+
+# Check Gemfile for Webpacker gem
+grep "webpacker" Gemfile
+
+# Check for Webpacker config
+ls config/webpacker.yml 2>/dev/null && echo "Webpacker config present"
+```
 
 ---
 
@@ -30,7 +68,7 @@ Any remaining Webpacker references are limited to documentation and templates.
 
 ---
 
-## Migration Steps
+## Fix
 
 ### 1) Remove Webpacker from the host app
 
@@ -59,13 +97,13 @@ In your host application:
    public/packs-test
    ```
 
-4. If you were using `javascript_pack_tag` / `stylesheet_pack_tag`, you’ll replace those in a later step.
+4. If you were using `javascript_pack_tag` / `stylesheet_pack_tag`, you'll replace those in a later step.
 
 ### 2) Ensure Sprockets 4 manifest exists
 
 Sprockets 4 expects an explicit manifest file.
 
-In the host application, add `app/assets/config/manifest.js` if it doesn’t already exist:
+In the host application, add `app/assets/config/manifest.js` if it doesn't already exist:
 
 ```js
 // app/assets/config/manifest.js
@@ -145,7 +183,7 @@ Common changes:
 
 ### 6) Add additional assets to precompile (if needed)
 
-If you add new top-level assets that aren’t linked in `manifest.js`, you may need to
+If you add new top-level assets that aren't linked in `manifest.js`, you may need to
 add them to `config/initializers/assets.rb`:
 
 ```ruby
@@ -171,6 +209,15 @@ Prefer the manifest approach in Sprockets 4 where possible.
 ## Common pitfalls
 
 - **Missing `manifest.js`**: Sprockets 4 will not behave like Sprockets 3 without it.
-- **Assuming ESM works in Sprockets**: it generally won’t; use a bundler if you need it.
+- **Assuming ESM works in Sprockets**: it generally won't; use a bundler if you need it.
 - **Forgetting Workarea entrypoints**: ensure `workarea-admin` and `workarea-storefront`
   are linked (typically via the host manifest).
+
+---
+
+## References / Links
+
+- Related PR: [#740](https://github.com/workarea-commerce/workarea/pull/740) (Sprockets 4 in Workarea)
+- Optional guide: [jsbundling-rails (esbuild) + Sprockets](./jsbundling-rails-esbuild.md)
+- [Sprockets 4 Upgrade Guide](https://github.com/rails/sprockets/blob/main/UPGRADING.md)
+- [Rails 7.0 Release Notes — Asset Pipeline](https://edgeguides.rubyonrails.org/7_0_release_notes.html)

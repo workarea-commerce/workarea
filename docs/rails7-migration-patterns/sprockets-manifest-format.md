@@ -10,7 +10,7 @@ served or precompiled stop working. Common symptoms include:
 - JavaScript or CSS files missing from the precompiled asset manifest
 - Engines / plugins contributing assets that are no longer included
 
-## Root Cause
+## Root cause
 
 Sprockets 4 changed the default asset-inclusion strategy. In Sprockets 3, **all**
 top-level files in `app/assets` were automatically compiled. In Sprockets 4 a
@@ -100,13 +100,14 @@ Rails.application.config.assets.precompile += %w[
 ]
 ```
 
-## Workarea PR / Issue
+## References
 
 - Issue: [#904](https://github.com/workarea-commerce/workarea/issues/904) (this doc)
-- Related: webpacker-to-sprockets-4.md — covers the Webpacker removal path and
+- Related: [webpacker-to-sprockets-4.md](./webpacker-to-sprockets-4.md) — covers the Webpacker removal path and
   initial Sprockets 4 adoption. This document covers the **manifest.js format**
   specifically.
-- Rails upstream: https://github.com/rails/sprockets/blob/main/UPGRADING.md#guide-to-upgrading-from-sprockets-3x-to-4x
+- [Sprockets 4 Upgrade Guide](https://github.com/rails/sprockets/blob/main/UPGRADING.md#guide-to-upgrading-from-sprockets-3x-to-4x)
+- [Rails 7.0 Release Notes — Asset Pipeline](https://edgeguides.rubyonrails.org/7_0_release_notes.html)
 
 ## Lint Rule (pseudocode)
 

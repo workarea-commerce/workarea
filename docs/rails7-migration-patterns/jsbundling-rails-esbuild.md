@@ -18,7 +18,35 @@ bundler.
 
 ---
 
-## High-level approach
+## Symptom
+
+After migrating from Webpacker to Sprockets-only, modern JavaScript features (ES modules,
+npm packages, TypeScript) are no longer available. Or the Webpacker-to-Sprockets migration
+was not viable because the application depends on a complex JS build chain.
+
+## Root cause
+
+Sprockets 4 does not support ES modules or npm package bundling natively. Applications
+that require modern JavaScript tooling need a separate bundler. Rails 7 provides
+`jsbundling-rails` as the recommended path for apps that need `esbuild`, `rollup`, or
+`webpack` while still using Sprockets for CSS and engine assets.
+
+## Detection
+
+```bash
+# Check if app uses ES module imports that Sprockets can't handle
+grep -r "^import " app/javascript/ --include="*.js" --include="*.ts" -l
+
+# Check for npm-sourced packages
+ls package.json 2>/dev/null && grep '"dependencies"' package.json -A 20
+
+# Check for TypeScript files
+find app/javascript -name "*.ts" -o -name "*.tsx" 2>/dev/null | head -10
+```
+
+## Fix
+
+### High-level approach
 
 1. Add `jsbundling-rails` and choose `esbuild`.
 2. Output the built bundle(s) into `app/assets/builds`.
@@ -92,7 +120,7 @@ In production deploys, you need both:
 - `bin/rails assets:precompile`
 
 Many Rails deployments wire this automatically, but if your pipeline previously relied
-on Webpacker’s compilation step, you may need to add a build step explicitly.
+on Webpacker's compilation step, you may need to add a build step explicitly.
 
 ---
 
@@ -118,7 +146,7 @@ layout that calls `javascript_include_tag 'application'`.
    bin/rails assets:precompile
    ```
 
-### Symptom: JS changes don’t show up in development
+### Symptom: JS changes don't show up in development
 
 **Fix**: Use `bin/dev` (or otherwise run the esbuild watch process) so changes get
 rebuilt into `app/assets/builds`.
@@ -127,8 +155,8 @@ rebuilt into `app/assets/builds`.
 
 ## Notes for Workarea apps
 
-- Workarea’s admin/storefront JS is still Sprockets-managed.
-- Your host app’s custom JS can be bundled and delivered via `app/assets/builds`.
+- Workarea's admin/storefront JS is still Sprockets-managed.
+- Your host app's custom JS can be bundled and delivered via `app/assets/builds`.
 - Workarea itself has **no hard dependency on Webpacker** (no `javascript_pack_tag`,
   `Webpacker` constants, etc.). Webpacker references should be limited to docs/migration
   guides.
@@ -139,7 +167,17 @@ rebuilt into `app/assets/builds`.
 
 ## When *not* to use this
 
-If your JS customizations are relatively small and don’t require npm/transpilation,
+If your JS customizations are relatively small and don't require npm/transpilation,
 prefer the simpler **Sprockets-only** approach:
 
 - [`Webpacker → Sprockets 4`](./webpacker-to-sprockets-4.md)
+
+---
+
+## References / Links
+
+- [jsbundling-rails gem](https://github.com/rails/jsbundling-rails)
+- [cssbundling-rails gem](https://github.com/rails/cssbundling-rails)
+- [esbuild documentation](https://esbuild.github.io/)
+- [Rails 7.0 Release Notes — JavaScript](https://edgeguides.rubyonrails.org/7_0_release_notes.html)
+- Related guide: [Webpacker → Sprockets 4](./webpacker-to-sprockets-4.md)
