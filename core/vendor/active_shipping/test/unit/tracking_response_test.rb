@@ -29,7 +29,7 @@ class TrackingResponseTest < ActiveSupport::TestCase
       origin: Location.new(postal_code: '00001')
     }
     # Deep copies options1 to create new ShipmentEvent, Location, etc. objects to check for similar distinct objects
-    options2 = Marshal.load(Marshal.dump(options1))
+    options2 = options1.deep_dup
     options2[:shipment_events][0], options2[:shipment_events][1] =
       options2[:shipment_events][1], options2[:shipment_events][0]
 

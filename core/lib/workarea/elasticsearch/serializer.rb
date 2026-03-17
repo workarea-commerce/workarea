@@ -26,6 +26,17 @@ module Workarea
           serialize_object(model.as_document)
         end
 
+        # NOTE: We intentionally use Marshal for this serializer because it is
+        # only used for internal caching by Workarea (e.g. Redis-backed ES
+        # caching), and the serialized payload is written/read exclusively by
+        # the application itself.
+        #
+        # Trust boundary: do not pass user-controlled strings into
+        # `deserialize_object`.
+        #
+        # Long-term preference would be a JSON-based format, but changing the
+        # serialization format here would be a behavioral change for downstream
+        # apps that rely on this integration.
         def serialize_object(object)
           Base64.encode64(Marshal.dump(object))
         end
@@ -35,6 +46,8 @@ module Workarea
         end
 
         def deserialize_object(object)
+          # Trust boundary: `object` must be a string previously produced by
+          # `serialize_object` within this application.
           Marshal.load(Base64.decode64(object))
         end
       end
