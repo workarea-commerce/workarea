@@ -27,7 +27,11 @@ module Workarea
         search = Search::RelatedHelp.new(ids: [@help_article.id])
         @related = Admin::HelpSearchViewModel.new(search, view_model_options)
         @article_body = Redcarpet::Markdown.new(
-          Redcarpet::Render::HTML.new(hard_wrap: true)
+          Redcarpet::Render::HTML.new(
+            hard_wrap: true,
+            filter_html: true,
+            safe_links_only: true
+          )
         ).render(@help_article.body.to_s)
       end
 
