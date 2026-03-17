@@ -26,6 +26,17 @@ module Workarea
         end
       end
 
+      def test_search
+        path_match = create_redirect(path: '/foo-bar', destination: '/other')
+        dest_match = create_redirect(path: '/something', destination: '/foo-destination')
+        no_match   = create_redirect(path: '/baz', destination: '/qux')
+
+        results = Redirect.search('foo').to_a
+        assert_includes(results, path_match)
+        assert_includes(results, dest_match)
+        refute_includes(results, no_match)
+      end
+
       def test_handle_invalid_path
         path = '/category/FoalBroodmare/Supplements-Mares & Foals/20552.html'
         encoded_path = URI::DEFAULT_PARSER.escape(path)
