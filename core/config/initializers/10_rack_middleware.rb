@@ -53,13 +53,30 @@ Rails.application.config.middleware.insert_after(
   "#{Workarea::Admin.root}/public"
 )
 
+# Rails 7.0 uses Zeitwerk autoloading, but initializers run before Zeitwerk
+# has eager-loaded app/middleware constants. Require these middleware files
+# explicitly to guarantee the constants are defined when the middleware stack
+# is configured.
+#
+# On Rails 6.x these requires are no-ops (the constants are already loaded or
+# will be auto-required); on Rails 7.1+ this pattern remains safe.
+#
+# Decision rationale: Rails 7.0 introduced native `config.hosts` enforcement
+# which covers host header validation at the ActionDispatch level. However,
+# Workarea's EnforceHostMiddleware provides Workarea-specific redirect behavior
+# (respecting Workarea.config.enforce_host / config.host / skip_enforce_host)
+# that `config.hosts` does not replicate. We therefore keep the middleware and
+# fix the autoload gap instead of removing it.
+require_relative '../../app/middleware/workarea/enforce_host_middleware'
 app.config.middleware.use Workarea::EnforceHostMiddleware
 
 # ApplicationMiddleware must wrap the entire Workarea request pipeline so it
 # can set up the Workarea::Visit, locale, and cache-key env vars before any
 # controller or caching layer runs.
+require_relative '../../app/middleware/workarea/application_middleware'
 app.config.middleware.insert(0, Workarea::ApplicationMiddleware)
 
 # In test environments, strip all HTTP caching headers from responses so that
 # headless-browser tests behave consistently regardless of cache state.
+require_relative '../../app/middleware/workarea/strip_http_caching_middleware'
 app.config.middleware.insert(0, Workarea::StripHttpCachingMiddleware) if Rails.env.test?
