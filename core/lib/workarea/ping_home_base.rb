@@ -18,7 +18,7 @@ module Workarea
           http.verify_mode = OpenSSL::SSL::VERIFY_NONE
           http.start { |h| h.request(request) }
 
-        rescue Exception => e
+        rescue StandardError => e
           Workarea::ErrorReporting.report(
             e,
             handled: true,
@@ -61,7 +61,7 @@ module Workarea
         return unless File.exist?(Rails.root.join('.client-id'))
 
         File.read(Rails.root.join('.client-id'))
-      rescue
+      rescue StandardError
         nil
       end
 

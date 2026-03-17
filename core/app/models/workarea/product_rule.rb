@@ -53,8 +53,15 @@ module Workarea
     # @return [Comparable]
     #
     def value
-      return Time.zone.parse(value_field) rescue value_field if created_at?
-      value_field
+      if created_at?
+        begin
+          Time.zone.parse(value_field)
+        rescue ArgumentError, TypeError
+          value_field
+        end
+      else
+        value_field
+      end
     end
 
     # This is HACK for the fact that we want a CSV string in value, but our
@@ -134,7 +141,7 @@ module Workarea
       if created_at?
         begin
           Time.zone.parse(value_field)
-        rescue
+        rescue ArgumentError, TypeError
           errors.add(
             :base,
             I18n.t('workarea.errors.messages.not_a_date')

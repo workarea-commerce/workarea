@@ -13,7 +13,7 @@ module Workarea
 
         JSON.parse(response.body)['version']
       end
-    rescue Exception => e
+    rescue StandardError => e
       Workarea::ErrorReporting.report(
         e,
         handled: true,

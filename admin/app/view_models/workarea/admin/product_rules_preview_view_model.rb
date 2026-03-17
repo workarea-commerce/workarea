@@ -14,7 +14,7 @@ module Workarea
         ].join('::')
 
         view_model_class.constantize.new(model, options)
-      rescue
+      rescue NameError
         new(model, options)
       end
 

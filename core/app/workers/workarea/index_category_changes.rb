@@ -35,7 +35,7 @@ module Workarea
         Catalog::Product.in(id: ids).each do |product|
           begin
             IndexProduct.perform(product)
-          rescue
+          rescue StandardError
             IndexProduct.perform_async(product.id)
           end
         end

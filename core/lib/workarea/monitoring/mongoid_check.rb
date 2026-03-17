@@ -15,7 +15,7 @@ module Workarea
           .collections
           .find
           .present?
-      rescue
+      rescue StandardError
         false
       end
     end

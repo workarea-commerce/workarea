@@ -36,7 +36,7 @@ module Workarea
       #
       def default_credit_card
         credit_cards.find_by(default: true)
-      rescue
+      rescue Mongoid::Errors::DocumentNotFound
         credit_cards.desc(:created_at).first
       end
 

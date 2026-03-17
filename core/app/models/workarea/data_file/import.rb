@@ -60,7 +60,7 @@ module Workarea
         Workarea::Release.with_current(release_id) do
           run_callbacks(:process) { format.import! }
         end
-      rescue Exception => e
+      rescue StandardError => e
         self.error_type = e.class
         self.error_message = e.message
         raise e
