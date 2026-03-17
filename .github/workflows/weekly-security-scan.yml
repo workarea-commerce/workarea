@@ -7,8 +7,8 @@ on:
   workflow_dispatch:
 
 # Minimal token scope: read-only checkout for the security_scan job.
-# The notify_failure job overrides to issues: write (job-level) so only
-# that job receives the elevated scope needed to open tracking issues.
+# The notify_failure job overrides to issues: write (job-level) to open
+# a tracking issue — only that job receives the elevated scope.
 permissions:
   contents: read
 
@@ -21,11 +21,15 @@ jobs:
       cancel-in-progress: false
 
     steps:
-      - uses: actions/checkout@v4
+      # Pinned to commit SHA for supply-chain safety — this is a security
+      # workflow, so reproducibility matters most here.
+      # actions/checkout v4 → 34e114876b0b11c390a56381ad16ebd13914f8d5
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
         with:
           ref: next
 
-      - uses: ruby/setup-ruby@v1
+      # ruby/setup-ruby v1.292.0 → 4eb9f110bac952a8b68ecf92e3b5c7a987594ba6
+      - uses: ruby/setup-ruby@4eb9f110bac952a8b68ecf92e3b5c7a987594ba6
         with:
           ruby-version: 3.2
           bundler-cache: true
@@ -52,7 +56,8 @@ jobs:
       issues: write
     steps:
       - name: Create failure issue
-        uses: actions/github-script@v7
+        # actions/github-script v7.1.0 → f28e40c7f34bde8b3046d885e986cb6290c5673b
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b
         with:
           script: |
             const branch = context.ref.replace(/^refs\/heads\//, '');
