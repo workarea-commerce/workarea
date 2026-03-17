@@ -376,7 +376,7 @@ module Workarea
       assert_equal('Foo', in_release.name)
       refute_equal(in_release.object_id, model.object_id)
 
-      Mongoid::QueryCache.cache do
+      Mongo::QueryCache.cache do
         cached = Foo.find(model.id) # a find to ensure it's in the cache table
         cached.name = 'Bar' # so the cache table's instance has a change
 
@@ -387,7 +387,7 @@ module Workarea
       end
 
     ensure
-      Mongoid::QueryCache.clear_cache
+      Mongo::QueryCache.clear_cache
     end
 
     def test_skip_changeset
