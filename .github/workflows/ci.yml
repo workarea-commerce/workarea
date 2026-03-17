@@ -42,8 +42,12 @@ jobs:
         ruby-version: 3.2
         bundler-cache: true
 
-    - name: Default appraisal boot smoke
-      run: ./script/default_appraisal_boot_smoke
+    - name: Install system deps (docker-compose + ImageMagick)
+      run: sudo apt-get update && sudo apt-get install -y docker-compose imagemagick
+
+    - uses: workarea-commerce/ci/test@v1
+      with:
+        command: ./script/default_appraisal_boot_smoke
 
   static_analysis:
     runs-on: ubuntu-latest
