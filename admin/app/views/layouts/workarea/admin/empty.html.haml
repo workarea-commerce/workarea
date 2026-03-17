@@ -22,7 +22,7 @@
         heap.load("203501109");
         heap.identify({ handle: "#{current_user.id}", email: "#{current_user.email}" });
         heap.setEventProperties({
-            "Application": "#{Rails.application.class.parent_name.titleize}",
+            "Application": "#{Rails.application.class.module_parent_name.titleize}",
             "Environment": "#{Rails.env}",
             "Major Version": "#{Workarea::VERSION::MAJOR}",
             "Minor Version": "#{Workarea::VERSION::MINOR}",
