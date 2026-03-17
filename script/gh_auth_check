@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+# script/gh_auth_check
+# Verifies that the GitHub CLI (gh) is installed and authenticated.
+# Exits non-zero with actionable guidance if either check fails.
+
+set -euo pipefail
+
+# ── 1. Check gh is installed ──────────────────────────────────────────────────
+if ! command -v gh &>/dev/null; then
+  echo "ERROR: gh CLI is not installed." >&2
+  echo "" >&2
+  echo "Install it with one of the following:" >&2
+  echo "  macOS:   brew install gh" >&2
+  echo "  Linux:   https://github.com/cli/cli/blob/trunk/docs/install_linux.md" >&2
+  echo "  Windows: https://github.com/cli/cli#windows" >&2
+  exit 1
+fi
+
+# ── 2. Check gh is authenticated ─────────────────────────────────────────────
+if ! gh auth status &>/dev/null; then
+  echo "ERROR: gh CLI is not authenticated." >&2
+  echo "" >&2
+  echo "Run the following to log in:" >&2
+  echo "  gh auth login" >&2
+  echo "" >&2
+  echo "Then re-run this check:" >&2
+  echo "  ./script/gh_auth_check" >&2
+  exit 1
+fi
+
+echo "gh CLI is installed and authenticated."
