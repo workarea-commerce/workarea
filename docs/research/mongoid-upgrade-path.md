@@ -8,7 +8,7 @@ Upgrading Workarea's Mongoid dependency from `~> 7.4.0` to 8.x or 9.x is **requi
 
 The upgrade carries **medium-high risk** due to:
 1. 148 files using `update_attributes!` (deprecated/removed in Mongoid 8)
-2. Workarea's use of `Mongoid::QueryCache` (removed in Mongoid 9, renamed in 8)
+2. Workarea's use of `Mongoid::QueryCache` (deprecated in Mongoid 8; removed in Mongoid 9)
 3. Several Mongoid plugin dependencies with uncertain Mongoid 8+ compatibility (see below)
 
 **Recommended target: Mongoid 8.1.x** (latest 8.x stable, full Rails 7.0/7.1 support, stepping stone before 9.x).
@@ -40,19 +40,42 @@ The following config flags had their **defaults changed** in 8.0 (previously opt
 - **Removed in Mongoid 8.0**. The replacement is `update` / `update!`.
 - **Workarea impact: HIGH** — found in **148 files** across models, controllers (admin and storefront).
 
-### QueryCache
-- `Mongoid::QueryCache` was kept in Mongoid 8.x but **deprecated**; replacement is `Mongo::QueryCache`.
-- Methods: `Mongoid::QueryCache.clear_cache` → `Mongo::QueryCache.clear`
-- Middleware: `Mongoid::QueryCache::Middleware` → use `Mongo::QueryCache::Middleware` instead.
+### Query cache (`Mongoid::QueryCache` → driver `Mongo::QueryCache`)
+Workarea currently depends on **Mongoid 7.4.3** with the **Mongo Ruby driver 2.23.0**. In this combination, Mongoid already uses the *driver* query cache when available.
+
+- **Mongoid 7.4.x:** `Mongoid::QueryCache` exists and (when the driver provides it) delegates to `Mongo::QueryCache` for:
+  - `Mongoid::QueryCache.cache { … }`
+  - `Mongoid::QueryCache.uncached { … }`
+  - `Mongoid::QueryCache.enabled?` / `enabled=`
+  - `Mongoid::QueryCache.clear_cache` (calls `Mongo::QueryCache.clear`)
+  - `Mongoid::QueryCache::Middleware` (is `Mongo::QueryCache::Middleware` when present)
+
+  **Important version caveat:** Mongoid 7.4 only falls back to its *legacy* in-process cache when the `mongo` gem is old enough to not define `Mongo::QueryCache` (pre-2.14). Workarea's current driver (2.23.0) already has `Mongo::QueryCache`, so this legacy path should not apply.
+
+- **Mongoid 8.x:** `Mongoid::QueryCache` still exists, but calling it emits deprecation warnings and continues to delegate to `Mongo::QueryCache`.
+
+**Migration guidance (Mongoid 8+ safe; required for Mongoid 9):**
+- Prefer calling the driver directly:
+  - `Mongo::QueryCache.cache { … }`
+  - `Mongo::QueryCache.uncached { … }`
+  - `Mongo::QueryCache.clear`
+- Prefer the driver middleware:
+  - `Mongo::QueryCache::Middleware`
+
+This avoids Mongoid 8 deprecation warnings and is compatible with Mongoid 9 (where `Mongoid::QueryCache` is removed).
 
 ---
 
 ## Mongoid 8.x → 9.x Breaking Changes
 
 ### `Mongoid::QueryCache` Removed
-- **Breaking:** The entire `Mongoid::QueryCache` module is removed in 9.0.
-- Must replace with `Mongo::QueryCache` 1-for-1.
-- Workarea core uses this in 3 places (see Impact section).
+- **Breaking:** The `Mongoid::QueryCache` module is removed in 9.0 (no longer present).
+- Any remaining usages must be changed to the Mongo Ruby driver query cache API:
+  - `Mongo::QueryCache.cache { … }`
+  - `Mongo::QueryCache.uncached { … }`
+  - `Mongo::QueryCache.clear`
+  - `Mongo::QueryCache::Middleware`
+- Workarea core uses `Mongoid::QueryCache` in 3 places (see Impact section).
 
 ### `around_*` Callbacks for Embedded Documents Disabled by Default
 - Mongoid 8.x allowed `around_save`, `around_create`, etc. on embedded docs.
@@ -123,7 +146,9 @@ Mongoid::QueryCache.uncached { ... }
 # core/config/initializers/10_rack_middleware.rb
 app.config.middleware.use(Mongoid::QueryCache::Middleware)
 ```
-**Fix (for Mongoid 8):** These still work (deprecated warning). **Fix (for Mongoid 9):** Replace with `Mongo::QueryCache`, `Mongo::QueryCache.clear`, `Mongo::QueryCache::Middleware`.
+**Mongoid 8:** These calls still work, but `Mongoid::QueryCache` emits deprecation warnings (it is a thin wrapper over `Mongo::QueryCache`).
+
+**Mongoid 9:** Replace with the driver API (`Mongo::QueryCache.*` and `Mongo::QueryCache::Middleware`).
 
 #### MEDIUM Priority
 
