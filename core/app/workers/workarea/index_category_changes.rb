@@ -36,6 +36,10 @@ module Workarea
           begin
             IndexProduct.perform(product)
           rescue StandardError
+            # Rescue StandardError (not bare rescue) so that SignalException/Interrupt
+            # and other non-StandardError signals are not swallowed. When inline
+            # indexing fails (e.g. Elasticsearch unavailable), fall back to async
+            # reindexing so the job still makes progress without losing work.
             IndexProduct.perform_async(product.id)
           end
         end
