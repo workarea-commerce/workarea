@@ -1,7 +1,7 @@
 {
   "scan_info": {
     "rails_version": "4.x",
-    "security_warnings": 12,
+    "security_warnings": 9,
     "checks_performed": [
       "BasicAuth",
       "BasicAuthTimingAttack",
@@ -45,11 +45,13 @@
       "Pathname",
       "PermitAttributes",
       "QuoteTableName",
+      "Ransack",
       "Redirect",
       "RegexDoS",
       "Render",
       "RenderDoS",
       "RenderInline",
+      "RenderRCE",
       "ResponseSplitting",
       "RouteDoS",
       "SQL",
@@ -80,7 +82,12 @@
       "WithoutProtection",
       "XMLDoS",
       "YAMLParsing"
-    ]
+    ],
+    "number_of_controllers": 86,
+    "number_of_models": 0,
+    "number_of_templates": 3,
+    "ruby_version": "3.2.7",
+    "brakeman_version": "8.0.4"
   },
   "warnings": [
     {
@@ -128,69 +135,21 @@
       ]
     },
     {
-      "warning_type": "Cross-Site Scripting",
-      "warning_code": 2,
-      "fingerprint": "265c2afec07efdd5e600e189e5a18dee4d2d5b7aba14f2094f9a5c029600a8e3",
-      "check_name": "CrossSiteScripting",
-      "message": "Unescaped parameter value",
-      "file": "app/views/workarea/admin/help/show.html.haml",
-      "line": 23,
-      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
-      "code": "Redcarpet::Markdown.new(Redcarpet::Render::HTML.new(:hard_wrap => true)).render((Help::Article.find(params[:id]) or Help::Article.new(params[:help_article])).body.html_safe)",
-      "render_path": [
-        {
-          "type": "controller",
-          "class": "Workarea::Admin::HelpController",
-          "method": "show",
-          "line": 30,
-          "file": "app/controllers/workarea/admin/help_controller.rb",
-          "rendered": {
-            "name": "workarea/admin/help/show",
-            "file": "app/views/workarea/admin/help/show.html.haml"
-          }
-        }
-      ],
-      "location": {
-        "type": "template",
-        "template": "workarea/admin/help/show"
-      },
-      "user_input": "params[:id]",
-      "confidence": "Weak",
+      "warning_type": "Unmaintained Dependency",
+      "warning_code": 123,
+      "fingerprint": "40be17ee84017c91503dab23873e24bdd71665ab665bf6f351cfc09ff83e6582",
+      "check_name": "EOLRuby",
+      "message": "Support for Ruby 3.2.7 ends on 2026-03-31",
+      "file": ".ruby-version",
+      "line": 1,
+      "link": "https://brakemanscanner.org/docs/warning_types/unmaintained_dependency/",
+      "code": null,
+      "render_path": null,
+      "location": null,
+      "user_input": null,
+      "confidence": "Medium",
       "cwe_id": [
-        79
-      ]
-    },
-    {
-      "warning_type": "Dynamic Render Path",
-      "warning_code": 15,
-      "fingerprint": "5f4396d1005fab0b51368ce7cc6c55e6ef965ab968f02f80a015b58eb030f065",
-      "check_name": "Render",
-      "message": "Render path contains parameter value",
-      "file": "app/views/workarea/admin/payment_transactions/show.html.haml",
-      "line": 17,
-      "link": "https://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
-      "code": "render(action => \"workarea/admin/orders/tenders/#{Admin::TransactionViewModel.wrap(Payment::Transaction.find(params[:id])).payment_type}\", { :tender => Admin::TransactionViewModel.wrap(Payment::Transaction.find(params[:id])).tender })",
-      "render_path": [
-        {
-          "type": "controller",
-          "class": "Workarea::Admin::PaymentTransactionsController",
-          "method": "show",
-          "line": 18,
-          "file": "app/controllers/workarea/admin/payment_transactions_controller.rb",
-          "rendered": {
-            "name": "workarea/admin/payment_transactions/show",
-            "file": "app/views/workarea/admin/payment_transactions/show.html.haml"
-          }
-        }
-      ],
-      "location": {
-        "type": "template",
-        "template": "workarea/admin/payment_transactions/show"
-      },
-      "user_input": "params[:id]",
-      "confidence": "Weak",
-      "cwe_id": [
-        22
+        1104
       ]
     },
     {
@@ -235,39 +194,6 @@
       "confidence": "High",
       "cwe_id": [
         470
-      ]
-    },
-    {
-      "warning_type": "Dynamic Render Path",
-      "warning_code": 15,
-      "fingerprint": "a2d7524c214d4e15099b3a428f4533058a428bc7549bdc28c1245bb5e22e9528",
-      "check_name": "Render",
-      "message": "Render path contains parameter value",
-      "file": "app/views/workarea/admin/pricing_discounts/rules.html.haml",
-      "line": 27,
-      "link": "https://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
-      "code": "render(action => \"workarea/admin/pricing_discounts/properties/#{Admin::DiscountViewModel.wrap(Pricing::Discount.find(params[:id]), view_model_options).slug}\", { :discount => Admin::DiscountViewModel.wrap(Pricing::Discount.find(params[:id]), view_model_options) })",
-      "render_path": [
-        {
-          "type": "controller",
-          "class": "Workarea::Admin::PricingDiscountsController",
-          "method": "rules",
-          "line": 43,
-          "file": "app/controllers/workarea/admin/pricing_discounts_controller.rb",
-          "rendered": {
-            "name": "workarea/admin/pricing_discounts/rules",
-            "file": "app/views/workarea/admin/pricing_discounts/rules.html.haml"
-          }
-        }
-      ],
-      "location": {
-        "type": "template",
-        "template": "workarea/admin/pricing_discounts/rules"
-      },
-      "user_input": "params[:id]",
-      "confidence": "Weak",
-      "cwe_id": [
-        22
       ]
     },
     {
@@ -332,39 +258,6 @@
       },
       "user_input": "params[:template]",
       "confidence": "High",
-      "cwe_id": [
-        22
-      ]
-    },
-    {
-      "warning_type": "Dynamic Render Path",
-      "warning_code": 15,
-      "fingerprint": "af6df80408098d7051cb4509f42a270e53063a7120eb1d85d6b10e486dae09a9",
-      "check_name": "Render",
-      "message": "Render path contains parameter value",
-      "file": "app/views/workarea/admin/create_pricing_discounts/rules.html.haml",
-      "line": 28,
-      "link": "https://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
-      "code": "render(action => \"workarea/admin/pricing_discounts/properties/#{DiscountViewModel.wrap((Pricing::Discount.find(params[:id]) or if params[:type].present? then\n  NewDiscount.new_discount(params[:type], params[:discount])\nelse\n  Pricing::Discount.new(params[:discount])\nend), view_model_options).slug}\", { :discount => DiscountViewModel.wrap((Pricing::Discount.find(params[:id]) or if params[:type].present? then\n  NewDiscount.new_discount(params[:type], params[:discount])\nelse\n  Pricing::Discount.new(params[:discount])\nend), view_model_options) })",
-      "render_path": [
-        {
-          "type": "controller",
-          "class": "Workarea::Admin::CreatePricingDiscountsController",
-          "method": "create",
-          "line": 21,
-          "file": "app/controllers/workarea/admin/create_pricing_discounts_controller.rb",
-          "rendered": {
-            "name": "workarea/admin/create_pricing_discounts/rules",
-            "file": "app/views/workarea/admin/create_pricing_discounts/rules.html.haml"
-          }
-        }
-      ],
-      "location": {
-        "type": "template",
-        "template": "workarea/admin/create_pricing_discounts/rules"
-      },
-      "user_input": "params[:discount]",
-      "confidence": "Weak",
       "cwe_id": [
         22
       ]
