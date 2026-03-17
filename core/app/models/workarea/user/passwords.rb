@@ -14,11 +14,11 @@ module Workarea
         has_many :recent_passwords, class_name: 'Workarea::User::RecentPassword'
 
         validates :password, password: { strength: :required_password_strength }
-        validate :password_not_recent, if: :password_digest_changed?
+        validate :password_not_recent, if: :password_digest_changing?
 
-        before_save :mark_password_change, if: :password_digest_changed?
-        after_save :save_recent_password, if: :password_digest_changed?
-        after_save :cleanup_passwords, if: :password_digest_changed?
+        before_save :mark_password_change, if: :password_digest_changing?
+        after_save :save_recent_password, if: :password_digest_changed_in_db?
+        after_save :cleanup_passwords, if: :password_digest_changed_in_db?
       end
 
       def required_password_strength
@@ -34,6 +34,25 @@ module Workarea
 
       private
 
+      # Mongoid 8 aligns more closely with ActiveModel::Dirty APIs. The older
+      # `<attr>_changed?` predicate is no longer reliable for persisted-change
+      # callbacks.
+      def password_digest_changing?
+        if respond_to?(:will_save_change_to_password_digest?)
+          will_save_change_to_password_digest?
+        else
+          password_digest_changed?
+        end
+      end
+
+      def password_digest_changed_in_db?
+        if respond_to?(:saved_change_to_password_digest?)
+          saved_change_to_password_digest?
+        else
+          password_digest_changed?
+        end
+      end
+
       def password_not_recent
         return unless admin?
 
@@ -48,7 +67,10 @@ module Workarea
       end
 
       def invalid_passwords
-        recent_passwords.desc(:created_at).from(1)
+        # Use all recent password digests (up to history length). Under Mongoid 8
+        # we can see identical `created_at` timestamps for rapid successive
+        # updates, which makes ordering + offset brittle.
+        recent_passwords.by_newest.limit(Workarea.config.password_history_length)
       end
 
       def mark_password_change

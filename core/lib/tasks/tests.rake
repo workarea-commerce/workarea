@@ -1,5 +1,28 @@
 load 'rails/test_unit/testing.rake'
 
+# Rails 7.2 removed Rails::TestUnit::Runner.rake_run.
+# Provide a compatibility shim so tests run on both Rails 7.x and 7.2+.
+module WorkareaTestRunner
+  def self.run(test_paths)
+    if Rails::TestUnit::Runner.respond_to?(:rake_run)
+      # Rails < 7.2
+      Rails::TestUnit::Runner.rake_run(test_paths)
+    else
+      # Rails 7.2+: load test files directly and let Minitest autorun handle them.
+      test_files = Array(test_paths).flat_map do |path|
+        path_str = path.to_s
+        if File.directory?(path_str)
+          Dir.glob("#{path_str}/**/*_test.rb")
+        else
+          [path_str]
+        end
+      end
+      test_files.uniq.sort.each { |f| require File.expand_path(f) }
+      require "active_support/testing/autorun"
+    end
+  end
+end
+
 namespace :workarea do
   task :prepare do
     $: << 'test'
@@ -11,7 +34,7 @@ namespace :workarea do
               Workarea::Plugin.installed.map(&:root) +
               [Rails.root]
 
-    Rails::TestUnit::Runner.rake_run(
+    WorkareaTestRunner.run(
       roots
         .map { |r| FileList["#{r}/test/**/*_test.rb"] }
         .reduce(&:+)
@@ -20,7 +43,7 @@ namespace :workarea do
 
   desc 'Run workarea/core tests (with decorators)'
   task 'test:core' => :prepare do
-    Rails::TestUnit::Runner.rake_run(["#{Workarea::Core::Engine.root}/test"])
+    WorkareaTestRunner.run(["#{Workarea::Core::Engine.root}/test"])
   end
 
   desc 'Run decorated tests'
@@ -33,7 +56,7 @@ namespace :workarea do
     roots = [Workarea::Core::Engine.root] +
               Workarea::Plugin.installed.map(&:root)
 
-    Rails::TestUnit::Runner.rake_run(
+    WorkareaTestRunner.run(
       decorated.reduce([]) do |memo, relative_original|
         original = roots
           .map { |root| "#{root}/#{relative_original}" }
@@ -59,20 +82,20 @@ namespace :workarea do
       %w(admin storefront).include?(engine.slug)
     end.map(&:root)
 
-    Rails::TestUnit::Runner.rake_run(
+    WorkareaTestRunner.run(
       engines.map { |r| FileList["#{r}/test/**/*_test.rb"] }.reduce(&:+) || []
     )
   end
 
   desc 'Run all app specific tests'
   task 'test:app' => :prepare do
-    Rails::TestUnit::Runner.rake_run(FileList["#{Rails.root}/test/**/*_test.rb"])
+    WorkareaTestRunner.run(FileList["#{Rails.root}/test/**/*_test.rb"])
   end
 
   Workarea::Plugin.installed.each do |engine|
     desc "Run workarea #{engine.slug} tests (with decorators)"
     task "test:#{engine.slug}" => :prepare do
-      Rails::TestUnit::Runner.rake_run(
+      WorkareaTestRunner.run(
         FileList[engine.root.join('test', '**', '*', '*_test.rb')]
       )
     end
@@ -85,7 +108,7 @@ namespace :workarea do
               [Rails.root]
 
     ENV['PERF_TEST'] = 'true'
-    Rails::TestUnit::Runner.rake_run(
+    WorkareaTestRunner.run(
       roots
         .map { |r| FileList["#{r}/test/performance/**/*_test.rb"] }
         .reduce(&:+)

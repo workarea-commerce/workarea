@@ -51,11 +51,16 @@ module Workarea
           Sidekiq::Testing.inline!
           Sidekiq::Callbacks.inline
 
-          @_perform_enqueued_jobs = ActiveJob::Base.queue_adapter.perform_enqueued_jobs
-          @_perform_enqueued_at_jobs = ActiveJob::Base.queue_adapter.perform_enqueued_at_jobs
-
-          ActiveJob::Base.queue_adapter.perform_enqueued_jobs = true
-          ActiveJob::Base.queue_adapter.perform_enqueued_at_jobs = true
+          # Rails 7.2+ removed perform_enqueued_jobs/perform_enqueued_at_jobs from
+          # the Sidekiq adapter (they existed only on ActiveJob::TestAdapter).
+          # When using Sidekiq::Testing.inline!, jobs run synchronously already.
+          adapter = ActiveJob::Base.queue_adapter
+          if adapter.respond_to?(:perform_enqueued_jobs)
+            @_perform_enqueued_jobs = adapter.perform_enqueued_jobs
+            @_perform_enqueued_at_jobs = adapter.perform_enqueued_at_jobs
+            adapter.perform_enqueued_jobs = true
+            adapter.perform_enqueued_at_jobs = true
+          end
         end
 
         teardown do
@@ -64,8 +69,11 @@ module Workarea
             worker.inlined = @_worker_state[worker].second
           end
 
-          ActiveJob::Base.queue_adapter.perform_enqueued_jobs = @_perform_enqueued_jobs
-          ActiveJob::Base.queue_adapter.perform_enqueued_at_jobs = @_perform_enqueued_at_jobs
+          adapter = ActiveJob::Base.queue_adapter
+          if adapter.respond_to?(:perform_enqueued_jobs=) && defined?(@_perform_enqueued_jobs)
+            adapter.perform_enqueued_jobs = @_perform_enqueued_jobs
+            adapter.perform_enqueued_at_jobs = @_perform_enqueued_at_jobs
+          end
         end
       end
     end

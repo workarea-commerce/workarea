@@ -27,7 +27,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'launchy', '~> 2.4.3'
   s.add_dependency 'teaspoon', '~> 1.2.0'
   s.add_dependency 'teaspoon-mocha', '~> 2.3.3'
-  s.add_dependency 'mocha', '~> 1.3.0'
+  s.add_dependency 'mocha', '>= 1.3.0', '< 3'  # loosened from ~> 1.3.0; mocha 2.x needed for Minitest 5.15+ (MiniTest → Minitest rename)
   s.add_dependency 'selenium-webdriver', '~> 4.9.0'
   s.add_dependency 'minitest-retry', '~> 0.1.5'
 end

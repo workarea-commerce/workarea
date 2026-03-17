@@ -1,7 +1,14 @@
+# Rails 7.2+ runs setup_main_autoloader (Zeitwerk) AFTER load_config_initializers,
+# so constants from app/ directories are not yet autoloadable when this file runs.
+# Explicitly require the Workarea middleware classes used below.
+require "#{File.expand_path('../../../app/middleware/workarea/enforce_host_middleware', __FILE__)}"
+require "#{File.expand_path('../../../app/middleware/workarea/application_middleware', __FILE__)}"
+require "#{File.expand_path('../../../app/middleware/workarea/strip_http_caching_middleware', __FILE__)}"
+
 app = Rails.application
 
 # Mongoid query cache middleware — clears per-request Mongoid query cache.
-# Mongoid::QueryCache::Middleware exists in Mongoid 7.x (pinned via gemspec).
+# Mongoid 8+ delegates Mongoid::QueryCache::Middleware to Mongo::QueryCache::Middleware.
 app.config.middleware.use(Mongoid::QueryCache::Middleware)
 app.config.middleware.use(Workarea::Elasticsearch::QueryCache::Middleware)
 
