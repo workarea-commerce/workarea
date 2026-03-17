@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# This helper is meant to run *only* when bundler (or ruby/setup-ruby's bundler-cache)
+# has failed.
+#
+# It re-runs bundler quietly and inspects the output for the common
+# frozen/deployment-mode lockfile mismatch case, then prints a high-signal
+# GitHub Actions annotation.
+#
+# Context: this repo commits .bundle/config with BUNDLE_FROZEN/BUNDLE_DEPLOYMENT true.
+# When Gemfile.lock is out of date, bundler refuses to proceed in CI.
+
+if ! command -v bundle >/dev/null 2>&1; then
+  echo "::error::Bundler is not available (cannot diagnose Gemfile.lock mismatch)."
+  exit 1
+fi
+
+log_file="${RUNNER_TEMP:-/tmp}/bundler-install.log"
+
+set +e
+bundle install >"$log_file" 2>&1
+status=$?
+set -e
+
+# If bundler unexpectedly succeeds on the re-run, just fail with a generic message
+# (the original failure is what we want to surface).
+if [[ $status -eq 0 ]]; then
+  echo "::error::Bundler previously failed, but succeeded when re-run. See logs above."
+  exit 1
+fi
+
+# Detect the lockfile mismatch / frozen mode case without dumping the full log.
+if grep -Eq \
+  "(You are trying to install in deployment mode after changing your Gemfile|You have added to the Gemfile|You have changed in the Gemfile|The dependencies in your Gemfile changed|Your lockfile is out of date)" \
+  "$log_file"; then
+  # Note: the message text is intentionally short/high-signal. We avoid pasting
+  # the full bundler output to keep CI logs readable.
+  cat <<'MSG'
+::error::Bundler is running in frozen/deployment mode and Gemfile.lock is out of date.
+Fix: run `bundle install`, commit the updated Gemfile.lock, and push.
+MSG
+  exit 1
+fi
+
+# Not the lockfile mismatch case.
+echo "::error::Bundler failed, but it does not look like a frozen-mode lockfile mismatch. See logs above."
+exit 1
