@@ -54,7 +54,12 @@ module ActiveShipping::Test
       @@all_credentials ||= begin
         [DEFAULT_CREDENTIALS, LOCAL_CREDENTIALS].inject({}) do |credentials, file_name|
           if File.exist?(file_name)
-            yaml_data = YAML.load(ERB.new(File.read(file_name)).result(binding)).symbolize_keys
+            rendered_yaml = ERB.new(File.read(file_name)).result(binding)
+            yaml_data = (YAML.safe_load(
+              rendered_yaml,
+              permitted_classes: [Symbol],
+              aliases: true
+            ) || {}).symbolize_keys
             credentials.merge!(yaml_data)
           end
           credentials
