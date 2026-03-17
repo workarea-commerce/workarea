@@ -31,7 +31,8 @@ module Workarea
       belongs_to :category,
         class_name: 'Workarea::Tax::Category',
         inverse_of: :rates,
-        index: true
+        index: true,
+        optional: true
 
       def self.search(query)
         return all unless query.present?

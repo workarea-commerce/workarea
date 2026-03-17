@@ -10,7 +10,10 @@ module Workarea
         field :amounts, type: Hash, default: {}
         field :result_transaction_ids, type: Array, default: []
 
-        belongs_to :payment, class_name: 'Workarea::Payment', index: true
+        belongs_to :payment,
+          class_name: 'Workarea::Payment',
+          index: true,
+          optional: true
 
         validates :amounts, presence: true
 

@@ -10,7 +10,9 @@ module Workarea
 
       field :name, type: String, localize: true
 
-      belongs_to :taxon, class_name: 'Workarea::Navigation::Taxon'
+      belongs_to :taxon,
+        class_name: 'Workarea::Navigation::Taxon',
+        optional: true
 
       validates :name, presence: true
 

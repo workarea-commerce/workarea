@@ -10,7 +10,10 @@ module Workarea
       field :last_name, type: String
       field :default, type: Mongoid::Boolean, default: false
 
-      belongs_to :profile, class_name: 'Workarea::Payment::Profile', index: true
+      belongs_to :profile,
+        class_name: 'Workarea::Payment::Profile',
+        index: true,
+        optional: true
       index({ profile_id: 1, created_at: 1 })
 
       before_validation :ensure_tokenized

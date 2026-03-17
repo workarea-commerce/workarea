@@ -9,7 +9,10 @@ module Workarea
     field :viewed_by_ids, type: Array, default: []
 
     validates :body, presence: true
-    belongs_to :commentable, polymorphic: true, index: true
+    belongs_to :commentable,
+      polymorphic: true,
+      index: true,
+      optional: true
 
     default_scope -> { asc(:created_at) }
     index({ created_at: 1 })

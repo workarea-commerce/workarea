@@ -14,7 +14,10 @@ module Workarea
 
       embeds_many :document_path, class_name: 'Mongoid::DocumentPath::Node'
 
-      belongs_to :release, class_name: 'Workarea::Release', index: true
+      belongs_to :release,
+        class_name: 'Workarea::Release',
+        index: true,
+        optional: true
       belongs_to :releasable, polymorphic: true, index: true, optional: true
 
       index(

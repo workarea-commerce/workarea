@@ -8,7 +8,10 @@ module Workarea
       field :name, type: String
       field :path, type: String
 
-      belongs_to :user, class_name: 'Workarea::User', index: true
+      belongs_to :user,
+        class_name: 'Workarea::User',
+        index: true,
+        optional: true
 
       validates :name, presence: true
       validates :path, presence: true
