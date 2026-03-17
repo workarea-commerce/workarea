@@ -1,5 +1,77 @@
 ## How to contribute to Workarea
 
+---
+
+## Common local commands
+
+A quick-reference for the commands contributors need day-to-day.
+For full setup details see [Contribute Code](https://developer.workarea.com/articles/contribute-code.html).
+
+### Ruby version (rbenv)
+
+```bash
+rbenv local 3.2.7   # pin the repo to Ruby 3.2.7
+ruby --version      # confirm: ruby 3.2.7 (...)
+```
+
+> **Note:** lockfile regeneration (`bundle install`) always requires Ruby 3.2.7.
+> The test suite also runs under 2.7.8 via CI, but 3.2.7 is the default dev version.
+
+### Docker services — check & start
+
+```bash
+# Check port availability and current service status
+script/check_service_ports
+script/docker_services_status
+
+# Start mongo, redis, and elasticsearch
+script/services_up
+
+# Stop them again
+script/services_up --down
+```
+
+### Run a targeted engine test from the repo root
+
+```bash
+# Run a single test file in a specific engine component
+script/test core test/models/workarea/user_test.rb
+
+# Run the full test suite for a component
+script/test core
+
+# Run a specific test by name pattern
+script/test core test/models/workarea/user_test.rb -n test_email_address
+```
+
+`script/test <component> [test_file] [minitest_options]`
+
+### Run RuboCop (diff-only if available)
+
+```bash
+# Lint only files changed vs. the next branch (fast, recommended before pushing)
+git diff origin/next --name-only --diff-filter=d | grep '\.rb$' | xargs bundle exec rubocop
+
+# Lint the entire codebase
+bundle exec rubocop
+
+# Auto-correct safe offenses
+bundle exec rubocop -a
+```
+
+### Boot smoke test (default appraisal)
+
+Verifies the default `Gemfile.lock` stack can boot in test mode:
+
+```bash
+script/default_appraisal_boot_smoke
+# PASS: default appraisal booted successfully (RAILS_ENV=test)
+```
+
+Run this before opening a PR to catch gem boot regressions early.
+
+---
+
 #### Did you find a bug?
 
 * **Do not open up a GitHub issue if the bug is a security vulnerability
