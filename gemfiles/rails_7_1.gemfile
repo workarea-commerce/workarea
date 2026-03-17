@@ -14,3 +14,8 @@ eval_gemfile File.expand_path('../Gemfile', __dir__)
 # dependencies shift.
 
 gem 'rails', '7.1.5.1'
+
+# NOTE: As of 2026-03-17, this appraisal does not resolve due to mongoid (< 8.0.7)
+# constraining activemodel to < 7.1, while Rails 7.1 pins activemodel 7.1.x.
+# This blocks smoke-testing admin views under Rails 7.1 until Workarea is updated
+# to support Mongoid 8+ (and any related adapter gems).
