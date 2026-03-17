@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require 'rack/request'
+require 'rack/method_override'
+
 module Workarea
   class ApplicationMiddleware
     ASSET_REGEX = /(jpe?g|png|ico|gif|bmp|webp|tif?f|css|js|svg|otf|ttf|woff|woff2)$/

@@ -3,6 +3,7 @@ ENV["RAILS_ENV"] = "test"
 
 require File.expand_path("../../test/dummy/config/environment.rb",  __FILE__)
 require "rails/test_help"
+require 'rack/test'
 require 'workarea/test_help'
 
 # Filter out Minitest backtrace while allowing backtrace from other libraries
