@@ -708,6 +708,16 @@ module Workarea
       # The TTL of bulk action records
       config.bulk_action_expiration = 6.months
 
+      # Allowlist of BulkAction subclass names accepted by BulkActionsController.
+      # Plugins may append additional classes here.
+      config.bulk_action_types = SwappableList.new(
+        %w(
+          Workarea::BulkAction::Deletion
+          Workarea::BulkAction::ProductEdit
+          Workarea::BulkAction::SequentialProductEdit
+        )
+      )
+
       # Classes used to update checkout data and determine checkout status.
       # Used in Workarea::Checkout
       config.checkout_steps = SwappableList.new(
@@ -1233,6 +1243,35 @@ module Workarea
       # How recently someone needs to have purchased to be in the "Loyal Customer"
       # life cycle segment.
       config.loyal_customers_last_order_days_ago = 180
+
+      # Allowlist of model class names that may be used as the model_type for
+      # admin data-file exports/imports and AdminSearchQueryWrapper.
+      # Plugins may append additional classes here.
+      config.admin_exportable_models = SwappableList.new(
+        %w(
+          Workarea::Catalog::Category
+          Workarea::Catalog::Product
+          Workarea::Content::Asset
+          Workarea::Content::Page
+          Workarea::Email::Signup
+          Workarea::Fulfillment::Sku
+          Workarea::Inventory::Sku
+          Workarea::Navigation::Redirect
+          Workarea::Order
+          Workarea::Payment::Transaction
+          Workarea::Pricing::Discount
+          Workarea::Pricing::Discount::CodeList
+          Workarea::Pricing::Discount::GeneratedPromoCode
+          Workarea::Pricing::Sku
+          Workarea::Release
+          Workarea::Segment
+          Workarea::Shipping::Service
+          Workarea::Shipping::Sku
+          Workarea::Tax::Category
+          Workarea::Tax::Rate
+          Workarea::User
+        )
+      )
 
       # The list of types of rules for setting up custom segments in the admin
       config.segment_rule_types = %w(

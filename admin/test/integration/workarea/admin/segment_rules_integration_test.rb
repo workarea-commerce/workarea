@@ -39,6 +39,14 @@ module Workarea
         assert_equal(0, @segment.reload.rules.size)
       end
 
+      def test_rejects_unknown_rule_type
+        post admin.segment_rules_path(@segment),
+          params: { rule_type: 'kernel', rule: {} }
+
+        assert_equal(422, response.status)
+        assert_equal(0, @segment.reload.rules.size)
+      end
+
       def test_geolocation_options
         get admin.geolocation_options_segment_rules_path(q: 'penn', format: 'json')
         results = JSON.parse(response.body)['results']

@@ -3,6 +3,8 @@
 module Workarea
   module Admin
     class CreateSegmentsController < Admin::ApplicationController
+      include SegmentRuleLookup
+
       required_permissions :people
 
       before_action :find_segment
@@ -62,8 +64,9 @@ module Workarea
         @rule = if params[:rule_id].present?
           @segment.rules.where(id: params[:rule_id]).first
         else
-          klass = "Workarea::Segment::Rules::#{params[:rule_type].to_s.camelize}"
-          @segment.model.rules.build(params[:rule], klass.constantize)
+          klass = segment_rule_class_for(params[:rule_type])
+          return head(:unprocessable_entity) if klass.nil?
+          @segment.model.rules.build(params[:rule], klass)
         end
       end
     end

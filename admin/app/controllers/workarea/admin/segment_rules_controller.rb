@@ -3,6 +3,8 @@
 module Workarea
   module Admin
     class SegmentRulesController < Admin::ApplicationController
+      include SegmentRuleLookup
+
       before_action :find_segment, except: :geolocation_options
       before_action :find_rules, except: :geolocation_options
       before_action :find_rule, except: [:index, :geolocation_options]
@@ -55,8 +57,9 @@ module Workarea
         @rule = if params[:id].present?
           @segment.rules.where(id: params[:id]).first
         else
-          klass = "Workarea::Segment::Rules::#{params[:rule_type].to_s.camelize}"
-          @segment.model.rules.build(params[:rule], klass.constantize)
+          klass = segment_rule_class_for(params[:rule_type])
+          return head(:unprocessable_entity) if klass.nil?
+          @segment.model.rules.build(params[:rule], klass)
         end
       end
     end
