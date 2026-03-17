@@ -13,10 +13,9 @@ module Workarea
           request.body = Request.new.to_json
 
           uri = URI(URL)
-          http = Net::HTTP.new(uri.host, uri.port)
-          http.use_ssl = true
-          http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-          http.start { |h| h.request(request) }
+          Net::HTTP.start(uri.host, uri.port, use_ssl: true) do |h|
+            h.request(request)
+          end
 
         rescue Exception => e
           Workarea::ErrorReporting.report(
