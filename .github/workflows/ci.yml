@@ -202,6 +202,25 @@ jobs:
         name: Storefront Screenshots
         path: storefront/test/dummy/tmp/screenshots
 
+  zeitwerk_verification:
+    name: "Zeitwerk autoload verification"
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 3.2
+        bundler-cache: true
+
+    - name: Install system deps (docker-compose + ImageMagick)
+      run: sudo apt-get update && sudo apt-get install -y docker-compose imagemagick
+
+    - name: Start services
+      run: docker-compose up -d
+
+    - name: Verify Zeitwerk autoloading
+      run: bash script/default_appraisal_zeitwerk_check
+
   ruby_33_full_suite:
     name: "Ruby 3.3 — full test suite"
     runs-on: ubuntu-latest
