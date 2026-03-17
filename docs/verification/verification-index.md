@@ -11,6 +11,17 @@ available in this directory.
 |--------|--------------|
 | `script/test [component]` | Runs the test suite for one engine (`core`, `admin`, `storefront`, or `testing`). Forces Node 18 for ExecJS, skips system tests by default. |
 | `script/clean` | Removes test logs, capybara screenshots, and documentation build artifacts for all engines. Run this when stale state causes false failures. |
+| `script/default_appraisal_boot_smoke` | Verifies the default `Gemfile.lock` stack can boot Rails in test mode (no appraisal required). |
+| `script/docker_services_health` | Checks that the required Docker containers (MongoDB, Redis, Elasticsearch) are running. Safe/read-only — does not start or stop containers. |
+| `script/docker_services_status` | Prints current status of Workarea-related Docker containers. |
+| `script/docker_services_versions` | Shows version tags of the running Docker service containers. |
+| `script/elasticsearch_http_check` | Curls localhost:9200 and reports whether Elasticsearch is responding. |
+| `script/check_service_ports` | Checks that the expected ports (27017, 6379, 9200) are open and accepting connections. |
+| `script/preflight` | Runs a suite of common pre-PR checks (ports, boot smoke, RuboCop). |
+| `script/system_prereqs` | Installs/verifies system prerequisites (Docker, Docker Compose, ImageMagick). Reused in CI. |
+| `script/verify` | Runs a combined local verification suite (prerequisites, services, boot, lint). |
+| `script/default_appraisal_deprecations` | Checks for deprecated API usage in the default appraisal. |
+| `script/default_appraisal_zeitwerk_check` | Validates Zeitwerk autoloading compatibility in the default appraisal. |
 | `scripts/run-benchmarks.sh` | Executes the benchmark suite under `docs/benchmarks/`. |
 
 ### `script/test` usage examples
@@ -24,6 +35,14 @@ script/test admin test test/integration/workarea/admin/foo_test.rb
 
 # Run storefront tests matching a pattern
 script/test storefront test test/integration/workarea/storefront/*_test.rb
+```
+
+### `script/docker_services_health` usage example
+
+```bash
+# Check that mongo, redis, and elasticsearch containers are running
+script/docker_services_health
+# PASS: docker services are running (mongo, redis, elasticsearch).
 ```
 
 ---
@@ -41,7 +60,7 @@ ELASTICSEARCH_VERSION=6.8.23 \
 docker compose up -d
 
 # Verify all three services are healthy
-docker compose ps
+script/docker_services_health
 ```
 
 > See [WA-CI-008](wa-ci-008-local-build-gate.md) for troubleshooting tips (stale volumes, port conflicts, etc.).
@@ -86,7 +105,16 @@ echo "$changed" | grep -q '^storefront/'  && run bin/rails workarea:test:storefr
 echo "$changed" | grep -q '^testing/'     && run bin/rails workarea:test:testing
 ```
 
-### 4 — Clean stale test artifacts
+### 4 — Boot smoke (default appraisal)
+
+Quickly verify the default stack boots before running the full suite:
+
+```bash
+script/default_appraisal_boot_smoke
+# PASS: default appraisal booted successfully (RAILS_ENV=test)
+```
+
+### 5 — Clean stale test artifacts
 
 ```bash
 script/clean
@@ -101,6 +129,8 @@ script/clean
 | [wa-ci-008-local-build-gate.md](wa-ci-008-local-build-gate.md) | Full local build-gate workflow: Docker startup, RuboCop diff, targeted engine tests. **Start here for a complete pre-PR checklist.** |
 | [wa-verify-003-load-defaults-audit.md](wa-verify-003-load-defaults-audit.md) | Audit of `config.load_defaults` behavioral flags for the Rails 7 migration. |
 | [wa-verify-004-perf-baseline.md](wa-verify-004-perf-baseline.md) | Post-Rails-7 performance baseline — test-suite timing and environment snapshot. |
+| [wa-verify-031-default-appraisal-deprecations.md](wa-verify-031-default-appraisal-deprecations.md) | Audit of Rails deprecation warnings in the default (Rails 6.1) appraisal. |
+| [wa-verify-058-zeitwerk-check.md](wa-verify-058-zeitwerk-check.md) | Zeitwerk autoloading compatibility audit for the Rails 7 migration. |
 
 ---
 
