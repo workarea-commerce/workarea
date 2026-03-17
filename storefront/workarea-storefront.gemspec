@@ -12,5 +12,8 @@ Gem::Specification.new do |s|
   s.description = "Provides user-facing ecommerce storefront functionality for the Workarea Commerce Platform."
 
   s.files = `git ls-files`.split("\n")
+
+  s.required_ruby_version = ['>= 2.7.0', '< 3.5.0']
+
   s.add_dependency 'workarea-core', Workarea::VERSION::STRING
 end

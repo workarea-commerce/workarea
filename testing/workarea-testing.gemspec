@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.require_paths = %w(lib)
   s.files = `git ls-files`.split("\n")
 
-  s.required_ruby_version = '>= 2.3.0'
+  s.required_ruby_version = ['>= 2.7.0', '< 3.5.0']
 
   s.add_dependency 'workarea-core', Workarea::VERSION::STRING
   s.add_dependency 'capybara', '~> 3.18'

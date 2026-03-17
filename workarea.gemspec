@@ -13,6 +13,8 @@ Gem::Specification.new do |s|
   s.files = Dir['README.md', 'CHANGELOG.md', '.rubocop.yml', 'docker-compose.yml']
   s.rdoc_options << '--exclude=docs'
 
+  s.required_ruby_version = ['>= 2.7.0', '< 3.5.0']
+
   s.add_dependency 'workarea-core', Workarea::VERSION::STRING
   s.add_dependency 'workarea-storefront', Workarea::VERSION::STRING
   s.add_dependency 'workarea-admin', Workarea::VERSION::STRING
