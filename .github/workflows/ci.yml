@@ -266,6 +266,29 @@ jobs:
       with:
         command: bundle exec rake test
 
+  ruby_34_full_suite:
+    name: "Ruby 3.4 — full test suite"
+    runs-on: ubuntu-latest
+    # Informational until Ruby 3.4 compatibility work is complete.
+    # Failures here surface issues but do not block the overall build.
+    continue-on-error: true
+    steps:
+    - uses: actions/checkout@v4
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.4'
+        bundler-cache: false
+
+    - name: Install system deps (docker-compose + ImageMagick)
+      run: sudo apt-get update && sudo apt-get install -y docker-compose imagemagick
+
+    - name: Bundle install
+      run: bundle install
+
+    - uses: workarea-commerce/ci/test@v1
+      with:
+        command: bundle exec rake test
+
   # Rails compatibility matrix — provides signal for upcoming Rails upgrades.
   rails_compatibility:
     name: "Rails ${{ matrix.rails }} — test"
@@ -315,7 +338,7 @@ jobs:
   # Ruby 2.7: legacy baseline (Docker-pinned CI actions run ruby:2.6 internally).
   # Ruby 3.2: current stable target — must pass (continue-on-error: false).
   # Ruby 3.3: now expected to pass (bundle + tests are green).
-  # Ruby 3.4: informational — failures are expected until compat work lands.
+  # Ruby 3.4: informational bundle-only check; full test suite runs in ruby_34_full_suite job.
   ruby_compatibility:
     name: "Ruby ${{ matrix.ruby-version }} — bundle check"
     runs-on: ubuntu-latest
