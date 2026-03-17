@@ -8,7 +8,7 @@ excerpt: A quick guide to set up a Workarea application.
 This is a quick start guide for getting started on an existing Workarea application. If you're a developer who has a new ticket on an app you just cloned for the first time, this is for you. These steps were written with the following assumptions:
 
 * You have Docker Desktop installed. See [https://www.docker.com/products/docker-desktop](https://www.docker.com/products/docker-desktop) to download.
-* You have Ruby >= 2.4.0, < 2.7.0 installed. See [https://github.com/rbenv/rbenv#installation](https://github.com/rbenv/rbenv#installation) for instructions.
+* You have Ruby 3.2.x installed (3.2.7 recommended; this is what Workarea core targets/tests with). See [https://github.com/rbenv/rbenv#installation](https://github.com/rbenv/rbenv#installation) for instructions.
 * You have NodeJS installed. We recommend using [Homebrew](https://brew.sh).
 * You have ImageMagick installed. We recommend using [Homebrew](https://brew.sh).
 * You have libvips installed. We recommend using [Homebrew](https://brew.sh).

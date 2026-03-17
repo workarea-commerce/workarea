@@ -265,6 +265,40 @@ See **[docs/elasticsearch-bootstrap-checks.md](docs/elasticsearch-bootstrap-chec
 for symptoms, diagnosis steps, and the recommended fix.
 
 
+Ruby versions
+--------------------------------------------------------------------------------
+Workarea core development targets **Ruby 3.2.7** (see `.ruby-version` and `Gemfile.lock`). Ruby 3.2.x should work, but 3.2.7 is what core targets/tests with.
+
+If you use rbenv, you can select Ruby 3.2.7 like this:
+
+```bash
+export PATH="$HOME/.rbenv/shims:$HOME/.rbenv/bin:$PATH"
+
+# Note: `rbenv init` is provided by your local rbenv installation.
+# Use your current shell here (e.g. zsh, bash).
+eval "$(rbenv init - zsh)"
+
+rbenv install -s 3.2.7
+rbenv shell 3.2.7
+ruby -v
+```
+
+**Ruby 2.7.8** is only relevant when working on legacy branches/apps that are still pinned
+to Ruby 2.7.x. In that case, select 2.7.8 explicitly:
+
+```bash
+export PATH="$HOME/.rbenv/shims:$HOME/.rbenv/bin:$PATH"
+
+# Note: `rbenv init` is provided by your local rbenv installation.
+# Use your current shell here (e.g. zsh, bash).
+eval "$(rbenv init - zsh)"
+
+rbenv install -s 2.7.8
+rbenv shell 2.7.8
+ruby -v
+```
+
+
 Getting Started
 --------------------------------------------------------------------------------
 We'd suggest checking out our introductory overview article on Workarea to wrap your head around the technology. [Read the Workarea developer overview article](https://developer.workarea.com/articles/overview.html).

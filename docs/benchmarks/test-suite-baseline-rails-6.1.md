@@ -206,9 +206,8 @@ echo "Peak RSS: $(( MAX_RSS / 1024 )) MB"
 ## Methodology Notes
 
 1. **Ruby version:** The `next` branch Gemfile.lock was generated with Ruby 3.2.7 (post PR #742).
-   The `.ruby-version` file still says `2.7.8` but Ruby 2.7 cannot parse the updated
-   Gemfile.lock (bundler reports "invalid byte sequence in US-ASCII"). Ruby 3.2.7 is the
-   effective minimum.
+   Ruby 3.2.7 is the effective minimum for running Bundler against the current lockfile.
+   (Ruby 2.7.x is end-of-life and may not be able to parse the updated Gemfile.lock.)
 
 2. **Git state:** An interrupted rebase (`wa-rails7-008-deprecation` onto `next`) was found
    in the working tree at the start of this measurement. The rebase was aborted to restore

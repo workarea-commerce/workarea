@@ -39,6 +39,8 @@ Rails 7.0 resolves cleanly against the gemspec with only the `rails` version con
 
 ## Test Environment
 
-- Ruby: 2.7.8
+- Ruby: 3.2.7
 - Bundler: system bundler via rbenv
+
+Note: Ruby 2.7.x is still the Rails 7 minimum, but Ruby 2.7 is end-of-life. Use Ruby 2.7.8 only for legacy branches/apps pinned to Ruby 2.7.
 - Test method: isolated `Gemfile` with `gemspec path:` pointing to `core/` and an explicit Rails version pin
