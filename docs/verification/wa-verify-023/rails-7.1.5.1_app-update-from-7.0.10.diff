@@ -1,0 +1,502 @@
+diff --git a/Gemfile b/Gemfile
+index 26fee46..e3e8ffe 100644
+--- a/Gemfile
++++ b/Gemfile
+@@ -3,8 +3,8 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
+ 
+ ruby "3.2.7"
+ 
+-# Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
+-gem "rails", "~> 7.0.8", ">= 7.0.8.7"
++# Bundle edge Rails instead: gem "rails", "7.1.5.1"
++gem "rails", "7.1.5.1"
+ 
+ # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
+ gem "sprockets-rails"
+@@ -13,7 +13,7 @@ gem "sprockets-rails"
+ gem "sqlite3", "~> 1.4"
+ 
+ # Use the Puma web server [https://github.com/puma/puma]
+-gem "puma", "~> 5.0"
++gem "puma", "~> 6.0"
+ 
+ # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
+ gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
+diff --git a/Gemfile.lock b/Gemfile.lock
+index a2f1ea9..5dc15e8 100644
+--- a/Gemfile.lock
++++ b/Gemfile.lock
+@@ -1,72 +1,76 @@
+ GEM
+   remote: https://rubygems.org/
+   specs:
+-    actioncable (7.0.10)
+-      actionpack (= 7.0.10)
+-      activesupport (= 7.0.10)
++    actioncable (7.1.5.1)
++      actionpack (= 7.1.5.1)
++      activesupport (= 7.1.5.1)
+       nio4r (~> 2.0)
+       websocket-driver (>= 0.6.1)
+-    actionmailbox (7.0.10)
+-      actionpack (= 7.0.10)
+-      activejob (= 7.0.10)
+-      activerecord (= 7.0.10)
+-      activestorage (= 7.0.10)
+-      activesupport (= 7.0.10)
++      zeitwerk (~> 2.6)
++    actionmailbox (7.1.5.1)
++      actionpack (= 7.1.5.1)
++      activejob (= 7.1.5.1)
++      activerecord (= 7.1.5.1)
++      activestorage (= 7.1.5.1)
++      activesupport (= 7.1.5.1)
+       mail (>= 2.7.1)
+       net-imap
+       net-pop
+       net-smtp
+-    actionmailer (7.0.10)
+-      actionpack (= 7.0.10)
+-      actionview (= 7.0.10)
+-      activejob (= 7.0.10)
+-      activesupport (= 7.0.10)
++    actionmailer (7.1.5.1)
++      actionpack (= 7.1.5.1)
++      actionview (= 7.1.5.1)
++      activejob (= 7.1.5.1)
++      activesupport (= 7.1.5.1)
+       mail (~> 2.5, >= 2.5.4)
+       net-imap
+       net-pop
+       net-smtp
+-      rails-dom-testing (~> 2.0)
+-    actionpack (7.0.10)
+-      actionview (= 7.0.10)
+-      activesupport (= 7.0.10)
++      rails-dom-testing (~> 2.2)
++    actionpack (7.1.5.1)
++      actionview (= 7.1.5.1)
++      activesupport (= 7.1.5.1)
++      nokogiri (>= 1.8.5)
+       racc
+-      rack (~> 2.0, >= 2.2.4)
++      rack (>= 2.2.4)
++      rack-session (>= 1.0.1)
+       rack-test (>= 0.6.3)
+-      rails-dom-testing (~> 2.0)
+-      rails-html-sanitizer (~> 1.0, >= 1.2.0)
+-    actiontext (7.0.10)
+-      actionpack (= 7.0.10)
+-      activerecord (= 7.0.10)
+-      activestorage (= 7.0.10)
+-      activesupport (= 7.0.10)
++      rails-dom-testing (~> 2.2)
++      rails-html-sanitizer (~> 1.6)
++    actiontext (7.1.5.1)
++      actionpack (= 7.1.5.1)
++      activerecord (= 7.1.5.1)
++      activestorage (= 7.1.5.1)
++      activesupport (= 7.1.5.1)
+       globalid (>= 0.6.0)
+       nokogiri (>= 1.8.5)
+-    actionview (7.0.10)
+-      activesupport (= 7.0.10)
++    actionview (7.1.5.1)
++      activesupport (= 7.1.5.1)
+       builder (~> 3.1)
+-      erubi (~> 1.4)
+-      rails-dom-testing (~> 2.0)
+-      rails-html-sanitizer (~> 1.1, >= 1.2.0)
+-    activejob (7.0.10)
+-      activesupport (= 7.0.10)
++      erubi (~> 1.11)
++      rails-dom-testing (~> 2.2)
++      rails-html-sanitizer (~> 1.6)
++    activejob (7.1.5.1)
++      activesupport (= 7.1.5.1)
+       globalid (>= 0.3.6)
+-    activemodel (7.0.10)
+-      activesupport (= 7.0.10)
+-    activerecord (7.0.10)
+-      activemodel (= 7.0.10)
+-      activesupport (= 7.0.10)
+-    activestorage (7.0.10)
+-      actionpack (= 7.0.10)
+-      activejob (= 7.0.10)
+-      activerecord (= 7.0.10)
+-      activesupport (= 7.0.10)
++    activemodel (7.1.5.1)
++      activesupport (= 7.1.5.1)
++    activerecord (7.1.5.1)
++      activemodel (= 7.1.5.1)
++      activesupport (= 7.1.5.1)
++      timeout (>= 0.4.0)
++    activestorage (7.1.5.1)
++      actionpack (= 7.1.5.1)
++      activejob (= 7.1.5.1)
++      activerecord (= 7.1.5.1)
++      activesupport (= 7.1.5.1)
+       marcel (~> 1.0)
+-      mini_mime (>= 1.1.0)
+-    activesupport (7.0.10)
++    activesupport (7.1.5.1)
+       base64
+       benchmark (>= 0.3)
+       bigdecimal
+       concurrent-ruby (~> 1.0, >= 1.0.2)
++      connection_pool (>= 2.2.5)
+       drb
+       i18n (>= 1.6, < 2)
+       logger (>= 1.4.2)
+@@ -79,6 +83,7 @@ GEM
+     bigdecimal (4.0.1)
+     builder (3.3.0)
+     concurrent-ruby (1.3.6)
++    connection_pool (3.0.2)
+     crass (1.0.6)
+     date (3.5.1)
+     debug (1.11.1)
+@@ -108,7 +113,6 @@ GEM
+       net-pop
+       net-smtp
+     marcel (1.1.0)
+-    method_source (1.1.0)
+     mini_mime (1.1.5)
+     minitest (6.0.2)
+       drb (~> 2.0)
+@@ -133,26 +137,31 @@ GEM
+     psych (5.3.1)
+       date
+       stringio
+-    puma (5.6.9)
++    puma (6.6.1)
+       nio4r (~> 2.0)
+     racc (1.8.1)
+-    rack (2.2.22)
++    rack (3.2.5)
++    rack-session (2.1.1)
++      base64 (>= 0.1.0)
++      rack (>= 3.0.0)
+     rack-test (2.2.0)
+       rack (>= 1.3)
+-    rails (7.0.10)
+-      actioncable (= 7.0.10)
+-      actionmailbox (= 7.0.10)
+-      actionmailer (= 7.0.10)
+-      actionpack (= 7.0.10)
+-      actiontext (= 7.0.10)
+-      actionview (= 7.0.10)
+-      activejob (= 7.0.10)
+-      activemodel (= 7.0.10)
+-      activerecord (= 7.0.10)
+-      activestorage (= 7.0.10)
+-      activesupport (= 7.0.10)
++    rackup (2.3.1)
++      rack (>= 3)
++    rails (7.1.5.1)
++      actioncable (= 7.1.5.1)
++      actionmailbox (= 7.1.5.1)
++      actionmailer (= 7.1.5.1)
++      actionpack (= 7.1.5.1)
++      actiontext (= 7.1.5.1)
++      actionview (= 7.1.5.1)
++      activejob (= 7.1.5.1)
++      activemodel (= 7.1.5.1)
++      activerecord (= 7.1.5.1)
++      activestorage (= 7.1.5.1)
++      activesupport (= 7.1.5.1)
+       bundler (>= 1.15.0)
+-      railties (= 7.0.10)
++      railties (= 7.1.5.1)
+     rails-dom-testing (2.3.0)
+       activesupport (>= 5.0.0)
+       minitest
+@@ -160,13 +169,14 @@ GEM
+     rails-html-sanitizer (1.7.0)
+       loofah (~> 2.25)
+       nokogiri (>= 1.15.7, != 1.16.7, != 1.16.6, != 1.16.5, != 1.16.4, != 1.16.3, != 1.16.2, != 1.16.1, != 1.16.0.rc1, != 1.16.0)
+-    railties (7.0.10)
+-      actionpack (= 7.0.10)
+-      activesupport (= 7.0.10)
+-      method_source
++    railties (7.1.5.1)
++      actionpack (= 7.1.5.1)
++      activesupport (= 7.1.5.1)
++      irb
++      rackup (>= 1.0.0)
+       rake (>= 12.2)
+-      thor (~> 1.0)
+-      zeitwerk (~> 2.5)
++      thor (~> 1.0, >= 1.2.2)
++      zeitwerk (~> 2.6)
+     rake (13.3.1)
+     rdoc (7.2.0)
+       erb
+@@ -201,8 +211,8 @@ PLATFORMS
+ 
+ DEPENDENCIES
+   debug
+-  puma (~> 5.0)
+-  rails (~> 7.0.8, >= 7.0.8.7)
++  puma (~> 6.0)
++  rails (= 7.1.5.1)
+   sprockets-rails
+   sqlite3 (~> 1.4)
+   tzinfo-data
+diff --git a/bin/setup b/bin/setup
+index ec47b79..3cd5a9d 100755
+--- a/bin/setup
++++ b/bin/setup
+@@ -5,7 +5,7 @@ require "fileutils"
+ APP_ROOT = File.expand_path("..", __dir__)
+ 
+ def system!(*args)
+-  system(*args) || abort("\n== Command #{args} failed ==")
++  system(*args, exception: true)
+ end
+ 
+ FileUtils.chdir APP_ROOT do
+diff --git a/config/application.rb b/config/application.rb
+index 5bb8569..65ade59 100644
+--- a/config/application.rb
++++ b/config/application.rb
+@@ -23,6 +23,11 @@ module App
+     # Initialize configuration defaults for originally generated Rails version.
+     config.load_defaults 7.0
+ 
++    # Please, add to the `ignore` list any other `lib` subdirectories that do
++    # not contain `.rb` files, or that should not be reloaded or eager loaded.
++    # Common ones are `templates`, `generators`, or `middleware`, for example.
++    config.autoload_lib(ignore: %w(assets tasks))
++
+     # Configuration for the application, engines, and railties goes here.
+     #
+     # These settings can be overridden in specific environments using the files
+diff --git a/config/environments/development.rb b/config/environments/development.rb
+index 5ab2549..63daa06 100644
+--- a/config/environments/development.rb
++++ b/config/environments/development.rb
+@@ -6,7 +6,7 @@ Rails.application.configure do
+   # In the development environment your application's code is reloaded any time
+   # it changes. This slows down response time but is perfect for development
+   # since you don't have to restart the web server when you make code changes.
+-  config.cache_classes = false
++  config.enable_reloading = true
+ 
+   # Do not eager load code on boot.
+   config.eager_load = false
+@@ -57,6 +57,6 @@ Rails.application.configure do
+   # Annotate rendered view with file names.
+   # config.action_view.annotate_rendered_view_with_filenames = true
+ 
+-  # Uncomment if you wish to allow Action Cable access from any origin.
+-  # config.action_cable.disable_request_forgery_protection = true
++  # Raise error when a before_action's only/except options reference missing actions
++  config.action_controller.raise_on_missing_callback_actions = true
+ end
+diff --git a/config/environments/production.rb b/config/environments/production.rb
+index ac46ed4..3e6684f 100644
+--- a/config/environments/production.rb
++++ b/config/environments/production.rb
+@@ -4,7 +4,7 @@ Rails.application.configure do
+   # Settings specified here will take precedence over those in config/application.rb.
+ 
+   # Code is not reloaded between requests.
+-  config.cache_classes = true
++  config.enable_reloading = false
+ 
+   # Eager load code on boot. This eager loads most of Rails and
+   # your application in memory, allowing both threaded web servers
+@@ -13,21 +13,20 @@ Rails.application.configure do
+   config.eager_load = true
+ 
+   # Full error reports are disabled and caching is turned on.
+-  config.consider_all_requests_local       = false
++  config.consider_all_requests_local = false
+   config.action_controller.perform_caching = true
+ 
+-  # Ensures that a master key has been made available in either ENV["RAILS_MASTER_KEY"]
+-  # or in config/master.key. This key is used to decrypt credentials (and other encrypted files).
++  # Ensures that a master key has been made available in ENV["RAILS_MASTER_KEY"], config/master.key, or an environment
++  # key such as config/credentials/production.key. This key is used to decrypt credentials (and other encrypted files).
+   # config.require_master_key = true
+ 
+-  # Disable serving static files from the `/public` folder by default since
+-  # Apache or NGINX already handles this.
+-  config.public_file_server.enabled = ENV["RAILS_SERVE_STATIC_FILES"].present?
++  # Disable serving static files from `public/`, relying on NGINX/Apache to do so instead.
++  # config.public_file_server.enabled = false
+ 
+   # Compress CSS using a preprocessor.
+   # config.assets.css_compressor = :sass
+ 
+-  # Do not fallback to assets pipeline if a precompiled asset is missed.
++  # Do not fall back to assets pipeline if a precompiled asset is missed.
+   config.assets.compile = false
+ 
+   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
+@@ -37,16 +36,26 @@ Rails.application.configure do
+   # config.action_dispatch.x_sendfile_header = "X-Sendfile" # for Apache
+   # config.action_dispatch.x_sendfile_header = "X-Accel-Redirect" # for NGINX
+ 
++  # Assume all access to the app is happening through a SSL-terminating reverse proxy.
++  # Can be used together with config.force_ssl for Strict-Transport-Security and secure cookies.
++  # config.assume_ssl = true
++
+   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
+-  # config.force_ssl = true
++  config.force_ssl = true
+ 
+-  # Include generic and useful information about system operation, but avoid logging too much
+-  # information to avoid inadvertent exposure of personally identifiable information (PII).
+-  config.log_level = :info
++  # Log to STDOUT by default
++  config.logger = ActiveSupport::Logger.new(STDOUT)
++    .tap  { |logger| logger.formatter = ::Logger::Formatter.new }
++    .then { |logger| ActiveSupport::TaggedLogging.new(logger) }
+ 
+   # Prepend all log lines with the following tags.
+   config.log_tags = [ :request_id ]
+ 
++  # "info" includes generic and useful information about system operation, but avoids logging too much
++  # information to avoid inadvertent exposure of personally identifiable information (PII). If you
++  # want to log everything, set the level to "debug".
++  config.log_level = ENV.fetch("RAILS_LOG_LEVEL", "info")
++
+   # Use a different cache store in production.
+   # config.cache_store = :mem_cache_store
+ 
+@@ -57,19 +66,14 @@ Rails.application.configure do
+   # Don't log any deprecations.
+   config.active_support.report_deprecations = false
+ 
+-  # Use default logging formatter so that PID and timestamp are not suppressed.
+-  config.log_formatter = ::Logger::Formatter.new
+-
+-  # Use a different logger for distributed setups.
+-  # require "syslog/logger"
+-  # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new "app-name")
+-
+-  if ENV["RAILS_LOG_TO_STDOUT"].present?
+-    logger           = ActiveSupport::Logger.new(STDOUT)
+-    logger.formatter = config.log_formatter
+-    config.logger    = ActiveSupport::TaggedLogging.new(logger)
+-  end
+-
+   # Do not dump schema after migrations.
+   config.active_record.dump_schema_after_migration = false
++
++  # Enable DNS rebinding protection and other `Host` header attacks.
++  # config.hosts = [
++  #   "example.com",     # Allow requests from example.com
++  #   /.*\.example\.com/ # Allow requests from subdomains like `www.example.com`
++  # ]
++  # Skip DNS rebinding protection for the default health check endpoint.
++  # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
+ end
+diff --git a/config/environments/test.rb b/config/environments/test.rb
+index eb2f171..d349c35 100644
+--- a/config/environments/test.rb
++++ b/config/environments/test.rb
+@@ -8,12 +8,13 @@ require "active_support/core_ext/integer/time"
+ Rails.application.configure do
+   # Settings specified here will take precedence over those in config/application.rb.
+ 
+-  # Turn false under Spring and add config.action_view.cache_template_loading = true.
+-  config.cache_classes = true
++  # While tests run files are not watched, reloading is not necessary.
++  config.enable_reloading = false
+ 
+-  # Eager loading loads your whole application. When running a single test locally,
+-  # this probably isn't necessary. It's a good idea to do in a continuous integration
+-  # system, or in some way before deploying your code.
++  # Eager loading loads your entire application. When running a single test locally,
++  # this is usually not necessary, and can slow down your test suite. However, it's
++  # recommended that you enable it in continuous integration systems to ensure eager
++  # loading is working properly before deploying your code.
+   config.eager_load = ENV["CI"].present?
+ 
+   # Configure public file server for tests with Cache-Control for performance.
+@@ -23,12 +24,12 @@ Rails.application.configure do
+   }
+ 
+   # Show full error reports and disable caching.
+-  config.consider_all_requests_local       = true
++  config.consider_all_requests_local = true
+   config.action_controller.perform_caching = false
+   config.cache_store = :null_store
+ 
+-  # Raise exceptions instead of rendering exception templates.
+-  config.action_dispatch.show_exceptions = false
++  # Render exception templates for rescuable exceptions and raise for other exceptions.
++  config.action_dispatch.show_exceptions = :rescuable
+ 
+   # Disable request forgery protection in test environment.
+   config.action_controller.allow_forgery_protection = false
+@@ -47,4 +48,7 @@ Rails.application.configure do
+ 
+   # Annotate rendered view with file names.
+   # config.action_view.annotate_rendered_view_with_filenames = true
++
++  # Raise error when a before_action's only/except options reference missing actions
++  config.action_controller.raise_on_missing_callback_actions = true
+ end
+diff --git a/config/initializers/content_security_policy.rb b/config/initializers/content_security_policy.rb
+index 54f47cf..b3076b3 100644
+--- a/config/initializers/content_security_policy.rb
++++ b/config/initializers/content_security_policy.rb
+@@ -16,9 +16,9 @@
+ #     # policy.report_uri "/csp-violation-report-endpoint"
+ #   end
+ #
+-#   # Generate session nonces for permitted importmap and inline scripts
++#   # Generate session nonces for permitted importmap, inline scripts, and inline styles.
+ #   config.content_security_policy_nonce_generator = ->(request) { request.session.id.to_s }
+-#   config.content_security_policy_nonce_directives = %w(script-src)
++#   config.content_security_policy_nonce_directives = %w(script-src style-src)
+ #
+ #   # Report violations without enforcing the policy.
+ #   # config.content_security_policy_report_only = true
+diff --git a/config/initializers/filter_parameter_logging.rb b/config/initializers/filter_parameter_logging.rb
+index adc6568..c2d89e2 100644
+--- a/config/initializers/filter_parameter_logging.rb
++++ b/config/initializers/filter_parameter_logging.rb
+@@ -1,8 +1,8 @@
+ # Be sure to restart your server when you modify this file.
+ 
+-# Configure parameters to be filtered from the log file. Use this to limit dissemination of
+-# sensitive information. See the ActiveSupport::ParameterFilter documentation for supported
+-# notations and behaviors.
++# Configure parameters to be partially matched (e.g. passw matches password) and filtered from the log file.
++# Use this to limit dissemination of sensitive information.
++# See the ActiveSupport::ParameterFilter documentation for supported notations and behaviors.
+ Rails.application.config.filter_parameters += [
+   :passw, :secret, :token, :_key, :crypt, :salt, :certificate, :otp, :ssn
+ ]
+diff --git a/config/initializers/permissions_policy.rb b/config/initializers/permissions_policy.rb
+index 00f64d7..7db3b95 100644
+--- a/config/initializers/permissions_policy.rb
++++ b/config/initializers/permissions_policy.rb
+@@ -1,11 +1,13 @@
++# Be sure to restart your server when you modify this file.
++
+ # Define an application-wide HTTP permissions policy. For further
+-# information see https://developers.google.com/web/updates/2018/06/feature-policy
+-#
+-# Rails.application.config.permissions_policy do |f|
+-#   f.camera      :none
+-#   f.gyroscope   :none
+-#   f.microphone  :none
+-#   f.usb         :none
+-#   f.fullscreen  :self
+-#   f.payment     :self, "https://secure.example.com"
++# information see: https://developers.google.com/web/updates/2018/06/feature-policy
++
++# Rails.application.config.permissions_policy do |policy|
++#   policy.camera      :none
++#   policy.gyroscope   :none
++#   policy.microphone  :none
++#   policy.usb         :none
++#   policy.fullscreen  :self
++#   policy.payment     :self, "https://secure.example.com"
+ # end
