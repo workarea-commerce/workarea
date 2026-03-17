@@ -37,23 +37,41 @@ if command -v docker >/dev/null 2>&1; then
   fi
 fi
 
-# Run against the core dummy app (standard Rails app) so `zeitwerk:check` exists.
-cd "$ROOT_DIR/core/test/dummy"
+# Wait for Redis to be ready before running checks (avoids false negatives when
+# Redis is still initialising in CI).
+echo "Waiting for Redis to be ready..."
+timeout 60 bash -c 'until redis-cli ping > /dev/null 2>&1; do sleep 2; done'
+echo "Redis is ready."
 
-# Prefer `rbenv exec` when available so this script works even if your shell
-# hasn't initialized rbenv shims (common in non-interactive environments).
-if command -v rbenv >/dev/null 2>&1; then
-  if ! RBENV_VERSION="${RBENV_VERSION:-$(cat "$ROOT_DIR/.ruby-version")}" \
-    RAILS_ENV="$RAILS_ENV" \
-    rbenv exec ruby bin/rails zeitwerk:check; then
-    echo "$FAIL_MSG" >&2
-    exit 1
+# Run zeitwerk:check against each engine's dummy app using subshells so that
+# directory changes are isolated and `set -e` failures in one engine do not
+# leave the working directory in an unexpected state.
+#
+# Engines with a test/dummy app that provides a full Rails environment:
+ENGINES=(core admin storefront)
+
+for engine in "${ENGINES[@]}"; do
+  engine_dummy="$ROOT_DIR/$engine/test/dummy"
+  if [[ ! -d "$engine_dummy" ]]; then
+    echo "SKIP: $engine/test/dummy not found, skipping."
+    continue
   fi
-else
-  if ! RAILS_ENV="$RAILS_ENV" bin/rails zeitwerk:check; then
-    echo "$FAIL_MSG" >&2
-    exit 1
+
+  echo "Running zeitwerk:check for engine: $engine"
+
+  if command -v rbenv >/dev/null 2>&1; then
+    # Prefer `rbenv exec` when available so this script works even if your shell
+    # hasn't initialized rbenv shims (common in non-interactive environments).
+    (
+      cd "$engine_dummy"
+      RBENV_VERSION="${RBENV_VERSION:-$(cat "$ROOT_DIR/.ruby-version")}" \
+        RAILS_ENV=test \
+        rbenv exec ruby bin/rails zeitwerk:check
+    ) || { echo "$FAIL_MSG ($engine)" >&2; exit 1; }
+  else
+    (cd "$engine_dummy" && RAILS_ENV=test bin/rails zeitwerk:check) \
+      || { echo "$FAIL_MSG ($engine)" >&2; exit 1; }
   fi
-fi
+done
 
 echo "$PASS_MSG"
