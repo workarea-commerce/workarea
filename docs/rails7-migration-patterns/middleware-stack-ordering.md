@@ -124,10 +124,12 @@ No positional change is required for `insert_before Session::CookieStore`; the
 fix is ensuring `HostAuthorization` does not block the request before it reaches
 your middleware.
 
-## Workarea PR / Issue
+## References
 
 - Related issue: **WA-DOC-014** (this document)
 - Upstream Rails change: [`ActionDispatch::HostAuthorization` — Rails PR #33145](https://github.com/rails/rails/pull/33145)
+- [Rails 7.0 Release Notes](https://edgeguides.rubyonrails.org/7_0_release_notes.html)
+- [ActionDispatch::HostAuthorization docs](https://api.rubyonrails.org/classes/ActionDispatch/HostAuthorization.html)
 
 ## Lint rule (pseudocode)
 

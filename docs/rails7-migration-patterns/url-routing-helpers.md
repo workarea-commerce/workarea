@@ -18,8 +18,11 @@ grep -r "_url" app/jobs app/mailers
 ## Fix
 To resolve it, set `default_url_options` in `config/application.rb` or `config/routes.rb`, or use `Rails.application.routes.default_url_options`.
 
-## Workarea PR (or Issue)
-See [Issue #903](https://github.com/workarea-commerce/workarea/issues/903)
+## References / Links
+
+- [Issue #903](https://github.com/workarea-commerce/workarea/issues/903)
+- [Rails 7.0 Release Notes — Routing](https://edgeguides.rubyonrails.org/7_0_release_notes.html)
+- [Rails API: `default_url_options`](https://api.rubyonrails.org/classes/ActionDispatch/Routing/RouteSet.html)
 
 ## Lint rule pseudocode
 ```ruby

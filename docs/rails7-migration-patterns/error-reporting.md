@@ -8,6 +8,51 @@ This is implemented by `ActiveSupport::ErrorReporter` and is intended to be
 **configured by the host application** (or an integration gem) to forward handled
 exceptions to a provider (Sentry, Bugsnag, Honeybadger, etc.).
 
+## Symptom
+
+After upgrading to Rails 7.1, handled/swallowed exceptions inside Workarea are no longer
+forwarded to external error tracking providers (Sentry, Bugsnag, Honeybadger, etc.).
+Previously, these may have been captured by Rack middleware or a gem monkey-patch.
+In Rails 7.1+, the new `ActiveSupport::ErrorReporter` API must be used instead.
+
+## Root cause
+
+Rails 7.1 added `Rails.error` as the canonical way to report handled errors to configured
+subscribers. Without calling `Rails.error.report`, handled exceptions swallowed inside
+Workarea code paths are invisible to error reporting tools. Workarea added
+`Workarea::ErrorReporting` as a thin wrapper to bridge this gap.
+
+## Detection
+
+```bash
+# Confirm the module exists:
+grep -r "ErrorReporting" core/lib/ --include="*.rb"
+# → core/lib/workarea/error_reporting.rb
+
+# Confirm no hard dependency on Rails.error (availability-guarded):
+grep -n "rails_error_reporter_available" core/lib/workarea/error_reporting.rb
+
+# Confirm no provider hard-coded:
+grep -rn "Sentry\|Bugsnag\|Honeybadger\|Airbrake" core/lib/workarea/error_reporting.rb
+# → (no output — no provider is hard-coded)
+```
+
+## Fix
+
+Workarea implements `Workarea::ErrorReporting.report` which calls `Rails.error.report`
+when available (Rails 7.1+) and degrades gracefully on older versions. No client code
+changes are required.
+
+To configure an error reporting provider in your host application:
+
+```ruby
+# config/initializers/error_reporting.rb
+# Example: Sentry
+Rails.error.subscribe(Sentry::Rails::ErrorSubscriber.new)
+```
+
+---
+
 ## Verification status (WA-VERIFY-044)
 
 **Status: ✅ Complete — implemented and compatible.**
@@ -74,3 +119,12 @@ grep -n "rails_error_reporter_available" core/lib/workarea/error_reporting.rb
 grep -rn "Sentry\|Bugsnag\|Honeybadger\|Airbrake" core/lib/workarea/error_reporting.rb
 # → (no output — no provider is hard-coded)
 ```
+
+---
+
+## References / Links
+
+- [Rails 7.1 Error Reporting API](https://edgeguides.rubyonrails.org/error_reporting.html)
+- [ActiveSupport::ErrorReporter docs](https://api.rubyonrails.org/classes/ActiveSupport/ErrorReporter.html)
+- [WA-VERIFY-044 — implementation issue](https://github.com/workarea-commerce/workarea/issues)
+- [Rails 7.1 Release Notes](https://edgeguides.rubyonrails.org/7_1_release_notes.html)

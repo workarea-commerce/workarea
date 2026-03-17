@@ -29,7 +29,7 @@ bumping `activerecord`/`activesupport` to 7.x):
 
 ---
 
-## Root Cause
+## Root cause
 
 ### 1. `BigDecimal` → JSON encoding changed in Rails 7
 
@@ -225,9 +225,10 @@ Exclusions:
 
 ---
 
-## References
+## References / Links
 
 - [Rails 7.0 release notes — BigDecimal JSON](https://edgeguides.rubyonrails.org/7_0_release_notes.html)
 - [Ruby 3.1 BigDecimal deprecations](https://www.ruby-lang.org/en/news/2021/12/25/ruby-3-1-0-released/)
 - [Mongoid 7 type coercion changes](https://www.mongodb.com/docs/mongoid/current/tutorials/mongoid-documents/#fields)
 - [`money-rails` Rails 7 compatibility notes](https://github.com/RubyMoney/money-rails/blob/main/CHANGELOG.md)
+- Related issue: [workarea-commerce/workarea#902](https://github.com/workarea-commerce/workarea/issues/902)

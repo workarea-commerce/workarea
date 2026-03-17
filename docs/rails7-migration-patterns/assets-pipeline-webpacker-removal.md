@@ -22,7 +22,7 @@ CSS may also fail to load if `sass-rails` or `webpacker`-managed SCSS is not mig
 
 ---
 
-## Root Cause
+## Root cause
 
 Rails 7 removed Webpacker as the default JavaScript bundler. The `webpacker` gem is no longer maintained by the Rails core team and does not support Rails 7+ without significant patching.
 
@@ -182,7 +182,7 @@ end
 
 ---
 
-## See Also
+## References
 
 - [Rails 7.0 Release Notes — Asset Pipeline](https://edgeguides.rubyonrails.org/7_0_release_notes.html)
 - [importmap-rails](https://github.com/rails/importmap-rails)
@@ -190,3 +190,4 @@ end
 - [cssbundling-rails](https://github.com/rails/cssbundling-rails)
 - [Propshaft](https://github.com/rails/propshaft)
 - [Sprockets 4 upgrade guide](https://github.com/rails/sprockets/blob/main/UPGRADING.md)
+- Related issue: [workarea-commerce/workarea#904](https://github.com/workarea-commerce/workarea/issues/904)
