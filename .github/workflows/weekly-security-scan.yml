@@ -6,6 +6,12 @@ on:
     - cron: '0 9 * * 1'
   workflow_dispatch:
 
+# Minimal token scope: read-only checkout for the security_scan job.
+# The notify_failure job overrides to issues: write (job-level) so only
+# that job receives the elevated scope needed to open tracking issues.
+permissions:
+  contents: read
+
 jobs:
   security_scan:
     name: Brakeman + bundler-audit (next)
