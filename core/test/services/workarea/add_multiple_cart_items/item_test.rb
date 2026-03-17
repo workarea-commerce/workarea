@@ -39,7 +39,7 @@ module Workarea
         assert_equal(1, item.quantity)
 
         order.reload
-        assert_equal(1, order.items.count)
+        assert_equal(1, order.items.size)
 
         params = { sku: 'SKU3', quantity: 2 }
         item = AddMultipleCartItems::Item.new(order, params)
@@ -54,7 +54,7 @@ module Workarea
         )
 
         order.reload
-        assert_equal(1, order.items.count)
+        assert_equal(1, order.items.size)
       end
     end
   end

@@ -28,7 +28,7 @@ module Workarea
       assert(add_to_cart.perform)
 
       order.reload
-      assert_equal(2, order.items.count)
+      assert_equal(2, order.items.size)
 
       item = order.items.first
       assert_equal('PROD1', item.product_id)
@@ -54,7 +54,7 @@ module Workarea
       assert(add_to_cart.items.first.persisted?)
 
       order.reload
-      assert_equal(1, order.items.count)
+      assert_equal(1, order.items.size)
 
       item = add_to_cart.items.first.item
       assert(item.persisted?)
@@ -83,7 +83,7 @@ module Workarea
       refute(add_to_cart.perform!)
 
       order.reload
-      assert_equal(0, order.items.count)
+      assert_equal(0, order.items.size)
 
       items_params = [
         { sku: 'sku1', quantity: 2 },
@@ -94,7 +94,7 @@ module Workarea
       assert(add_to_cart.perform!)
 
       order.reload
-      assert_equal(2, order.items.count)
+      assert_equal(2, order.items.size)
     end
   end
 end

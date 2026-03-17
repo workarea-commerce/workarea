@@ -16,7 +16,15 @@ Replaced embedded-association `.count` calls with `.size`:
   - `@variants.count` → `@variants.size`
 
 Also updated tests and docs that were using embedded-association `.count` to avoid
-recommending/depending on database-backed counts for embedded documents.
+recommending/depending on database-backed counts for embedded documents:
+
+- `core/test/models/workarea/order_test.rb` — `order.items.count` → `.size`
+- `core/test/services/workarea/add_multiple_cart_items/item_test.rb` — `order.items.count` → `.size`
+- `core/test/services/workarea/add_multiple_cart_items_test.rb` — `order.items.count` → `.size`
+- `core/test/services/workarea/cart_cleaner_test.rb` — `@order.items.count` → `.size`
+- `core/test/services/workarea/create_fulfillment_test.rb` — `fulfillment.items.count` → `.size`
+- `core/test/services/workarea/inventory_adjustment_test.rb` — `order.items.count` → `.size`
+- `core/test/services/workarea/order_merge_test.rb` — `original.items.count` → `.size`
 
 ## Intentionally unchanged
 

@@ -22,7 +22,7 @@ module Workarea
 
       OrderMerge.new(original).merge(other)
 
-      assert_equal(3, original.items.count)
+      assert_equal(3, original.items.size)
       assert_equal([1, 1, 1], original.items.map(&:quantity))
       assert_equal(%w(PROMOCODE), original.promo_codes)
     end

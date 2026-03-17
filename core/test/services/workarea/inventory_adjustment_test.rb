@@ -23,7 +23,7 @@ module Workarea
     def test_adjust
       adjustment = InventoryAdjustment.new(order).tap(&:perform)
 
-      assert_equal(2, order.items.count)
+      assert_equal(2, order.items.size)
       assert_equal(1, order.items[0].quantity)
       assert_equal(1, order.items[1].quantity)
       assert_nil(order.items.detect { |i| i.sku == 'SKU3' })
