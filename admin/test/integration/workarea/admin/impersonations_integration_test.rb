@@ -12,10 +12,11 @@ module Workarea
       end
 
       def login_admin_user
-        admin_user.update!(password: 'W3bl1nc!')
+        new_password = 'N3wP@ssw0rd!'
+        admin_user.update!(password: new_password)
 
         post storefront.login_path,
-          params: { email: admin_user.email, password: 'W3bl1nc!' }
+          params: { email: admin_user.email, password: new_password }
       end
 
       def test_can_create_an_impersonation

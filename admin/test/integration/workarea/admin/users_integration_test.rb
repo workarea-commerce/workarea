@@ -32,7 +32,7 @@ module Workarea
           params: {
             user: {
               email: 'test@workarea.com',
-              password: 'W3bl1nc!',
+              password: 'N3wP@ssw0rd!',
               tag_list: 'different,tags',
               admin: true,
               releases_access: true,
@@ -47,7 +47,7 @@ module Workarea
         user.reload
 
         assert_equal('test@workarea.com', user.email)
-        assert_equal(user, user.authenticate('W3bl1nc!'))
+        assert_equal(user, user.authenticate('N3wP@ssw0rd!'))
         assert_equal(%w(different tags), user.tags)
         assert(user.admin)
         assert(user.releases_access)
