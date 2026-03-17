@@ -72,6 +72,34 @@ jobs:
       with:
         args: '{admin,core,storefront}/{app,test}/**/*.scss'
 
+  bundler_audit:
+    name: bundler-audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+    # Pinned to commit SHA for supply-chain safety (this job runs security
+    # tooling — bundler-audit — so reproducibility matters most here).
+    # actions/checkout v4 → 34e114876b0b11c390a56381ad16ebd13914f8d5
+    - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+
+    # ruby/setup-ruby v1.292.0 → 4eb9f110bac952a8b68ecf92e3b5c7a987594ba6
+    - uses: ruby/setup-ruby@4eb9f110bac952a8b68ecf92e3b5c7a987594ba6
+      with:
+        ruby-version: 3.2
+
+    - name: Install bundler-audit
+      run: gem install bundler-audit
+
+    - name: Update advisory database
+      run: bundle-audit update
+
+    - name: Run bundler-audit
+      run: |
+        # If this fails, a vulnerability was found in Gemfile.lock.
+        # Fix by updating gems (preferred) or acknowledging advisories in
+        # .bundler-audit.yml (e.g. when a fix is not yet available).
+        bundle-audit check --config .bundler-audit.yml
+
   admin_tests:
     runs-on: ubuntu-latest
     steps:
