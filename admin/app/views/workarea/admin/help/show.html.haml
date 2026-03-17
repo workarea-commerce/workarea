@@ -20,4 +20,4 @@
 
   .view__container
     .help-article
-      != @article_body
+      = sanitize(@article_body)
