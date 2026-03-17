@@ -3,8 +3,20 @@ module Workarea
     module Services
       extend self
 
+      # Returns the compose command to use: "docker compose" (plugin) or
+      # "docker-compose" (standalone). Returns nil when neither is available.
+      def compose_command
+        return @compose_command if defined?(@compose_command)
+        @compose_command =
+          if system('docker compose version > /dev/null 2>&1')
+            'docker compose'
+          elsif system('docker-compose -v > /dev/null 2>&1')
+            'docker-compose'
+          end
+      end
+
       def assert_docker_compose_installed!
-        unless system('docker-compose -v > /dev/null 2>&1')
+        unless compose_command
           STDERR.puts <<~eos
   **************************************************
   ⛔️ ERROR: workarea:services tasks depend on Docker Compose being installed. \
@@ -40,7 +52,7 @@ module Workarea
       def up
         assert_docker_compose_installed!
 
-        if system(compose_env, "docker-compose up -d #{ENV['COMPOSE_ARGUMENTS']} #{ENV['WORKAREA_SERVICES']}")
+        if system(compose_env, "#{compose_command} up -d #{ENV['COMPOSE_ARGUMENTS']} #{ENV['WORKAREA_SERVICES']}")
           puts '✅ Success! Workarea services are running in the background. Run workarea:services:down to stop them.'
         else
           STDERR.puts '⛔️ Error! There was an error starting Workarea services.'
@@ -50,7 +62,7 @@ module Workarea
       def down
         assert_docker_compose_installed!
 
-        if system(compose_env, "docker-compose down #{ENV['COMPOSE_ARGUMENTS']}")
+        if system(compose_env, "#{compose_command} down #{ENV['COMPOSE_ARGUMENTS']}")
           puts '✅ Success! Workarea services are stopped. Run workarea:services:up to start them.'
         else
           STDERR.puts '⛔️ Error! There was an error stopping Workarea services.'
@@ -60,7 +72,7 @@ module Workarea
       def clean
         assert_docker_compose_installed!
 
-        if system(compose_env, "docker-compose down -v #{ENV['COMPOSE_ARGUMENTS']}")
+        if system(compose_env, "#{compose_command} down -v #{ENV['COMPOSE_ARGUMENTS']}")
           puts '✅ Success! Workarea service volumes have been removed. Run workarea:services:up to start services and recreate volumes.'
         else
           STDERR.puts '⛔️ Error! There was an error removing Workarea service volumes.'
