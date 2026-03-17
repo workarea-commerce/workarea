@@ -25,7 +25,7 @@ module Workarea
       end
 
       def test_to_s
-        digest = Digest::SHA1.hexdigest(@cache_key.parts.join('/'))
+        digest = Digest::SHA256.hexdigest(@cache_key.parts.join('/'))
         assert_equal(@cache_key.to_s, digest)
       end
 
