@@ -2,8 +2,6 @@
 
 module Workarea
   class Admin::PricingDiscountsController < Admin::ApplicationController
-    ALLOWED_TEMPLATES = %w[edit rules].freeze
-
     required_permissions :marketing
 
     before_action :check_publishing_authorization
@@ -32,8 +30,13 @@ module Workarea
         redirect_to pricing_discount_path(@discount)
       else
         @discount = Admin::DiscountViewModel.wrap(@discount, view_model_options)
-        template = ALLOWED_TEMPLATES.include?(params[:template].to_s) ? params[:template].to_s : 'edit'
-        render template, status: :unprocessable_entity
+
+        case params[:template].to_s
+        when 'rules'
+          render :rules, status: :unprocessable_entity
+        else
+          render :edit, status: :unprocessable_entity
+        end
       end
     end
 
