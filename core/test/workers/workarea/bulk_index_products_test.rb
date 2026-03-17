@@ -14,5 +14,21 @@ module Workarea
         assert_equal(2, Search::Storefront.count)
       end
     end
+
+    def test_perform_with_default_ids
+      Workarea::Search::Storefront.reset_indexes!
+
+      Sidekiq::Callbacks.disable(IndexProduct) do
+        products = Array.new(2) { create_product }
+
+        assert_equal(0, Search::Storefront.count)
+        BulkIndexProducts.perform
+        assert_equal(2, Search::Storefront.count)
+
+        products.each do |product|
+          assert(Catalog::Product.find(product.id).last_indexed_at.present?)
+        end
+      end
+    end
   end
 end
