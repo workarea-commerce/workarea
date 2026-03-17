@@ -48,6 +48,17 @@ module Workarea
         )
       end
 
+      def test_autocomplete
+        create_search_customization(id: 'bag', query: 'bag')
+        create_search_customization(id: 'basket', query: 'basket')
+        create_search_customization(id: 'shoe', query: 'shoe')
+
+        results = Customization.autocomplete('ba')
+
+        assert(results.all? { |v| v.is_a?(String) })
+        assert_equal(%w(bag basket), results.sort)
+      end
+
       def test_redirect
         cust = Customization.new(query: 'bag', redirect: 'cart')
         assert_equal('/cart', cust.redirect)
