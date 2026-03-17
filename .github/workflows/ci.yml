@@ -320,7 +320,11 @@ jobs:
     - name: Bundle install
       id: bundle
       run: bundle install
-      continue-on-error: ${{ matrix.experimental }}
+      continue-on-error: true
+
+    - name: Bundler lockfile mismatch hint
+      if: steps.bundle.outcome != 'success' && !matrix.experimental
+      run: bash script/ci/bundler_lockfile_hint
 
     - name: Install system deps (docker-compose + ImageMagick)
       run: sudo apt-get update && sudo apt-get install -y docker-compose imagemagick
@@ -369,11 +373,14 @@ jobs:
         ruby-version: ${{ matrix.ruby-version }}
         bundler-cache: false
     - name: bundle install
-      run: |
-        bundle install || {
-          if [[ "${{ matrix.experimental }}" == "true" ]]; then
-            echo "::warning::bundle install failed on Ruby ${{ matrix.ruby-version }} (informational — experimental version)"
-            exit 0
-          fi
-          exit 1
-        }
+      id: bundle
+      continue-on-error: true
+      run: bundle install
+
+    - name: Bundler lockfile mismatch hint
+      if: steps.bundle.outcome != 'success' && !matrix.experimental
+      run: bash script/ci/bundler_lockfile_hint
+
+    - name: Warn on experimental bundle failures
+      if: steps.bundle.outcome != 'success' && matrix.experimental
+      run: echo "::warning::bundle install failed on Ruby ${{ matrix.ruby-version }} (informational — experimental version)"
