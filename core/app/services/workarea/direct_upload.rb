@@ -77,7 +77,7 @@ module Workarea
     def processor
       return @processor if defined?(@processor)
       @processor = "Workarea::DirectUpload::#{@type.camelize}".constantize.new(self)
-    rescue
+    rescue NameError
       @processor = nil
     end
 

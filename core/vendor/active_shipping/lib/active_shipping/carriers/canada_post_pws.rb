@@ -137,7 +137,7 @@ module ActiveShipping
       parse_merchant_details_response(response)
     rescue ActiveUtils::ResponseError, ActiveShipping::ResponseError => e
       error_response(e.response.body, CPPWSMerchantDetailsResponse)
-    rescue Exception => e
+    rescue StandardError => e
       raise ResponseError.new(e.message)
     end
 

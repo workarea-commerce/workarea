@@ -8,7 +8,7 @@ module Workarea
 
         [status, "#{status ? 'Low' : 'High'} - #{length}"]
 
-      rescue
+      rescue StandardError
         [false, 'Down']
       end
     end

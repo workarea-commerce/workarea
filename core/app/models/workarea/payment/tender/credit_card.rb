@@ -22,7 +22,7 @@ module Workarea
 
         def saved_card
           @saved_card ||= profile.credit_cards.find(saved_card_id) if saved?
-        rescue
+        rescue Mongoid::Errors::DocumentNotFound
           nil
         end
 

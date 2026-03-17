@@ -18,7 +18,7 @@ module Workarea
       def complete!
         begin
           complete_each_transaction!
-        rescue Exception => e
+        rescue StandardError => e
           rollback!
           raise e
         ensure

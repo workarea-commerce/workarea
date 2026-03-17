@@ -17,7 +17,7 @@ module Workarea
             h.request(request)
           end
 
-        rescue Exception => e
+        rescue StandardError => e
           Workarea::ErrorReporting.report(
             e,
             handled: true,
@@ -60,7 +60,7 @@ module Workarea
         return unless File.exist?(Rails.root.join('.client-id'))
 
         File.read(Rails.root.join('.client-id'))
-      rescue
+      rescue StandardError
         nil
       end
 
