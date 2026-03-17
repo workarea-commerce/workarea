@@ -1,73 +1,59 @@
-# Rails 7.2 forward-compatibility notes (Workarea)
+# Rails 7.2 appraisal notes (Workarea)
 
-> Issue: https://github.com/workarea-commerce/workarea/issues/761
-> Branch: `wa-forward-001-rails72-compat`
+Primary tracking:
+
+* Umbrella: https://github.com/workarea-commerce/workarea/issues/768
+* **Current bundler blocker (canonical):** https://github.com/workarea-commerce/workarea/issues/841
+  * Specific repro/details: https://github.com/workarea-commerce/workarea/issues/839
+  * Also impacts security snapshots (Brakeman / bundler-audit): https://github.com/workarea-commerce/workarea/issues/840
 
 ## Summary
 
-Attempting to add a Rails 7.2 appraisal Gemfile currently **does not bundle** due to an explicit Rails version constraint in Workarea.
+Rails 7.2 appraisal (`gemfiles/rails_7_2.gemfile`) currently **cannot bundle**.
 
-**Current scope assessment:** **moderate**
+This is **no longer** blocked by a Workarea Rails upper-bound constraint (e.g. `workarea-core` allows `rails < 7.3` as of current `next`).
 
-* Rationale: The immediate blocker is mechanical (relax gemspec constraints), but we can’t yet see downstream dependency/test failures until bundler resolves.
+**The active blocker is the Mongoid dependency line:** `workarea-core` depends on `mongoid ~> 7.4`, and Mongoid 7.x constrains `activemodel < 7.1`, which makes Rails 7.1/7.2 unsatisfiable.
 
-## Bundler result
+## Repro
 
-Created `gemfiles/rails_7_2.gemfile`:
+Rails 7.2 requires Ruby >= 3.1, and Workarea’s `.ruby-version` is currently **3.2.7**.
 
-```ruby
-# frozen_string_literal: true
+```sh
+# Ensure you're using the repo Ruby (example uses rbenv)
+export PATH="$HOME/.rbenv/shims:$HOME/.rbenv/bin:$PATH" && eval "$(rbenv init - zsh)"
+rbenv shell 3.2.7
 
-eval_gemfile File.expand_path('../Gemfile', __dir__)
-
-gem 'rails', '~> 7.2.0'
+cd /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea
+BUNDLE_GEMFILE=gemfiles/rails_7_2.gemfile bundle install
 ```
 
-Running `BUNDLE_GEMFILE=gemfiles/rails_7_2.gemfile bundle install` fails with:
+## Bundler failure (key excerpt)
+
+From #839:
 
 ```text
-Because every version of workarea-core depends on rails >= 6.1, < 7.2
-  and rails_7_2.gemfile depends on workarea-core >= 0,
-  rails >= 6.1, < 7.2 is required.
-So, because rails_7_2.gemfile depends on rails ~> 7.2.0,
-  version solving has failed.
+Because every version of workarea-core depends on mongoid ~> 7.4
+  and mongoid >= 7.3.4, < 8.0.7 depends on activemodel >= 5.1, < 7.1, != 7.0.0,
+  every version of workarea-core requires activemodel >= 5.1, < 7.1, != 7.0.0.
+Thus, every version of workarea-core is incompatible with rails >= 7.2.0.
 ```
 
-### Immediate blocker
+## Intended path forward
 
-`workarea-core` (and likely other Workarea component gems) has an upper bound of **`rails < 7.2`**. Until that constraint is relaxed, we cannot get a lockfile or run CI to discover *actual* Rails 7.2 incompatibilities.
+1. **Unblock bundling by upgrading Mongoid/ODM dependencies** to a version line compatible with Rails/ActiveModel 7.1 and 7.2.
+   * Canonical issue: https://github.com/workarea-commerce/workarea/issues/841
+2. Once Bundler resolves under `gemfiles/rails_7_2.gemfile`, run the test suite + verification tasks and triage failures.
 
-## Rails 7.2 changes to watch (from release notes / upgrade guide)
+## Known follow-up failures (after bundling is restored)
 
-Primary references:
+These issues are expected to be relevant once the appraisal can bundle/run in CI:
+
+* Rack::Cache constant load error in integration test: https://github.com/workarea-commerce/workarea/issues/787
+* Catalog slug caching test failure (Rails 7.2 / Mongoid 8): https://github.com/workarea-commerce/workarea/issues/788
+* User password reuse validation test failure (Rails 7.2 / Mongoid 8): https://github.com/workarea-commerce/workarea/issues/789
+
+## Rails 7.2 upstream references
 
 * https://edgeguides.rubyonrails.org/7_2_release_notes.html
 * https://edgeguides.rubyonrails.org/upgrading_ruby_on_rails.html#upgrading-from-rails-7-1-to-rails-7-2
-
-Notable items that could affect Workarea/apps:
-
-* **Ruby minimum version is now 3.1** (Workarea is already running Ruby 3.2.7 in this assessment, so this is fine).
-* **Active Job test behavior change**: in Rails 7.2, tests respect `config.active_job.queue_adapter` if explicitly set (previously some tests could still silently use the TestAdapter). If Workarea sets a non-test adapter in the test environment, or test assumptions relied on the implicit TestAdapter, expect failures.
-* **Active Job transactional enqueue behavior**: Rails 7.2 defers enqueuing jobs until after commit when enqueued inside an Active Record transaction, and drops jobs on rollback. (Workarea is Mongoid-based, but apps/plugins may use Active Record, and this can surface as behavior changes in mixed environments.)
-* **`alias_attribute` behavior change**: aliases bypass custom attribute methods and read raw DB value. (Quick scan: no `alias_attribute` usage found in Workarea itself.)
-
-## Quick codebase scan
-
-A quick grep for some historically-deprecated patterns surfaced:
-
-* `Rails.application.config.force_ssl` usage in:
-  * `storefront/app/mailers/workarea/storefront/application_mailer.rb`
-  * `storefront/app/helpers/workarea/storefront/navigation_helper.rb`
-
-This isn’t necessarily removed in 7.2, but it’s worth re-checking when the bundle resolves.
-
-## Follow-up work (recommended issues)
-
-1. Relax Rails upper bound in Workarea gemspecs (at least `workarea-core`) to allow bundler resolution with Rails 7.2.
-2. Once bundling succeeds: run Workarea test suite under Rails 7.2 and capture failures/regressions.
-3. Audit Workarea test configuration for `active_job.queue_adapter` expectations under Rails 7.2.
-
-## Open questions
-
-* After relaxing the Rails upper bound, do any dependency constraints (Mongoid, Sidekiq, etc.) prevent Rails 7.2 resolution?
-* What CI matrix (if any) should be updated to include a Rails 7.2 appraisal run?
