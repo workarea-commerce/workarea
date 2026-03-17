@@ -7,7 +7,10 @@ module Workarea
       include ActiveModel::SecurePassword
 
       field :password_digest, type: String
-      belongs_to :user, class_name: 'Workarea::User', index: true
+      belongs_to :user,
+        class_name: 'Workarea::User',
+        index: true,
+        optional: true
       has_secure_password validations: false
 
       scope :by_newest, -> { desc(:created_at) }

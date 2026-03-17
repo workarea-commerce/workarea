@@ -30,7 +30,8 @@ module Workarea
         #
         belongs_to :code_list,
           class_name: 'Workarea::Pricing::Discount::CodeList',
-          index: true
+          index: true,
+          optional: true
 
         # Get unused codes
         #

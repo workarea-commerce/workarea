@@ -16,7 +16,8 @@ module Workarea
       belongs_to :payment,
         class_name: 'Workarea::Payment',
         index: true,
-        touch: true
+        touch: true,
+        optional: true
 
       belongs_to :reference,
         class_name: 'Workarea::Payment::Transaction',

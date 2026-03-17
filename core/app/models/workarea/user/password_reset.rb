@@ -6,7 +6,10 @@ module Workarea
       include ApplicationDocument
       include UrlToken
 
-      belongs_to :user, class_name: 'Workarea::User', index: true
+      belongs_to :user,
+        class_name: 'Workarea::User',
+        index: true,
+        optional: true
 
       index(
         { created_at: 1 },

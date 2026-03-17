@@ -18,7 +18,8 @@ module Workarea
         #   @return [Discount] the discount
         #
         belongs_to :discount,
-          class_name: 'Workarea::Pricing::Discount'
+          class_name: 'Workarea::Pricing::Discount',
+          optional: true
 
         scope :recent, -> { desc(:created_at) }
         index({ discount_id: 1, email: 1 })
