@@ -47,6 +47,64 @@ module Workarea
         assert_response :unprocessable_entity
       end
 
+      def test_invalid_update_with_rules_template_renders_rules_template
+        discount = create_shipping_discount(
+          name: 'Test Discount',
+          active: true,
+          shipping_service: 'Ground',
+          amount: 5
+        )
+
+        # template=rules on invalid update must render the :rules template (422)
+        patch admin.pricing_discount_path(discount),
+          params: {
+            template: 'rules',
+            discount: { name: '' }
+          }
+
+        assert_response :unprocessable_entity
+        # The rules template embeds a hidden field so the form re-submits to
+        # the same template on retry — this distinguishes it from :edit
+        assert_select("input[name='template'][value='rules']")
+      end
+
+      def test_invalid_update_without_template_param_renders_edit_template
+        discount = create_shipping_discount(
+          name: 'Test Discount',
+          active: true,
+          shipping_service: 'Ground',
+          amount: 5
+        )
+
+        # No template param — controller falls through to else → renders :edit (422)
+        patch admin.pricing_discount_path(discount),
+          params: { discount: { name: '' } }
+
+        assert_response :unprocessable_entity
+        # edit template does NOT embed a hidden template field
+        assert_select("input[name='template']", false)
+      end
+
+      def test_invalid_update_with_arbitrary_template_param_renders_edit_template
+        discount = create_shipping_discount(
+          name: 'Test Discount',
+          active: true,
+          shipping_service: 'Ground',
+          amount: 5
+        )
+
+        # Arbitrary/unknown template param must fall back to :edit (422)
+        patch admin.pricing_discount_path(discount),
+          params: {
+            template: 'arbitrary_string',
+            discount: { name: '' }
+          }
+
+        assert_response :unprocessable_entity
+        # edit template does NOT embed a hidden template field
+        assert_select("input[name='template']", false)
+      end
+
       def test_update_with_disallowed_template_param_falls_back_to_edit
         discount = create_shipping_discount(
           name: 'Test Discount',
