@@ -70,7 +70,7 @@
                 - else
                   = result.breadcrumbs.join(' > ')
               %td.align-center= result.featured_products.count
-              %td.align-center= result.product_rules.count
+              %td.align-center= result.product_rules.size
               %td.align-center
                 = link_to insights_catalog_category_path(result), class: 'link link--no-underline' do
                   %span.spark{ title: t('workarea.admin.catalog_categories.index.sparkline_title') }

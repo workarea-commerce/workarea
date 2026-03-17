@@ -13,11 +13,11 @@ module Workarea
       CreateFulfillment.new(@order).perform
 
       fulfillment = Fulfillment.find(@order.id)
-      assert_equal(fulfillment.items.count, 2)
+      assert_equal(fulfillment.items.size, 2)
 
       CreateFulfillment.new(@order).perform
       fulfillment.reload
-      assert_equal(fulfillment.items.count, 2)
+      assert_equal(fulfillment.items.size, 2)
     end
   end
 end

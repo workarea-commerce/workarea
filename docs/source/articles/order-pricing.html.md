@@ -148,7 +148,7 @@ item_price_adjustments = items.map(&:price_adjustments).reduce(&:+)
 shipping_price_adjustments = shippings.map(&:price_adjustments).reduce(&:+)
 all_price_adjustments = item_price_adjustments + shipping_price_adjustments
 
-all_price_adjustments.count
+all_price_adjustments.size
 # => 10
 all_price_adjustments.first.class
 # => Workarea::PriceAdjustment

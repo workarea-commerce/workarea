@@ -83,10 +83,10 @@ module Workarea
       assert(order.items.last.updated_at.present?)
 
       order.add_item(product_id: '1234', sku: 'SKU', quantity: 2)
-      assert_equal(1, order.items.count)
+      assert_equal(1, order.items.size)
       assert_equal(4, order.items.last.quantity)
 
-      assert_no_changes 'order.items.count' do
+      assert_no_changes 'order.items.size' do
         order.add_item(
           product_id: '1234',
           sku: 'SKU',
@@ -96,7 +96,7 @@ module Workarea
 
       Workarea.config.distinct_order_item_attributes << :discountable
 
-      assert_changes 'order.items.count' do
+      assert_changes 'order.items.size' do
         order.add_item(
           product_id: '1234',
           sku: 'SKU',
@@ -105,7 +105,7 @@ module Workarea
         )
       end
 
-      assert_no_changes 'order.items.count' do
+      assert_no_changes 'order.items.size' do
         order.add_item(
           product_id: '1234',
           sku: 'SKU',
@@ -123,7 +123,7 @@ module Workarea
       assert_equal(1, order.items.first.quantity)
 
       order.update_item(item.id, sku: 'SKU2')
-      assert_equal(1, order.items.count)
+      assert_equal(1, order.items.size)
       assert_equal('SKU2', order.items.first.sku)
 
       order = Order.new

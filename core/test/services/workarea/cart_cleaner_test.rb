@@ -40,7 +40,7 @@ module Workarea
       @order.add_item(product_id: product.id, sku: product.skus.second)
 
       @cleaner.clean
-      assert_equal(1, @order.items.count)
+      assert_equal(1, @order.items.size)
     end
 
     def test_removing_items_missing_price
