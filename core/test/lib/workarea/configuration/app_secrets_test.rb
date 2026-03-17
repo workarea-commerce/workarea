@@ -30,7 +30,7 @@ module Workarea
         assert_raises(NoMethodError) { AppSecrets.instance.unknown_key { :block } }
       end
 
-      def test_credentials_preferred_over_secrets
+      def test_reads_from_credentials
         # Stub credentials to return a value for :test_key.
         creds_stub = OpenStruct.new(test_key: 'from_credentials')
 
@@ -40,20 +40,13 @@ module Workarea
         end
       end
 
-      def test_falls_back_to_secrets_when_credentials_nil
-        # Stub credentials to return nil, secrets to return a value.
+      def test_returns_nil_when_missing_from_credentials
         creds_stub = OpenStruct.new({})
         creds_stub.define_singleton_method(:[]) { |_key| nil }
 
-        secrets_stub = OpenStruct.new(fallback_key: 'from_secrets')
-        secrets_stub.define_singleton_method(:[]) { |key| key == :fallback_key ? 'from_secrets' : nil }
-
         with_stubbed_rails_application(:credentials, creds_stub) do
-          with_stubbed_rails_application(:secrets, secrets_stub) do
-            AppSecrets.instance_variable_set(:@instance, nil)
-            result = AppSecrets.instance[:fallback_key]
-            assert_equal 'from_secrets', result
-          end
+          result = AppSecrets.instance[:missing_key]
+          assert_nil result
         end
       end
 

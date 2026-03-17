@@ -2,14 +2,13 @@
 
 module Workarea
   module Configuration
-    # Backward-compatible accessor for application secrets/credentials.
+    # Accessor for application credentials.
     #
-    # Rails 7.x deprecates +Rails.application.secrets+ in favour of
-    # +Rails.application.credentials+. This proxy prefers credentials when a
-    # value is present, and transparently falls back to secrets so that
-    # existing deployments continue to work without any changes.
+    # Rails deprecated the legacy secrets API in favour of
+    # +Rails.application.credentials+. Workarea should read secrets from
+    # credentials only.
     #
-    # Usage (mirrors the Rails.application.secrets API):
+    # Usage:
     #
     #   Workarea::Configuration::AppSecrets[:smtp_settings]
     #   Workarea::Configuration::AppSecrets.instance[:smtp_settings]
@@ -31,14 +30,12 @@ module Workarea
         instance[key]
       end
 
-      # Bracket accessor. Returns the credentials value when present,
-      # otherwise falls back to the secrets value.
+      # Bracket accessor. Returns the credentials value when present.
       def [](key)
         key = key.to_sym
-        cred = Rails.application.credentials[key]
-        return cred unless cred.nil?
-
-        secrets_fetch(key)
+        Rails.application.credentials[key]
+      rescue NoMethodError
+        nil
       end
 
       # Forwards dot-notation calls (e.g. .smtp_settings) to +[]+.
@@ -60,20 +57,10 @@ module Workarea
       def key_exists?(key)
         key = key.to_sym
 
-        (Rails.application.credentials.respond_to?(:key?) && Rails.application.credentials.key?(key)) ||
-          (Rails.application.secrets.respond_to?(:key?) && Rails.application.secrets.key?(key))
+        Rails.application.credentials.respond_to?(:key?) &&
+          Rails.application.credentials.key?(key)
       rescue NoMethodError
         false
-      end
-
-      def secrets_fetch(key)
-        secrets = Rails.application.secrets
-        return nil if secrets.nil?
-
-        # Bracket access so Rails normalizes string/symbol keys.
-        secrets[key]
-      rescue NoMethodError
-        nil
       end
     end
   end
