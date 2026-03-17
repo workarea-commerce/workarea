@@ -13,6 +13,19 @@ module Workarea
           settings.sanitized_synonyms
         )
       end
+
+      def test_current_is_idempotent
+        Settings.create_indexes
+        Thread.current[:current_search_settings] = nil
+
+        first = Settings.current
+        second = Settings.current
+
+        assert_equal(first.id, second.id)
+        assert_equal(1, Settings.where(index: first.index).count)
+      ensure
+        Thread.current[:current_search_settings] = nil
+      end
     end
   end
 end

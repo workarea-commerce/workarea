@@ -59,6 +59,18 @@ module Workarea
           )
           assert(discount.catalog_qualifies?(order))
         end
+
+        def test_apply_does_not_create_duplicate_pricing_skus
+          Pricing::Sku.create_indexes
+          create_pricing_sku(id: 'GIFT', prices: [{ regular: 5.to_m }])
+
+          discount = FreeGift.new(sku: 'GIFT')
+          order = Pricing::Discount::Order.new(Workarea::Order.new)
+
+          2.times { discount.apply(order) }
+
+          assert_equal(1, Pricing::Sku.where(id: 'GIFT').count)
+        end
       end
     end
   end
