@@ -55,6 +55,34 @@ module Workarea
         assert_equal('Nicer body.', help_article.body)
       end
 
+      def test_sanitizes_xss_payloads_in_help_article_body
+        help_article = create_help_article(
+          name: 'Test Article',
+          category: 'FAQs',
+          body: '<script>alert(1)</script> normal content'
+        )
+
+        get admin.help_path(help_article)
+        assert_response :ok
+
+        assert_match(/normal content/, response.body)
+        refute_match(/<script>/, response.body)
+      end
+
+      def test_strips_javascript_links_in_help_article_body
+        help_article = create_help_article(
+          name: 'Test Article',
+          category: 'FAQs',
+          body: '[click me](javascript:alert(1))'
+        )
+
+        get admin.help_path(help_article)
+        assert_response :ok
+
+        assert_match(/click me/i, response.body)
+        refute_match(/javascript:/i, response.body)
+      end
+
       def test_can_destroy_a_help_article
         help_article = create_help_article(
           name: 'Test Article',

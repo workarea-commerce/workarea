@@ -1,7 +1,11 @@
 {
   "scan_info": {
+    "app_path": "/Users/Shared/openclaw/projects/workarea-modernization/repos/workarea/admin",
     "rails_version": "4.x",
-    "security_warnings": 9,
+    "security_warnings": 11,
+    "start_time": "2026-03-16 22:24:26 -0400",
+    "end_time": "2026-03-16 22:24:30 -0400",
+    "duration": 4.02113,
     "checks_performed": [
       "BasicAuth",
       "BasicAuthTimingAttack",
@@ -85,7 +89,7 @@
     ],
     "number_of_controllers": 86,
     "number_of_models": 0,
-    "number_of_templates": 3,
+    "number_of_templates": 589,
     "ruby_version": "3.2.7",
     "brakeman_version": "8.0.4"
   },
@@ -135,6 +139,39 @@
       ]
     },
     {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "2dc2777e24b5a10fc24165028732d2975cc6cdf62ce8abab65804d33ce632bdd",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped parameter value",
+      "file": "app/views/workarea/admin/fulfillments/show.html.haml",
+      "line": 19,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "::Haml::AttributeBuilder.build_class(true, \"state\", state_indicator_class(FulfillmentViewModel.wrap(Fulfillment.find_or_initialize_by(:id => params[:id])).status))",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "Workarea::Admin::FulfillmentsController",
+          "method": "show",
+          "line": 14,
+          "file": "app/controllers/workarea/admin/fulfillments_controller.rb",
+          "rendered": {
+            "name": "workarea/admin/fulfillments/show",
+            "file": "app/views/workarea/admin/fulfillments/show.html.haml"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "workarea/admin/fulfillments/show"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "cwe_id": [
+        79
+      ]
+    },
+    {
       "warning_type": "Unmaintained Dependency",
       "warning_code": 123,
       "fingerprint": "40be17ee84017c91503dab23873e24bdd71665ab665bf6f351cfc09ff83e6582",
@@ -172,6 +209,39 @@
       "confidence": "High",
       "cwe_id": [
         470
+      ]
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "89a9bd67095cfb6f3265272123badada30a1d51afe402252119e7ed177bf0b6b",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped parameter value",
+      "file": "app/views/workarea/admin/payments/show.html.haml",
+      "line": 30,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "::Haml::AttributeBuilder.build_class(true, \"state\", state_indicator_class(PaymentViewModel.wrap(Payment.find(params[:id])).status))",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "Workarea::Admin::PaymentsController",
+          "method": "show",
+          "line": 11,
+          "file": "app/controllers/workarea/admin/payments_controller.rb",
+          "rendered": {
+            "name": "workarea/admin/payments/show",
+            "file": "app/views/workarea/admin/payments/show.html.haml"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "workarea/admin/payments/show"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "cwe_id": [
+        79
       ]
     },
     {
@@ -241,28 +311,6 @@
       ]
     },
     {
-      "warning_type": "Dynamic Render Path",
-      "warning_code": 15,
-      "fingerprint": "ae3c27ff1341b9fa1724e0bdf88ce5e378771b4850f25ed829e7378b40268469",
-      "check_name": "Render",
-      "message": "Render path contains parameter value",
-      "file": "app/controllers/workarea/admin/pricing_discounts_controller.rb",
-      "line": 33,
-      "link": "https://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
-      "code": "render(action => (params[:template] or :edit), { :status => :unprocessable_entity })",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "Workarea::Admin::PricingDiscountsController",
-        "method": "update"
-      },
-      "user_input": "params[:template]",
-      "confidence": "High",
-      "cwe_id": [
-        22
-      ]
-    },
-    {
       "warning_type": "File Access",
       "warning_code": 16,
       "fingerprint": "ef083eb044c8ff4d0c4ebbe9e067cac82dca72337391c202eb3c4483edab3fe0",
@@ -282,6 +330,39 @@
       "confidence": "Weak",
       "cwe_id": [
         22
+      ]
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "f9dbd83ae7a92e7fe421518849ecc092a7adb494a7e854ad1549a8c12c925bf1",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped parameter value",
+      "file": "app/views/workarea/admin/navigation_menus/index.html.haml",
+      "line": 39,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "::Haml::AttributeBuilder.build_class(true, \"navigation-builder__node\", navigation_menu_classes(menu, (Navigation::Menu.find(params[:menu_id]) or Navigation::Menu.all.sort_by(&:position).first)))",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "Workarea::Admin::NavigationMenusController",
+          "method": "index",
+          "line": 27,
+          "file": "app/controllers/workarea/admin/navigation_menus_controller.rb",
+          "rendered": {
+            "name": "workarea/admin/navigation_menus/index",
+            "file": "app/views/workarea/admin/navigation_menus/index.html.haml"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "workarea/admin/navigation_menus/index"
+      },
+      "user_input": "params[:menu_id]",
+      "confidence": "Weak",
+      "cwe_id": [
+        79
       ]
     }
   ],
