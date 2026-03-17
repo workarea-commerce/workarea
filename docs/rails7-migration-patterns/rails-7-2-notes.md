@@ -24,7 +24,7 @@ Rails 7.2 requires Ruby >= 3.1, and Workarea’s `.ruby-version` is currently **
 export PATH="$HOME/.rbenv/shims:$HOME/.rbenv/bin:$PATH" && eval "$(rbenv init - zsh)"
 rbenv shell 3.2.7
 
-cd /Users/Shared/openclaw/projects/workarea-modernization/repos/workarea
+cd /path/to/workarea
 BUNDLE_GEMFILE=gemfiles/rails_7_2.gemfile bundle install
 ```
 
