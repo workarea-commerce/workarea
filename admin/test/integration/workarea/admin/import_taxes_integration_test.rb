@@ -23,7 +23,7 @@ module Workarea
         assert(import.created_by_id.present?)
 
         category.reload
-        assert_equal(2, category.rates.count)
+        assert_equal(2, category.rates.size)
       end
     end
   end

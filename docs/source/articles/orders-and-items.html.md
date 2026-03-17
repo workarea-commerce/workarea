@@ -128,7 +128,7 @@ Review the implementation of `Storefront::CartItemsController#create` ([source, 
 Each time an order is priced, the granular pricing details are stored on the item as _price adjustments_, an embedded collection of type `Workarea::PriceAdjustment`. These embedded documents provide the necessary details to determine the total price of an item (in the case of a cart) and a record of how that price was determined (in the case of a placed order).
 
 ```
-item.price_adjustments.count
+item.price_adjustments.size
 # => 2
 
 price_adjustment = item.price_adjustments.last

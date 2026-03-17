@@ -34,7 +34,7 @@ module Workarea
         )
       end
 
-      unless user.addresses.count > 0
+      unless user.addresses.size > 0
         user.addresses.create!(
           first_name: user.first_name,
           last_name: user.last_name,

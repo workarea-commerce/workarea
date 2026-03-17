@@ -1124,9 +1124,9 @@ model = Workarea::Catalog::Product.find_by(name: 'Tropical Drink Mix')
 view_model = Workarea::Storefront::ProductViewModel.wrap(model)
 
 # The variants count is the same at this point
-model.variants.count
+model.variants.size
 # => 3
-view_model.variants.count
+view_model.variants.size
 # => 3
 ```
 
@@ -1138,13 +1138,13 @@ The product therefore has 3 variants and 3 options:
 # set one of the variants to inactive
 model.variants.second.update_attributes!(active: false)
 # the model still has 3 variants
-model.variants.count
+model.variants.size
 # => 3
 
 # re-create the view model (to bust cache)
 view_model = Workarea::Storefront::ProductViewModel.wrap(model)
 # the Storefront view of the product has only 2 variants
-view_model.variants.count
+view_model.variants.size
 # => 2
 
 # choose another variant and make the corresponding
@@ -1154,12 +1154,12 @@ model.variants.last.tap do |variant|
     .find(variant.sku)
       .update_attributes!(policy: 'standard', available: '0')
 end
-model.variants.count
+model.variants.size
 # => 3
 
 # now the Storefront view of the product contains only a single variant
 view_model = Workarea::Storefront::ProductViewModel.wrap(model)
-view_model.variants.count
+view_model.variants.size
 # => 1
 ```
 

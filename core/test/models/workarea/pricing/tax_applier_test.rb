@@ -91,7 +91,7 @@ module Workarea
 
         @shipping.reload
 
-        assert_equal(2, @shipping.price_adjustments.count)
+        assert_equal(2, @shipping.price_adjustments.size)
         assert_equal([0.28.to_m, 0.50.to_m], @shipping.price_adjustments.map(&:amount))
       end
 
@@ -115,7 +115,7 @@ module Workarea
         @shipping.save!
 
         @shipping.reload
-        assert_equal(1, @shipping.price_adjustments.count)
+        assert_equal(1, @shipping.price_adjustments.size)
         price_adjustment = @shipping.price_adjustments.last
         assert_equal('tax', price_adjustment.price)
         assert_equal(0.15.to_m, price_adjustment.amount)

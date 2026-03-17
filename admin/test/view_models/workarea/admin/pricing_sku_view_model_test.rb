@@ -21,7 +21,7 @@ module Workarea
       end
 
       def test_sell_prices
-        assert_equal(@sku.prices.count, @sku.sell_prices.count)
+        assert_equal(@sku.prices.size, @sku.sell_prices.size)
       end
 
       def test_min_price

@@ -142,7 +142,7 @@ A <dfn>content block</dfn> (`Workarea::Content::Block`) is a [releasable](/artic
 A newly created content has 0 blocks.
 
 ```
-content.blocks.count
+content.blocks.size
 # => 0
 
 content.blocks
@@ -155,7 +155,7 @@ Create a block within a content by specifying the type of block to be created.
 # Create an instance of an 'Image' block
 content.blocks.create!(type: 'image')
 
-content.blocks.count
+content.blocks.size
 # => 1
 
 # Access the block from the content

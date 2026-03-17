@@ -21,7 +21,7 @@
   .view__container
     .browsing-controls.browsing-controls--with-divider
       %p.browsing-controls__count
-        = t('workarea.admin.catalog_variants.index.variant_pluralize', count: @variants.count)
+        = t('workarea.admin.catalog_variants.index.variant_pluralize', count: @variants.size)
 
     - if @variants.any?
       %table.index-table

@@ -29,7 +29,7 @@ module Workarea
         assert(sku.on_sale?)
         assert(sku.discountable?)
         assert_nil(sku.msrp)
-        assert_equal(1, sku.prices.count)
+        assert_equal(1, sku.prices.size)
         assert_equal(10.to_m, sku.prices.first.regular)
         assert_nil(sku.prices.first.sale)
       end
