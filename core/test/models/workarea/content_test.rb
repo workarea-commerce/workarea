@@ -24,5 +24,32 @@ module Workarea
       assert_equal(@content, Content.from_block(block.id))
       assert_equal(@content, Content.from_block(block.id.to_s))
     end
+
+    def test_for_string_is_idempotent
+      Content.create_indexes
+      Content.delete_all
+
+      first = Content.for('home_page')
+      second = Content.for('home_page')
+
+      assert_equal(first.id, second.id)
+      assert_equal(1, Content.where(name: 'Home Page').count)
+    end
+
+    def test_for_contentable_is_idempotent
+      Content.create_indexes
+      Content.delete_all
+
+      foo = Foo.create!(name: 'Foo content')
+
+      first = Content.for(foo)
+      second = Content.for(foo)
+
+      assert_equal(first.id, second.id)
+      assert_equal(
+        1,
+        Content.where(contentable_type: 'Workarea::ContentTest::Foo', contentable_id: foo.id).count
+      )
+    end
   end
 end

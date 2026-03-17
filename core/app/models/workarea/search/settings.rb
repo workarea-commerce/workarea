@@ -13,6 +13,8 @@ module Workarea
       field :range_facets, type: Hash, default: {}
       list_field :terms_facets
 
+      index({ index: 1 }, unique: true)
+
       around_update :update_indexes
 
       # The site-specific {Search::Settings} to use for the current request.
@@ -21,8 +23,14 @@ module Workarea
       # @return [Search::Settings]
       #
       def self.current
-        Thread.current[:current_search_settings] ||
+        Thread.current[:current_search_settings] ||= begin
           find_or_create_by(index: Elasticsearch::Document.current_index_prefix)
+        rescue Mongo::Error::OperationFailure => e
+          # Under concurrency, the unique index on :index can raise a duplicate
+          # key error if another process inserts first. Fall back to reading.
+          raise unless e.message.include?('E11000')
+          find_by(index: Elasticsearch::Document.current_index_prefix)
+        end
       end
 
       def self.current=(settings)

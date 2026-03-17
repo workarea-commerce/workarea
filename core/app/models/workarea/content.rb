@@ -17,8 +17,9 @@ module Workarea
 
     belongs_to :contentable, polymorphic: true, optional: true, index: true
 
-    index({ name: 1 })
+    index({ name: 1 }, unique: true, sparse: true)
     index({ contentable_type: 1 })
+    index({ contentable_type: 1, contentable_id: 1 }, unique: true, sparse: true)
     index({ 'blocks._id' => 1 })
 
     embeds_many :blocks,
@@ -43,6 +44,21 @@ module Workarea
         find_or_create_by(name: object.titleize)
       else
         find_or_create_by(
+          contentable_id: object.try(:id),
+          contentable_type: object.try(:class)
+        )
+      end
+    rescue Mongo::Error::OperationFailure => e
+      # Under concurrency, unique indexes (name for system content, and
+      # contentable_type/contentable_id for contentable content) can raise a
+      # duplicate key error if another process inserts first. Fall back to
+      # reading.
+      raise unless e.message.include?('E11000')
+
+      if object.is_a?(String)
+        find_by(name: object.titleize)
+      else
+        find_by(
           contentable_id: object.try(:id),
           contentable_type: object.try(:class)
         )
