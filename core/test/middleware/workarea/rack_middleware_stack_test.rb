@@ -9,8 +9,8 @@ module Workarea
       Rails.application.middleware.map(&:klass)
     end
 
-    def test_mongoid_query_cache_middleware_is_present
-      assert_includes middleware_classes, Mongoid::QueryCache::Middleware
+    def test_mongo_query_cache_middleware_is_present
+      assert_includes middleware_classes, Mongo::QueryCache::Middleware
     end
 
     def test_elasticsearch_query_cache_middleware_is_present

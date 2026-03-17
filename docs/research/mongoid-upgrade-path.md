@@ -42,7 +42,7 @@ The following config flags had their **defaults changed** in 8.0 (previously opt
 
 ### QueryCache
 - `Mongoid::QueryCache` was kept in Mongoid 8.x but **deprecated**; replacement is `Mongo::QueryCache`.
-- Methods: `Mongoid::QueryCache.clear_cache` → `Mongo::QueryCache.clear`
+- Methods: `Mongoid::QueryCache.clear_cache` → `Mongo::QueryCache.clear_cache`
 - Middleware: `Mongoid::QueryCache::Middleware` → use `Mongo::QueryCache::Middleware` instead.
 
 ---
@@ -112,18 +112,18 @@ Found in controllers: `admin/`, `storefront/` — virtually every CRUD controlle
 Found in models: `core/app/models/workarea/pricing/request.rb` (at minimum).
 **Fix:** Mass-rename `update_attributes` → `update`, `update_attributes!` → `update!`
 
-**`Mongoid::QueryCache` usage (3 files in core)**
+**`QueryCache` usage (3 files in core)**
 ```ruby
 # core/app/queries/workarea/admin_search_query_wrapper.rb
-Mongoid::QueryCache.clear_cache
+Mongo::QueryCache.clear_cache
 
 # core/app/models/workarea/releasable.rb
-Mongoid::QueryCache.uncached { ... }
+Mongo::QueryCache.uncached { ... }
 
 # core/config/initializers/10_rack_middleware.rb
-app.config.middleware.use(Mongoid::QueryCache::Middleware)
+app.config.middleware.use(Mongo::QueryCache::Middleware)
 ```
-**Fix (for Mongoid 8):** These still work (deprecated warning). **Fix (for Mongoid 9):** Replace with `Mongo::QueryCache`, `Mongo::QueryCache.clear`, `Mongo::QueryCache::Middleware`.
+**Fix:** Replace `Mongoid::QueryCache` with `Mongo::QueryCache` (required for Mongoid 9).
 
 #### MEDIUM Priority
 

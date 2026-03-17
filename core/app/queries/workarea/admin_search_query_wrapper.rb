@@ -38,7 +38,7 @@ module Workarea
       #  NotImplementedError: Cannot restart iteration of a cursor which issued a getMore
       #
       # I think this is a bug in how the QueryCache works.
-      Mongoid::QueryCache.clear_cache
+      Mongo::QueryCache.clear_cache
 
       criteria = results
       criteria.total_pages.times do |page|
