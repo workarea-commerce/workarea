@@ -4,7 +4,7 @@ module Workarea
   module Admin
     class ChangesViewModel < ApplicationViewModel
       def id
-        Digest::SHA1.hexdigest(model.to_s)
+        Digest::SHA256.hexdigest(model.to_s)
       end
 
       def present_changes
