@@ -11,3 +11,4 @@ These documents are primarily for downstream Workarea client applications.
 - **[Sprockets 4 manifest.js format changes](./sprockets-manifest-format.md)** (fixing missing assets after Sprockets 4 upgrade)
 - **[URL/routing helper behavior changes](./url-routing-helpers.md)** (default_url_options context changes)
 - **[Assets pipeline / Webpacker removal](./assets-pipeline-webpacker-removal.md)** (Webpacker removal / Sprockets 4 / Propshaft migration)
+- **[Mongoid 8 `any_of` semantics change](./mongoid8-any-of-semantics.md)** (array-arg vs splat + loop-chaining fix patterns)
