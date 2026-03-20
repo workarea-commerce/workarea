@@ -147,6 +147,36 @@ Rails or Ruby upgrade.
    a comment explaining the blocker and a link to the tracking issue.
 3. Never ignore a CVE silently — always add a justification comment.
 
+#### Pull Request Body Requirements
+
+Every pull request must include the following two sections in its body:
+
+**Client impact** — Describe how this change affects end users, store operators, or
+system integrators. If there is no user-visible effect, write "None" with a brief
+explanation (e.g. "None (docs only)." or "None (internal refactor).").
+
+**Verification Plan** — Describe the steps a reviewer can follow to confirm the
+change works as intended. For automated changes this may reference the test suite;
+for UI changes it should include manual steps.
+
+Minimal example:
+
+```markdown
+## Client impact
+
+Brief description of how clients / end users are affected, or "None" if not applicable.
+
+## Verification Plan
+
+1. Run `bin/rails test test/path/to/relevant_test.rb`
+2. Visit /some-path and confirm the expected behaviour.
+```
+
+PRs that are missing either section may be closed without review until the body is
+updated.
+
+---
+
 Thanks!
 
 The Workarea Core Team
