@@ -60,12 +60,13 @@ module Workarea
         end
 
         if options[:id].present?
-          Array(options[:id]).each do |id|
-            criteria = criteria.any_of(
+          clauses = Array(options[:id]).flat_map do |id|
+            [
               { audited_id: id },
               { 'document_path.id' => convert_to_object_id(id) }
-            )
+            ]
           end
+          criteria = criteria.any_of(*clauses) unless clauses.empty?
         end
 
         if options[:created_at_greater_than].present?

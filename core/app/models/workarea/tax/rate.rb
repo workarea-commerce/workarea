@@ -43,7 +43,7 @@ module Workarea
         clauses = [{ region: regex }, { postal_code: regex }]
         clauses << { country: country } if country.present?
 
-        any_of(clauses)
+        any_of(*clauses)
       end
 
       def self.sorts
