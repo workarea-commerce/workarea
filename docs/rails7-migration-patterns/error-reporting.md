@@ -8,9 +8,9 @@ This is implemented by `ActiveSupport::ErrorReporter` and is intended to be
 **configured by the host application** (or an integration gem) to forward handled
 exceptions to a provider (Sentry, Bugsnag, Honeybadger, etc.).
 
-## Verification status (WA-VERIFY-044)
+## Verification status (WA-VERIFY-114)
 
-**Status: ✅ Complete — implemented and compatible.**
+**Status: ✅ Complete — audited and compatible.**
 
 Workarea implements `Workarea::ErrorReporting` as a thin wrapper around
 `Rails.error.report`. The wrapper is availability-guarded so it degrades
@@ -22,6 +22,23 @@ Workarea **does not ship with a bundled error reporting provider**.
 
 Instead, Workarea relies on the host application to configure an error reporting
 solution at the Rack / Rails level.
+
+## Audited integration points
+
+The audit found a small, additive integration surface only:
+
+- `core/lib/workarea/error_reporting.rb` provides `Workarea::ErrorReporting`, a
+  compatibility wrapper around `Rails.error.report`.
+- `core/lib/workarea/latest_version.rb`,
+  `core/lib/workarea/ping_home_base.rb`, and
+  `core/app/models/workarea/checkout/fraud/analyzer.rb` use that wrapper for
+  handled exceptions that Workarea intentionally rescues.
+- `storefront/app/controllers/workarea/storefront/errors_controller.rb` sets
+  `request.env['rack.exception']` for 500 responses so Rack-level reporters can
+  observe unhandled exceptions through the normal middleware path.
+
+No additional `ActiveSupport::ErrorReporter` subscribers, custom Rails error
+reporter configuration, or provider-specific integrations are present in core.
 
 Examples:
 
@@ -51,14 +68,22 @@ Host applications can configure Rails' error reporter via `config.error_reporter
 
 ## Decision
 
-**Adopted Rails 7.1's error reporting API as an additive, opt-in hook:**
+**Rails 7.1's error reporting APIs do not introduce a compatibility break for
+Workarea internals or extension points.**
 
 - Workarea calls `Rails.error.report` **only when available**.
 - Workarea does not require any provider.
-- Existing error handling continues to work unchanged.
+- Existing error handling and Rack-based reporting continue to work unchanged.
+- Extension points remain stable because host applications and plugins can opt
+  into `config.error_reporter` without needing Workarea-specific changes.
 
 This is useful primarily for *handled/swallowed* exceptions where otherwise the
 host app may never learn about the error.
+
+## Client impact
+
+**None expected.** Existing applications, plugins, and downstream integrations do
+not need code changes to remain compatible.
 
 ## Verification commands
 
